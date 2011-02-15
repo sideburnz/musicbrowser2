@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{455E3B6A-B80B-432B-BBAA-936C625FECF6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MusicBrowser</RootNamespace>
+    <AssemblyName>MusicBrowser</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>MusicBrowser.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <FullyQualifiedOutputPath>$(MSBuildProjectDirectory)\bin\Debug</FullyQualifiedOutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <FullyQualifiedOutputPath>$(MSBuildProjectDirectory)\bin\Release</FullyQualifiedOutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <StartWorkingDirectory>$(windir)\eHome</StartWorkingDirectory>
+    <StartArguments>-load:"file://$(MSBuildProjectDirectory)\Markup\Pages\mainPage.mcml" -assemblyredirect:"$(FullyQualifiedOutputPath)" -markupredirect:"resx://MusicBrowser/MusicBrowser.Resources/,file://$(MSBuildProjectDirectory)\Markup\,. mcml"</StartArguments>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(windir)\eHome\McmlPad.exe</StartProgram>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.MediaCenter, Version=6.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\ehome\Microsoft.MediaCenter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MediaCenter.UI, Version=6.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\ehome\Microsoft.MediaCenter.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="taglib-sharp, Version=2.0.3.7, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Resource\taglib-sharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\SongModel.cs" />
+    <Compile Include="Providers\Background\BackgroundTaskQueueProvider.cs" />
+    <Compile Include="Entities\EntityCache.cs" />
+    <Compile Include="Entities\EntityCollection.cs" />
+    <Compile Include="Entities\EntityFactory.cs" />
+    <Compile Include="Entities\Kinds\Album.cs" />
+    <Compile Include="Entities\Kinds\Artist.cs" />
+    <Compile Include="Entities\Interfaces\IEntity.cs" />
+    <Compile Include="Entities\Interfaces\IEntityCache.cs" />
+    <Compile Include="Entities\Interfaces\IEntityFactory.cs" />
+    <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
+    <Compile Include="Providers\Background\CommonTaskQueue.cs" />
+    <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
+    <Compile Include="Entities\EntityPersistance.cs" />
+    <Compile Include="Providers\Metadata\HTBackdropMetadataProvider.cs" />
+    <Compile Include="Providers\Metadata\IMetadataProvider.cs" />
+    <Compile Include="Providers\Metadata\LastFMMetadataProvider.cs" />
+    <Compile Include="Providers\Metadata\MediaInfoProvider.cs" />
+    <Compile Include="Providers\Metadata\MetadataProviderList.cs" />
+    <Compile Include="Providers\Metadata\TagSharpMetadataProvider.cs" />
+    <Compile Include="Entities\Kinds\Folder.cs" />
+    <Compile Include="Entities\Kinds\Home.cs" />
+    <Compile Include="Entities\Kinds\Playlist.cs" />
+    <Compile Include="Entities\Kinds\Song.cs" />
+    <Compile Include="Entities\Kinds\Unknown.cs" />
+    <Compile Include="MediaCentre\MediaContext.cs" />
+    <Compile Include="Models\Breadcrumbs.cs" />
+    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Logging\EventLogLogger.cs" />
+    <Compile Include="Logging\FileLogger.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Providers\FolderItems\InterOp\FileSystem.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="MediaCentre\Application.cs" />
+    <Compile Include="MediaCentre\EntryPoint.cs" />
+    <Compile Include="MediaCentre\Playlist.cs" />
+    <Compile Include="Models\Clock.cs" />
+    <Compile Include="Models\FolderModel.cs" />
+    <Compile Include="Models\UINotifier.cs" />
+    <Compile Include="Providers\BackgroundCacheProvider.cs" />
+    <Compile Include="Providers\FileSystemProvider.cs" />
+    <Compile Include="Providers\FolderItems\VirtualFolderProvider.cs" />
+    <Compile Include="Providers\FolderItems\IFolderItemsProvider.cs" />
+    <Compile Include="Providers\ImageProvider.cs" />
+    <Compile Include="Providers\PlaylistProvider.cs" />
+    <Compile Include="Util\Config.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\FolderItems\WindowsLibraryProvider.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Util\Helper.cs" />
+    <Compile Include="Util\StandingData.cs" />
+    <Compile Include="WebServices\WebServiceProviders\HTBackdropWebProvider.cs" />
+    <Compile Include="WebServices\Helper\HTTPProvider.cs" />
+    <Compile Include="WebServices\Helper\Logging.cs" />
+    <Compile Include="WebServices\Helper\Registry.cs" />
+    <Compile Include="WebServices\Interfaces\IWebService.cs" />
+    <Compile Include="WebServices\Interfaces\WebServiceProvider.cs" />
+    <Compile Include="WebServices\Services\Discogs\holding.cs" />
+    <Compile Include="WebServices\Services\HTBackdrop\ArtistImagesService.cs" />
+    <Compile Include="WebServices\Services\LastFM\AlbumInfoService.cs" />
+    <Compile Include="WebServices\Services\LastFM\ArtistInfoService.cs" />
+    <Compile Include="WebServices\Services\LastFM\LastFMContext.cs" />
+    <Compile Include="WebServices\Services\LastFM\LastFMService.cs" />
+    <Compile Include="WebServices\Services\LastFM\LoveTrackService.cs" />
+    <Compile Include="WebServices\Services\LastFM\NowPlayingService.cs" />
+    <Compile Include="WebServices\Services\LastFM\ScrobbleService.cs" />
+    <Compile Include="WebServices\Services\LastFM\SessionService.cs" />
+    <Compile Include="WebServices\Services\LastFM\TrackInfoService.cs" />
+    <Compile Include="WebServices\WebServiceProviders\LastFMWebProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MusicBrowser.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MediaCentre\Images\backgrounds\border.png" />
+    <Content Include="MediaCentre\Images\backgrounds\progressImage.png" />
+    <Content Include="MediaCentre\Images\backgrounds\underline.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconMusic.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconPause.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconPlay.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconQueue.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconResume.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconShuffle.png" />
+    <Content Include="MediaCentre\Images\buttons\ButtonDisabled.png" />
+    <Content Include="MediaCentre\Images\buttons\ButtonDormant.png" />
+    <Content Include="MediaCentre\Images\buttons\ButtonLeftFocus.png" />
+    <Content Include="MediaCentre\Images\buttons\ButtonLeftFocusOverlay.png" />
+    <Content Include="MediaCentre\Images\buttons\ButtonNoFocus.png" />
+    <Content Include="MediaCentre\Images\backgrounds\defaultBackground.png" />
+    <Content Include="MediaCentre\Images\buttons\ButtonIcon.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconClose.png" />
+    <Content Include="MediaCentre\Images\icons\imageFolder.png" />
+    <Content Include="MediaCentre\Images\icons\imageAlbum.png" />
+    <Content Include="MediaCentre\Images\icons\imageArtist.png" />
+    <Content Include="MediaCentre\Images\icons\imagePlaylist.png" />
+    <Content Include="MediaCentre\Images\icons\imageSong.png" />
+    <Content Include="MediaCentre\Images\icons\MusicBrowser2.png" />
+    <Content Include="MediaCentre\Images\nullImage.png" />
+    <Content Include="MediaCentre\Images\Progress\songNotified.png" />
+    <Content Include="MediaCentre\Images\Progress\songNotPlaying.png" />
+    <Content Include="MediaCentre\Images\Progress\songPlaying.png" />
+    <Content Include="MediaCentre\Images\Progress\songScrobbled.png" />
+    <Content Include="MediaCentre\Markup\blank.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonBasic.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonIcon.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonImage.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PageViews\viewCover.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayPopUp.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml" />
+    <Content Include="MediaCentre\Markup\Pages\pageFolder.mcml" />
+    <Content Include="MediaCentre\Markup\Pages\pageSong.mcml" />
+    <Content Include="To fix before next release.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"$(ProjectDir)MediaCentre\Markup"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,209 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities.Interfaces"
+      xmlns:a="assembly://MusicBrowser/MusicBrowser"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:playlist="assembly://MusicBrowser/MusicBrowser.MediaCentre"
+      xmlns:me="Me"
+      >
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlHeader"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlFooter"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayPopUp"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumb"/>
+  <!--<Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewCover"/>-->
+  
+  <UI Name="pageMain">
+
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+      <models:UINotifier Name="UINotifier" UINotifier="$Required" />
+    </Properties>
+
+    <Locals>
+      <cor:String Name="SelectedDescription" String=""/>
+      <Command Name="CmdClosePopup"/>
+      <Command Name="CmdPlayAll"/>
+      <Command Name="CmdQueue"/>
+      <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
+      <playlist:Playlist Name="playlist"/>
+      <models:Clock Name="Clock"/>
+      <!--<models:NowPlaying Name="NowPlaying"/>-->
+    </Locals>
+
+    <Rules>
+
+      <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
+      <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
+
+      <Changed Source="[CmdPlayAll.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdPlayAll" Entity="[FolderModel.ParentEntity]"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdQueue.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdAddToQueue" Entity="[FolderModel.ParentEntity]"/>
+        </Actions>
+      </Changed>
+
+      <Rule>
+        <Actions>
+          <Invoke Target="[ViewPanel.NavigateInto]" />
+        </Actions>
+      </Rule>
+
+      <Binding Source="[FolderModel.Matches]" Target="[List_Matches.Content]" />
+      <Binding Source="[FolderModel.FullSize]" Target="[List_Total.Content]" />
+      <Binding Source="[FolderModel.SelectedIndex!cor:String]" Target="[List_Counter.Content]">
+        <Transformer>
+          <MathTransformer Add="1" />
+        </Transformer>
+      </Binding>
+
+      <Binding Source="[FolderModel.RemoteTyper]" Target="[RemoteTyper.EditableText]" />
+      <Binding Source="[FolderModel.RemoteTyper.Value]" Target="[FilterDisplay.Content]"/>
+
+      <Binding Source="[FolderModel.ShowPopupPlay]" Target="[PopupPlay.Visible]" />
+      <Rule ConditionLogicalOp="Or">
+        <Conditions>
+          <Equality Source="[FolderModel.ShowPopupPlay]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="true" />
+          <Invoke Target="[PopupPlay.NavigateInto]" />
+        </Actions>
+      </Rule>
+
+      <Changed Source="[CmdClosePopup.Invoked]">
+        <Actions>
+          <Invoke Target="[ViewPanel.NavigateInto]" />
+          <Set Target="[pageFader.Visible]" Value="false" />
+          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
+        </Actions>
+      </Changed>
+      
+    </Rules>
+    
+    <Content>
+      <ColorFill Content="Transparent" Layout="Form">
+        <Children>
+
+          <!-- POP UPS -->
+          <me:ctrlPlayPopup Name="PopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
+          <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
+          
+          <!-- FADER -->
+          <Panel Visible="true">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,.0" Right="Parent,1" Bottom="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <ColorFill Name="pageFader" Visible="false" Content="Black" Alpha="0.8"/>
+            </Children>
+          </Panel>
+
+          <!-- FIND AS YOU TYPE -->
+          <Text Name="FilterDisplay" Font="Segoe Media Center,150" Color="LightBlue">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,.50" />
+            </LayoutInput>
+          </Text>
+
+          <!-- VIEWS -->
+          <Panel Name="ViewPanel">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.17" Bottom="Parent,0.76"  Right="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
+              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
+              <!--<me:viewCover Visible="true" FolderModel="[FolderModel]" Application="[Application]" />-->              
+            </Children>
+          </Panel>
+
+          <!-- Page Header -->
+          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" Crumbs="[FolderModel.Crumbs]" CmdPlayAll="[CmdPlayAll]" CmdQueue="[CmdQueue]">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.15" Right="Parent,1"/>
+            </LayoutInput>
+          </me:ctrlHeader>
+
+          <!-- POSITION INDICATOR -->
+          <Panel>
+            <LayoutInput>
+              <FormLayoutInput Right="Parent,.985" Bottom="Parent,.99" Horizontal="Far"/>
+            </LayoutInput>
+            <Layout>
+              <FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
+            </Layout>
+            <Children>
+              <Panel Layout="HorizontalFlow" Margins="0,0,0,0">
+                <Children>
+                  <Text Name="List_Counter" Content="0" Color="White" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
+                  <Text Name="List_Break" Content="|" Color="LightBlue" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
+                  <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="LightBlue" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
+                  <Text Name="List_Total"  Content="[FolderModel.FullSize]" Color="LightBlue" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
+                </Children>
+              </Panel>
+              <Panel>
+                <LayoutInput>
+                  <FormLayoutInput Right="Parent,0.89" Top="Parent,0.6"/>
+                </LayoutInput>
+                <Children>
+                  <Text Name="TimeDate" Content="" Color="White" Font="Segoe Media Center Light, 20" HorizontalAlignment="Far" Alpha="0.7"/>
+                </Children>
+              </Panel>
+              <Graphic Name="SongStatus" Content="resx://MusicBrowser/MusicBrowser.Resources/songNotPlaying" Alpha="1" MaintainAspectRatio="true" Margins="0,0,0,0" />
+            </Children>
+          </Panel>
+
+          <Panel>
+            <LayoutInput>
+              <AnchorLayoutInput Bottom="Parent,1" Left="Parent,0"/>
+            </LayoutInput>
+            <Children>
+              <NowPlaying Name="NowPlayingPod" ShowFullMetadata="Never" />
+            </Children>
+          </Panel>
+
+          <!-- FOOTER -->
+          <Panel Layout="Form">
+            <LayoutInput>
+              <FormLayoutInput Top="Parent,0.79" Left="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <me:ctrlFooter Name="Footer" FolderModel="[FolderModel]">
+                  <LayoutInput>
+                    <FormLayoutInput Top="Parent,0.1" Left="Parent,0.165"/>
+                  </LayoutInput>
+              </me:ctrlFooter>
+              <ColorFill Content="Black" Alpha="0.33" Layout="Fill" />
+            </Children>
+          </Panel>
+
+            <!-- Background -->
+          <Graphic Name="BGOverlay" Content="resx://MusicBrowser/MusicBrowser.Resources/defaultBackground" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" />
+          <Panel Visible="true">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,.0" Right="Parent,1" Bottom="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <ColorFill Visible="true" Content="Black" Alpha="0.3"/>
+            </Children>
+          </Panel>
+          <Graphic Name="EntityBackground" Content="[FolderModel.ParentEntity.Background]" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true" />
+
+        </Children>
+        
+      </ColorFill>
+
+    </Content>
+
+  </UI>
+  
+</Mcml>

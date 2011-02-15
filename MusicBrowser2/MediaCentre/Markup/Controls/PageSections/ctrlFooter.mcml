@@ -1,0 +1,43 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <UI Name="ctrlFooter">
+
+    <Properties>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+    </Properties>
+
+    <!--<Locals>
+      <cor:String Name="MyString" String="Hello"/>
+    </Locals>-->
+
+    <Rules>
+      <Changed Source="[FolderModel.SelectedIndex]">
+        <Actions>
+          <Set Target="[Desc.Content]" Value="[FolderModel.SelectedItem.Title]" />
+          <Set Target="[Summary1.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine1]" />
+          <Set Target="[Summary2.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine2]" />
+        </Actions>
+      </Changed>
+
+      <Binding Source="[FolderModel.SelectedItem.Title]" Target="[Desc.Content]" />
+      <Binding Source="[FolderModel.SelectedItem.ShortSummaryLine1]" Target="[Summary1.Content]" />
+      <Binding Source="[FolderModel.SelectedItem.ShortSummaryLine2]" Target="[Summary2.Content]" />
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Layout>
+          <FlowLayout Orientation="Vertical"/>
+        </Layout>
+        <Children>
+          <Text Name="Desc" Color="White" Font="Segoe Media Center, 24" Content="" Margins="0,0,0,-2"/>
+          <Text Name="Summary1" Color="White" Font="Segoe Media Center, 20" Content="" Alpha="0.6"/>
+          <Text Name="Summary2" Color="White" Font="Segoe Media Center, 20" Content="" Alpha="0.6"/>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+</Mcml>

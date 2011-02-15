@@ -1,0 +1,156 @@
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using MusicBrowser.Util;
+using MusicBrowser.Entities.Interfaces;
+using MusicBrowser.Entities.Kinds;
+
+namespace MusicBrowser.Entities
+{
+    public static class EntityPersistance
+    {
+        private static string APP_VERSION = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+        /// <summary>
+        /// Serializes an Entity using XmlWriter
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string Serialize(IEntity data)
+        {
+            StringBuilder sb = new StringBuilder();
+            TextWriter text = new StringWriter(sb);
+            XmlWriter writer = new XmlTextWriter(text);
+
+            writer.WriteStartElement("EntityXML");
+
+            writer.WriteAttributeString("path", data.Path);
+            writer.WriteAttributeString("type", data.Kind.ToString());
+            writer.WriteAttributeString("version", APP_VERSION);
+
+            writer.WriteElementString("Title", data.Title);
+            writer.WriteElementString("Summary", data.Summary);
+            writer.WriteElementString("Duration", data.Duration.ToString());
+            writer.WriteElementString("MusicBrainzID", data.MusicBrainzID);
+
+            writer.WriteStartElement("Images");
+            writer.WriteElementString("Background", data.BackgroundPath);
+            writer.WriteElementString("Icon", data.IconPath);
+            writer.WriteEndElement(); //Images
+
+            writer.WriteStartElement("Properties");
+            foreach (string key in data.Properties.Keys)
+            {
+                writer.WriteStartElement("Item");
+                writer.WriteAttributeString("key", key);
+                writer.WriteAttributeString("value", data.Properties[key]);
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement(); //EntityXML 
+            writer.WriteEndElement(); //Properties 
+            writer.Close();
+
+            return sb.ToString();
+        }
+
+        public static IEntity Deserialize(string data)
+        {
+            IEntity entity;
+            XmlDocument xml = new XmlDocument();
+           
+            xml.LoadXml(data);
+
+            EntityKind kind = EntityKindParse(Helper.ReadXmlNode(xml, "EntityXML/@type"));
+            switch (kind)
+            {
+                case EntityKind.Album:
+                    {
+                        entity = new Album();
+                        break;
+                    }
+                case EntityKind.Artist:
+                    {
+                        entity = new Artist();
+                        break;
+                    }
+                case EntityKind.Folder:
+                    {
+                        entity = new Folder();
+                        break;
+                    }
+                case EntityKind.Home:
+                    {
+                        entity = new Home();
+                        break;
+                    }
+                case EntityKind.Playlist:
+                    {
+                        entity = new Playlist();
+                        break;
+                    }
+                case EntityKind.Song:
+                    {
+                        entity = new Song();
+                        break;
+                    }
+                default:
+                    {
+                        entity = new Unknown();
+                        break;
+                    }
+            }
+
+            // complex reads
+            int i;
+            int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Duration"), out i);
+            entity.Duration = i;
+            string ver;
+            ver = Helper.ReadXmlNode(xml, "EntityXML/@version");
+            if (!String.IsNullOrEmpty(ver)) { entity.Version = Helper.ParseVersion(ver); }
+
+            // simple reads
+            entity.Path = Helper.ReadXmlNode(xml, "EntityXML/@path");
+            entity.Title = Helper.ReadXmlNode(xml, "EntityXML/Title");
+            entity.Summary = Helper.ReadXmlNode(xml, "EntityXML/Summary");
+            entity.MusicBrainzID = Helper.ReadXmlNode(xml, "EntityXML/MusicBrainzID");
+            entity.BackgroundPath = Helper.ReadXmlNode(xml, "EntityXML/Images/Background");
+            entity.IconPath = Helper.ReadXmlNode(xml, "EntityXML/Images/Icon");
+
+            // compound reads
+            foreach (XmlNode node in xml.SelectNodes("/EntityXML/Properties/Item"))
+            {
+                entity.Properties.Add(node.Attributes["key"].InnerText, node.Attributes["value"].InnerText);
+            }
+
+            return entity;
+        }
+
+        /// <summary>
+        /// EntityKind is a enum, this parse method converts string to an EntityKind
+        /// </summary>
+        /// <param name="value">value to parse</param>
+        /// <returns>EntityKind</returns>
+        public static EntityKind EntityKindParse(string value)
+        {
+            switch (value.ToLower())
+            {
+                case "album":
+                    return EntityKind.Album;
+                case "artist":
+                    return EntityKind.Artist;
+                case "folder":
+                    return EntityKind.Folder;
+                case "home":
+                    return EntityKind.Home;
+                case "playlist":
+                    return EntityKind.Playlist;
+                case "song":
+                    return EntityKind.Song;
+            }
+            return EntityKind.Unknown;
+        }
+    }
+}

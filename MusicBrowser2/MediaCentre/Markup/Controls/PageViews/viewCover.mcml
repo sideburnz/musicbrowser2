@@ -1,0 +1,182 @@
+﻿<!--<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities.Interfaces"
+      xmlns:a="assembly://MusicBrowser/MusicBrowser"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:me="Me"
+      >
+  
+  <UI Name="viewCover">
+
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+    </Properties>
+
+    <Locals>
+      <ScrollingData Name="scrollData" LockedPosition="0.5" /> 
+      <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
+    </Locals>
+
+    <Rules> 
+      <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
+      <Default Target="[scrollData.Repeater]" Value="[viewCoverRepeater]"/>
+      <Binding Target="[viewCoverRepeater.Source]" Source="[FolderModel.EntityCollection.ToArray]" />
+      
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[FolderModel.EntityCollection.Count]" ConditionOp="GreaterThan" Value="0" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[viewCoverRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]"/>
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Conditions>
+          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="cover" />
+        </Conditions>
+        <Actions>
+          <Set Target="[div_ListCover.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+
+    </Rules>
+    
+    <Content>
+      <ColorFill Content="Transparent" Layout="Form" Name="div_ListCover" Visible="false">
+        <Children>
+          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="75">
+            <LayoutInput>
+              <FormLayoutInput Bottom="Parent,1" Top="Parent,0.35" Left="Parent,0" Right="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <Repeater Name="viewCoverRepeater" ContentName="Thumb" Navigation="RememberFocus">
+                <Layout>
+                  <GridLayout Orientation="Vertical" Rows="1" Columns="7" AllowWrap="true" Spacing="0,0" Repeat="WhenTooBig" RepeatGap="75"/>
+                </Layout>
+                <Animations>
+                  <Animation Type="Move">
+                    <Keyframes>
+                      <PositionKeyframe Time="0" RelativeTo="Current"/>
+                      <PositionKeyframe Time=".5" RelativeTo="Final"/>
+                    </Keyframes>
+                  </Animation>
+                </Animations>
+              </Repeater>
+            </Children>
+          </Scroller>
+        </Children>
+      </ColorFill>
+    </Content>
+
+    <Content Name="Thumb">
+      <me:ThumbItem Entity="[RepeatedItem!entities:BaseEntity]" Application="[Application]" FolderModel="[FolderModel]" />
+    </Content>
+    
+  </UI>
+
+  <UI Name="ThumbItem">
+    <Properties>
+      <entities:IEntity Name="Entity" EntityData="$Required" />
+      <a:Application Name="Application" Application="$Required"/>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+
+      <Rotation Name="L1Rotate" Rotation="30deg;0,1,0"/>
+      <Rotation Name="R1Rotate" Rotation="-30deg;0,1,0"/>
+      <Rotation Name="L2Rotate" Rotation="60deg;0,1,0"/>
+      <Rotation Name="R2Rotate" Rotation="-60deg;0,1,0"/>
+
+      <cor:Int32 Name="L2Pivot" Int32="0"/>
+      <cor:Int32 Name="R2Pivot" Int32="0"/>
+    </Properties>
+    <Locals>
+      <ClickHandler Name="Clicker" />
+      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
+      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
+    </Locals>
+    <Rules>
+
+      <Rule ConditionLogicalOp="Or">
+        <Conditions>
+          <Modified Source="[PlayPauseHandler.Invoked]"/>
+          <Modified Source="[PlayHandler.Invoked]"/>
+        </Conditions>
+        <Actions>
+          <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
+        </Actions>
+      </Rule>
+
+      <Condition Source="[L2Pivot]" ConditionOp="Equals" SourceValue="[Entity.Index]">
+        <Actions>
+          <Set Target="[Wrapper.Rotation]" Value="[L1Rotate]" />
+        </Actions>
+      </Condition>
+      <Condition Source="[R2Pivot]" ConditionOp="Equals" SourceValue="[Entity.Index]">
+        <Actions>
+          <Set Target="[Wrapper.Rotation]" Value="[R1Rotate]" />
+        </Actions>
+      </Condition>
+      <Condition Source="[L2Pivot]" ConditionOp="LessThan" SourceValue="[Entity.Index]">
+        <Actions>
+          <Set Target="[Wrapper.Rotation]" Value="[L2Rotate]" />
+        </Actions>   
+      </Condition>
+      <Condition Source="[R2Pivot]" ConditionOp="GreaterThan" SourceValue="[Entity.Index]">
+        <Actions>
+          <Set Target="[Wrapper.Rotation]" Value="[R2Rotate]" />
+        </Actions>
+      </Condition> 
+
+      <Changed Source="[FolderModel.SelectedIndex]">
+        <Actions>
+          <Set Target="[L2Pivot]" Value="[FolderModel.SelectedIndex]">
+            <Transformer>
+              <MathTransformer Add="1" />
+            </Transformer>
+          </Set>
+          <Set Target="[R2Pivot]" Value="[FolderModel.SelectedIndex]">
+            <Transformer>
+              <MathTransformer Subtract="1" />
+            </Transformer>
+          </Set>
+        </Actions>
+      </Changed>
+
+      <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          --><!--<Set Target="[Wrapper.Scale]" Value="1.4,1.4,0.5"/>--><!--
+          <Set Target="[Fader.Alpha]" Value="0" />
+          <Set Target="[FolderModel.SelectedIndex]" Value="[Entity.Index]"/>
+          <Set Target="[Wrapper.Padding]" Value="2,2,2,2" />
+          <Set Target="[Wrapper.Rotation]" Value="0deg;0,1,0" />
+        </Actions>
+      </Condition>
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[Wrapper.Scale]" Value="1.0,1.0,1.0"/>
+          <Set Target="[Fader.Alpha]" Value="0.6" />
+          <Set Target="[Wrapper.Padding]" Value="0,0,0,0" />
+        </Actions>
+      </Condition>
+      <Changed Source="[Clicker.Invoked]">
+        <Actions>
+          <Invoke Target="[Application.Navigate]" entity="[Entity]" parentCrumbs="[FolderModel.Crumbs]"/>
+        </Actions>
+      </Changed>
+      <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
+    </Rules>
+    <Content>
+      <ColorFill Content="White" Layout="Fill" Name="Wrapper" CenterPointPercent=".5,.5,.5">
+        <Children>
+          <ColorFill Content="Black" Alpha="0.6" Name="Fader" Layout="Fill"/>
+          <Graphic Content="[Entity.Icon]" Name="Background" Layout="Fill" MaintainAspectRatio="true" />
+        </Children>
+      </ColorFill>
+  </Content>
+  </UI>
+
+</Mcml>-->
+
+<Mcml></Mcml>

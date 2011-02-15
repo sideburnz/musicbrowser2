@@ -1,0 +1,78 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:me="Me"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:playlist="assembly://MusicBrowser/MusicBrowser.MediaCentre"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
+
+  <UI Name="ctrlPlayPopup">
+    <Properties>
+      <Command Name="CmdClose"/>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+    </Properties>
+
+    <Locals>
+      <Command Name="CmdPlayAll" />
+      <Command Name="CmdShuffle"/>
+      <Command Name="CmdAddToQueue"/>
+      <Command Name="CmdResume"/>
+      <Command Name="CmdPause"/>
+      <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
+      <playlist:Playlist Name="playlist"/>
+    </Locals>
+
+    <Rules>
+      <Changed Source="[CmdPlayAll.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdPlayAll" Entity="[FolderModel.GetPopupPlayContext]"/>
+          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdAddToQueue.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdAddToQueue" Entity="[FolderModel.GetPopupPlayContext]"/>
+          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdShuffle.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdShuffle" Entity="[FolderModel.GetPopupPlayContext]"/>
+          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdResume.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdResume" Entity="[FolderModel.GetPopupPlayContext]"/>
+          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdPause.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdPause" Entity="[FolderModel.GetPopupPlayContext]"/>
+          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
+        </Actions>
+      </Changed>
+      <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
+    </Rules>
+    
+    <Content>
+      <Panel Navigation="ContainAll">
+        <Layout>
+          <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
+        </Layout>
+        <Children>
+          <me:buttonImage Command="[CmdPlayAll]" Text="Play All" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdAddToQueue]" Text="Queue All" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
+          <me:buttonImage Command="[CmdShuffle]" Text="Shuffle Play" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconShuffle" />
+          <me:buttonImage Command="[CmdResume]" Name="buttonResume" Text="Resume" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconResume" />
+          <me:buttonImage Command="[CmdPause]" Name="buttonPause" Text="Pause" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPause" />
+          <me:buttonImage Command="[CmdClose]" Name="buttonClose" Text="Close" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+</Mcml>

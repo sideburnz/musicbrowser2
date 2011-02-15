@@ -1,0 +1,204 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities.Interfaces"
+      xmlns:a="assembly://MusicBrowser/MusicBrowser"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:me="Me"
+      >
+
+  <!--<Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonEntity"/>-->
+  
+  <UI Name="viewList">
+
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+    </Properties>
+
+    <Locals>
+      <ScrollingHandler Name="TextScrollingHandler" HandleDirectionalKeys="true" HandlePageKeys="true"/>
+      <ScrollingData Name="TextScrollingData" EndPadding="100"/>      
+      
+      <ScrollingData Name="scrollData" EndPadding="100" PageStep="1"/>
+      <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
+    </Locals>
+
+    <Rules> 
+      <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
+      <Default Target="[scrollData.Repeater]" Value="[viewListRepeater]"/>
+      <Binding Target="[viewListRepeater.Source]" Source="[FolderModel.EntityCollection.ToArray]" />
+
+      <Default Target="[TextScrollingHandler.ScrollingData]" Value="[TextScrollingData]"/>
+
+      <Rule>
+        <Conditions>
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="list" />
+        </Conditions>
+        <Actions>
+          <Set Target="[div_ListText.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Actions>
+          <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]"/>
+        </Actions>
+      </Rule>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true" Target="[TextSummary.Alpha]" Value="1"/>
+      <Condition Source="[Input.KeyFocus]" SourceValue="false" Target="[TextSummary.Alpha]" Value="0.7"/>
+
+    </Rules>
+
+    <Content>
+      <Panel Layout="Dock" Name="div_ListText" Visible="false" MouseInteractive="true">
+        <Layout>
+          <FlowLayout Orientation="Horizontal"/>
+        </Layout>
+        <Children>
+          
+          <Scroller Orientation="Vertical" FadeSize="-10" Margins="25,0,0,0" Name="viewListScroller" ScrollingData="[scrollData]" >
+            <LayoutInput>
+              <DockLayoutInput Alignment="Fill"  Position="Client"  />
+            </LayoutInput>
+            <Children>
+              <Repeater Layout="Fill" Name="viewListRepeater" Navigation="RememberFocus">
+                
+                <Animations>
+                  <Animation Type="Move">
+                    <Keyframes>
+                      <PositionKeyframe Time="0" RelativeTo="Current"/>
+                      <PositionKeyframe Time=".5" RelativeTo="Final"/>
+                    </Keyframes>
+                  </Animation>
+                </Animations>
+                
+                <Layout>
+                  <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
+                </Layout>
+                <Content>
+                  <me:buttonEntity Entity="[RepeatedItem!entities:IEntity]" Application="[Application]" FolderModel="[FolderModel]"/>
+                </Content>
+              </Repeater>
+            </Children>
+          </Scroller>
+
+          <Panel>
+            <Layout>
+              <FlowLayout Orientation="Vertical"/>
+            </Layout>
+            <Children>
+              <Scroller Margins="25,10,25,20" Orientation="Vertical" FadeSize="-30" ScrollingData="[TextScrollingData]">
+                <Children>
+                  <Text Name="TextSummary" Color="White" Font="Segoe Media Center Light, 22" WordWrap="true" Content="[FolderModel.ParentEntity.Summary]">
+                    <!-- Smooth scrolling. -->
+                    <Animations>
+                      <Animation Type="Move">
+                        <Keyframes>
+                          <PositionKeyframe Time="0" Value="0,0,0" RelativeTo="Current" Interpolation="Exp"/>
+                          <PositionKeyframe Time=".1" Value="0,0,0"/>
+                        </Keyframes>
+                      </Animation>
+                    </Animations>
+                  </Text>
+                </Children>
+              </Scroller>
+            </Children>
+          </Panel>
+
+        </Children>
+      </Panel>
+    </Content>
+
+  </UI>
+
+  <UI Name="buttonEntity">
+
+    <Properties>
+      <entities:IEntity Name="Entity" IEntity="$Required" />
+      <a:Application Name="Application" Application="$Required"/>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+
+      <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
+      <Size Name="Size" Size="600,57" />
+      <Size Name="MinSize" Size="600,57" />
+      <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
+      <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
+
+    </Properties>
+
+    <Locals>
+      <Command Name="enterCommand"/>
+      <ClickHandler Name="Clicker" />
+      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
+      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
+    </Locals>
+
+    <Rules>
+
+      <Changed Source="[enterCommand.Invoked]">
+        <Actions>
+          <Invoke Target="[Application.Navigate]" entity="[Entity]" parentCrumbs="[FolderModel.Crumbs]"/>
+        </Actions>
+      </Changed>
+
+      <Binding Source="[enterCommand]" Target="[Clicker.Command]" />
+      <Binding Source="[Entity.Icon]" Target="[graphicBullet.Content]" />
+      <Binding Source="[Entity.Description]" Target="[Label.Content]" />
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
+          <Set Target="[Label.Color]" Value="White"/>
+          <Set Target="[FolderModel.SelectedIndex]" Value="[Entity.Index]"/>
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[Label.Color]" Value="Gray"/>
+        </Actions>
+      </Condition>
+
+      <Rule ConditionLogicalOp="Or">
+        <Conditions>
+          <Modified Source="[PlayPauseHandler.Invoked]"/>
+          <Modified Source="[PlayHandler.Invoked]"/>
+        </Conditions>
+        <Actions>
+          <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
+        </Actions>
+      </Rule>
+
+    </Rules>
+
+    <Content>
+      <Panel Name="EntityButtonFace">
+        <Children>
+          <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[MinSize]" MaximumSize="[MinSize]">
+            <Layout>
+              <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+            </Layout>
+            <Children>
+              <Graphic Name="graphicBullet" Content="[Entity.Icon]" Margins="9,8,3,0" MaximumSize="42,42" MinimumSize="36,36" MaintainAspectRatio="false" Visible="true">
+              </Graphic>
+              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="10,12,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center, 20" HorizontalAlignment="Near" MaximumSize="[Size]">
+              </Text>
+            </Children>
+          </Graphic>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+  <Image Name="ButtonDisabled"          Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonDisabled"          NineGrid="7,7,7,7" />
+  <Image Name="ButtonDormant"           Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonDormant"           NineGrid="7,7,7,7" />
+  <Image Name="ButtonLeftFocus"         Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
+  <Image Name="ButtonLeftFocusOverlay"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocusOverlay"  NineGrid="7,7,7,7" />
+  <Image Name="ButtonNoFocus"           Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonNoFocus"           NineGrid="7,7,7,7" />
+  <Image Name="ButtonPressedAfterGlow"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonPressedAfterGlow"  NineGrid="7,7,7,7" />
+  <Image Name="ButtonPressedHighlight"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonPressedHighlight"  NineGrid="7,7,7,7" />
+
+
+</Mcml>

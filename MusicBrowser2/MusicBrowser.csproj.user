@@ -1,0 +1,25 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartArguments>
+    </StartArguments>
+    <StartProgram>C:\Windows\ehome\ehshell.exe</StartProgram>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+    <EnableSQLServerDebugging>true</EnableSQLServerDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <StartArguments>-load:"file://G:\Code\MusicBrowser2\MusicBrowser2\Markup\Pages\pageMain.mcml" -assemblyredirect:"G:\Code\MusicBrowser2\MusicBrowser2\bin\Debug" -markupredirect:"resx://MusicBrowser/MusicBrowser.Resources/,file://G:\Code\MusicBrowser2\MusicBrowser2\Markup\,. mcml"</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <StartProgram>C:\Windows\ehome\ehshell.exe</StartProgram>
+    <StartWorkingDirectory>C:\Windows\eHome</StartWorkingDirectory>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+    <StartAction>Program</StartAction>
+    <EnableSQLServerDebugging>true</EnableSQLServerDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <StartProgram>C:\Windows\eHome\McmlPad.exe</StartProgram>
+    <StartWorkingDirectory>C:\Windows\eHome</StartWorkingDirectory>
+    <StartArguments>-load:"file://G:\Code\MusicBrowser2\MusicBrowser2\Markup\Pages\pageMain.mcml" -assemblyredirect:"G:\Code\MusicBrowser2\MusicBrowser2\bin\Debug" -markupredirect:"resx://MusicBrowser/MusicBrowser.Resources/,file://G:\Code\MusicBrowser2\MusicBrowser2\Markup\,. mcml"</StartArguments>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
+</Project>

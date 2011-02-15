@@ -1,0 +1,117 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:playlist="assembly://MusicBrowser/MusicBrowser.MediaCentre"
+      xmlns:me="Me"
+      >
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonIcon"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
+
+  <UI Name="pageSong">
+
+    <Properties>
+      <models:SongModel Name="Song" SongModel="$Required" />
+      <models:UINotifier Name="UINotifier" UINotifier="$Required" />
+    </Properties>
+
+    <Locals>
+      <Command Name="CmdPlayAll"/>
+      <Command Name="CmdQueue"/>
+      <playlist:Playlist Name="playlist"/>
+    </Locals>
+
+    <Rules>
+      <Binding Source="[Song.Title]" Target="[txtTitle.Content]" />
+      <Binding Source="[Song.Artist]" Target="[txtArtist.Content]" />
+      <Binding Source="[Song.Album]" Target="[txtAlbum.Content]" />
+      <Binding Source="[Song.Year]" Target="[txtYear.Content]" />
+      <Binding Source="[Song.Thumb]" Target="[Thumb.Content]" />
+      <!--<Binding Source="[Song.Summary]" Target="[txtSummary.Content]" />-->
+
+      <Changed Source="[CmdPlayAll.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdPlayAll" Entity="[Song.Entity]"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdQueue.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdAddToQueue" Entity="[Song.Entity]"/>
+        </Actions>
+      </Changed>
+    </Rules>
+      
+    <Content>
+      <Panel Layout="Form">
+        <Children>
+
+          <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
+
+          <Panel Layout="Fill">
+            <Layout>
+              <FlowLayout Orientation="Vertical"/>
+            </Layout>
+            
+            <Children>
+            
+              <!-- TITLE SUMMARY -->
+              <Panel MaximumSize="1200,350" MinimumSize="1200,300">
+
+                <Children>
+                  <Panel Padding="25,15,15,15">
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal" FillStrip="true"/>
+                    </Layout>
+                    <Children>
+                      <Panel MaximumSize="860,0" MinimumSize="860,0" Layout="Dock">
+                        <Layout>
+                          <FlowLayout Orientation="Vertical"/>
+                        </Layout>
+                        <LayoutInput>
+                          <DockLayoutInput Position="Left"/>
+                        </LayoutInput>
+                        <Children>
+                          <Text Name="txtTitle" Color="White" Font="Segoe Media Center, 32" Content="" />
+                          <Text Name="txtArtist" Color="White" Font="Segoe Media Center, 24" Alpha="0.8" Content="" Margins="10,0,0,0" />
+                          <Text Name="txtAlbum" Color="White" Font="Segoe Media Center, 24" Alpha="0.8" Content="" Margins="10,0,0,0" />
+                          <Text Name="txtYear" Color="White" Font="Segoe Media Center, 20" Alpha="0.8" Content="" Margins="10,0,0,0" />
+
+                          <me:buttonIcon Command="[CmdQueue]" Text=" queue" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" Margins="0,20,0,-20" />
+                          <me:buttonIcon Command="[CmdPlayAll]" Text=" play" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" Margins="0,0,0,0" />
+                        </Children>
+                      </Panel>
+                      <ColorFill Content="Aqua" Layout="Dock">
+                        <LayoutInput>
+                          <DockLayoutInput Position="Right"/>
+                        </LayoutInput>
+                        <Children>
+                          <Graphic Name="Thumb" Content="resx://MusicBrowser/MusicBrowser.Resources/imageSong" />
+                        </Children>
+                      </ColorFill>
+                    </Children>
+                  </Panel>
+                  <ColorFill Alpha="0.7" Content="Black" Margins="0,0,0,0" Layout="Fill" />
+                </Children>
+              </Panel>
+
+              <!-- PAGED SUMMARY -->
+              <!--<Panel Layout="Fill" MaximumSize="1200,0" MinimumSize="1200,0" Padding="25,15,25,15">
+                <Layout>
+                  <FlowLayout Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Text Color="White" Font="Segoe Media Center, 20" Content="Summary" />
+                  <Text Name="txtSummary" Color="White" Font="Segoe Media Center, 20" Alpha="0.8" Content="" />
+                </Children>
+              </Panel>-->
+              
+            </Children>
+          </Panel>
+        </Children>
+      </Panel>
+    </Content>
+
+
+  </UI>
+
+</Mcml>
