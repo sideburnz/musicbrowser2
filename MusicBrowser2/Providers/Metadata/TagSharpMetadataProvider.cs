@@ -43,9 +43,11 @@ namespace MusicBrowser.Providers.Metadata
                 if (!String.IsNullOrEmpty(fileTag.Tag.Title.Trim()))
                 {
                     entity.Title = fileTag.Tag.Title.Trim();
-                    entity.Properties.Add("album", fileTag.Tag.Album.Trim());
+                    if (!entity.Properties.ContainsKey("album")) { entity.Properties.Add("album", fileTag.Tag.Album.Trim()); }
+                    if (!entity.Properties.ContainsKey("artist")) { entity.Properties.Add("artist", fileTag.Tag.FirstPerformer.Trim()); }
+                    
+                    //if (!entity.Properties.ContainsKey("album")) { 
                     entity.Properties.Add("year", fileTag.Tag.Year.ToString());
-                    entity.Properties.Add("artist", fileTag.Tag.FirstPerformer.Trim());
                     entity.Properties.Add("disc", fileTag.Tag.Disc.ToString());
                     entity.Properties.Add("codec", fileTag.MimeType.Substring(7));
                     entity.Duration = (Int32)fileTag.Properties.Duration.TotalSeconds;

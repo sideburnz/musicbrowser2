@@ -83,7 +83,7 @@ namespace MusicBrowser
                     //trigger the background caching tasks
                     foreach (string path in home.Paths)
                     {
-                        CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path, _factory, _cache));
+                        CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path, _factory, _cache, new Entities.Kinds.Unknown()));
                     }
 
                 }

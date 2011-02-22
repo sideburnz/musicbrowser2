@@ -247,7 +247,7 @@ namespace MusicBrowser.Util
             {
                 strippedString = string.Empty;
             }
-            return strippedString;
+            return strippedString.Replace("&quot;", "/'");
         }
 
         public static long ParseVersion(string version)

@@ -66,5 +66,30 @@ namespace MusicBrowser.Entities.Kinds
             if (sb.Length > 0) { base.ShortSummaryLine1 = "Song  (" + sb.ToString().Trim() + ")"; }
             base.CalculateValues();
         }
+
+        public override IEntity Parent
+        {
+            get { return base.Parent; }
+            set
+            {
+                base.Parent = value;
+                if (!Properties.ContainsKey("album"))
+                {
+                    if (value.Kind.CompareTo(EntityKind.Album) == 0)
+                    {
+                        Properties.Add("album", value.Title);
+                        Dirty = true;
+                    }
+                }
+                if (!Properties.ContainsKey("artist"))
+                {
+                    if (value.Kind.CompareTo(EntityKind.Album) == 0 && value.Properties.ContainsKey("artist"))
+                    {
+                        Properties.Add("artist", value.Properties["artist"]);
+                        Dirty = true;
+                    }
+                }
+            }
+        }
     }
 }

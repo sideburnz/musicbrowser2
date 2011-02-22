@@ -21,6 +21,8 @@ namespace MusicBrowser.WebServices.Interfaces
 
         public void DoService()
         {
+            Logging.Logger.Verbose("WebServices.WebServiceProvider.DoService", "start");
+
             bool loggingEnabled = Registry.Read("WebServicesFramework", "EnableLogging").ToLower() == "true";
             string UID = Guid.NewGuid().ToString();
 

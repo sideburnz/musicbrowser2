@@ -18,12 +18,13 @@ namespace MusicBrowser.Providers.Metadata
         public IEntity Fetch(IEntity entity)
         {
             // killer questions
+            if (!Util.Config.getInstance().getBooleanSetting("UseInternetProviders")) { return entity; }
             if (!entity.Kind.Equals(EntityKind.Artist)) { return entity; }
             if (!String.IsNullOrEmpty(entity.IconPath) && !String.IsNullOrEmpty(entity.BackgroundPath)) { return entity; }
             if (entity.Properties.ContainsKey(MARKER))
             {
                 // only check fro new images once every seven days
-                if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-7)) { return entity; }
+                if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-14)) { return entity; }
             }
 
             Logging.Logger.Verbose("HTBackdropMetadataProvider.Fetch(" + entity.Path + ")", "start");

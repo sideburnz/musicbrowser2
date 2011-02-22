@@ -10,17 +10,21 @@ using MusicBrowser.WebServices.Services.LastFM;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    //lastfm_playcount
-    //lastfm_loved
-
     class LastFMMetadataProvider : IMetadataProvider
     {
+        private const string MARKER = "LAST.FM";
+
         #region IMetadataProvider Members
 
         public IEntity Fetch(IEntity entity)
         {
             //killer questions
             if (!Util.Config.getInstance().getBooleanSetting("UseInternetProviders")) { return entity; }
+            if (entity.Properties.ContainsKey(MARKER))
+            {
+                // only check for new info once a day
+                if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-1)) { return entity; }
+            }
 
             Logging.Logger.Verbose("LastFMMetadataProvider.Fetch", "start");
 
@@ -40,13 +44,45 @@ namespace MusicBrowser.Providers.Metadata
                         albumService.setProvider(LFMProvider);
                         albumService.Fetch(albumDTO);
 
+                        entity.Properties.Add("lfm.playcount", albumDTO.Plays.ToString());
+                        if (albumDTO.Release > DateTime.MinValue)
+                        {
+                            entity.Properties.Add("release", albumDTO.Release.ToString("yyyy"));
+                        }
+                        if (string.IsNullOrEmpty(entity.IconPath) && !string.IsNullOrEmpty(albumDTO.Image))
+                        {
+                            string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Thumbs");
+                            ImageProvider.Save(ImageProvider.Download(albumDTO.Image, ImageType.Thumb), tmpThumb);
+                            entity.IconPath = tmpThumb;
+                        }
                         entity.Title = albumDTO.Album;
                         entity.Summary = albumDTO.Summary;
                         entity.MusicBrainzID = albumDTO.MusicBrowserID;
+
                         break;
                     }
                 case EntityKind.Artist:
                     {
+                        ArtistInfoServiceDTO artistDTO = new ArtistInfoServiceDTO();
+                        artistDTO.Artist = entity.Title;
+                        artistDTO.MusicBrowserID = entity.MusicBrainzID;
+                        artistDTO.Username = (Util.Config.getInstance().getSetting("LastFMUserName"));
+
+                        ArtistInfoService artistService = new ArtistInfoService();
+                        artistService.setProvider(LFMProvider);
+                        artistService.Fetch(artistDTO);
+
+                        entity.Properties.Add("lfm.playcount", artistDTO.Plays.ToString());
+                        entity.Title = artistDTO.Artist;
+                        entity.MusicBrainzID = artistDTO.MusicBrowserID;
+
+                        if (string.IsNullOrEmpty(entity.IconPath) && !string.IsNullOrEmpty(artistDTO.Thumb))
+                        {
+                            string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Thumbs");
+                            ImageProvider.Save(ImageProvider.Download(artistDTO.Thumb, ImageType.Thumb), tmpThumb);
+                            entity.IconPath = tmpThumb;
+                        }
+
                         break;
                     }
                 case EntityKind.Playlist:
@@ -58,6 +94,9 @@ namespace MusicBrowser.Providers.Metadata
                         break;
                     }
             }
+
+            entity.Properties.Add(MARKER, DateTime.Now.ToString("yyyy-MMM-dd"));
+            entity.Dirty = true;
             return entity;
         }
 

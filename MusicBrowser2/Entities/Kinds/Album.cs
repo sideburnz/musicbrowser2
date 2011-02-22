@@ -81,5 +81,20 @@ namespace MusicBrowser.Entities.Kinds
             if (sb.Length > 0) { base.ShortSummaryLine1 = "Album  (" + sb.ToString().Trim() + ")"; }
             base.CalculateValues();
         }
+
+        public override IEntity Parent
+        {
+            get { return base.Parent; }
+            set
+            {
+                base.Parent = value;
+                if (Properties.ContainsKey("artist")) { return; }
+                if (value.Kind.CompareTo(EntityKind.Artist) == 0)
+                {
+                    Properties.Add("artist", value.Title);
+                    Dirty = true;
+                }
+            }
+        }
     }
 }

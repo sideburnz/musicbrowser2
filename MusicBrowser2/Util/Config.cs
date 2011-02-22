@@ -14,7 +14,7 @@ namespace MusicBrowser.Util
         private readonly string[,] _defaults = { 
                                       //  { "Language", "English" }, 
                                         { "EnableFanArt", true.ToString() },
-                                        { "UseFolderImageForTracks", false.ToString() },
+                                        { "UseFolderImageForTracks", true.ToString() },
 
                                         { "ShowClock", true.ToString() },
                                         { "WindowsLibrarySupport", true.ToString() },

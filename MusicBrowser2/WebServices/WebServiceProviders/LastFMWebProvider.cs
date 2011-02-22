@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.Providers;
+using System.Security.Cryptography;
 
 namespace MusicBrowser.WebServices.WebServiceProviders
 {
@@ -11,9 +12,38 @@ namespace MusicBrowser.WebServices.WebServiceProviders
     {
         IDictionary<string, string> _parms;
 
+        #region constants
+        // these keys are for MusicBrowser2, if you're reusing this code you
+        // can get your own from this URL: http://www.last.fm/api
+        private const string API_KEY = "c2145788b6b9008665559eb0dc4ae159";
+        private const string API_SECRET = "e8f555849feb3e323e4ec12ae19904a7";
+        #endregion
+
+
         public void SetParameters(IDictionary<string, string> parms)
         {
             _parms = parms;
+            _parms.Add("api_key", API_KEY);
+        }
+
+        private static string getMD5(string rawString)
+        {
+            // Instantiate MD5CryptoServiceProvider, get bytes for original password and compute hash (encoded password)
+            Byte[] originalBytes = ASCIIEncoding.Default.GetBytes(rawString);
+            Byte[] encodedBytes = new MD5CryptoServiceProvider().ComputeHash(originalBytes);
+            // Convert encoded bytes back to a 'readable' string
+            return BitConverter.ToString(encodedBytes).Replace("-", "").ToLower();
+        }
+
+        private static string getSig(IDictionary<string, string> parms)
+        {
+            StringBuilder sbSig = new StringBuilder();
+            foreach (string item in parms.Keys)
+            {
+                sbSig.Append(item + parms[item]);
+            }
+            sbSig.Append(API_SECRET);
+            return getMD5(sbSig.ToString());
         }
 
         public override bool ValidateParams()
@@ -26,21 +56,18 @@ namespace MusicBrowser.WebServices.WebServiceProviders
         {
             Logging.Logger.Verbose("LastFMWebProvider.Execute(" + base.URL + ")", "start");
 
-            //TODO: api key
-            //TODO: attribute hash
-
             HTTPProvider http = new HTTPProvider();
-
             StringBuilder sb = new StringBuilder();
 
-            //sb.Append("http://ws.audioscrobbler.com/2.0/?");
-            sb.Append("http://www.joocer.com?");
+            sb.Append("http://ws.audioscrobbler.com/2.0/?");
 
             foreach(string item in _parms.Keys)
             {
                 sb.Append(item + "=" + _parms[item] + "&");
             }
 
+            sb.Append("api_sig=" + getSig(_parms));
+    
             http.URL = sb.ToString();
             http.Method = HTTPProvider.HTTPMethod.GET;
 
