@@ -1,18 +1,15 @@
 ﻿- "PutDiscInTrackNo" has no effect if changed after data's been cached
 - Pop-Up play options should change based on playstate & context (e.g. Play All doesn't make sense for a song)
-- Use folder image for tracks has no effect if changed after data's been cached
-- If an album has no thumb, get it from the first track in the album
 - improve how album lengths are calculated (when is the best time to add them, only fire what's needed to on the parent)
 - rework the song details MCML
-- add in the web services
 - sort out the footer summary 2 (select provider in config)
 	Last.fm
 		- track = (Last.fm) Play Count 8  Unique listeners 1,232  Total plays 2,343,998  Loved
 		- album = (Last.fm) Play Count 1  Unique listeners 12  Total plays 2
 		- artist = (Last.fm) etc
 - config app
-- if parent's MBID is blank and it's in the tag, try to set the parent
 - fix [] being replaced in song titles
-- cache folder.jpgs after resizing
 - finish LFM integration
 - put in track summary pods
+- fix swapping out of [TITLE] (e.g. when the title is [unknown])
+- fix caching refresh

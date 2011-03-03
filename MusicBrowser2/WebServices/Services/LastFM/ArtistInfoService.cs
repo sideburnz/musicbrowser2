@@ -20,7 +20,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
         //OUT
         public int Plays { get; set; }
         public string Summary { get; set; }
-        public string Thumb { get; set; }
+        public string Image { get; set; }
     }
 
 
@@ -61,19 +61,11 @@ namespace MusicBrowser.WebServices.Services.LastFM
 
             XMLDoc.LoadXml(_provider.ResponseBody);
 
-            //localDTO.Album = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/name");
-            //localDTO.Artist = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/artist");
-            //localDTO.MusicBrowserID = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/mbid");
-            //DateTime rel;
-            //DateTime.TryParse(Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/releasedate"), out rel);
-            //if (rel > DateTime.MinValue) { localDTO.Release = rel; }
-            //localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/userplaycount"));
-            //localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/image[@size='mega']");
-            //if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/image[@size='extralarge']"); }
-            //if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/image[@size='large']"); }
-            //if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/image[@size='medium']"); }
-            //if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/image[@size='small']"); }
-            //localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/wiki/summary"));
+            localDTO.Artist = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/name");
+            localDTO.MusicBrowserID = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/mbid");
+            localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/stats/userplaycount"));
+            localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/bio/summary"));
+            localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/image[@size='large']").Replace("126", "174s");
 
             return localDTO;
         }

@@ -22,8 +22,8 @@ namespace MusicBrowser.Providers.Metadata
             if (!Util.Config.getInstance().getBooleanSetting("UseInternetProviders")) { return entity; }
             if (entity.Properties.ContainsKey(MARKER))
             {
-                // only check for new info once a day
-                if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-1)) { return entity; }
+                // only check for new info once a week
+                if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-7)) { return entity; }
             }
 
             Logging.Logger.Verbose("LastFMMetadataProvider.Fetch", "start");
@@ -44,10 +44,10 @@ namespace MusicBrowser.Providers.Metadata
                         albumService.setProvider(LFMProvider);
                         albumService.Fetch(albumDTO);
 
-                        entity.Properties.Add("lfm.playcount", albumDTO.Plays.ToString());
+                        UpdateDic(entity.Properties, "lfm.playcount", albumDTO.Plays.ToString());
                         if (albumDTO.Release > DateTime.MinValue)
                         {
-                            entity.Properties.Add("release", albumDTO.Release.ToString("yyyy"));
+                            UpdateDic(entity.Properties, "release", albumDTO.Release.ToString("yyyy"));
                         }
                         if (string.IsNullOrEmpty(entity.IconPath) && !string.IsNullOrEmpty(albumDTO.Image))
                         {
@@ -72,14 +72,15 @@ namespace MusicBrowser.Providers.Metadata
                         artistService.setProvider(LFMProvider);
                         artistService.Fetch(artistDTO);
 
-                        entity.Properties.Add("lfm.playcount", artistDTO.Plays.ToString());
+                        UpdateDic(entity.Properties, "lfm.playcount", artistDTO.Plays.ToString());
                         entity.Title = artistDTO.Artist;
                         entity.MusicBrainzID = artistDTO.MusicBrowserID;
+                        entity.Summary = artistDTO.Summary;
 
-                        if (string.IsNullOrEmpty(entity.IconPath) && !string.IsNullOrEmpty(artistDTO.Thumb))
+                        if (string.IsNullOrEmpty(entity.IconPath) && !string.IsNullOrEmpty(artistDTO.Image))
                         {
                             string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Thumbs");
-                            ImageProvider.Save(ImageProvider.Download(artistDTO.Thumb, ImageType.Thumb), tmpThumb);
+                            ImageProvider.Save(ImageProvider.Download(artistDTO.Image, ImageType.Thumb), tmpThumb);
                             entity.IconPath = tmpThumb;
                         }
 
@@ -87,7 +88,7 @@ namespace MusicBrowser.Providers.Metadata
                     }
                 case EntityKind.Playlist:
                     {
-                        break;
+                        return entity;
                     }
                 case EntityKind.Song:
                     {
@@ -95,11 +96,31 @@ namespace MusicBrowser.Providers.Metadata
                     }
             }
 
-            entity.Properties.Add(MARKER, DateTime.Now.ToString("yyyy-MMM-dd"));
+            if (entity.Properties.ContainsKey(MARKER))
+            {
+                entity.Properties[MARKER] = DateTime.Now.ToString("yyyy-MMM-dd");
+            }
+            else
+            {
+                entity.Properties.Add(MARKER, DateTime.Now.ToString("yyyy-MMM-dd"));
+            }
             entity.Dirty = true;
             return entity;
         }
 
         #endregion
+
+        public IDictionary<string, string> UpdateDic(IDictionary<string, string> dic, string key, string val)
+        {
+            if (dic.ContainsKey(key))
+            {
+                dic[key] = val;
+            }
+            else
+            {
+                dic.Add(key, val);
+            }
+            return dic;
+        }
     }
 }

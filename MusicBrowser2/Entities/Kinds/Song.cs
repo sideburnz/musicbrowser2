@@ -26,13 +26,6 @@ namespace MusicBrowser.Entities.Kinds
             set
             {
                 base.Path = value;
-
-                if (Util.Config.getInstance().getBooleanSetting("UseFolderImageForTracks"))
-                {
-                    string temp;
-                    temp = ImageProvider.locateFanArt(System.IO.Directory.GetParent(Path).FullName, ImageType.Thumb);
-                    if (!String.IsNullOrEmpty(temp)) { IconPath = temp; }
-                }
             }
         }
 
@@ -88,6 +81,10 @@ namespace MusicBrowser.Entities.Kinds
                         Properties.Add("artist", value.Properties["artist"]);
                         Dirty = true;
                     }
+                }
+                if (Util.Config.getInstance().getBooleanSetting("UseFolderImageForTracks"))
+                {
+                    IconPath = Parent.IconPath;
                 }
             }
         }

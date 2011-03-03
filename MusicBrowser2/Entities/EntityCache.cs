@@ -54,7 +54,7 @@ namespace MusicBrowser.Entities
         public void Update(string key, IEntity entity)
         {
             if (_cacheDisabled) { return; }
-            if (Exists(key) && !entity.Dirty) { return; }
+            if (!entity.Dirty) { return; }
 
             this.Delete(key);
             _memoryCache.Add(key, entity);

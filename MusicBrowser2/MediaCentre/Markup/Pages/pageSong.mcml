@@ -85,7 +85,7 @@
                           <DockLayoutInput Position="Right"/>
                         </LayoutInput>
                         <Children>
-                          <Graphic Name="Thumb" Content="resx://MusicBrowser/MusicBrowser.Resources/imageSong" />
+                          <Graphic Name="Thumb" Content="resx://MusicBrowser/MusicBrowser.Resources/imageSong" MaximumSize="200,200" MinimumSize="200,200"/>
                         </Children>
                       </ColorFill>
                     </Children>
