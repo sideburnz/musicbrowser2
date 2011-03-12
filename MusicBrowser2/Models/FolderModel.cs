@@ -8,6 +8,7 @@ using MusicBrowser.Providers;
 using MusicBrowser.Util;
 using System.Text.RegularExpressions;
 using System.Linq;
+using MusicBrowser.MediaCentre;
 
 namespace MusicBrowser.Models
 {
@@ -36,6 +37,7 @@ namespace MusicBrowser.Models
             _matches = _fullentities.Count;
 
             _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;
+            MediaContext.GetInstance().OnPlayStateChanged += PlayStateChanged;       
         }
 
         /// <summary>
@@ -128,7 +130,6 @@ namespace MusicBrowser.Models
                 EntityCollection temp = new EntityCollection();
 
                 //this is slower than the foreach loop, in .Net4 make it parallel
-                //temp.AddRange(_fullentities.Where(p => regex.IsMatch(p.SortName)));
                 
                 foreach (IEntity item in _fullentities)
                 {
@@ -179,6 +180,21 @@ namespace MusicBrowser.Models
         public bool ShowClock
         {
             get { return Config.getInstance().getBooleanSetting("ShowClock"); }
+        }
+
+        public bool isPlaying
+        {
+            get { return MediaContext.GetInstance().PlayState == PlayState.Playing; }
+        }
+
+        public bool isPaused
+        {
+            get { return MediaContext.GetInstance().PlayState == PlayState.Paused; }
+        }
+
+        void PlayStateChanged(object obj)
+        {
+            FirePropertiesChanged("isPlaying", "isPaused");
         }
     }
 }

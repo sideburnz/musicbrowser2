@@ -56,6 +56,15 @@
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
+      <Condition Source="[FolderModel.GetPopupPlayContext.KindName]" ConditionOp="Equals" SourceValue="Song">
+        <Actions>
+          <Set Target="[cmdPlay.Text]" Value="Play" />
+          <Set Target="[cmdQueue.Text]" Value="Queue" />
+          <Set Target="[cmdShuffle.Visible]" Value="False" />
+        </Actions>
+      </Condition>
+      <Binding Source="[FolderModel.isPlaying]" Target="[cmdPause.Visible]" />
+      <Binding Source="[FolderModel.isPaused]" Target="[cmdResume.Visible]" />
     </Rules>
     
     <Content>
@@ -64,12 +73,12 @@
           <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
         </Layout>
         <Children>
-          <me:buttonImage Command="[CmdPlayAll]" Text="Play All" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
-          <me:buttonImage Command="[CmdAddToQueue]" Text="Queue All" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
-          <me:buttonImage Command="[CmdShuffle]" Text="Shuffle Play" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconShuffle" />
-          <me:buttonImage Command="[CmdResume]" Name="buttonResume" Text="Resume" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconResume" />
-          <me:buttonImage Command="[CmdPause]" Name="buttonPause" Text="Pause" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPause" />
-          <me:buttonImage Command="[CmdClose]" Name="buttonClose" Text="Close" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
+          <me:buttonImage Command="[CmdPlayAll]" Name="cmdPlay" Text="Play All" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdAddToQueue]" Name="cmdQueue" Text="Queue All" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
+          <me:buttonImage Command="[CmdShuffle]" Name="cmdShuffle" Text="Shuffle Play" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconShuffle" />
+          <me:buttonImage Command="[CmdResume]" Name="cmdResume" Text="Resume" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconResume" />
+          <me:buttonImage Command="[CmdPause]" Name="cmdPause" Text="Pause" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPause" />
+          <me:buttonImage Command="[CmdClose]" Text="Close" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
         </Children>
       </Panel>
     </Content>

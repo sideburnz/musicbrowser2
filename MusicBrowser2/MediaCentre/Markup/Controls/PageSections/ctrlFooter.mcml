@@ -8,10 +8,6 @@
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
     </Properties>
 
-    <!--<Locals>
-      <cor:String Name="MyString" String="Hello"/>
-    </Locals>-->
-
     <Rules>
       <Changed Source="[FolderModel.SelectedIndex]">
         <Actions>

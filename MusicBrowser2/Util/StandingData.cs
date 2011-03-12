@@ -1,4 +1,8 @@
-﻿//*****************************************************************************
+﻿using System.Collections.Generic;
+using System.Xml;
+using System;
+
+//*****************************************************************************
 //
 //  Basic standing data reader to remove hard coded lists in the application.
 //  This data is read-only during runtime.
@@ -7,59 +11,46 @@
 
 namespace MusicBrowser.Util
 {
-    static class StandingData
+    class StandingData
     {
-        public static string[] GetStandingData(string category)
+        public static IEnumerable<string> GetStandingData(string Category)
         {
-            switch (category.ToLower())
+            Logging.Logger.Debug("Attempting to loaded and read data on cat '" + Category + "' from standing data file");
+
+            string fileName = Helper.AppFolder + "\\standingdata.xml";
+            XmlDocument XMLDoc = new XmlDocument();
+            string XpathString = string.Format("/standingdata/section[@name='{0}']/item", Category.ToLower());
+            List<string> rval = new List<string>();
+
+            // if the file doesn't exist, just continue
+            if (!System.IO.File.Exists(fileName))
             {
-                case "views":
-                    {
-                        string[] rval = {"List", "Thumbs", "Cover Flow"};
-                        return rval;
-                    }
-                case "languages":
-                    {
-                        string[] rval = {"English", "French", "German", "Dutch"};
-                        return rval;
-                    }
-                case "images":
-                    {
-                        string[] rval = {".jpg", ".png", ".jpeg", ".gif"};
-                        return rval;
-                    }
-                case "songs":
-                    {
-                        string[] rval = {".mp3", ".flac", ".wma", ".ogg", ".mpc", ".wav", ".m4a", ".mp2", ".ape"};
-                        return rval;
-                    }
-                case "playlists":
-                    {
-                        string[] rval = {".wpl", ".m3u", ".asx"};
-                        return rval;
-                    }
-                case "nonentityextentions":
-                    {
-                        string[] rval = { ".xml", ".jpg", ".png", ".jpeg", ".gif" };
-                        return rval;
-                    }
-                case "logdestination":
-                    {
-                        string[] rval = {"file", "event log"};
-                        return rval;
-                    }
-                case "loglevel":
-                    {
-                        string[] rval = {"debug", "info", "error", "none"};
-                        return rval;
-                    }
-                case "sortorder":
-                    {
-                        string[] rval = { "Name", "Release", "Track", "Duration" };
-                        return rval;
-                    }
+                Exception MBex = new Exception("MusicBrowser.XML.StandingData - file not found: " + fileName);
+                Logging.Logger.Error(MBex);
+                throw (MBex);
             }
-            return null;
+            try
+            {
+                // load the file
+                XMLDoc.Load(fileName);
+            }
+            catch (Exception Ex)
+            {
+                Logging.Logger.Error(Ex);
+                return null;
+            }
+
+            Logging.Logger.Debug("file opened, using XPath: " + XpathString);
+
+            //  get the data
+            foreach (XmlNode node in XMLDoc.SelectNodes(XpathString))
+            {
+                rval.Add(node.InnerText);
+            }
+
+            //Logging.Log("Loaded and read data on cat '" + Category + "' from standing data file");
+            return rval;
         }
+
     }
 }

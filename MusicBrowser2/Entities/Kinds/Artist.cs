@@ -10,6 +10,8 @@ namespace MusicBrowser.Entities.Kinds
 {
     class Artist : IEntity
     {
+        public long GrandChildren { get; set; }
+
         public Artist()
         {
             DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageArtist";
@@ -67,15 +69,27 @@ namespace MusicBrowser.Entities.Kinds
         public override void CalculateValues()
         {
             StringBuilder sb = new StringBuilder();
-            if (Duration > 0)
-            {
-                TimeSpan t = TimeSpan.FromSeconds(Duration);
-                sb.Append(string.Format("{0}:{1:D2})", (Int32)Math.Floor(t.TotalMinutes), t.Seconds));
-            }
+
             if (base.Children == 1) { sb.Append("1 Album  "); }
             if (base.Children > 1) { sb.Append(base.Children + " Albums  "); }
 
+            if (GrandChildren == 1) { sb.Append("1 Track  "); }
+            if (GrandChildren > 1) { sb.Append(GrandChildren + " Tracks  "); }
+
+            if (Duration > 0)
+            {
+                TimeSpan t = TimeSpan.FromSeconds(Duration);
+                if (t.Hours == 0)
+                {
+                    sb.Append(string.Format("{0}:{1:D2}", (Int32)Math.Floor(t.TotalMinutes), t.Seconds));
+                }
+                else
+                {
+                    sb.Append(string.Format("{0}:{1:D2}:{2:D2}", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds));
+                }
+            }
             if (sb.Length > 0) { base.ShortSummaryLine1 = "Artist  (" + sb.ToString().Trim() + ")"; }
+
             base.CalculateValues();
         }
     }

@@ -232,14 +232,17 @@ namespace MusicBrowser.Util
                         break;
                     }
             }
-            format = format.Replace("[title]", entity.Title);
 
             // this swaps out the place holders with content from the dictionary
             Regex regex = new Regex("\\[.*?\\]");
             foreach (Match matches in regex.Matches(format))
             {
                 string token = matches.Value.Substring(1, matches.Value.Length - 2);
-                if (entity.Properties.ContainsKey(token))
+                if (token.Equals("title"))
+                {
+                    format = format.Replace("[title]", entity.Title);
+                }
+                else if (entity.Properties.ContainsKey(token))
                 {
                     format = format.Replace("[" + token + "]", entity.Properties[token]);
                 }

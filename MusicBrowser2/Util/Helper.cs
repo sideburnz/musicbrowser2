@@ -138,7 +138,7 @@ namespace MusicBrowser.Util
         #endregion
 
         #region file identifiers
-        static string[] _dicSongExts;
+        static IEnumerable<string> _dicSongExts;
         public static bool IsSong(string fileName)
         {
             string extension = Path.GetExtension(fileName).ToLower();
@@ -149,7 +149,7 @@ namespace MusicBrowser.Util
             return _dicSongExts.Any(item => extension == item);
         }
 
-        static string[] _dicPlExts;
+        static IEnumerable<string> _dicPlExts;
         public static bool IsPlaylist(string fileName)
         {
             string extension = Path.GetExtension(fileName).ToLower();
@@ -160,7 +160,7 @@ namespace MusicBrowser.Util
             return _dicPlExts.Any(item => extension == item);
         }
 
-        static string[] _dicImgExts;
+        static IEnumerable<string> _dicImgExts;
         public static bool IsImage(string fileName)
         {
             string extension = Path.GetExtension(fileName).ToLower();
@@ -172,7 +172,7 @@ namespace MusicBrowser.Util
             return _dicImgExts.Any(item => extension == item);
         }
 
-        static string[] _dicNEExts;
+        static IEnumerable<string> _dicNEExts;
         public static bool IsNotEntity(string fileName)
         {
             string extension = Path.GetExtension(fileName).ToLower();
@@ -247,7 +247,7 @@ namespace MusicBrowser.Util
             {
                 strippedString = string.Empty;
             }
-            return strippedString.Replace("&quot;", "/'");
+            return strippedString.Replace("&quot;", "'").Replace("&amp;", "&");
         }
 
         public static long ParseVersion(string version)

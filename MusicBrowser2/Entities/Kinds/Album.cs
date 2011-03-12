@@ -74,7 +74,14 @@ namespace MusicBrowser.Entities.Kinds
             if (Duration > 0)
             {
                 TimeSpan t = TimeSpan.FromSeconds(Duration);
-                sb.Append(string.Format("{0}:{1:D2})", (Int32)Math.Floor(t.TotalMinutes), t.Seconds));
+                if (t.Hours == 0)
+                {
+                    sb.Append(string.Format("{0}:{1:D2}", (Int32)Math.Floor(t.TotalMinutes), t.Seconds));
+                }
+                else
+                {
+                    sb.Append(string.Format("{0}:{1:D2}:{2:D2}", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds));
+                }
             }
             if (Properties.ContainsKey("year")) { sb.Append(Properties["year"] + "  "); }
 

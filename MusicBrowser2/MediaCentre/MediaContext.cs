@@ -70,6 +70,7 @@ namespace MusicBrowser.MediaCentre
         public delegate void EventHandler(object sender);
         public event EventHandler OnContextChanged;
         public event EventHandler OnProgressChanged;
+        public event EventHandler OnPlayStateChanged;
         #endregion
 
         private readonly System.Timers.Timer _timer;
@@ -120,11 +121,13 @@ namespace MusicBrowser.MediaCentre
                     if (OnProgressChanged != null) OnProgressChanged(this);
                 }
                 _lastProgress = _progress;
+                _playState = _mData.Transport.PlayState;
               
             }
             else if (property.ToLower().Equals("playstate"))
             {
                 _playState = _mData.Transport.PlayState;
+                if (OnPlayStateChanged != null) { OnPlayStateChanged(this); }
             }
         }
 
@@ -133,6 +136,7 @@ namespace MusicBrowser.MediaCentre
             if (_mData.MediaMetadata.ContainsKey("TrackDuration"))
             {
                 _context = _factory.getItem(_mData.MediaMetadata["Uri"].ToString());
+                _playState = _mData.Transport.PlayState;
             }
             else
             {
@@ -140,6 +144,7 @@ namespace MusicBrowser.MediaCentre
                 _playState = PlayState.Undefined;
             }
             if (OnContextChanged != null) OnContextChanged(this);
+            if (OnPlayStateChanged != null) { OnPlayStateChanged(this); }
         }
     }
 }

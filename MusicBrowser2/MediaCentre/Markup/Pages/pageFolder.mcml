@@ -32,7 +32,6 @@
       <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
       <playlist:Playlist Name="playlist"/>
       <models:Clock Name="Clock"/>
-      <!--<models:NowPlaying Name="NowPlaying"/>-->
     </Locals>
 
     <Rules>
@@ -145,9 +144,9 @@
               <Panel Layout="HorizontalFlow" Margins="0,0,0,0">
                 <Children>
                   <Text Name="List_Counter" Content="0" Color="White" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
-                  <Text Name="List_Break" Content="|" Color="LightBlue" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
-                  <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="LightBlue" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
-                  <Text Name="List_Total"  Content="[FolderModel.FullSize]" Color="LightBlue" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
+                  <Text Name="List_Break" Content="|" Color="Gray" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
+                  <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
+                  <Text Name="List_Total"  Content="[FolderModel.FullSize]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
                 </Children>
               </Panel>
               <Panel>

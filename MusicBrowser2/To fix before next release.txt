@@ -1,5 +1,4 @@
 ﻿- "PutDiscInTrackNo" has no effect if changed after data's been cached
-- Pop-Up play options should change based on playstate & context (e.g. Play All doesn't make sense for a song)
 - improve how album lengths are calculated (when is the best time to add them, only fire what's needed to on the parent)
 - rework the song details MCML
 - sort out the footer summary 2 (select provider in config)
@@ -8,8 +7,8 @@
 		- album = (Last.fm) Play Count 1  Unique listeners 12  Total plays 2
 		- artist = (Last.fm) etc
 - config app
-- fix [] being replaced in song titles
 - finish LFM integration
 - put in track summary pods
-- fix swapping out of [TITLE] (e.g. when the title is [unknown])
-- fix caching refresh
+
+for next version
+- metadata is overwritten

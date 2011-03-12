@@ -20,7 +20,7 @@ namespace MusicBrowser.Entities.Interfaces
         NotDetermined
     }
 
-    public abstract class IEntity
+    public abstract class IEntity : BaseModel
     {
         private readonly Dictionary<string, string> _properties;
         private string _sortName;
@@ -49,6 +49,7 @@ namespace MusicBrowser.Entities.Interfaces
         // read only (therefore have default values
         public Dictionary<string, string> Properties { get { return _properties; } }
         public virtual EntityKind Kind { get { return EntityKind.NotDetermined; } }
+        public string KindName { get { return Kind.ToString(); } }
 
         // Calculated/transient
         public int Index { get; set; }
@@ -132,7 +133,7 @@ namespace MusicBrowser.Entities.Interfaces
         {
             _description = Config.handleEntityDescription(this);
             _sortName = Config.handleStartingThe(_description).ToLower();
-            //FirePropertiesChanged("Title", "Summary", "Properties", "Index", "ShortSummaryLine1", "Duration", "Children", "SortName", "Description", "Background", "Icon");
+            FirePropertiesChanged("Title", "Summary", "Properties", "Index", "ShortSummaryLine1", "ShortSummaryLine2", "Duration", "Children", "SortName", "Description", "Background", "Icon");
         }
 
         private Image getImage(string path)

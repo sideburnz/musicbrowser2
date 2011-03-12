@@ -5,6 +5,7 @@ using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Providers.Background;
+using MusicBrowser.Entities.Kinds;
 
 namespace MusicBrowser.Entities
 {
@@ -14,6 +15,9 @@ namespace MusicBrowser.Entities
         {
             //this is a .Net3.5 app, .Net4 would allow for some parallelization, something like
             //Parallel.ForEach(IFolderItemsProvider.getItems(path), () => IEntityFactory.getItem(item));
+
+            long duration = 0;
+            long grandchildren = 0;
 
             foreach (FileSystemItem item in items)
             {
@@ -25,9 +29,14 @@ namespace MusicBrowser.Entities
                     {
                         entity.CalculateValues();
                         this.Add(entity);
+
+                        if (entity.Duration > 0) { duration += entity.Duration; }
+                        if (entity.Children > 0) { grandchildren += entity.Children; }
                     }
                 }
-                parent.Children = this.Count;
+                if (parent.Children == 0) { parent.Children = this.Count; };
+                if (parent.Duration == 0) { parent.Duration = duration; }
+                if ((grandchildren > 0) && (parent.Kind.Equals(EntityKind.Artist))) { ((Artist)parent).GrandChildren = grandchildren; }
             }
             parent.CalculateValues();
 
