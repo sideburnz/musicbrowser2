@@ -22,7 +22,7 @@ namespace MusicBrowser.Models
         public string Title { get { return _song.Title; } }
         public string Album { get { return GetProperty("album"); } }
         public string Artist { get { return GetProperty("artist"); } }
-        public string Year { get { return GetProperty("year"); } }
+        public string Year { get { return GetProperty("release"); } }
         public Image Thumb { get { return _song.Icon; } }
 
         public string Summary { get { return _song.Summary; } }

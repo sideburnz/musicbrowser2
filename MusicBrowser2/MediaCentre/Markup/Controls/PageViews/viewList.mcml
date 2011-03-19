@@ -16,11 +16,11 @@
     </Properties>
 
     <Locals>
-      <ScrollingHandler Name="TextScrollingHandler" HandleDirectionalKeys="true" HandlePageKeys="true"/>
+      <ScrollingHandler Name="TextScrollingHandler" HandlePageKeys="true" />
       <ScrollingData Name="TextScrollingData" EndPadding="100"/>      
       
-      <ScrollingData Name="scrollData" EndPadding="100" PageStep="1"/>
-      <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
+      <ScrollingData Name="scrollData" EndPadding="100" PageStep="1" />
+      <ScrollingHandler Name="scrollHandler" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandleDirectionalKeys="true"  HandlerStage="Bubbled" />
     </Locals>
 
     <Rules> 

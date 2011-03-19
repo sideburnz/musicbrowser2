@@ -13,7 +13,7 @@ namespace MusicBrowser.Entities
 {
     public class EntityFactory : IEntityFactory
     {
-        private static long FIRST_COMPATIBLE_CACHE = Util.Helper.ParseVersion("2.2.1.5");
+        private static long FIRST_COMPATIBLE_CACHE = Util.Helper.ParseVersion("2.2.1.7");
         private IEntityCache _cache;
 
         #region IEntityFactory Members
@@ -28,10 +28,7 @@ namespace MusicBrowser.Entities
         public IEntity getItem(FileSystemItem item)
         {
             // don't waste time trying to determine a known not entity
-            if (Util.Helper.IsNotEntity(item.FullPath))
-            {
-                return new Unknown();
-            }
+            if (Util.Helper.IsNotEntity(item.FullPath)) { return new Unknown(); }
 
             IEntity entity;
             string metadataPath = Directory.GetParent(item.FullPath) + "\\metadata\\";
@@ -39,8 +36,9 @@ namespace MusicBrowser.Entities
             string key = Util.Helper.GetCacheKey(item.FullPath);
             FileSystemItem metadata = FileSystemProvider.getItemDetails(metadataFile);
 
+#if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") [metadata " + metadataFile + " : " + !String.IsNullOrEmpty(metadata.Name) + "]", "start");
-
+#endif
             // get the value from cache
             if (_cache.Exists(key))
             {
@@ -144,7 +142,6 @@ namespace MusicBrowser.Entities
                 IEnumerable<FileSystemItem> content = FileSystemProvider.GetFolderContents(entity.FullPath);
                 bool containsSongs = false;
                 bool containsFolders = false;
-                bool containsDiscs = false;
 
                 foreach (FileSystemItem item in content)
                 {
@@ -152,14 +149,10 @@ namespace MusicBrowser.Entities
                     if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
                     {
                         containsFolders = true;
-                        if (item.Name.ToLower().StartsWith("disc ") || item.Name.ToLower().StartsWith("chapter "))
-                        {
-                            containsDiscs = true;
-                        }
                     }
                 }
                 // if there's tracks in the folder then it's an album
-                if (containsSongs || containsDiscs)
+                if (containsSongs)
                 {
                     return EntityKind.Album;
                 }

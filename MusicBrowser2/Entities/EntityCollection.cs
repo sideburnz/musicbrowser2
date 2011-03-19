@@ -21,23 +21,25 @@ namespace MusicBrowser.Entities
 
             foreach (FileSystemItem item in items)
             {
-                if (item.Name.ToLower() != "metadata")
-                {
-                    IEntity entity = entityFactory.getItem(item);
-                    entity.Parent = parent;
-                    if (!entity.Kind.Equals(EntityKind.Unknown))
-                    {
-                        entity.CalculateValues();
-                        this.Add(entity);
+                if (Util.Helper.IsNotEntity(item.FullPath)) { continue; }
+                if (item.Name.ToLower() == "metadata") { continue; }
 
-                        if (entity.Duration > 0) { duration += entity.Duration; }
-                        if (entity.Children > 0) { grandchildren += entity.Children; }
-                    }
-                }
-                if (parent.Children == 0) { parent.Children = this.Count; };
-                if (parent.Duration == 0) { parent.Duration = duration; }
-                if ((grandchildren > 0) && (parent.Kind.Equals(EntityKind.Artist))) { ((Artist)parent).GrandChildren = grandchildren; }
+                IEntity entity = entityFactory.getItem(item);
+
+                if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }
+
+                entity.Parent = parent;
+                entity.CalculateValues();
+                this.Add(entity);
+                
+                if (entity.Duration > 0) { duration += entity.Duration; }
+                if (entity.Children > 0) { grandchildren += entity.Children; }
             }
+
+            if (parent.Children == 0) { parent.Children = this.Count; };
+            if (parent.Duration == 0) { parent.Duration = duration; }
+            if ((grandchildren > 0) && (parent.Kind.Equals(EntityKind.Artist))) { ((Artist)parent).GrandChildren = grandchildren; }
+
             parent.CalculateValues();
 
             this.Sort(new EntityCollectionSorter());

@@ -9,7 +9,7 @@ using MusicBrowser.WebServices.Services.HTBackdrop;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    class HTBackdropMetadataProvider : IMetadataProvider
+    public class HTBackdropMetadataProvider : IMetadataProvider
     {
         private const string MARKER = "HTBACK";
 

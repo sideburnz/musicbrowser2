@@ -8,7 +8,7 @@ using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Entities.Kinds
 {
-    class Home : IEntity
+    public class Home : IEntity
     {
         public Home()
         {

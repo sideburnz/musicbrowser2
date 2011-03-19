@@ -1,14 +1,14 @@
 ﻿- "PutDiscInTrackNo" has no effect if changed after data's been cached
-- improve how album lengths are calculated (when is the best time to add them, only fire what's needed to on the parent)
 - rework the song details MCML
 - sort out the footer summary 2 (select provider in config)
 	Last.fm
 		- track = (Last.fm) Play Count 8  Unique listeners 1,232  Total plays 2,343,998  Loved
 		- album = (Last.fm) Play Count 1  Unique listeners 12  Total plays 2
 		- artist = (Last.fm) etc
-- config app
+
 - finish LFM integration
 - put in track summary pods
 
 for next version
 - metadata is overwritten
+- config app

@@ -47,13 +47,24 @@ namespace MusicBrowser.Providers.Metadata
                     if (!entity.Properties.ContainsKey("artist")) { entity.Properties.Add("artist", fileTag.Tag.FirstPerformer.Trim()); }
                     
                     //if (!entity.Properties.ContainsKey("album")) { 
-                    entity.Properties.Add("year", fileTag.Tag.Year.ToString());
+                    entity.Properties.Add("release", fileTag.Tag.Year.ToString());
                     entity.Properties.Add("disc", fileTag.Tag.Disc.ToString());
                     entity.Properties.Add("codec", fileTag.MimeType.Substring(7));
                     entity.Duration = (Int32)fileTag.Properties.Duration.TotalSeconds;
                     entity.MusicBrainzID = fileTag.Tag.MusicBrainzTrackId;
                     entity.Properties.Add("MusicBrainzArtist", fileTag.Tag.MusicBrainzReleaseArtistId);
                     entity.Properties.Add("MusicBrainzAlbum", fileTag.Tag.MusicBrainzReleaseId);
+
+                    //populate up
+                    if (entity.Parent.Kind.Equals(EntityKind.Album))
+                    {
+                        if (string.IsNullOrEmpty(entity.Parent.MusicBrainzID)) { entity.Parent.MusicBrainzID = fileTag.Tag.MusicBrainzReleaseId; }
+                        if (!entity.Parent.Properties.ContainsKey("release")) { entity.Parent.Properties.Add("release", fileTag.Tag.Year.ToString()); }
+                    }
+                    if (entity.Parent.Parent.Kind.Equals(EntityKind.Artist))
+                    {
+                        if (string.IsNullOrEmpty(entity.Parent.Parent.MusicBrainzID)) { entity.Parent.Parent.MusicBrainzID = fileTag.Tag.MusicBrainzReleaseArtistId; }
+                    }
 
                     entity.Properties.Add("track", string.Format("{0:D2}", fileTag.Tag.Track));
                     if (Util.Config.getInstance().getBooleanSetting("PutDiscInTrackNo"))

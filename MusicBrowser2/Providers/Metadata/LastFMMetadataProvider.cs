@@ -47,7 +47,10 @@ namespace MusicBrowser.Providers.Metadata
                         UpdateDic(entity.Properties, "lfm.playcount", albumDTO.Plays.ToString());
                         if (albumDTO.Release > DateTime.MinValue)
                         {
-                            UpdateDic(entity.Properties, "release", albumDTO.Release.ToString("yyyy"));
+                            if (!entity.Properties.ContainsKey("release"))
+                            {
+                                UpdateDic(entity.Properties, "release", albumDTO.Release.ToString("yyyy"));
+                            }
                         }
                         if (string.IsNullOrEmpty(entity.IconPath) && !string.IsNullOrEmpty(albumDTO.Image))
                         {

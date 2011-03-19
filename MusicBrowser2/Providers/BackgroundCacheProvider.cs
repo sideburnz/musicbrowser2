@@ -48,23 +48,22 @@ namespace MusicBrowser.Providers
 
                 // process the item in context
                 IEntity entity = _factory.getItem(item);
+
+                if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }
+
                 entity.Parent = _entity;
 
-                if (!entity.Kind.Equals(EntityKind.Unknown))
-                {
-                    // fire off the metadata providers
-                    CommonTaskQueue.Enqueue(new MetadataProviderList(entity, _cache));
-                    count++;
-                }
+                // fire off the metadata providers
+                CommonTaskQueue.Enqueue(new MetadataProviderList(entity, _cache));
 
                 // fire off cache tasks for sub items
                 if (Util.Helper.IsFolder(item.Attributes))
                 {
                     IBackgroundTaskable task = new BackgroundCacheProvider(item.FullPath, _factory, _cache, entity);
                     task.Execute();
-//                    CommonTaskQueue.Enqueue(new BackgroundCacheProvider(item.FullPath, _factory, _cache, entity));
                 }
 
+                count++;
                 if (entity.Duration > 0) { duration += entity.Duration; }
                 if (entity.Children > 0) { grandchildren += entity.Children; }
             }
