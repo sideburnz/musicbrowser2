@@ -46,9 +46,15 @@ namespace MusicBrowser.Entities
                 return _memoryCache[key];
             }
             _cacheMisses++;
-            loadCacheItemToMemory(key);
-            _memoryCache[key].Dirty = false;
-            return _memoryCache[key];
+            if (loadCacheItemToMemory(key))
+            {
+                _memoryCache[key].Dirty = false;
+                return _memoryCache[key];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void Update(string key, IEntity entity)
@@ -112,13 +118,24 @@ namespace MusicBrowser.Entities
 
         #endregion
 
-        private void loadCacheItemToMemory(string key)
+        private bool loadCacheItemToMemory(string key)
         {
             string fileName = _cacheLocation + key + ".cache.xml";
             System.IO.StreamReader file = new System.IO.StreamReader(fileName);
             string cacheContent = file.ReadToEnd();
             file.Close();
-            _memoryCache.Add(key, EntityPersistance.Deserialize(cacheContent));
+
+            IEntity cache = EntityPersistance.Deserialize(cacheContent);
+
+            // there's been a problem with the cache, remove it
+            if (cache.Kind.Equals(EntityKind.Unknown))
+            {
+                try { File.Delete(fileName); return false;  }
+                catch { }
+            }
+
+            _memoryCache.Add(key, cache);
+            return true;
         }
     }
 }

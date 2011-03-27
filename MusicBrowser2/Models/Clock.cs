@@ -11,6 +11,7 @@ namespace MusicBrowser.Models
     {
         private string _time = String.Empty;
         private readonly Timer _timer;
+        private readonly string timeformat = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;
 
         public Clock()
         {
@@ -35,7 +36,7 @@ namespace MusicBrowser.Models
         // Try to update the time.
         private void RefreshTime()
         {
-            Time = DateTime.Now.ToString("h:mm tt ");
+            Time = DateTime.Now.ToString(timeformat);
         }
     }
 

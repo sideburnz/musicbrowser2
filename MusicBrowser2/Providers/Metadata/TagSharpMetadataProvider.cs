@@ -29,13 +29,15 @@ namespace MusicBrowser.Providers.Metadata
 
         public IEntity Fetch(IEntity entity)
         {
+            IDictionary<string, string> _props = entity.Properties;
+            IEntity _parent = entity.Parent;
 
             if (!entity.Kind.Equals(EntityKind.Song)) { return entity; }
             //TODO: replace this with checks for individual fields
             if (entity.Properties.ContainsKey(MARKER)) { return entity; }
-
+#if DEBUG
             Logging.Logger.Verbose("TagSharpMetadataProvider.Fetch(" + entity.Path + ")", "start");
-
+#endif
             try
             {
                 TagLib.File fileTag = TagLib.File.Create(entity.Path);
@@ -43,35 +45,41 @@ namespace MusicBrowser.Providers.Metadata
                 if (!String.IsNullOrEmpty(fileTag.Tag.Title.Trim()))
                 {
                     entity.Title = fileTag.Tag.Title.Trim();
-                    if (!entity.Properties.ContainsKey("album")) { entity.Properties.Add("album", fileTag.Tag.Album.Trim()); }
-                    if (!entity.Properties.ContainsKey("artist")) { entity.Properties.Add("artist", fileTag.Tag.FirstPerformer.Trim()); }
+                    if (!_props.ContainsKey("album")) { _props.Add("album", fileTag.Tag.Album.Trim()); }
+                    if (!_props.ContainsKey("artist")) { _props.Add("artist", fileTag.Tag.FirstPerformer.Trim()); }
                     
                     //if (!entity.Properties.ContainsKey("album")) { 
-                    entity.Properties.Add("release", fileTag.Tag.Year.ToString());
-                    entity.Properties.Add("disc", fileTag.Tag.Disc.ToString());
-                    entity.Properties.Add("codec", fileTag.MimeType.Substring(7));
+                    _props.Add("release", fileTag.Tag.Year.ToString());
+                    _props.Add("disc", fileTag.Tag.Disc.ToString());
+                    _props.Add("codec", fileTag.MimeType.Substring(7));
                     entity.Duration = (Int32)fileTag.Properties.Duration.TotalSeconds;
                     entity.MusicBrainzID = fileTag.Tag.MusicBrainzTrackId;
-                    entity.Properties.Add("MusicBrainzArtist", fileTag.Tag.MusicBrainzReleaseArtistId);
-                    entity.Properties.Add("MusicBrainzAlbum", fileTag.Tag.MusicBrainzReleaseId);
+                    _props.Add("MusicBrainzArtist", fileTag.Tag.MusicBrainzReleaseArtistId);
+                    _props.Add("MusicBrainzAlbum", fileTag.Tag.MusicBrainzReleaseId);
 
-                    //populate up
-                    if (entity.Parent.Kind.Equals(EntityKind.Album))
+                    // populate up
+                    if (!(_parent == null))
                     {
-                        if (string.IsNullOrEmpty(entity.Parent.MusicBrainzID)) { entity.Parent.MusicBrainzID = fileTag.Tag.MusicBrainzReleaseId; }
-                        if (!entity.Parent.Properties.ContainsKey("release")) { entity.Parent.Properties.Add("release", fileTag.Tag.Year.ToString()); }
-                    }
-                    if (entity.Parent.Parent.Kind.Equals(EntityKind.Artist))
-                    {
-                        if (string.IsNullOrEmpty(entity.Parent.Parent.MusicBrainzID)) { entity.Parent.Parent.MusicBrainzID = fileTag.Tag.MusicBrainzReleaseArtistId; }
+                        if (_parent.Kind.Equals(EntityKind.Album))
+                        {
+                            if (string.IsNullOrEmpty(_parent.MusicBrainzID)) { _parent.MusicBrainzID = fileTag.Tag.MusicBrainzReleaseId; _parent.Dirty = true; }
+                            if (!_parent.Properties.ContainsKey("release")) { _parent.Properties.Add("release", fileTag.Tag.Year.ToString()); _parent.Dirty = true; }
+                        }
+                        if (!(_parent.Parent == null))
+                        {
+                            if (_parent.Parent.Kind.Equals(EntityKind.Artist))
+                            {
+                                if (string.IsNullOrEmpty(_parent.Parent.MusicBrainzID)) { _parent.Parent.MusicBrainzID = fileTag.Tag.MusicBrainzReleaseArtistId; _parent.Parent.Dirty = true; }
+                            }
+                        }
                     }
 
-                    entity.Properties.Add("track", string.Format("{0:D2}", fileTag.Tag.Track));
+                    _props.Add("track", string.Format("{0:D2}", fileTag.Tag.Track));
                     if (Util.Config.getInstance().getBooleanSetting("PutDiscInTrackNo"))
                     {
                         if (fileTag.Tag.Disc != 0)
                         {
-                            entity.Properties["track"] = string.Format("{0}.{1:D2}", fileTag.Tag.Disc, fileTag.Tag.Track);
+                            _props["track"] = string.Format("{0}.{1:D2}", fileTag.Tag.Disc, fileTag.Tag.Track);
                         }
                     }
 

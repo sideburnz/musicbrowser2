@@ -10,6 +10,8 @@ namespace MusicBrowser.Entities.Kinds
 {
     public class Home : IEntity
     {
+        static IEnumerable<string> _paths;
+
         public Home()
         {
             Title = "MusicBrowser2";
@@ -34,32 +36,35 @@ namespace MusicBrowser.Entities.Kinds
         {
             get 
             {
-                IEnumerable<string> homePaths = new List<string>();
+                if (_paths == null)
+                {
+                    _paths = new List<string>();
 
-                if ((Util.Config.getInstance().getBooleanSetting("WindowsLibrarySupport")) && !(Environment.UserName.ToLower().StartsWith("mcx")))
-                {
-                    IFolderItemsProvider folderItemsProvider;
-                    folderItemsProvider = new WindowsLibraryProvider();
-                    homePaths = folderItemsProvider.getItems("music");
-                    VirtualFolderProvider.WriteVF(Util.Config.getInstance().getSetting("ManualLibraryFile"), homePaths);
-                }
-                else
-                {
-                    string vfFile = Util.Config.getInstance().getSetting("ManualLibraryFile");
-                    if (System.IO.File.Exists(vfFile))
+                    if ((Util.Config.getInstance().getBooleanSetting("WindowsLibrarySupport")) && !(Environment.UserName.ToLower().StartsWith("mcx")))
                     {
                         IFolderItemsProvider folderItemsProvider;
-                        folderItemsProvider = new VirtualFolderProvider();
-                        homePaths = folderItemsProvider.getItems(vfFile);
+                        folderItemsProvider = new WindowsLibraryProvider();
+                        _paths = folderItemsProvider.getItems("music");
+                        VirtualFolderProvider.WriteVF(Util.Config.getInstance().getSetting("ManualLibraryFile"), _paths);
                     }
                     else
                     {
-                        Exception ex = new Exception("Virtual Folder " + vfFile + " not found");
-                        Logging.Logger.Error(ex);
-                        throw ex;
+                        string vfFile = Util.Config.getInstance().getSetting("ManualLibraryFile");
+                        if (System.IO.File.Exists(vfFile))
+                        {
+                            IFolderItemsProvider folderItemsProvider;
+                            folderItemsProvider = new VirtualFolderProvider();
+                            _paths = folderItemsProvider.getItems(vfFile);
+                        }
+                        else
+                        {
+                            Exception ex = new Exception("Virtual Folder " + vfFile + " not found");
+                            Logging.Logger.Error(ex);
+                            throw ex;
+                        }
                     }
                 }
-                return homePaths;
+                return _paths;
             }
         }
     }

@@ -20,7 +20,7 @@ namespace MusicBrowser.Util
                                         { "WindowsLibrarySupport", true.ToString() },
                                         { "LogLevel", "error" },
                                         { "LogDestination", "file" },
-                                        { "EnableHTTPLogging", false.ToString() },
+//                                        { "EnableHTTPLogging", false.ToString() },
                                         { "LogFile", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
                                         { "ManualLibraryFile", Path.Combine(Helper.AppFolder, "MusicLibrary.vf") },
                                         { "EnableCache", true.ToString() },
@@ -46,7 +46,9 @@ namespace MusicBrowser.Util
                                         { "FormatForSong", "[track] - [title]" },
                                         { "FormatForAlbum", "[title]" },
                                         { "FormatForArtist", "[title]" },
-                                        { "FormatForPlaylist", "[title]" }
+                                        { "FormatForPlaylist", "[title]" },
+
+                                        { "ThreadPoolSize", "2" }
                                       };
 
         #region singleton
@@ -80,12 +82,9 @@ namespace MusicBrowser.Util
 
         public static Config getInstance()
         {
-            lock (Padlock)
-            {
-                if (_instance != null) return _instance;
-                _instance = new Config();
-                return _instance;
-            }
+            if (_instance != null) return _instance;
+            _instance = new Config();
+            return _instance;
         }
         #endregion
 
@@ -149,7 +148,7 @@ namespace MusicBrowser.Util
             }
             else
             {
-                node.Value = value;
+                node.InnerText = value;
             }
             _xml.Save(configFile);
         }
@@ -170,7 +169,7 @@ namespace MusicBrowser.Util
         {
             if (value.ToLower().StartsWith("the "))
             {
-                if (Config.getInstance().getBooleanSetting("IgnoreStartingThe"))
+                if (_instance.getBooleanSetting("IgnoreStartingThe"))
                 {
                     return value.Substring(4);
                 }
@@ -184,18 +183,18 @@ namespace MusicBrowser.Util
             {
                 case EntityKind.Home:
                     {
-                        return Config.getInstance().getSetting("ViewForHome");
+                        return _instance.getSetting("ViewForHome");
                     }
                 case EntityKind.Artist:
                     {
-                        return Config.getInstance().getSetting("ViewForArtist");
+                        return _instance.getSetting("ViewForArtist");
                     }
                 case EntityKind.Album:
                     {
-                        return Config.getInstance().getSetting("ViewForAlbum");
+                        return _instance.getSetting("ViewForAlbum");
                     }
             }
-            return Config.getInstance().getSetting("ViewForUnknown");
+            return _instance.getSetting("ViewForUnknown");
         }
 
         public static string handleEntityDescription(IEntity entity)
@@ -208,27 +207,27 @@ namespace MusicBrowser.Util
                 case EntityKind.Home: return entity.Title;
                 case EntityKind.Song:
                     {
-                        format = Util.Config.getInstance().getSetting("FormatForSong");
+                        format = _instance.getSetting("FormatForSong");
                         break;
                     }
                 case EntityKind.Album:
                     {
-                        format = Util.Config.getInstance().getSetting("FormatForAlbum");
+                        format = _instance.getSetting("FormatForAlbum");
                         break;
                     }
                 case EntityKind.Artist:
                     {
-                        format = Util.Config.getInstance().getSetting("FormatForArtist");
+                        format = _instance.getSetting("FormatForArtist");
                         break;
                     }
                 case EntityKind.Playlist:
                     {
-                        format = Util.Config.getInstance().getSetting("FormatForPlaylist");
+                        format = _instance.getSetting("FormatForPlaylist");
                         break;
                     }
                 default:
                     {
-                        format = Util.Config.getInstance().getSetting("FormatForUnknown");
+                        format = _instance.getSetting("FormatForUnknown");
                         break;
                     }
             }
@@ -248,7 +247,7 @@ namespace MusicBrowser.Util
                 }
                 else
                 {
-                    format = format.Replace("[" + token + "]", "");
+                    format = format.Replace("[" + token + "]", string.Empty);
                 }
             }
             return format;

@@ -21,14 +21,21 @@ namespace MusicBrowser.Providers
 
     public class ImageProvider
     {
-        const int THUMBSIZE = 250;
+        const int THUMBSIZE = 200;
 
         public static Bitmap Convert(TagLib.IPicture picture)
         {
-            MemoryStream ms = new MemoryStream();
-            byte[] bytes = picture.Data.Data;
-            ms.Write(bytes, 0, bytes.Length);
-            return new Bitmap(ms);
+            try
+            {
+                MemoryStream ms = new MemoryStream();
+                byte[] bytes = picture.Data.Data;
+                ms.Write(bytes, 0, bytes.Length);
+                return new Bitmap(ms);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
@@ -50,12 +57,13 @@ namespace MusicBrowser.Providers
             bitmap.Save(filename, System.Drawing.Imaging.ImageFormat.Jpeg);
         }
 
+        static IEnumerable<string> images = null;
+
         public static string locateFanArt(string path, ImageType type)
         {
             string filename = "folder";
             if (type == ImageType.Backdrop) { filename = "backdrop"; }
-
-            IEnumerable<string> images = StandingData.GetStandingData("images");
+            if (images == null) { images = StandingData.GetStandingData("images"); }
             foreach (string item in images)
             {
                 string tmp = string.Concat(path, "\\", filename, item);

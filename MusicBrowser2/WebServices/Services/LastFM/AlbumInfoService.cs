@@ -33,8 +33,9 @@ namespace MusicBrowser.WebServices.Services.LastFM
 
         public IWebServiceDTO Fetch(IWebServiceDTO DTO)
         {
+#if DEBUG
             Logging.Logger.Verbose("LastFM.AlbumInfoService", "start");
-
+#endif
             AlbumInfoServiceDTO localDTO = (AlbumInfoServiceDTO)DTO;
             SortedDictionary<string,string> parms = new SortedDictionary<string,string>();
 

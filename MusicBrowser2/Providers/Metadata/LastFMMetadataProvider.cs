@@ -25,9 +25,9 @@ namespace MusicBrowser.Providers.Metadata
                 // only check for new info once a week
                 if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-7)) { return entity; }
             }
-
+#if DEBUG
             Logging.Logger.Verbose("LastFMMetadataProvider.Fetch", "start");
-
+#endif
             WebServiceProvider LFMProvider = new LastFMWebProvider();
 
             switch (entity.Kind)

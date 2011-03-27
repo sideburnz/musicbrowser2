@@ -26,8 +26,9 @@ namespace MusicBrowser.Models
 
         public FolderModel(IEntity parentEntity, Breadcrumbs crumbs, EntityCollection entities)
         {
+#if DEBUG
             Logging.Logger.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", path: " + crumbs.Path + ", size: " + entities.Count + ")", "start");  
-
+#endif
             _crumbs = new Breadcrumbs(crumbs);
             _crumbs.Add(parentEntity);
             _parentEntity = parentEntity;

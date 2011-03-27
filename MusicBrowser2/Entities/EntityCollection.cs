@@ -6,9 +6,11 @@ using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Entities.Kinds;
+using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Entities
 {
+
     public class EntityCollection : List<IEntity>
     {
         public void Populate(IEnumerable<FileSystemItem> items, IEntityFactory entityFactory, IEntity parent)
@@ -21,9 +23,6 @@ namespace MusicBrowser.Entities
 
             foreach (FileSystemItem item in items)
             {
-                if (Util.Helper.IsNotEntity(item.FullPath)) { continue; }
-                if (item.Name.ToLower() == "metadata") { continue; }
-
                 IEntity entity = entityFactory.getItem(item);
 
                 if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }

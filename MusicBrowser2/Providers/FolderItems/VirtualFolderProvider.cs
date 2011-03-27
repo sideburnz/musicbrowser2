@@ -27,8 +27,9 @@ namespace MusicBrowser.Providers.FolderItems
         /// <returns>list of existing directories from .vf file</returns>
         public IEnumerable<string> getItems(string URI)
         {
+#if DEBUG
             Logging.Logger.Verbose(this.GetType().ToString(), "start");
-
+#endif
             foreach (string line in GetFileContents(URI))
             {
                 if (!line.StartsWith("folder: ")) continue;

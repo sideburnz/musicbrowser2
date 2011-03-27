@@ -15,8 +15,6 @@ namespace MusicBrowser.Util
     {
         public static IEnumerable<string> GetStandingData(string Category)
         {
-            Logging.Logger.Debug("Attempting to loaded and read data on cat '" + Category + "' from standing data file");
-
             string fileName = Helper.AppFolder + "\\standingdata.xml";
             XmlDocument XMLDoc = new XmlDocument();
             string XpathString = string.Format("/standingdata/section[@name='{0}']/item", Category.ToLower());
@@ -39,8 +37,6 @@ namespace MusicBrowser.Util
                 Logging.Logger.Error(Ex);
                 return null;
             }
-
-            Logging.Logger.Debug("file opened, using XPath: " + XpathString);
 
             //  get the data
             foreach (XmlNode node in XMLDoc.SelectNodes(XpathString))

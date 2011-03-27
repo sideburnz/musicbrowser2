@@ -29,6 +29,8 @@ namespace MusicBrowser.Entities
         {
             // don't waste time trying to determine a known not entity
             if (Util.Helper.IsNotEntity(item.FullPath)) { return new Unknown(); }
+            if (item.Name.ToLower() == "metadata") { return new Unknown(); }
+
 
             IEntity entity;
             string metadataPath = Directory.GetParent(item.FullPath) + "\\metadata\\";

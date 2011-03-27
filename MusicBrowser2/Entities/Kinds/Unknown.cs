@@ -17,6 +17,5 @@ namespace MusicBrowser.Entities.Kinds
         {
             get { return EntityKind.Unknown; }
         }
-
     }
 }

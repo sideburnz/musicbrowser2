@@ -68,7 +68,7 @@ namespace MusicBrowser.Entities.Kinds
                 base.Parent = value;
                 if (!Properties.ContainsKey("album"))
                 {
-                    if (value.Kind.CompareTo(EntityKind.Album) == 0)
+                    if (value.Kind.Equals(EntityKind.Album))
                     {
                         Properties.Add("album", value.Title);
                         Dirty = true;
@@ -76,7 +76,7 @@ namespace MusicBrowser.Entities.Kinds
                 }
                 if (!Properties.ContainsKey("artist"))
                 {
-                    if (value.Kind.CompareTo(EntityKind.Album) == 0 && value.Properties.ContainsKey("artist"))
+                    if (value.Kind.Equals(EntityKind.Album) && value.Properties.ContainsKey("artist"))
                     {
                         Properties.Add("artist", value.Properties["artist"]);
                         Dirty = true;
@@ -84,7 +84,7 @@ namespace MusicBrowser.Entities.Kinds
                 }
                 if (Util.Config.getInstance().getBooleanSetting("UseFolderImageForTracks"))
                 {
-                    IconPath = Parent.IconPath;
+                    IconPath = value.IconPath;
                 }
             }
         }

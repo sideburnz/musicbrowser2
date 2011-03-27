@@ -27,8 +27,9 @@ namespace MusicBrowser.Providers.Metadata
                 if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-14)) { return entity; }
             }
 
+#if DEBUG
             Logging.Logger.Verbose("HTBackdropMetadataProvider.Fetch(" + entity.Path + ")", "start");
-
+#endif
             // set up the web service classes
             ArtistImageServiceDTO dto = new ArtistImageServiceDTO();
             ArtistImageService service = new ArtistImageService();
@@ -48,12 +49,15 @@ namespace MusicBrowser.Providers.Metadata
             if (dto.ThumbList.Count > 0) 
             { 
                 string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Thumbs");
+                // randomize the list
+                dto.ThumbList = dto.ThumbList.OrderBy(i => new Guid()).ToList();
                 ImageProvider.Save(ImageProvider.Download(dto.ThumbList[0], ImageType.Thumb), tmpThumb);
                 entity.IconPath = tmpThumb;
             }
             if (dto.BackdropList.Count > 0) 
             { 
                 string tmpBack = Util.Helper.ImageCacheFullName(entity.CacheKey, "Backgrounds");
+                dto.BackdropList = dto.BackdropList.OrderBy(i => new Guid()).ToList();
                 ImageProvider.Save(ImageProvider.Download(dto.BackdropList[0], ImageType.Backdrop), tmpBack);
                 entity.BackgroundPath = tmpBack;
             }

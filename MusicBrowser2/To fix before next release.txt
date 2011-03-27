@@ -1,4 +1,12 @@
-﻿- "PutDiscInTrackNo" has no effect if changed after data's been cached
+﻿2.2.1.9
+- handle non-XML responses from inet providers better
+- handle broken image files
+
+
+
+
+
+- "PutDiscInTrackNo" has no effect if changed after data's been cached
 - rework the song details MCML
 - sort out the footer summary 2 (select provider in config)
 	Last.fm

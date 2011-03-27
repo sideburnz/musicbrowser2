@@ -23,9 +23,9 @@ namespace MusicBrowser.Providers.Metadata
             if (!enabled) { return entity; }
             if (!entity.Kind.Equals(EntityKind.Song)) { return entity; }
             if (entity.Properties.ContainsKey(MARKER)) { return entity; }
-
+#if DEBUG
             Logging.Logger.Verbose("MediaInfoProvider.Fetch(" + entity.Path + ")", "start");
-
+#endif
             try
             {
 
@@ -48,11 +48,6 @@ namespace MusicBrowser.Providers.Metadata
                         case 2: entity.Properties.Add("channels", "Stereo"); break;
                         default: entity.Properties.Add("channels", audioChannels + " channels"); break;
                     }
-
-                    // format
-                    string audioFormat;
-                    audioFormat = mediaInfo.Get(StreamKind.Audio, 0, "Format");
-                    entity.Properties.Add("format", audioFormat);
 
                     // sample resolution
                     string audioResolution;

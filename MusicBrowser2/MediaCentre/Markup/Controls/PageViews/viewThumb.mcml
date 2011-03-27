@@ -49,7 +49,7 @@
             <Children>
               <Repeater Name="viewThumbRepeater" ContentName="Thumb">
                 <Layout>
-                  <GridLayout Orientation="Vertical" Rows="3" Columns="8" AllowWrap="true" Spacing="1,1" Repeat="WhenTooBig" RepeatGap="50"/>
+                  <GridLayout Orientation="Vertical" Rows="3" Columns="8" AllowWrap="true" Spacing="1,1" Repeat="WhenTooBig" RepeatGap="100"/>
                 </Layout>
                 <Animations>
                   <Animation Type="Move">

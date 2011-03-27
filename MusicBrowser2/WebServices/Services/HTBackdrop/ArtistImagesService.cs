@@ -32,9 +32,9 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
         public IWebServiceDTO Fetch(IWebServiceDTO DTO)
         {
             ArtistImageServiceDTO localDTO = (ArtistImageServiceDTO)DTO;
-
+#if DEBUG
             Logging.Logger.Verbose("HTBackdrop.ArtistImageService.Fetch(" + localDTO.ArtistName + localDTO.ArtistMusicBrainzID +")", "start");
-
+#endif
             _provider.URL = BuildURL(localDTO);
             _provider.Method = "GET";
 

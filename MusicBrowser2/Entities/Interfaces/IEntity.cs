@@ -33,6 +33,7 @@ namespace MusicBrowser.Entities.Interfaces
         {
             _properties = new Dictionary<string, string>();
             _view = Config.handleEntityView(Kind).ToLower();
+            DefaultBackgroundPath = string.Empty;
             Dirty = false;
         }
 
@@ -95,7 +96,7 @@ namespace MusicBrowser.Entities.Interfaces
             {
                 // implementing with a "DefaultIconPath" allows the true resx path of the default icon
                 // to be hidden from things like the cache
-                if (String.IsNullOrEmpty(IconPath)) 
+                if (String.IsNullOrEmpty(IconPath) || !System.IO.File.Exists(IconPath)) 
                 {
                     return getImage(DefaultIconPath); 
                 }
@@ -123,7 +124,7 @@ namespace MusicBrowser.Entities.Interfaces
             {
                 if (_version == 0)
                 { 
-                    _version = Util.Helper.ParseVersion(null); 
+                    _version = Util.Helper.ParseVersion("0.0.0.0"); 
                 }
                 return _version;
             }

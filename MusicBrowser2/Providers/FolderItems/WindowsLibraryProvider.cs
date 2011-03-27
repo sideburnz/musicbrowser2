@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Microsoft.Win32;
 using System.Linq;
 using System.Xml;
 using MusicBrowser.Providers.FolderItems;
@@ -20,18 +22,15 @@ namespace MusicBrowser.Providers.FolderItems
 
         public System.Collections.Generic.IEnumerable<string> getItems(string library)
         {
+#if DEBUG
             Logging.Logger.Verbose(this.GetType().ToString(), "start");
-
-            string sUserAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            // really we should be reading this key in the registry {1B3EA5DC-B587-4786-B4EF-BD1DC332AEAE}
-            // or even better a SpecialFolder type that reads from this registry key
+#endif
+            
             XmlDocument musicLib = new XmlDocument();
-            string libDef = string.Format("{0}\\Microsoft\\Windows\\Libraries\\{1}.library-ms", sUserAppData, library);
 
             try
             {
-                musicLib.Load(libDef);
+                musicLib.Load(getLibraryLocation());
             }
             catch (Exception ex)
             {
@@ -50,6 +49,18 @@ namespace MusicBrowser.Providers.FolderItems
                     yield return path;
                 }
             }
+        }
+
+        private string getLibraryLocation()
+        {
+            //HKEY_USERS\[user]\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders\{1B3EA5DC-B587-4786-B4EF-BD1DC332AEAE}
+            RegistryKey pathKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\");
+            string path = (pathKey.GetValue("{1B3EA5DC-B587-4786-B4EF-BD1DC332AEAE}").ToString());
+            //HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{2112AB0A-C86A-4ffe-A368-0DE96E47012E}\RelativePath
+            RegistryKey fileKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FolderDescriptions\\{2112AB0A-C86A-4ffe-A368-0DE96E47012E}\\");
+            string file = fileKey.GetValue("RelativePath").ToString();
+
+            return Path.Combine(path, file);
         }
 
         #endregion

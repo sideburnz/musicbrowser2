@@ -59,72 +59,85 @@ namespace MusicBrowser.Entities
         public static IEntity Deserialize(string data)
         {
             IEntity entity;
-            XmlDocument xml = new XmlDocument();
-           
-            xml.LoadXml(data);
 
-            EntityKind kind = EntityKindParse(Helper.ReadXmlNode(xml, "EntityXML/@type"));
-            switch (kind)
+            try
             {
-                case EntityKind.Album:
-                    {
-                        entity = new Album();
-                        break;
-                    }
-                case EntityKind.Artist:
-                    {
-                        entity = new Artist();
-                        break;
-                    }
-                case EntityKind.Folder:
-                    {
-                        entity = new Folder();
-                        break;
-                    }
-                case EntityKind.Home:
-                    {
-                        entity = new Home();
-                        break;
-                    }
-                case EntityKind.Playlist:
-                    {
-                        entity = new Playlist();
-                        break;
-                    }
-                case EntityKind.Song:
-                    {
-                        entity = new Song();
-                        break;
-                    }
-                default:
-                    {
-                        entity = new Unknown();
-                        break;
-                    }
+                XmlDocument xml = new XmlDocument();
+
+                xml.LoadXml(data);
+
+                EntityKind kind = EntityKindParse(Helper.ReadXmlNode(xml, "EntityXML/@type"));
+                switch (kind)
+                {
+                    case EntityKind.Album:
+                        {
+                            entity = new Album();
+                            break;
+                        }
+                    case EntityKind.Artist:
+                        {
+                            entity = new Artist();
+                            break;
+                        }
+                    case EntityKind.Folder:
+                        {
+                            entity = new Folder();
+                            break;
+                        }
+                    case EntityKind.Home:
+                        {
+                            entity = new Home();
+                            break;
+                        }
+                    case EntityKind.Playlist:
+                        {
+                            entity = new Playlist();
+                            break;
+                        }
+                    case EntityKind.Song:
+                        {
+                            entity = new Song();
+                            break;
+                        }
+                    default:
+                        {
+                            throw new Exception("unknown type");
+                        }
+                }
+
+                // complex reads
+                int i;
+                int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Duration"), out i);
+                entity.Duration = i;
+                string ver;
+                ver = Helper.ReadXmlNode(xml, "EntityXML/@version");
+                if (!String.IsNullOrEmpty(ver)) { entity.Version = Helper.ParseVersion(ver); }
+
+                // simple reads
+                entity.Title = Helper.ReadXmlNode(xml, "EntityXML/Title");
+                entity.Summary = Helper.ReadXmlNode(xml, "EntityXML/Summary");
+                entity.MusicBrainzID = Helper.ReadXmlNode(xml, "EntityXML/MusicBrainzID");
+
+                // conditional reads
+                string bg = Helper.ReadXmlNode(xml, "EntityXML/Images/Background");
+                if (File.Exists(bg)) { entity.BackgroundPath = bg; }
+                string ip = Helper.ReadXmlNode(xml, "EntityXML/Images/Icon");
+                if (File.Exists(ip)) { entity.IconPath = ip; }
+
+
+                IDictionary<string, string> local = entity.Properties;
+
+                // compound reads
+                foreach (XmlNode node in xml.SelectNodes("/EntityXML/Properties/Item"))
+                {
+                    local.Add(node.Attributes["key"].InnerText, node.Attributes["value"].InnerText);
+                }
             }
-
-            // complex reads
-            int i;
-            int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Duration"), out i);
-            entity.Duration = i;
-            string ver;
-            ver = Helper.ReadXmlNode(xml, "EntityXML/@version");
-            if (!String.IsNullOrEmpty(ver)) { entity.Version = Helper.ParseVersion(ver); }
-
-            // simple reads
-            entity.Path = Helper.ReadXmlNode(xml, "EntityXML/@path");
-            entity.Title = Helper.ReadXmlNode(xml, "EntityXML/Title");
-            entity.Summary = Helper.ReadXmlNode(xml, "EntityXML/Summary");
-            entity.MusicBrainzID = Helper.ReadXmlNode(xml, "EntityXML/MusicBrainzID");
-            entity.BackgroundPath = Helper.ReadXmlNode(xml, "EntityXML/Images/Background");
-            entity.IconPath = Helper.ReadXmlNode(xml, "EntityXML/Images/Icon");
-
-            // compound reads
-            foreach (XmlNode node in xml.SelectNodes("/EntityXML/Properties/Item"))
+            catch
             {
-                entity.Properties.Add(node.Attributes["key"].InnerText, node.Attributes["value"].InnerText);
+                // there's been a problem
+                return new Unknown();
             }
-
             return entity;
         }
 

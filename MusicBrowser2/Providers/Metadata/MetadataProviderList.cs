@@ -24,21 +24,24 @@ namespace MusicBrowser.Providers.Metadata
 
         public static void ProcessEntity(IEntity entity, IEntityCache cache)
         {
+#if DEBUG
             Logging.Logger.Verbose("executing background metadata provider task for " + entity.Path, "start");
-
+#endif
             foreach (IMetadataProvider provider in GetProviders())
             {
-
+#if DEBUG
                 Logging.Logger.Verbose(provider.GetType().ToString(), "start");
-
+#endif
                 try
                 {
                     entity = provider.Fetch(entity);
                 }
                 catch (Exception e)
                 {
+#if DEBUG
                     Logging.Logger.Error(new Exception(string.Format("MetadataProviderList failed whilst running {0} for {1}\r", provider.GetType().ToString(), entity.Path), e));
-                }
+#endif
+                    }
             }
             entity.CalculateValues();
             cache.Update(entity.CacheKey, entity);
