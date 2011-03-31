@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MusicBrowser.Entities;
 using MusicBrowser.Entities.Interfaces;
 using MusicBrowser.Entities.Kinds;
 using Microsoft.MediaCenter;
@@ -42,7 +43,7 @@ namespace MusicBrowser.MediaCentre
         private IEntity _context;
         private PlayState _playState;
         private double _progress;
-        private IEntityFactory _factory;
+        private EntityFactory _factory;
 
         public IEntity Context
         {
@@ -59,7 +60,7 @@ namespace MusicBrowser.MediaCentre
             get { return _progress; }
         }
 
-        public IEntityFactory Factory
+        public EntityFactory Factory
         {
             set { _factory = value; }
         }

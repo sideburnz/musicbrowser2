@@ -39,16 +39,12 @@ namespace MusicBrowser.Providers
                 findHandle = FileSystem.FindFirstFileW(path, out findData);
                 if (findHandle != invalidHandleValue)
                 {
-                    // ignore hidden files and folders
-                    if ((findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden)
-                    {
-                        FileSystemItem fsi = new FileSystemItem(path, 
-                                                                findData.cFileName,
-                                                                findData.dwFileAttributes,
-                                                                ToDateTime(findData.ftLastWriteTime),
-                                                                ToDateTime(findData.ftCreationTime));
-                        info = fsi;
-                    }
+                    FileSystemItem fsi = new FileSystemItem(path,
+                                                            findData.cFileName,
+                                                            findData.dwFileAttributes,
+                                                            ToDateTime(findData.ftLastWriteTime),
+                                                            ToDateTime(findData.ftCreationTime));
+                    info = fsi;
                 }
             }
             finally
@@ -67,26 +63,26 @@ namespace MusicBrowser.Providers
             FileSystem.Win32FindDataw findData;
             IntPtr findHandle = invalidHandleValue;
 
+            directory = directory + (directory.EndsWith(@"\") ? "" : @"\");
+
             List<FileSystemItem> info = new List<FileSystemItem>();
             try
             {
-                findHandle = FileSystem.FindFirstFileW(directory + @"\*", out findData);
+                findHandle = FileSystem.FindFirstFileW(directory + "*", out findData);
                 if (findHandle != invalidHandleValue)
                 {
                     do
                     {
                         if (findData.cFileName.Equals(".") || findData.cFileName.Equals("..")) continue;
-                        string fullpath = directory + (directory.EndsWith(@"\") ? "" : @"\") + findData.cFileName;
-                        // ignore hidden files and folders
-                        if ((findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden)
-                        {
-                            FileSystemItem fsi = new FileSystemItem(fullpath.ToLower(), 
-                                                                    findData.cFileName,
-                                                                    findData.dwFileAttributes,
-                                                                    ToDateTime(findData.ftLastWriteTime),
-                                                                    ToDateTime(findData.ftCreationTime));
-                            info.Add(fsi);
-                        }
+                        if ((findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden) continue;
+
+                        string fullpath = directory + findData.cFileName;
+                        FileSystemItem fsi = new FileSystemItem(fullpath.ToLower(),
+                                                                findData.cFileName,
+                                                                findData.dwFileAttributes,
+                                                                ToDateTime(findData.ftLastWriteTime),
+                                                                ToDateTime(findData.ftCreationTime));
+                        info.Add(fsi);
                     }
                     while (FileSystem.FindNextFile(findHandle, out findData));
                 }

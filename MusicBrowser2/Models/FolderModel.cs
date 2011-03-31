@@ -178,17 +178,17 @@ namespace MusicBrowser.Models
             }
         }
 
-        public bool ShowClock
+        public static bool ShowClock
         {
             get { return Config.getInstance().getBooleanSetting("ShowClock"); }
         }
 
-        public bool isPlaying
+        public static bool isPlaying
         {
             get { return MediaContext.GetInstance().PlayState == PlayState.Playing; }
         }
 
-        public bool isPaused
+        public static bool isPaused
         {
             get { return MediaContext.GetInstance().PlayState == PlayState.Paused; }
         }

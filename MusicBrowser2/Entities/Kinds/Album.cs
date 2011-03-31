@@ -12,7 +12,7 @@ namespace MusicBrowser.Entities.Kinds
     {
         public Album()
         {
-            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageAlbum";
+            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageAlbum";
         }
 
         public override EntityKind Kind
@@ -95,10 +95,9 @@ namespace MusicBrowser.Entities.Kinds
             set
             {
                 base.Parent = value;
-                if (Properties.ContainsKey("artist")) { return; }
-                if (value.Kind.CompareTo(EntityKind.Artist) == 0)
+                if (value.Kind.Equals(EntityKind.Artist))
                 {
-                    Properties.Add("artist", value.Title);
+                    this.SetProperty("artist", value.Title, false);
                     Dirty = true;
                 }
             }

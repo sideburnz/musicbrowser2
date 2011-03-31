@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Web;
@@ -75,7 +74,7 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
             return localDTO;
         }
 
-        private string BuildURL (ArtistImageServiceDTO dto)
+        private static string BuildURL(ArtistImageServiceDTO dto)
         {
             StringBuilder URL = new StringBuilder();
             URL.Append("http://htbackdrops.com/api/" + API_KEY + "/searchXML?");

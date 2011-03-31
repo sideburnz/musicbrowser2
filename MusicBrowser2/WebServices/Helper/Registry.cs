@@ -30,15 +30,5 @@ namespace MusicBrowser.WebServices.Helper
                 registry.Close();
             }
         }
-
-        public static void Write(string path, string key, string value)
-        {
-            RegistryKey registry = Microsoft.Win32.Registry.LocalMachine.CreateSubKey(subKey + path);
-            if (registry != null)
-            {
-                registry.SetValue(key, value);
-                registry.Close();
-            }
-        }
     }
 }

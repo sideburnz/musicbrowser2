@@ -13,7 +13,7 @@ namespace MusicBrowser.Entities
 
     public class EntityCollection : List<IEntity>
     {
-        public void Populate(IEnumerable<FileSystemItem> items, IEntityFactory entityFactory, IEntity parent)
+        public void Populate(IEnumerable<FileSystemItem> items, EntityFactory entityFactory, IEntity parent)
         {
             //this is a .Net3.5 app, .Net4 would allow for some parallelization, something like
             //Parallel.ForEach(IFolderItemsProvider.getItems(path), () => IEntityFactory.getItem(item));
@@ -60,8 +60,8 @@ namespace MusicBrowser.Entities
     {
         public int Compare(IEntity x, IEntity y)
         {
-            bool xIsFolder = (x.Kind == EntityKind.Album) || (x.Kind == EntityKind.Artist);
-            bool yIsFolder = (y.Kind == EntityKind.Album) || (y.Kind == EntityKind.Artist);
+            bool xIsFolder = (x.Kind.Equals(EntityKind.Album)) || (x.Kind.Equals(EntityKind.Artist));
+            bool yIsFolder = (y.Kind.Equals(EntityKind.Album)) || (y.Kind.Equals(EntityKind.Artist));
 
             // folders (artists and albums) have a higher priority than playlists and songs
             if (xIsFolder && !(yIsFolder))

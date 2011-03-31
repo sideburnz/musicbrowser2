@@ -14,7 +14,7 @@
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumb"/>
-  <!--<Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewCover"/>-->
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewCover"/>
   
   <UI Name="pageMain">
 
@@ -121,7 +121,7 @@
             <Children>
               <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
               <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
-              <!--<me:viewCover Visible="true" FolderModel="[FolderModel]" Application="[Application]" />-->              
+              <me:viewCover Visible="true" FolderModel="[FolderModel]" Application="[Application]" />              
             </Children>
           </Panel>
 

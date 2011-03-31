@@ -12,7 +12,7 @@ namespace MusicBrowser.Entities.Kinds
     {
         public Song()
         {
-            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageSong";
+            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageSong";
         }
 
         public override EntityKind Kind
@@ -54,7 +54,7 @@ namespace MusicBrowser.Entities.Kinds
             if (Properties.ContainsKey("resolution")) { sb.Append(Properties["resolution"] + "  "); }
             if (Properties.ContainsKey("channels")) { sb.Append(Properties["channels"] + "  "); }
             if (Properties.ContainsKey("samplerate")) { sb.Append(Properties["samplerate"] + "  "); }
-            if (Properties.ContainsKey("format")) { sb.Append(Properties["format"] + "  "); }
+            if (Properties.ContainsKey("codec")) { sb.Append(Properties["codec"] + "  "); }
 
             if (sb.Length > 0) { base.ShortSummaryLine1 = "Song  (" + sb.ToString().Trim() + ")"; }
             base.CalculateValues();
@@ -66,21 +66,15 @@ namespace MusicBrowser.Entities.Kinds
             set
             {
                 base.Parent = value;
-                if (!Properties.ContainsKey("album"))
+                if (value.Kind.Equals(EntityKind.Album))
                 {
-                    if (value.Kind.Equals(EntityKind.Album))
-                    {
-                        Properties.Add("album", value.Title);
-                        Dirty = true;
-                    }
+                    SetProperty("album", value.Title, false);
+                    Dirty = true;
                 }
-                if (!Properties.ContainsKey("artist"))
+                if (value.Kind.Equals(EntityKind.Album) && value.Properties.ContainsKey("artist"))
                 {
-                    if (value.Kind.Equals(EntityKind.Album) && value.Properties.ContainsKey("artist"))
-                    {
-                        Properties.Add("artist", value.Properties["artist"]);
-                        Dirty = true;
-                    }
+                    SetProperty("artist", value.Properties["artist"], false);
+                    Dirty = true;
                 }
                 if (Util.Config.getInstance().getBooleanSetting("UseFolderImageForTracks"))
                 {

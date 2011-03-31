@@ -22,12 +22,6 @@ namespace MusicBrowser.Providers
         }
 
         public HTTPProvider() {}
-        public HTTPProvider(string URL, string Body, HTTPMethod Method) 
-        { 
-            _URL = URL;
-            _body = Body;
-            _method = Method;
-        }
 
         public string URL { set { _URL = value; } }
         public string Body { set { _body = value; } }
@@ -48,6 +42,7 @@ namespace MusicBrowser.Providers
             byte[] byte1;
             HttpWebRequest request;
             WebResponse response;
+            HttpWebResponse HTTPresponse;
 
             // set up the request
             try
@@ -75,6 +70,7 @@ namespace MusicBrowser.Providers
             try
             {
                 response = request.GetResponse();
+                HTTPresponse = (HttpWebResponse)response;
             }
             catch (Exception Ex)
             {
@@ -85,7 +81,7 @@ namespace MusicBrowser.Providers
 
             try
             {
-                if (((HttpWebResponse)response).StatusCode == HttpStatusCode.OK)
+                if (HTTPresponse.StatusCode == HttpStatusCode.OK)
                 {
                     // load the response into an XML document
                     Stream dataStream = response.GetResponseStream();
@@ -96,12 +92,12 @@ namespace MusicBrowser.Providers
                 }
                 else
                 {
-                    throw new IOException(String.Format("HTTP Provider - HTTP error response. Response: {0} URL: {1}", ((HttpWebResponse)response).StatusCode, _URL));
+                    throw new IOException(String.Format("HTTP Provider - HTTP error response. Response: {0} URL: {1}", HTTPresponse.StatusCode, _URL));
                 }
             }
             catch (IOException IOE)
             {
-                throw IOE;
+                throw;
             }
             catch (Exception Ex)
             {

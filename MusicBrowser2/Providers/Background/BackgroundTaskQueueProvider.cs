@@ -26,7 +26,7 @@ namespace MusicBrowser.Providers.Background
         private int _activeThreads; 
         private int _maximumThreads;
 
-        public BackgroundTaskQueueProvider(ThreadPriority priority, int poolsize) 
+        public BackgroundTaskQueueProvider(ThreadPriority priority, int poolSize) 
         { 
             // set up the task queue 
             _queue = new List<IBackgroundTaskable>();
@@ -34,9 +34,9 @@ namespace MusicBrowser.Providers.Background
             _activeThreads = 0;
 
             // spin up the threads 
-            _maximumThreads = poolsize; 
-            _threadpool = new Thread[poolsize]; 
-            for (int i = 0; i < poolsize; i++) 
+            _maximumThreads = poolSize;
+            _threadpool = new Thread[poolSize];
+            for (int i = 0; i < poolSize; i++) 
             { 
                 _threadpool[i] = new Thread(Processor); 
                 _threadpool[i].Priority = priority; 
@@ -105,7 +105,7 @@ namespace MusicBrowser.Providers.Background
                     }
                     catch (Exception e)
                     {
-                        Logging.Logger.Error(new Exception(string.Format("Thread {0} failed whilst running {1}\r", id, task.Title), e)); 
+                        Logging.Logger.Error(new Exception(string.Format("Thread {0} failed whilst running {1}\r", id, task.Title), e));
                     }
                 } 
                 if ((_queue.Count + 1) < _activeThreads) 

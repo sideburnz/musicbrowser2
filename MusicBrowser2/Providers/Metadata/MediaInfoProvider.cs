@@ -37,31 +37,32 @@ namespace MusicBrowser.Providers.Metadata
                     // sample rate
                     string audioSampleRate;
                     audioSampleRate = mediaInfo.Get(StreamKind.Audio, 0, "SamplingRate/String");
-                    entity.Properties.Add("samplerate", audioSampleRate.ToString());
+                    entity.SetProperty("samplerate", audioSampleRate.ToString(), true);
 
                     // channels
                     int audioChannels;
                     Int32.TryParse(mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)"), out audioChannels);
                     switch (audioChannels)
                     {
-                        case 1: entity.Properties.Add("channels", "Mono"); break;
-                        case 2: entity.Properties.Add("channels", "Stereo"); break;
-                        default: entity.Properties.Add("channels", audioChannels + " channels"); break;
+                        case 1: entity.SetProperty("channels", "Mono", true); break;
+                        case 2: entity.SetProperty("channels", "Stereo", true); break;
+                        default: entity.SetProperty("channels", audioChannels + " channels", true); break;
                     }
 
                     // sample resolution
                     string audioResolution;
                     audioResolution = mediaInfo.Get(StreamKind.Audio, 0, "Resolution/String");
-                    entity.Properties.Add("resolution", audioResolution);
+                    entity.SetProperty("resolution", audioResolution, true);
                 }
                 mediaInfo.Close();
 
-                entity.Properties.Add(MARKER, MARKER);
+                entity.SetProperty(MARKER, DateTime.Now.ToString("yyyy-MMM-dd"), true);
                 entity.CalculateValues();
             }
             catch (Exception e) { Logging.Logger.Error(e); }
 
             entity.Dirty = true;
+            entity.CalculateValues();
             return entity;
         }
 

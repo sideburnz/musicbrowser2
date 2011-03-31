@@ -7,7 +7,7 @@ using MusicBrowser.Entities.Interfaces;
 
 namespace MusicBrowser.Entities
 {
-    public class EntityCache : IEntityCache
+    public class EntityCache
     {
         #region private variables
         private readonly Dictionary<string, IEntity> _memoryCache;

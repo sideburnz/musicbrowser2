@@ -5,6 +5,7 @@ using System.Text;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
+using MusicBrowser.Entities;
 using MusicBrowser.Entities.Interfaces;
 using MusicBrowser.Entities.Kinds;
 
@@ -13,11 +14,11 @@ namespace MusicBrowser.Providers
     class BackgroundCacheProvider : IBackgroundTaskable 
     {
         private readonly string _path;
-        private readonly IEntityFactory _factory;
-        private readonly IEntityCache _cache;
+        private readonly EntityFactory _factory;
+        private readonly EntityCache _cache;
         private readonly IEntity _entity;
 
-        public BackgroundCacheProvider(string path, IEntityFactory factory, IEntityCache cache, IEntity entity)
+        public BackgroundCacheProvider(string path, EntityFactory factory, EntityCache cache, IEntity entity)
         {
             _path = path;
             _factory = factory;

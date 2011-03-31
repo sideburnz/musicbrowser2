@@ -185,9 +185,9 @@ namespace MusicBrowser.Util
         }
         
 
-        public static bool IsFolder(FileAttributes attr)
+        public static bool IsFolder(FileAttributes attributes)
         {
-            return ((attr & FileAttributes.Directory) == FileAttributes.Directory);
+            return ((attributes & FileAttributes.Directory) == FileAttributes.Directory);
         }
         #endregion
 
@@ -198,11 +198,11 @@ namespace MusicBrowser.Util
             return node;
         }
 
-        public static string ReadXmlNode(XmlDocument parent, string xpath)
+        public static string ReadXmlNode(XmlDocument parent, string XPath)
         {
             try
             {
-                return parent.SelectSingleNode(xpath).InnerText;
+                return parent.SelectSingleNode(XPath).InnerText;
             }
             catch { }
             return string.Empty;
@@ -222,9 +222,9 @@ namespace MusicBrowser.Util
             return Helper.AppCachePath + "\\Entities\\" + key + ".xml";
         }
 
-        static public string ImageCacheFullName(string key, string imagetype)
+        static public string ImageCacheFullName(string key, string imageType)
         {
-            return Helper.AppCachePath + "\\Images\\" + imagetype + "\\" + key + ".jpg";
+            return Helper.AppCachePath + "\\Images\\" + imageType + "\\" + key + ".jpg";
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace MusicBrowser.Util
         /// </summary>
         /// <param name="str">String to strip HTML from</param>
         /// <returns></returns>
-        public static string StripHTML(string str)
+        public static string StripHTML(string raw)
         {
             //variable to hold the returned value
             string strippedString;
@@ -241,7 +241,7 @@ namespace MusicBrowser.Util
                 //variable to hold our RegularExpression pattern
                 string pattern = "<.*?>";
                 //replace all HTML tags
-                strippedString = Regex.Replace(str, pattern, string.Empty);
+                strippedString = Regex.Replace(raw, pattern, string.Empty);
             }
             catch
             {

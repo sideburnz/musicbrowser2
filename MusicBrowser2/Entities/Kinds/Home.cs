@@ -14,12 +14,12 @@ namespace MusicBrowser.Entities.Kinds
 
         public Home()
         {
-            Title = "MusicBrowser2";
-            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/MusicBrowser2";
+            base.Title = "MusicBrowser2";
+            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/MusicBrowser2";
             string temp = Util.Config.getInstance().getSetting("HomeBackground");
-            if (System.IO.File.Exists(temp)) { DefaultBackgroundPath = temp; }
-            Parent = new Unknown();
-            CalculateValues();
+            if (System.IO.File.Exists(temp)) { base.DefaultBackgroundPath = temp; }
+            base.Parent = new Unknown();
+            base.CalculateValues();
         }
 
         public override EntityKind Kind 
@@ -32,7 +32,7 @@ namespace MusicBrowser.Entities.Kinds
             get { return Util.Config.handleEntityView(EntityKind.Home).ToLower(); }
         }
 
-        public IEnumerable<string> Paths
+        public static IEnumerable<string> Paths
         {
             get 
             {

@@ -20,14 +20,13 @@ namespace MusicBrowser.Util
                                         { "WindowsLibrarySupport", true.ToString() },
                                         { "LogLevel", "error" },
                                         { "LogDestination", "file" },
-//                                        { "EnableHTTPLogging", false.ToString() },
                                         { "LogFile", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
                                         { "ManualLibraryFile", Path.Combine(Helper.AppFolder, "MusicLibrary.vf") },
                                         { "EnableCache", true.ToString() },
                                         { "AutoLoadNowPlaying", false.ToString() },
                                         { "HomeBackground", Path.Combine(Helper.AppFolder, "backdrop.jpg") },
 
-                                        { "IgnoreStartingThe", true.ToString() },
+                                        { "SortReplaceWords", "the|a|an" },
                                         { "PutDiscInTrackNo", true.ToString() },
 
                                         { "LastFMUserName", string.Empty },
@@ -35,7 +34,6 @@ namespace MusicBrowser.Util
                                       //  { "LastFMPasswordHash", string.Empty },
                                       //  { "ScrobbleToFile", false.ToString() },
                                       //  { "EnableScrobbling", false.ToString() },
-
                                         
                                         { "ViewForHome", "Thumb" },
                                         { "ViewForArtist", "List" },
@@ -44,7 +42,7 @@ namespace MusicBrowser.Util
 
                                         { "FormatForUnknown", "[title]" },
                                         { "FormatForSong", "[track] - [title]" },
-                                        { "FormatForAlbum", "[title]" },
+                                        { "FormatForAlbum", "([release]) - [title]" },
                                         { "FormatForArtist", "[title]" },
                                         { "FormatForPlaylist", "[title]" },
 
@@ -53,7 +51,6 @@ namespace MusicBrowser.Util
 
         #region singleton
         static Config _instance;
-        static readonly object Padlock = new object();
 
         Config()
         {
@@ -165,14 +162,14 @@ namespace MusicBrowser.Util
         }
 
         // this pushes the intelligence involved with some settings to the config manager
-        public static string handleStartingThe(string value)
+        static IEnumerable<string> _sortIgnore;
+        public static string handleIgnoreWords(string value)
         {
-            if (value.ToLower().StartsWith("the "))
+            if (_sortIgnore == null) { _sortIgnore = _instance.getSetting("SortReplaceWords").Split('|'); }
+
+            foreach (string item in _sortIgnore)
             {
-                if (_instance.getBooleanSetting("IgnoreStartingThe"))
-                {
-                    return value.Substring(4);
-                }
+                if (value.ToLower().StartsWith(item + " ")) { return value.Substring(item.Length + 1); }
             }
             return value;
         }
@@ -202,9 +199,6 @@ namespace MusicBrowser.Util
             string format;
             switch (entity.Kind)
             {
-                case EntityKind.NotDetermined: return entity.Title;
-                case EntityKind.Unknown: return entity.Title;
-                case EntityKind.Home: return entity.Title;
                 case EntityKind.Song:
                     {
                         format = _instance.getSetting("FormatForSong");
@@ -225,6 +219,8 @@ namespace MusicBrowser.Util
                         format = _instance.getSetting("FormatForPlaylist");
                         break;
                     }
+                case EntityKind.Unknown: return entity.Title;
+                case EntityKind.Home: return entity.Title;
                 default:
                     {
                         format = _instance.getSetting("FormatForUnknown");

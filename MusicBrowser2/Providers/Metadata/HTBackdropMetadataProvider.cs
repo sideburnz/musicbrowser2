@@ -62,16 +62,10 @@ namespace MusicBrowser.Providers.Metadata
                 entity.BackgroundPath = tmpBack;
             }
 
-            if (entity.Properties.ContainsKey(MARKER))
-            {
-                entity.Properties[MARKER] = DateTime.Now.ToString("yyyy-MMM-dd");
-            }
-            else
-            {
-                entity.Properties.Add(MARKER, DateTime.Now.ToString("yyyy-MMM-dd"));
-            }
+            entity.SetProperty(MARKER, DateTime.Now.ToString("yyyy-MMM-dd"), true);
 
             entity.Dirty = true;
+            entity.CalculateValues();
             return entity;
         }
 

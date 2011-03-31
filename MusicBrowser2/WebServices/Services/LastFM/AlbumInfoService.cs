@@ -15,12 +15,14 @@ namespace MusicBrowser.WebServices.Services.LastFM
 
         //DUAL
         public string Album { get; set; }
-        public string MusicBrowserID { get; set; }
+        public string MusicBrainzID { get; set; }
         public string Artist { get; set; }
 
         //OUT
         public DateTime Release { get; set; }
         public int Plays { get; set; }
+        public int Listeners { get; set; }
+        public int TotalPlays { get; set; }
         public string Image { get; set; }
         public string Summary { get; set; }
     }
@@ -43,40 +45,45 @@ namespace MusicBrowser.WebServices.Services.LastFM
             parms.Add("autocorrect", "1");
             parms.Add("username", localDTO.Username);
 
-            if (String.IsNullOrEmpty(localDTO.MusicBrowserID))
+            if (String.IsNullOrEmpty(localDTO.MusicBrainzID))
             {
                 parms.Add("album", localDTO.Album);
                 parms.Add("artist", localDTO.Artist);
             }
             else
             {
-                parms.Add("mbid", localDTO.MusicBrowserID);
+                parms.Add("mbid", localDTO.MusicBrainzID);
             }
 
             // this is a dummy URL for logging
-            _provider.URL = "last.fm - album info - album=" + localDTO.Album + "&artist=" + localDTO.Artist + "&mbid=" + localDTO.MusicBrowserID;
+            _provider.URL = "last.fm - album info - album=" + localDTO.Album + "&artist=" + localDTO.Artist + "&mbid=" + localDTO.MusicBrainzID;
             _provider.SetParameters(parms);
             _provider.DoService();
 
-            XmlDocument XMLDoc = new XmlDocument();
-
             if (_provider.ResponseStatus != "200") { return localDTO; }
+            XmlDocument XMLDoc = new XmlDocument();
 
             XMLDoc.LoadXml(_provider.ResponseBody);
  
             localDTO.Album = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/name");
             localDTO.Artist = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/artist");
-            localDTO.MusicBrowserID = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/mbid");
+            localDTO.MusicBrainzID = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/mbid");
+            
             DateTime rel;
             DateTime.TryParse(Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/releasedate"), out rel);
             if (rel > DateTime.MinValue) { localDTO.Release = rel; }
-            localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/userplaycount"));
+            
             localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/image[@size='mega']");
             if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/image[@size='extralarge']"); }
             if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/image[@size='large']"); }
             if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/image[@size='medium']"); }
             if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/image[@size='small']"); }
+
             localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/wiki/summary"));
+
+            localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/userplaycount"));
+            localDTO.TotalPlays = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/playcount"));
+            localDTO.Listeners = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "/lfm/album/listeners"));
 
             return localDTO;
         }

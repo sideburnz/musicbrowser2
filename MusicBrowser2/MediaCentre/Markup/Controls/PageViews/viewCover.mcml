@@ -1,4 +1,4 @@
-﻿<!--<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
       xmlns:cor="assembly://MSCorLib/System"
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities.Interfaces"
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
@@ -34,7 +34,7 @@
 
       <Rule>
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="cover" />
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="cover" />
         </Conditions>
         <Actions>
           <Set Target="[div_ListCover.Visible]" Value="true" />
@@ -48,7 +48,7 @@
         <Children>
           <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="75">
             <LayoutInput>
-              <FormLayoutInput Bottom="Parent,1" Top="Parent,0.35" Left="Parent,0" Right="Parent,1"/>
+              <FormLayoutInput Bottom="Parent,0.7" Top="Parent,0.3" Left="Parent,0" Right="Parent,1"/>
             </LayoutInput>
             <Children>
               <Repeater Name="viewCoverRepeater" ContentName="Thumb" Navigation="RememberFocus">
@@ -71,14 +71,14 @@
     </Content>
 
     <Content Name="Thumb">
-      <me:ThumbItem Entity="[RepeatedItem!entities:BaseEntity]" Application="[Application]" FolderModel="[FolderModel]" />
+      <me:ThumbItem Entity="[RepeatedItem!entities:IEntity]" Application="[Application]" FolderModel="[FolderModel]" />
     </Content>
     
   </UI>
 
   <UI Name="ThumbItem">
     <Properties>
-      <entities:IEntity Name="Entity" EntityData="$Required" />
+      <entities:IEntity Name="Entity" IEntity="$Required" />
       <a:Application Name="Application" Application="$Required"/>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
 
@@ -146,7 +146,7 @@
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
-          --><!--<Set Target="[Wrapper.Scale]" Value="1.4,1.4,0.5"/>--><!--
+          <Set Target="[Wrapper.Scale]" Value="1.4,1.4,0.5"/>
           <Set Target="[Fader.Alpha]" Value="0" />
           <Set Target="[FolderModel.SelectedIndex]" Value="[Entity.Index]"/>
           <Set Target="[Wrapper.Padding]" Value="2,2,2,2" />
@@ -177,6 +177,6 @@
   </Content>
   </UI>
 
-</Mcml>-->
+</Mcml>
 
-<Mcml></Mcml>
+<!--<Mcml></Mcml>-->

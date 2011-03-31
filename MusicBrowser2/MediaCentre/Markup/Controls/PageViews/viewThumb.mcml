@@ -11,6 +11,14 @@
     <Properties>
       <a:Application Name="Application" Application="$Required"/>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+
+      <Animation Name="Slide" Type="Move">
+        <Keyframes>
+          <PositionKeyframe Time="0" RelativeTo="Current"/>
+          <PositionKeyframe Time=".5" RelativeTo="Final"/>
+        </Keyframes>
+      </Animation>
+      
     </Properties>
 
     <Locals>
@@ -34,7 +42,10 @@
 
       <Rule>
         <Actions>
-          <Invoke Target="[viewThumbRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]"/>
+          <!--<Invoke Target="[viewThumbRepeater.DetachAnimation]" type="Move" InvokePolicy="Synchronous" />-->
+          <Invoke Target="[viewThumbRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" InvokePolicy="Synchronous" />
+          <!--<Set Target="[viewThumbRepeater.Visible]" Value="true" InvokePolicy="Synchronous" />
+          <Invoke Target="[viewThumbRepeater.AttachAnimation]" animation="[Slide]" InvokePolicy="Synchronous"/>-->
         </Actions>
       </Rule>
     </Rules>
@@ -47,17 +58,12 @@
               <FormLayoutInput Bottom="Parent,1" Top="Parent,0" Left="Parent,0" Right="Parent,1"/>
             </LayoutInput>
             <Children>
-              <Repeater Name="viewThumbRepeater" ContentName="Thumb">
+              <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true">
                 <Layout>
                   <GridLayout Orientation="Vertical" Rows="3" Columns="8" AllowWrap="true" Spacing="1,1" Repeat="WhenTooBig" RepeatGap="100"/>
                 </Layout>
                 <Animations>
-                  <Animation Type="Move">
-                    <Keyframes>
-                      <PositionKeyframe Time="0" RelativeTo="Current"/>
-                      <PositionKeyframe Time=".5" RelativeTo="Final"/>
-                    </Keyframes>
-                  </Animation>
+                  <Animation Animation="[Slide]" />
                 </Animations>
               </Repeater>
             </Children>
@@ -69,6 +75,8 @@
     <Content Name="Thumb">
       <me:ThumbItem Entity="[RepeatedItem!entities:IEntity]" Application="[Application]" FolderModel="[FolderModel]" />
     </Content>
+
+
     
   </UI>
 

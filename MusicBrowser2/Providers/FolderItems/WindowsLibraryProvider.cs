@@ -51,7 +51,7 @@ namespace MusicBrowser.Providers.FolderItems
             }
         }
 
-        private string getLibraryLocation()
+        private static string getLibraryLocation()
         {
             //HKEY_USERS\[user]\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders\{1B3EA5DC-B587-4786-B4EF-BD1DC332AEAE}
             RegistryKey pathKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\");

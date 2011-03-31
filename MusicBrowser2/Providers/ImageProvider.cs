@@ -19,7 +19,7 @@ namespace MusicBrowser.Providers
         Other
     }
 
-    public class ImageProvider
+    public static class ImageProvider
     {
         const int THUMBSIZE = 200;
 
@@ -52,9 +52,22 @@ namespace MusicBrowser.Providers
             return result;
         }
 
-        public static void Save(Bitmap bitmap, string filename)
+        public static void Save(Image bitmap, string filename)
         {
-            bitmap.Save(filename, System.Drawing.Imaging.ImageFormat.Jpeg);
+            EncoderParameters parms = new EncoderParameters(1);
+            parms.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, Int64.Parse("95"));
+
+            ImageCodecInfo codec = null;
+            foreach (ImageCodecInfo codectemp in ImageCodecInfo.GetImageDecoders())
+            {
+                if (codectemp.MimeType == "image/jpeg")
+                {
+                    codec = codectemp;
+                    break;
+                }
+            }
+
+            bitmap.Save(filename, codec, parms);
         }
 
         static IEnumerable<string> images = null;
@@ -100,34 +113,5 @@ namespace MusicBrowser.Providers
                 return null;
             }
         }
-
-        //public static void SaveImage(Image image, string filename)
-        //{
-        //    try
-        //    {
-        //        EncoderParameters parms = new EncoderParameters(1);
-        //        parms.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, Int64.Parse("80"));
-        //        ImageCodecInfo codec = null;
-        //        foreach (ImageCodecInfo codectemp in ImageCodecInfo.GetImageDecoders())
-        //        {
-        //            if (codectemp.MimeType == "image/jpeg")
-        //            {
-        //                codec = codectemp;
-        //                break;
-        //            }
-        //        }
-        //        if (codec == null)
-        //        {
-        //            throw new Exception("Codec not found for image/jpeg");
-        //        }
-        //        image.Save(filename, codec, parms);
-        //        Logging.Logger.Debug("saving image: " + filename);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Logging.Logger.Error(e);
-        //    }
-        //}
-
     }
 }

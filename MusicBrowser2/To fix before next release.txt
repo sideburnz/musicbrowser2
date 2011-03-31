@@ -1,22 +1,20 @@
-﻿2.2.1.9
-- handle non-XML responses from inet providers better
-- handle broken image files
-
-
-
-
+﻿2.2.2 target functionality/fixes
 
 - "PutDiscInTrackNo" has no effect if changed after data's been cached
 - rework the song details MCML
-- sort out the footer summary 2 (select provider in config)
-	Last.fm
-		- track = (Last.fm) Play Count 8  Unique listeners 1,232  Total plays 2,343,998  Loved
-		- album = (Last.fm) Play Count 1  Unique listeners 12  Total plays 2
-		- artist = (Last.fm) etc
-
 - finish LFM integration
 - put in track summary pods
-
-for next version
-- metadata is overwritten
 - config app
+- navigate to summary on list screens
+- cover flow to have smoother flow and reflection
+- a manually refresh metadata button
+- new view, single row/column of covers with summary info of selected item (not parent)
+- views per entity (stored in metadata)
+- detection, metadata retreival and playing of audio CDs
+- fix albums sorting before artists
+- don't show artists or albums with no valid items
+- scrobbling
+- loving tracks
+- don't animate on returning to a page
+- cache subitem list (remove need to go to remote filesystems)
+- 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MusicBrowser.Providers.Background;
+using MusicBrowser.Entities;
 using MusicBrowser.Entities.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
@@ -22,7 +23,7 @@ namespace MusicBrowser.Providers.Metadata
             return providerList;
         }
 
-        public static void ProcessEntity(IEntity entity, IEntityCache cache)
+        public static void ProcessEntity(IEntity entity, EntityCache cache)
         {
 #if DEBUG
             Logging.Logger.Verbose("executing background metadata provider task for " + entity.Path, "start");
@@ -48,9 +49,9 @@ namespace MusicBrowser.Providers.Metadata
         }
 
         private IEntity _entity;
-        private IEntityCache _cache;
+        private EntityCache _cache;
 
-        public MetadataProviderList(IEntity entity, IEntityCache cache)
+        public MetadataProviderList(IEntity entity, EntityCache cache)
         {
             _entity = entity;
             _cache = cache;

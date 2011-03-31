@@ -11,7 +11,7 @@ namespace MusicBrowser.Entities.Kinds
     {
         public Playlist()
         {
-            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imagePlaylist";
+            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imagePlaylist";
         }
 
         public override EntityKind Kind

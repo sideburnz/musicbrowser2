@@ -28,7 +28,7 @@ namespace MusicBrowser.Providers.Background
         {
             string smaxthreads = Util.Config.getInstance().getSetting("ThreadPoolSize");
             int maxthreads = 2;
-            int.TryParse(smaxthreads, out maxthreads);
+            if (!int.TryParse(smaxthreads, out maxthreads)) { maxthreads = 1; };
             if (maxthreads < 0) { maxthreads = 0; }
             if (maxthreads > 8) { maxthreads = 8; }
             Util.Config.getInstance().setSetting("ThreadPoolSize", maxthreads.ToString());

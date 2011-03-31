@@ -43,7 +43,7 @@ namespace MusicBrowser.Providers.FolderItems
 
         #endregion
 
-        private IEnumerable<string> GetFileContents(string path)
+        private static IEnumerable<string> GetFileContents(string path)
         {
             string line;
             List<string> rval = new List<string>();

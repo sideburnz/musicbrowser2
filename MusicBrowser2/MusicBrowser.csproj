@@ -89,8 +89,6 @@
     <Compile Include="Entities\Kinds\Album.cs" />
     <Compile Include="Entities\Kinds\Artist.cs" />
     <Compile Include="Entities\Interfaces\IEntity.cs" />
-    <Compile Include="Entities\Interfaces\IEntityCache.cs" />
-    <Compile Include="Entities\Interfaces\IEntityFactory.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />

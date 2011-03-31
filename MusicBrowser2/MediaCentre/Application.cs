@@ -21,8 +21,8 @@ namespace MusicBrowser
         private readonly AddInHost _host;
         private readonly HistoryOrientedPageSession _session;
 
-        private readonly IEntityFactory _factory;
-        private readonly IEntityCache _cache;
+        private readonly EntityFactory _factory;
+        private readonly EntityCache _cache;
 
         public Application() : this(null, null) { }
 
@@ -71,7 +71,7 @@ namespace MusicBrowser
                 {
                     EntityCollection entities = new EntityCollection();
                     Entities.Kinds.Home home = (Entities.Kinds.Home)entity;
-                    foreach (string item in home.Paths)
+                    foreach (string item in Entities.Kinds.Home.Paths)
                     {
                         entities.Populate(FileSystemProvider.GetFolderContents(item), _factory, entity);
                     }
@@ -81,7 +81,7 @@ namespace MusicBrowser
                     _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
 
                     //trigger the background caching tasks
-                    foreach (string path in home.Paths)
+                    foreach (string path in Entities.Kinds.Home.Paths)
                     {
                         CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path, _factory, _cache, new Entities.Kinds.Unknown()));
                     }

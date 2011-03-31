@@ -11,7 +11,7 @@ using System;
 
 namespace MusicBrowser.Util
 {
-    class StandingData
+    static class StandingData
     {
         public static IEnumerable<string> GetStandingData(string Category)
         {

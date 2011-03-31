@@ -27,7 +27,6 @@ namespace MusicBrowser.Entities
 
             writer.WriteStartElement("EntityXML");
 
-            writer.WriteAttributeString("path", data.Path);
             writer.WriteAttributeString("type", data.Kind.ToString());
             writer.WriteAttributeString("version", APP_VERSION);
 
@@ -124,13 +123,10 @@ namespace MusicBrowser.Entities
                 string ip = Helper.ReadXmlNode(xml, "EntityXML/Images/Icon");
                 if (File.Exists(ip)) { entity.IconPath = ip; }
 
-
-                IDictionary<string, string> local = entity.Properties;
-
                 // compound reads
                 foreach (XmlNode node in xml.SelectNodes("/EntityXML/Properties/Item"))
                 {
-                    local.Add(node.Attributes["key"].InnerText, node.Attributes["value"].InnerText);
+                    entity.SetProperty(node.Attributes["key"].InnerText, node.Attributes["value"].InnerText, true);
                 }
             }
             catch

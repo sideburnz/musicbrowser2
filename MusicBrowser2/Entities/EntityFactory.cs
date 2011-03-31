@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MusicBrowser.Entities;
 using MusicBrowser.Entities.Interfaces;
 using MusicBrowser.Entities.Kinds;
 using MusicBrowser.Providers;
@@ -11,14 +12,14 @@ using MusicBrowser.Providers.Background;
 
 namespace MusicBrowser.Entities
 {
-    public class EntityFactory : IEntityFactory
+    public class EntityFactory
     {
         private static long FIRST_COMPATIBLE_CACHE = Util.Helper.ParseVersion("2.2.1.7");
-        private IEntityCache _cache;
+        private EntityCache _cache;
 
         #region IEntityFactory Members
 
-        public void setCache(IEntityCache cache) { _cache = cache; }
+        public void setCache(EntityCache cache) { _cache = cache; }
 
         public IEntity getItem(string item)
         {
@@ -131,14 +132,6 @@ namespace MusicBrowser.Entities
 
         private static EntityKind DetermineKind(FileSystemItem entity)
         {
-            if (Util.Helper.IsSong(entity.FullPath))
-            {
-                return EntityKind.Song;
-            }
-            if (Util.Helper.IsPlaylist(entity.FullPath))
-            {
-                return EntityKind.Playlist;
-            }
             if ((entity.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
             {
                 IEnumerable<FileSystemItem> content = FileSystemProvider.GetFolderContents(entity.FullPath);
@@ -147,11 +140,11 @@ namespace MusicBrowser.Entities
 
                 foreach (FileSystemItem item in content)
                 {
-                    if (Util.Helper.IsSong(item.Name)) { containsSongs = true; break; }
                     if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
                     {
                         containsFolders = true;
                     }
+                    if (Util.Helper.IsSong(item.Name)) { containsSongs = true; break; }
                 }
                 // if there's tracks in the folder then it's an album
                 if (containsSongs)
@@ -163,6 +156,14 @@ namespace MusicBrowser.Entities
                     return EntityKind.Artist;
                 }
                 return EntityKind.Folder;
+            }
+            if (Util.Helper.IsSong(entity.FullPath))
+            {
+                return EntityKind.Song;
+            }
+            if (Util.Helper.IsPlaylist(entity.FullPath))
+            {
+                return EntityKind.Playlist;
             }
             Logging.Logger.Info("unable to determine entity type for : " + entity.FullPath);
             return EntityKind.Unknown;

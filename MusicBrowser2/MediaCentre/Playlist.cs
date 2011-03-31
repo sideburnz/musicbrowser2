@@ -11,7 +11,7 @@ namespace MusicBrowser.MediaCentre
 {
     public class Playlist
     {
-        public void DoAction(string Action, IEntity Entity)
+        public static void DoAction(string Action, IEntity Entity)
         {
 #if DEBUG
             Logging.Logger.Verbose("Playlist.DoAction(" + Action + ", " + Entity.Kind.ToString() + ": " + Entity.Path + ")", "start");

@@ -80,10 +80,29 @@ namespace MusicBrowser.WebServices.WebServiceProviders
 
             base.ResponseStatus = "500";
 
+            // last.fm has a policy which is no more than 5 hits per second
+            do { } while (!LFMThrottler.Hit());
+
             http.DoService();
 
             base.ResponseStatus = "200";
             base.ResponseBody = http.Response;
+        }
+    }
+
+    static class LFMThrottler
+    {
+        static DateTime _nextHit;
+
+        public static bool Hit()
+        {
+            if (DateTime.Now <= _nextHit)
+            {
+                System.Threading.Thread.Sleep(300);
+                return false;
+            }
+            _nextHit = DateTime.Now.AddMilliseconds(250);
+            return true;
         }
     }
 }

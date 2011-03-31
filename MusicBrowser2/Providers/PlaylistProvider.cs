@@ -74,7 +74,7 @@ namespace MusicBrowser.Providers
             IEnumerable<string> paths;
             if (_entity.Kind.Equals(EntityKind.Home)) 
             { 
-                paths = ((MusicBrowser.Entities.Kinds.Home)_entity).Paths; 
+                paths = Entities.Kinds.Home.Paths; 
             }
             else
             {
@@ -103,7 +103,7 @@ namespace MusicBrowser.Providers
                     }
                     else
                     {
-                        CreatePlaylist(paths, false, false);
+                        CreatePlaylist(paths, true, false);
                     }
                     break;
                 case "cmdshuffle":

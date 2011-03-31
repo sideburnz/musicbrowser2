@@ -10,7 +10,7 @@ namespace MusicBrowser.Entities.Kinds
     {
         public Unknown()
         {
-            Title = "[unknown]";
+            base.Title = "[unknown]";
         }
 
         public override EntityKind Kind
