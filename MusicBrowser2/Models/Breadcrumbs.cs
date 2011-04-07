@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using MusicBrowser.Entities.Interfaces;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Models
 {

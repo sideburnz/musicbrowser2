@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MusicBrowser.Entities.Interfaces;
+using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 
 namespace MusicBrowser.Providers.Metadata

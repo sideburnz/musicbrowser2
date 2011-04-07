@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic; 
 using Microsoft.MediaCenter.Hosting;
-using MusicBrowser.Entities.Interfaces;
+using MusicBrowser.Entities;
 using MusicBrowser.Entities.Kinds;
 using MusicBrowser.Models;
  

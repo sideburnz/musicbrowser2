@@ -1,6 +1,6 @@
 ﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
       xmlns:cor="assembly://MSCorLib/System"
-      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities.Interfaces"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:me="Me"
@@ -20,7 +20,7 @@
       <ScrollingData Name="TextScrollingData" EndPadding="100"/>      
       
       <ScrollingData Name="scrollData" EndPadding="100" PageStep="1" />
-      <ScrollingHandler Name="scrollHandler" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandleDirectionalKeys="true"  HandlerStage="Bubbled" />
+      <ScrollingHandler Name="scrollHandler" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandleDirectionalKeys="true"  HandlerStage="Direct" />
 
       <Command Name="RightHandler"/>
     </Locals>
@@ -44,13 +44,9 @@
 
       <Rule>
         <Actions>
-          <Invoke Target="[SummaryPanel.NavigateInto]" />
-          <!--<Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" />--> 
+          <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" />
         </Actions>
       </Rule>
-
-      <Condition Source="[Input.KeyFocus]" SourceValue="true" Target="[TextSummary.Alpha]" Value="1"/>
-      <Condition Source="[Input.KeyFocus]" SourceValue="false" Target="[TextSummary.Alpha]" Value="0.7"/>
 
       <Changed Source="[RightHandler.Invoked]">
         <Actions>
@@ -99,10 +95,11 @@
             </Layout>
             <Children>
               <Scroller Name="TextScroller" Margins="25,10,25,20" Orientation="Vertical" FadeSize="-30" ScrollingData="[TextScrollingData]">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Fill"  Position="Client"  />
+                </LayoutInput>
                 <Children>
-                  
-                  <Text Name="TextSummary" Color="White" Font="Segoe Media Center Light, 22" WordWrap="true" Content="[FolderModel.ParentEntity.Summary]" FocusOrder="1">
-                    <!-- Smooth scrolling. -->
+                  <me:summaryText Name="Summary" Entity="[FolderModel.ParentEntity]">
                     <Animations>
                       <Animation Type="Move">
                         <Keyframes>
@@ -111,7 +108,7 @@
                         </Keyframes>
                       </Animation>
                     </Animations>
-                  </Text>
+                  </me:summaryText>
                 </Children>
               </Scroller>
             </Children>
@@ -123,6 +120,20 @@
 
   </UI>
 
+  <UI Name="summaryText">
+    <Properties>
+      <entities:IEntity Name="Entity" IEntity="$Required" />
+    </Properties>
+    <Rules>
+      <Condition Source="[Input.KeyFocus]" SourceValue="true" Target="[Body.Alpha]" Value="1"/>
+      <Condition Source="[Input.KeyFocus]" SourceValue="false" Target="[Body.Alpha]" Value="0.7"/>
+      <Binding Source="[Entity.Summary]" Target="[Body.Content]" />
+    </Rules>
+    <Content>
+      <Text Name="Body" Content="[Entity.Summary]" Color="White" Font="Segoe Media Center Light, 22" WordWrap="true" />
+    </Content>
+  </UI>
+  
   <UI Name="buttonEntity">
 
     <Properties>

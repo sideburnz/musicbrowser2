@@ -1,4 +1,7 @@
-﻿2.2.2 target functionality/fixes
+﻿2.2.1
+- navigate across to summary text
+
+2.2.2 target functionality/fixes
 
 - "PutDiscInTrackNo" has no effect if changed after data's been cached
 - rework the song details MCML
@@ -17,4 +20,5 @@
 - loving tracks
 - don't animate on returning to a page
 - cache subitem list (remove need to go to remote filesystems)
-- 
+- summary 2 - use like a "[title]" style replacer
+- sort by (last fm plays, title, release etc)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.MediaCenter;
-using MusicBrowser.Entities.Interfaces;
+using MusicBrowser.Entities;
 using MusicBrowser.Providers;
 using MusicBrowser.Util;
 

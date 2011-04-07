@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using MusicBrowser.Util;
-using MusicBrowser.Entities.Interfaces;
+using MusicBrowser.Entities;
 using MusicBrowser.Entities.Kinds;
 
 namespace MusicBrowser.Entities

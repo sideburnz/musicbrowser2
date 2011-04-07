@@ -6,7 +6,7 @@ using Microsoft.MediaCenter.UI;
 using MusicBrowser.Util;
 using MusicBrowser.Models;
 
-namespace MusicBrowser.Entities.Interfaces
+namespace MusicBrowser.Entities
 {
     public enum EntityKind
     {
@@ -167,14 +167,27 @@ namespace MusicBrowser.Entities.Interfaces
         {
             if (_properties.ContainsKey(key))
             {
-                if (string.IsNullOrEmpty(value)) { _properties.Remove(key); }
-                if (overwrite) { _properties[key] = value; }
+                if (string.IsNullOrEmpty(value)) 
+                { 
+                    _properties.Remove(key);
+                    Dirty = true;
+                }
+                else if (overwrite) 
+                {
+                    if (_properties[key] == value) { return; }
+
+                    _properties[key] = value;
+                    Dirty = true;
+                }
             }
             else
             {
-                if (!string.IsNullOrEmpty(value)) { _properties.Add(key, value); }
+                if (!string.IsNullOrEmpty(value)) 
+                { 
+                    _properties.Add(key, value);
+                    Dirty = true;
+                }
             }
-            Dirty = true;
         }
 
     }

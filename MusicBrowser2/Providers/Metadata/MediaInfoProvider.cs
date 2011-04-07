@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using MediaInfoLib;
-using MusicBrowser.Entities.Interfaces;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Providers.Metadata
 {

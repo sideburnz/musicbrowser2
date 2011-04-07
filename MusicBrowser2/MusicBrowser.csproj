@@ -30,7 +30,8 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <FullyQualifiedOutputPath>$(MSBuildProjectDirectory)\bin\Release</FullyQualifiedOutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -88,7 +89,7 @@
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Entities\Kinds\Album.cs" />
     <Compile Include="Entities\Kinds\Artist.cs" />
-    <Compile Include="Entities\Interfaces\IEntity.cs" />
+    <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />

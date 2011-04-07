@@ -1,7 +1,6 @@
 ﻿using System;
 using MusicBrowser.Entities;
 using MusicBrowser.Entities.Kinds;
-using MusicBrowser.Entities.Interfaces;
 using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Providers;

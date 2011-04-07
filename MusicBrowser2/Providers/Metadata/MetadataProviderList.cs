@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Entities;
-using MusicBrowser.Entities.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
 {

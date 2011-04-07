@@ -6,7 +6,6 @@ using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Entities;
-using MusicBrowser.Entities.Interfaces;
 using MusicBrowser.Entities.Kinds;
 
 namespace MusicBrowser.Providers

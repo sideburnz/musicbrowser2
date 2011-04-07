@@ -1,6 +1,6 @@
 ﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
       xmlns:cor="assembly://MSCorLib/System"
-      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities.Interfaces"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:me="Me"

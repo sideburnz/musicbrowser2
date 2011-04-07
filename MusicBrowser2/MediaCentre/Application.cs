@@ -5,7 +5,6 @@ using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.Hosting;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Entities;
-using MusicBrowser.Entities.Interfaces;
 using MusicBrowser.MediaCentre;
 using MusicBrowser.Models;
 using MusicBrowser.Providers.Background;

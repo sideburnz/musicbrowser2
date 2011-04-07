@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 using Microsoft.MediaCenter.UI;
-using MusicBrowser.Entities.Interfaces;
+using MusicBrowser.Entities;
 using System.Text.RegularExpressions;
 
 namespace MusicBrowser.Util
@@ -42,7 +42,7 @@ namespace MusicBrowser.Util
 
                                         { "FormatForUnknown", "[title]" },
                                         { "FormatForSong", "[track] - [title]" },
-                                        { "FormatForAlbum", "([release]) - [title]" },
+                                        { "FormatForAlbum", "([release]) [title]" },
                                         { "FormatForArtist", "[title]" },
                                         { "FormatForPlaylist", "[title]" },
 

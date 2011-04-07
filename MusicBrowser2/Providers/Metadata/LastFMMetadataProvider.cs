@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MusicBrowser.Entities.Interfaces;
+using MusicBrowser.Entities;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.WebServices.WebServiceProviders;
 using MusicBrowser.Providers.Metadata;
@@ -61,6 +61,12 @@ namespace MusicBrowser.Providers.Metadata
                             entity.SetProperty("lfm.listeners", albumDTO.Listeners.ToString(), true);
                             entity.SetProperty("lfm.totalplays", albumDTO.TotalPlays.ToString(), true);
                         }
+                        else
+                        {
+                            entity.SetProperty("lfm.playcount", string.Empty, true);
+                            entity.SetProperty("lfm.listeners", string.Empty, true);
+                            entity.SetProperty("lfm.totalplays", string.Empty, true);
+                        }
 
                         if (albumDTO.Release > DateTime.MinValue)
                         {
@@ -98,6 +104,12 @@ namespace MusicBrowser.Providers.Metadata
                             entity.SetProperty("lfm.listeners", artistDTO.Listeners.ToString(), true);
                             entity.SetProperty("lfm.totalplays", artistDTO.TotalPlays.ToString(), true);
                         } 
+                        else
+                        {
+                            entity.SetProperty("lfm.playcount", string.Empty, true);
+                            entity.SetProperty("lfm.listeners", string.Empty, true);
+                            entity.SetProperty("lfm.totalplays", string.Empty, true);
+                        }
 
                         entity.Title = artistDTO.Artist;
                         entity.MusicBrainzID = artistDTO.MusicBrainzID;
@@ -129,6 +141,12 @@ namespace MusicBrowser.Providers.Metadata
                             entity.SetProperty("lfm.playcount", trackDTO.Plays.ToString(), true);
                             entity.SetProperty("lfm.listeners", trackDTO.Listeners.ToString(), true);
                             entity.SetProperty("lfm.totalplays", trackDTO.TotalPlays.ToString(), true);
+                        }
+                        else
+                        {
+                            entity.SetProperty("lfm.playcount", string.Empty, true);
+                            entity.SetProperty("lfm.listeners", string.Empty, true);
+                            entity.SetProperty("lfm.totalplays", string.Empty, true);
                         }
 
                         entity.Title = trackDTO.Track;

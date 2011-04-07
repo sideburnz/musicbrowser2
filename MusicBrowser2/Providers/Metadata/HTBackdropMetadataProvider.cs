@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MusicBrowser.Entities.Interfaces;
+using MusicBrowser.Entities;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.WebServices.WebServiceProviders;
 using MusicBrowser.WebServices.Services.HTBackdrop;
