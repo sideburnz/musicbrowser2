@@ -10,18 +10,19 @@ using MusicBrowser.Models;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Providers;
+using MusicBrowser.Providers.Transport;
 
 // ReSharper disable CheckNamespace
 namespace MusicBrowser
 // ReSharper restore CheckNamespace
 {
-    public class Application : ModelItem
+    public class Application
     {
         private readonly AddInHost _host;
         private readonly HistoryOrientedPageSession _session;
-
         private readonly EntityFactory _factory;
         private readonly EntityCache _cache;
+
 
         public Application() : this(null, null) { }
 
@@ -33,6 +34,7 @@ namespace MusicBrowser
             _cache = new EntityCache();
             _factory = new EntityFactory();
             _factory.setCache(_cache);
+
         }
 
         private MediaCenterEnvironment MediaCenterEnvironment
@@ -52,58 +54,69 @@ namespace MusicBrowser
                 Dictionary<string, object> properties = new Dictionary<string, object>();
                 properties["Application"] = this;
 
-                if (entity.Kind == EntityKind.Song)
+                switch (entity.Kind)
                 {
-                    //Breadcrumbs crumbs = new Breadcrumbs(parentCrumbs);
-                    //crumbs.Add(entity);
-                    properties["Song"] = new SongModel((Entities.Kinds.Song)entity);
-                    properties["UINotifier"] = UINotifier.GetInstance();
+                    //case EntityKind.Song:
+                    //    {
+                    //        //Breadcrumbs crumbs = new Breadcrumbs(parentCrumbs);
+                    //        //crumbs.Add(entity);
+                    //        properties["Song"] = new SongModel((Entities.Kinds.Song)entity);
+                    //        properties["UINotifier"] = UINotifier.GetInstance();
+                    //        //properties["Crumbs"] = crumbs;
+                    //        _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSong", properties);
+                    //        break;
+                    //    }
+                    //case EntityKind.Playlist:
+                    //    {
+                    //        Playlist.PlaySong(entity, false);
+                    //        break;
+                    //    }
+                    case EntityKind.Home:
+                        {
+                            EntityCollection entities = new EntityCollection();
+                            Entities.Kinds.Home home = (Entities.Kinds.Home)entity;
+                            foreach (string item in Entities.Kinds.Home.Paths)
+                            {
+                                entities.Populate(FileSystemProvider.GetFolderContents(item), _factory, entity);
+                            }
 
-                    //properties["Crumbs"] = crumbs;
-                    _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSong", properties);
-                }
-                else if (entity.Kind == EntityKind.Playlist)
-                {
-                    Playlist.PlaySong(entity, false);
-                }
-                else if (entity.Kind == EntityKind.Home)
-                {
-                    EntityCollection entities = new EntityCollection();
-                    Entities.Kinds.Home home = (Entities.Kinds.Home)entity;
-                    foreach (string item in Entities.Kinds.Home.Paths)
-                    {
-                        entities.Populate(FileSystemProvider.GetFolderContents(item), _factory, entity);
-                    }
-                    FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
-                    properties["FolderModel"] = folderModel;
-                    properties["UINotifier"] = UINotifier.GetInstance();
-                    _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
+                            FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
+                            properties["FolderModel"] = folderModel;
+                            properties["UINotifier"] = UINotifier.GetInstance();
+                            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
 
-                    //trigger the background caching tasks
-                    foreach (string path in Entities.Kinds.Home.Paths)
-                    {
-                        CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path, _factory, _cache, new Entities.Kinds.Unknown()));
-                    }
-
-                }
-                else // assume it's some sort of folder
-                {
-                    EntityCollection entities = new EntityCollection();
-                    entities.Populate(FileSystemProvider.GetFolderContents(entity.Path), _factory, entity);
-                    FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
-                    properties["FolderModel"] = folderModel;
-                    properties["UINotifier"] = UINotifier.GetInstance();
-                    _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
+                            //trigger the background caching tasks
+                            foreach (string path in Entities.Kinds.Home.Paths)
+                            {
+                                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path, _factory, _cache, new Entities.Kinds.Unknown()));
+                            }
+                            break;
+                        }
+                    case EntityKind.Disc:
+                        {
+                            Playlist.PlayDisc(entity);
+                            break;
+                        }
+                    default:
+                        {
+                            EntityCollection entities = new EntityCollection();
+                            entities.Populate(FileSystemProvider.GetFolderContents(entity.Path), _factory, entity);
+                            FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
+                            properties["FolderModel"] = folderModel;
+                            properties["UINotifier"] = UINotifier.GetInstance();
+                            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
+                            break;
+                        }
                 }
             }
             catch (Exception ex)
             {
                 Logging.Logger.Error(ex);
-                DialogTest("Failed to navigate to " + entity.Description);
+                Dialog("Failed to navigate to " + entity.Description);
             }
         }
 
-        private void DialogTest(string strClickedText)
+        private void Dialog(string strClickedText)
         {
             const int timeout = 5;
             const bool modal = true;

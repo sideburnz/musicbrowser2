@@ -11,7 +11,7 @@ using System.Drawing;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    class TagSharpMetadataProvider : IBackgroundTaskable, IMetadataProvider
+    public class TagSharpMetadataProvider : IBackgroundTaskable, IMetadataProvider
     {
         private const string MARKER = "TAGSHARP";
         private readonly IEntity _entity;
@@ -36,19 +36,22 @@ namespace MusicBrowser.Providers.Metadata
 #if DEBUG
             Logging.Logger.Verbose("TagSharpMetadataProvider.Fetch(" + entity.Path + ")", "start");
 #endif
+
+            MusicBrowser.Providers.Statistics.GetInstance().Hit("tagsharp.hit");
             try
             {
                 TagLib.File fileTag = TagLib.File.Create(entity.Path);
 
-                if (!String.IsNullOrEmpty(fileTag.Tag.Title.Trim()))
+                if (!String.IsNullOrEmpty(fileTag.Tag.Title))
                 {
                     entity.Title = fileTag.Tag.Title.Trim();
-                    entity.SetProperty("album", fileTag.Tag.Album.Trim(), false);
-                    entity.SetProperty("artist", fileTag.Tag.FirstPerformer.Trim(), false);
-                    entity.SetProperty("albumartist", fileTag.Tag.FirstAlbumArtist.Trim(), false);
+                    entity.SetProperty("album", fileTag.Tag.Album, false);
+                    entity.SetProperty("artist", fileTag.Tag.FirstPerformer, false);
+                    entity.SetProperty("albumartist", fileTag.Tag.FirstAlbumArtist, false);
                     
                     entity.SetProperty("release", fileTag.Tag.Year.ToString(), false);
                     entity.SetProperty("disc", fileTag.Tag.Disc.ToString(), false);
+                    entity.SetProperty("track", string.Format("{0:D2}", fileTag.Tag.Track), false);
                     entity.SetProperty("codec", fileTag.MimeType.Substring(7).ToLower(), false);
                     entity.Duration = (Int32)fileTag.Properties.Duration.TotalSeconds;
                     entity.MusicBrainzID = fileTag.Tag.MusicBrainzTrackId;
@@ -73,28 +76,15 @@ namespace MusicBrowser.Providers.Metadata
                             if (_parent.Parent.Kind.Equals(EntityKind.Artist))
                             {
                                 if (string.IsNullOrEmpty(_parent.Parent.MusicBrainzID)) 
-                                { 
-                                    _parent.Parent.Title = fileTag.Tag.FirstAlbumArtist.Trim();
-                                    _parent.Parent.Dirty = true; 
+                                {
+                                    if (!String.IsNullOrEmpty(fileTag.Tag.FirstAlbumArtist))
+                                    {
+                                        _parent.Parent.Title = fileTag.Tag.FirstAlbumArtist;
+                                        _parent.Parent.Dirty = true;
+                                    }
                                 }
                             }
                         }
-                    }
-
-                    if (Util.Config.getInstance().getBooleanSetting("PutDiscInTrackNo"))
-                    {
-                        if (fileTag.Tag.Disc != 0)
-                        {
-                            entity.SetProperty("track", string.Format("{0}.{1:D2}", fileTag.Tag.Disc, fileTag.Tag.Track), false);
-                        }
-                        else
-                        {
-                            entity.SetProperty("track", string.Format("{0:D2}", fileTag.Tag.Track), false);
-                        }
-                    }
-                    else
-                    {
-                        entity.SetProperty("track", string.Format("{0:D2}", fileTag.Tag.Track), false);
                     }
 
                     if (!Util.Config.getInstance().getBooleanSetting("UseFolderImageForTracks"))

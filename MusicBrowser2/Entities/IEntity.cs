@@ -12,6 +12,7 @@ namespace MusicBrowser.Entities
     {
         Album,
         Artist,
+        Disc,
         Folder,
         Home,
         Playlist,
@@ -62,6 +63,8 @@ namespace MusicBrowser.Entities
         public string SortName { get { return _sortName; } }
         public new string Description { get { return _description; } }
         public virtual string View { get { return _view; } }
+        public virtual bool Playable { get { return false; } }
+
 
         // Fully implemented
         public Image Background
@@ -145,19 +148,32 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                if (_properties.ContainsKey("lfm.playcount") && Config.getInstance().getBooleanSetting("UseInternetProviders"))
+                if (Config.getInstance().getBooleanSetting("UseInternetProviders"))
                 {
                     StringBuilder sb = new StringBuilder();
 
-                    sb.Append(string.Format("Plays: {0:N0}  ", Int32.Parse(_properties["lfm.playcount"])));
-                    if (_properties.ContainsKey("lfm.listeners")) 
-                        { sb.Append(string.Format("Listeners: {0:N0}  ", Int32.Parse(Properties["lfm.listeners"]))); }
-                    if (_properties.ContainsKey("lfm.totalplays")) 
-                        { sb.Append(string.Format("Total Plays: {0:N0}  ", Int32.Parse(Properties["lfm.totalplays"]))); }
-                    if (_properties.ContainsKey("lfm.loved")) 
-                        { if (Properties["lfm.loved"].ToLower() == "true") { sb.Append("LOVED"); } }
+                    if (_properties.ContainsKey("lfm.playcount"))
+                    {
+                        sb.Append(string.Format("Plays: {0:N0}  ", Int32.Parse(_properties["lfm.playcount"])));
+                    }
+                    if (_properties.ContainsKey("lfm.listeners"))
+                    {
+                        sb.Append(string.Format("Listeners: {0:N0}  ", Int32.Parse(Properties["lfm.listeners"])));
+                    }
+                    if (_properties.ContainsKey("lfm.totalplays"))
+                    {
+                        sb.Append(string.Format("Total Plays: {0:N0}  ", Int32.Parse(Properties["lfm.totalplays"])));
+                    }
+                    if (_properties.ContainsKey("lfm.loved"))
+                    {
+                        if (Properties["lfm.loved"].ToLower() == "true") { sb.Append("LOVED"); }
+                    }
 
-                    return "Last.fm  (" + sb.ToString().Trim() + ")";
+                    if (sb.Length > 0)
+                    {
+                        return "Last.fm  (" + sb.ToString().Trim() + ")";
+                    }
+                    return string.Empty;
                 }
                 return string.Empty;
             }
@@ -165,6 +181,8 @@ namespace MusicBrowser.Entities
 
         public void SetProperty(string key, string value, bool overwrite)
         {
+            if (String.IsNullOrEmpty(key.Trim())) { return; }
+
             if (_properties.ContainsKey(key))
             {
                 if (string.IsNullOrEmpty(value)) 
@@ -174,7 +192,7 @@ namespace MusicBrowser.Entities
                 }
                 else if (overwrite) 
                 {
-                    if (_properties[key] == value) { return; }
+                    if (_properties[key].Equals(value)) { return; }
 
                     _properties[key] = value;
                     Dirty = true;

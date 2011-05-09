@@ -32,5 +32,13 @@ namespace MusicBrowser.Entities.Kinds
             set { base.ShortSummaryLine1 = value; }
         }
 
+        public override bool Playable
+        {
+            get
+            {
+                return true;
+            }
+        }
+
     }
 }

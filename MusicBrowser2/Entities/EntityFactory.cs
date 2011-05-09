@@ -58,6 +58,8 @@ namespace MusicBrowser.Entities
                 _cache.Delete(key);
             }
 
+            MusicBrowser.Providers.Statistics.GetInstance().Hit("factory.hit");
+
             if (!String.IsNullOrEmpty(metadata.Name))
             {
                 string metadataText = File.ReadAllText(metadataFile);
@@ -134,7 +136,6 @@ namespace MusicBrowser.Entities
             if ((entity.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
             {
                 IEnumerable<FileSystemItem> content = FileSystemProvider.GetFolderContents(entity.FullPath);
-                bool containsSongs = false;
                 bool containsFolders = false;
 
                 foreach (FileSystemItem item in content)
@@ -143,12 +144,10 @@ namespace MusicBrowser.Entities
                     {
                         containsFolders = true;
                     }
-                    if (Util.Helper.IsSong(item.Name)) { containsSongs = true; break; }
-                }
-                // if there's tracks in the folder then it's an album
-                if (containsSongs)
-                {
-                    return EntityKind.Album;
+                    if (Util.Helper.IsSong(item.Name)) 
+                    {
+                        return EntityKind.Album; 
+                    }
                 }
                 if (containsFolders)
                 {

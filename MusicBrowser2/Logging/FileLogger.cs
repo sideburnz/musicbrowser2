@@ -117,6 +117,16 @@ namespace MusicBrowser.Logging
             }
         }
 
+        void ILogger.LogStats(MusicBrowser.Providers.Statistics stats)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(DateTime.Now.ToShortDateString() + ", ");
+            sb.Append(DateTime.Now.ToString("HH:mm:ss.ff") + ", ");
+            sb.Append("Stats, ");
+            sb.Append("\"" + stats.ToString() + "\"");
+            InnerLog(sb.ToString());
+        }
+
         #endregion
 
         private void InnerLog(string message)

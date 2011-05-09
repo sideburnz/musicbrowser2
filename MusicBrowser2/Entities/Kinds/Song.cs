@@ -20,12 +20,39 @@ namespace MusicBrowser.Entities.Kinds
             get { return EntityKind.Song; }
         }
 
-        public override string Path
+        public string Track
         {
-            get { return base.Path; }
-            set
+            get
             {
-                base.Path = value;
+                if (Util.Config.getInstance().getBooleanSetting("PutDiscInTrackNo"))
+                {
+                    if (!Properties.ContainsKey("track")) 
+                    { 
+                        return string.Empty; 
+                    }
+                    if (Properties.ContainsKey("disc")) 
+                    {
+                        if (!Properties["disc"].Equals("0"))
+                        {
+                            return Properties["disc"] + "." + Properties["track"];
+                        }
+                        
+                    }
+                    return Properties["track"]; 
+                }
+                else
+                {
+                    if (Properties.ContainsKey("track")) { return Properties["track"]; }
+                    else { return string.Empty; }
+                }
+            }
+        }
+
+        public override bool Playable
+        {
+            get
+            {
+                return true;
             }
         }
 

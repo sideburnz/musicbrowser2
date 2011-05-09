@@ -39,6 +39,8 @@ namespace MusicBrowser.Providers.Metadata
 #if DEBUG
             Logging.Logger.Verbose("LastFMMetadataProvider.Fetch", "start");
 #endif
+            MusicBrowser.Providers.Statistics.GetInstance().Hit("lastfm.hit");
+
             WebServiceProvider LFMProvider = new LastFMWebProvider();
 
             switch (entity.Kind)

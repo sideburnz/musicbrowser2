@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using MusicBrowser.Entities;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
@@ -13,17 +14,14 @@ namespace MusicBrowser.Entities
         private readonly Dictionary<string, IEntity> _memoryCache;
         private readonly string _cacheLocation;
         private readonly bool _cacheDisabled;
-        private int _cacheHits;
-        private int _cacheMisses;
         private readonly object obj = new object();
         #endregion
 
         #region constructors
         public EntityCache()
         {
-            _cacheHits = 0;
-            _cacheMisses = 0;
-            _cacheLocation = Util.Helper.AppCachePath + "\\Entities\\";
+            _cacheLocation = Config.getInstance().getSetting("CachePath") + "\\Entities\\";
+            Helper.BuildCachePath(Config.getInstance().getSetting("CachePath"));
             _cacheDisabled = !Util.Config.getInstance().getBooleanSetting("EnableCache");
             _memoryCache = new Dictionary<string, IEntity>();
         }
@@ -42,10 +40,10 @@ namespace MusicBrowser.Entities
         {
             if (_memoryCache.ContainsKey(key))
             {
-                _cacheHits++;
+                MusicBrowser.Providers.Statistics.GetInstance().Hit("cache.hit");
                 return _memoryCache[key];
             }
-            _cacheMisses++;
+            MusicBrowser.Providers.Statistics.GetInstance().Hit("cache.misses");
             if (loadCacheItemToMemory(key))
             {
                 _memoryCache[key].Dirty = false;
@@ -62,8 +60,9 @@ namespace MusicBrowser.Entities
             if (_cacheDisabled) { return; }
             if (!entity.Dirty) { return; }
 
-            this.Delete(key);
-            _memoryCache.Add(key, entity);
+            _memoryCache[key] = entity;
+//            this.Delete(key);
+//            _memoryCache.Add(key, entity);
             string fileName = _cacheLocation + key + ".cache.xml";
             // there have been collisions, this fix comes with a performance penalty
             lock (obj)
@@ -95,16 +94,6 @@ namespace MusicBrowser.Entities
                 if (d > cacheDate) { return false; }
             }
             return true;
-        }
-
-        public int Hits
-        {
-            get { return _cacheHits; }
-        }
-
-        public int Misses
-        {
-            get { return _cacheMisses; }
         }
 
         public int Size

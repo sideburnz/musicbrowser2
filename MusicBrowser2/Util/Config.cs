@@ -4,7 +4,9 @@ using System.Xml;
 using System.IO;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Entities;
+using MusicBrowser.Entities.Kinds;
 using System.Text.RegularExpressions;
+
 
 namespace MusicBrowser.Util
 {
@@ -46,7 +48,15 @@ namespace MusicBrowser.Util
                                         { "FormatForArtist", "[title]" },
                                         { "FormatForPlaylist", "[title]" },
 
-                                        { "ThreadPoolSize", "2" }
+                                        { "ThreadPoolSize", "2" },
+                                        { "LogStatsOnClose", false.ToString() },
+
+                                        { "Engine", "MediaCentre" },
+                                        { "foobar2000", "C:\\Program Files\\foobar2000\\foobar2000.exe" },
+
+                                        { "CachePath", Helper.CachePath },
+ 
+                                        { "ShowCDs", true.ToString() }
                                       };
 
         #region singleton
@@ -199,6 +209,10 @@ namespace MusicBrowser.Util
             string format;
             switch (entity.Kind)
             {
+                case EntityKind.Disc:
+                    {
+                        return entity.Title;
+                    }
                 case EntityKind.Song:
                     {
                         format = _instance.getSetting("FormatForSong");
@@ -237,6 +251,10 @@ namespace MusicBrowser.Util
                 {
                     format = format.Replace("[title]", entity.Title);
                 }
+                else if (token.Equals("track") && entity.Kind.Equals(EntityKind.Song))
+                {
+                    format = format.Replace("[track]", ((Song)entity).Track);
+                }
                 else if (entity.Properties.ContainsKey(token))
                 {
                     format = format.Replace("[" + token + "]", entity.Properties[token]);
@@ -248,5 +266,6 @@ namespace MusicBrowser.Util
             }
             return format;
         }
+
     }
 }

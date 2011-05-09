@@ -208,23 +208,8 @@
   <data name="pageFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\markup\pages\pagefolder.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="pageSong" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\pages\pagesong.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="progressImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\images\backgrounds\progressimage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="songNotified" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\progress\songnotified.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="songNotPlaying" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\progress\songnotplaying.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="songPlaying" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\progress\songplaying.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="songScrobbled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\progress\songscrobbled.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="underline" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\images\backgrounds\underline.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -237,5 +222,8 @@
   </data>
   <data name="viewThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\markup\controls\pageviews\viewthumb.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="imageDisc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagedisc.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

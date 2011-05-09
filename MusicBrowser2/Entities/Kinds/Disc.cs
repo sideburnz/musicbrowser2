@@ -1,0 +1,93 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using MusicBrowser.Entities;
+using MusicBrowser.Providers.CD;
+
+namespace MusicBrowser.Entities.Kinds
+{
+    class Disc : IEntity
+    {
+        private readonly char _letter;
+        private CDDrive _drive;
+
+        public Disc(char letter)
+        {
+            _letter = letter;
+            _drive = new CDDrive();
+
+            _drive.Open(_letter);
+            if (_drive.Refresh())
+            {
+                if (_drive.GetNumAudioTracks() > 0)
+                {
+                    OnCDInserted();
+                }
+            }
+            _drive.UnLockCD();
+            _drive.Close();
+            base.Title = "Audio CD (" + _letter + ":)";
+            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageDisc";
+            CalculateValues();
+        }
+
+        public override string Path
+        {
+            get
+            {
+                return _letter + ":\\";
+            }
+        }
+
+        public override bool Playable
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        private void OnCDInserted()
+        {
+            int Tracks = _drive.GetNumAudioTracks();
+            int T = _drive.GetNumTracks();
+            int Length = 0;
+            string Duration;
+
+            for (int i = 1; i <= T; i++)
+            {
+                if (_drive.IsAudioTrack(i))
+                {
+                    Length += _drive.GetSeconds(i);
+                }
+            }
+
+            TimeSpan t = TimeSpan.FromSeconds(Length);
+            if (t.Hours == 0)
+            {
+                Duration = string.Format("{0}:{1:D2}", (Int32)Math.Floor(t.TotalMinutes), t.Seconds);
+            }
+            else
+            {
+                Duration = string.Format("{0}:{1:D2}:{2:D2}", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds);
+            }
+
+
+            base.ShortSummaryLine1 = "Disc (" + Tracks + " Tracks  " + Duration + ")";
+
+            //fire off background task to get info off CDDB
+            FirePropertiesChanged("ShortSummaryLine1");
+        }
+
+        public char Letter
+        {
+            get { return _letter; }
+        }
+
+        public override EntityKind Kind
+        {
+            get { return EntityKind.Disc; }
+        }
+    }
+}

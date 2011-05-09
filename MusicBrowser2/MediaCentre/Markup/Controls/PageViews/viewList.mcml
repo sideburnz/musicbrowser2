@@ -20,7 +20,7 @@
       <ScrollingData Name="TextScrollingData" EndPadding="100"/>      
       
       <ScrollingData Name="scrollData" EndPadding="100" PageStep="1" />
-      <ScrollingHandler Name="scrollHandler" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandleDirectionalKeys="true"  HandlerStage="Direct" />
+      <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
 
       <Command Name="RightHandler"/>
     </Locals>
@@ -165,11 +165,25 @@
         </Actions>
       </Changed>
       
-      <Changed Source="[enterCommand.Invoked]">
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Modified Source="[enterCommand.Invoked]"/>
+          <Equality ConditionOp="Equals" Source="[Entity.Playable]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
+        </Actions>
+      </Rule>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Modified Source="[enterCommand.Invoked]"/>
+          <Equality ConditionOp="NotEquals" Source="[Entity.Playable]" Value="true" />
+        </Conditions>
         <Actions>
           <Invoke Target="[Application.Navigate]" entity="[Entity]" parentCrumbs="[FolderModel.Crumbs]"/>
         </Actions>
-      </Changed>
+      </Rule>
 
       <Binding Source="[enterCommand]" Target="[Clicker.Command]" />
       <Binding Source="[Entity.Icon]" Target="[graphicBullet.Content]" />

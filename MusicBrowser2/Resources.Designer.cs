@@ -223,6 +223,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap imageDisc {
+            get {
+                object obj = ResourceManager.GetObject("imageDisc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap imageFolder {
             get {
                 object obj = ResourceManager.GetObject("imageFolder", resourceCulture);
@@ -272,44 +279,9 @@ namespace MusicBrowser {
             }
         }
         
-        internal static byte[] pageSong {
-            get {
-                object obj = ResourceManager.GetObject("pageSong", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap progressImage {
             get {
                 object obj = ResourceManager.GetObject("progressImage", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap songNotified {
-            get {
-                object obj = ResourceManager.GetObject("songNotified", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap songNotPlaying {
-            get {
-                object obj = ResourceManager.GetObject("songNotPlaying", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap songPlaying {
-            get {
-                object obj = ResourceManager.GetObject("songPlaying", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap songScrobbled {
-            get {
-                object obj = ResourceManager.GetObject("songScrobbled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

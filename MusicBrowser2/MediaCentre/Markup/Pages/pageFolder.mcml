@@ -32,10 +32,35 @@
       <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
       <playlist:Playlist Name="playlist"/>
       <models:Clock Name="Clock"/>
+
+      <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled"/>
+      <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled"/>
+      <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Bubbled"/>
+      <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Bubbled" />
     </Locals>
 
     <Rules>
-
+      <Changed Source="[hNext.Invoked]">
+        <Actions>
+          <Invoke Target="[FolderModel.TransportCommand]" command="next" />
+        </Actions>
+      </Changed>
+      <Changed Source="[hPrev.Invoked]">
+        <Actions>
+          <Invoke Target="[FolderModel.TransportCommand]" command="prev" />
+        </Actions>
+      </Changed>
+      <Changed Source="[hStop.Invoked]">
+        <Actions>
+          <Invoke Target="[FolderModel.TransportCommand]" command="stop" />
+        </Actions>
+      </Changed>
+      <Changed Source="[hPlayPause.Invoked]">
+        <Actions>
+          <Invoke Target="[FolderModel.TransportCommand]" command="playpause" />
+        </Actions>
+      </Changed>
+      
       <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
       <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
 
@@ -141,14 +166,6 @@
               <FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
             </Layout>
             <Children>
-              <Panel Layout="HorizontalFlow" Margins="0,0,0,0">
-                <Children>
-                  <Text Name="List_Counter" Content="0" Color="White" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
-                  <Text Name="List_Break" Content="|" Color="Gray" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
-                  <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
-                  <Text Name="List_Total"  Content="[FolderModel.FullSize]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
-                </Children>
-              </Panel>
               <Panel>
                 <LayoutInput>
                   <FormLayoutInput Right="Parent,0.89" Top="Parent,0.6"/>
@@ -157,7 +174,14 @@
                   <Text Name="TimeDate" Content="" Color="White" Font="Segoe Media Center Light, 20" HorizontalAlignment="Far" Alpha="0.7"/>
                 </Children>
               </Panel>
-              <Graphic Name="SongStatus" Content="resx://MusicBrowser/MusicBrowser.Resources/songNotPlaying" Alpha="1" MaintainAspectRatio="true" Margins="0,0,0,0" />
+              <Panel Layout="HorizontalFlow" Margins="0,0,0,0">
+                <Children>
+                  <Text Name="List_Counter" Content="0" Color="White" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
+                  <Text Name="List_Break" Content="|" Color="Gray" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
+                  <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
+                  <Text Name="List_Total"  Content="[FolderModel.FullSize]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
+                </Children>
+              </Panel>
             </Children>
           </Panel>
 

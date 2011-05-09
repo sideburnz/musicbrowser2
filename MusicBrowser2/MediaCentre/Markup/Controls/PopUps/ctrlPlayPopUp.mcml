@@ -19,6 +19,7 @@
       <Command Name="CmdResume"/>
       <Command Name="CmdPause"/>
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
+      <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[CmdClose]"/>
       <playlist:Playlist Name="playlist"/>
     </Locals>
 

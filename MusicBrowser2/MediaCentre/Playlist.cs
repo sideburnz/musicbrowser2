@@ -6,6 +6,7 @@ using Microsoft.MediaCenter;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers;
 using MusicBrowser.Util;
+using MusicBrowser.Providers.Transport;
 
 namespace MusicBrowser.MediaCentre
 {
@@ -23,12 +24,12 @@ namespace MusicBrowser.MediaCentre
                 // handle these in real-time
                 case "cmdresume":
                     {
-                        Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 2;
+                        Transport.getTransport().PlayPause();
                         return;
                     }
                 case "cmdpause":
                     {
-                        Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 1;
+                        Transport.getTransport().PlayPause();
                         return;
                     }
             }
@@ -42,26 +43,20 @@ namespace MusicBrowser.MediaCentre
         {
             Models.UINotifier.GetInstance().Message = "Adding " + tracks.Count() + " tracks to playlist";
 
-            // set up
-            MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-            // handle the first track
-            if (mce.MediaExperience == null && queue == true) queue = false;
-            mce.PlayMedia(MediaType.Audio, tracks.First(), queue);
-            // enqueue the rest of the tracks
-            for (int i = 1; i < tracks.Count(); i++)
-            {
-                mce.PlayMedia(MediaType.Audio, tracks.ElementAt(i), true);
-            }
+            Transport.getTransport().Play(queue, tracks);
 
             AutoShowNowPlaying();
         }
 
         public static void PlaySong(IEntity entity, Boolean add)
         {
-            MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-            if (mce.MediaExperience == null && add == true) add = false;
-            mce.PlayMedia(MediaType.Audio, entity.Path, add);
+            Transport.getTransport().Play(add, entity.Path);
+            AutoShowNowPlaying();
+        }
 
+        public static void PlayDisc(IEntity entity)
+        {
+            Transport.getTransport().PlayDisc(entity.Path);
             AutoShowNowPlaying();
         }
 

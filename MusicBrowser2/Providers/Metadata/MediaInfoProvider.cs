@@ -26,6 +26,8 @@ namespace MusicBrowser.Providers.Metadata
 #if DEBUG
             Logging.Logger.Verbose("MediaInfoProvider.Fetch(" + entity.Path + ")", "start");
 #endif
+
+            MusicBrowser.Providers.Statistics.GetInstance().Hit("mediainfo.hit");
             try
             {
 

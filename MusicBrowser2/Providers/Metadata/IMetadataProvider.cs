@@ -7,7 +7,7 @@ using MusicBrowser.Providers.Background;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    interface IMetadataProvider
+    public interface IMetadataProvider
     {
         IEntity Fetch(IEntity entity);
     }

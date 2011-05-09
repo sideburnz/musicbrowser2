@@ -17,7 +17,12 @@ namespace MusicBrowser
         }          
         
         public void Uninitialize()         
-        {         
+        {
+            MusicBrowser.Providers.Transport.Transport.getTransport().Close();
+            if (Util.Config.getInstance().getBooleanSetting("LogStatsOnClose"))
+            {
+                Logging.Logger.Stats(MusicBrowser.Providers.Statistics.GetInstance());
+            }
         }
         
         public void Launch(AddInHost host)         

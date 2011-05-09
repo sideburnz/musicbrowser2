@@ -88,6 +88,7 @@
     </Properties>
     <Locals>
       <ClickHandler Name="Clicker" />
+      <Command Name="enterCommand"/>
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
       <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
     </Locals>
@@ -112,11 +113,24 @@
           <Set Target="[Blocker.Content]" Value="Transparent"/>
         </Actions>
       </Condition>
-      <Changed Source="[Clicker.Invoked]">
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Modified Source="[enterCommand.Invoked]"/>
+          <Equality ConditionOp="Equals" Source="[Entity.Playable]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
+        </Actions>
+      </Rule>
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Modified Source="[enterCommand.Invoked]"/>
+          <Equality ConditionOp="NotEquals" Source="[Entity.Playable]" Value="true" />
+        </Conditions>
         <Actions>
           <Invoke Target="[Application.Navigate]" entity="[Entity]" parentCrumbs="[FolderModel.Crumbs]"/>
         </Actions>
-      </Changed>
+      </Rule>
       <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
       <Rule ConditionLogicalOp="Or">
         <Conditions>
@@ -127,6 +141,7 @@
           <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
         </Actions>
       </Rule>
+      <Binding Source="[enterCommand]" Target="[Clicker.Command]" />
     </Rules>
     <Content>
       <Graphic Content="null" Layout="Fill" Name="Wrapper" CenterPointPercent=".5,.5,.5" SizingPolicy="SizeToChildren">

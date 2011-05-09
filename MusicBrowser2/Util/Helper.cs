@@ -45,51 +45,47 @@ namespace MusicBrowser.Util
             get { return _appConfigFile ?? (_appConfigFile = Path.Combine(AppFolder, "MusicBrowser.config")); }
         }
 
-        static string _appCachePath;
-        public static string AppCachePath
+        public static string CachePath
         {
-            get
+            get { return Path.Combine(AppFolder, "Cache"); }
+        }
+
+        public static void BuildCachePath(string path)
+        {
+            if (!Directory.Exists(path))
             {
-                if (_appCachePath == null)
+                try
                 {
-                    var e = Path.Combine(AppFolder, "Cache");
-                    if (!Directory.Exists(e))
-                    {
-                        try
-                        {
-                            Directory.CreateDirectory(e);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("Cache folder for MusicBrowser is missing: " + e, ex);
-                        }
-                    }
-                    try
-                    {
-                        Directory.CreateDirectory(e + "\\Images");
-                        Directory.CreateDirectory(e + "\\Images\\Backgrounds");
-                        Directory.CreateDirectory(e + "\\Images\\Covers");
-                        Directory.CreateDirectory(e + "\\Images\\Thumbs");
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("Image cache folder for MusicBrowser is missing: " + e + "\\Images", ex);
-                    }
-                    if (!Directory.Exists(e + "\\Entities"))
-                    {
-                        try
-                        {
-                            Directory.CreateDirectory(e + "\\Entities");
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("Entity cache folder for MusicBrowser is missing: " + e + "\\Entities", ex);
-                        }
-                    }
-                    _appCachePath = e;
+                    Directory.CreateDirectory(path);
                 }
-                return _appCachePath;
+                catch (Exception ex)
+                {
+                    throw new Exception("Cache folder for MusicBrowser is missing: " + path, ex);
+                }
             }
+            try
+            {
+                Directory.CreateDirectory(path + "\\Images");
+                Directory.CreateDirectory(path + "\\Images\\Backgrounds");
+                Directory.CreateDirectory(path + "\\Images\\Covers");
+                Directory.CreateDirectory(path + "\\Images\\Thumbs");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Image cache folder for MusicBrowser is missing: " + path + "\\Images", ex);
+            }
+            if (!Directory.Exists(path + "\\Entities"))
+            {
+                try
+                {
+                    Directory.CreateDirectory(path + "\\Entities");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Entity cache folder for MusicBrowser is missing: " + path + "\\Entities", ex);
+                }
+            }
+
         }
 
         static string _appLogFolder;
@@ -219,12 +215,12 @@ namespace MusicBrowser.Util
 
         static public string CacheFullName(string key)
         {
-            return Helper.AppCachePath + "\\Entities\\" + key + ".xml";
+            return Config.getInstance().getSetting("CachePath") + "\\Entities\\" + key + ".xml";
         }
 
         static public string ImageCacheFullName(string key, string imageType)
         {
-            return Helper.AppCachePath + "\\Images\\" + imageType + "\\" + key + ".jpg";
+            return Config.getInstance().getSetting("CachePath") + "\\Images\\" + imageType + "\\" + key + ".jpg";
         }
 
         /// <summary>

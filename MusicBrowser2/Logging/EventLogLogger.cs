@@ -97,6 +97,11 @@ namespace MusicBrowser.Logging
             }
         }
 
+        void ILogger.LogStats(MusicBrowser.Providers.Statistics stats)
+        {
+            InnerLog("Stats: " + stats.ToString(), EventLogEntryType.Information);
+        }
+
         #endregion
 
         private void InnerLog (string message, EventLogEntryType level)

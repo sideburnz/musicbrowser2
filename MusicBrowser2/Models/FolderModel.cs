@@ -7,7 +7,11 @@ using MusicBrowser.Providers;
 using MusicBrowser.Util;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Collections.Generic;
+using System.Collections;
 using MusicBrowser.MediaCentre;
+using MusicBrowser.Providers.CD;
+using MusicBrowser.Providers.Transport;
 
 namespace MusicBrowser.Models
 {
@@ -23,6 +27,9 @@ namespace MusicBrowser.Models
         private readonly EditableText _remoteFilter = new EditableText();
         private int _matches;
 
+        private readonly bool _isHome;
+        private IList<CDDrive> _CDDrives = new List<CDDrive>();
+
         public FolderModel(IEntity parentEntity, Breadcrumbs crumbs, EntityCollection entities)
         {
 #if DEBUG
@@ -32,12 +39,16 @@ namespace MusicBrowser.Models
             _crumbs.Add(parentEntity);
             _parentEntity = parentEntity;
             _entities = entities;
+
+            _isHome = parentEntity.Kind.Equals(EntityKind.Home);
+            
             _fullentities = new EntityCollection();
             _fullentities.AddRange(_entities);
             _matches = _fullentities.Count;
 
-            _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;
-            MediaContext.GetInstance().OnPlayStateChanged += PlayStateChanged;       
+//          if (_isHome) { DealWithCDs(); }
+
+            _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;    
         }
 
         /// <summary>
@@ -115,21 +126,20 @@ namespace MusicBrowser.Models
 
             if (property == "Value")
             {
+                Logging.Logger.Debug("filter = " + _remoteFilter.Value);
+
                 // if it's resetting the filter, then just shortcut and load the
                 // entity list with the full set of data
                 if (string.IsNullOrEmpty(_remoteFilter.Value) || (_remoteFilter.Value.Contains('\\')))
                 {
-                    _entities.Clear();
-                    _entities.AddRange(_fullentities);
-                    FirePropertiesChanged("Matches", "EntityCollection", "FullSize");
+                    RefreshEntities();
+                    return;
                 }
 
                 _matches = 0;
                 int listSize = _fullentities.Count;
                 Regex regex = new Regex("\\b" + _remoteFilter.Value.ToLower());
                 EntityCollection temp = new EntityCollection();
-
-                //this is slower than the foreach loop, in .Net4 make it parallel
                 
                 foreach (IEntity item in _fullentities)
                 {
@@ -184,17 +194,89 @@ namespace MusicBrowser.Models
 
         public static bool isPlaying
         {
-            get { return MediaContext.GetInstance().PlayState == PlayState.Playing; }
+            get { return Transport.getTransport().State == MusicBrowser.Providers.Transport.PlayState.Playing; }
         }
 
         public static bool isPaused
         {
-            get { return MediaContext.GetInstance().PlayState == PlayState.Paused; }
+            get { return Transport.getTransport().State == MusicBrowser.Providers.Transport.PlayState.Paused; }
         }
 
-        void PlayStateChanged(object obj)
+        private void DealWithCDs()
         {
-            FirePropertiesChanged("isPlaying", "isPaused");
+            /* for each CD, register listeners for the on insert and remove
+             * the insert should put the disc into the home list and fetch metadata
+             * remove should remove from the list */
+
+            if (_isHome & Config.getInstance().getBooleanSetting("ShowCDs"))
+            {
+                foreach (char letter in CDDrive.GetCDDriveLetters())
+                {
+                    CDDrive d = new CDDrive();
+                    d.Open(letter);
+                    _CDDrives.Add(d);
+                    d.CDInserted += OnCDInserted;
+                    d.CDRemoved += OnCDRemoved;
+                    
+                    OnCDInserted(d, null);
+                }
+            }
         }
+
+        private void OnCDInserted(object sender, EventArgs e)
+        {
+            Logging.Logger.Debug("CD inserted: " + ((CDDrive)sender).Letter);
+
+            _fullentities.Insert(0, new Entities.Kinds.Disc(((CDDrive)sender).Letter));
+            RefreshEntities();
+        }
+
+        private void OnCDRemoved(object sender, EventArgs e)
+        {
+            CDDrive obj = (CDDrive)sender;
+
+            Logging.Logger.Debug("CD removed: " + obj.Letter);
+
+            for (int i = 0; i < _entities.Count; i++)
+            {
+                if (_entities[i].Kind.Equals(EntityKind.Disc))
+                {
+                    if (((Disc)_entities[i]).Letter == obj.Letter)
+                    {
+                        _fullentities.RemoveAt(i);
+                        RefreshEntities();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
+        private void RefreshEntities()
+        {
+            _entities.Clear();
+            _entities.AddRange(_fullentities);
+            _matches = _fullentities.Count;
+            _entities.IndexItems();
+            _remoteFilter.Value = String.Empty;
+            FirePropertiesChanged("Matches", "EntityCollection", "FullSize");
+        }
+
+        public void TransportCommand(string command)
+        {
+            Logging.Logger.Debug("TransportCommand: " + command);
+
+            switch (command.ToLower())
+            {
+                case "next": MusicBrowser.Providers.Transport.Transport.getTransport().Next(); break;
+                case "prev": MusicBrowser.Providers.Transport.Transport.getTransport().Previous(); break;
+                case "stop": MusicBrowser.Providers.Transport.Transport.getTransport().Stop(); break;
+                case "playpause": MusicBrowser.Providers.Transport.Transport.getTransport().PlayPause(); break;
+            }
+        }
+
     }
 }

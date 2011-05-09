@@ -30,6 +30,8 @@ namespace MusicBrowser.Providers.Metadata
 #if DEBUG
             Logging.Logger.Verbose("HTBackdropMetadataProvider.Fetch(" + entity.Path + ")", "start");
 #endif
+            MusicBrowser.Providers.Statistics.GetInstance().Hit("htbackdrop.hit");
+
             // set up the web service classes
             ArtistImageServiceDTO dto = new ArtistImageServiceDTO();
             ArtistImageService service = new ArtistImageService();

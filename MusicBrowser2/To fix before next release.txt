@@ -1,24 +1,37 @@
-﻿2.2.1
-- navigate across to summary text
+﻿V2.2.3
 
-2.2.2 target functionality/fixes
-
-- "PutDiscInTrackNo" has no effect if changed after data's been cached
-- rework the song details MCML
-- finish LFM integration
-- put in track summary pods
-- config app
+HIGH
 - navigate to summary on list screens
-- cover flow to have smoother flow and reflection
-- a manually refresh metadata button
+- Up and Down icons so show summary has more text, these can be selectable rather than the text
+- have a setting for "AutocorrectTags"
+- resolve (or remove) CD
+- summary 2 - use like a "[title]" style replacer
+- change default icons
+- button to force metadata update
+- config app
+	- settings are in an XML setting
+		- attribues for advances and unadvanced
+
+LOW
+- icons to show drop down menu options to change view and sort
+- cache to a persisted data set
+- record corrections
+- color buttons could have functions
+- work on cover flow (maybe reimagine)
 - new view, single row/column of covers with summary info of selected item (not parent)
 - views per entity (stored in metadata)
+	- change to have a setter, if setter not set, use default
 - detection, metadata retreival and playing of audio CDs
+- varied color and texture default icons
 - fix albums sorting before artists
 - don't show artists or albums with no valid items
-- scrobbling
 - loving tracks
 - don't animate on returning to a page
 - cache subitem list (remove need to go to remote filesystems)
-- summary 2 - use like a "[title]" style replacer
 - sort by (last fm plays, title, release etc)
+- incremental install
+- on music bar on mce menu
+- have the disc provider go off for freedb details async
+- have a config item for the mcml, with the removal of the page.mcml there'll only be one main page, this could be swapped to create other themes
+
+http://www.codeproject.com/KB/audio-video/freedb.aspx
