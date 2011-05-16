@@ -1,4 +1,7 @@
-﻿V2.2.3
+﻿V2.2.2
+- pause from the remote to FooBar2000
+
+V2.2.3
 
 HIGH
 - navigate to summary on list screens

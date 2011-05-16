@@ -14,6 +14,27 @@ namespace MusicBrowser.Providers.Metadata
     {
         private const string MARKER = "LAST.FM";
 
+
+        private const int MIN_DAYS_BETWEEN_HITS = 1;
+        private const int MAX_DAYS_BETWEEN_HITS = 7;
+        private const int REFRESH_WINDOW = MAX_DAYS_BETWEEN_HITS - MIN_DAYS_BETWEEN_HITS;
+
+        private static Random Rnd = new Random(DateTime.Now.Millisecond);
+        
+        /// <summary>
+        /// This determines if data should be refreshed, it makes it more likely
+        /// the older the data is to be refreshed.
+        /// </summary>
+        /// <param name="stamp"></param>
+        /// <returns></returns>
+        private static bool RandomlyRefreshData(DateTime stamp)
+        {
+            int DataAge = (DateTime.Today.Subtract(stamp)).Days;
+            int RefreshProbability = (10 * (DataAge / (REFRESH_WINDOW - MIN_DAYS_BETWEEN_HITS))) ^ 2;
+            if (DataAge <= MIN_DAYS_BETWEEN_HITS) { return false; }
+            return (RefreshProbability >= Rnd.Next(100));
+        }
+
         #region IMetadataProvider Members
 
         public IEntity Fetch(IEntity entity)
@@ -22,19 +43,7 @@ namespace MusicBrowser.Providers.Metadata
             if (!Util.Config.getInstance().getBooleanSetting("UseInternetProviders")) { return entity; }
             if (entity.Properties.ContainsKey(MARKER))
             {
-                // only check for new info once a week
-                switch (entity.Kind)
-                {
-                    case EntityKind.Album:
-                        if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-10)) { return entity; }
-                        break;
-                    case EntityKind.Artist:
-                        if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-10)) { return entity; }
-                        break;
-                    case EntityKind.Song:
-                        if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-7)) { return entity; }
-                        break;
-                }
+                if (!RandomlyRefreshData(DateTime.Parse(entity.Properties[MARKER]))) { return entity; } 
             }
 #if DEBUG
             Logging.Logger.Verbose("LastFMMetadataProvider.Fetch", "start");
@@ -57,18 +66,9 @@ namespace MusicBrowser.Providers.Metadata
                         albumService.setProvider(LFMProvider);
                         albumService.Fetch(albumDTO);
 
-                        if (albumDTO.Plays > 0)
-                        {
-                            entity.SetProperty("lfm.playcount", albumDTO.Plays.ToString(), true);
-                            entity.SetProperty("lfm.listeners", albumDTO.Listeners.ToString(), true);
-                            entity.SetProperty("lfm.totalplays", albumDTO.TotalPlays.ToString(), true);
-                        }
-                        else
-                        {
-                            entity.SetProperty("lfm.playcount", string.Empty, true);
-                            entity.SetProperty("lfm.listeners", string.Empty, true);
-                            entity.SetProperty("lfm.totalplays", string.Empty, true);
-                        }
+                        entity.SetProperty("lfm.playcount", albumDTO.Plays.ToString(), true);
+                        entity.SetProperty("lfm.listeners", albumDTO.Listeners.ToString(), true);
+                        entity.SetProperty("lfm.totalplays", albumDTO.TotalPlays.ToString(), true);
 
                         if (albumDTO.Release > DateTime.MinValue)
                         {

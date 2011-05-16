@@ -143,6 +143,7 @@
     </Compile>
     <Compile Include="Util\Helper.cs" />
     <Compile Include="Util\StandingData.cs" />
+    <Compile Include="WebServices\Helper\Externals.cs" />
     <Compile Include="WebServices\WebServiceProviders\HTBackdropWebProvider.cs" />
     <Compile Include="WebServices\Helper\HTTPProvider.cs" />
     <Compile Include="WebServices\Helper\Logging.cs" />

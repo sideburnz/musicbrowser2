@@ -5,6 +5,7 @@ using System.Text;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.Providers;
 using System.Security.Cryptography;
+using MusicBrowser.WebServices.Helper;
 
 namespace MusicBrowser.WebServices.WebServiceProviders
 {
@@ -18,7 +19,6 @@ namespace MusicBrowser.WebServices.WebServiceProviders
         private const string API_KEY = "c2145788b6b9008665559eb0dc4ae159";
         private const string API_SECRET = "e8f555849feb3e323e4ec12ae19904a7";
         #endregion
-
 
         public void SetParameters(IDictionary<string, string> parms)
         {
@@ -64,7 +64,7 @@ namespace MusicBrowser.WebServices.WebServiceProviders
 
             foreach(string item in _parms.Keys)
             {
-                sb.Append(item + "=" + _parms[item] + "&");
+                sb.Append(Externals.EncodeURL(item) + "=" + Externals.EncodeURL(_parms[item]) + "&");
             }
 
             sb.Append("api_sig=" + getSig(_parms));
@@ -90,18 +90,26 @@ namespace MusicBrowser.WebServices.WebServiceProviders
         }
     }
 
+    /// <summary>
+    /// Last.fm has rules about how much you can hammer their servers,
+    /// this little class is meant to ensure that no more than five 
+    /// requests per second are sent.
+    /// </summary>
     static class LFMThrottler
     {
+        private const int MAX_HITS_PER_SECOND = 5;
+        private const int MS_BETWEEN_HITS = 1000 / MAX_HITS_PER_SECOND;
+
         static DateTime _nextHit;
 
         public static bool Hit()
         {
             if (DateTime.Now <= _nextHit)
             {
-                System.Threading.Thread.Sleep(300);
+                System.Threading.Thread.Sleep(MS_BETWEEN_HITS);
                 return false;
             }
-            _nextHit = DateTime.Now.AddMilliseconds(250);
+            _nextHit = DateTime.Now.AddMilliseconds(MS_BETWEEN_HITS);
             return true;
         }
     }

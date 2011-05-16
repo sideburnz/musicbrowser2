@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml;
 using System.Web;
 using MusicBrowser.WebServices.Interfaces;
+using MusicBrowser.WebServices.Helper;
 
 namespace MusicBrowser.WebServices.Services.HTBackdrop
 {

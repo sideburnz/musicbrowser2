@@ -154,7 +154,10 @@ namespace MusicBrowser.Entities
 
                     if (_properties.ContainsKey("lfm.playcount"))
                     {
-                        sb.Append(string.Format("Plays: {0:N0}  ", Int32.Parse(_properties["lfm.playcount"])));
+                        if (_properties["lfm.playcount"] != "0")
+                        {
+                            sb.Append(string.Format("Plays: {0:N0}  ", Int32.Parse(_properties["lfm.playcount"])));
+                        }
                     }
                     if (_properties.ContainsKey("lfm.listeners"))
                     {
