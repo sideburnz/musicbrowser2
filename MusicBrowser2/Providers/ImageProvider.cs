@@ -1,14 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using MusicBrowser.Util;
-using TagLib;
+using System.IO;
 using System.Net;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Providers
 {
@@ -21,7 +17,7 @@ namespace MusicBrowser.Providers
 
     public static class ImageProvider
     {
-        const int THUMBSIZE = 200;
+        const int Thumbsize = 200;
 
         public static Bitmap Convert(TagLib.IPicture picture)
         {
@@ -43,19 +39,21 @@ namespace MusicBrowser.Providers
         {
             if (!type.Equals(ImageType.Thumb)) { return bitmap; }
 
-            if (bitmap.Width < THUMBSIZE) { return bitmap; }
-            if (bitmap.Height < THUMBSIZE) { return bitmap; }
+            if (bitmap.Width < Thumbsize) { return bitmap; }
+            if (bitmap.Height < Thumbsize) { return bitmap; }
 
-            Bitmap result = new Bitmap(THUMBSIZE, THUMBSIZE);
-            using (Graphics g = Graphics.FromImage((Image)result))
-                g.DrawImage(bitmap, 0, 0, THUMBSIZE, THUMBSIZE);
+            Bitmap result = new Bitmap(Thumbsize, Thumbsize);
+            using (Graphics g = Graphics.FromImage(result))
+                g.DrawImage(bitmap, 0, 0, Thumbsize, Thumbsize);
             return result;
         }
 
         public static void Save(Image bitmap, string filename)
         {
+            if (bitmap == null) { return; }
+
             EncoderParameters parms = new EncoderParameters(1);
-            parms.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, Int64.Parse("95"));
+            parms.Param[0] = new EncoderParameter(Encoder.Quality, Int64.Parse("95"));
 
             ImageCodecInfo codec = null;
             foreach (ImageCodecInfo codectemp in ImageCodecInfo.GetImageDecoders())
@@ -70,27 +68,27 @@ namespace MusicBrowser.Providers
             bitmap.Save(filename, codec, parms);
         }
 
-        static IEnumerable<string> images = null;
+        static IEnumerable<string> _images;
 
-        public static string locateFanArt(string path, ImageType type)
+        public static string LocateFanArt(string path, ImageType type)
         {
             string filename = "folder";
             if (type == ImageType.Backdrop) { filename = "backdrop"; }
-            if (images == null) { images = StandingData.GetStandingData("images"); }
-            foreach (string item in images)
+            if (_images == null) { _images = StandingData.GetStandingData("images"); }
+            foreach (string item in _images)
             {
                 string tmp = string.Concat(path, "\\", filename, item);
-                if (System.IO.File.Exists(tmp)) { return tmp; }
+                if (File.Exists(tmp)) { return tmp; }
             }
             return string.Empty;
         }
 
-        public static Bitmap Download(string imageURL, ImageType type)
+        public static Bitmap Download(string imageUrl, ImageType type)
         {
             try
             {
                 WebClient client = new WebClient();
-                Stream stream = client.OpenRead(imageURL);
+                Stream stream = client.OpenRead(imageUrl);
                 Bitmap bitmap = new Bitmap(stream);
                 stream.Flush();
                 stream.Close();

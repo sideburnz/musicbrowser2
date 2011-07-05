@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace MusicBrowser.Providers
@@ -8,7 +6,7 @@ namespace MusicBrowser.Providers
     public class Statistics
     {
         #region singleton
-        private static Statistics _instance = null;
+        private static Statistics _instance;
         private static readonly object Padlock = new object();
 
         public static Statistics GetInstance()
@@ -22,7 +20,7 @@ namespace MusicBrowser.Providers
         }
         #endregion
 
-        Dictionary<string, int> _stats;
+        readonly Dictionary<string, int> _stats;
 
         Statistics()
         {

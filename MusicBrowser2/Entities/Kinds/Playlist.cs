@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Entities;
-using Microsoft.MediaCenter.UI;
-
-namespace MusicBrowser.Entities.Kinds
+﻿namespace MusicBrowser.Entities.Kinds
 {
     class Playlist : IEntity
     {
         public Playlist()
         {
-            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imagePlaylist";
+            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imagePlaylist";
         }
 
         public override EntityKind Kind

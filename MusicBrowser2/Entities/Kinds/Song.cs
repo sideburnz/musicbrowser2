@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using MusicBrowser.Entities;
-using Microsoft.MediaCenter.UI;
-using MusicBrowser.Providers;
 
 namespace MusicBrowser.Entities.Kinds
 {
@@ -12,7 +7,7 @@ namespace MusicBrowser.Entities.Kinds
     {
         public Song()
         {
-            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageSong";
+            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageSong";
         }
 
         public override EntityKind Kind
@@ -24,7 +19,7 @@ namespace MusicBrowser.Entities.Kinds
         {
             get
             {
-                if (Util.Config.getInstance().getBooleanSetting("PutDiscInTrackNo"))
+                if (Util.Config.GetInstance().GetBooleanSetting("PutDiscInTrackNo"))
                 {
                     if (!Properties.ContainsKey("track")) 
                     { 
@@ -40,11 +35,8 @@ namespace MusicBrowser.Entities.Kinds
                     }
                     return Properties["track"]; 
                 }
-                else
-                {
-                    if (Properties.ContainsKey("track")) { return Properties["track"]; }
-                    else { return string.Empty; }
-                }
+                if (Properties.ContainsKey("track")) { return Properties["track"]; }
+                return string.Empty;
             }
         }
 
@@ -103,7 +95,7 @@ namespace MusicBrowser.Entities.Kinds
                     SetProperty("artist", value.Properties["artist"], false);
                     Dirty = true;
                 }
-                if (Util.Config.getInstance().getBooleanSetting("UseFolderImageForTracks"))
+                if (Util.Config.GetInstance().GetBooleanSetting("UseFolderImageForTracks"))
                 {
                     IconPath = value.IconPath;
                 }

@@ -1,37 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MusicBrowser.Entities;
 using MusicBrowser.WebServices.Interfaces;
-using MusicBrowser.WebServices.WebServiceProviders;
 using MusicBrowser.WebServices.Services.HTBackdrop;
+using MusicBrowser.WebServices.WebServiceProviders;
 
 namespace MusicBrowser.Providers.Metadata
 {
     public class HTBackdropMetadataProvider : IMetadataProvider
     {
-        private const string MARKER = "HTBACK";
+        private const string Marker = "HTBACK";
 
         #region IMetadataProvider Members
 
         public IEntity Fetch(IEntity entity)
         {
             // killer questions
-            if (!Util.Config.getInstance().getBooleanSetting("UseInternetProviders")) { return entity; }
+            if (!Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders")) { return entity; }
             if (!entity.Kind.Equals(EntityKind.Artist)) { return entity; }
             if (!String.IsNullOrEmpty(entity.IconPath) && !String.IsNullOrEmpty(entity.BackgroundPath)) { return entity; }
-            if (entity.Properties.ContainsKey(MARKER))
+            if (entity.Properties.ContainsKey(Marker))
             {
                 // only check fro new images once every seven days
-                if (DateTime.Parse(entity.Properties[MARKER]) > DateTime.Now.AddDays(-14)) { return entity; }
+                if (DateTime.Parse(entity.Properties[Marker]) > DateTime.Now.AddDays(-14)) { return entity; }
             }
 
 #if DEBUG
             Logging.Logger.Verbose("HTBackdropMetadataProvider.Fetch(" + entity.Path + ")", "start");
 #endif
-            MusicBrowser.Providers.Statistics.GetInstance().Hit("htbackdrop.hit");
-
             // set up the web service classes
             ArtistImageServiceDTO dto = new ArtistImageServiceDTO();
             ArtistImageService service = new ArtistImageService();
@@ -44,7 +40,7 @@ namespace MusicBrowser.Providers.Metadata
 
             // use the HTB provider to execute the web service
             WebServiceProvider webProvider = new HTBackdropWebProvider();
-            service.setProvider(webProvider);
+            service.SetProvider(webProvider);
             service.Fetch(dto);
 
             // handle the response
@@ -64,7 +60,7 @@ namespace MusicBrowser.Providers.Metadata
                 entity.BackgroundPath = tmpBack;
             }
 
-            entity.SetProperty(MARKER, DateTime.Now.ToString("yyyy-MMM-dd"), true);
+            entity.SetProperty(Marker, DateTime.Now.ToString("yyyy-MMM-dd"), true);
 
             entity.Dirty = true;
             entity.CalculateValues();

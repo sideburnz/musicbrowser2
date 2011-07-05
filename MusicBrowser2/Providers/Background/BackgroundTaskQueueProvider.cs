@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
-using MusicBrowser.Models;
 
 /******************************************************************************
  * 
@@ -21,10 +19,10 @@ namespace MusicBrowser.Providers.Background
     { 
         private readonly List<IBackgroundTaskable> _queue; 
         private Thread[] _threadpool; 
-        private object obj = new object();
+        private readonly object _obj = new object();
 
         private int _activeThreads; 
-        private int _maximumThreads;
+        private readonly int _maximumThreads;
 
         public BackgroundTaskQueueProvider(ThreadPriority priority, int poolSize) 
         { 
@@ -37,11 +35,8 @@ namespace MusicBrowser.Providers.Background
             _maximumThreads = poolSize;
             _threadpool = new Thread[poolSize];
             for (int i = 0; i < poolSize; i++) 
-            { 
-                _threadpool[i] = new Thread(Processor); 
-                _threadpool[i].Priority = priority; 
-                _threadpool[i].IsBackground = true; 
-                _threadpool[i].Name = i.ToString();
+            {
+                _threadpool[i] = new Thread(Processor) {Priority = priority, IsBackground = true, Name = i.ToString()};
 
                 // there must be a better way to have a thread on suspended state 
                 _threadpool[i].Start();
@@ -57,7 +52,7 @@ namespace MusicBrowser.Providers.Background
 
         public void Enqueue(IBackgroundTaskable task, bool highPriority) 
         { 
-            lock (obj) 
+            lock (_obj) 
             { 
                 if (highPriority) { _queue.Insert(0, task); } 
                 else { _queue.Add(task); } 
@@ -83,13 +78,13 @@ namespace MusicBrowser.Providers.Background
 
         private void Processor() 
         { 
-            int id = int.Parse(System.Threading.Thread.CurrentThread.Name);
+            int id = int.Parse(Thread.CurrentThread.Name);
             while (true) 
             { 
                 IBackgroundTaskable task = null; 
                 if (_queue.Count > 0) 
                 { 
-                    lock (obj) 
+                    lock (_obj) 
                     { 
                         task = _queue[0]; 
                         _queue.RemoveAt(0); 

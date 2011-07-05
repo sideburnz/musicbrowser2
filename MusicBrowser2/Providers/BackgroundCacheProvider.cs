@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using MusicBrowser.Providers.Background;
-using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Entities;
 using MusicBrowser.Entities.Kinds;
@@ -47,7 +43,7 @@ namespace MusicBrowser.Providers
                 if (item.Name.ToLower() == "metadata") { continue; }
 
                 // process the item in context
-                IEntity entity = _factory.getItem(item);
+                IEntity entity = _factory.GetItem(item);
 
                 if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
@@ -68,7 +64,7 @@ namespace MusicBrowser.Providers
                 if (entity.Children > 0) { grandchildren += entity.Children; }
             }
 
-            if (_entity.Children == 0) { _entity.Children = count; };
+            if (_entity.Children == 0) { _entity.Children = count; }
             if (_entity.Duration == 0) { _entity.Duration = duration; }
             if ((grandchildren > 0) && (_entity.Kind.Equals(EntityKind.Artist))) { ((Artist)_entity).GrandChildren = grandchildren; }
 

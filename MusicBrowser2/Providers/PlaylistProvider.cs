@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
-using MusicBrowser.Providers.Background;
 using MusicBrowser.Entities;
+using MusicBrowser.Providers.Background;
 
 namespace MusicBrowser.Providers
 {
@@ -11,7 +10,7 @@ namespace MusicBrowser.Providers
     {
         private readonly string _action;
         private readonly IEntity _entity;
-        private static Random random = new Random();
+        private static readonly Random Random = new Random();
 
         public PlaylistProvider(string action, IEntity entity)
         {
@@ -19,14 +18,14 @@ namespace MusicBrowser.Providers
             _entity = entity;
         }
 
-        public static void ShuffleList<E>(IList<E> list)
+        public static void ShuffleList<TE>(IList<TE> list)
         {
             if (list.Count > 1)
             {
                 for (int i = list.Count - 1; i >= 0; i--)
                 {
-                    E tmp = list[i];
-                    int randomIndex = random.Next(i + 1);
+                    TE tmp = list[i];
+                    int randomIndex = Random.Next(i + 1);
 
                     //Swap elements
                     list[i] = list[randomIndex];
@@ -45,7 +44,7 @@ namespace MusicBrowser.Providers
 #if DEBUG
                 Logging.Logger.Verbose("PlaylistProvider.CreatePlaylist(" + path +", " + queue + ", " + shuffle + ")", "loop");
 #endif
-                foreach (FileSystemItem item in FileSystemProvider.getAllSubPaths(path))
+                foreach (FileSystemItem item in FileSystemProvider.GetAllSubPaths(path))
                 {
                     if (Util.Helper.IsSong(item.FullPath))
                     {
@@ -56,7 +55,7 @@ namespace MusicBrowser.Providers
             // shuffle the tracks if requested
             if (shuffle)
             {
-                ShuffleList<string>(tracks);
+                ShuffleList(tracks);
             }
             // Kick off a new thread
             Thread thread = new Thread(() => MediaCentre.Playlist.PlayTrackList(tracks, queue));
@@ -66,7 +65,7 @@ namespace MusicBrowser.Providers
         #region IBackgroundTaskable Members
         public string Title
         {
-            get { return this.GetType().ToString(); }
+            get { return GetType().ToString(); }
         }
 
         public void Execute()

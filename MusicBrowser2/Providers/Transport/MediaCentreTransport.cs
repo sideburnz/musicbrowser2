@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.MediaCenter;
 
 namespace MusicBrowser.Providers.Transport
@@ -17,7 +16,7 @@ namespace MusicBrowser.Providers.Transport
         public void Play(bool queue, string file)
         {
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-            if (mce.MediaExperience == null && queue == true) queue = false;
+            if (mce.MediaExperience == null && queue) queue = false;
             mce.PlayMedia(MediaType.Audio, file, queue);
         }
 
@@ -26,7 +25,7 @@ namespace MusicBrowser.Providers.Transport
             // set up
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
             // handle the first track
-            if (mce.MediaExperience == null && queue == true) queue = false;
+            if (mce.MediaExperience == null && queue) queue = false;
             mce.PlayMedia(MediaType.Audio, files.First(), queue);
             // enqueue the rest of the tracks
             for (int i = 1; i < files.Count(); i++)
@@ -107,22 +106,5 @@ namespace MusicBrowser.Providers.Transport
         public event EventHandler TrackProgress;
 
         #endregion
-
-        private void OnTrackChanged()
-        {
-            if (TrackChanged != null)
-            {
-                TrackChanged(this, EventArgs.Empty);
-            }
-        }
-
-        private void OnTrackProgress()
-        {
-            if (TrackProgress != null)
-            {
-                TrackProgress(this, EventArgs.Empty);
-            }
-        }
-    
     }
 }

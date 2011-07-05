@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Providers.Background;
 using MusicBrowser.Entities;
+using MusicBrowser.Providers.Background;
 
 namespace MusicBrowser.Providers.Metadata
 {
     class MetadataProviderList : IBackgroundTaskable
     {
-        private static List<IMetadataProvider> GetProviders()
+        private static IEnumerable<IMetadataProvider> GetProviders()
         {
             List<IMetadataProvider> providerList = new List<IMetadataProvider>();
 
@@ -41,14 +39,14 @@ namespace MusicBrowser.Providers.Metadata
 #if DEBUG
                     Logging.Logger.Error(new Exception(string.Format("MetadataProviderList failed whilst running {0} for {1}\r", provider.GetType().ToString(), entity.Path), e));
 #endif
-                    }
+                }
             }
             entity.CalculateValues();
             cache.Update(entity.CacheKey, entity);
         }
 
-        private IEntity _entity;
-        private EntityCache _cache;
+        private readonly IEntity _entity;
+        private readonly EntityCache _cache;
 
         public MetadataProviderList(IEntity entity, EntityCache cache)
         {

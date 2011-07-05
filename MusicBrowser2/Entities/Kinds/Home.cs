@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Entities;
 using MusicBrowser.Providers.FolderItems;
-using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Entities.Kinds
 {
@@ -14,10 +10,10 @@ namespace MusicBrowser.Entities.Kinds
 
         public Home()
         {
-            base.Title = "MusicBrowser2";
-            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/MusicBrowser2";
-            string temp = Util.Config.getInstance().getSetting("HomeBackground");
-            if (System.IO.File.Exists(temp)) { base.DefaultBackgroundPath = temp; }
+            Title = "MusicBrowser2";
+            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/MusicBrowser2";
+            string temp = Util.Config.GetInstance().GetSetting("HomeBackground");
+            if (System.IO.File.Exists(temp)) { DefaultBackgroundPath = temp; }
             base.Parent = new Unknown();
             base.CalculateValues();
         }
@@ -29,7 +25,7 @@ namespace MusicBrowser.Entities.Kinds
 
         public override string View
         {
-            get { return Util.Config.handleEntityView(EntityKind.Home).ToLower(); }
+            get { return Util.Config.HandleEntityView(EntityKind.Home).ToLower(); }
         }
 
         public static IEnumerable<string> Paths
@@ -40,21 +36,19 @@ namespace MusicBrowser.Entities.Kinds
                 {
                     _paths = new List<string>();
 
-                    if ((Util.Config.getInstance().getBooleanSetting("WindowsLibrarySupport")) && !(Environment.UserName.ToLower().StartsWith("mcx")))
+                    if ((Util.Config.GetInstance().GetBooleanSetting("WindowsLibrarySupport")) && !(Environment.UserName.ToLower().StartsWith("mcx")))
                     {
-                        IFolderItemsProvider folderItemsProvider;
-                        folderItemsProvider = new WindowsLibraryProvider();
-                        _paths = folderItemsProvider.getItems("music");
-                        VirtualFolderProvider.WriteVF(Util.Config.getInstance().getSetting("ManualLibraryFile"), _paths);
+                        IFolderItemsProvider folderItemsProvider = new WindowsLibraryProvider();
+                        _paths = folderItemsProvider.GetItems("music");
+                        VirtualFolderProvider.WriteVF(Util.Config.GetInstance().GetSetting("ManualLibraryFile"), _paths);
                     }
                     else
                     {
-                        string vfFile = Util.Config.getInstance().getSetting("ManualLibraryFile");
+                        string vfFile = Util.Config.GetInstance().GetSetting("ManualLibraryFile");
                         if (System.IO.File.Exists(vfFile))
                         {
-                            IFolderItemsProvider folderItemsProvider;
-                            folderItemsProvider = new VirtualFolderProvider();
-                            _paths = folderItemsProvider.getItems(vfFile);
+                            IFolderItemsProvider folderItemsProvider = new VirtualFolderProvider();
+                            _paths = folderItemsProvider.GetItems(vfFile);
                         }
                         else
                         {

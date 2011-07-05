@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using MusicBrowser.Entities;
 using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
@@ -14,15 +11,15 @@ namespace MusicBrowser.Entities
         private readonly Dictionary<string, IEntity> _memoryCache;
         private readonly string _cacheLocation;
         private readonly bool _cacheDisabled;
-        private readonly object obj = new object();
+        private readonly object _obj = new object();
         #endregion
 
         #region constructors
         public EntityCache()
         {
-            _cacheLocation = Config.getInstance().getSetting("CachePath") + "\\Entities\\";
-            Helper.BuildCachePath(Config.getInstance().getSetting("CachePath"));
-            _cacheDisabled = !Util.Config.getInstance().getBooleanSetting("EnableCache");
+            _cacheLocation = Config.GetInstance().GetSetting("CachePath") + "\\Entities\\";
+            Helper.BuildCachePath(Config.GetInstance().GetSetting("CachePath"));
+            _cacheDisabled = !Config.GetInstance().GetBooleanSetting("EnableCache");
             _memoryCache = new Dictionary<string, IEntity>();
         }
         #endregion
@@ -38,21 +35,24 @@ namespace MusicBrowser.Entities
 
         public IEntity Read(string key)
         {
+            Providers.Statistics stats = Providers.Statistics.GetInstance();
             if (_memoryCache.ContainsKey(key))
             {
-                MusicBrowser.Providers.Statistics.GetInstance().Hit("cache.hit");
+                stats.Hit("cache.memory.hits");
                 return _memoryCache[key];
             }
-            MusicBrowser.Providers.Statistics.GetInstance().Hit("cache.misses");
-            if (loadCacheItemToMemory(key))
+            stats.Hit("cache.memory.misses");
+            if (File.Exists(_cacheLocation + key + ".cache.xml"))
             {
-                _memoryCache[key].Dirty = false;
-                return _memoryCache[key];
+                if (LoadCacheItemToMemory(key))
+                {
+                    stats.Hit("cache.disk.hits");
+                    _memoryCache[key].Dirty = false;
+                    return _memoryCache[key];
+                }
             }
-            else
-            {
-                return null;
-            }
+            stats.Hit("cache.disk.misses");
+            return null;
         }
 
         public void Update(string key, IEntity entity)
@@ -61,11 +61,9 @@ namespace MusicBrowser.Entities
             if (!entity.Dirty) { return; }
 
             _memoryCache[key] = entity;
-//            this.Delete(key);
-//            _memoryCache.Add(key, entity);
             string fileName = _cacheLocation + key + ".cache.xml";
             // there have been collisions, this fix comes with a performance penalty
-            lock (obj)
+            lock (_obj)
             {
                 StreamWriter file = new StreamWriter(fileName);
                 file.Write(EntityPersistance.Serialize(entity));
@@ -77,10 +75,7 @@ namespace MusicBrowser.Entities
         public bool Exists(string key)
         {
             if (_cacheDisabled) { return false; }
-
-            if (_memoryCache.ContainsKey(key)) { return true; }
-            if (File.Exists(_cacheLocation + key + ".cache.xml")) { return true; }
-            return false;
+            return _memoryCache.ContainsKey(key) || (File.Exists(_cacheLocation + key + ".cache.xml"));
         }
 
         public bool IsValid(string key, params DateTime[] comparisons)
@@ -107,10 +102,10 @@ namespace MusicBrowser.Entities
 
         #endregion
 
-        private bool loadCacheItemToMemory(string key)
+        private bool LoadCacheItemToMemory(string key)
         {
             string fileName = _cacheLocation + key + ".cache.xml";
-            System.IO.StreamReader file = new System.IO.StreamReader(fileName);
+            StreamReader file = new StreamReader(fileName);
             string cacheContent = file.ReadToEnd();
             file.Close();
 

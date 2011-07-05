@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Util;
@@ -20,30 +19,30 @@ namespace MusicBrowser.Entities
         Unknown
     }
 
-    public abstract class IEntity : BaseModel
+    public class IEntity : BaseModel
     {
         private readonly Dictionary<string, string> _properties;
         private string _sortName;
         private string _description;
-        private string _view;
+        private readonly string _view;
         private string _cacheKey;
 
-        protected IEntity()
+        public IEntity()
         {
             _properties = new Dictionary<string, string>();
-            _view = Config.handleEntityView(this.Kind).ToLower();
-            this.DefaultBackgroundPath = string.Empty;
-            this.Dirty = false;
+            _view = Config.HandleEntityView(Kind).ToLower();
+            DefaultBackgroundPath = string.Empty;
+            Dirty = false;
         }
 
         public virtual string Path { get; set; }
-        public virtual string Title { get; set; }
-        public virtual string Summary { get; set; }
-        public virtual string IconPath { get; set; }
-        public virtual string DefaultIconPath { get; set; }
-        public virtual string DefaultBackgroundPath { get; set; }
-        public virtual string BackgroundPath { get; set; }
-        public virtual string MusicBrainzID { get; set; }
+        public string Title { get; set; }
+        public string Summary { get; set; }
+        public string IconPath { get; set; }
+        public string DefaultIconPath { get; set; }
+        public string DefaultBackgroundPath { get; set; }
+        public string BackgroundPath { get; set; }
+        public string MusicBrainzID { get; set; }
         public virtual IEntity Parent { get; set; }
 
         // read only (therefore have default values
@@ -72,17 +71,17 @@ namespace MusicBrowser.Entities
             get
             {
                 // backgrounds are disabled when fan art is disabled
-                if (!Config.getInstance().getBooleanSetting("EnableFanArt"))
+                if (!Config.GetInstance().GetBooleanSetting("EnableFanArt"))
                 {
-                    return getImage(String.Empty);
+                    return GetImage(String.Empty);
                 }
                 if (!String.IsNullOrEmpty(BackgroundPath))
                 {
-                    return getImage(BackgroundPath);
+                    return GetImage(BackgroundPath);
                 }
                 if (!String.IsNullOrEmpty(DefaultBackgroundPath))
                 {
-                    return getImage(DefaultBackgroundPath);
+                    return GetImage(DefaultBackgroundPath);
                 }
                 if (Parent != null)
                 {
@@ -91,7 +90,7 @@ namespace MusicBrowser.Entities
                         return Parent.Background;
                     }
                 }
-                return getImage(String.Empty);
+                return GetImage(String.Empty);
             }
         }
         public Image Icon
@@ -102,9 +101,9 @@ namespace MusicBrowser.Entities
                 // to be hidden from things like the cache
                 if (String.IsNullOrEmpty(IconPath) || !System.IO.File.Exists(IconPath)) 
                 {
-                    return getImage(DefaultIconPath); 
+                    return GetImage(DefaultIconPath); 
                 }
-                return getImage(IconPath);
+                return GetImage(IconPath);
             }
         }
         public string CacheKey
@@ -113,7 +112,7 @@ namespace MusicBrowser.Entities
             {
                 if (String.IsNullOrEmpty(_cacheKey))
                 {
-                    _cacheKey = Util.Helper.GetCacheKey(Path);
+                    _cacheKey = Helper.GetCacheKey(Path);
                 }
                 return _cacheKey;
             }
@@ -121,13 +120,13 @@ namespace MusicBrowser.Entities
 
         public virtual void CalculateValues()
         {
-            _description = Config.handleEntityDescription(this);
-            _sortName = Config.handleIgnoreWords(_description).ToLower();
+            _description = Config.HandleEntityDescription(this);
+            _sortName = Config.HandleIgnoreWords(_description).ToLower();
 
             FirePropertiesChanged("Title", "Summary", "Properties", "Index", "ShortSummaryLine1", "ShortSummaryLine2", "Duration", "Children", "SortName", "Description", "Background", "Icon");
         }
 
-        private static Image getImage(string path)
+        private static Image GetImage(string path)
         {
             if (path.StartsWith("resx://"))
             {
@@ -148,7 +147,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                if (Config.getInstance().getBooleanSetting("UseInternetProviders"))
+                if (Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
                 {
                     StringBuilder sb = new StringBuilder();
 

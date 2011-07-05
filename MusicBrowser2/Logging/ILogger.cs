@@ -8,6 +8,6 @@ namespace MusicBrowser.Logging
         void LogInfo(string message);
         void LogDebug(string message);
         void LogVerbose(string className, string endPoint);
-        void LogStats(MusicBrowser.Providers.Statistics stats);
+        void LogStats(Providers.Statistics stats);
     }
 }

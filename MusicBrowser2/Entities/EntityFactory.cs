@@ -1,9 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Entities;
 using MusicBrowser.Entities.Kinds;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
@@ -13,52 +10,51 @@ namespace MusicBrowser.Entities
 {
     public class EntityFactory
     {
-        private static long FIRST_COMPATIBLE_CACHE = Util.Helper.ParseVersion("2.2.1.7");
+        private static readonly long FirstCompatibleCache = Util.Helper.ParseVersion("2.2.1.7");
         private EntityCache _cache;
 
         #region IEntityFactory Members
 
-        public void setCache(EntityCache cache) { _cache = cache; }
+        public void SetCache(EntityCache cache) { _cache = cache; }
 
-        public IEntity getItem(string item)
+        public IEntity GetItem(string item)
         {
-            return getItem(FileSystemProvider.getItemDetails(item));
+            return GetItem(FileSystemProvider.GetItemDetails(item));
         }
 
-        public IEntity getItem(FileSystemItem item)
+        public IEntity GetItem(FileSystemItem item)
         {
             // don't waste time trying to determine a known not entity
             if (Util.Helper.IsNotEntity(item.FullPath)) { return new Unknown(); }
             if (item.Name.ToLower() == "metadata") { return new Unknown(); }
 
-
             IEntity entity;
             string metadataPath = Directory.GetParent(item.FullPath) + "\\metadata\\";
             string metadataFile = metadataPath + item.Name + ".xml";
             string key = Util.Helper.GetCacheKey(item.FullPath);
-            FileSystemItem metadata = FileSystemProvider.getItemDetails(metadataFile);
+            FileSystemItem metadata = FileSystemProvider.GetItemDetails(metadataFile);
 
-#if DEBUG
-            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") [metadata " + metadataFile + " : " + !String.IsNullOrEmpty(metadata.Name) + "]", "start");
-#endif
+
             // get the value from cache
             if (_cache.Exists(key))
             {
                 if (_cache.IsValid(key, metadata.LastUpdated, item.LastUpdated))
                 {
                     entity = _cache.Read(key);
-                    if (entity.Version >= FIRST_COMPATIBLE_CACHE)
+                    if (entity.Version >= FirstCompatibleCache)
                     {
                         entity.Path = item.FullPath;
                         return entity;
                     }
-                    entity = null;
                 }
                 // if it's not the latest version of the entity, delete it 
                 _cache.Delete(key);
             }
 
-            MusicBrowser.Providers.Statistics.GetInstance().Hit("factory.hit");
+            Statistics.GetInstance().Hit("factory.hit");
+#if DEBUG
+            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") [metadata " + metadataFile + " : " + !String.IsNullOrEmpty(metadata.Name) + "]", "start");
+#endif
 
             if (!String.IsNullOrEmpty(metadata.Name))
             {
@@ -108,8 +104,7 @@ namespace MusicBrowser.Entities
                 default:
                     {
                         // unknowns skip the caching etc
-                        entity = new Unknown();
-                        entity.Path = item.FullPath;
+                        entity = new Unknown {Path = item.FullPath};
                         return entity;
                     }
             }

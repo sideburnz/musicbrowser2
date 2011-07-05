@@ -1,5 +1,9 @@
 ﻿V2.2.2
 - pause from the remote to FooBar2000
+- fix issue where it appears that data isn't being cached after being fetched from last.fm
+- make album info service the same as artist and track
+- test for listeners = 0 on footer display
+- version footer isn't very visable
 
 V2.2.3
 
@@ -14,6 +18,7 @@ HIGH
 - config app
 	- settings are in an XML setting
 		- attribues for advances and unadvanced
+- sqllite/ravenDB/binary files for cache
 
 LOW
 - icons to show drop down menu options to change view and sort

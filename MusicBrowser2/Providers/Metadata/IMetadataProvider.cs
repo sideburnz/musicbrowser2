@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
+﻿using MusicBrowser.Entities;
 
 namespace MusicBrowser.Providers.Metadata
 {

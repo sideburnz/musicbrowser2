@@ -1,17 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using Microsoft.MediaCenter.UI;
 using MusicBrowser.Entities;
 using MusicBrowser.Entities.Kinds;
-using Microsoft.MediaCenter;
-using Microsoft.MediaCenter.UI;
-using MusicBrowser.Providers;
-using MusicBrowser.Util;
-using System.Text.RegularExpressions;
-using System.Linq;
-using System.Collections.Generic;
-using System.Collections;
-using MusicBrowser.MediaCentre;
 using MusicBrowser.Providers.CD;
 using MusicBrowser.Providers.Transport;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Models
 {
@@ -21,14 +17,14 @@ namespace MusicBrowser.Models
         readonly IEntity _parentEntity;
         private readonly EntityCollection _entities;
         private readonly EntityCollection _fullentities;
-        Int32 _selectedIndex = 0;
+        Int32 _selectedIndex;
         readonly Breadcrumbs _crumbs;
-        IEntity _PopupPlayContext = new Unknown();
+        IEntity _popupPlayContext = new Unknown();
         private readonly EditableText _remoteFilter = new EditableText();
         private int _matches;
 
         private readonly bool _isHome;
-        private IList<CDDrive> _CDDrives = new List<CDDrive>();
+        private readonly IList<CDDrive> _CDDrives = new List<CDDrive>();
 
         public FolderModel(IEntity parentEntity, Breadcrumbs crumbs, EntityCollection entities)
         {
@@ -101,17 +97,17 @@ namespace MusicBrowser.Models
 
         public bool ShowPopupPlay
         {
-            get { return (_PopupPlayContext.Kind != EntityKind.Unknown); }
+            get { return (_popupPlayContext.Kind != EntityKind.Unknown); }
         }
 
         public IEntity GetPopupPlayContext
         {
-            get { return _PopupPlayContext; }
+            get { return _popupPlayContext; }
         }
 
         public void SetPopupPlayContext(IEntity entity)
         {
-            _PopupPlayContext = entity;
+            _popupPlayContext = entity;
             FirePropertiesChanged("ShowPopupPlay");
         }
 
@@ -137,17 +133,9 @@ namespace MusicBrowser.Models
                 }
 
                 _matches = 0;
-                int listSize = _fullentities.Count;
                 Regex regex = new Regex("\\b" + _remoteFilter.Value.ToLower());
                 EntityCollection temp = new EntityCollection();
-                
-                foreach (IEntity item in _fullentities)
-                {
-                    if (regex.IsMatch(item.SortName))
-                    {
-                        temp.Add(item);
-                    }
-                }
+                temp.AddRange(_fullentities.Where(item => regex.IsMatch(item.SortName)));
 
                 _matches = temp.Count;
                 if (_matches > 0)
@@ -165,6 +153,18 @@ namespace MusicBrowser.Models
         }
 
         [MarkupVisible]
+        public string Version
+        {
+            get
+            {
+                if (Config.GetInstance().GetBooleanSetting("ShowVersion"))
+                {
+                    return "Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                }
+                return string.Empty;
+            }
+        }
+
         public EditableText RemoteTyper
         {
             get { return _remoteFilter; }
@@ -189,17 +189,17 @@ namespace MusicBrowser.Models
 
         public static bool ShowClock
         {
-            get { return Config.getInstance().getBooleanSetting("ShowClock"); }
+            get { return Config.GetInstance().GetBooleanSetting("ShowClock"); }
         }
 
         public static bool isPlaying
         {
-            get { return Transport.getTransport().State == MusicBrowser.Providers.Transport.PlayState.Playing; }
+            get { return Transport.GetTransport().State == PlayState.Playing; }
         }
 
         public static bool isPaused
         {
-            get { return Transport.getTransport().State == MusicBrowser.Providers.Transport.PlayState.Paused; }
+            get { return Transport.GetTransport().State == PlayState.Paused; }
         }
 
         private void DealWithCDs()
@@ -208,7 +208,7 @@ namespace MusicBrowser.Models
              * the insert should put the disc into the home list and fetch metadata
              * remove should remove from the list */
 
-            if (_isHome & Config.getInstance().getBooleanSetting("ShowCDs"))
+            if (_isHome & Config.GetInstance().GetBooleanSetting("ShowCDs"))
             {
                 foreach (char letter in CDDrive.GetCDDriveLetters())
                 {
@@ -227,7 +227,7 @@ namespace MusicBrowser.Models
         {
             Logging.Logger.Debug("CD inserted: " + ((CDDrive)sender).Letter);
 
-            _fullentities.Insert(0, new Entities.Kinds.Disc(((CDDrive)sender).Letter));
+            _fullentities.Insert(0, new Disc(((CDDrive)sender).Letter));
             RefreshEntities();
         }
 
@@ -271,10 +271,10 @@ namespace MusicBrowser.Models
 
             switch (command.ToLower())
             {
-                case "next": MusicBrowser.Providers.Transport.Transport.getTransport().Next(); break;
-                case "prev": MusicBrowser.Providers.Transport.Transport.getTransport().Previous(); break;
-                case "stop": MusicBrowser.Providers.Transport.Transport.getTransport().Stop(); break;
-                case "playpause": MusicBrowser.Providers.Transport.Transport.getTransport().PlayPause(); break;
+                case "next": Transport.GetTransport().Next(); break;
+                case "prev": Transport.GetTransport().Previous(); break;
+                case "stop": Transport.GetTransport().Stop(); break;
+                case "playpause": Transport.GetTransport().PlayPause(); break;
             }
         }
 

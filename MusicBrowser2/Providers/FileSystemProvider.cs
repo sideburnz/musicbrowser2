@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using MusicBrowser.Providers.FolderItems.InterOp;
 
@@ -27,15 +25,15 @@ namespace MusicBrowser.Providers
 
     public static class FileSystemProvider
     {
-        public static FileSystemItem getItemDetails(string path)
+        public static FileSystemItem GetItemDetails(string path)
         {
             IntPtr invalidHandleValue = new IntPtr(-1);
-            FileSystem.Win32FindDataw findData;
             IntPtr findHandle = invalidHandleValue;
             FileSystemItem info = new FileSystemItem();
 
             try
             {
+                FileSystem.Win32FindDataw findData;
                 findHandle = FileSystem.FindFirstFileW(path, out findData);
                 if (findHandle != invalidHandleValue)
                 {
@@ -60,7 +58,6 @@ namespace MusicBrowser.Providers
         public static IEnumerable<FileSystemItem> GetFolderContents(string directory)
         {
             IntPtr invalidHandleValue = new IntPtr(-1);
-            FileSystem.Win32FindDataw findData;
             IntPtr findHandle = invalidHandleValue;
 
             directory = directory + (directory.EndsWith(@"\") ? "" : @"\");
@@ -68,6 +65,7 @@ namespace MusicBrowser.Providers
             List<FileSystemItem> info = new List<FileSystemItem>();
             try
             {
+                FileSystem.Win32FindDataw findData;
                 findHandle = FileSystem.FindFirstFileW(directory + "*", out findData);
                 if (findHandle != invalidHandleValue)
                 {
@@ -97,15 +95,15 @@ namespace MusicBrowser.Providers
             return info;
         }
 
-        public static IEnumerable<FileSystemItem> getAllSubPaths(string dir)
+        public static IEnumerable<FileSystemItem> GetAllSubPaths(string dir)
         {
             List<FileSystemItem> temp = new List<FileSystemItem>();
-            foreach (FileSystemItem item in FileSystemProvider.GetFolderContents(dir))
+            foreach (FileSystemItem item in GetFolderContents(dir))
             {
                 temp.Add(item);
                 if (Util.Helper.IsFolder(item.Attributes))
                 {
-                    temp.AddRange(getAllSubPaths(item.FullPath));
+                    temp.AddRange(GetAllSubPaths(item.FullPath));
                 }
             }
             return temp;

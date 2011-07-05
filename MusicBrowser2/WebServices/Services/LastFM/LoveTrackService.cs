@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
 
-namespace MusicBrowser.Metadata.LastFM
-{
-    class LoveTrackService
-    {
-        public struct LoveTractDTO
-        {
-        }
+//namespace MusicBrowser.Metadata.LastFM
+//{
+//    class LoveTrackService
+//    {
+//        public struct LoveTractDTO
+//        {
+//        }
 
-        public static void DoService(ref LoveTractDTO DTO)
-        {
-        }
-    }
-}
+//        public static void DoService(ref LoveTractDTO DTO)
+//        {
+//        }
+//    }
+//}
 
 //track.love
 //track (Required) : A track name (utf8 encoded)

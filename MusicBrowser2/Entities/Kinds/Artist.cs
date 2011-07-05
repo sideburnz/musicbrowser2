@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using MusicBrowser.Entities;
 using MusicBrowser.Providers;
-using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Entities.Kinds
 {
@@ -14,7 +10,7 @@ namespace MusicBrowser.Entities.Kinds
 
         public Artist()
         {
-            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageArtist";
+            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageArtist";
         }
 
         public override EntityKind Kind
@@ -31,8 +27,7 @@ namespace MusicBrowser.Entities.Kinds
 
                 if (string.IsNullOrEmpty(IconPath))
                 {
-                    string temp;
-                    temp = ImageProvider.locateFanArt(Path, ImageType.Thumb);
+                    string temp = ImageProvider.LocateFanArt(Path, ImageType.Thumb);
                     if (!String.IsNullOrEmpty(temp)) 
                     {
                         IconPath = Util.Helper.ImageCacheFullName(CacheKey, "Thumbs");
@@ -46,8 +41,7 @@ namespace MusicBrowser.Entities.Kinds
                 }
                 if (string.IsNullOrEmpty(BackgroundPath))
                 {
-                    string temp;
-                    temp = ImageProvider.locateFanArt(Path, ImageType.Backdrop);
+                    string temp = ImageProvider.LocateFanArt(Path, ImageType.Backdrop);
                     if (!String.IsNullOrEmpty(temp)) { BackgroundPath = temp; }
                 }
             }
@@ -70,8 +64,8 @@ namespace MusicBrowser.Entities.Kinds
         {
             StringBuilder sb = new StringBuilder();
 
-            if (base.Children == 1) { sb.Append("1 Album  "); }
-            if (base.Children > 1) { sb.Append(base.Children + " Albums  "); }
+            if (Children == 1) { sb.Append("1 Album  "); }
+            if (Children > 1) { sb.Append(Children + " Albums  "); }
 
             if (GrandChildren == 1) { sb.Append("1 Track  "); }
             if (GrandChildren > 1) { sb.Append(GrandChildren + " Tracks  "); }

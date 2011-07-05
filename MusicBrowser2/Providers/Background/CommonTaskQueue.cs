@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 
 /******************************************************************************
  * 
@@ -12,26 +10,26 @@ namespace MusicBrowser.Providers.Background
 {
     public static class CommonTaskQueue 
     {
-        private static BackgroundTaskQueueProvider _queue = CreateQueue();
+        private static readonly BackgroundTaskQueueProvider Queue = CreateQueue();
 
         public static void Enqueue(IBackgroundTaskable task)
         {
-            _queue.Enqueue(task, false);
+            Queue.Enqueue(task, false);
         }
 
         public static void Enqueue(IBackgroundTaskable task, bool urgent)
         {
-            _queue.Enqueue(task, urgent);
+            Queue.Enqueue(task, urgent);
         }
 
         private static BackgroundTaskQueueProvider CreateQueue()
         {
-            string smaxthreads = Util.Config.getInstance().getSetting("ThreadPoolSize");
-            int maxthreads = 2;
-            if (!int.TryParse(smaxthreads, out maxthreads)) { maxthreads = 1; };
+            string smaxthreads = Util.Config.GetInstance().GetSetting("ThreadPoolSize");
+            int maxthreads;
+            if (!int.TryParse(smaxthreads, out maxthreads)) { maxthreads = 1; }
             if (maxthreads < 0) { maxthreads = 0; }
             if (maxthreads > 8) { maxthreads = 8; }
-            Util.Config.getInstance().setSetting("ThreadPoolSize", maxthreads.ToString());
+            Util.Config.GetInstance().SetSetting("ThreadPoolSize", maxthreads.ToString());
             return new BackgroundTaskQueueProvider(ThreadPriority.Lowest, maxthreads);
         }
     }

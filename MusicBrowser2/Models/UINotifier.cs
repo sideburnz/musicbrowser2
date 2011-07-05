@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MusicBrowser.Models
 {
     /// <summary>
     /// This class provides the UI interaction for the playlist
     /// </summary>
-    public class UINotifier : Models.BaseModel
+    public class UINotifier : BaseModel
     {
         #region singleton
-        private static UINotifier _instance = null;
+        private static UINotifier _instance;
         private static readonly object Padlock = new object();
 
         public static UINotifier GetInstance()

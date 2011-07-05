@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 
 namespace MusicBrowser.WebServices.Helper
 {
     static class Registry
     {
-        private static string subKey = "SOFTWARE\\JOOCER\\WebServices\\";
+        private const string subKey = "SOFTWARE\\JOOCER\\WebServices\\";
 
         public static string Read(string path, string key)
         {

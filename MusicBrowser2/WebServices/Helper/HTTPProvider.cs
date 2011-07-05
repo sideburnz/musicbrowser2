@@ -1,109 +1,90 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Net;
 using System.IO;
+using MusicBrowser.Logging;
 
-namespace MusicBrowser.Providers
+namespace MusicBrowser.WebServices.Helper
 {
-    class HTTPProvider
+    class HttpProvider
     {
-        private string _URL;
+        private string _url;
         private string _body;
-        private HTTPMethod _method;
-        private string _response = null;
+        private HttpMethod _method;
+        private string _response;
+        private string _status;
 
-        public enum HTTPMethod
+        public enum HttpMethod
         {
-            POST,
-            GET
+            Post,
+            Get
         }
 
-        public HTTPProvider() {}
-
-        public string URL { set { _URL = value; } }
+        public string Url { set { _url = value; } }
         public string Body { set { _body = value; } }
-        public HTTPMethod Method { set { _method = value; } }
+        public HttpMethod Method { set { _method = value; } }
 
-        public string Response
-        {
-            get
-            {
-                return _response;
-            }
-        }
+        public string Response { get { return _response; } }
+        public string Status { get { return _status; } }
 
         public void DoService()
         {
-            Logging.Logger.Debug(String.Format("sending request to: {0}", _URL));
-
-            byte[] byte1;
             HttpWebRequest request;
-            WebResponse response;
-            HttpWebResponse HTTPresponse;
+            _status = "Timeout";
 
             // set up the request
             try
             {
-                request = (HttpWebRequest)WebRequest.Create(_URL);
+                request = (HttpWebRequest)WebRequest.Create(_url);
                 request.Method = _method.ToString();
-                request.Timeout = 2000;
+                request.Timeout = 5000; 
 
                 if (!String.IsNullOrEmpty(_body))
                 {
-                    byte1 = new ASCIIEncoding().GetBytes(_body);
+                    byte[] byte1 = new ASCIIEncoding().GetBytes(_body);
                     request.ContentLength = byte1.Length;
                     request.GetRequestStream().Write(byte1, 0, byte1.Length);
                 }
 
                 _response = null;
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                Exception e = new Exception("HTTP Provider - failed to set up HTTP request: " + _URL, Ex);
-                Logging.Logger.Error(e);
+                Exception e = new Exception("HTTP Provider - failed to set up HTTP request: " + _url, ex);
+                Logger.Error(e);
                 throw e;
             }
 
+            Logger.Debug(_url);
             try
             {
-                response = request.GetResponse();
-                HTTPresponse = (HttpWebResponse)response;
-            }
-            catch (Exception Ex)
-            {
-                Exception e = new Exception(String.Format("HTTP Provider - HTTP request failed: {0}", _URL), Ex);
-                //Logging.LoggerFactory.SelectedLogger.LogError(e);
-                throw e;
-            }
-
-            try
-            {
-                if (HTTPresponse.StatusCode == HttpStatusCode.OK)
+                using (WebResponse response = request.GetResponse())
                 {
-                    // load the response into an XML document
-                    Stream dataStream = response.GetResponseStream();
-                    StreamReader reader = new StreamReader(dataStream);
-                    _response = reader.ReadToEnd();
-                    reader.Close();
-                    response.Close();
+                    using (var stream = response.GetResponseStream())
+                    {
+                        using (var reader = new StreamReader(stream))
+                        {
+                            _response = reader.ReadToEnd();
+                        }
+                    }
                 }
-                else
+                _status = "200";
+            }
+            catch (WebException e)
+            {
+                _status = ((HttpWebResponse) e.Response).StatusCode.ToString();
+                using (var stream = e.Response.GetResponseStream())
                 {
-                    throw new IOException(String.Format("HTTP Provider - HTTP error response. Response: {0} URL: {1}", HTTPresponse.StatusCode, _URL));
+                    using (var reader = new StreamReader(stream))
+                    {
+                        _response = reader.ReadToEnd();
+                    }
                 }
             }
-            catch (IOException IOE)
+            catch (Exception e)
             {
-                throw;
-            }
-            catch (Exception Ex)
-            {
-                Exception e = new Exception(String.Format("HTTP Provider - Processing HTTP response failed: {0}", _URL), Ex);
-                //Logging.LoggerFactory.SelectedLogger.LogError(e);
-                throw e;
+                _status = "Unknown Error";
+                _response = string.Empty;
             }
         }
 

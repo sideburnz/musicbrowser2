@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using TagLib;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers;
-using MusicBrowser.Providers.Background;
 using System.Drawing;
+using MusicBrowser.Entities;
+using MusicBrowser.Providers.Background;
 
 namespace MusicBrowser.Providers.Metadata
 {
     public class TagSharpMetadataProvider : IBackgroundTaskable, IMetadataProvider
     {
-        private const string MARKER = "TAGSHARP";
+        private const string Marker = "TAGSHARP";
         private readonly IEntity _entity;
         private readonly EntityCache _cache;
 
@@ -29,15 +23,15 @@ namespace MusicBrowser.Providers.Metadata
 
         public IEntity Fetch(IEntity entity)
         {
-            IEntity _parent = entity.Parent;
+            IEntity parent = entity.Parent;
 
             if (!entity.Kind.Equals(EntityKind.Song)) { return entity; }
-            if (entity.Properties.ContainsKey(MARKER)) { return entity; }
+            if (entity.Properties.ContainsKey(Marker)) { return entity; }
 #if DEBUG
             Logging.Logger.Verbose("TagSharpMetadataProvider.Fetch(" + entity.Path + ")", "start");
 #endif
 
-            MusicBrowser.Providers.Statistics.GetInstance().Hit("tagsharp.hit");
+            Statistics.GetInstance().Hit("tagsharp.hit");
             try
             {
                 TagLib.File fileTag = TagLib.File.Create(entity.Path);
@@ -60,34 +54,34 @@ namespace MusicBrowser.Providers.Metadata
                     entity.SetProperty("genres", fileTag.Tag.JoinedGenres, false);
                     entity.SetProperty("performers", fileTag.Tag.JoinedPerformers, false);
                     // populate up
-                    if (!(_parent == null))
+                    if (parent != null)
                     {
-                        if (_parent.Kind.Equals(EntityKind.Album))
+                        if (parent.Kind.Equals(EntityKind.Album))
                         {
-                            if (string.IsNullOrEmpty(_parent.MusicBrainzID)) 
+                            if (string.IsNullOrEmpty(parent.MusicBrainzID)) 
                             { 
-                                _parent.MusicBrainzID = fileTag.Tag.MusicBrainzReleaseId; 
-                                _parent.Dirty = true; 
+                                parent.MusicBrainzID = fileTag.Tag.MusicBrainzReleaseId; 
+                                parent.Dirty = true; 
                             }
-                            _parent.SetProperty("release", fileTag.Tag.Year.ToString(), false);
+                            parent.SetProperty("release", fileTag.Tag.Year.ToString(), false);
                         }
-                        if (!(_parent.Parent == null))
+                        if (!(parent.Parent == null))
                         {
-                            if (_parent.Parent.Kind.Equals(EntityKind.Artist))
+                            if (parent.Parent.Kind.Equals(EntityKind.Artist))
                             {
-                                if (string.IsNullOrEmpty(_parent.Parent.MusicBrainzID)) 
+                                if (string.IsNullOrEmpty(parent.Parent.MusicBrainzID)) 
                                 {
                                     if (!String.IsNullOrEmpty(fileTag.Tag.FirstAlbumArtist))
                                     {
-                                        _parent.Parent.Title = fileTag.Tag.FirstAlbumArtist;
-                                        _parent.Parent.Dirty = true;
+                                        parent.Parent.Title = fileTag.Tag.FirstAlbumArtist;
+                                        parent.Parent.Dirty = true;
                                     }
                                 }
                             }
                         }
                     }
 
-                    if (!Util.Config.getInstance().getBooleanSetting("UseFolderImageForTracks"))
+                    if (!Util.Config.GetInstance().GetBooleanSetting("UseFolderImageForTracks"))
                     {
                         // cache the thumb
                         string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Covers");
@@ -104,7 +98,7 @@ namespace MusicBrowser.Providers.Metadata
                             }
                         }
                     }
-                    entity.SetProperty(MARKER, DateTime.Now.ToString("yyyy-MMM-dd"), true);
+                    entity.SetProperty(Marker, DateTime.Now.ToString("yyyy-MMM-dd"), true);
                 }
             }
     
@@ -121,7 +115,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public string Title
         {
-            get { return this.GetType().ToString(); }
+            get { return GetType().ToString(); }
         }
 
         public void Execute()

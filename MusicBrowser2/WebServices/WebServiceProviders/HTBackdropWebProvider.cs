@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Text;
-using System.Web;
+using MusicBrowser.WebServices.Helper;
 using MusicBrowser.WebServices.Interfaces;
-using MusicBrowser.Providers;
 
 /******************************************************************************
  * Home Theatre Backdrops access provider
@@ -27,22 +25,22 @@ namespace MusicBrowser.WebServices.WebServiceProviders
 #if DEBUG
             Logging.Logger.Verbose("HTBackdropWebProvider.Execute(" + base.URL + ")", "start");
 #endif
-            HTTPProvider http = new HTTPProvider();
-            http.URL = base.URL;
-            http.Method = HTTPProvider.HTTPMethod.GET;
+            HttpProvider http = new HttpProvider();
+            http.Url = URL;
+            http.Method = HttpProvider.HttpMethod.Get;
 
-            if (!String.IsNullOrEmpty(base.RequestBody)) 
+            if (!String.IsNullOrEmpty(RequestBody)) 
             {
-                http.Body = base.RequestBody; 
-                http.Method = HTTPProvider.HTTPMethod.POST; 
+                http.Body = RequestBody; 
+                http.Method = HttpProvider.HttpMethod.Post; 
             }
 
-            base.ResponseStatus = "500";
+            ResponseStatus = "System Error";
 
             http.DoService();
 
-            base.ResponseStatus = "200";
-            base.ResponseBody = http.Response;
+            ResponseStatus = http.Status;
+            ResponseBody = http.Response;
         }
     }
 }

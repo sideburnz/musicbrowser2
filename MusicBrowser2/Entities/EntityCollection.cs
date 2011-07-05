@@ -1,12 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Providers;
-using MusicBrowser.Providers.Metadata;
-using MusicBrowser.Providers.Background;
 using MusicBrowser.Entities.Kinds;
-using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Entities
 {
@@ -23,31 +17,31 @@ namespace MusicBrowser.Entities
 
             foreach (FileSystemItem item in items)
             {
-                IEntity entity = entityFactory.getItem(item);
+                IEntity entity = entityFactory.GetItem(item);
 
                 if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
                 entity.Parent = parent;
                 entity.CalculateValues();
-                this.Add(entity);
+                Add(entity);
                 
                 if (entity.Duration > 0) { duration += entity.Duration; }
                 if (entity.Children > 0) { grandchildren += entity.Children; }
             }
 
-            if (parent.Children == 0) { parent.Children = this.Count; };
+            if (parent.Children == 0) { parent.Children = Count; }
             if (parent.Duration == 0) { parent.Duration = duration; }
             if ((grandchildren > 0) && (parent.Kind.Equals(EntityKind.Artist))) { ((Artist)parent).GrandChildren = grandchildren; }
 
             parent.CalculateValues();
 
-            this.Sort(new EntityCollectionSorter());
-            this.IndexItems();
+            Sort(new EntityCollectionSorter());
+            IndexItems();
         }
 
         public void IndexItems()
         {
-            for (int i = 0; i < this.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 this[i].Index = i;
             }

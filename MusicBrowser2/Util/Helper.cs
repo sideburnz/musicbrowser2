@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Text.RegularExpressions;
-using MusicBrowser.Providers;
 using System.Security.Cryptography;
 
 namespace MusicBrowser.Util
@@ -113,21 +112,21 @@ namespace MusicBrowser.Util
             }
         }
 
-        static string _PlugInFolder;
+        static string _plugInFolder;
         public static string PlugInFolder
         {
             get
             {
-                if (_PlugInFolder == null)
+                if (_plugInFolder == null)
                 {
                     var e = Path.Combine(AppFolder, "PlugIn");
                     if (!Directory.Exists(e))
                     {
                         Directory.CreateDirectory(e);
                     }
-                    _PlugInFolder = e;
+                    _plugInFolder = e;
                 }
-                return _PlugInFolder;
+                return _plugInFolder;
             }
         }
 
@@ -168,16 +167,16 @@ namespace MusicBrowser.Util
             return _dicImgExts.Any(item => extension == item);
         }
 
-        static IEnumerable<string> _dicNEExts;
+        static IEnumerable<string> _dicNeExts;
         public static bool IsNotEntity(string fileName)
         {
             string extension = Path.GetExtension(fileName).ToLower();
 
-            if (_dicNEExts == null)
+            if (_dicNeExts == null)
             {
-                _dicNEExts = StandingData.GetStandingData("nonentityextentions");
+                _dicNeExts = StandingData.GetStandingData("nonentityextentions");
             }
-            return _dicNEExts.Any(item => extension == item);
+            return _dicNeExts.Any(item => extension == item);
         }
         
 
@@ -194,14 +193,19 @@ namespace MusicBrowser.Util
             return node;
         }
 
-        public static string ReadXmlNode(XmlDocument parent, string XPath)
+        public static string ReadXmlNode(XmlDocument parent, string xPath)
         {
-            try
+            return ReadXmlNode(parent, xPath, string.Empty);
+        }
+
+        public static  string ReadXmlNode(XmlDocument parent, string xPath, string defaultValue)
+        {
+            var selectSingleNode = parent.SelectSingleNode(xPath);
+            if (selectSingleNode != null)
             {
-                return parent.SelectSingleNode(XPath).InnerText;
+                return selectSingleNode.InnerText;
             }
-            catch { }
-            return string.Empty;
+            return defaultValue;
         }
 
         static public string GetCacheKey(string seed)
@@ -215,18 +219,17 @@ namespace MusicBrowser.Util
 
         static public string CacheFullName(string key)
         {
-            return Config.getInstance().getSetting("CachePath") + "\\Entities\\" + key + ".xml";
+            return Config.GetInstance().GetSetting("CachePath") + "\\Entities\\" + key + ".xml";
         }
 
         static public string ImageCacheFullName(string key, string imageType)
         {
-            return Config.getInstance().getSetting("CachePath") + "\\Images\\" + imageType + "\\" + key + ".jpg";
+            return Config.GetInstance().GetSetting("CachePath") + "\\Images\\" + imageType + "\\" + key + ".jpg";
         }
 
         /// <summary>
         /// method to strip HTML tags using Regular Expressions
         /// </summary>
-        /// <param name="str">String to strip HTML from</param>
         /// <returns></returns>
         public static string StripHTML(string raw)
         {
@@ -235,7 +238,7 @@ namespace MusicBrowser.Util
             try
             {
                 //variable to hold our RegularExpression pattern
-                string pattern = "<.*?>";
+                const string pattern = "<.*?>";
                 //replace all HTML tags
                 strippedString = Regex.Replace(raw, pattern, string.Empty);
             }

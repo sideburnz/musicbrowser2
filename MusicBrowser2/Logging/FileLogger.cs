@@ -20,7 +20,7 @@ namespace MusicBrowser.Logging
         public FileLogger()
         {
             // cache the logging level information
-            string logLevel = Config.getInstance().getSetting("LogLevel").ToLower();
+            string logLevel = Config.GetInstance().GetSetting("LogLevel").ToLower();
             // error is the default
             if (logLevel == "error")
             {
@@ -45,7 +45,7 @@ namespace MusicBrowser.Logging
                 _logErrors = true;
                 _logVerbose = true;
             }
-            _logFile = Config.getInstance().getSetting("LogFile");
+            _logFile = Config.GetInstance().GetSetting("LogFile");
         }
         #endregion
 
@@ -61,11 +61,13 @@ namespace MusicBrowser.Logging
                 sb.Append("Error, ");
 
                 sb.Append(ex.Source + ", ");
+                sb.Append(ex.GetType() + ", ");
                 sb.Append("\"" + ex.Message + "\"");
                 if (ex.InnerException != null)
                 {
                     sb.Append(", Inner Exception, ");
                     sb.Append(ex.InnerException.Source + ", ");
+                    sb.Append(ex.InnerException.GetType() + ", ");
                     sb.Append("\"" + ex.InnerException.Message + "\"");
                 }
                 if (ex.StackTrace != null)
@@ -117,13 +119,13 @@ namespace MusicBrowser.Logging
             }
         }
 
-        void ILogger.LogStats(MusicBrowser.Providers.Statistics stats)
+        void ILogger.LogStats(Providers.Statistics stats)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(DateTime.Now.ToShortDateString() + ", ");
             sb.Append(DateTime.Now.ToString("HH:mm:ss.ff") + ", ");
             sb.Append("Stats, ");
-            sb.Append("\"" + stats.ToString() + "\"");
+            sb.Append("\"" + stats + "\"");
             InnerLog(sb.ToString());
         }
 

@@ -18,7 +18,7 @@ namespace MusicBrowser.Logging
         public EventLogLogger()
         {
             // cache the logging level information
-            string logLevel = Config.getInstance().getSetting("LogLevel").ToLower();
+            string logLevel = Config.GetInstance().GetSetting("LogLevel").ToLower();
             // error is the default
             if (logLevel == "error")
             {
@@ -93,13 +93,13 @@ namespace MusicBrowser.Logging
         {
             if (_logVerbose)
             {
-                InnerLog(className + ": " + endPoint, EventLogEntryType.Information);
+                InnerLog(string.Format("{0}: {1}", className, endPoint), EventLogEntryType.Information);
             }
         }
 
-        void ILogger.LogStats(MusicBrowser.Providers.Statistics stats)
+        void ILogger.LogStats(Providers.Statistics stats)
         {
-            InnerLog("Stats: " + stats.ToString(), EventLogEntryType.Information);
+            InnerLog("Stats: " + stats, EventLogEntryType.Information);
         }
 
         #endregion

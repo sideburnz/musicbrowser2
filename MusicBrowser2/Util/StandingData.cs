@@ -13,33 +13,33 @@ namespace MusicBrowser.Util
 {
     static class StandingData
     {
-        public static IEnumerable<string> GetStandingData(string Category)
+        public static IEnumerable<string> GetStandingData(string category)
         {
             string fileName = Helper.AppFolder + "\\standingdata.xml";
-            XmlDocument XMLDoc = new XmlDocument();
-            string XpathString = string.Format("/standingdata/section[@name='{0}']/item", Category.ToLower());
+            XmlDocument xmlDoc = new XmlDocument();
+            string xpathString = string.Format("/standingdata/section[@name='{0}']/item", category.ToLower());
             List<string> rval = new List<string>();
 
             // if the file doesn't exist, just continue
             if (!System.IO.File.Exists(fileName))
             {
-                Exception MBex = new Exception("MusicBrowser.XML.StandingData - file not found: " + fileName);
-                Logging.Logger.Error(MBex);
-                throw (MBex);
+                Exception mbEx = new Exception("MusicBrowser.XML.StandingData - file not found: " + fileName);
+                Logging.Logger.Error(mbEx);
+                throw (mbEx);
             }
             try
             {
                 // load the file
-                XMLDoc.Load(fileName);
+                xmlDoc.Load(fileName);
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                Logging.Logger.Error(Ex);
+                Logging.Logger.Error(ex);
                 return null;
             }
 
             //  get the data
-            foreach (XmlNode node in XMLDoc.SelectNodes(XpathString))
+            foreach (XmlNode node in xmlDoc.SelectNodes(xpathString))
             {
                 rval.Add(node.InnerText);
             }

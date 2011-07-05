@@ -1,4 +1,5 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartArguments>
     </StartArguments>
@@ -21,5 +22,15 @@
     <StartWorkingDirectory>C:\Windows\eHome</StartWorkingDirectory>
     <StartArguments>-load:"file://G:\Code\MusicBrowser2\MusicBrowser2\Markup\Pages\pageMain.mcml" -assemblyredirect:"G:\Code\MusicBrowser2\MusicBrowser2\bin\Debug" -markupredirect:"resx://MusicBrowser/MusicBrowser.Resources/,file://G:\Code\MusicBrowser2\MusicBrowser2\Markup\,. mcml"</StartArguments>
     <StartAction>Program</StartAction>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PublishUrlHistory />
+    <InstallUrlHistory />
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
 </Project>

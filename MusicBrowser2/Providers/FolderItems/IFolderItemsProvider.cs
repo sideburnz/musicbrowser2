@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MusicBrowser.Providers;
 
 namespace MusicBrowser.Providers.FolderItems
 {
@@ -8,6 +7,6 @@ namespace MusicBrowser.Providers.FolderItems
     /// </summary>
     public interface IFolderItemsProvider
     {
-        IEnumerable<string> getItems(string URI);
+        IEnumerable<string> GetItems(string uri);
     }
 }

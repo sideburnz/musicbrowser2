@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MusicBrowser.Entities;
 using MusicBrowser.WebServices.Interfaces;
-using MusicBrowser.WebServices.WebServiceProviders;
-using MusicBrowser.Providers.Metadata;
 using MusicBrowser.WebServices.Services.LastFM;
+using MusicBrowser.WebServices.WebServiceProviders;
 
 namespace MusicBrowser.Providers.Metadata
 {
     class LastFMMetadataProvider : IMetadataProvider
     {
-        private const string MARKER = "LAST.FM";
+        private const string Marker = "LAST.FM";
 
 
-        private const int MIN_DAYS_BETWEEN_HITS = 1;
-        private const int MAX_DAYS_BETWEEN_HITS = 7;
-        private const int REFRESH_WINDOW = MAX_DAYS_BETWEEN_HITS - MIN_DAYS_BETWEEN_HITS;
+        private const int MinDaysBetweenHits = 1;
+        private const int MaxDaysBetweenHits = 7;
+        private const int RefreshWindow = MaxDaysBetweenHits - MinDaysBetweenHits;
 
-        private static Random Rnd = new Random(DateTime.Now.Millisecond);
+        private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
         
         /// <summary>
         /// This determines if data should be refreshed, it makes it more likely
@@ -29,10 +25,10 @@ namespace MusicBrowser.Providers.Metadata
         /// <returns></returns>
         private static bool RandomlyRefreshData(DateTime stamp)
         {
-            int DataAge = (DateTime.Today.Subtract(stamp)).Days;
-            int RefreshProbability = (10 * (DataAge / (REFRESH_WINDOW - MIN_DAYS_BETWEEN_HITS))) ^ 2;
-            if (DataAge <= MIN_DAYS_BETWEEN_HITS) { return false; }
-            return (RefreshProbability >= Rnd.Next(100));
+            int dataAge = (DateTime.Today.Subtract(stamp)).Days;
+            int refreshProbability = (10 * (dataAge / (RefreshWindow - MinDaysBetweenHits))) ^ 2;
+            if (dataAge <= MinDaysBetweenHits) { return false; }
+            return (refreshProbability >= Rnd.Next(100));
         }
 
         #region IMetadataProvider Members
@@ -40,17 +36,17 @@ namespace MusicBrowser.Providers.Metadata
         public IEntity Fetch(IEntity entity)
         {
             //killer questions
-            if (!Util.Config.getInstance().getBooleanSetting("UseInternetProviders")) { return entity; }
-            if (entity.Properties.ContainsKey(MARKER))
+            if (!Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders")) { return entity; }
+            if (entity.Properties.ContainsKey(Marker))
             {
-                if (!RandomlyRefreshData(DateTime.Parse(entity.Properties[MARKER]))) { return entity; } 
+                if (!RandomlyRefreshData(DateTime.Parse(entity.Properties[Marker]))) { return entity; } 
             }
 #if DEBUG
             Logging.Logger.Verbose("LastFMMetadataProvider.Fetch", "start");
 #endif
-            MusicBrowser.Providers.Statistics.GetInstance().Hit("lastfm.hit");
+            Statistics.GetInstance().Hit("lastfm.hit");
 
-            WebServiceProvider LFMProvider = new LastFMWebProvider();
+            WebServiceProvider lfmProvider = new LastFMWebProvider();
 
             switch (entity.Kind)
             {
@@ -60,11 +56,12 @@ namespace MusicBrowser.Providers.Metadata
                         albumDTO.Album = entity.Title;
                         if (entity.Parent.Kind.Equals(EntityKind.Artist)) { albumDTO.Artist = entity.Parent.Title; }
                         albumDTO.MusicBrainzID = entity.MusicBrainzID;
-                        albumDTO.Username = (Util.Config.getInstance().getSetting("LastFMUserName"));
+                        albumDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
 
                         AlbumInfoService albumService = new AlbumInfoService();
-                        albumService.setProvider(LFMProvider);
+                        albumService.SetProvider(lfmProvider);
                         albumService.Fetch(albumDTO);
+                        if (albumDTO.Status != WebServiceStatus.Success) { break; }
 
                         entity.SetProperty("lfm.playcount", albumDTO.Plays.ToString(), true);
                         entity.SetProperty("lfm.listeners", albumDTO.Listeners.ToString(), true);
@@ -94,24 +91,17 @@ namespace MusicBrowser.Providers.Metadata
                         ArtistInfoServiceDTO artistDTO = new ArtistInfoServiceDTO();
                         artistDTO.Artist = entity.Title;
                         artistDTO.MusicBrainzID = entity.MusicBrainzID;
-                        artistDTO.Username = (Util.Config.getInstance().getSetting("LastFMUserName"));
+                        artistDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
 
                         ArtistInfoService artistService = new ArtistInfoService();
-                        artistService.setProvider(LFMProvider);
+                        artistService.SetProvider(lfmProvider);
                         artistService.Fetch(artistDTO);
 
-                        if (artistDTO.Plays > 0)
-                        {
-                            entity.SetProperty("lfm.playcount", artistDTO.Plays.ToString(), true);
-                            entity.SetProperty("lfm.listeners", artistDTO.Listeners.ToString(), true);
-                            entity.SetProperty("lfm.totalplays", artistDTO.TotalPlays.ToString(), true);
-                        } 
-                        else
-                        {
-                            entity.SetProperty("lfm.playcount", string.Empty, true);
-                            entity.SetProperty("lfm.listeners", string.Empty, true);
-                            entity.SetProperty("lfm.totalplays", string.Empty, true);
-                        }
+                        if (artistDTO.Status != WebServiceStatus.Success) { break; }
+
+                        entity.SetProperty("lfm.playcount", artistDTO.Plays.ToString(), true);
+                        entity.SetProperty("lfm.listeners", artistDTO.Listeners.ToString(), true);
+                        entity.SetProperty("lfm.totalplays", artistDTO.TotalPlays.ToString(), true);
 
                         entity.Title = artistDTO.Artist;
                         entity.MusicBrainzID = artistDTO.MusicBrainzID;
@@ -132,24 +122,16 @@ namespace MusicBrowser.Providers.Metadata
                         trackDTO.Track = entity.Title;
                         if (entity.Properties.ContainsKey("artist")) { trackDTO.Artist = entity.Properties["artist"]; }
                         trackDTO.MusicBrainzID = entity.MusicBrainzID;
-                        trackDTO.Username = (Util.Config.getInstance().getSetting("LastFMUserName"));
+                        trackDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
 
                         TrackInfoService trackService = new TrackInfoService();
-                        trackService.setProvider(LFMProvider);
+                        trackService.SetProvider(lfmProvider);
                         trackService.Fetch(trackDTO);
+                        if (trackDTO.Status != WebServiceStatus.Success) { break; }
 
-                        if (trackDTO.Plays > 0)
-                        {
-                            entity.SetProperty("lfm.playcount", trackDTO.Plays.ToString(), true);
-                            entity.SetProperty("lfm.listeners", trackDTO.Listeners.ToString(), true);
-                            entity.SetProperty("lfm.totalplays", trackDTO.TotalPlays.ToString(), true);
-                        }
-                        else
-                        {
-                            entity.SetProperty("lfm.playcount", string.Empty, true);
-                            entity.SetProperty("lfm.listeners", string.Empty, true);
-                            entity.SetProperty("lfm.totalplays", string.Empty, true);
-                        }
+                        entity.SetProperty("lfm.playcount", trackDTO.Plays.ToString(), true);
+                        entity.SetProperty("lfm.listeners", trackDTO.Listeners.ToString(), true);
+                        entity.SetProperty("lfm.totalplays", trackDTO.TotalPlays.ToString(), true);
 
                         entity.Title = trackDTO.Track;
                         entity.Summary = trackDTO.Summary;
@@ -160,7 +142,7 @@ namespace MusicBrowser.Providers.Metadata
                     }
             }
 
-            entity.SetProperty(MARKER, DateTime.Now.ToString("yyyy-MMM-dd"), true);
+            entity.SetProperty(Marker, DateTime.Now.ToString("yyyy-MMM-dd"), true);
 
             entity.Dirty = true;
             entity.CalculateValues();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace MusicBrowser.Providers.Transport
@@ -108,26 +107,9 @@ namespace MusicBrowser.Providers.Transport
 
         #endregion
 
-
-        private void OnTrackChanged()
-        {
-            if (TrackChanged != null)
-            {
-                TrackChanged(this, EventArgs.Empty);
-            }
-        }
-
-        private void OnTrackProgress()
-        {
-            if (TrackProgress != null)
-            {
-                TrackProgress(this, EventArgs.Empty);
-            }
-        }
-
         private string FooPath
         {
-            get { return Util.Config.getInstance().getSetting("foobar2000"); }
+            get { return Util.Config.GetInstance().GetSetting("foobar2000"); }
         }
 
         private void HideFoobar()

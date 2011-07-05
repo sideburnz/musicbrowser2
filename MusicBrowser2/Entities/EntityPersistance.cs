@@ -1,18 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using MusicBrowser.Util;
-using MusicBrowser.Entities;
 using MusicBrowser.Entities.Kinds;
 
 namespace MusicBrowser.Entities
 {
     public static class EntityPersistance
     {
-        private static string APP_VERSION = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        private static readonly string AppVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         /// <summary>
         /// Serializes an Entity using XmlWriter
@@ -28,7 +25,7 @@ namespace MusicBrowser.Entities
             writer.WriteStartElement("EntityXML");
 
             writer.WriteAttributeString("type", data.Kind.ToString());
-            writer.WriteAttributeString("version", APP_VERSION);
+            writer.WriteAttributeString("version", AppVersion);
 
             writer.WriteElementString("Title", data.Title);
             writer.WriteElementString("Summary", data.Summary);
@@ -108,8 +105,7 @@ namespace MusicBrowser.Entities
                 int i;
                 int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Duration"), out i);
                 entity.Duration = i;
-                string ver;
-                ver = Helper.ReadXmlNode(xml, "EntityXML/@version");
+                string ver = Helper.ReadXmlNode(xml, "EntityXML/@version");
                 if (!String.IsNullOrEmpty(ver)) { entity.Version = Helper.ParseVersion(ver); }
 
                 // simple reads

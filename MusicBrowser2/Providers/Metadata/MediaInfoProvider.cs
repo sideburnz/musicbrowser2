@@ -11,7 +11,7 @@ namespace MusicBrowser.Providers.Metadata
         [DllImport("kernel32")]
         static extern IntPtr LoadLibrary(string lpFileName);
 
-        private const string MARKER = "MEDIAINFO";
+        private const string Marker = "MEDIAINFO";
 
         #region IBackgroundTaskable Members
 
@@ -20,14 +20,14 @@ namespace MusicBrowser.Providers.Metadata
         public IEntity Fetch(IEntity entity)
         {
             // killer questions
-            if (!enabled) { return entity; }
+            if (!Enabled) { return entity; }
             if (!entity.Kind.Equals(EntityKind.Song)) { return entity; }
-            if (entity.Properties.ContainsKey(MARKER)) { return entity; }
+            if (entity.Properties.ContainsKey(Marker)) { return entity; }
 #if DEBUG
             Logging.Logger.Verbose("MediaInfoProvider.Fetch(" + entity.Path + ")", "start");
 #endif
 
-            MusicBrowser.Providers.Statistics.GetInstance().Hit("mediainfo.hit");
+            Statistics.GetInstance().Hit("mediainfo.hit");
             try
             {
 
@@ -37,9 +37,8 @@ namespace MusicBrowser.Providers.Metadata
                 if (i != 0)
                 {
                     // sample rate
-                    string audioSampleRate;
-                    audioSampleRate = mediaInfo.Get(StreamKind.Audio, 0, "SamplingRate/String");
-                    entity.SetProperty("samplerate", audioSampleRate.ToString(), true);
+                    string audioSampleRate = mediaInfo.Get(StreamKind.Audio, 0, "SamplingRate/String");
+                    entity.SetProperty("samplerate", audioSampleRate, true);
 
                     // channels
                     int audioChannels;
@@ -52,13 +51,12 @@ namespace MusicBrowser.Providers.Metadata
                     }
 
                     // sample resolution
-                    string audioResolution;
-                    audioResolution = mediaInfo.Get(StreamKind.Audio, 0, "Resolution/String");
+                    string audioResolution = mediaInfo.Get(StreamKind.Audio, 0, "Resolution/String");
                     entity.SetProperty("resolution", audioResolution, true);
                 }
                 mediaInfo.Close();
 
-                entity.SetProperty(MARKER, DateTime.Now.ToString("yyyy-MMM-dd"), true);
+                entity.SetProperty(Marker, DateTime.Now.ToString("yyyy-MMM-dd"), true);
                 entity.CalculateValues();
             }
             catch (Exception e) { Logging.Logger.Error(e); }
@@ -68,7 +66,7 @@ namespace MusicBrowser.Providers.Metadata
             return entity;
         }
 
-        private static bool enabled = CheckForLib();
+        private static readonly bool Enabled = CheckForLib();
 
         private static bool CheckForLib()
         {
@@ -162,10 +160,10 @@ namespace MediaInfoLib
 
     public enum InfoFileOptions
     {
-        FileOption_Nothing = 0x00,
-        FileOption_Recursive = 0x01,
-        FileOption_CloseAll = 0x02,
-        FileOption_Max = 0x04
+        FileOptionNothing = 0x00,
+        FileOptionRecursive = 0x01,
+        FileOptionCloseAll = 0x02,
+        FileOptionMax = 0x04
     };
 
 

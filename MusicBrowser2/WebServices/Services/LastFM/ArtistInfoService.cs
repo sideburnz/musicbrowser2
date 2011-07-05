@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
-using System.Web;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.WebServices.WebServiceProviders;
 
@@ -23,6 +21,11 @@ namespace MusicBrowser.WebServices.Services.LastFM
         public int TotalPlays { get; set; }
         public string Summary { get; set; }
         public string Image { get; set; }
+
+        #region interface
+        public WebServiceStatus Status { get; set; }
+        public string Error { get; set; }
+        #endregion
     }
 
 
@@ -32,12 +35,12 @@ namespace MusicBrowser.WebServices.Services.LastFM
 
         #region IWebService Members
 
-        public IWebServiceDTO Fetch(IWebServiceDTO DTO)
+        public IWebServiceDTO Fetch(IWebServiceDTO dto)
         {
 #if DEBUG
             Logging.Logger.Verbose("LastFM.ArtistInfoService", "start");
 #endif
-            ArtistInfoServiceDTO localDTO = (ArtistInfoServiceDTO)DTO;
+            ArtistInfoServiceDTO localDTO = (ArtistInfoServiceDTO)dto;
             SortedDictionary<string, string> parms = new SortedDictionary<string, string>();
 
             parms.Add("method", "artist.getInfo");
@@ -58,25 +61,30 @@ namespace MusicBrowser.WebServices.Services.LastFM
             _provider.SetParameters(parms);
             _provider.DoService();
 
-            if (_provider.ResponseStatus != "200") { return localDTO; }
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(_provider.ResponseBody);
 
-            XmlDocument XMLDoc = new XmlDocument();
-            XMLDoc.LoadXml(_provider.ResponseBody);
+            if (_provider.ResponseStatus == "200")
+            {
+                localDTO.Artist = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/name", localDTO.Artist);
+                localDTO.MusicBrainzID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/mbid", localDTO.MusicBrainzID);
+                localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/bio/summary", localDTO.Summary));
+                localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/image[@size='large']").Replace("126", "174s");
+                localDTO.Plays = Int32.Parse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/stats/userplaycount", "0"));
+                localDTO.TotalPlays = Int32.Parse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/stats/playcount", "0"));
+                localDTO.Listeners = Int32.Parse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/stats/listeners", "0"));
+            }
+            else
+            {
+                localDTO.Status = WebServiceStatus.Error;
+                localDTO.Error = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/error");
 
-            localDTO.Artist = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/name");
-            localDTO.MusicBrainzID = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/mbid");
-            localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/bio/summary"));
-            
-            localDTO.Image = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/image[@size='large']").Replace("126", "174s");
-
-            localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/stats/userplaycount"));
-            localDTO.TotalPlays = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/stats/playcount"));
-            localDTO.Listeners = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "/lfm/artist/stats/listeners"));
-
+                Logging.Logger.Debug(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1}", localDTO.Artist, localDTO.Error));
+            }
             return localDTO;
         }
 
-        public void setProvider(WebServiceProvider provider)
+        public void SetProvider(WebServiceProvider provider)
         {
             _provider = (LastFMWebProvider)provider;
         }

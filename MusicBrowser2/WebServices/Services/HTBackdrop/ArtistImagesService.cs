@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
 using System.Web;
+using System.Xml;
 using MusicBrowser.WebServices.Interfaces;
-using MusicBrowser.WebServices.Helper;
 
 namespace MusicBrowser.WebServices.Services.HTBackdrop
 {
@@ -17,21 +16,26 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
 
         public List<string> ThumbList { get; set; }
         public List<string> BackdropList { get; set; }
+
+        #region interface
+        public WebServiceStatus Status { get; set; }
+        public string Error { get; set; }
+        #endregion
     }
 
     public class ArtistImageService : IWebService
     {
         private WebServiceProvider _provider;
-        private const string API_KEY = "bab7d8e83aff45941193e5f765b25051";
+        private const string ApiKey = "bab7d8e83aff45941193e5f765b25051";
 
-        public void setProvider(WebServiceProvider provider)
+        public void SetProvider(WebServiceProvider provider)
         {
             _provider = provider;
         }
 
-        public IWebServiceDTO Fetch(IWebServiceDTO DTO)
+        public IWebServiceDTO Fetch(IWebServiceDTO dto)
         {
-            ArtistImageServiceDTO localDTO = (ArtistImageServiceDTO)DTO;
+            ArtistImageServiceDTO localDTO = (ArtistImageServiceDTO)dto;
 #if DEBUG
             Logging.Logger.Verbose("HTBackdrop.ArtistImageService.Fetch(" + localDTO.ArtistName + localDTO.ArtistMusicBrainzID +")", "start");
 #endif
@@ -44,20 +48,20 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
             _provider.DoService();
             if (_provider.ResponseStatus != "200") { Logging.Logger.Debug(_provider.ResponseStatus); return localDTO; }
 
-            XmlDocument XmlResult = new XmlDocument();
+            XmlDocument xmlResult = new XmlDocument();
 
             try
             {
-                XmlResult.LoadXml(_provider.ResponseBody);
+                xmlResult.LoadXml(_provider.ResponseBody);
             }
             catch { }
 
             try
             {
                 // thumbs
-                foreach (XmlNode node in XmlResult.SelectNodes("/search/images/image[aid=5]/id"))
+                foreach (XmlNode node in xmlResult.SelectNodes("/search/images/image[aid=5]/id"))
                 {
-                    localDTO.ThumbList.Add("http://htbackdrops.com/api/" + API_KEY + "/download/" + node.InnerText + "/thumbnail");
+                    localDTO.ThumbList.Add("http://htbackdrops.com/api/" + ApiKey + "/download/" + node.InnerText + "/thumbnail");
                 }
             }
             catch { }
@@ -65,9 +69,9 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
             try
             {
                 // backgrounds
-                foreach (XmlNode node in XmlResult.SelectNodes("/search/images/image[aid=1]/id"))
+                foreach (XmlNode node in xmlResult.SelectNodes("/search/images/image[aid=1]/id"))
                 {
-                    localDTO.BackdropList.Add("http://htbackdrops.com/api/" + API_KEY + "/download/" + node.InnerText + "/fullsize");
+                    localDTO.BackdropList.Add("http://htbackdrops.com/api/" + ApiKey + "/download/" + node.InnerText + "/fullsize");
                 }
             }
             catch { }
@@ -77,25 +81,25 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
 
         private static string BuildURL(ArtistImageServiceDTO dto)
         {
-            StringBuilder URL = new StringBuilder();
-            URL.Append("http://htbackdrops.com/api/" + API_KEY + "/searchXML?");
-            URL.Append("default_operator=and&");
-            URL.Append("fields=title,mb_name,mb_alias&");
+            StringBuilder url = new StringBuilder();
+            url.Append("http://htbackdrops.com/api/" + ApiKey + "/searchXML?");
+            url.Append("default_operator=and&");
+            url.Append("fields=title,mb_name,mb_alias&");
 
-            if (dto.GetBackdrops && dto.GetThumbs) { URL.Append("aid=1,5&"); }
-            else if (dto.GetBackdrops) { URL.Append("aid=1&"); }
-            else if (dto.GetThumbs) { URL.Append("aid=5&"); }
+            if (dto.GetBackdrops && dto.GetThumbs) { url.Append("aid=1,5&"); }
+            else if (dto.GetBackdrops) { url.Append("aid=1&"); }
+            else if (dto.GetThumbs) { url.Append("aid=5&"); }
 
             if (String.IsNullOrEmpty(dto.ArtistMusicBrainzID))
             {
-                URL.Append("keywords=" + HttpUtility.UrlEncode(dto.ArtistName));
+                url.Append("keywords=" + HttpUtility.UrlEncode(dto.ArtistName));
             }
             else
             {
-                URL.Append("mbid=" + dto.ArtistMusicBrainzID);
+                url.Append("mbid=" + dto.ArtistMusicBrainzID);
             }
 
-            return URL.ToString();
+            return url.ToString();
         }
     }
 }

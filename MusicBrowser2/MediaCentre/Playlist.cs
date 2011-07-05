@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Microsoft.MediaCenter;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers;
-using MusicBrowser.Util;
 using MusicBrowser.Providers.Transport;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.MediaCentre
 {
@@ -24,12 +23,12 @@ namespace MusicBrowser.MediaCentre
                 // handle these in real-time
                 case "cmdresume":
                     {
-                        Transport.getTransport().PlayPause();
+                        Transport.GetTransport().PlayPause();
                         return;
                     }
                 case "cmdpause":
                     {
-                        Transport.getTransport().PlayPause();
+                        Transport.GetTransport().PlayPause();
                         return;
                     }
             }
@@ -41,28 +40,26 @@ namespace MusicBrowser.MediaCentre
             
         public static void PlayTrackList(IEnumerable<string> tracks, bool queue)
         {
-            Models.UINotifier.GetInstance().Message = "Adding " + tracks.Count() + " tracks to playlist";
-
-            Transport.getTransport().Play(queue, tracks);
-
+            Models.UINotifier.GetInstance().Message = string.Format("Adding {0} tracks to playlist", tracks.Count());
+            Transport.GetTransport().Play(queue, tracks);
             AutoShowNowPlaying();
         }
 
         public static void PlaySong(IEntity entity, Boolean add)
         {
-            Transport.getTransport().Play(add, entity.Path);
+            Transport.GetTransport().Play(add, entity.Path);
             AutoShowNowPlaying();
         }
 
         public static void PlayDisc(IEntity entity)
         {
-            Transport.getTransport().PlayDisc(entity.Path);
+            Transport.GetTransport().PlayDisc(entity.Path);
             AutoShowNowPlaying();
         }
 
         private static void AutoShowNowPlaying()
         {
-            if (Config.getInstance().getBooleanSetting("AutoLoadNowPlaying"))
+            if (Config.GetInstance().GetBooleanSetting("AutoLoadNowPlaying"))
             {
                 MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
                 if (mce.MediaExperience != null)

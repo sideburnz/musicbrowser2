@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Entities;
 using MusicBrowser.Providers.CD;
 
 namespace MusicBrowser.Entities.Kinds
@@ -10,7 +6,7 @@ namespace MusicBrowser.Entities.Kinds
     class Disc : IEntity
     {
         private readonly char _letter;
-        private CDDrive _drive;
+        private readonly CDDrive _drive;
 
         public Disc(char letter)
         {
@@ -27,8 +23,8 @@ namespace MusicBrowser.Entities.Kinds
             }
             _drive.UnLockCD();
             _drive.Close();
-            base.Title = "Audio CD (" + _letter + ":)";
-            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageDisc";
+            Title = "Audio CD (" + _letter + ":)";
+            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageDisc";
             CalculateValues();
         }
 
@@ -50,31 +46,31 @@ namespace MusicBrowser.Entities.Kinds
 
         private void OnCDInserted()
         {
-            int Tracks = _drive.GetNumAudioTracks();
+            int tracks = _drive.GetNumAudioTracks();
             int T = _drive.GetNumTracks();
-            int Length = 0;
-            string Duration;
+            int length = 0;
+            string duration;
 
             for (int i = 1; i <= T; i++)
             {
                 if (_drive.IsAudioTrack(i))
                 {
-                    Length += _drive.GetSeconds(i);
+                    length += _drive.GetSeconds(i);
                 }
             }
 
-            TimeSpan t = TimeSpan.FromSeconds(Length);
+            TimeSpan t = TimeSpan.FromSeconds(length);
             if (t.Hours == 0)
             {
-                Duration = string.Format("{0}:{1:D2}", (Int32)Math.Floor(t.TotalMinutes), t.Seconds);
+                duration = string.Format("{0}:{1:D2}", (Int32)Math.Floor(t.TotalMinutes), t.Seconds);
             }
             else
             {
-                Duration = string.Format("{0}:{1:D2}:{2:D2}", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds);
+                duration = string.Format("{0}:{1:D2}:{2:D2}", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds);
             }
 
 
-            base.ShortSummaryLine1 = "Disc (" + Tracks + " Tracks  " + Duration + ")";
+            base.ShortSummaryLine1 = "Disc (" + tracks + " Tracks  " + duration + ")";
 
             //fire off background task to get info off CDDB
             FirePropertiesChanged("ShortSummaryLine1");

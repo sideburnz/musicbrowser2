@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic; 
 using Microsoft.MediaCenter.Hosting;
 using MusicBrowser.Entities;
-using MusicBrowser.Entities.Kinds;
 using MusicBrowser.Models;
  
 // taken from the SDK example, I've changed the namespace and classname
@@ -18,10 +17,10 @@ namespace MusicBrowser
         
         public void Uninitialize()         
         {
-            MusicBrowser.Providers.Transport.Transport.getTransport().Close();
-            if (Util.Config.getInstance().getBooleanSetting("LogStatsOnClose"))
+            Providers.Transport.Transport.GetTransport().Close();
+            if (Util.Config.GetInstance().GetBooleanSetting("LogStatsOnClose"))
             {
-                Logging.Logger.Stats(MusicBrowser.Providers.Statistics.GetInstance());
+                Logging.Logger.Stats(Providers.Statistics.GetInstance());
             }
         }
         

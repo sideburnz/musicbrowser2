@@ -1,10 +1,21 @@
 ﻿namespace MusicBrowser.WebServices.Interfaces
 {
-    public interface IWebServiceDTO { }
+    public interface IWebServiceDTO
+    {
+        WebServiceStatus Status { get; set; }
+        string Error { get; set; }
+    }
 
     public interface IWebService
     {
-        void setProvider(WebServiceProvider provider);
-        IWebServiceDTO Fetch(IWebServiceDTO DTO);
+        void SetProvider(WebServiceProvider provider);
+        IWebServiceDTO Fetch(IWebServiceDTO dto);
+    }
+
+    public enum WebServiceStatus
+    {
+        Success,
+        Warning,
+        Error
     }
 }

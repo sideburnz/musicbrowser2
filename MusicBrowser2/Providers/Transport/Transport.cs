@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace MusicBrowser.Providers.Transport
 {
     static class Transport
     {
-        private static ITransport _transport = null;
+        private static ITransport _transport;
 
-        public static ITransport getTransport()
+        public static ITransport GetTransport()
         {
             if (_transport == null)
             {
-                switch (Util.Config.getInstance().getSetting("Engine").ToLower())
+                switch (Util.Config.GetInstance().GetSetting("Engine").ToLower())
                 {
                     case "foobar2000":
                         {

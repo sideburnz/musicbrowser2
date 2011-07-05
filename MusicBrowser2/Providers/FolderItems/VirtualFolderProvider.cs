@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using MusicBrowser.Providers.FolderItems;
-using MusicBrowser.Providers;
 
 /******************************************************************************
  * 
@@ -23,14 +21,14 @@ namespace MusicBrowser.Providers.FolderItems
         /// <summary>
         /// Gets list of directories from a .vf file
         /// </summary>
-        /// <param name="URI">path of .vf file</param>
+        /// <param name="uri">path of .vf file</param>
         /// <returns>list of existing directories from .vf file</returns>
-        public IEnumerable<string> getItems(string URI)
+        public IEnumerable<string> GetItems(string uri)
         {
 #if DEBUG
             Logging.Logger.Verbose(this.GetType().ToString(), "start");
 #endif
-            foreach (string line in GetFileContents(URI))
+            foreach (string line in GetFileContents(uri))
             {
                 if (!line.StartsWith("folder: ")) continue;
                 string thisPath = line.Substring(8).Trim();
@@ -47,7 +45,7 @@ namespace MusicBrowser.Providers.FolderItems
         {
             string line;
             List<string> rval = new List<string>();
-            System.IO.StreamReader file = new System.IO.StreamReader(path);
+            StreamReader file = new StreamReader(path);
             while ((line = file.ReadLine()) != null)
             {
                 rval.Add(line);
@@ -56,9 +54,9 @@ namespace MusicBrowser.Providers.FolderItems
             return rval;
         }
 
-        public static void WriteVF(string VFPath, IEnumerable<string> paths)
+        public static void WriteVF(string vfPath, IEnumerable<string> paths)
         {
-            StreamWriter fs = File.CreateText(VFPath);
+            StreamWriter fs = File.CreateText(vfPath);
             foreach (string path in paths)
             {
                 fs.WriteLine("folder: " + path);

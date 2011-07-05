@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using MusicBrowser.Entities;
-using Microsoft.MediaCenter.UI;
 using MusicBrowser.Providers;
 
 namespace MusicBrowser.Entities.Kinds
@@ -12,7 +8,7 @@ namespace MusicBrowser.Entities.Kinds
     {
         public Album()
         {
-            base.DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageAlbum";
+            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageAlbum";
         }
 
         public override EntityKind Kind
@@ -29,8 +25,7 @@ namespace MusicBrowser.Entities.Kinds
 
                 if (string.IsNullOrEmpty(IconPath))
                 {
-                    string temp;
-                    temp = ImageProvider.locateFanArt(Path, ImageType.Thumb);
+                    string temp = ImageProvider.LocateFanArt(Path, ImageType.Thumb);
                     if (!String.IsNullOrEmpty(temp))
                     {
                         IconPath = Util.Helper.ImageCacheFullName(CacheKey, "Thumbs");
@@ -44,11 +39,9 @@ namespace MusicBrowser.Entities.Kinds
                 }
                 if (string.IsNullOrEmpty(BackgroundPath))
                 {
-                    string temp;
-                    temp = ImageProvider.locateFanArt(Path, ImageType.Backdrop);
+                    string temp = ImageProvider.LocateFanArt(Path, ImageType.Backdrop);
                     if (!String.IsNullOrEmpty(temp)) { BackgroundPath = temp; }
                 }
-
             }
         }
 
@@ -69,8 +62,8 @@ namespace MusicBrowser.Entities.Kinds
         {
             StringBuilder sb = new StringBuilder();
 
-            if (base.Children == 1) { sb.Append("1 Track  "); }
-            if (base.Children > 1) { sb.Append(base.Children + " Tracks  "); }
+            if (Children == 1) { sb.Append("1 Track  "); }
+            if (Children > 1) { sb.Append(Children + " Tracks  "); }
             if (Duration > 0)
             {
                 TimeSpan t = TimeSpan.FromSeconds(Duration);
@@ -97,7 +90,7 @@ namespace MusicBrowser.Entities.Kinds
                 base.Parent = value;
                 if (value.Kind.Equals(EntityKind.Artist))
                 {
-                    this.SetProperty("artist", value.Title, false);
+                    SetProperty("artist", value.Title, false);
                     Dirty = true;
                 }
             }

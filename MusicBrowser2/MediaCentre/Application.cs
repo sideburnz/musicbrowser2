@@ -1,16 +1,12 @@
-﻿using System.Collections.Generic;
-using System;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.Hosting;
-using Microsoft.MediaCenter.UI;
 using MusicBrowser.Entities;
 using MusicBrowser.MediaCentre;
 using MusicBrowser.Models;
-using MusicBrowser.Providers.Background;
-using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Providers;
-using MusicBrowser.Providers.Transport;
+using MusicBrowser.Providers.Background;
 
 // ReSharper disable CheckNamespace
 namespace MusicBrowser
@@ -33,7 +29,9 @@ namespace MusicBrowser
 
             _cache = new EntityCache();
             _factory = new EntityFactory();
-            _factory.setCache(_cache);
+            _factory.SetCache(_cache);
+
+            Util.Config.GetInstance().SetDefaultSettings();
 
         }
 
@@ -74,7 +72,6 @@ namespace MusicBrowser
                     case EntityKind.Home:
                         {
                             EntityCollection entities = new EntityCollection();
-                            Entities.Kinds.Home home = (Entities.Kinds.Home)entity;
                             foreach (string item in Entities.Kinds.Home.Paths)
                             {
                                 entities.Populate(FileSystemProvider.GetFolderContents(item), _factory, entity);

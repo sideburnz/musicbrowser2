@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml;
 using System.IO;
-using Microsoft.MediaCenter.UI;
+using System.Text.RegularExpressions;
+using System.Xml;
 using MusicBrowser.Entities;
 using MusicBrowser.Entities.Kinds;
-using System.Text.RegularExpressions;
 
 
 namespace MusicBrowser.Util
@@ -17,6 +16,7 @@ namespace MusicBrowser.Util
                                       //  { "Language", "English" }, 
                                         { "EnableFanArt", true.ToString() },
                                         { "UseFolderImageForTracks", true.ToString() },
+                                        { "ShowVersion", false.ToString() },
 
                                         { "ShowClock", true.ToString() },
                                         { "WindowsLibrarySupport", true.ToString() },
@@ -83,11 +83,11 @@ namespace MusicBrowser.Util
                     _xml = new XmlDocument();
                     _xml.Load(configFile);
                 }
-                catch { }
+                catch (Exception) { }
             }
         }
 
-        public static Config getInstance()
+        public static Config GetInstance()
         {
             if (_instance != null) return _instance;
             _instance = new Config();
@@ -97,7 +97,15 @@ namespace MusicBrowser.Util
 
         readonly Dictionary<string, string> _settingCache = new Dictionary<string, string>();
 
-        public string getSetting(string key)
+        public void SetDefaultSettings()
+        {
+            for (int i = 0; i < _defaults.GetUpperBound(1); i++)
+            {
+                GetSetting(_defaults[i,0]);
+            }
+        }
+
+        public string GetSetting(string key)
         {
             // see if we've already cached the setting
             if (_settingCache.ContainsKey(key))
@@ -122,7 +130,7 @@ namespace MusicBrowser.Util
                     {
                         //save the value to the XML
                         retval = _defaults[x, 1];
-                        setSetting(key, retval);
+                        SetSetting(key, retval);
                         found = true;
                         break;
                     }
@@ -134,12 +142,12 @@ namespace MusicBrowser.Util
             return retval;
         }
 
-        public bool getBooleanSetting(string key)
+        public bool GetBooleanSetting(string key)
         {
-            return (getSetting(key).ToLower() == "true");
+            return (GetSetting(key).ToLower() == "true");
         }
 
-        public void setSetting(string key, string value)
+        public void SetSetting(string key, string value)
         {
             string configFile = Helper.AppConfigFile;
             string xpathString = string.Format("Settings/{0}", key);
@@ -160,7 +168,7 @@ namespace MusicBrowser.Util
             _xml.Save(configFile);
         }
 
-        public void resetSettings()
+        public void ResetSettings()
         {
             string configFile = Helper.AppConfigFile;
             if (File.Exists(configFile))
@@ -173,9 +181,9 @@ namespace MusicBrowser.Util
 
         // this pushes the intelligence involved with some settings to the config manager
         static IEnumerable<string> _sortIgnore;
-        public static string handleIgnoreWords(string value)
+        public static string HandleIgnoreWords(string value)
         {
-            if (_sortIgnore == null) { _sortIgnore = _instance.getSetting("SortReplaceWords").Split('|'); }
+            if (_sortIgnore == null) { _sortIgnore = _instance.GetSetting("SortReplaceWords").Split('|'); }
 
             foreach (string item in _sortIgnore)
             {
@@ -184,27 +192,27 @@ namespace MusicBrowser.Util
             return value;
         }
 
-        public static string handleEntityView(EntityKind kind)
+        public static string HandleEntityView(EntityKind kind)
         {
             switch (kind)
             {
                 case EntityKind.Home:
                     {
-                        return _instance.getSetting("ViewForHome");
+                        return _instance.GetSetting("ViewForHome");
                     }
                 case EntityKind.Artist:
                     {
-                        return _instance.getSetting("ViewForArtist");
+                        return _instance.GetSetting("ViewForArtist");
                     }
                 case EntityKind.Album:
                     {
-                        return _instance.getSetting("ViewForAlbum");
+                        return _instance.GetSetting("ViewForAlbum");
                     }
             }
-            return _instance.getSetting("ViewForUnknown");
+            return _instance.GetSetting("ViewForUnknown");
         }
 
-        public static string handleEntityDescription(IEntity entity)
+        public static string HandleEntityDescription(IEntity entity)
         {
             string format;
             switch (entity.Kind)
@@ -215,29 +223,29 @@ namespace MusicBrowser.Util
                     }
                 case EntityKind.Song:
                     {
-                        format = _instance.getSetting("FormatForSong");
+                        format = _instance.GetSetting("FormatForSong");
                         break;
                     }
                 case EntityKind.Album:
                     {
-                        format = _instance.getSetting("FormatForAlbum");
+                        format = _instance.GetSetting("FormatForAlbum");
                         break;
                     }
                 case EntityKind.Artist:
                     {
-                        format = _instance.getSetting("FormatForArtist");
+                        format = _instance.GetSetting("FormatForArtist");
                         break;
                     }
                 case EntityKind.Playlist:
                     {
-                        format = _instance.getSetting("FormatForPlaylist");
+                        format = _instance.GetSetting("FormatForPlaylist");
                         break;
                     }
                 case EntityKind.Unknown: return entity.Title;
                 case EntityKind.Home: return entity.Title;
                 default:
                     {
-                        format = _instance.getSetting("FormatForUnknown");
+                        format = _instance.GetSetting("FormatForUnknown");
                         break;
                     }
             }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
-using System.Web;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.WebServices.WebServiceProviders;
 
@@ -24,61 +22,76 @@ namespace MusicBrowser.WebServices.Services.LastFM
         public int TotalPlays { get; set; }
         public string Summary { get; set; }
         public bool Loved { get; set; }
+
+        #region interface
+        public WebServiceStatus Status { get; set; }
+        public string Error { get; set; }
+        #endregion
     }
 
     class TrackInfoService : IWebService
     {
         LastFMWebProvider _provider;
 
-        public void setProvider(WebServiceProvider provider)
+        public void SetProvider(WebServiceProvider provider)
         {
             _provider = (LastFMWebProvider)provider;
         }
 
-        public IWebServiceDTO Fetch(IWebServiceDTO DTO)
+        public IWebServiceDTO Fetch(IWebServiceDTO dto)
         {
 #if DEBUG
             Logging.Logger.Verbose("LastFM.TrackInfoService", "start");
 #endif
 
-            TrackInfoDTO localDTO = (TrackInfoDTO)DTO;
+            TrackInfoDTO localDTO = (TrackInfoDTO)dto;
             SortedDictionary<string, string> parms = new SortedDictionary<string, string>();
 
             parms.Add("method", "track.getInfo");
             parms.Add("autocorrect", "1");
             parms.Add("username", localDTO.Username);
 
-            if (String.IsNullOrEmpty(localDTO.MusicBrainzID))
-            {
+            // Last.fm appears to have a defect with MusicBrainzID for tracks
+            //if (String.IsNullOrEmpty(localDTO.MusicBrainzID))
+            //{
                 parms.Add("artist", localDTO.Artist);
                 parms.Add("track", localDTO.Track);
-            }
-            else
-            {
-                parms.Add("mbid", localDTO.MusicBrainzID);
-            }
+            //}
+            //else
+            //{
+            //    parms.Add("mbid", localDTO.MusicBrainzID);
+            //}
 
             // this is a dummy URL for logging
             _provider.URL = "last.fm - track info - track=" + localDTO.Track + "  artist=" + localDTO.Artist + "&mbid=" + localDTO.MusicBrainzID;
             _provider.SetParameters(parms);
             _provider.DoService();
 
-            if (_provider.ResponseStatus != "200") { return localDTO; }
-            XmlDocument XMLDoc = new XmlDocument();
+            XmlDocument xmlDoc = new XmlDocument();
 
-            XMLDoc.LoadXml(_provider.ResponseBody);
+            xmlDoc.LoadXml(_provider.ResponseBody);
 
-            //TODO: 2.2.1.10 confirm these are right
-            localDTO.Track = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/track/name");
-            localDTO.Artist = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/track/artist");
-            localDTO.MusicBrainzID = Util.Helper.ReadXmlNode(XMLDoc, "/lfm/track/mbid");
-            localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(XMLDoc, "/lfm/track/bio/summary"));
-            localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "lfm/track/userplaycount"));
-            localDTO.TotalPlays = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "lfm/track/playcount"));
-            localDTO.Listeners = Int32.Parse("0" + Util.Helper.ReadXmlNode(XMLDoc, "lfm/track/listeners"));
-            localDTO.Loved = (Util.Helper.ReadXmlNode(XMLDoc, "lfm/track/userloved") == "1");
+            if (_provider.ResponseStatus == "200")
+            {
+                localDTO.Status = WebServiceStatus.Success;
+                localDTO.Track = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/track/name", localDTO.Track);
+                localDTO.Artist = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/track/artist", localDTO.Artist);
+                localDTO.MusicBrainzID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/track/mbid", localDTO.MusicBrainzID);
+                localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/track/bio/summary", localDTO.Summary));
+                localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "lfm/track/userplaycount", "0"));
+                localDTO.TotalPlays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "lfm/track/playcount", "0"));
+                localDTO.Listeners = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "lfm/track/listeners", "0"));
+                localDTO.Loved = (Util.Helper.ReadXmlNode(xmlDoc, "lfm/track/userloved") == "1");
+            }
+            else
+            {
+                localDTO.Status = WebServiceStatus.Error;
+                localDTO.Error = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/error");
+
+                Logging.Logger.Debug(string.Format("Last.fm track lookup for \"{0}\" returned this error - {1}", localDTO.Track, localDTO.Error));
+            }
+    
             return localDTO;
-
 
         }
     }

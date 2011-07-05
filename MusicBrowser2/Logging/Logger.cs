@@ -12,7 +12,7 @@ namespace MusicBrowser.Logging
         public static void Info(string message) { SelectedLogger.LogInfo(message); }
         public static void Debug(string message) { SelectedLogger.LogDebug(message); }
         public static void Verbose(string className, string endPoint) { SelectedLogger.LogVerbose(className, endPoint); }
-        public static void Stats(MusicBrowser.Providers.Statistics stats) { SelectedLogger.LogStats(stats); }
+        public static void Stats(Providers.Statistics stats) { SelectedLogger.LogStats(stats); }
 
         static private ILogger SelectedLogger
         {
@@ -22,7 +22,7 @@ namespace MusicBrowser.Logging
                 {
                     if (_logger == null)
                     {
-                        string logDestination = Config.getInstance().getSetting("LogDestination");
+                        string logDestination = Config.GetInstance().GetSetting("LogDestination");
                         switch (logDestination)
                         {
                             case "file":

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Entities;
-
-namespace MusicBrowser.Entities.Kinds
+﻿namespace MusicBrowser.Entities.Kinds
 {
     class Unknown : IEntity
     {
         public Unknown()
         {
-            base.Title = "[unknown]";
+            Title = "[unknown]";
         }
 
         public override EntityKind Kind
