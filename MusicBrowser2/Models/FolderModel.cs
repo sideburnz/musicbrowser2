@@ -29,7 +29,7 @@ namespace MusicBrowser.Models
         public FolderModel(IEntity parentEntity, Breadcrumbs crumbs, EntityCollection entities)
         {
 #if DEBUG
-            Logging.Logger.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", path: " + crumbs.Path + ", size: " + entities.Count + ")", "start");  
+            Logging.LoggerFactory.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", path: " + crumbs.Path + ", size: " + entities.Count + ")", "start");  
 #endif
             _crumbs = new Breadcrumbs(crumbs);
             _crumbs.Add(parentEntity);
@@ -122,7 +122,7 @@ namespace MusicBrowser.Models
 
             if (property == "Value")
             {
-                Logging.Logger.Debug("filter = " + _remoteFilter.Value);
+                Logging.LoggerFactory.Debug("filter = " + _remoteFilter.Value);
 
                 // if it's resetting the filter, then just shortcut and load the
                 // entity list with the full set of data
@@ -225,7 +225,7 @@ namespace MusicBrowser.Models
 
         private void OnCDInserted(object sender, EventArgs e)
         {
-            Logging.Logger.Debug("CD inserted: " + ((CDDrive)sender).Letter);
+            Logging.LoggerFactory.Debug("CD inserted: " + ((CDDrive)sender).Letter);
 
             _fullentities.Insert(0, new Disc(((CDDrive)sender).Letter));
             RefreshEntities();
@@ -235,7 +235,7 @@ namespace MusicBrowser.Models
         {
             CDDrive obj = (CDDrive)sender;
 
-            Logging.Logger.Debug("CD removed: " + obj.Letter);
+            Logging.LoggerFactory.Debug("CD removed: " + obj.Letter);
 
             for (int i = 0; i < _entities.Count; i++)
             {
@@ -267,7 +267,7 @@ namespace MusicBrowser.Models
 
         public void TransportCommand(string command)
         {
-            Logging.Logger.Debug("TransportCommand: " + command);
+            Logging.LoggerFactory.Debug("TransportCommand: " + command);
 
             switch (command.ToLower())
             {

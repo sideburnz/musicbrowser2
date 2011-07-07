@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.Hosting;
+using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities;
 using MusicBrowser.MediaCentre;
 using MusicBrowser.Models;
@@ -17,8 +18,6 @@ namespace MusicBrowser
         private readonly AddInHost _host;
         private readonly HistoryOrientedPageSession _session;
         private readonly EntityFactory _factory;
-        private readonly EntityCache _cache;
-
 
         public Application() : this(null, null) { }
 
@@ -27,9 +26,7 @@ namespace MusicBrowser
             _session = session; 
             _host = host;
 
-            _cache = new EntityCache();
             _factory = new EntityFactory();
-            _factory.SetCache(_cache);
 
             Util.Config.GetInstance().SetDefaultSettings();
 
@@ -46,7 +43,7 @@ namespace MusicBrowser
 
         public void Navigate(IEntity entity, Breadcrumbs parentCrumbs)
         {
-            Logging.Logger.Info("Navigating to " + entity.Description);
+            Logging.LoggerFactory.Info("Navigating to " + entity.Description);
             try
             {
                 Dictionary<string, object> properties = new Dictionary<string, object>();
@@ -85,7 +82,7 @@ namespace MusicBrowser
                             //trigger the background caching tasks
                             foreach (string path in Entities.Kinds.Home.Paths)
                             {
-                                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path, _factory, _cache, new Entities.Kinds.Unknown()));
+                                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path, _factory, new Entities.Kinds.Unknown()));
                             }
                             break;
                         }
@@ -108,7 +105,7 @@ namespace MusicBrowser
             }
             catch (Exception ex)
             {
-                Logging.Logger.Error(ex);
+                Logging.LoggerFactory.Error(ex);
                 Dialog("Failed to navigate to " + entity.Description);
             }
         }

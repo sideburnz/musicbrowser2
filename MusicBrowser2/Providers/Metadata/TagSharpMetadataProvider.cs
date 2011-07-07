@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 
@@ -9,14 +10,12 @@ namespace MusicBrowser.Providers.Metadata
     {
         private const string Marker = "TAGSHARP";
         private readonly IEntity _entity;
-        private readonly EntityCache _cache;
 
         public TagSharpMetadataProvider() { }
 
-        public TagSharpMetadataProvider(IEntity entity, EntityCache cache)
+        public TagSharpMetadataProvider(IEntity entity)
         {
             _entity = entity;
-            _cache = cache;
         }
 
         #region IMetadataProvider Members
@@ -28,7 +27,7 @@ namespace MusicBrowser.Providers.Metadata
             if (!entity.Kind.Equals(EntityKind.Song)) { return entity; }
             if (entity.Properties.ContainsKey(Marker)) { return entity; }
 #if DEBUG
-            Logging.Logger.Verbose("TagSharpMetadataProvider.Fetch(" + entity.Path + ")", "start");
+            Logging.LoggerFactory.Verbose("TagSharpMetadataProvider.Fetch(" + entity.Path + ")", "start");
 #endif
 
             Statistics.GetInstance().Hit("tagsharp.hit");
@@ -102,7 +101,7 @@ namespace MusicBrowser.Providers.Metadata
                 }
             }
     
-            catch (Exception e) { Logging.Logger.Error(e); }
+            catch (Exception e) { Logging.LoggerFactory.Error(e); }
 
             entity.Dirty = true;
             entity.CalculateValues();
@@ -121,7 +120,7 @@ namespace MusicBrowser.Providers.Metadata
         public void Execute()
         {
             IEntity e = Fetch(_entity);
-            _cache.Update(e.CacheKey, e);
+            CacheEngineFactory.GetCacheEngine().Update(e.CacheKey, EntityPersistance.Serialize(e));
         }
 
         #endregion

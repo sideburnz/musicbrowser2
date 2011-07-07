@@ -42,7 +42,7 @@ namespace MusicBrowser.Providers.Metadata
                 if (!RandomlyRefreshData(DateTime.Parse(entity.Properties[Marker]))) { return entity; } 
             }
 #if DEBUG
-            Logging.Logger.Verbose("LastFMMetadataProvider.Fetch", "start");
+            Logging.LoggerFactory.Verbose("LastFMMetadataProvider.Fetch", "start");
 #endif
             Statistics.GetInstance().Hit("lastfm.hit");
 

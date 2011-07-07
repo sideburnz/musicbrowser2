@@ -119,7 +119,7 @@ namespace MusicBrowser.Providers.Transport
 
         private void ExecuteCommand(string command)
         {
-            Logging.Logger.Debug(command);
+            Logging.LoggerFactory.Debug(command);
 
             System.Diagnostics.ProcessStartInfo externalProc;
             externalProc = new System.Diagnostics.ProcessStartInfo();

@@ -37,7 +37,7 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
         {
             ArtistImageServiceDTO localDTO = (ArtistImageServiceDTO)dto;
 #if DEBUG
-            Logging.Logger.Verbose("HTBackdrop.ArtistImageService.Fetch(" + localDTO.ArtistName + localDTO.ArtistMusicBrainzID +")", "start");
+            Logging.LoggerFactory.Verbose("HTBackdrop.ArtistImageService.Fetch(" + localDTO.ArtistName + localDTO.ArtistMusicBrainzID +")", "start");
 #endif
             _provider.URL = BuildURL(localDTO);
             _provider.Method = "GET";
@@ -46,7 +46,7 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
             localDTO.BackdropList = new List<string>();
 
             _provider.DoService();
-            if (_provider.ResponseStatus != "200") { Logging.Logger.Debug(_provider.ResponseStatus); return localDTO; }
+            if (_provider.ResponseStatus != "200") { Logging.LoggerFactory.Debug(_provider.ResponseStatus); return localDTO; }
 
             XmlDocument xmlResult = new XmlDocument();
 

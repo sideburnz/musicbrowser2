@@ -53,7 +53,7 @@ namespace MusicBrowser.WebServices.WebServiceProviders
         public override void Execute()
         {
 #if DEBUG
-            Logging.Logger.Verbose("LastFMWebProvider.Execute(" + URL + ")", "start");
+            Logging.LoggerFactory.Verbose("LastFMWebProvider.Execute(" + URL + ")", "start");
 #endif
             HttpProvider http = new HttpProvider();
             StringBuilder sb = new StringBuilder();

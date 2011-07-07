@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MusicBrowser.CacheEngine;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Entities;
@@ -10,14 +11,12 @@ namespace MusicBrowser.Providers
     {
         private readonly string _path;
         private readonly EntityFactory _factory;
-        private readonly EntityCache _cache;
         private readonly IEntity _entity;
 
-        public BackgroundCacheProvider(string path, EntityFactory factory, EntityCache cache, IEntity entity)
+        public BackgroundCacheProvider(string path, EntityFactory factory, IEntity entity)
         {
             _path = path;
             _factory = factory;
-            _cache = cache;
             _entity = entity;
         }
 
@@ -50,12 +49,12 @@ namespace MusicBrowser.Providers
                 entity.Parent = _entity;
 
                 // fire off the metadata providers
-                CommonTaskQueue.Enqueue(new MetadataProviderList(entity, _cache));
+                CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
 
                 // fire off cache tasks for sub items
                 if (Util.Helper.IsFolder(item.Attributes))
                 {
-                    IBackgroundTaskable task = new BackgroundCacheProvider(item.FullPath, _factory, _cache, entity);
+                    IBackgroundTaskable task = new BackgroundCacheProvider(item.FullPath, _factory, entity);
                     task.Execute();
                 }
 

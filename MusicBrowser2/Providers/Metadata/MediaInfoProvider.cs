@@ -24,7 +24,7 @@ namespace MusicBrowser.Providers.Metadata
             if (!entity.Kind.Equals(EntityKind.Song)) { return entity; }
             if (entity.Properties.ContainsKey(Marker)) { return entity; }
 #if DEBUG
-            Logging.Logger.Verbose("MediaInfoProvider.Fetch(" + entity.Path + ")", "start");
+            Logging.LoggerFactory.Verbose("MediaInfoProvider.Fetch(" + entity.Path + ")", "start");
 #endif
 
             Statistics.GetInstance().Hit("mediainfo.hit");
@@ -59,7 +59,7 @@ namespace MusicBrowser.Providers.Metadata
                 entity.SetProperty(Marker, DateTime.Now.ToString("yyyy-MMM-dd"), true);
                 entity.CalculateValues();
             }
-            catch (Exception e) { Logging.Logger.Error(e); }
+            catch (Exception e) { Logging.LoggerFactory.Error(e); }
 
             entity.Dirty = true;
             entity.CalculateValues();
@@ -76,7 +76,7 @@ namespace MusicBrowser.Providers.Metadata
                 var handle = LoadLibrary(mediaInfoPath);
                 return handle != IntPtr.Zero;
             }
-            Logging.Logger.Info("MediaInfo plug-in not enabled");
+            Logging.LoggerFactory.Info("MediaInfo plug-in not enabled");
             return false;
         }
     }

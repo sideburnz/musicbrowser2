@@ -42,7 +42,7 @@ namespace MusicBrowser.Providers
             foreach (string path in paths)
             {
 #if DEBUG
-                Logging.Logger.Verbose("PlaylistProvider.CreatePlaylist(" + path +", " + queue + ", " + shuffle + ")", "loop");
+                Logging.LoggerFactory.Verbose("PlaylistProvider.CreatePlaylist(" + path +", " + queue + ", " + shuffle + ")", "loop");
 #endif
                 foreach (FileSystemItem item in FileSystemProvider.GetAllSubPaths(path))
                 {

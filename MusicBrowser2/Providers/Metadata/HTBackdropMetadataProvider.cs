@@ -26,7 +26,7 @@ namespace MusicBrowser.Providers.Metadata
             }
 
 #if DEBUG
-            Logging.Logger.Verbose("HTBackdropMetadataProvider.Fetch(" + entity.Path + ")", "start");
+            Logging.LoggerFactory.Verbose("HTBackdropMetadataProvider.Fetch(" + entity.Path + ")", "start");
 #endif
             // set up the web service classes
             ArtistImageServiceDTO dto = new ArtistImageServiceDTO();

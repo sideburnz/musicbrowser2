@@ -1,21 +1,21 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities.Kinds;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Providers.Background;
+using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Entities
 {
     public class EntityFactory
     {
         private static readonly long FirstCompatibleCache = Util.Helper.ParseVersion("2.2.1.7");
-        private EntityCache _cache;
+        private ICacheEngine _cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
 
         #region IEntityFactory Members
-
-        public void SetCache(EntityCache cache) { _cache = cache; }
 
         public IEntity GetItem(string item)
         {
@@ -36,11 +36,11 @@ namespace MusicBrowser.Entities
 
 
             // get the value from cache
-            if (_cache.Exists(key))
+            if (_cacheEngine.Exists(key))
             {
-                if (_cache.IsValid(key, metadata.LastUpdated, item.LastUpdated))
+                if (_cacheEngine.IsValid(key, metadata.LastUpdated, item.LastUpdated))
                 {
-                    entity = _cache.Read(key);
+                    entity = EntityPersistance.Deserialize(_cacheEngine.Read(key));
                     if (entity.Version >= FirstCompatibleCache)
                     {
                         entity.Path = item.FullPath;
@@ -48,12 +48,12 @@ namespace MusicBrowser.Entities
                     }
                 }
                 // if it's not the latest version of the entity, delete it 
-                _cache.Delete(key);
+                _cacheEngine.Delete(key);
             }
 
             Statistics.GetInstance().Hit("factory.hit");
 #if DEBUG
-            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") [metadata " + metadataFile + " : " + !String.IsNullOrEmpty(metadata.Name) + "]", "start");
+            Logging.LoggerFactory.Verbose("Factory.getItem(" + item.FullPath + ") [metadata " + metadataFile + " : " + !String.IsNullOrEmpty(metadata.Name) + "]", "start");
 #endif
 
             if (!String.IsNullOrEmpty(metadata.Name))
@@ -115,11 +115,11 @@ namespace MusicBrowser.Entities
             // do this here so that if the user browses to a folder that isn't cached, it retrieves
             if (entity.Kind.Equals(EntityKind.Song))
             {
-                CommonTaskQueue.Enqueue(new TagSharpMetadataProvider(entity, _cache), true);
+                CommonTaskQueue.Enqueue(new TagSharpMetadataProvider(entity), true);
             }
 
             entity.CalculateValues();
-            _cache.Update(key, entity);
+            _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
 
             return entity;
         }
@@ -158,7 +158,7 @@ namespace MusicBrowser.Entities
             {
                 return EntityKind.Playlist;
             }
-            Logging.Logger.Info("unable to determine entity type for : " + entity.FullPath);
+            Logging.LoggerFactory.Info("unable to determine entity type for : " + entity.FullPath);
             return EntityKind.Unknown;
         }
     }

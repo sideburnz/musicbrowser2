@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 
@@ -20,15 +21,15 @@ namespace MusicBrowser.Providers.Metadata
             return providerList;
         }
 
-        public static void ProcessEntity(IEntity entity, EntityCache cache)
+        public static void ProcessEntity(IEntity entity)
         {
 #if DEBUG
-            Logging.Logger.Verbose("executing background metadata provider task for " + entity.Path, "start");
+            Logging.LoggerFactory.Verbose("executing background metadata provider task for " + entity.Path, "start");
 #endif
             foreach (IMetadataProvider provider in GetProviders())
             {
 #if DEBUG
-                Logging.Logger.Verbose(provider.GetType().ToString(), "start");
+                Logging.LoggerFactory.Verbose(provider.GetType().ToString(), "start");
 #endif
                 try
                 {
@@ -37,21 +38,19 @@ namespace MusicBrowser.Providers.Metadata
                 catch (Exception e)
                 {
 #if DEBUG
-                    Logging.Logger.Error(new Exception(string.Format("MetadataProviderList failed whilst running {0} for {1}\r", provider.GetType().ToString(), entity.Path), e));
+                    Logging.LoggerFactory.Error(new Exception(string.Format("MetadataProviderList failed whilst running {0} for {1}\r", provider.GetType().ToString(), entity.Path), e));
 #endif
                 }
             }
             entity.CalculateValues();
-            cache.Update(entity.CacheKey, entity);
+            CacheEngineFactory.GetCacheEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
         }
 
         private readonly IEntity _entity;
-        private readonly EntityCache _cache;
 
-        public MetadataProviderList(IEntity entity, EntityCache cache)
+        public MetadataProviderList(IEntity entity)
         {
             _entity = entity;
-            _cache = cache;
         }
 
         #region IBackgroundTaskable Members
@@ -65,11 +64,11 @@ namespace MusicBrowser.Providers.Metadata
         {
             try
             {
-                ProcessEntity(_entity, _cache);
+                ProcessEntity(_entity);
             }
             catch (Exception e)
             {
-                Logging.Logger.Error(new Exception(string.Format("MetadataProviderList failed for {0}\r", _entity.Path), e));
+                Logging.LoggerFactory.Error(new Exception(string.Format("MetadataProviderList failed for {0}\r", _entity.Path), e));
             }
 
         }

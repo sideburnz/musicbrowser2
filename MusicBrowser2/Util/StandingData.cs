@@ -24,7 +24,7 @@ namespace MusicBrowser.Util
             if (!System.IO.File.Exists(fileName))
             {
                 Exception mbEx = new Exception("MusicBrowser.XML.StandingData - file not found: " + fileName);
-                Logging.Logger.Error(mbEx);
+                Logging.LoggerFactory.Error(mbEx);
                 throw (mbEx);
             }
             try
@@ -34,7 +34,7 @@ namespace MusicBrowser.Util
             }
             catch (Exception ex)
             {
-                Logging.Logger.Error(ex);
+                Logging.LoggerFactory.Error(ex);
                 return null;
             }
 
