@@ -6,7 +6,7 @@ using MusicBrowser.WebServices.WebServiceProviders;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    class LastFMMetadataProvider : IMetadataProvider
+    class LastFMMetadataProvider //: IMetadataProvider
     {
         private const string Marker = "LAST.FM";
 
@@ -42,7 +42,7 @@ namespace MusicBrowser.Providers.Metadata
                 if (!RandomlyRefreshData(DateTime.Parse(entity.Properties[Marker]))) { return entity; } 
             }
 #if DEBUG
-            Logging.LoggerFactory.Verbose("LastFMMetadataProvider.Fetch", "start");
+            Logging.Logger.Verbose("LastFMMetadataProvider.Fetch", "start");
 #endif
             Statistics.GetInstance().Hit("lastfm.hit");
 

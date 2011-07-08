@@ -126,7 +126,6 @@
     <Compile Include="Providers\CD\CDDriveEvents.cs" />
     <Compile Include="Providers\CD\Win32Functions.cs" />
     <Compile Include="Providers\Metadata\HTBackdropMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\IMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\LastFMMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\MediaInfoProvider.cs" />
     <Compile Include="Providers\Metadata\MetadataProviderList.cs" />
@@ -140,7 +139,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Logging\EventLogLogger.cs" />
     <Compile Include="Logging\FileLogger.cs" />
-    <Compile Include="Logging\LoggerFactory.cs" />
+    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Providers\FolderItems\InterOp\FileSystem.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="MediaCentre\Application.cs" />

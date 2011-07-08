@@ -20,7 +20,7 @@ namespace MusicBrowser.Providers.FolderItems
         public System.Collections.Generic.IEnumerable<string> GetItems(string uri)
         {
 #if DEBUG
-            Logging.LoggerFactory.Verbose(this.GetType().ToString(), "start");
+            Logging.Logger.Verbose(this.GetType().ToString(), "start");
 #endif
             
             XmlDocument musicLib = new XmlDocument();

@@ -20,7 +20,7 @@ namespace MusicBrowser
             Providers.Transport.Transport.GetTransport().Close();
             if (Util.Config.GetInstance().GetBooleanSetting("LogStatsOnClose"))
             {
-                Logging.LoggerFactory.Stats(Providers.Statistics.GetInstance());
+                Logging.Logger.Stats(Providers.Statistics.GetInstance());
             }
         }
         

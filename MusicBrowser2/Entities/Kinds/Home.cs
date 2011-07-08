@@ -53,7 +53,7 @@ namespace MusicBrowser.Entities.Kinds
                         else
                         {
                             Exception ex = new Exception("Virtual Folder " + vfFile + " not found");
-                            Logging.LoggerFactory.Error(ex);
+                            Logging.Logger.Error(ex);
                             throw ex;
                         }
                     }

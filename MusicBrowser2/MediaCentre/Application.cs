@@ -30,6 +30,8 @@ namespace MusicBrowser
 
             Util.Config.GetInstance().SetDefaultSettings();
 
+            Logging.Logger.Info("Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+
         }
 
         private MediaCenterEnvironment MediaCenterEnvironment
@@ -43,7 +45,7 @@ namespace MusicBrowser
 
         public void Navigate(IEntity entity, Breadcrumbs parentCrumbs)
         {
-            Logging.LoggerFactory.Info("Navigating to " + entity.Description);
+            Logging.Logger.Info("Navigating to " + entity.Description);
             try
             {
                 Dictionary<string, object> properties = new Dictionary<string, object>();
@@ -105,7 +107,7 @@ namespace MusicBrowser
             }
             catch (Exception ex)
             {
-                Logging.LoggerFactory.Error(ex);
+                Logging.Logger.Error(ex);
                 Dialog("Failed to navigate to " + entity.Description);
             }
         }

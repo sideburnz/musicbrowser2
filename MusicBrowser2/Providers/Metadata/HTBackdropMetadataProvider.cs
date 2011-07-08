@@ -7,7 +7,7 @@ using MusicBrowser.WebServices.WebServiceProviders;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    public class HTBackdropMetadataProvider : IMetadataProvider
+    public class HTBackdropMetadataProvider //: IMetadataProvider
     {
         private const string Marker = "HTBACK";
 
@@ -26,7 +26,7 @@ namespace MusicBrowser.Providers.Metadata
             }
 
 #if DEBUG
-            Logging.LoggerFactory.Verbose("HTBackdropMetadataProvider.Fetch(" + entity.Path + ")", "start");
+            Logging.Logger.Verbose("HTBackdropMetadataProvider.Fetch(" + entity.Path + ")", "start");
 #endif
             // set up the web service classes
             ArtistImageServiceDTO dto = new ArtistImageServiceDTO();

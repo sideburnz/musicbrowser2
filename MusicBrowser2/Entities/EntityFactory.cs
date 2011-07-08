@@ -53,7 +53,7 @@ namespace MusicBrowser.Entities
 
             Statistics.GetInstance().Hit("factory.hit");
 #if DEBUG
-            Logging.LoggerFactory.Verbose("Factory.getItem(" + item.FullPath + ") [metadata " + metadataFile + " : " + !String.IsNullOrEmpty(metadata.Name) + "]", "start");
+            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") [metadata " + metadataFile + " : " + !String.IsNullOrEmpty(metadata.Name) + "]", "start");
 #endif
 
             if (!String.IsNullOrEmpty(metadata.Name))
@@ -113,10 +113,10 @@ namespace MusicBrowser.Entities
             entity.Path = item.FullPath;
 
             // do this here so that if the user browses to a folder that isn't cached, it retrieves
-            if (entity.Kind.Equals(EntityKind.Song))
-            {
-                CommonTaskQueue.Enqueue(new TagSharpMetadataProvider(entity), true);
-            }
+            //if (entity.Kind.Equals(EntityKind.Song))
+            //{
+            //    CommonTaskQueue.Enqueue(new TagSharpMetadataProvider(entity), true);
+            //}
 
             entity.CalculateValues();
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
@@ -158,7 +158,7 @@ namespace MusicBrowser.Entities
             {
                 return EntityKind.Playlist;
             }
-            Logging.LoggerFactory.Info("unable to determine entity type for : " + entity.FullPath);
+            Logging.Logger.Info("unable to determine entity type for : " + entity.FullPath);
             return EntityKind.Unknown;
         }
     }

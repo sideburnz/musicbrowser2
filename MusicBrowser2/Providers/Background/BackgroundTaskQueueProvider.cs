@@ -66,7 +66,7 @@ namespace MusicBrowser.Providers.Background
                 { 
                     if (_threadpool[i].ThreadState == (ThreadState.Suspended | ThreadState.Background)) 
                     {
-                        Logging.LoggerFactory.Info("Thread is being resumed: " + i); 
+                        Logging.Logger.Info("Thread is being resumed: " + i); 
                         _activeThreads++; 
                         _threadpool[i].Resume(); 
                         break; 
@@ -100,12 +100,12 @@ namespace MusicBrowser.Providers.Background
                     }
                     catch (Exception e)
                     {
-                        Logging.LoggerFactory.Error(new Exception(string.Format("Thread {0} failed whilst running {1}\r", id, task.Title), e));
+                        Logging.Logger.Error(new Exception(string.Format("Thread {0} failed whilst running {1}\r", id, task.Title), e));
                     }
                 } 
                 if ((_queue.Count + 1) < _activeThreads) 
                 { 
-                    Logging.LoggerFactory.Info("Thread is being suspended: " + id); 
+                    Logging.Logger.Info("Thread is being suspended: " + id); 
                     _activeThreads--; 
                     _threadpool[id].Suspend(); 
                 } 

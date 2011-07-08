@@ -76,7 +76,7 @@ namespace MusicBrowser.Util
                 {
                     if (File.Exists(configFile))
                     {
-                        Logging.LoggerFactory.Error(new Exception("Error reading config file, file is being reset, all settings will be lost.", e));
+                        Logging.Logger.Error(new Exception("Error reading config file, file is being reset, all settings will be lost.", e));
                         File.Delete(configFile);
                     }
                     File.WriteAllText(configFile, Resources.BlankSettings);
@@ -135,7 +135,7 @@ namespace MusicBrowser.Util
                         break;
                     }
                 }
-                if (!found) { Logging.LoggerFactory.Error(new InvalidDataException("No setting found for '" + key + "'")); }
+                if (!found) { Logging.Logger.Error(new InvalidDataException("No setting found for '" + key + "'")); }
             }
             // cache the setting on read
             _settingCache[key] = retval;

@@ -1,129 +1,94 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
-using MusicBrowser.CacheEngine;
+using System.IO;
 using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
+using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    public class TagSharpMetadataProvider : IBackgroundTaskable, IMetadataProvider
+    public class TagSharpMetadataProvider : IDataProvider
     {
-        private const string Marker = "TAGSHARP";
-        private readonly IEntity _entity;
 
-        public TagSharpMetadataProvider() { }
-
-        public TagSharpMetadataProvider(IEntity entity)
+        public DataProviderDTO GetDTO()
         {
-            _entity = entity;
+            DataProviderDTO temp = new DataProviderDTO();
+
+            temp.Parameters = new Dictionary<string, string>();
+            temp.Parameters.Add("path", String.Empty);
+
+            return temp;
         }
 
-        #region IMetadataProvider Members
-
-        public IEntity Fetch(IEntity entity)
+        public DataProviderDTO Fetch(DataProviderDTO input)
         {
-            IEntity parent = entity.Parent;
+            Logging.Logger.Debug("Tag# " + input.Parameters["path"]);
 
-            if (!entity.Kind.Equals(EntityKind.Song)) { return entity; }
-            if (entity.Properties.ContainsKey(Marker)) { return entity; }
-#if DEBUG
-            Logging.LoggerFactory.Verbose("TagSharpMetadataProvider.Fetch(" + entity.Path + ")", "start");
-#endif
+            DataProviderDTO result = new DataProviderDTO();
+            result.Parameters = new Dictionary<string, string>();
 
-            Statistics.GetInstance().Hit("tagsharp.hit");
-            try
+            if (Directory.Exists(input.Parameters["path"]))
             {
-                TagLib.File fileTag = TagLib.File.Create(entity.Path);
-
-                if (!String.IsNullOrEmpty(fileTag.Tag.Title))
-                {
-                    entity.Title = fileTag.Tag.Title.Trim();
-                    entity.SetProperty("album", fileTag.Tag.Album, false);
-                    entity.SetProperty("artist", fileTag.Tag.FirstPerformer, false);
-                    entity.SetProperty("albumartist", fileTag.Tag.FirstAlbumArtist, false);
-                    
-                    entity.SetProperty("release", fileTag.Tag.Year.ToString(), false);
-                    entity.SetProperty("disc", fileTag.Tag.Disc.ToString(), false);
-                    entity.SetProperty("track", string.Format("{0:D2}", fileTag.Tag.Track), false);
-                    entity.SetProperty("codec", fileTag.MimeType.Substring(7).ToLower(), false);
-                    entity.Duration = (Int32)fileTag.Properties.Duration.TotalSeconds;
-                    entity.MusicBrainzID = fileTag.Tag.MusicBrainzTrackId;
-                    entity.SetProperty("MusicBrainzArtist", fileTag.Tag.MusicBrainzReleaseArtistId, false);
-                    entity.SetProperty("MusicBrainzAlbum", fileTag.Tag.MusicBrainzReleaseId, false);
-                    entity.SetProperty("genres", fileTag.Tag.JoinedGenres, false);
-                    entity.SetProperty("performers", fileTag.Tag.JoinedPerformers, false);
-                    // populate up
-                    if (parent != null)
-                    {
-                        if (parent.Kind.Equals(EntityKind.Album))
-                        {
-                            if (string.IsNullOrEmpty(parent.MusicBrainzID)) 
-                            { 
-                                parent.MusicBrainzID = fileTag.Tag.MusicBrainzReleaseId; 
-                                parent.Dirty = true; 
-                            }
-                            parent.SetProperty("release", fileTag.Tag.Year.ToString(), false);
-                        }
-                        if (!(parent.Parent == null))
-                        {
-                            if (parent.Parent.Kind.Equals(EntityKind.Artist))
-                            {
-                                if (string.IsNullOrEmpty(parent.Parent.MusicBrainzID)) 
-                                {
-                                    if (!String.IsNullOrEmpty(fileTag.Tag.FirstAlbumArtist))
-                                    {
-                                        parent.Parent.Title = fileTag.Tag.FirstAlbumArtist;
-                                        parent.Parent.Dirty = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (!Util.Config.GetInstance().GetBooleanSetting("UseFolderImageForTracks"))
-                    {
-                        // cache the thumb
-                        string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Covers");
-                        foreach (TagLib.IPicture pic in fileTag.Tag.Pictures)
-                        {
-                            if (!pic.Data.IsEmpty)
-                            {
-                                Bitmap bitmap = ImageProvider.Convert(pic);
-                                bitmap = ImageProvider.Resize(bitmap, ImageType.Thumb);
-                                ImageProvider.Save(bitmap, tmpThumb);
-
-                                entity.IconPath = tmpThumb;
-                                break;
-                            }
-                        }
-                    }
-                    entity.SetProperty(Marker, DateTime.Now.ToString("yyyy-MMM-dd"), true);
-                }
+                result.Outcome = DataProviderOutcome.InvalidInput;
+                result.Errors = new List<string> {"Path is a folder" + input.Parameters["path"]};
+                return result;
             }
-    
-            catch (Exception e) { Logging.LoggerFactory.Error(e); }
 
-            entity.Dirty = true;
-            entity.CalculateValues();
-            return entity;
+            if (!File.Exists(input.Parameters["path"]))
+            {
+                result.Outcome = DataProviderOutcome.InvalidInput;
+                result.Errors = new List<string> { "File not found" + input.Parameters["path"] };
+                return result;
+            }
+
+            result.Outcome = DataProviderOutcome.Success;
+
+            TagLib.File fileTag = TagLib.File.Create(input.Parameters["path"]);
+
+            if (!String.IsNullOrEmpty(fileTag.Tag.Title))
+            {
+                result.Parameters.Add("title", fileTag.Tag.Title.Trim());
+                result.Parameters.Add("album", fileTag.Tag.Album);
+                result.Parameters.Add("artist", fileTag.Tag.FirstPerformer);
+                result.Parameters.Add("albumartist", fileTag.Tag.FirstAlbumArtist);
+                result.Parameters.Add("release", fileTag.Tag.Year.ToString());
+                result.Parameters.Add("disc", fileTag.Tag.Disc.ToString());
+                result.Parameters.Add("track", string.Format("{0:D2}", fileTag.Tag.Track));
+                result.Parameters.Add("codec", fileTag.MimeType.Substring(7).ToLower());
+                result.Parameters.Add("duration", fileTag.Properties.Duration.TotalSeconds.ToString());
+                result.Parameters.Add("MusicBrainzID", fileTag.Tag.MusicBrainzTrackId);
+                result.Parameters.Add("MusicBrainzArtist", fileTag.Tag.MusicBrainzReleaseArtistId);
+                result.Parameters.Add("MusicBrainzAlbum", fileTag.Tag.MusicBrainzReleaseId);
+                result.Parameters.Add("genres", fileTag.Tag.JoinedGenres);
+                result.Parameters.Add("performers", fileTag.Tag.JoinedPerformers);
+
+
+                //// cache the thumb
+                //string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Covers");
+                //foreach (TagLib.IPicture pic in fileTag.Tag.Pictures)
+                //{
+                //    if (!pic.Data.IsEmpty)
+                //    {
+                //        Bitmap bitmap = ImageProvider.Convert(pic);
+                //        bitmap = ImageProvider.Resize(bitmap, ImageType.Thumb);
+                //        ImageProvider.Save(bitmap, tmpThumb);
+
+                //        entity.IconPath = tmpThumb;
+                //        break;
+                //    }
+                //}
+
+
+            }
+            else
+            {
+                result.Outcome = DataProviderOutcome.NotFound;
+                result.Errors = new List<string>();
+                result.Errors.Add("No data found in tags");
+            }
+
+            return result;
         }
-
-        #endregion
-
-        #region IBackgroundTaskable Members
-
-        public string Title
-        {
-            get { return GetType().ToString(); }
-        }
-
-        public void Execute()
-        {
-            IEntity e = Fetch(_entity);
-            CacheEngineFactory.GetCacheEngine().Update(e.CacheKey, EntityPersistance.Serialize(e));
-        }
-
-        #endregion
-
     }
 }

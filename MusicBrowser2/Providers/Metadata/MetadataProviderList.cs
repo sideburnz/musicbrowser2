@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
+using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
 {
     class MetadataProviderList : IBackgroundTaskable
     {
-        private static IEnumerable<IMetadataProvider> GetProviders()
+        private static IEnumerable<IDataProvider> GetProviders()
         {
-            List<IMetadataProvider> providerList = new List<IMetadataProvider>();
+            List<IDataProvider> providerList = new List<IDataProvider>();
 
             providerList.Add(new TagSharpMetadataProvider());
-            providerList.Add(new MediaInfoProvider());
-            providerList.Add(new HTBackdropMetadataProvider());
-            providerList.Add(new LastFMMetadataProvider());
+            //providerList.Add(new MediaInfoProvider());
+            //providerList.Add(new HTBackdropMetadataProvider());
+            //providerList.Add(new LastFMMetadataProvider());
             // add new providers here
             
             return providerList;
@@ -23,22 +24,22 @@ namespace MusicBrowser.Providers.Metadata
 
         public static void ProcessEntity(IEntity entity)
         {
-#if DEBUG
-            Logging.LoggerFactory.Verbose("executing background metadata provider task for " + entity.Path, "start");
-#endif
-            foreach (IMetadataProvider provider in GetProviders())
+            foreach (IDataProvider provider in GetProviders())
             {
-#if DEBUG
-                Logging.LoggerFactory.Verbose(provider.GetType().ToString(), "start");
-#endif
                 try
                 {
-                    entity = provider.Fetch(entity);
+                    DataProviderDTO dto = provider.GetDTO();
+                    dto.Parameters["path"] = entity.Path;
+                    dto = provider.Fetch(dto);
+                    if (dto.Outcome == DataProviderOutcome.Success)
+                    {
+                        entity.Title = dto.Parameters["title"];
+                    }
                 }
                 catch (Exception e)
                 {
 #if DEBUG
-                    Logging.LoggerFactory.Error(new Exception(string.Format("MetadataProviderList failed whilst running {0} for {1}\r", provider.GetType().ToString(), entity.Path), e));
+                    Logging.Logger.Error(new Exception(string.Format("MetadataProviderList failed whilst running {0} for {1}\r", provider.GetType().ToString(), entity.Path), e));
 #endif
                 }
             }
@@ -68,7 +69,7 @@ namespace MusicBrowser.Providers.Metadata
             }
             catch (Exception e)
             {
-                Logging.LoggerFactory.Error(new Exception(string.Format("MetadataProviderList failed for {0}\r", _entity.Path), e));
+                Logging.Logger.Error(new Exception(string.Format("MetadataProviderList failed for {0}\r", _entity.Path), e));
             }
 
         }
