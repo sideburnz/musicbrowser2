@@ -1,16 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.CacheEngine
 {
     class CacheEngineFactory
     {
-        [DllImport("kernel32")]
-        static extern IntPtr LoadLibrary(string lpFileName);
-
         private static ICacheEngine _cacheEngine;
         private static readonly object Obj = new object();
 
@@ -18,10 +14,10 @@ namespace MusicBrowser.CacheEngine
         {
             if (_cacheEngine == null)
             {
-                string libraryName = Util.Config.GetInstance().GetSetting("CacheEngine").ToLower();
+                string libraryName = Util.Config.GetInstance().GetSetting("CacheEngine");
                 lock (Obj)
                 {
-                    switch (libraryName)
+                    switch (libraryName.ToLower())
                     {
                         case "none":
                             {
@@ -48,13 +44,21 @@ namespace MusicBrowser.CacheEngine
             return _cacheEngine;
         }
 
-        public static ICacheEngine LoadExternalEngine(string path)
+        public static ICacheEngine LoadExternalEngine(string typeName)
         {
-            string libraryPath = Path.Combine(Util.Helper.PlugInFolder, path);
+            string libraryPath = Path.Combine(Util.Helper.PlugInFolder, typeName) + ".dll";
+
             if (File.Exists(libraryPath))
             {
-                Assembly pluginAssembly = Assembly.LoadFrom(libraryPath);
-                return (ICacheEngine)Activator.CreateInstance(pluginAssembly.GetType("MusicBrowser.Interfaces.ICacheEngine"));
+                try
+                {
+                    Assembly pluginAssembly = Assembly.LoadFrom(libraryPath);
+                    return (ICacheEngine)Activator.CreateInstance(pluginAssembly.GetType("MusicBrowser.CacheEngine." + typeName));
+                }
+                catch(Exception e)
+                {
+                    Logging.Logger.Error(e);
+                }
             }
             return null;
         }
