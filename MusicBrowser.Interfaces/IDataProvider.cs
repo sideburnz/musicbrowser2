@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -22,17 +23,62 @@ namespace MusicBrowser.Interfaces
         InvalidInput
     }
 
+    public enum DataTypes
+    {
+        Song,
+        Album,
+        Artist,
+        Playlist,
+        Disc
+    }
+
     /// <summary>
     /// DTO for passing data to and from data providers
     /// </summary>
     public struct DataProviderDTO
     {
+        // in
+        public DataTypes DataType;
+        public string Path;
+        public string DiscId;
+
         // out
         public DataProviderOutcome Outcome;
-        public IList<string> Errors;
+        public IEnumerable<string> Errors;
 
         // in and out
-        public IDictionary<string, string> Parameters;
+        public string TrackName;
+        public string ArtistName;
+        public string AlbumArtist;
+        public string AlbumName;
+
+        public int TrackNumber;
+        public int DiscNumber;
+        public DateTime ReleaseDate;
+
+        public string Codec;
+        public string Channels;
+        public string Duration;
+        public int SampleRate;
+        public string Resolution;
+
+        public int PlayCount;
+        public int Rating;
+        public int Listeners;
+        public int TotalPlays;
+        public bool Favorite;
+
+        public Bitmap ThumbImage;
+        public Bitmap BackImage;
+
+        public string MusicBrainzId;
+
+        public IEnumerable<string> Performers;
+        public IEnumerable<string> Genres;
+
+        public string Lyrics;
+
+        public string Summary;
     }
 
     /// <summary>
@@ -40,12 +86,6 @@ namespace MusicBrowser.Interfaces
     /// </summary>
     public interface IDataProvider
     {
-        /// <summary>
-        /// Creates a blank DTO with fields expected for this provider
-        /// </summary>
-        /// <returns>Proforma DTO</returns>
-        DataProviderDTO GetDTO();
-
         /// <summary>
         /// Populates the DTO with data
         /// </summary>
