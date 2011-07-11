@@ -22,7 +22,7 @@ namespace MusicBrowser.Providers.Metadata
             // killer questions
             if (!Enabled) { return entity; }
             if (!entity.Kind.Equals(EntityKind.Song)) { return entity; }
-            if (entity.Properties.ContainsKey(Marker)) { return entity; }
+            //if (entity.Properties.ContainsKey(Marker)) { return entity; }
 #if DEBUG
             Logging.Logger.Verbose("MediaInfoProvider.Fetch(" + entity.Path + ")", "start");
 #endif
@@ -38,25 +38,24 @@ namespace MusicBrowser.Providers.Metadata
                 {
                     // sample rate
                     string audioSampleRate = mediaInfo.Get(StreamKind.Audio, 0, "SamplingRate/String");
-                    entity.SetProperty("samplerate", audioSampleRate, true);
+                    entity.SampleRate = audioSampleRate;
 
                     // channels
                     int audioChannels;
                     Int32.TryParse(mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)"), out audioChannels);
                     switch (audioChannels)
                     {
-                        case 1: entity.SetProperty("channels", "Mono", true); break;
-                        case 2: entity.SetProperty("channels", "Stereo", true); break;
-                        default: entity.SetProperty("channels", audioChannels + " channels", true); break;
+                        case 1: entity.Channels = "Mono"; break; 
+                        case 2: entity.Channels = "Stereo"; break;
+                        default: entity.Channels = audioChannels + " channels"; break;
                     }
 
                     // sample resolution
                     string audioResolution = mediaInfo.Get(StreamKind.Audio, 0, "Resolution/String");
-                    entity.SetProperty("resolution", audioResolution, true);
+                    entity.Resolution = audioResolution;
                 }
                 mediaInfo.Close();
 
-                entity.SetProperty(Marker, DateTime.Now.ToString("yyyy-MMM-dd"), true);
                 entity.CalculateValues();
             }
             catch (Exception e) { Logging.Logger.Error(e); }

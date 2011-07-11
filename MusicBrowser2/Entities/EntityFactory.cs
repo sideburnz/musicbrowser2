@@ -1,19 +1,17 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities.Kinds;
-using MusicBrowser.Providers;
-using MusicBrowser.Providers.Metadata;
-using MusicBrowser.Providers.Background;
 using MusicBrowser.Interfaces;
+using MusicBrowser.Providers;
 
 namespace MusicBrowser.Entities
 {
     public class EntityFactory
     {
-        private static readonly long FirstCompatibleCache = Util.Helper.ParseVersion("2.2.1.7");
-        private ICacheEngine _cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
+        private static readonly long FirstCompatibleCache = Util.Helper.ParseVersion("2.2.2.4");
+        private readonly ICacheEngine _cacheEngine = CacheEngineFactory.GetCacheEngine();
 
         #region IEntityFactory Members
 

@@ -44,7 +44,7 @@ namespace MusicBrowser.Interfaces
 
         // out
         public DataProviderOutcome Outcome;
-        public IEnumerable<string> Errors;
+        public List<string> Errors;
 
         // in and out
         public string TrackName;
@@ -58,7 +58,7 @@ namespace MusicBrowser.Interfaces
 
         public string Codec;
         public string Channels;
-        public string Duration;
+        public int Duration;
         public int SampleRate;
         public string Resolution;
 
@@ -73,8 +73,8 @@ namespace MusicBrowser.Interfaces
 
         public string MusicBrainzId;
 
-        public IEnumerable<string> Performers;
-        public IEnumerable<string> Genres;
+        public List<string> Performers;
+        public List<string> Genres;
 
         public string Lyrics;
 
@@ -89,8 +89,8 @@ namespace MusicBrowser.Interfaces
         /// <summary>
         /// Populates the DTO with data
         /// </summary>
-        /// <param name="input">DTO</param>
+        /// <param name="entity">DTO</param>
         /// <returns>Populated DTO</returns>
-        DataProviderDTO Fetch(DataProviderDTO input);
+        DataProviderDTO Fetch(DataProviderDTO entity);
     }
 }

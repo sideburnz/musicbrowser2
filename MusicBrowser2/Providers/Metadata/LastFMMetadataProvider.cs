@@ -37,10 +37,10 @@ namespace MusicBrowser.Providers.Metadata
         {
             //killer questions
             if (!Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders")) { return entity; }
-            if (entity.Properties.ContainsKey(Marker))
-            {
-                if (!RandomlyRefreshData(DateTime.Parse(entity.Properties[Marker]))) { return entity; } 
-            }
+            //if (entity.Properties.ContainsKey(Marker))
+            //{
+            //    if (!RandomlyRefreshData(DateTime.Parse(entity.Properties[Marker]))) { return entity; } 
+            //}
 #if DEBUG
             Logging.Logger.Verbose("LastFMMetadataProvider.Fetch", "start");
 #endif
@@ -63,16 +63,13 @@ namespace MusicBrowser.Providers.Metadata
                         albumService.Fetch(albumDTO);
                         if (albumDTO.Status != WebServiceStatus.Success) { break; }
 
-                        entity.SetProperty("lfm.playcount", albumDTO.Plays.ToString(), true);
-                        entity.SetProperty("lfm.listeners", albumDTO.Listeners.ToString(), true);
-                        entity.SetProperty("lfm.totalplays", albumDTO.TotalPlays.ToString(), true);
+                        entity.PlayCount = albumDTO.Plays;
+                        entity.Listeners = albumDTO.Listeners;
+                        entity.TotalPlays = albumDTO.TotalPlays;
 
-                        if (albumDTO.Release > DateTime.MinValue)
+                        if (albumDTO.Release != DateTime.MinValue && entity.ReleaseDate != DateTime.MinValue)
                         {
-                            if (!entity.Properties.ContainsKey("release"))
-                            {
-                                entity.SetProperty("release", albumDTO.Release.ToString("yyyy"), true);
-                            }
+                            entity.ReleaseDate = albumDTO.Release;
                         }
                         if (string.IsNullOrEmpty(entity.IconPath) && !string.IsNullOrEmpty(albumDTO.Image))
                         {
@@ -99,9 +96,9 @@ namespace MusicBrowser.Providers.Metadata
 
                         if (artistDTO.Status != WebServiceStatus.Success) { break; }
 
-                        entity.SetProperty("lfm.playcount", artistDTO.Plays.ToString(), true);
-                        entity.SetProperty("lfm.listeners", artistDTO.Listeners.ToString(), true);
-                        entity.SetProperty("lfm.totalplays", artistDTO.TotalPlays.ToString(), true);
+                        entity.PlayCount = artistDTO.Plays;
+                        entity.Listeners = artistDTO.Listeners;
+                        entity.TotalPlays = artistDTO.TotalPlays;
 
                         entity.Title = artistDTO.Artist;
                         entity.MusicBrainzID = artistDTO.MusicBrainzID;
@@ -120,7 +117,7 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         TrackInfoDTO trackDTO = new TrackInfoDTO();
                         trackDTO.Track = entity.Title;
-                        if (entity.Properties.ContainsKey("artist")) { trackDTO.Artist = entity.Properties["artist"]; }
+                        trackDTO.Artist = entity.ArtistName;
                         trackDTO.MusicBrainzID = entity.MusicBrainzID;
                         trackDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
 
@@ -129,20 +126,18 @@ namespace MusicBrowser.Providers.Metadata
                         trackService.Fetch(trackDTO);
                         if (trackDTO.Status != WebServiceStatus.Success) { break; }
 
-                        entity.SetProperty("lfm.playcount", trackDTO.Plays.ToString(), true);
-                        entity.SetProperty("lfm.listeners", trackDTO.Listeners.ToString(), true);
-                        entity.SetProperty("lfm.totalplays", trackDTO.TotalPlays.ToString(), true);
+                        entity.PlayCount = trackDTO.Plays;
+                        entity.Listeners = trackDTO.Listeners;
+                        entity.TotalPlays = trackDTO.TotalPlays;
 
                         entity.Title = trackDTO.Track;
                         entity.Summary = trackDTO.Summary;
                         entity.MusicBrainzID = trackDTO.MusicBrainzID;
-                        entity.SetProperty("lfm.loved", trackDTO.Loved.ToString(), true);
+                        entity.Favorite = trackDTO.Loved;
 
                         break;
                     }
             }
-
-            entity.SetProperty(Marker, DateTime.Now.ToString("yyyy-MMM-dd"), true);
 
             entity.Dirty = true;
             entity.CalculateValues();

@@ -21,21 +21,17 @@ namespace MusicBrowser.Entities.Kinds
             {
                 if (Util.Config.GetInstance().GetBooleanSetting("PutDiscInTrackNo"))
                 {
-                    if (!Properties.ContainsKey("track")) 
+                    if (TrackNumber < 1) 
                     { 
                         return string.Empty; 
                     }
-                    if (Properties.ContainsKey("disc")) 
+                    if (DiscNumber > 0) 
                     {
-                        if (!Properties["disc"].Equals("0"))
-                        {
-                            return Properties["disc"] + "." + Properties["track"];
-                        }
-                        
+                        return DiscNumber + "." + TrackNumber;
                     }
-                    return Properties["track"]; 
+                    return TrackNumber.ToString(); 
                 }
-                if (Properties.ContainsKey("track")) { return Properties["track"]; }
+                if (TrackNumber > 0) { return TrackNumber.ToString(); }
                 return string.Empty;
             }
         }
@@ -70,10 +66,10 @@ namespace MusicBrowser.Entities.Kinds
                 TimeSpan t = TimeSpan.FromSeconds(Duration);
                 sb.Append (string.Format("{0}:{1:D2}  ", t.Minutes, t.Seconds));
             }
-            if (Properties.ContainsKey("resolution")) { sb.Append(Properties["resolution"] + "  "); }
-            if (Properties.ContainsKey("channels")) { sb.Append(Properties["channels"] + "  "); }
-            if (Properties.ContainsKey("samplerate")) { sb.Append(Properties["samplerate"] + "  "); }
-            if (Properties.ContainsKey("codec")) { sb.Append(Properties["codec"] + "  "); }
+            if (!String.IsNullOrEmpty(Resolution)) { sb.Append(Resolution + "  "); }
+            if (!String.IsNullOrEmpty(Channels)) { sb.Append(Channels + "  "); }
+            if (!String.IsNullOrEmpty(SampleRate)) { sb.Append(SampleRate + "  "); }
+            if (!String.IsNullOrEmpty(Codec)) { sb.Append(Codec + "  "); }
 
             if (sb.Length > 0) { base.ShortSummaryLine1 = "Song  (" + sb.ToString().Trim() + ")"; }
             base.CalculateValues();
@@ -87,12 +83,12 @@ namespace MusicBrowser.Entities.Kinds
                 base.Parent = value;
                 if (value.Kind.Equals(EntityKind.Album))
                 {
-                    SetProperty("album", value.Title, false);
+                    if (String.IsNullOrEmpty(AlbumName)) { AlbumName = value.AlbumName; }
                     Dirty = true;
                 }
-                if (value.Kind.Equals(EntityKind.Album) && value.Properties.ContainsKey("artist"))
+                if (value.Kind.Equals(EntityKind.Album))
                 {
-                    SetProperty("artist", value.Properties["artist"], false);
+                    if (String.IsNullOrEmpty(AlbumArtist)) { AlbumArtist = value.ArtistName; }
                     Dirty = true;
                 }
                 if (Util.Config.GetInstance().GetBooleanSetting("UseFolderImageForTracks"))

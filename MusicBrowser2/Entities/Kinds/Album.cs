@@ -76,24 +76,10 @@ namespace MusicBrowser.Entities.Kinds
                     sb.Append(string.Format("{0}:{1:D2}:{2:D2}", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds));
                 }
             }
-            if (Properties.ContainsKey("year")) { sb.Append(Properties["year"] + "  "); }
+            if (ReleaseDate > DateTime.MinValue) { sb.Append(ReleaseDate.ToString("YYYY") + "  "); }
 
             if (sb.Length > 0) { base.ShortSummaryLine1 = "Album  (" + sb.ToString().Trim() + ")"; }
             base.CalculateValues();
-        }
-
-        public override IEntity Parent
-        {
-            get { return base.Parent; }
-            set
-            {
-                base.Parent = value;
-                if (value.Kind.Equals(EntityKind.Artist))
-                {
-                    SetProperty("artist", value.Title, false);
-                    Dirty = true;
-                }
-            }
         }
     }
 }

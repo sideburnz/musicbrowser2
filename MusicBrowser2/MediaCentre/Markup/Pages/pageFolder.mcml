@@ -188,7 +188,7 @@
                   <Text Name="List_Total"  Content="[FolderModel.FullSize]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
                 </Children>
               </Panel>
-              <Text Content="[FolderModel.Version]" Font="Segoe Media Center Light, 14" Color="White" Alpha="0.25" />
+              <Text Content="[FolderModel.Version]" Font="Segoe Media Center Light, 14" Color="White" Alpha="0.5" />
             </Children>
           </Panel>
 

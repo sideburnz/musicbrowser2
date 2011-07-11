@@ -8,63 +8,49 @@ using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    public class TagSharpMetadataProvider : IDataProvider
+    public class TagSharpMetadataProvider  : IDataProvider
     {
 
-        public DataProviderDTO GetDTO()
+        public DataProviderDTO Fetch(DataProviderDTO entity)
         {
-            DataProviderDTO temp = new DataProviderDTO();
+            Logging.Logger.Debug("Tag# " + entity.Path);
 
-            temp.Parameters = new Dictionary<string, string>();
-            temp.Parameters.Add("path", String.Empty);
-
-            return temp;
-        }
-
-        public DataProviderDTO Fetch(DataProviderDTO input)
-        {
-            Logging.Logger.Debug("Tag# " + input.Parameters["path"]);
-
-            DataProviderDTO result = new DataProviderDTO();
-            result.Parameters = new Dictionary<string, string>();
-
-            if (Directory.Exists(input.Parameters["path"]))
+            if (Directory.Exists(entity.Path))
             {
-                result.Outcome = DataProviderOutcome.InvalidInput;
-                result.Errors = new List<string> {"Path is a folder" + input.Parameters["path"]};
-                return result;
+                entity.Outcome = DataProviderOutcome.InvalidInput;
+                entity.Errors = new List<string> { "Path is a folder: " + entity.Path };
+                return entity;
             }
 
-            if (!File.Exists(input.Parameters["path"]))
+            if (!File.Exists(entity.Path))
             {
-                result.Outcome = DataProviderOutcome.InvalidInput;
-                result.Errors = new List<string> { "File not found" + input.Parameters["path"] };
-                return result;
+                entity.Outcome = DataProviderOutcome.InvalidInput;
+                entity.Errors = new List<string> { "File not found: " + entity.Path };
+                return entity;
             }
 
-            result.Outcome = DataProviderOutcome.Success;
+            entity.Outcome = DataProviderOutcome.Success;
 
-            TagLib.File fileTag = TagLib.File.Create(input.Parameters["path"]);
+            TagLib.File fileTag = TagLib.File.Create(entity.Path);
 
             if (!String.IsNullOrEmpty(fileTag.Tag.Title))
             {
-                result.Parameters.Add("title", fileTag.Tag.Title.Trim());
-                result.Parameters.Add("album", fileTag.Tag.Album);
-                result.Parameters.Add("artist", fileTag.Tag.FirstPerformer);
-                result.Parameters.Add("albumartist", fileTag.Tag.FirstAlbumArtist);
-                result.Parameters.Add("release", fileTag.Tag.Year.ToString());
-                result.Parameters.Add("disc", fileTag.Tag.Disc.ToString());
-                result.Parameters.Add("track", string.Format("{0:D2}", fileTag.Tag.Track));
-                result.Parameters.Add("codec", fileTag.MimeType.Substring(7).ToLower());
-                result.Parameters.Add("duration", fileTag.Properties.Duration.TotalSeconds.ToString());
-                result.Parameters.Add("MusicBrainzID", fileTag.Tag.MusicBrainzTrackId);
-                result.Parameters.Add("MusicBrainzArtist", fileTag.Tag.MusicBrainzReleaseArtistId);
-                result.Parameters.Add("MusicBrainzAlbum", fileTag.Tag.MusicBrainzReleaseId);
-                result.Parameters.Add("genres", fileTag.Tag.JoinedGenres);
-                result.Parameters.Add("performers", fileTag.Tag.JoinedPerformers);
+                entity.TrackName = fileTag.Tag.Title;
+                entity.AlbumName = fileTag.Tag.Album;
+                entity.ArtistName = fileTag.Tag.FirstPerformer;
+                entity.AlbumArtist = fileTag.Tag.FirstAlbumArtist;
+                entity.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
+                entity.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);
+                entity.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
+                entity.Codec = fileTag.MimeType.Substring(7).ToLower();
+                entity.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
+                entity.MusicBrainzId = fileTag.Tag.MusicBrainzTrackId;
 
+//                input.Performers = fileTag.Tag.Performers;
+//                input.Genres = fileTag.Tag.Genres;
+            }
 
-                //// cache the thumb
+            //// cache the thumb
                 //string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Covers");
                 //foreach (TagLib.IPicture pic in fileTag.Tag.Pictures)
                 //{
@@ -80,15 +66,14 @@ namespace MusicBrowser.Providers.Metadata
                 //}
 
 
-            }
+            //}
             else
             {
-                result.Outcome = DataProviderOutcome.NotFound;
-                result.Errors = new List<string>();
-                result.Errors.Add("No data found in tags");
+                entity.Outcome = DataProviderOutcome.NotFound;
+                entity.Errors = new List<string> {"No data found in tags"};
             }
 
-            return result;
+            return entity;
         }
     }
 }

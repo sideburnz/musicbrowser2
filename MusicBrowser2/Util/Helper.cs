@@ -217,14 +217,11 @@ namespace MusicBrowser.Util
             return hash;
         }
 
-        static public string CacheFullName(string key)
-        {
-            return Config.GetInstance().GetSetting("CachePath") + "\\Entities\\" + key + ".xml";
-        }
-
         static public string ImageCacheFullName(string key, string imageType)
         {
-            return Config.GetInstance().GetSetting("CachePath") + "\\Images\\" + imageType + "\\" + key + ".jpg";
+            string path = Config.GetInstance().GetSetting("CachePath") + "\\Images\\" + imageType + "\\" + key.Substring(0, 2);
+            Directory.CreateDirectory(path);
+            return path + "\\" + key + ".jpg";
         }
 
         /// <summary>
@@ -276,8 +273,6 @@ namespace MusicBrowser.Util
         // it's fairly rough and ready
         public static int Similarity(string string1, string string2)
         {
-            int hits = 0;
-
             string[] pairs1 = new string[string1.Length - 1];
             for (int i = 0; i < string1.Length - 1; i++) { pairs1[i] = string1.Substring(i, 2); }
 
@@ -286,17 +281,7 @@ namespace MusicBrowser.Util
             string[] pairs2 = new string[string2.Length - 1];
             for (int i = 0; i < string2.Length - 1; i++) { pairs2[i] = string2.Substring(i, 2); }
 
-            foreach (string s1 in pairs1)
-            {
-                foreach (string s2 in pairs2)
-                {
-                    if (s1 == s2)
-                    {
-                        hits++;
-                        break;
-                    }
-                }
-            }
+            int hits = pairs1.Count(s1 => pairs2.Any(s2 => s1 == s2));
 
             return (100 * (hits / pairs1.Count()));
 

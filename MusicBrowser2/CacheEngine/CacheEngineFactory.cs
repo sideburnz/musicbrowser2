@@ -37,7 +37,7 @@ namespace MusicBrowser.CacheEngine
                     }
                     if (_cacheEngine == null)
                     {
-                        _cacheEngine = new FileSystemCacheEngine();
+                        _cacheEngine = new DummyCacheEngine();
                     }
                 }
             }

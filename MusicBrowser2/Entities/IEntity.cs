@@ -21,7 +21,6 @@ namespace MusicBrowser.Entities
 
     public class IEntity : BaseModel
     {
-        private readonly Dictionary<string, string> _properties;
         private string _sortName;
         private string _description;
         private readonly string _view;
@@ -29,7 +28,6 @@ namespace MusicBrowser.Entities
 
         public IEntity()
         {
-            _properties = new Dictionary<string, string>();
             _view = Config.HandleEntityView(Kind).ToLower();
             DefaultBackgroundPath = string.Empty;
             Dirty = false;
@@ -43,10 +41,29 @@ namespace MusicBrowser.Entities
         public string DefaultBackgroundPath { get; set; }
         public string BackgroundPath { get; set; }
         public string MusicBrainzID { get; set; }
-        public virtual IEntity Parent { get; set; }
+
+        public string DiscId { get; set; }
+        public string TrackName { get; set; }
+        public string ArtistName { get; set; }
+        public string AlbumArtist { get; set; }
+        public string AlbumName { get; set; }
+        public int TrackNumber { get; set; }
+        public int DiscNumber { get; set; }
+        public DateTime ReleaseDate { get; set; }
+        public string Codec { get; set; }
+        public string Channels { get; set; }
+        public string SampleRate { get; set; }
+        public string Resolution { get; set; }
+        public int PlayCount { get; set; }
+        public int Rating { get; set; }
+        public int Listeners { get; set; }
+        public int TotalPlays { get; set; }
+        public bool Favorite { get; set; }
+        public List<string> Performers { get; set; }
+        public List<string> Genres { get; set; }
+        public string Lyrics { get; set; }
 
         // read only (therefore have default values
-        public Dictionary<string, string> Properties { get { return _properties; } }
         public virtual EntityKind Kind { get { return EntityKind.Unknown; } }
         public string KindName { get { return Kind.ToString(); } }
 
@@ -57,13 +74,13 @@ namespace MusicBrowser.Entities
         public long Children { get; set; }
         public bool Dirty { get; set; }
         public long Version { get; set; }
+        public virtual IEntity Parent { get; set; }
 
         // Read Only values
         public string SortName { get { return _sortName; } }
         public new string Description { get { return _description; } }
         public virtual string View { get { return _view; } }
         public virtual bool Playable { get { return false; } }
-
 
         // Fully implemented
         public Image Background
@@ -151,25 +168,27 @@ namespace MusicBrowser.Entities
                 {
                     StringBuilder sb = new StringBuilder();
 
-                    if (_properties.ContainsKey("lfm.playcount"))
-                    {
-                        if (_properties["lfm.playcount"] != "0")
-                        {
-                            sb.Append(string.Format("Plays: {0:N0}  ", Int32.Parse(_properties["lfm.playcount"])));
-                        }
-                    }
-                    if (_properties.ContainsKey("lfm.listeners"))
-                    {
-                        sb.Append(string.Format("Listeners: {0:N0}  ", Int32.Parse(Properties["lfm.listeners"])));
-                    }
-                    if (_properties.ContainsKey("lfm.totalplays"))
-                    {
-                        sb.Append(string.Format("Total Plays: {0:N0}  ", Int32.Parse(Properties["lfm.totalplays"])));
-                    }
-                    if (_properties.ContainsKey("lfm.loved"))
-                    {
-                        if (Properties["lfm.loved"].ToLower() == "true") { sb.Append("LOVED"); }
-                    }
+                    //TODO: write a generic %MACRO swapper
+
+                    //if (_properties.ContainsKey("lfm.playcount"))
+                    //{
+                    //    if (_properties["lfm.playcount"] != "0")
+                    //    {
+                    //        sb.Append(string.Format("Plays: {0:N0}  ", Int32.Parse(_properties["lfm.playcount"])));
+                    //    }
+                    //}
+                    //if (_properties.ContainsKey("lfm.listeners"))
+                    //{
+                    //    sb.Append(string.Format("Listeners: {0:N0}  ", Int32.Parse(Properties["lfm.listeners"])));
+                    //}
+                    //if (_properties.ContainsKey("lfm.totalplays"))
+                    //{
+                    //    sb.Append(string.Format("Total Plays: {0:N0}  ", Int32.Parse(Properties["lfm.totalplays"])));
+                    //}
+                    //if (_properties.ContainsKey("lfm.loved"))
+                    //{
+                    //    if (Properties["lfm.loved"].ToLower() == "true") { sb.Append("LOVED"); }
+                    //}
 
                     if (sb.Length > 0)
                     {
@@ -178,35 +197,6 @@ namespace MusicBrowser.Entities
                     return string.Empty;
                 }
                 return string.Empty;
-            }
-        }
-
-        public void SetProperty(string key, string value, bool overwrite)
-        {
-            if (String.IsNullOrEmpty(key.Trim())) { return; }
-
-            if (_properties.ContainsKey(key))
-            {
-                if (string.IsNullOrEmpty(value)) 
-                { 
-                    _properties.Remove(key);
-                    Dirty = true;
-                }
-                else if (overwrite) 
-                {
-                    if (_properties[key].Equals(value)) { return; }
-
-                    _properties[key] = value;
-                    Dirty = true;
-                }
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(value)) 
-                { 
-                    _properties.Add(key, value);
-                    Dirty = true;
-                }
             }
         }
 

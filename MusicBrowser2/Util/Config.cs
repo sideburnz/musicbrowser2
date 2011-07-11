@@ -31,8 +31,8 @@ namespace MusicBrowser.Util
                                         { "SortReplaceWords", "the|a|an" },
                                         { "PutDiscInTrackNo", true.ToString() },
 
-                                        { "LastFMUserName", string.Empty },
-                                        { "UseInternetProviders", true.ToString() },
+//                                        { "LastFMUserName", string.Empty },
+//                                        { "UseInternetProviders", true.ToString() },
                                       //  { "LastFMPasswordHash", string.Empty },
                                       //  { "ScrobbleToFile", false.ToString() },
                                       //  { "EnableScrobbling", false.ToString() },
@@ -54,9 +54,9 @@ namespace MusicBrowser.Util
                                         { "Engine", "MediaCentre" },
                                         { "foobar2000", "C:\\Program Files\\foobar2000\\foobar2000.exe" },
 
-                                        { "CachePath", Helper.CachePath },
+                                        { "CachePath", Helper.CachePath }
  
-                                        { "ShowCDs", true.ToString() }
+//                                        { "ShowCDs", true.ToString() }
                                       };
 
         #region singleton
@@ -263,10 +263,11 @@ namespace MusicBrowser.Util
                 {
                     format = format.Replace("[track]", ((Song)entity).Track);
                 }
-                else if (entity.Properties.ContainsKey(token))
-                {
-                    format = format.Replace("[" + token + "]", entity.Properties[token]);
-                }
+                //TODO: use a new generic macro swapper
+                //else if (entity.Properties.ContainsKey(token))
+                //{
+                //    format = format.Replace("[" + token + "]", entity.Properties[token]);
+                //}
                 else
                 {
                     format = format.Replace("[" + token + "]", string.Empty);

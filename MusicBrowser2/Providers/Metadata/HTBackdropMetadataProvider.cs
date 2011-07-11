@@ -19,11 +19,11 @@ namespace MusicBrowser.Providers.Metadata
             if (!Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders")) { return entity; }
             if (!entity.Kind.Equals(EntityKind.Artist)) { return entity; }
             if (!String.IsNullOrEmpty(entity.IconPath) && !String.IsNullOrEmpty(entity.BackgroundPath)) { return entity; }
-            if (entity.Properties.ContainsKey(Marker))
-            {
-                // only check fro new images once every seven days
-                if (DateTime.Parse(entity.Properties[Marker]) > DateTime.Now.AddDays(-14)) { return entity; }
-            }
+            //if (entity.Properties.ContainsKey(Marker))
+            //{
+            //    // only check fro new images once every seven days
+            //    if (DateTime.Parse(entity.Properties[Marker]) > DateTime.Now.AddDays(-14)) { return entity; }
+            //}
 
 #if DEBUG
             Logging.Logger.Verbose("HTBackdropMetadataProvider.Fetch(" + entity.Path + ")", "start");
@@ -59,8 +59,6 @@ namespace MusicBrowser.Providers.Metadata
                 ImageProvider.Save(ImageProvider.Download(dto.BackdropList[0], ImageType.Backdrop), tmpBack);
                 entity.BackgroundPath = tmpBack;
             }
-
-            entity.SetProperty(Marker, DateTime.Now.ToString("yyyy-MMM-dd"), true);
 
             entity.Dirty = true;
             entity.CalculateValues();
