@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Util;
 using MusicBrowser.Models;
@@ -70,8 +71,8 @@ namespace MusicBrowser.Entities
         // Calculated/transient
         public int Index { get; set; }
         public virtual string ShortSummaryLine1 { get; set; }
-        public long Duration { get; set; }
-        public long Children { get; set; }
+        public int Duration { get; set; }
+        public int Children { get; set; }
         public bool Dirty { get; set; }
         public long Version { get; set; }
         public virtual IEntity Parent { get; set; }
@@ -137,10 +138,11 @@ namespace MusicBrowser.Entities
 
         public virtual void CalculateValues()
         {
+            //TODO: description should be insourced back into the IEntity and to use MacroSubs
             _description = Config.HandleEntityDescription(this);
             _sortName = Config.HandleIgnoreWords(_description).ToLower();
 
-            FirePropertiesChanged("Title", "Summary", "Properties", "Index", "ShortSummaryLine1", "ShortSummaryLine2", "Duration", "Children", "SortName", "Description", "Background", "Icon");
+            FirePropertiesChanged("Title", "Summary", "Index", "ShortSummaryLine1", "ShortSummaryLine2", "Duration", "Children", "SortName", "Description", "Background", "Icon");
         }
 
         private static Image GetImage(string path)
@@ -162,42 +164,82 @@ namespace MusicBrowser.Entities
 
         public string ShortSummaryLine2
         {
-            get
+            get { return MacroSubstitution("second line [track] [title] [length] [kind]"); }
+        }
+
+        public string MacroSubstitution(string input)
+        {
+            string output = input;
+
+            Regex regex = new Regex("\\[.*?\\]");
+            foreach (Match matches in regex.Matches(input))
             {
-                if (Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+                string token = matches.Value.Substring(1, matches.Value.Length - 2);
+                switch (token)
                 {
-                    StringBuilder sb = new StringBuilder();
-
-                    //TODO: write a generic %MACRO swapper
-
-                    //if (_properties.ContainsKey("lfm.playcount"))
-                    //{
-                    //    if (_properties["lfm.playcount"] != "0")
-                    //    {
-                    //        sb.Append(string.Format("Plays: {0:N0}  ", Int32.Parse(_properties["lfm.playcount"])));
-                    //    }
-                    //}
-                    //if (_properties.ContainsKey("lfm.listeners"))
-                    //{
-                    //    sb.Append(string.Format("Listeners: {0:N0}  ", Int32.Parse(Properties["lfm.listeners"])));
-                    //}
-                    //if (_properties.ContainsKey("lfm.totalplays"))
-                    //{
-                    //    sb.Append(string.Format("Total Plays: {0:N0}  ", Int32.Parse(Properties["lfm.totalplays"])));
-                    //}
-                    //if (_properties.ContainsKey("lfm.loved"))
-                    //{
-                    //    if (Properties["lfm.loved"].ToLower() == "true") { sb.Append("LOVED"); }
-                    //}
-
-                    if (sb.Length > 0)
-                    {
-                        return "Last.fm  (" + sb.ToString().Trim() + ")";
-                    }
-                    return string.Empty;
+                    case "title":
+                        output = output.Replace("[title]", Title); break;
+                    case "track":
+                        if (Config.GetInstance().GetBooleanSetting("PutDiscInTrackNo"))
+                        {
+                            if (DiscNumber > 0)
+                            {
+                                output = output.Replace("[track]", DiscNumber.ToString() + "." + TrackNumber.ToString("D2")); break;
+                            }
+                        }
+                        output = output.Replace("[track]", TrackNumber.ToString("D2")); break; 
+                    case "trackname":
+                        output = output.Replace("[trackname]", TrackName); break;
+                    case "artist":
+                        output = output.Replace("[artist]", ArtistName); break;
+                    case "albumartist":
+                        output = output.Replace("[albumartist]", AlbumArtist); break;
+                    case "album":
+                        output = output.Replace("[album]", AlbumName); break;
+                    case "release.date":
+                        output = output.Replace("[release.date]", ReleaseDate.ToString("dd mmmm yyyy")); break;
+                    case "release":
+                        output = output.Replace("[release]", ReleaseDate.ToString("yyyy")); break;
+                    case "channels":
+                        output = output.Replace("[channels]", Channels); break;
+                    case "samplerate":
+                        output = output.Replace("[samplerate]", SampleRate); break;
+                    case "resolution":
+                        output = output.Replace("[resolution]", Resolution); break;
+                    case "codec":
+                        output = output.Replace("[codec]", Codec); break;
+                    case "playcount":
+                        output = output.Replace("[playcount]", PlayCount.ToString("N0")); break;
+                    case "listeners":
+                        output = output.Replace("[listeners]", Listeners.ToString("N0")); break;
+                    case "allplays":
+                        output = output.Replace("[allplays]", TotalPlays.ToString("N0")); break;
+                    case "length":
+                        TimeSpan t = TimeSpan.FromSeconds(Duration);
+                        string length;
+                        if (t.Hours == 0)
+                        {
+                            length = string.Format("{0}:{1:D2}", (Int32)Math.Floor(t.TotalMinutes), t.Seconds);
+                        }
+                        else
+                        {
+                            length = string.Format("{0}:{1:D2}:{2:D2}", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds);
+                        }
+                        output = output.Replace("[length]", length);
+                        break;
+                    case "kind":
+                        output = output.Replace("[kind]", KindName); break;
+                    case "children":
+                        output = output.Replace("[children]", Children.ToString("N0")); break;
+                    case "rating":
+                        output = output.Replace("[rating]", Rating.ToString()); break;
+                    case "favorite":
+                        if (Favorite) { output = output.Replace("[favorite]", "favorite"); break; }
+                        output = output.Replace("[favorite]", ""); break;
                 }
-                return string.Empty;
+
             }
+            return output;
         }
 
     }

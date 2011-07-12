@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Xml;
 using MusicBrowser.Entities;
-using MusicBrowser.Entities.Kinds;
 
 
 namespace MusicBrowser.Util
@@ -250,30 +248,8 @@ namespace MusicBrowser.Util
                     }
             }
 
-            // this swaps out the place holders with content from the dictionary
-            Regex regex = new Regex("\\[.*?\\]");
-            foreach (Match matches in regex.Matches(format))
-            {
-                string token = matches.Value.Substring(1, matches.Value.Length - 2);
-                if (token.Equals("title"))
-                {
-                    format = format.Replace("[title]", entity.Title);
-                }
-                else if (token.Equals("track") && entity.Kind.Equals(EntityKind.Song))
-                {
-                    format = format.Replace("[track]", ((Song)entity).Track);
-                }
-                //TODO: use a new generic macro swapper
-                //else if (entity.Properties.ContainsKey(token))
-                //{
-                //    format = format.Replace("[" + token + "]", entity.Properties[token]);
-                //}
-                else
-                {
-                    format = format.Replace("[" + token + "]", string.Empty);
-                }
-            }
-            return format;
+            // this swaps out the place holders with content from the dictionar
+            return entity.MacroSubstitution(format);
         }
 
     }

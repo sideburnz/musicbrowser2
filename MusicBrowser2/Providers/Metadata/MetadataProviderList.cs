@@ -55,15 +55,35 @@ namespace MusicBrowser.Providers.Metadata
         {
             DataProviderDTO dto = new DataProviderDTO();
 
-            dto.Path = entity.Path;
+            dto.AlbumArtist = entity.AlbumArtist;
+            dto.AlbumName = entity.AlbumName;
+            dto.ArtistName = entity.ArtistName;
+            dto.Channels = entity.Channels;
+            dto.Codec = entity.Codec;
+            dto.DiscId = entity.DiscId;
+            dto.DiscNumber = entity.DiscNumber;
+            dto.Duration = entity.Duration;
+            dto.Favorite = entity.Favorite;
+            dto.Genres = entity.Genres;
+            dto.Listeners = entity.Listeners;
+            dto.Lyrics = entity.Lyrics;
             dto.MusicBrainzId = entity.MusicBrainzID;
+            dto.Path = entity.Path;
+            dto.Performers = entity.Performers;
+            dto.PlayCount = entity.PlayCount;
+            dto.Rating = entity.Rating;
+            dto.ReleaseDate = entity.ReleaseDate;
+            dto.Resolution = entity.Resolution;
+            dto.SampleRate = entity.SampleRate;
+            dto.Summary = entity.Summary;
+            dto.TotalPlays = entity.TotalPlays;
+            dto.TrackNumber = entity.TrackNumber;
 
             switch (entity.Kind)
             {
                     case EntityKind.Album:
                     {
                         dto.DataType = DataTypes.Album;
-                        dto.AlbumArtist = entity.AlbumArtist;
                         dto.AlbumName = entity.Title;
 
                         break;
@@ -78,7 +98,6 @@ namespace MusicBrowser.Providers.Metadata
                     case EntityKind.Disc:
                     {
                         dto.DataType = DataTypes.Disc;
-                        dto.DiscId = entity.DiscId;
                         break;
                     }
                     case EntityKind.Playlist:
@@ -89,18 +108,10 @@ namespace MusicBrowser.Providers.Metadata
                     case EntityKind.Song:
                     {
                         dto.DataType = DataTypes.Song;
-                        dto.AlbumArtist = entity.AlbumArtist;
-                        dto.AlbumName = entity.AlbumName;
-                        dto.ArtistName = entity.ArtistName;
                         dto.TrackName = entity.Title;
 
                         break;
                     }
-                default:
-                    {
-                        break;
-                    }
-            
             }
 
             return dto;
@@ -109,25 +120,45 @@ namespace MusicBrowser.Providers.Metadata
         private static IEntity PopulateEntity(IEntity entity, DataProviderDTO dto)
         {
 
-            entity.Duration = dto.Duration;
-            entity.Favorite = dto.Favorite;
-            entity.Genres = dto.Genres;
-            entity.Listeners = dto.Listeners;
-            entity.Performers = dto.Performers;
-            entity.PlayCount = dto.PlayCount;
-            entity.TotalPlays = dto.TotalPlays;
-            entity.Rating = dto.Rating;
-
             if (!String.IsNullOrEmpty(dto.AlbumArtist)) { entity.AlbumArtist = dto.AlbumArtist; }
             if (!String.IsNullOrEmpty(dto.AlbumName)) { entity.AlbumName = dto.AlbumName; }
             if (!String.IsNullOrEmpty(dto.ArtistName)) { entity.ArtistName = dto.ArtistName; }
-
-            if (dto.ReleaseDate != DateTime.MinValue) { entity.ReleaseDate = dto.ReleaseDate; }
-            if (!String.IsNullOrEmpty(dto.Summary)) { entity.Summary = dto.Summary; }
+            if (!String.IsNullOrEmpty(dto.Channels)) { entity.Channels = dto.Channels; }
+            if (!String.IsNullOrEmpty(dto.Codec)) { entity.Codec = dto.Codec; }
+            if (!String.IsNullOrEmpty(dto.DiscId)) { entity.DiscId = dto.DiscId; }
+            if (dto.DiscNumber > 0) { entity.DiscNumber = dto.DiscNumber; }
+            if (dto.Duration > 0) { entity.Duration = dto.Duration; }
+            entity.Favorite = dto.Favorite;
+            if (dto.Genres != null) { entity.Genres = dto.Genres; }
+            if (dto.Listeners > 0) { entity.Listeners = dto.Listeners; }
+            if (!String.IsNullOrEmpty(dto.Lyrics)) { entity.Lyrics = dto.Lyrics; }
             if (!String.IsNullOrEmpty(dto.MusicBrainzId)) { entity.MusicBrainzID = dto.MusicBrainzId; }
+            if (!String.IsNullOrEmpty(dto.Path)) { entity.Path = dto.Path; }
+            if (dto.Performers != null) { entity.Performers = dto.Performers; }
+            if (dto.PlayCount > 0) { entity.PlayCount = dto.PlayCount; }
+            if (dto.Rating > 0) { entity.Rating = dto.Rating; }
+            if (dto.ReleaseDate != DateTime.MinValue) { entity.ReleaseDate = dto.ReleaseDate; }
+            if (!String.IsNullOrEmpty(dto.Resolution)) { entity.Resolution = dto.Resolution; }
+            if (!String.IsNullOrEmpty(dto.SampleRate)) { entity.SampleRate = dto.SampleRate; }
+            if (!String.IsNullOrEmpty(dto.Summary)) { entity.Summary = dto.Summary; }
+            if (dto.TotalPlays > 0) { entity.TotalPlays = dto.TotalPlays; }
+            if (dto.TrackNumber > 0) { entity.TrackNumber = dto.TrackNumber; }
 
-//            entity.IconPath = ImageProvider.Save(dto.ThumbImage, "");
-//            entity.BackgroundPath = ImageProvider.Save(dto.BackImage, "");
+            if (dto.ThumbImage != null)
+            {
+                string iconPath = Util.Helper.ImageCacheFullName(entity.CacheKey, "Thumbs");
+                ImageProvider.Save(ImageProvider.Resize(dto.ThumbImage, ImageType.Thumb), iconPath);
+                entity.IconPath = iconPath;
+
+                Logging.Logger.Debug("getting icon image from: " + entity.Path + " " + iconPath);
+            }
+
+            if (dto.BackImage != null)
+            {
+                string backgroundPath = Util.Helper.ImageCacheFullName(entity.CacheKey, "Backgrounds");
+                ImageProvider.Save(ImageProvider.Resize(dto.BackImage, ImageType.Backdrop), backgroundPath);
+                entity.BackgroundPath = backgroundPath;
+            }
             
             switch (dto.DataType)
             {

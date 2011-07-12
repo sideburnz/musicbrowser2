@@ -59,7 +59,7 @@ namespace MusicBrowser.Interfaces
         public string Codec;
         public string Channels;
         public int Duration;
-        public int SampleRate;
+        public string SampleRate;
         public string Resolution;
 
         public int PlayCount;
@@ -89,8 +89,8 @@ namespace MusicBrowser.Interfaces
         /// <summary>
         /// Populates the DTO with data
         /// </summary>
-        /// <param name="entity">DTO</param>
+        /// <param name="dto">DTO</param>
         /// <returns>Populated DTO</returns>
-        DataProviderDTO Fetch(DataProviderDTO entity);
+        DataProviderDTO Fetch(DataProviderDTO dto);
     }
 }

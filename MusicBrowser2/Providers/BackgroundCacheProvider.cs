@@ -32,8 +32,8 @@ namespace MusicBrowser.Providers
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(_path);
 
             int count = 0;
-            long grandchildren = 0;
-            long duration = 0;
+            int grandchildren = 0;
+            int duration = 0;
 
             foreach (FileSystemItem item in items)
             {

@@ -12,8 +12,8 @@ namespace MusicBrowser.Entities
             //this is a .Net3.5 app, .Net4 would allow for some parallelization, something like
             //Parallel.ForEach(IFolderItemsProvider.getItems(path), () => IEntityFactory.getItem(item));
 
-            long duration = 0;
-            long grandchildren = 0;
+            int duration = 0;
+            int grandchildren = 0;
 
             foreach (FileSystemItem item in items)
             {

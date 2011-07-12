@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
-using MusicBrowser.Entities;
 using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
@@ -11,69 +8,66 @@ namespace MusicBrowser.Providers.Metadata
     public class TagSharpMetadataProvider  : IDataProvider
     {
 
-        public DataProviderDTO Fetch(DataProviderDTO entity)
+        public DataProviderDTO Fetch(DataProviderDTO dto)
         {
-            Logging.Logger.Debug("Tag# " + entity.Path);
+            Logging.Logger.Debug("Tag# " + dto.Path);
 
-            if (Directory.Exists(entity.Path))
+            #region killer questions
+
+            if (Directory.Exists(dto.Path))
             {
-                entity.Outcome = DataProviderOutcome.InvalidInput;
-                entity.Errors = new List<string> { "Path is a folder: " + entity.Path };
-                return entity;
+                dto.Outcome = DataProviderOutcome.InvalidInput;
+                dto.Errors = new List<string> { "Path is a folder: " + dto.Path };
+                return dto;
             }
 
-            if (!File.Exists(entity.Path))
+            if (!File.Exists(dto.Path))
             {
-                entity.Outcome = DataProviderOutcome.InvalidInput;
-                entity.Errors = new List<string> { "File not found: " + entity.Path };
-                return entity;
+                dto.Outcome = DataProviderOutcome.InvalidInput;
+                dto.Errors = new List<string> { "File not found: " + dto.Path };
+                return dto;
             }
 
-            entity.Outcome = DataProviderOutcome.Success;
+            #endregion
 
-            TagLib.File fileTag = TagLib.File.Create(entity.Path);
+            TagLib.File fileTag = TagLib.File.Create(dto.Path);
 
             if (!String.IsNullOrEmpty(fileTag.Tag.Title))
             {
-                entity.TrackName = fileTag.Tag.Title;
-                entity.AlbumName = fileTag.Tag.Album;
-                entity.ArtistName = fileTag.Tag.FirstPerformer;
-                entity.AlbumArtist = fileTag.Tag.FirstAlbumArtist;
-                entity.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
-                entity.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);
-                entity.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
-                entity.Codec = fileTag.MimeType.Substring(7).ToLower();
-                entity.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
-                entity.MusicBrainzId = fileTag.Tag.MusicBrainzTrackId;
+                dto.TrackName = fileTag.Tag.Title;
+                dto.AlbumName = fileTag.Tag.Album;
+                dto.ArtistName = fileTag.Tag.FirstPerformer;
+                dto.AlbumArtist = fileTag.Tag.FirstAlbumArtist;
+                dto.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
+                dto.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);
+                dto.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
+                dto.Codec = fileTag.MimeType.Substring(7).ToLower();
+                dto.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
+                dto.MusicBrainzId = fileTag.Tag.MusicBrainzTrackId;
 
-//                input.Performers = fileTag.Tag.Performers;
-//                input.Genres = fileTag.Tag.Genres;
+                //if (fileTag.Tag.Performers != null) { dto.Performers.AddRange(fileTag.Tag.Performers); }
+                //if (fileTag.Tag.Genres != null) { dto.Genres.AddRange(fileTag.Tag.Genres); }
+
+                // cache the thumb
+                foreach (TagLib.IPicture pic in fileTag.Tag.Pictures)
+                {
+                    if (!pic.Data.IsEmpty)
+                    {
+                        dto.ThumbImage = ImageProvider.Convert(pic);
+                        Logging.Logger.Debug("image obtained via tags");
+                        break;
+                    }
+                }
+
+                dto.Outcome = DataProviderOutcome.Success;
             }
-
-            //// cache the thumb
-                //string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Covers");
-                //foreach (TagLib.IPicture pic in fileTag.Tag.Pictures)
-                //{
-                //    if (!pic.Data.IsEmpty)
-                //    {
-                //        Bitmap bitmap = ImageProvider.Convert(pic);
-                //        bitmap = ImageProvider.Resize(bitmap, ImageType.Thumb);
-                //        ImageProvider.Save(bitmap, tmpThumb);
-
-                //        entity.IconPath = tmpThumb;
-                //        break;
-                //    }
-                //}
-
-
-            //}
             else
             {
-                entity.Outcome = DataProviderOutcome.NotFound;
-                entity.Errors = new List<string> {"No data found in tags"};
+                dto.Outcome = DataProviderOutcome.NotFound;
+                dto.Errors = new List<string> { "No data found in tags" };
             }
 
-            return entity;
+            return dto;
         }
     }
 }
