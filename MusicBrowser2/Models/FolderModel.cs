@@ -11,7 +11,7 @@ using MusicBrowser.Util;
 
 namespace MusicBrowser.Models
 {
-    public class FolderModel : BaseModel
+    public class FolderModel : ModelItem
     {
 
         readonly IEntity _parentEntity;
@@ -74,7 +74,7 @@ namespace MusicBrowser.Models
             get { return _selectedIndex; }
             set { 
                 _selectedIndex = value;
-                FirePropertiesChanged("SelectedIndex", "SelectedIndex");
+                FirePropertyChanged("SelectedIndex");
             }
         }
 
@@ -108,7 +108,7 @@ namespace MusicBrowser.Models
         public void SetPopupPlayContext(IEntity entity)
         {
             _popupPlayContext = entity;
-            FirePropertiesChanged("ShowPopupPlay");
+            FirePropertyChanged("ShowPopupPlay");
         }
 
         public void ClearPopupPlayContext()
@@ -143,7 +143,9 @@ namespace MusicBrowser.Models
                     temp.IndexItems();
                     _entities.Clear();
                     _entities.AddRange(temp);
-                    FirePropertiesChanged("Matches", "EntityCollection", "FullSize");
+                    FirePropertyChanged("Matches");
+                    FirePropertyChanged("EntityCollection");
+                    FirePropertyChanged("FullSize");
                 }
                 else
                 {
@@ -262,7 +264,9 @@ namespace MusicBrowser.Models
             _matches = _fullentities.Count;
             _entities.IndexItems();
             _remoteFilter.Value = String.Empty;
-            FirePropertiesChanged("Matches", "EntityCollection", "FullSize");
+            FirePropertyChanged("Matches");
+            FirePropertyChanged("EntityCollection");
+            FirePropertyChanged("FullSize");
         }
 
         public void TransportCommand(string command)

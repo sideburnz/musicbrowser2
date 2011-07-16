@@ -57,7 +57,6 @@ namespace MusicBrowser.Entities.Kinds
             set { base.ShortSummaryLine1 = value; }
         }
 
-        //TODO: calc ShortSummaryLine2 [hand off the the appropriate metadata provider]
         public override void CalculateValues()
         {
             StringBuilder sb = new StringBuilder();

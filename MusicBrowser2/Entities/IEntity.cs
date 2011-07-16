@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.MediaCenter.UI;
-using MusicBrowser.Util;
 using MusicBrowser.Models;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
@@ -26,11 +25,18 @@ namespace MusicBrowser.Entities
         private string _description;
         private readonly string _view;
         private string _cacheKey;
+        private readonly string _descriptionFormat;
+        private readonly string _summary2Format;
 
         public IEntity()
         {
             _view = Config.HandleEntityView(Kind).ToLower();
+            _descriptionFormat = Config.GetInstance().GetSetting("FormatFor" + KindName);
+            _summary2Format = Config.GetInstance().GetSetting("SummaryLineFormatFor" + KindName);
             DefaultBackgroundPath = string.Empty;
+            Performers = new List<string>();
+            ProviderTimeStamps = new Dictionary<string, DateTime>();
+            Genres = new List<string>();
             Dirty = false;
         }
 
@@ -67,6 +73,8 @@ namespace MusicBrowser.Entities
         // read only (therefore have default values
         public virtual EntityKind Kind { get { return EntityKind.Unknown; } }
         public string KindName { get { return Kind.ToString(); } }
+
+        public Dictionary<string, DateTime> ProviderTimeStamps { get; set; }
 
         // Calculated/transient
         public int Index { get; set; }
@@ -138,11 +146,15 @@ namespace MusicBrowser.Entities
 
         public virtual void CalculateValues()
         {
-            //TODO: description should be insourced back into the IEntity and to use MacroSubs
-            _description = Config.HandleEntityDescription(this);
+            _description = MacroSubstitution(_descriptionFormat);
             _sortName = Config.HandleIgnoreWords(_description).ToLower();
 
-            FirePropertiesChanged("Title", "Summary", "Index", "ShortSummaryLine1", "ShortSummaryLine2", "Duration", "Children", "SortName", "Description", "Background", "Icon");
+            FirePropertyChanged("ShortSummaryLine1");
+            FirePropertyChanged("ShortSummaryLine2");
+            FirePropertyChanged("Description");
+            FirePropertyChanged("Background");
+            FirePropertyChanged("Icon");
+            FirePropertyChanged("Title");
         }
 
         private static Image GetImage(string path)
@@ -164,7 +176,7 @@ namespace MusicBrowser.Entities
 
         public string ShortSummaryLine2
         {
-            get { return MacroSubstitution("second line [track] [title] [length] [kind]"); }
+            get { return MacroSubstitution(_summary2Format); }
         }
 
         public string MacroSubstitution(string input)
@@ -197,9 +209,11 @@ namespace MusicBrowser.Entities
                     case "album":
                         output = output.Replace("[album]", AlbumName); break;
                     case "release.date":
-                        output = output.Replace("[release.date]", ReleaseDate.ToString("dd mmmm yyyy")); break;
+                        if (ReleaseDate > DateTime.MinValue) { output = output.Replace("[release.date]", ReleaseDate.ToString("dd mmmm yyyy")); break; }
+                        output = output.Replace("[release.date]", ""); break;
                     case "release":
-                        output = output.Replace("[release]", ReleaseDate.ToString("yyyy")); break;
+                        if (ReleaseDate > DateTime.MinValue) { output = output.Replace("[release]", ReleaseDate.ToString("yyyy")); break; }
+                        output = output.Replace("[release]", "0000"); break;
                     case "channels":
                         output = output.Replace("[channels]", Channels); break;
                     case "samplerate":

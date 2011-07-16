@@ -45,7 +45,17 @@ namespace MusicBrowser.Util
                                         { "FormatForAlbum", "([release]) [title]" },
                                         { "FormatForArtist", "[title]" },
                                         { "FormatForPlaylist", "[title]" },
+                                        { "FormatForFolder", "[title]" },
+                                        { "FormatForHome", "[title]" },
 
+                                        { "SummaryLineFormatForUnknown", "[title]" },
+                                        { "SummaryLineFormatForSong", "[track] - [title]" },
+                                        { "SummaryLineFormatForAlbum", "([release]) [title]" },
+                                        { "SummaryLineFormatForArtist", "[title]" },
+                                        { "SummaryLineFormatForPlaylist", "[title]" },
+                                        { "SummaryLineFormatForFolder", "[title]" },
+                                        { "SummaryLineFormatForHome", "[title]" },
+                                        
                                         { "ThreadPoolSize", "2" },
                                         { "LogStatsOnClose", false.ToString() },
 
@@ -209,48 +219,5 @@ namespace MusicBrowser.Util
             }
             return _instance.GetSetting("ViewForUnknown");
         }
-
-        public static string HandleEntityDescription(IEntity entity)
-        {
-            string format;
-            switch (entity.Kind)
-            {
-                case EntityKind.Disc:
-                    {
-                        return entity.Title;
-                    }
-                case EntityKind.Song:
-                    {
-                        format = _instance.GetSetting("FormatForSong");
-                        break;
-                    }
-                case EntityKind.Album:
-                    {
-                        format = _instance.GetSetting("FormatForAlbum");
-                        break;
-                    }
-                case EntityKind.Artist:
-                    {
-                        format = _instance.GetSetting("FormatForArtist");
-                        break;
-                    }
-                case EntityKind.Playlist:
-                    {
-                        format = _instance.GetSetting("FormatForPlaylist");
-                        break;
-                    }
-                case EntityKind.Unknown: return entity.Title;
-                case EntityKind.Home: return entity.Title;
-                default:
-                    {
-                        format = _instance.GetSetting("FormatForUnknown");
-                        break;
-                    }
-            }
-
-            // this swaps out the place holders with content from the dictionar
-            return entity.MacroSubstitution(format);
-        }
-
     }
 }

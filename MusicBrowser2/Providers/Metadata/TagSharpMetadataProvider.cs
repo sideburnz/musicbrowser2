@@ -7,8 +7,9 @@ namespace MusicBrowser.Providers.Metadata
 {
     public class TagSharpMetadataProvider  : IDataProvider
     {
+        public string FriendlyName() { return "Tag#"; }
 
-        public DataProviderDTO Fetch(DataProviderDTO dto)
+        public DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess)
         {
             Logging.Logger.Debug("Tag# " + dto.Path);
 
@@ -28,6 +29,12 @@ namespace MusicBrowser.Providers.Metadata
                 return dto;
             }
 
+            if (lastAccess > DateTime.MinValue)
+            {
+                dto.Outcome = DataProviderOutcome.NoData;
+                dto.Errors = new List<string> { "Data not changed: " + dto.Path };
+                return dto;
+            }
             #endregion
 
             TagLib.File fileTag = TagLib.File.Create(dto.Path);
@@ -45,8 +52,8 @@ namespace MusicBrowser.Providers.Metadata
                 dto.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
                 dto.MusicBrainzId = fileTag.Tag.MusicBrainzTrackId;
 
-                //if (fileTag.Tag.Performers != null) { dto.Performers.AddRange(fileTag.Tag.Performers); }
-                //if (fileTag.Tag.Genres != null) { dto.Genres.AddRange(fileTag.Tag.Genres); }
+                if (fileTag.Tag.Performers != null) { dto.Performers.AddRange(fileTag.Tag.Performers); }
+                if (fileTag.Tag.Genres != null) { dto.Genres.AddRange(fileTag.Tag.Genres); }
 
                 // cache the thumb
                 foreach (TagLib.IPicture pic in fileTag.Tag.Pictures)
@@ -54,7 +61,6 @@ namespace MusicBrowser.Providers.Metadata
                     if (!pic.Data.IsEmpty)
                     {
                         dto.ThumbImage = ImageProvider.Convert(pic);
-                        Logging.Logger.Debug("image obtained via tags");
                         break;
                     }
                 }

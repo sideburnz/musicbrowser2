@@ -9,6 +9,6 @@ namespace MusicBrowser.Interfaces
         void Update(string key, string value);
 
         bool Exists(string key);
-        bool IsValid(string key, params DateTime[] comparisons);
+        DateTime GetAge(string key);
     }
 }

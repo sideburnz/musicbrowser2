@@ -52,15 +52,10 @@ namespace MusicBrowser.CacheEngine
             return File.Exists(fileName);
         }
 
-        public bool IsValid(string key, params DateTime[] comparisons)
+        public DateTime GetAge(string key)
         {
             string fileName = CalculateCacheFileFromKey(key);
-            DateTime cacheDate = File.GetLastWriteTime(fileName);
-            foreach (DateTime d in comparisons)
-            {
-                if (d > cacheDate) { return false; }
-            }
-            return true;
+            return File.GetLastWriteTime(fileName);
         }
 
         private string CalculateCacheFileFromKey(string key)

@@ -53,18 +53,12 @@ namespace MusicBrowser.CacheEngine
             return Int64.Parse(cmd.ExecuteScalar().ToString()) == 1;
         }
 
-        public bool IsValid(string key, params DateTime[] comparisons)
+        public DateTime GetAge(string key)
         {
             string sql = string.Format("SELECT `timestamp` FROM t_cache WHERE `key` = '{0}'", key);
 
             MySqlCommand cmd = new MySqlCommand(sql, GetConnection());
-            DateTime cacheDate = (DateTime)cmd.ExecuteScalar();
-
-            foreach (DateTime d in comparisons)
-            {
-                if (d > cacheDate) { return false; }
-            }
-            return true;
+            return (DateTime)cmd.ExecuteScalar();
         }
 
 

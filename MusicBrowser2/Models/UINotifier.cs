@@ -1,11 +1,12 @@
 ﻿using System;
+using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Models
 {
     /// <summary>
     /// This class provides the UI interaction for the playlist
     /// </summary>
-    public class UINotifier : BaseModel
+    public class UINotifier : ModelItem
     {
         #region singleton
         private static UINotifier _instance;
@@ -48,7 +49,8 @@ namespace MusicBrowser.Models
                     _active = true;
                     _timer.Start();
                 }
-                FirePropertiesChanged("Message", "ShowPopUp");
+                FirePropertyChanged("Message");
+                FirePropertyChanged("ShowPopUp");
             } 
         }
 
@@ -61,7 +63,7 @@ namespace MusicBrowser.Models
         {
             _timer.Stop();
             _active = false;
-            FirePropertiesChanged("ShowPopUp");
+            FirePropertyChanged("ShowPopUp");
         }
 
     }

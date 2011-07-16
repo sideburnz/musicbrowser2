@@ -28,11 +28,14 @@ namespace MusicBrowser.Providers.Metadata
             {
                 try
                 {
+                    DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
+
                     DataProviderDTO dto = PopulateDTO(entity);
-                    dto = provider.Fetch(dto);
+                    dto = provider.Fetch(dto, lastAccess);
                     if (dto.Outcome == DataProviderOutcome.Success)
                     {
                         entity = PopulateEntity(entity, dto);
+                        entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
                     }
                     else
                     {
@@ -137,7 +140,7 @@ namespace MusicBrowser.Providers.Metadata
             if (dto.Performers != null) { entity.Performers = dto.Performers; }
             if (dto.PlayCount > 0) { entity.PlayCount = dto.PlayCount; }
             if (dto.Rating > 0) { entity.Rating = dto.Rating; }
-            if (dto.ReleaseDate != DateTime.MinValue) { entity.ReleaseDate = dto.ReleaseDate; }
+            if (entity.ReleaseDate > DateTime.MinValue) { entity.ReleaseDate = dto.ReleaseDate; } 
             if (!String.IsNullOrEmpty(dto.Resolution)) { entity.Resolution = dto.Resolution; }
             if (!String.IsNullOrEmpty(dto.SampleRate)) { entity.SampleRate = dto.SampleRate; }
             if (!String.IsNullOrEmpty(dto.Summary)) { entity.Summary = dto.Summary; }
@@ -149,8 +152,6 @@ namespace MusicBrowser.Providers.Metadata
                 string iconPath = Util.Helper.ImageCacheFullName(entity.CacheKey, "Thumbs");
                 ImageProvider.Save(ImageProvider.Resize(dto.ThumbImage, ImageType.Thumb), iconPath);
                 entity.IconPath = iconPath;
-
-                Logging.Logger.Debug("getting icon image from: " + entity.Path + " " + iconPath);
             }
 
             if (dto.BackImage != null)

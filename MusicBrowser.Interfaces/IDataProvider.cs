@@ -91,6 +91,8 @@ namespace MusicBrowser.Interfaces
         /// </summary>
         /// <param name="dto">DTO</param>
         /// <returns>Populated DTO</returns>
-        DataProviderDTO Fetch(DataProviderDTO dto);
+        DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess);
+
+        string FriendlyName();
     }
 }

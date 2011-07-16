@@ -27,9 +27,9 @@ namespace MusicBrowser.CacheEngine
             return false;
         }
 
-        public bool IsValid(string key, params DateTime[] comparisons)
+        public DateTime GetAge(string key)
         {
-            return false;
+            return DateTime.MinValue;
         }
     }
 }

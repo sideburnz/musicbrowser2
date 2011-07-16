@@ -64,6 +64,17 @@ namespace MusicBrowser.CacheEngine
             writer.WriteElementString("Summary", data.Summary);
             writer.WriteElementString("Lyrics", data.Lyrics);
 
+            // used to stop providers from fetching data every time they're invoked
+            writer.WriteStartElement("ProviderTimeStamps");
+            foreach (string key in data.ProviderTimeStamps.Keys)
+            {
+                writer.WriteStartElement("Provider");
+                writer.WriteAttributeString("name", key);
+                writer.WriteAttributeString("timestamp", data.ProviderTimeStamps[key].ToString("yyyy-MM-dd"));
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+
             writer.WriteEndElement(); //EntityXML 
             writer.Close();
 
@@ -165,11 +176,14 @@ namespace MusicBrowser.CacheEngine
                 entity.Favorite = Helper.ReadXmlNode(xml, "EntityXML/Favorite").ToLower() == "true";
 
                 // list reads
-                
-                //if (entity.Performers != null) { writer.WriteElementString("Performers", String.Join("|", entity.Performers.ToArray())); }
-                //if (entity.Genres != null) { writer.WriteElementString("Genres", String.Join("|", entity.Genres.ToArray())); }
+                entity.Performers.AddRange(Helper.ReadXmlNode(xml, "ExntityXML/Performers").Split('|'));
+                entity.Genres.AddRange(Helper.ReadXmlNode(xml, "ExntityXML/Genres").Split('|'));
 
-
+                // complex reads
+                foreach (XmlNode node in xml.SelectNodes("/EntityXML/ProviderTimeStamps/Provider"))
+                {
+                    entity.ProviderTimeStamps[node.Attributes["name"].InnerText] = Convert.ToDateTime(node.Attributes["timestamp"].InnerText);
+                }
             }
             catch
             {

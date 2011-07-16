@@ -73,7 +73,7 @@ namespace MusicBrowser.Entities.Kinds
             base.ShortSummaryLine1 = "Disc (" + tracks + " Tracks  " + duration + ")";
 
             //fire off background task to get info off CDDB
-            FirePropertiesChanged("ShortSummaryLine1");
+            FirePropertyChanged("ShortSummaryLine1");
         }
 
         public char Letter

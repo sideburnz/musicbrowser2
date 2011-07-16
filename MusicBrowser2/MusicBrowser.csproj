@@ -113,6 +113,7 @@
     <Compile Include="CacheEngine\DummyCacheEngine.cs" />
     <Compile Include="CacheEngine\FileSystemCacheEngine.cs" />
     <Compile Include="Entities\Kinds\Unknown.cs" />
+    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Providers\Background\BackgroundTaskQueueProvider.cs" />
     <Compile Include="Entities\EntityCollection.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
@@ -137,7 +138,6 @@
     <Compile Include="Entities\Kinds\Song.cs" />
     <Compile Include="Entities\Kinds\Disc.cs" />
     <Compile Include="Models\Breadcrumbs.cs" />
-    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Logging\EventLogLogger.cs" />
     <Compile Include="Logging\FileLogger.cs" />
     <Compile Include="Logging\Logger.cs" />
