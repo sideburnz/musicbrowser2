@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using MusicBrowser.Entities;
 using MusicBrowser.Interfaces;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Providers.Metadata
 {
     public class TagSharpMetadataProvider  : IDataProvider
     {
-        public string FriendlyName() { return "Tag#"; }
+        private const string Name = "Tag#";
+
+        public string FriendlyName() { return Name; }
 
         public DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess)
         {
@@ -15,17 +18,10 @@ namespace MusicBrowser.Providers.Metadata
 
             #region killer questions
 
-            if (Directory.Exists(dto.Path))
+            if (!Helper.IsSong(dto.Path))
             {
                 dto.Outcome = DataProviderOutcome.InvalidInput;
-                dto.Errors = new List<string> { "Path is a folder: " + dto.Path };
-                return dto;
-            }
-
-            if (!File.Exists(dto.Path))
-            {
-                dto.Outcome = DataProviderOutcome.InvalidInput;
-                dto.Errors = new List<string> { "File not found: " + dto.Path };
+                dto.Errors = new List<string> { "Not a song: " + dto.Path };
                 return dto;
             }
 
@@ -35,6 +31,7 @@ namespace MusicBrowser.Providers.Metadata
                 dto.Errors = new List<string> { "Data not changed: " + dto.Path };
                 return dto;
             }
+
             #endregion
 
             TagLib.File fileTag = TagLib.File.Create(dto.Path);
@@ -74,6 +71,29 @@ namespace MusicBrowser.Providers.Metadata
             }
 
             return dto;
+        }
+
+        public static void FetchLite(IEntity entity)
+        {
+            // this implements a cut-down version of the Tag# metadata fetcher
+            // this is meant to be as quick as possible to not hold up the UI
+
+            #region killer questions
+            if (entity.ProviderTimeStamps.ContainsKey(Name)) { return; }
+            if (!entity.Kind.Equals(EntityKind.Song)) { return; }
+            #endregion
+
+            try
+            {
+                TagLib.File fileTag = TagLib.File.Create(entity.Path);
+                if (!String.IsNullOrEmpty(fileTag.Tag.Title))
+                {
+                    entity.Title = fileTag.Tag.Title;
+                    entity.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);
+                    entity.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
+                }
+            }
+            catch { }
         }
     }
 }

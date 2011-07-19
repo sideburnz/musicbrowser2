@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace MusicBrowser.Providers.Transport
@@ -121,14 +122,15 @@ namespace MusicBrowser.Providers.Transport
         {
             Logging.Logger.Debug(command);
 
-            System.Diagnostics.ProcessStartInfo externalProc;
-            externalProc = new System.Diagnostics.ProcessStartInfo();
+            ProcessStartInfo externalProc = new ProcessStartInfo();
             externalProc.FileName = FooPath;
             externalProc.Arguments = command;
-            //externalProc.UseShellExecute = true;
+            externalProc.UseShellExecute = false;
             externalProc.LoadUserProfile = false;
-            externalProc.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            System.Diagnostics.Process.Start(externalProc);
+            externalProc.CreateNoWindow = true;
+            externalProc.RedirectStandardInput = true;
+            externalProc.WindowStyle = ProcessWindowStyle.Hidden;
+            Process.Start(externalProc);
         }
 
     }

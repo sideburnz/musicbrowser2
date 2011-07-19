@@ -1,30 +1,16 @@
 ﻿V2.2.2
-- pause from the remote to FooBar2000
-- fix issue where it appears that data isn't being cached after being fetched from last.fm
-- make album info service the same as artist and track
+
 - test for listeners = 0 on footer display
-- version footer isn't very visable
-
-
-- If there isn't create and use a CacheEngineFactory
-        - There should already be somehting like ICacheEngine
-        - Move what ever there is now to FileSystemCacheEngine
-                - this should split files into folders for the first few letters of their key e.g.
-                        cache\aa\aadff9ea0ff98ed9ea8f998aea8fa.xml
-        - Create a DummyCacheEngine which is effectively no cache
-        - Create a MySQLCacheEngine
-        - Create a SQLLiteCacheEngine
-        - make these all DLLs for plugging into
- 
-        ICacheEngine
-        ------------
-        GetItem (key)           READ
-        PutItem (key, value)    CREATE, UPDATE
-        Delete (key)            DELETE
- 
-- Serializer should use proto rather than XML
-- Factory reads from the config <CacheEngine>c:\path\plug-ins\cacheengine.dummy.dll</CacheEngine>
-- CacheFactory should include a scavenger process that ensures that cache entries are still valu
+- CacheFactory should include a scavenger process that ensures that cache entries are still valid
+- use a better default for summary 2
+- populate the album's year from the tracks
+- load the tracks with the tag# provider on page load
+- move media info to a stand alone plug-in
+- move last.fm and HTC back drops to seperate plug-ins
+- create a way of saying which order the plug-ins are run in
+- check what [title] maps to, it should be the track name not the track number and track
+- look at two row titles - to have artist if it's different to the album artist 
+- page down and page up on menus should jump to top or bottom of list
 
 
 V2.2.3

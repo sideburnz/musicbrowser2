@@ -6,6 +6,8 @@ using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities.Kinds;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
+using MusicBrowser.Providers.Background;
+using MusicBrowser.Providers.Metadata;
 
 namespace MusicBrowser.Entities
 {
@@ -135,11 +137,8 @@ namespace MusicBrowser.Entities
             entity.Title = item.Name;
             entity.Path = item.FullPath;
 
-            // do this here so that if the user browses to a folder that isn't cached, it retrieves
-            //if (entity.Kind.Equals(EntityKind.Song))
-            //{
-            //    CommonTaskQueue.Enqueue(new TagSharpMetadataProvider(entity), true);
-            //}
+            // do this here so that if the user browses to a folder that isn't cached, it retrieves some basic metadata
+            TagSharpMetadataProvider.FetchLite(entity);
 
             entity.CalculateValues();
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));

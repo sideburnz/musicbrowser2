@@ -9,6 +9,9 @@
   <UI Name="ctrlPlayPopup">
     <Properties>
       <Command Name="CmdClose"/>
+      <!--<Command Name="CmdPgUp"/>
+      <Command Name="CmdPgDown"/>-->
+      
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
     </Properties>
 
@@ -18,12 +21,27 @@
       <Command Name="CmdAddToQueue"/>
       <Command Name="CmdResume"/>
       <Command Name="CmdPause"/>
+      
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
+      <!--<ShortcutHandler Name="PgUpHandler" Handle="true" Shortcut="PageUp" Command="[CmdPgUp]"/>
+      <ShortcutHandler Name="PgDownHandler" Handle="true" Shortcut="PageDown" Command="[CmdPgDown]"/>-->
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[CmdClose]"/>
       <playlist:Playlist Name="playlist"/>
     </Locals>
 
     <Rules>
+      
+      <!--<Changed Source="[CmdPgUp.Invoked]">
+        <Actions>
+          <Invoke Target="[cmdPlay.NavigateInto]"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdPgDown.Invoked]">
+        <Actions>
+          <Invoke Target="[cmdClose.NavigateInto]"/>
+        </Actions>
+      </Changed>-->
+
       <Changed Source="[CmdPlayAll.Invoked]">
         <Actions>
           <Invoke Target="[playlist.DoAction]" Action="CmdPlayAll" Entity="[FolderModel.GetPopupPlayContext]"/>
@@ -69,7 +87,7 @@
     </Rules>
     
     <Content>
-      <Panel Navigation="ContainAll">
+      <Panel Navigation="ContainAll" Name="PlayPopUp">
         <Layout>
           <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
         </Layout>
@@ -79,7 +97,7 @@
           <me:buttonImage Command="[CmdShuffle]" Name="cmdShuffle" Text="Shuffle Play" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconShuffle" />
           <me:buttonImage Command="[CmdResume]" Name="cmdResume" Text="Resume" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconResume" />
           <me:buttonImage Command="[CmdPause]" Name="cmdPause" Text="Pause" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPause" />
-          <me:buttonImage Command="[CmdClose]" Text="Close" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
+          <me:buttonImage Command="[CmdClose]" Name="cmdClose" Text="Close" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
         </Children>
       </Panel>
     </Content>
