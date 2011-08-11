@@ -16,22 +16,20 @@ namespace MusicBrowser.Entities
         Home,
         Playlist,
         Song,
+        Genre,
         Unknown
     }
 
     public class IEntity : BaseModel
     {
         private string _sortName;
-        private string _description;
         private readonly string _view;
         private string _cacheKey;
-        private readonly string _descriptionFormat;
         private readonly string _summary2Format;
 
         public IEntity()
         {
             _view = Config.HandleEntityView(Kind).ToLower();
-            _descriptionFormat = Config.GetInstance().GetSetting("FormatFor" + KindName);
             _summary2Format = Config.GetInstance().GetSetting("SummaryLineFormatFor" + KindName);
             DefaultBackgroundPath = string.Empty;
             Performers = new List<string>();
@@ -81,13 +79,13 @@ namespace MusicBrowser.Entities
         public virtual string ShortSummaryLine1 { get; set; }
         public int Duration { get; set; }
         public int Children { get; set; }
+        public int TrackCount { get; set; }
         public bool Dirty { get; set; }
         public long Version { get; set; }
         public virtual IEntity Parent { get; set; }
 
         // Read Only values
         public string SortName { get { return _sortName; } }
-        public new string Description { get { return _description; } }
         public virtual string View { get { return _view; } }
         public virtual bool Playable { get { return false; } }
 
@@ -144,10 +142,11 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public virtual void CalculateValues()
+        public virtual void UpdateValues()
         {
-            _description = MacroSubstitution(_descriptionFormat);
-            _sortName = Config.HandleIgnoreWords(_description).ToLower();
+            Logging.Logger.Debug("updateValues for " + Path);
+
+            _sortName = Config.HandleIgnoreWords(Description).ToLower();
 
             FirePropertyChanged("ShortSummaryLine1");
             FirePropertyChanged("ShortSummaryLine2");
@@ -177,6 +176,11 @@ namespace MusicBrowser.Entities
         public string ShortSummaryLine2
         {
             get { return MacroSubstitution(_summary2Format); }
+        }
+
+        public new string Description
+        {
+            get { return MacroSubstitution(Config.GetInstance().GetSetting("FormatFor" + KindName)); }
         }
 
         public string MacroSubstitution(string input)

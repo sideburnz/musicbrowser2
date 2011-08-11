@@ -58,7 +58,7 @@ namespace MusicBrowser.Entities.Kinds
             set { base.ShortSummaryLine1 = value; }
         }
 
-        public override void CalculateValues()
+        public override void UpdateValues()
         {
             StringBuilder sb = new StringBuilder();
 
@@ -79,7 +79,7 @@ namespace MusicBrowser.Entities.Kinds
             if (ReleaseDate > DateTime.MinValue) { sb.Append(ReleaseDate.ToString("YYYY") + "  "); }
 
             if (sb.Length > 0) { base.ShortSummaryLine1 = "Album  (" + sb.ToString().Trim() + ")"; }
-            base.CalculateValues();
+            base.UpdateValues();
         }
     }
 }

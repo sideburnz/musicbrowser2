@@ -1,81 +1,107 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using MediaInfoLib;
-using MusicBrowser.Entities;
+using MusicBrowser.Interfaces;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    class MediaInfoProvider //: IMetadataProvider
+    class MediaInfoProvider : IDataProvider
     {
         [DllImport("kernel32")]
         static extern IntPtr LoadLibrary(string lpFileName);
 
-        private const string Marker = "MEDIAINFO";
+        private const string Name = "MediaInfo.DLL";
 
-        #region IBackgroundTaskable Members
+        public string FriendlyName() { return Name; }
 
-        #endregion
-
-        public IEntity Fetch(IEntity entity)
+        public DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess)
         {
-            // killer questions
-            if (!Enabled) { return entity; }
-            if (!entity.Kind.Equals(EntityKind.Song)) { return entity; }
-            //if (entity.Properties.ContainsKey(Marker)) { return entity; }
-#if DEBUG
-            Logging.Logger.Verbose("MediaInfoProvider.Fetch(" + entity.Path + ")", "start");
-#endif
+            Logging.Logger.Debug(Name + ": " + dto.Path);
 
-            Statistics.GetInstance().Hit("mediainfo.hit");
+            #region killer questions
+
+            if (!Enabled)
+            {
+                dto.Outcome = DataProviderOutcome.SystemError;
+                dto.Errors = new List<string> { "Not Enabled: " + Name };
+                return dto;
+            }
+
+            if (!Helper.IsSong(dto.Path))
+            {
+                dto.Outcome = DataProviderOutcome.InvalidInput;
+                dto.Errors = new List<string> { "Not a song: " + dto.Path };
+                return dto;
+            }
+
+            if (lastAccess > DateTime.MinValue)
+            {
+                dto.Outcome = DataProviderOutcome.NoData;
+                dto.Errors = new List<string> { "Data not changed: " + dto.Path };
+                return dto;
+            }
+
+            #endregion
+
             try
             {
 
                 MediaInfo mediaInfo = new MediaInfo();
-                int i = mediaInfo.Open(entity.Path);
+                int i = mediaInfo.Open(dto.Path);
 
                 if (i != 0)
                 {
                     // sample rate
                     string audioSampleRate = mediaInfo.Get(StreamKind.Audio, 0, "SamplingRate/String");
-                    entity.SampleRate = audioSampleRate;
+                    dto.SampleRate = audioSampleRate;
 
                     // channels
                     int audioChannels;
                     Int32.TryParse(mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)"), out audioChannels);
                     switch (audioChannels)
                     {
-                        case 1: entity.Channels = "Mono"; break; 
-                        case 2: entity.Channels = "Stereo"; break;
-                        default: entity.Channels = audioChannels + " channels"; break;
+                        case 1: dto.Channels = "Mono"; break;
+                        case 2: dto.Channels = "Stereo"; break;
+                        default: dto.Channels = audioChannels + " channels"; break;
                     }
 
                     // sample resolution
                     string audioResolution = mediaInfo.Get(StreamKind.Audio, 0, "Resolution/String");
-                    entity.Resolution = audioResolution;
+                    dto.Resolution = audioResolution;
                 }
                 mediaInfo.Close();
-
-                entity.CalculateValues();
             }
-            catch (Exception e) { Logging.Logger.Error(e); }
+            catch (Exception e)
+            {
+                Logging.Logger.Error(e);
 
-            entity.Dirty = true;
-            entity.CalculateValues();
-            return entity;
+                dto.Outcome = DataProviderOutcome.SystemError;
+                dto.Errors = new List<string> { "Error retrieving data" };
+            }
+
+            return dto;
+        }
+
+        public bool CompatibleWith(string type)
+        {
+            return (type.ToLower() == "song");
         }
 
         private static readonly bool Enabled = CheckForLib();
 
         private static bool CheckForLib()
         {
-            string mediaInfoPath = Path.Combine(Util.Helper.PlugInFolder, "mediainfo.dll");
+            string mediaInfoPath = Path.Combine(Helper.PlugInFolder, "mediainfo.dll");
+            Logging.Logger.Debug("MediaInfo plug-in location: " + mediaInfoPath);
             if (File.Exists(mediaInfoPath))
             {
                 var handle = LoadLibrary(mediaInfoPath);
                 return handle != IntPtr.Zero;
             }
-            Logging.Logger.Info("MediaInfo plug-in not enabled");
+            Logging.Logger.Debug("MediaInfo plug-in not enabled: " + mediaInfoPath);
             return false;
         }
     }

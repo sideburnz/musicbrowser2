@@ -126,6 +126,11 @@ namespace MusicBrowser.Entities
                         entity = new Song();
                         break;
                     }
+                case EntityKind.Genre:
+                    {
+                        entity = new Genre();
+                        break;
+                    }
                 default:
                     {
                         // unknowns skip the caching etc
@@ -139,8 +144,6 @@ namespace MusicBrowser.Entities
 
             // do this here so that if the user browses to a folder that isn't cached, it retrieves some basic metadata
             TagSharpMetadataProvider.FetchLite(entity);
-
-            entity.CalculateValues();
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
 
             return entity;
@@ -153,22 +156,44 @@ namespace MusicBrowser.Entities
             if ((entity.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
             {
                 IEnumerable<FileSystemItem> content = FileSystemProvider.GetFolderContents(entity.FullPath);
+                bool containsAlbums = false;
                 bool containsFolders = false;
 
                 foreach (FileSystemItem item in content)
                 {
+                    if (Util.Helper.IsSong(item.Name))
+                    {
+                        return EntityKind.Album;
+                    }
                     if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
                     {
                         containsFolders = true;
+                        containsAlbums = false;
+
+                        IEnumerable<FileSystemItem> subItems = FileSystemProvider.GetFolderContents(item.FullPath);
+
+                        if (subItems.Count() == 0)
+                        {
+                            return EntityKind.Folder;
+                        }
+
+                        foreach (FileSystemItem subItem in subItems)
+                        {
+                            if (Util.Helper.IsSong(subItem.FullPath))
+                            {
+                                containsAlbums = true;
+                                continue;
+                            }
+                        }
                     }
-                    if (Util.Helper.IsSong(item.Name)) 
-                    {
-                        return EntityKind.Album; 
-                    }
+                }
+                if (containsAlbums)
+                {
+                    return EntityKind.Artist;
                 }
                 if (containsFolders)
                 {
-                    return EntityKind.Artist;
+                    return EntityKind.Genre;
                 }
                 return EntityKind.Folder;
             }

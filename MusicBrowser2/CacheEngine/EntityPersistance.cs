@@ -34,6 +34,9 @@ namespace MusicBrowser.CacheEngine
             writer.WriteElementString("IconPath", data.IconPath);
             writer.WriteElementString("BackgroundPath", data.BackgroundPath);
 
+            writer.WriteElementString("Children", data.Children.ToString());
+            writer.WriteElementString("Tracks", data.TrackCount.ToString());
+
             writer.WriteElementString("MusicBrainzID", data.MusicBrainzID);
 
             writer.WriteElementString("TrackName", data.TrackName);
@@ -161,6 +164,8 @@ namespace MusicBrowser.CacheEngine
                 int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Rating"), out i); entity.Rating = i;
                 int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/TrackNumber"), out i); entity.TrackNumber = i;
                 int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/DiscNumber"), out i); entity.DiscNumber = i;
+                int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Children"), out i); entity.Children = i;
+                int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Tracks"), out i); entity.TrackCount = i;
 
                 // date reads
                 DateTime d;

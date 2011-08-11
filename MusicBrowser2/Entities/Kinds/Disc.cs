@@ -25,7 +25,7 @@ namespace MusicBrowser.Entities.Kinds
             _drive.Close();
             Title = "Audio CD (" + _letter + ":)";
             DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageDisc";
-            CalculateValues();
+            UpdateValues();
         }
 
         public override string Path

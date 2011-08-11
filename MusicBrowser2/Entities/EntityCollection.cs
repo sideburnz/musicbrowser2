@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MusicBrowser.Providers;
 using MusicBrowser.Entities.Kinds;
+using MusicBrowser.CacheEngine;
 
 namespace MusicBrowser.Entities
 {
@@ -9,12 +10,6 @@ namespace MusicBrowser.Entities
     {
         public void Populate(IEnumerable<FileSystemItem> items, EntityFactory entityFactory, IEntity parent)
         {
-            //this is a .Net3.5 app, .Net4 would allow for some parallelization, something like
-            //Parallel.ForEach(IFolderItemsProvider.getItems(path), () => IEntityFactory.getItem(item));
-
-            int duration = 0;
-            int grandchildren = 0;
-
             foreach (FileSystemItem item in items)
             {
                 IEntity entity = entityFactory.GetItem(item);
@@ -22,19 +17,12 @@ namespace MusicBrowser.Entities
                 if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
                 entity.Parent = parent;
-                entity.CalculateValues();
+                entity.UpdateValues();
                 Add(entity);
-                
-                if (entity.Duration > 0) { duration += entity.Duration; }
-                if (entity.Children > 0) { grandchildren += entity.Children; }
             }
 
-            if (parent.Children == 0) { parent.Children = Count; }
-            if (parent.Duration == 0) { parent.Duration = duration; }
-            if ((grandchildren > 0) && (parent.Kind.Equals(EntityKind.Artist))) { ((Artist)parent).GrandChildren = grandchildren; }
-
-            parent.CalculateValues();
-
+            parent.UpdateValues();
+            CacheEngineFactory.GetCacheEngine().Update(parent.CacheKey, EntityPersistance.Serialize(parent));
             Sort(new EntityCollectionSorter());
             IndexItems();
         }

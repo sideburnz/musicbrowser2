@@ -61,7 +61,6 @@ namespace MusicBrowser.Providers.Metadata
             }
 
             entity.Dirty = true;
-            entity.CalculateValues();
             return entity;
         }
 

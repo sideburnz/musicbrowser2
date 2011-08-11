@@ -4,13 +4,13 @@
 - CacheFactory should include a scavenger process that ensures that cache entries are still valid
 - use a better default for summary 2
 - populate the album's year from the tracks
-- load the tracks with the tag# provider on page load
 - move media info to a stand alone plug-in
 - move last.fm and HTC back drops to seperate plug-ins
 - create a way of saying which order the plug-ins are run in
 - check what [title] maps to, it should be the track name not the track number and track
 - look at two row titles - to have artist if it's different to the album artist 
 - page down and page up on menus should jump to top or bottom of list
+- put stars for the rating on the footer
 
 
 V2.2.3
@@ -20,23 +20,18 @@ HIGH
 - Up and Down icons so show summary has more text, these can be selectable rather than the text
 - have a setting for "AutocorrectTags"
 - resolve (or remove) CD
-- summary 2 - use like a "[title]" style replacer
 - change default icons
 - button to force metadata update
 - config app
 	- settings are in an XML setting
 		- attribues for advances and unadvanced
-- sqllite/ravenDB/binary files for cache
 
 LOW
 - icons to show drop down menu options to change view and sort
-- cache to a persisted data set
 - record corrections
 - color buttons could have functions
 - work on cover flow (maybe reimagine)
 - new view, single row/column of covers with summary info of selected item (not parent)
-- views per entity (stored in metadata)
-	- change to have a setter, if setter not set, use default
 - detection, metadata retreival and playing of audio CDs
 - varied color and texture default icons
 - fix albums sorting before artists

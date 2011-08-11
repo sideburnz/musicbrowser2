@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using MusicBrowser.CacheEngine;
+using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.Metadata;
-using MusicBrowser.Entities;
-using MusicBrowser.Entities.Kinds;
 
 namespace MusicBrowser.Providers
 {
@@ -31,10 +30,6 @@ namespace MusicBrowser.Providers
         {
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(_path);
 
-            int count = 0;
-            int grandchildren = 0;
-            int duration = 0;
-
             foreach (FileSystemItem item in items)
             {
                 // don't waste time on the item
@@ -58,16 +53,12 @@ namespace MusicBrowser.Providers
                     task.Execute();
                 }
 
-                count++;
-                if (entity.Duration > 0) { duration += entity.Duration; }
-                if (entity.Children > 0) { grandchildren += entity.Children; }
+                entity.UpdateValues();
+                CacheEngineFactory.GetCacheEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
             }
 
-            if (_entity.Children == 0) { _entity.Children = count; }
-            if (_entity.Duration == 0) { _entity.Duration = duration; }
-            if ((grandchildren > 0) && (_entity.Kind.Equals(EntityKind.Artist))) { ((Artist)_entity).GrandChildren = grandchildren; }
-
-            _entity.CalculateValues();
+            _entity.UpdateValues();
+            CacheEngineFactory.GetCacheEngine().Update(_entity.CacheKey, EntityPersistance.Serialize(_entity));
         }
 
         #endregion

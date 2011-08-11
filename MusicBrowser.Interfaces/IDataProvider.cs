@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 /******************************************************************************
  * 
@@ -56,6 +54,9 @@ namespace MusicBrowser.Interfaces
         public int DiscNumber;
         public DateTime ReleaseDate;
 
+        public int Children;
+        public int TrackCount;
+
         public string Codec;
         public string Channels;
         public int Duration;
@@ -94,5 +95,7 @@ namespace MusicBrowser.Interfaces
         DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess);
 
         string FriendlyName();
+
+        bool CompatibleWith(string type);
     }
 }

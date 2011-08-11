@@ -57,7 +57,7 @@ namespace MusicBrowser.Entities.Kinds
             set { base.ShortSummaryLine1 = value; }
         }
 
-        public override void CalculateValues()
+        public override void UpdateValues()
         {
             StringBuilder sb = new StringBuilder();
             if (Duration > 0)
@@ -71,7 +71,7 @@ namespace MusicBrowser.Entities.Kinds
             if (!String.IsNullOrEmpty(Codec)) { sb.Append(Codec + "  "); }
 
             if (sb.Length > 0) { base.ShortSummaryLine1 = "Song  (" + sb.ToString().Trim() + ")"; }
-            base.CalculateValues();
+            base.UpdateValues();
         }
 
         public override IEntity Parent

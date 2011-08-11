@@ -10,12 +10,13 @@ namespace MusicBrowser.Entities.Kinds
 
         public Home()
         {
+            Path = "home";
             Title = "MusicBrowser2";
             DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/MusicBrowser2";
             string temp = Util.Config.GetInstance().GetSetting("HomeBackground");
             if (System.IO.File.Exists(temp)) { DefaultBackgroundPath = temp; }
             base.Parent = new Unknown();
-            base.CalculateValues();
+            base.UpdateValues();
         }
 
         public override EntityKind Kind 

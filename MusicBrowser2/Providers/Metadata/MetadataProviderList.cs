@@ -14,6 +14,7 @@ namespace MusicBrowser.Providers.Metadata
             List<IDataProvider> providerList = new List<IDataProvider>();
 
             providerList.Add(new TagSharpMetadataProvider());
+            providerList.Add(new FileSystemMetadataProvider());
             //providerList.Add(new MediaInfoProvider());
             //providerList.Add(new HTBackdropMetadataProvider());
             //providerList.Add(new LastFMMetadataProvider());
@@ -24,10 +25,14 @@ namespace MusicBrowser.Providers.Metadata
 
         public static void ProcessEntity(IEntity entity)
         {
+            bool requiresUpdate = false;
+
             foreach (IDataProvider provider in GetProviders())
             {
                 try
                 {
+                    if (!provider.CompatibleWith(entity.KindName)) { continue; }
+
                     DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
 
                     DataProviderDTO dto = PopulateDTO(entity);
@@ -36,10 +41,11 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         entity = PopulateEntity(entity, dto);
                         entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
+                        requiresUpdate = true;
                     }
                     else
                     {
-                        Logging.Logger.Debug(dto.Outcome.ToString());
+                        Logging.Logger.Debug(dto.Outcome.ToString() + " " + dto.Errors[0]);
                     }
 
                 }
@@ -50,8 +56,11 @@ namespace MusicBrowser.Providers.Metadata
 #endif
                 }
             }
-            entity.CalculateValues();
-            CacheEngineFactory.GetCacheEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
+            if (requiresUpdate)
+            {
+                entity.UpdateValues();
+                CacheEngineFactory.GetCacheEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
+            }
         }
 
         private static DataProviderDTO PopulateDTO(IEntity entity)
@@ -81,6 +90,9 @@ namespace MusicBrowser.Providers.Metadata
             dto.Summary = entity.Summary;
             dto.TotalPlays = entity.TotalPlays;
             dto.TrackNumber = entity.TrackNumber;
+
+            dto.Children = entity.Children;
+            dto.TrackCount = entity.TrackCount;
 
             switch (entity.Kind)
             {
@@ -146,6 +158,8 @@ namespace MusicBrowser.Providers.Metadata
             if (!String.IsNullOrEmpty(dto.Summary)) { entity.Summary = dto.Summary; }
             if (dto.TotalPlays > 0) { entity.TotalPlays = dto.TotalPlays; }
             if (dto.TrackNumber > 0) { entity.TrackNumber = dto.TrackNumber; }
+            if (dto.Children > 0) { entity.Children = dto.Children; }
+            if (dto.TrackCount > 0) { entity.TrackCount = dto.TrackCount; }
 
             if (dto.ThumbImage != null)
             {

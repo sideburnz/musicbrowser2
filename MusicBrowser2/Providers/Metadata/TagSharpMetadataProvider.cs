@@ -6,7 +6,7 @@ using MusicBrowser.Util;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    public class TagSharpMetadataProvider  : IDataProvider
+    public class TagSharpMetadataProvider : IDataProvider
     {
         private const string Name = "Tag#";
 
@@ -14,7 +14,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess)
         {
-            Logging.Logger.Debug("Tag# " + dto.Path);
+            Logging.Logger.Debug(Name + ": " + dto.Path);
 
             #region killer questions
 
@@ -71,6 +71,11 @@ namespace MusicBrowser.Providers.Metadata
             }
 
             return dto;
+        }
+
+        public bool CompatibleWith(string type)
+        {
+            return (type.ToLower() == "song");
         }
 
         public static void FetchLite(IEntity entity)
