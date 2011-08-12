@@ -39,6 +39,7 @@ namespace MusicBrowser.Util
                                         { "ViewForArtist", "List" },
                                         { "ViewForAlbum", "List" },
                                         { "ViewForUnknown", "List" },
+                                        { "ViewForGenre", "List" },
 
                                         { "FormatForUnknown", "[title]" },
                                         { "FormatForSong", "[track] - [title]" },
@@ -47,6 +48,16 @@ namespace MusicBrowser.Util
                                         { "FormatForPlaylist", "[title]" },
                                         { "FormatForFolder", "[title]" },
                                         { "FormatForHome", "[title]" },
+                                        { "FormatForGenre", "[title]" },
+
+                                        { "SortForUnknown", "[title]" },
+                                        { "SortForSong", "[track] - [title]" },
+                                        { "SortForAlbum", "[title]" },
+                                        { "SortForArtist", "[title]" },
+                                        { "SortForPlaylist", "[title]" },
+                                        { "SortForFolder", "[title]" },
+                                        { "SortForHome", "[title]" },
+                                        { "SortForGenre", "[title]" },
 
                                         { "SummaryLineFormatForUnknown", "[title]" },
                                         { "SummaryLineFormatForSong", "[track] - [title]" },
@@ -55,6 +66,7 @@ namespace MusicBrowser.Util
                                         { "SummaryLineFormatForPlaylist", "[title]" },
                                         { "SummaryLineFormatForFolder", "[title]" },
                                         { "SummaryLineFormatForHome", "[title]" },
+                                        { "SummaryLineFormatForGenre", "[title]" },
                                         
                                         { "ThreadPoolSize", "2" },
                                         { "LogStatsOnClose", false.ToString() },

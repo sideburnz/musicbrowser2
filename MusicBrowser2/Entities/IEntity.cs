@@ -68,7 +68,7 @@ namespace MusicBrowser.Entities
         public List<string> Genres { get; set; }
         public string Lyrics { get; set; }
 
-        // read only (therefore have default values
+        // read only and have default values
         public virtual EntityKind Kind { get { return EntityKind.Unknown; } }
         public string KindName { get { return Kind.ToString(); } }
 
@@ -144,9 +144,7 @@ namespace MusicBrowser.Entities
 
         public virtual void UpdateValues()
         {
-            Logging.Logger.Debug("updateValues for " + Path);
-
-            _sortName = Config.HandleIgnoreWords(Description).ToLower();
+            _sortName = Config.HandleIgnoreWords(MacroSubstitution(Config.GetInstance().GetSetting("SortFor" + KindName))).ToLower();
 
             FirePropertyChanged("ShortSummaryLine1");
             FirePropertyChanged("ShortSummaryLine2");

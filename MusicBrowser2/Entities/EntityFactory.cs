@@ -6,7 +6,6 @@ using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities.Kinds;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
-using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.Metadata;
 
 namespace MusicBrowser.Entities
@@ -48,6 +47,8 @@ namespace MusicBrowser.Entities
 
         public IEntity GetItem(FileSystemItem item)
         {
+            //TODO: if the folders start "DISC " then it's an album
+
             // don't waste time trying to determine a known not entity
             if (Util.Helper.IsNotEntity(item.FullPath)) { return new Unknown(); }
             if (item.Name.ToLower() == "metadata") { return new Unknown(); }

@@ -177,7 +177,7 @@
                   <FormLayoutInput Right="Parent,0.89" Top="Parent,0.6"/>
                 </LayoutInput>
                 <Children>
-                  <Text Name="TimeDate" Content="" Color="White" Font="Segoe Media Center Light, 20" HorizontalAlignment="Far" Alpha="0.7" Margins="0,0,5,0"/>
+                  <Text Name="TimeDate" Content="" Color="White" Font="Segoe Media Center Light, 24" HorizontalAlignment="Far" Alpha="0.7" Margins="0,0,5,0"/>
                 </Children>
               </Panel>
               <Panel Layout="HorizontalFlow" Margins="0,0,0,0">
@@ -188,7 +188,7 @@
                   <Text Name="List_Total"  Content="[FolderModel.FullSize]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
                 </Children>
               </Panel>
-              <Text Content="[FolderModel.Version]" Font="Segoe Media Center Light, 14" Color="White" Alpha="0.5" />
+              <Text Content="[FolderModel.Version]" Font="Segoe Media Center Light, 16" Color="White" Alpha="0.6" />
             </Children>
           </Panel>
 

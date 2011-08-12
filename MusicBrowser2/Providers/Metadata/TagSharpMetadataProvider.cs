@@ -96,6 +96,7 @@ namespace MusicBrowser.Providers.Metadata
                     entity.Title = fileTag.Tag.Title;
                     entity.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);
                     entity.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
+                    entity.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
                 }
             }
             catch { }

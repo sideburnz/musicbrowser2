@@ -26,7 +26,7 @@ namespace MusicBrowser.CacheEngine
 
             writer.WriteStartElement("EntityXML");
 
-            writer.WriteAttributeString("type", data.Kind.ToString());
+            writer.WriteAttributeString("type", data.KindName);
             writer.WriteAttributeString("version", AppVersion);
 
             writer.WriteElementString("Path", data.Path);                       // this isn't actually read from the cache
@@ -110,6 +110,11 @@ namespace MusicBrowser.CacheEngine
                     case EntityKind.Folder:
                         {
                             entity = new Folder();
+                            break;
+                        }
+                    case EntityKind.Genre:
+                        {
+                            entity = new Genre();
                             break;
                         }
                     case EntityKind.Home:
@@ -219,6 +224,8 @@ namespace MusicBrowser.CacheEngine
                     return EntityKind.Playlist;
                 case "song":
                     return EntityKind.Song;
+                case "genre":
+                    return EntityKind.Genre;
             }
             return EntityKind.Unknown;
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using MusicBrowser.CacheEngine;
+using MusicBrowser.Entities;
 using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
@@ -16,14 +18,7 @@ namespace MusicBrowser.Providers.Metadata
             Logging.Logger.Debug(Name + ": " + dto.Path);
 
             #region killer questions
-            if (Util.Helper.IsSong(dto.Path))
-            {
-                dto.Outcome = DataProviderOutcome.InvalidInput;
-                dto.Errors = new List<string> { "Not a folder: " + dto.Path };
-                return dto;
-            }
-
-            if (Util.Helper.IsPlaylist(dto.Path))
+            if (!Directory.Exists(dto.Path))
             {
                 dto.Outcome = DataProviderOutcome.InvalidInput;
                 dto.Errors = new List<string> { "Not a folder: " + dto.Path };
@@ -41,7 +36,9 @@ namespace MusicBrowser.Providers.Metadata
 
             int descendants = 0;
             int children = 0;
-            //TODO: int Duration = 0;
+            int duration = 0;
+
+            ICacheEngine cacheEngine = CacheEngineFactory.GetCacheEngine();
 
             IEnumerable<FileSystemItem> allPaths = FileSystemProvider.GetAllSubPaths(dto.Path);
             foreach (FileSystemItem item in allPaths)
@@ -49,6 +46,10 @@ namespace MusicBrowser.Providers.Metadata
                 if (Util.Helper.IsSong(item.FullPath))
                 {
                     descendants++;
+
+                    //TODO: can this be done smarter? - Tag#lite?
+                    IEntity e = EntityPersistance.Deserialize(cacheEngine.Read(Util.Helper.GetCacheKey(item.FullPath)));
+                    duration += e.Duration;
                 }
             }
             dto.TrackCount = descendants;
@@ -66,6 +67,7 @@ namespace MusicBrowser.Providers.Metadata
                 }
             }
             dto.Children = children;
+            dto.Duration = duration;
 
             dto.Outcome = DataProviderOutcome.Success;
             return dto;

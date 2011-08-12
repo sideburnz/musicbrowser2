@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using MusicBrowser.Providers;
-using MusicBrowser.Entities.Kinds;
 using MusicBrowser.CacheEngine;
+using MusicBrowser.Providers;
 
 namespace MusicBrowser.Entities
 {
@@ -42,8 +41,12 @@ namespace MusicBrowser.Entities
     {
         public int Compare(IEntity x, IEntity y)
         {
-            bool xIsFolder = (x.Kind.Equals(EntityKind.Album)) || (x.Kind.Equals(EntityKind.Artist));
-            bool yIsFolder = (y.Kind.Equals(EntityKind.Album)) || (y.Kind.Equals(EntityKind.Artist));
+            bool xIsFolder = (x.Kind.Equals(EntityKind.Album)) || 
+                (x.Kind.Equals(EntityKind.Artist) || 
+                (x.Kind.Equals(EntityKind.Genre)));
+            bool yIsFolder = (y.Kind.Equals(EntityKind.Album)) || 
+                (y.Kind.Equals(EntityKind.Artist) || 
+                (y.Kind.Equals(EntityKind.Genre)));
 
             // folders (artists and albums) have a higher priority than playlists and songs
             if (xIsFolder && !(yIsFolder))
