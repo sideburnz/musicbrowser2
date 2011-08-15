@@ -144,6 +144,7 @@ namespace MusicBrowser.Entities
 
         public virtual void UpdateValues()
         {
+            // cache the sortname, we don't want to do this complex calc every time
             _sortName = Config.HandleIgnoreWords(MacroSubstitution(Config.GetInstance().GetSetting("SortFor" + KindName))).ToLower();
 
             FirePropertyChanged("ShortSummaryLine1");
@@ -211,11 +212,11 @@ namespace MusicBrowser.Entities
                     case "album":
                         output = output.Replace("[album]", AlbumName); break;
                     case "release.date":
-                        if (ReleaseDate > DateTime.MinValue) { output = output.Replace("[release.date]", ReleaseDate.ToString("dd mmmm yyyy")); break; }
+                        if (ReleaseDate > DateTime.Parse("01-JAN-1000")) { output = output.Replace("[release.date]", ReleaseDate.ToString("dd mmmm yyyy")); break; }
                         output = output.Replace("[release.date]", ""); break;
                     case "release":
-                        if (ReleaseDate > DateTime.MinValue) { output = output.Replace("[release]", ReleaseDate.ToString("yyyy")); break; }
-                        output = output.Replace("[release]", "0000"); break;
+                        if (ReleaseDate > DateTime.Parse("01-JAN-1000")) { output = output.Replace("[release]", ReleaseDate.ToString("yyyy")); break; }
+                        output = output.Replace("[release]", ""); break;
                     case "channels":
                         output = output.Replace("[channels]", Channels); break;
                     case "samplerate":

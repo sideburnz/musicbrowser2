@@ -10,20 +10,21 @@ namespace MusicBrowser.Providers.Metadata
 {
     class MediaInfoProvider : IDataProvider
     {
-        [DllImport("kernel32")]
+        [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
         static extern IntPtr LoadLibrary(string lpFileName);
 
         private const string Name = "MediaInfo.DLL";
+        private static int _state = 0;
 
         public string FriendlyName() { return Name; }
 
         public DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess)
         {
-            Logging.Logger.Debug(Name + ": " + dto.Path);
+//            Logging.Logger.Debug(Name + ": " + dto.Path);
 
             #region killer questions
 
-            if (!Enabled)
+            if (!Enabled())
             {
                 dto.Outcome = DataProviderOutcome.SystemError;
                 dto.Errors = new List<string> { "Not Enabled: " + Name };
@@ -90,18 +91,27 @@ namespace MusicBrowser.Providers.Metadata
             return (type.ToLower() == "song");
         }
 
-        private static readonly bool Enabled = CheckForLib();
+        private static bool Enabled()
+        {
+            if (_state == 0)
+            {
+                _state = -1;
+                if (CheckForLib())
+                {
+                    _state = 1; 
+                }
+            }
+            return (_state == 1);
+        }
 
         private static bool CheckForLib()
         {
             string mediaInfoPath = Path.Combine(Helper.PlugInFolder, "mediainfo.dll");
-            Logging.Logger.Debug("MediaInfo plug-in location: " + mediaInfoPath);
             if (File.Exists(mediaInfoPath))
             {
                 var handle = LoadLibrary(mediaInfoPath);
                 return handle != IntPtr.Zero;
             }
-            Logging.Logger.Debug("MediaInfo plug-in not enabled: " + mediaInfoPath);
             return false;
         }
     }

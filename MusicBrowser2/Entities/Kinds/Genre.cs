@@ -61,6 +61,8 @@ namespace MusicBrowser.Entities.Kinds
 
         public override void UpdateValues()
         {
+            Logging.Logger.Debug("Genre: UpdateValues");
+
             StringBuilder sb = new StringBuilder();
 
             if (Children == 1) { sb.Append("1 Artist  "); }

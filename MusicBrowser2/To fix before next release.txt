@@ -9,8 +9,7 @@
 - page down and page up on menus should jump to top or bottom of list
 - put stars for the rating on the footer
 
-- why isn't the Genre showing (4 Artists  344 Tracks)
-- why does the media info plug-in fail to find the plug-in
+- fix year being populated up
 
 V2.2.3
 

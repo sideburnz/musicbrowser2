@@ -15,7 +15,7 @@ namespace MusicBrowser.Providers.Metadata
 
             providerList.Add(new TagSharpMetadataProvider());
             providerList.Add(new FileSystemMetadataProvider());
-            //providerList.Add(new MediaInfoProvider());
+            providerList.Add(new MediaInfoProvider());
             //providerList.Add(new HTBackdropMetadataProvider());
             //providerList.Add(new LastFMMetadataProvider());
             // add new providers here
@@ -152,7 +152,14 @@ namespace MusicBrowser.Providers.Metadata
             if (dto.Performers != null) { entity.Performers = dto.Performers; }
             if (dto.PlayCount > 0) { entity.PlayCount = dto.PlayCount; }
             if (dto.Rating > 0) { entity.Rating = dto.Rating; }
-            if (entity.ReleaseDate > DateTime.MinValue) { entity.ReleaseDate = dto.ReleaseDate; } 
+            if (entity.ReleaseDate < DateTime.Parse("01-JAN-1000")) 
+            { 
+                entity.ReleaseDate = dto.ReleaseDate;
+                if (entity.Parent.ReleaseDate < DateTime.Parse("01-JAN-1000"))
+                {
+                    entity.Parent.ReleaseDate = dto.ReleaseDate;
+                }
+            } 
             if (!String.IsNullOrEmpty(dto.Resolution)) { entity.Resolution = dto.Resolution; }
             if (!String.IsNullOrEmpty(dto.SampleRate)) { entity.SampleRate = dto.SampleRate; }
             if (!String.IsNullOrEmpty(dto.Summary)) { entity.Summary = dto.Summary; }

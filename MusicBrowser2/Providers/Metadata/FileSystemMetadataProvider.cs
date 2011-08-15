@@ -15,7 +15,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess)
         {
-            Logging.Logger.Debug(Name + ": " + dto.Path);
+            //Logging.Logger.Debug(Name + ": " + dto.Path);
 
             #region killer questions
             if (!Directory.Exists(dto.Path))
