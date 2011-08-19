@@ -132,9 +132,8 @@ namespace MusicBrowser.Entities
                     }
                 default:
                     {
-                        // unknowns skip the caching etc
                         entity = new Unknown {Path = item.FullPath};
-                        return entity;
+                        break;
                     }
             }
 

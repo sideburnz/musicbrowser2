@@ -26,6 +26,7 @@ namespace MusicBrowser.Interfaces
         Song,
         Album,
         Artist,
+        Genre,
         Playlist,
         Disc
     }
@@ -49,6 +50,8 @@ namespace MusicBrowser.Interfaces
         public string ArtistName;
         public string AlbumArtist;
         public string AlbumName;
+
+        public string Title;
 
         public int TrackNumber;
         public int DiscNumber;
@@ -92,10 +95,12 @@ namespace MusicBrowser.Interfaces
         /// </summary>
         /// <param name="dto">DTO</param>
         /// <returns>Populated DTO</returns>
-        DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess);
+        DataProviderDTO Fetch(DataProviderDTO dto);
 
         string FriendlyName();
 
         bool CompatibleWith(string type);
+
+        bool isStale(DateTime lastAccess);
     }
 }

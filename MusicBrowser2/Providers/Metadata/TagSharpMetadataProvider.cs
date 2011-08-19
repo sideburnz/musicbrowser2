@@ -12,7 +12,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public string FriendlyName() { return Name; }
 
-        public DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess)
+        public DataProviderDTO Fetch(DataProviderDTO dto)
         {
             //Logging.Logger.Debug(Name + ": " + dto.Path);
 
@@ -22,13 +22,6 @@ namespace MusicBrowser.Providers.Metadata
             {
                 dto.Outcome = DataProviderOutcome.InvalidInput;
                 dto.Errors = new List<string> { "Not a song: " + dto.Path };
-                return dto;
-            }
-
-            if (lastAccess > DateTime.MinValue)
-            {
-                dto.Outcome = DataProviderOutcome.NoData;
-                dto.Errors = new List<string> { "Data not changed: " + dto.Path };
                 return dto;
             }
 
@@ -101,6 +94,12 @@ namespace MusicBrowser.Providers.Metadata
                 }
             }
             catch { }
+        }
+
+        public bool isStale(DateTime lastAccess)
+        {
+            // this shouldn't need any update
+            return (lastAccess.AddDays(365) > DateTime.Now);
         }
     }
 }

@@ -69,14 +69,14 @@ namespace MusicBrowser.Entities.Kinds
                 TimeSpan t = TimeSpan.FromSeconds(Duration);
                 if (t.Hours == 0)
                 {
-                    sb.Append(string.Format("{0}:{1:D2}", (Int32)Math.Floor(t.TotalMinutes), t.Seconds));
+                    sb.Append(string.Format("{0}:{1:D2}  ", (Int32)Math.Floor(t.TotalMinutes), t.Seconds));
                 }
                 else
                 {
-                    sb.Append(string.Format("{0}:{1:D2}:{2:D2}", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds));
+                    sb.Append(string.Format("{0}:{1:D2}:{2:D2}  ", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds));
                 }
             }
-            if (ReleaseDate > DateTime.MinValue) { sb.Append(ReleaseDate.ToString("YYYY") + "  "); }
+            if (ReleaseDate > DateTime.Parse("01-JAN-1000")) { sb.Append(ReleaseDate.ToString("yyyy") + "  "); }
 
             if (sb.Length > 0) { base.ShortSummaryLine1 = "Album  (" + sb.ToString().Trim() + ")"; }
             base.UpdateValues();

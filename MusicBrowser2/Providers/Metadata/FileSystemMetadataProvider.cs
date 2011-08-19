@@ -13,7 +13,7 @@ namespace MusicBrowser.Providers.Metadata
     {
         private const string Name = "FileSystem";
 
-        public DataProviderDTO Fetch(DataProviderDTO dto, DateTime lastAccess)
+        public DataProviderDTO Fetch(DataProviderDTO dto)
         {
             //Logging.Logger.Debug(Name + ": " + dto.Path);
 
@@ -25,13 +25,6 @@ namespace MusicBrowser.Providers.Metadata
                 return dto;
             }
 
-            FileSystemItem entity = FileSystemProvider.GetItemDetails(dto.Path);
-            if ((lastAccess.AddDays(7) > DateTime.Now) && (lastAccess > entity.LastUpdated))
-            {
-                dto.Outcome = DataProviderOutcome.NoData;
-                dto.Errors = new List<string> { "Not Refreshing Data: " + dto.Path };
-                return dto;
-            }
             #endregion
 
             int descendants = 0;
@@ -81,6 +74,12 @@ namespace MusicBrowser.Providers.Metadata
         public bool CompatibleWith(string type)
         {
             return ((type.ToLower() == "album") || (type.ToLower() == "artist") || (type.ToLower() == "genre"));
+        }
+
+        public bool isStale(DateTime lastAccess)
+        {
+            // refresh weekly
+            return (lastAccess.AddDays(7) > DateTime.Now);
         }
     }
 }

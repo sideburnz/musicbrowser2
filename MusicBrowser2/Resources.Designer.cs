@@ -293,6 +293,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap star {
+            get {
+                object obj = ResourceManager.GetObject("star", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap underline {
             get {
                 object obj = ResourceManager.GetObject("underline", resourceCulture);

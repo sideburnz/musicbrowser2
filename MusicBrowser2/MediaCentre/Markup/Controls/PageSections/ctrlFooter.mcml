@@ -28,7 +28,21 @@
           <FlowLayout Orientation="Vertical"/>
         </Layout>
         <Children>
-          <Text Name="Desc" Color="White" Font="Segoe Media Center, 24" Content="" Margins="0,0,0,-2"/>
+
+          <Panel>
+            <Layout>
+              <FlowLayout Orientation="Horizontal"/>
+            </Layout>
+            <Children>
+              <Text Name="Desc" Color="White" Font="Segoe Media Center, 24" Content="" Margins="0,0,0,-2"/>
+              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="20,9,0,0" Alpha="0.4"/>
+              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4"/>
+              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4"/>
+              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4"/>
+              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4"/>
+            </Children>
+          </Panel>
+
           <Text Name="Summary1" Color="White" Font="Segoe Media Center, 20" Content="" Alpha="0.6"/>
           <Text Name="Summary2" Color="White" Font="Segoe Media Center, 20" Content="" Alpha="0.6"/>
         </Children>

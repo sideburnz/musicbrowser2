@@ -31,12 +31,13 @@ namespace MusicBrowser.Providers.Metadata
             {
                 try
                 {
-                    if (!provider.CompatibleWith(entity.KindName)) { continue; }
-
                     DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
 
+                    if (!provider.CompatibleWith(entity.KindName)) { continue; }
+                    if (!provider.isStale(lastAccess)) { continue; }
+
                     DataProviderDTO dto = PopulateDTO(entity);
-                    dto = provider.Fetch(dto, lastAccess);
+                    dto = provider.Fetch(dto);
                     if (dto.Outcome == DataProviderOutcome.Success)
                     {
                         entity = PopulateEntity(entity, dto);
@@ -93,6 +94,7 @@ namespace MusicBrowser.Providers.Metadata
 
             dto.Children = entity.Children;
             dto.TrackCount = entity.TrackCount;
+            dto.Title = entity.Title;
 
             switch (entity.Kind)
             {
@@ -100,14 +102,12 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         dto.DataType = DataTypes.Album;
                         dto.AlbumName = entity.Title;
-
                         break;
                     }
                     case EntityKind.Artist:
                     {
                         dto.DataType = DataTypes.Artist;
                         dto.ArtistName = entity.Title;
-
                         break;
                     }
                     case EntityKind.Disc:
@@ -124,7 +124,11 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         dto.DataType = DataTypes.Song;
                         dto.TrackName = entity.Title;
-
+                        break;
+                    }
+                    case EntityKind.Genre:
+                    {
+                        dto.DataType = DataTypes.Genre;
                         break;
                     }
             }
@@ -163,6 +167,7 @@ namespace MusicBrowser.Providers.Metadata
             if (!String.IsNullOrEmpty(dto.Resolution)) { entity.Resolution = dto.Resolution; }
             if (!String.IsNullOrEmpty(dto.SampleRate)) { entity.SampleRate = dto.SampleRate; }
             if (!String.IsNullOrEmpty(dto.Summary)) { entity.Summary = dto.Summary; }
+            if (!String.IsNullOrEmpty(dto.Title)) { entity.Title = dto.Title; }
             if (dto.TotalPlays > 0) { entity.TotalPlays = dto.TotalPlays; }
             if (dto.TrackNumber > 0) { entity.TrackNumber = dto.TrackNumber; }
             if (dto.Children > 0) { entity.Children = dto.Children; }
@@ -182,34 +187,6 @@ namespace MusicBrowser.Providers.Metadata
                 entity.BackgroundPath = backgroundPath;
             }
             
-            switch (dto.DataType)
-            {
-                    case DataTypes.Album:
-                    {
-                        if (!String.IsNullOrEmpty(dto.AlbumName)) { entity.Title = dto.AlbumName; }
-                        break;
-                    }
-                    case DataTypes.Artist:
-                    {
-                        if (!String.IsNullOrEmpty(dto.ArtistName)) { entity.Title = dto.ArtistName; }
-                        break;
-                    }
-                    case DataTypes.Playlist:
-                    {
-                        if (!String.IsNullOrEmpty(dto.TrackName)) { entity.Title = dto.TrackName; }
-                        break;
-                    }
-                    case DataTypes.Song:
-                    {
-                        if (!String.IsNullOrEmpty(dto.TrackName)) { entity.Title = dto.TrackName; }
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-
             return entity;
         }
 

@@ -29,7 +29,7 @@ namespace MusicBrowser.Entities
 
         public IEntity()
         {
-            _view = Config.HandleEntityView(Kind).ToLower();
+            _view = Config.GetInstance().GetSetting("ViewFor" + KindName).ToLower();
             _summary2Format = Config.GetInstance().GetSetting("SummaryLineFormatFor" + KindName);
             DefaultBackgroundPath = string.Empty;
             Performers = new List<string>();
@@ -194,6 +194,8 @@ namespace MusicBrowser.Entities
                 {
                     case "title":
                         output = output.Replace("[title]", Title); break;
+                    case "description":
+                        output = output.Replace("[description]", Description); break;
                     case "track":
                         if (Config.GetInstance().GetBooleanSetting("PutDiscInTrackNo"))
                         {

@@ -26,6 +26,8 @@ namespace MusicBrowser.Util
                                         { "AutoLoadNowPlaying", false.ToString() },
                                         { "HomeBackground", Path.Combine(Helper.AppFolder, "backdrop.jpg") },
 
+                                        { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
+
                                         { "SortReplaceWords", "the|a|an" },
                                         { "PutDiscInTrackNo", true.ToString() },
 
@@ -40,7 +42,11 @@ namespace MusicBrowser.Util
                                         { "ViewForAlbum", "List" },
                                         { "ViewForUnknown", "List" },
                                         { "ViewForGenre", "List" },
-
+                                        { "ViewForSong", "Not Used" },
+                                        { "ViewForPlaylist", "Not Used" },
+                                        { "ViewForFolder", "Not Used" },
+                                        { "ViewForHome", "Not Used" },
+                                        
                                         { "FormatForUnknown", "[title]" },
                                         { "FormatForSong", "[track] - [title]" },
                                         { "FormatForAlbum", "([release]) [title]" },
@@ -119,7 +125,7 @@ namespace MusicBrowser.Util
 
         public void SetDefaultSettings()
         {
-            for (int i = 0; i < _defaults.GetUpperBound(1); i++)
+            for (int i = 0; i <= _defaults.GetUpperBound(1); i++)
             {
                 GetSetting(_defaults[i,0]);
             }
@@ -210,26 +216,6 @@ namespace MusicBrowser.Util
                 if (value.ToLower().StartsWith(item + " ")) { return value.Substring(item.Length + 1); }
             }
             return value;
-        }
-
-        public static string HandleEntityView(EntityKind kind)
-        {
-            switch (kind)
-            {
-                case EntityKind.Home:
-                    {
-                        return _instance.GetSetting("ViewForHome");
-                    }
-                case EntityKind.Artist:
-                    {
-                        return _instance.GetSetting("ViewForArtist");
-                    }
-                case EntityKind.Album:
-                    {
-                        return _instance.GetSetting("ViewForAlbum");
-                    }
-            }
-            return _instance.GetSetting("ViewForUnknown");
         }
     }
 }

@@ -24,11 +24,6 @@ namespace MusicBrowser.Entities.Kinds
             get { return EntityKind.Home; }
         }
 
-        public override string View
-        {
-            get { return Util.Config.HandleEntityView(EntityKind.Home).ToLower(); }
-        }
-
         public static IEnumerable<string> Paths
         {
             get 

@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
+using Microsoft.Win32;
 
 namespace MusicBrowser.Util
 {
@@ -133,50 +134,123 @@ namespace MusicBrowser.Util
         #endregion
 
         #region file identifiers
-        static IEnumerable<string> _dicSongExts;
-        public static bool IsSong(string fileName)
+
+        public enum knownType
         {
-            string extension = Path.GetExtension(fileName).ToLower();
-            if (_dicSongExts == null)
+            Song,
+            Playlist,
+            Other
+        }
+        public static Dictionary<string, knownType> perceivedTypeCache = null;
+
+        public static bool IsSong(string filename)
+        {
+            if (perceivedTypeCache == null)
             {
-                _dicSongExts = StandingData.GetStandingData("songs");
+                perceivedTypeCache = getKnownTypes();
             }
-            return _dicSongExts.Any(item => extension == item);
+
+            string extension = System.IO.Path.GetExtension(filename).ToLower();
+
+            knownType itemType;
+            if (perceivedTypeCache.TryGetValue(extension, out itemType))
+            {
+                return itemType == knownType.Song;
+            }
+            return determineType(extension) == knownType.Song;            
         }
 
-        static IEnumerable<string> _dicPlExts;
         public static bool IsPlaylist(string fileName)
         {
-            string extension = Path.GetExtension(fileName).ToLower();
-            if (_dicPlExts == null)
+            if (perceivedTypeCache == null) 
             {
-                _dicPlExts = StandingData.GetStandingData("playlists");
+                perceivedTypeCache = getKnownTypes();
             }
-            return _dicPlExts.Any(item => extension == item);
+
+            if (!System.IO.File.Exists(fileName)) return false;
+            string extension = System.IO.Path.GetExtension(fileName).ToLower();
+
+            knownType itemType;
+            if (perceivedTypeCache.TryGetValue(extension, out itemType))
+            {
+                return itemType == knownType.Playlist;
+            }
+            return false;
         }
 
-        static IEnumerable<string> _dicImgExts;
-        public static bool IsImage(string fileName)
-        {
-            string extension = Path.GetExtension(fileName).ToLower();
-
-            if (_dicImgExts == null)
-            {
-                _dicImgExts = StandingData.GetStandingData("images");
-            }
-            return _dicImgExts.Any(item => extension == item);
-        }
-
-        static IEnumerable<string> _dicNeExts;
         public static bool IsNotEntity(string fileName)
         {
-            string extension = Path.GetExtension(fileName).ToLower();
-
-            if (_dicNeExts == null)
+            if (perceivedTypeCache == null) 
             {
-                _dicNeExts = StandingData.GetStandingData("nonentityextentions");
+                perceivedTypeCache = getKnownTypes();
             }
-            return _dicNeExts.Any(item => extension == item);
+
+            if (!System.IO.File.Exists(fileName)) return false;
+            string extension = System.IO.Path.GetExtension(fileName).ToLower();
+
+            knownType itemType;
+            if (perceivedTypeCache.TryGetValue(extension, out itemType))
+            {
+                return itemType == knownType.Other;
+            }
+            knownType type = determineType(extension);
+            return (type != knownType.Song); 
+        }
+
+        public static knownType determineType(string extension)
+        {
+            string pt = null;
+            RegistryKey key = Registry.ClassesRoot;
+            key = key.OpenSubKey(extension);
+            if (key != null)
+            {
+                pt = key.GetValue("PerceivedType") as string;
+            }
+            if (pt == null) pt = "";
+            pt = pt.ToLower();
+
+            lock (perceivedTypeCache)
+            {
+                if (pt == "audio")
+                {
+                    perceivedTypeCache.Add(extension, knownType.Song);
+                }
+                else
+                {
+                    perceivedTypeCache.Add(extension, knownType.Other);
+                }
+            }
+            return perceivedTypeCache[extension];
+        }
+
+        private static Dictionary<string, knownType> getKnownTypes()
+        {
+            Dictionary<string,knownType> retVal = new Dictionary<string,knownType>();
+            IEnumerable<string> extentions;
+
+            extentions = StandingData.GetStandingData("playlists");
+            foreach (string extention in extentions)
+            {
+                retVal.Add(extention, knownType.Playlist);
+            }
+
+            extentions = StandingData.GetStandingData("nonentityextentions");
+            foreach (string extention in extentions)
+            {
+                retVal.Add(extention, knownType.Other);
+            }
+
+            return retVal;
+        }
+
+        public static string outputTypes()
+        {
+            StringBuilder s = new StringBuilder();
+            foreach (string k in perceivedTypeCache.Keys)
+            {
+                s.AppendLine(k + " " + perceivedTypeCache[k].ToString());
+            }
+            return s.ToString();
         }
         
 
