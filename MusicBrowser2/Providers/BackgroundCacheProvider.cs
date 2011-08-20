@@ -54,11 +54,11 @@ namespace MusicBrowser.Providers
                 }
 
                 entity.UpdateValues();
-                CacheEngineFactory.GetCacheEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
+                //CacheEngineFactory.GetCacheEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
             }
 
             _entity.UpdateValues();
-            CacheEngineFactory.GetCacheEngine().Update(_entity.CacheKey, EntityPersistance.Serialize(_entity));
+            //CacheEngineFactory.GetCacheEngine().Update(_entity.CacheKey, EntityPersistance.Serialize(_entity));
         }
 
         #endregion

@@ -14,7 +14,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
-            //Logging.Logger.Debug(Name + ": " + dto.Path);
+            Logging.Logger.Debug(Name + ": " + dto.Path);
 
             #region killer questions
 
@@ -98,8 +98,8 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool isStale(DateTime lastAccess)
         {
-            // this shouldn't need any update
-            return (lastAccess.AddDays(365) > DateTime.Now);
+            // this shouldn't need any updates
+            return (lastAccess < DateTime.Parse("01-JAN-1000"));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
-            //Logging.Logger.Debug(Name + ": " + dto.Path);
+            Logging.Logger.Debug(Name + ": " + dto.Path);
 
             #region killer questions
 

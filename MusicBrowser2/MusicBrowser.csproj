@@ -238,7 +238,9 @@
     <Content Include="MediaCentre\Markup\Controls\Buttons\buttonBasic.mcml" />
     <Content Include="MediaCentre\Markup\Controls\Buttons\buttonIcon.mcml" />
     <Content Include="MediaCentre\Markup\Controls\Buttons\buttonImage.mcml" />
-    <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewCover.mcml" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />

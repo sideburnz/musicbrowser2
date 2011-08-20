@@ -9,7 +9,7 @@
     </Properties>
 
     <Rules>
-      <Changed Source="[FolderModel.SelectedIndex]">
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
         <Actions>
           <Set Target="[Desc.Content]" Value="[FolderModel.SelectedItem.Title]" />
           <Set Target="[Summary1.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine1]" />
@@ -17,9 +17,46 @@
         </Actions>
       </Changed>
 
-      <Binding Source="[FolderModel.SelectedItem.Title]" Target="[Desc.Content]" />
-      <Binding Source="[FolderModel.SelectedItem.ShortSummaryLine1]" Target="[Summary1.Content]" />
-      <Binding Source="[FolderModel.SelectedItem.ShortSummaryLine2]" Target="[Summary2.Content]" />
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="100" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Star5.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="80" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Star4.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="60" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Star3.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="40" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Star2.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="20" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Star1.Visible]" Value="true" />
+        </Actions>
+      </Changed>
     </Rules>
 
     <Content>
@@ -35,11 +72,11 @@
             </Layout>
             <Children>
               <Text Name="Desc" Color="White" Font="Segoe Media Center, 24" Content="" Margins="0,0,0,-2"/>
-              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="20,9,0,0" Alpha="0.4"/>
-              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4"/>
-              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4"/>
-              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4"/>
-              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4"/>
+              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="20,9,0,0" Alpha="0.4" Visible="false"/>
+              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4" Visible="false"/>
+              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4" Visible="false"/>
+              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4" Visible="false"/>
+              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/star" Margins="1,9,0,0" Alpha="0.4" Visible="false"/>
             </Children>
           </Panel>
 

@@ -2,6 +2,7 @@
 using System.IO;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Util;
+using MusicBrowser.Providers;
 
 namespace MusicBrowser.CacheEngine
 {
@@ -55,7 +56,8 @@ namespace MusicBrowser.CacheEngine
         public DateTime GetAge(string key)
         {
             string fileName = CalculateCacheFileFromKey(key);
-            return File.GetLastWriteTime(fileName);
+            FileSystemItem item = FileSystemProvider.GetItemDetails(fileName);
+            return item.LastUpdated;
         }
 
         private string CalculateCacheFileFromKey(string key)

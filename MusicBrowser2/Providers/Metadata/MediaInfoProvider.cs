@@ -15,12 +15,13 @@ namespace MusicBrowser.Providers.Metadata
 
         private const string Name = "MediaInfo.DLL";
         private static int _state = 0;
+        private static object obj;
 
         public string FriendlyName() { return Name; }
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
-//            Logging.Logger.Debug(Name + ": " + dto.Path);
+            Logging.Logger.Debug(Name + ": " + dto.Path);
 
             #region killer questions
 
@@ -65,6 +66,11 @@ namespace MusicBrowser.Providers.Metadata
                     // sample resolution
                     string audioResolution = mediaInfo.Get(StreamKind.Audio, 0, "Resolution/String");
                     dto.Resolution = audioResolution;
+
+                    // track rating
+                    int Rating;
+                    Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Rating"), out Rating);
+                    dto.Rating = Rating;
                 }
                 mediaInfo.Close();
             }
@@ -86,18 +92,19 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool isStale(DateTime lastAccess)
         {
-            // this shouldn't need any update
-            return (lastAccess.AddDays(365) > DateTime.Now);
+            // this shouldn't need any updates
+            return (lastAccess < DateTime.Parse("01-JAN-1000"));
         }
 
         private static bool Enabled()
         {
+
             if (_state == 0)
             {
                 _state = -1;
                 if (CheckForLib())
                 {
-                    _state = 1; 
+                    _state = 1;
                 }
             }
             return (_state == 1);
@@ -105,13 +112,16 @@ namespace MusicBrowser.Providers.Metadata
 
         private static bool CheckForLib()
         {
-            string mediaInfoPath = Path.Combine(Helper.PlugInFolder, "mediainfo.dll");
-            if (File.Exists(mediaInfoPath))
+            lock (obj)
             {
-                var handle = LoadLibrary(mediaInfoPath);
-                return handle != IntPtr.Zero;
+                string mediaInfoPath = Path.Combine(Helper.PlugInFolder, "mediainfo.dll");
+                if (File.Exists(mediaInfoPath))
+                {
+                    var handle = LoadLibrary(mediaInfoPath);
+                    return handle != IntPtr.Zero;
+                }
+                return false;
             }
-            return false;
         }
     }
 }

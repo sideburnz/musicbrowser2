@@ -22,9 +22,13 @@ namespace MusicBrowser.Entities
             return GetItem(FileSystemProvider.GetItemDetails(item));
         }
 
-        bool IsNotStale(DateTime cacheDate, params DateTime[] comparisons)
+        bool IsFresh(DateTime cacheDate, params DateTime[] comparisons)
         {
-            return comparisons.All(d => d <= cacheDate);
+            foreach (DateTime d in comparisons)
+            {
+                if (d >= cacheDate) { return false; }
+            }
+            return true;
         }
 
         // works out where the metadata file is (if there is one)
@@ -60,7 +64,7 @@ namespace MusicBrowser.Entities
             // get the value from cache
             if (_cacheEngine.Exists(key))
             {
-                if (IsNotStale(_cacheEngine.GetAge(key), metadata.LastUpdated, item.LastUpdated))
+                if (IsFresh(_cacheEngine.GetAge(key), metadata.LastUpdated, item.LastUpdated))
                 {
                     entity = EntityPersistance.Deserialize(_cacheEngine.Read(key));
                     if (entity.Version >= FirstCompatibleCache)
@@ -70,7 +74,7 @@ namespace MusicBrowser.Entities
                         return entity;
                     }
                 }
-                // if it's not the latest version of the entity, delete it 
+                // if it's not the latest version of the entity, delete it refreshing the cache
                 _cacheEngine.Delete(key);
                 Statistics.GetInstance().Hit("cache.expiry");
             }

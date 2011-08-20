@@ -21,7 +21,7 @@ namespace MusicBrowser.Entities
             }
 
             parent.UpdateValues();
-            CacheEngineFactory.GetCacheEngine().Update(parent.CacheKey, EntityPersistance.Serialize(parent));
+            //CacheEngineFactory.GetCacheEngine().Update(parent.CacheKey, EntityPersistance.Serialize(parent));
             Sort(new EntityCollectionSorter());
             IndexItems();
         }
