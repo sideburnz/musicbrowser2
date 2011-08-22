@@ -56,6 +56,7 @@ namespace MusicBrowser.Interfaces
         public int TrackNumber;
         public int DiscNumber;
         public DateTime ReleaseDate;
+        public string Label;
 
         public int Children;
         public int TrackCount;

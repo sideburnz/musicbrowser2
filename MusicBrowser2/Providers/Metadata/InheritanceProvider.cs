@@ -7,9 +7,9 @@ using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    class IconProvider : IDataProvider
+    class InheritanceProvider : IDataProvider
     {
-        private const string Name = "IconProvider";
+        private const string Name = "InheritanceProvider";
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
@@ -27,9 +27,17 @@ namespace MusicBrowser.Providers.Metadata
 
             #endregion
 
-            string IBNPath = Path.Combine(Path.Combine(Util.Config.GetInstance().GetSetting("ImagesByName"), "genres"), dto.Title);
-            dto.ThumbImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Thumb));
-            dto.BackImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Backdrop));
+            DateTime albumDate = DateTime.MinValue;
+            ICacheEngine cacheEngine = CacheEngineFactory.GetCacheEngine();
+
+            IEnumerable<FileSystemItem> children = FileSystemProvider.GetFolderContents(dto.Path);
+            foreach (FileSystemItem child in children)
+            {
+                IEntity e = EntityPersistance.Deserialize(cacheEngine.Read(Util.Helper.GetCacheKey(child.FullPath)));
+                if (e.ReleaseDate > albumDate) { albumDate = e.ReleaseDate; }
+            }
+
+            if (albumDate > DateTime.Parse("01-JAN-1000")) { dto.ReleaseDate = albumDate; }
 
             return dto;
         }
@@ -41,7 +49,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool CompatibleWith(string type)
         {
-            return (type.ToLower() == "genre");
+            return (type.ToLower() == "album");
         }
 
         public bool isStale(DateTime lastAccess)

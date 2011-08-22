@@ -15,6 +15,7 @@ namespace MusicBrowser.Providers.Metadata
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
             Logging.Logger.Debug(Name + ": " + dto.Path);
+            dto.Outcome = DataProviderOutcome.Success;
 
             #region killer questions
 
@@ -54,8 +55,6 @@ namespace MusicBrowser.Providers.Metadata
                         break;
                     }
                 }
-
-                dto.Outcome = DataProviderOutcome.Success;
             }
             else
             {
@@ -90,7 +89,7 @@ namespace MusicBrowser.Providers.Metadata
                     entity.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);
                     entity.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
                     entity.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
-                    //entity.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
+                    entity.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
                 }
             }
             catch { }

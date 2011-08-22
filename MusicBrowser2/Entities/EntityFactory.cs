@@ -83,15 +83,13 @@ namespace MusicBrowser.Entities
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") [metadata " + metadataFile + " : " + !String.IsNullOrEmpty(metadata.Name) + "]", "start");
 #endif
+            Logging.Logger.Debug("FACTORY: " + item.FullPath);
 
             if (!String.IsNullOrEmpty(metadata.Name))
             {
                 string metadataText = File.ReadAllText(metadataFile);
                 entity = EntityPersistance.Deserialize(metadataText);
                 if (String.IsNullOrEmpty(entity.Title)) { entity.Title = item.Name; }
-                if (!String.IsNullOrEmpty(entity.BackgroundPath)) { entity.BackgroundPath = entity.BackgroundPath; }
-                if (!String.IsNullOrEmpty(entity.IconPath)) { entity.IconPath = entity.IconPath; }
-
                 entity.Path = item.FullPath;
                 return entity;
             }

@@ -72,9 +72,22 @@ namespace MusicBrowser.Providers
 
         public static string LocateFanArt(string path, ImageType type)
         {
-            string filename = "folder";
-            if (type == ImageType.Backdrop) { filename = "backdrop"; }
-            if (_images == null) { _images = StandingData.GetStandingData("images"); }
+            if (type == ImageType.Backdrop) { return internalFanArtSearch(path, "backdrop"); }
+            if (type == ImageType.Thumb)
+            {
+                string iconPath = internalFanArtSearch(path, "folder");
+                if (string.IsNullOrEmpty(iconPath)) 
+                {
+                    iconPath = internalFanArtSearch(path, "cover");
+                }
+                return iconPath;
+            }
+            return string.Empty;
+        }
+
+        private static string internalFanArtSearch(string path, string filename)
+        {
+            if (_images == null) { _images = Config.GetInstance().GetListSetting("Extensions.Image"); }
             foreach (string item in _images)
             {
                 string tmp = string.Concat(path, "\\", filename, item);

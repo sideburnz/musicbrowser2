@@ -53,21 +53,6 @@ namespace MusicBrowser
 
                 switch (entity.Kind)
                 {
-                    //case EntityKind.Song:
-                    //    {
-                    //        //Breadcrumbs crumbs = new Breadcrumbs(parentCrumbs);
-                    //        //crumbs.Add(entity);
-                    //        properties["Song"] = new SongModel((Entities.Kinds.Song)entity);
-                    //        properties["UINotifier"] = UINotifier.GetInstance();
-                    //        //properties["Crumbs"] = crumbs;
-                    //        _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSong", properties);
-                    //        break;
-                    //    }
-                    //case EntityKind.Playlist:
-                    //    {
-                    //        Playlist.PlaySong(entity, false);
-                    //        break;
-                    //    }
                     case EntityKind.Home:
                         {
                             EntityCollection entities = new EntityCollection();

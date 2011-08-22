@@ -14,10 +14,12 @@ namespace MusicBrowser.Providers.Metadata
             List<IDataProvider> providerList = new List<IDataProvider>();
 
             providerList.Add(new TagSharpMetadataProvider());
-            providerList.Add(new FileSystemMetadataProvider());
             providerList.Add(new MediaInfoProvider());
+            providerList.Add(new InheritanceProvider());
             //providerList.Add(new HTBackdropMetadataProvider());
             //providerList.Add(new LastFMMetadataProvider());
+            providerList.Add(new FileSystemMetadataProvider());
+            providerList.Add(new IconProvider());
             // add new providers here
             
             return providerList;
@@ -32,10 +34,8 @@ namespace MusicBrowser.Providers.Metadata
                 try
                 {
                     DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
-
                     if (!provider.CompatibleWith(entity.KindName)) { continue; }
                     if (!provider.isStale(lastAccess)) { continue; }
-
                     DataProviderDTO dto = PopulateDTO(entity);
                     dto = provider.Fetch(dto);
                     if (dto.Outcome == DataProviderOutcome.Success)
@@ -48,13 +48,12 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         Logging.Logger.Debug(dto.Outcome.ToString() + " " + dto.Errors[0]);
                     }
-
                 }
                 catch (Exception e)
                 {
-#if DEBUG
+//#if DEBUG
                     Logging.Logger.Error(new Exception(string.Format("MetadataProviderList failed whilst running {0} for {1}\r", provider.GetType().ToString(), entity.Path), e));
-#endif
+//#endif
                 }
             }
             if (requiresUpdate)
@@ -95,6 +94,7 @@ namespace MusicBrowser.Providers.Metadata
             dto.Children = entity.Children;
             dto.TrackCount = entity.TrackCount;
             dto.Title = entity.Title;
+            //dto.Label = entity.Label;
 
             switch (entity.Kind)
             {
@@ -149,6 +149,7 @@ namespace MusicBrowser.Providers.Metadata
             if (dto.Duration > 0) { entity.Duration = dto.Duration; }
             entity.Favorite = dto.Favorite;
             if (dto.Genres != null) { entity.Genres = dto.Genres; }
+//            if (!String.IsNullOrEmpty(dto.Label)) { entity.Label = dto.Label; }
             if (dto.Listeners > 0) { entity.Listeners = dto.Listeners; }
             if (!String.IsNullOrEmpty(dto.Lyrics)) { entity.Lyrics = dto.Lyrics; }
             if (!String.IsNullOrEmpty(dto.MusicBrainzId)) { entity.MusicBrainzID = dto.MusicBrainzId; }

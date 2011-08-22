@@ -10,8 +10,6 @@
 		<SummaryLine>
 
 - fix year being populated up
-- get genre's from IBN folder (IBNProvider)
-	- maybe randomize background for stock icons (make LocalIconProvider)
 - put file extentions for playlists in config
 - "Thread 0 failed whilst running BackgroundCacheProvider(G:\Music)
 ", Inner Exception, MusicBrowser, System.NullReferenceException, "Object reference not set to an instance of an object."

@@ -29,8 +29,8 @@ namespace MusicBrowser.Entities
 
         public IEntity()
         {
-            _view = Config.GetInstance().GetSetting("ViewFor" + KindName).ToLower();
-            _summary2Format = Config.GetInstance().GetSetting("SummaryLineFormatFor" + KindName);
+            _view = Config.GetInstance().GetSetting(KindName + ".View").ToLower();
+            _summary2Format = Config.GetInstance().GetSetting(KindName + ".Summary");
             DefaultBackgroundPath = string.Empty;
             Performers = new List<string>();
             ProviderTimeStamps = new Dictionary<string, DateTime>();
@@ -48,6 +48,7 @@ namespace MusicBrowser.Entities
         public string MusicBrainzID { get; set; }
 
         public string DiscId { get; set; }
+        public string Label { get; set; }
         public string TrackName { get; set; }
         public string ArtistName { get; set; }
         public string AlbumArtist { get; set; }
@@ -145,7 +146,7 @@ namespace MusicBrowser.Entities
         public virtual void UpdateValues()
         {
             // cache the sortname, we don't want to do this complex calc every time
-            _sortName = Config.HandleIgnoreWords(MacroSubstitution(Config.GetInstance().GetSetting("SortFor" + KindName))).ToLower();
+            _sortName = Config.HandleIgnoreWords(MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".SortOrder"))).ToLower();
 
             FirePropertyChanged("ShortSummaryLine1");
             FirePropertyChanged("ShortSummaryLine2");
@@ -179,7 +180,7 @@ namespace MusicBrowser.Entities
 
         public new string Description
         {
-            get { return MacroSubstitution(Config.GetInstance().GetSetting("FormatFor" + KindName)); }
+            get { return MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".Format")); }
         }
 
         public string MacroSubstitution(string input)
@@ -227,6 +228,8 @@ namespace MusicBrowser.Entities
                         output = output.Replace("[resolution]", Resolution); break;
                     case "codec":
                         output = output.Replace("[codec]", Codec); break;
+                    case "label":
+                        output = output.Replace("[label]", Label); break;
                     case "playcount":
                         output = output.Replace("[playcount]", PlayCount.ToString("N0")); break;
                     case "listeners":

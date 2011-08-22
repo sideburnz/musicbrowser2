@@ -16,6 +16,7 @@ namespace MusicBrowser.Providers.Metadata
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
             Logging.Logger.Debug(Name + ": " + dto.Path);
+            dto.Outcome = DataProviderOutcome.Success;
 
             #region killer questions
             if (!Directory.Exists(dto.Path))
@@ -62,7 +63,6 @@ namespace MusicBrowser.Providers.Metadata
             dto.Children = children;
             dto.Duration = duration;
 
-            dto.Outcome = DataProviderOutcome.Success;
             return dto;
         }
 
@@ -79,7 +79,7 @@ namespace MusicBrowser.Providers.Metadata
         public bool isStale(DateTime lastAccess)
         {
             // refresh weekly
-            return (lastAccess.AddDays(7) > DateTime.Now);
+            return (lastAccess.AddDays(7) < DateTime.Now);
         }
     }
 }

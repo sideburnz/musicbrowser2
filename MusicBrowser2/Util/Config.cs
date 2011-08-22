@@ -12,78 +12,79 @@ namespace MusicBrowser.Util
         private readonly XmlDocument _xml;
         private readonly string[,] _defaults = { 
                                       //  { "Language", "English" }, 
-                                        { "EnableFanArt", true.ToString() },
-                                        { "UseFolderImageForTracks", true.ToString() },
-                                        { "ShowVersion", false.ToString() },
+                { "EnableFanArt", true.ToString() },
+                { "UseFolderImageForTracks", true.ToString() },
+                { "ShowVersion", false.ToString() },
 
-                                        { "ShowClock", true.ToString() },
-                                        { "WindowsLibrarySupport", true.ToString() },
-                                        { "LogLevel", "error" },
-                                        { "LogDestination", "file" },
-                                        { "LogFile", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
-                                        { "ManualLibraryFile", Path.Combine(Helper.AppFolder, "MusicLibrary.vf") },
-                                        { "CacheEngine", "FileSystem" },
-                                        { "AutoLoadNowPlaying", false.ToString() },
-                                        { "HomeBackground", Path.Combine(Helper.AppFolder, "backdrop.jpg") },
+                { "ShowClock", true.ToString() },
+                { "WindowsLibrarySupport", true.ToString() },
+                { "LogLevel", "error" },
+                { "LogDestination", "file" },
+                { "LogFile", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
+                { "ManualLibraryFile", Path.Combine(Helper.AppFolder, "MusicLibrary.vf") },
+                { "CacheEngine", "FileSystem" },
+                { "AutoLoadNowPlaying", false.ToString() },
+                { "HomeBackground", Path.Combine(Helper.AppFolder, "backdrop.jpg") },
 
-                                        { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
+                { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
 
-                                        { "SortReplaceWords", "the|a|an" },
-                                        { "PutDiscInTrackNo", true.ToString() },
-
-//                                        { "LastFMUserName", string.Empty },
-//                                        { "UseInternetProviders", true.ToString() },
-                                      //  { "LastFMPasswordHash", string.Empty },
-                                      //  { "ScrobbleToFile", false.ToString() },
-                                      //  { "EnableScrobbling", false.ToString() },
+                { "SortReplaceWords", "the|a|an" },
+                { "PutDiscInTrackNo", true.ToString() },
                                         
-                                        { "ViewForHome", "Thumb" },
-                                        { "ViewForArtist", "List" },
-                                        { "ViewForAlbum", "List" },
-                                        { "ViewForUnknown", "List" },
-                                        { "ViewForGenre", "List" },
-                                        { "ViewForSong", "Not Used" },
-                                        { "ViewForPlaylist", "Not Used" },
-                                        { "ViewForFolder", "Not Used" },
-                                        { "ViewForHome", "Not Used" },
+                { "Home.View", "Thumb" },
+                { "Home.Format", "[title]" },
+                { "Home.SortOrder", "[title]" },
+                { "Home.Summary", "[title]" },
+
+                { "Artist.View", "List" },
+                { "Artist.Format", "[title]" },
+                { "Artist.SortOrder", "[title]" },
+                { "Artist.Summary", "[title]" },
+
+                { "Album.View", "List" },
+                { "Album.Format", "([release]) [title]" },
+                { "Album.SortOrder", "[release]" },
+                { "Album.Summary", "[title]" },
+
+                { "Unknown.View", "List" },
+                { "Unknown.Format", "[title]" },
+                { "Unknown.SortOrder", "[title]" },
+                { "Unknown.Summary", "[title]" },
+
+                { "Genre.View", "List" },
+                { "Genre.Format", "[title]" },
+                { "Genre.SortOrder", "[title]" },
+                { "Genre.Summary", "[title]" },
+
+                { "Song.View", "List" },
+                { "Song.Format", "[track] - [title]" },
+                { "Song.SortOrder", "[track]" },
+                { "Song.Summary", "[title]" },
+
+                { "Playlist.View", "List" },
+                { "Playlist.Format", "[title]" },
+                { "Playlist.SortOrder", "[title]" },
+                { "Playlist.Summary", "[title]" },
+
+                { "Folder.View", "List" },
+                { "Folder.Format", "[title]" },
+                { "Folder.SortOrder", "[title]" },
+                { "Folder.Summary", "[title]" },
                                         
-                                        { "FormatForUnknown", "[title]" },
-                                        { "FormatForSong", "[track] - [title]" },
-                                        { "FormatForAlbum", "([release]) [title]" },
-                                        { "FormatForArtist", "[title]" },
-                                        { "FormatForPlaylist", "[title]" },
-                                        { "FormatForFolder", "[title]" },
-                                        { "FormatForHome", "[title]" },
-                                        { "FormatForGenre", "[title]" },
+                { "ThreadPoolSize", "2" },
+                { "LogStatsOnClose", false.ToString() },
 
-                                        { "SortForUnknown", "[title]" },
-                                        { "SortForSong", "[track] - [title]" },
-                                        { "SortForAlbum", "[title]" },
-                                        { "SortForArtist", "[title]" },
-                                        { "SortForPlaylist", "[title]" },
-                                        { "SortForFolder", "[title]" },
-                                        { "SortForHome", "[title]" },
-                                        { "SortForGenre", "[title]" },
+                { "Engine", "MediaCentre" },
+                { "foobar2000", "C:\\Program Files\\foobar2000\\foobar2000.exe" },
 
-                                        { "SummaryLineFormatForUnknown", "[title]" },
-                                        { "SummaryLineFormatForSong", "[track] - [title]" },
-                                        { "SummaryLineFormatForAlbum", "([release]) [title]" },
-                                        { "SummaryLineFormatForArtist", "[title]" },
-                                        { "SummaryLineFormatForPlaylist", "[title]" },
-                                        { "SummaryLineFormatForFolder", "[title]" },
-                                        { "SummaryLineFormatForHome", "[title]" },
-                                        { "SummaryLineFormatForGenre", "[title]" },
-                                        
-                                        { "ThreadPoolSize", "2" },
-                                        { "LogStatsOnClose", false.ToString() },
+                { "CachePath", Helper.CachePath },
 
-                                        { "Engine", "MediaCentre" },
-                                        { "foobar2000", "C:\\Program Files\\foobar2000\\foobar2000.exe" },
-
-                                        { "CachePath", Helper.CachePath }
+                { "Extensions.Playlist", ".wpl|.m3u|.asx" },
+                { "Extensions.Image", ".jpg|.jpeg" },
+                { "Extensions.Ignore", ".xml|.cue|.txt" }
  
 //                                        { "ShowCDs", true.ToString() }
-                                      };
+                                               };
 
         #region singleton
         static Config _instance;
@@ -142,7 +143,7 @@ namespace MusicBrowser.Util
             string retval = string.Empty;
             try
             {
-                string xpathString = string.Format("Settings/{0}", key);
+                string xpathString = string.Format("Settings/{0}", key.Replace('.', '/'));
                 retval = _xml.SelectSingleNode(xpathString).InnerText;
             }
             catch { }
@@ -173,19 +174,44 @@ namespace MusicBrowser.Util
             return (GetSetting(key).ToLower() == "true");
         }
 
+        public IEnumerable<string> GetListSetting(string key)
+        {
+            return GetSetting(key).ToLower().Split('|');
+        }
+
         public void SetSetting(string key, string value)
         {
             string configFile = Helper.AppConfigFile;
-            string xpathString = string.Format("Settings/{0}", key);
+            string xpathString = string.Format("Settings/{0}", key.Replace('.', '/'));
 
             // update the cache
             _settingCache[key] = value;
             XmlNode node = _xml.SelectSingleNode(xpathString);
             if (node == null)
             {
-                node = _xml.CreateNode(XmlNodeType.Element, key, string.Empty);
-                node.InnerText = value;
-                _xml.FirstChild.AppendChild(node);
+                if (key.Contains("."))
+                {
+                    string[] parts = key.Split('.');
+                    if (_xml.SelectSingleNode(string.Format("Settings/{0}", parts[0])) == null)
+                    {
+                        XmlNode pNode = _xml.CreateNode(XmlNodeType.Element, parts[0], string.Empty);
+                        _xml.FirstChild.AppendChild(pNode);
+                    }
+                    else
+                    {
+                        XmlNode pNode = _xml.SelectSingleNode(string.Format("Settings/{0}", parts[0]));
+
+                        node = _xml.CreateNode(XmlNodeType.Element, parts[1], string.Empty);
+                        node.InnerText = value;
+                        pNode.AppendChild(node);
+                    }
+                }
+                else
+                {
+                    node = _xml.CreateNode(XmlNodeType.Element, key, string.Empty);
+                    node.InnerText = value;
+                    _xml.FirstChild.AppendChild(node);
+                }
             }
             else
             {
@@ -209,7 +235,7 @@ namespace MusicBrowser.Util
         static IEnumerable<string> _sortIgnore;
         public static string HandleIgnoreWords(string value)
         {
-            if (_sortIgnore == null) { _sortIgnore = _instance.GetSetting("SortReplaceWords").Split('|'); }
+            if (_sortIgnore == null) { _sortIgnore = _instance.GetListSetting("SortReplaceWords"); }
 
             foreach (string item in _sortIgnore)
             {

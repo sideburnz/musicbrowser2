@@ -44,7 +44,10 @@ namespace MusicBrowser.Providers
                 entity.Parent = _entity;
 
                 // fire off the metadata providers
-                CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
+                if (!entity.Kind.Equals(EntityKind.Home))
+                {
+                    CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
+                }
 
                 // fire off cache tasks for sub items
                 if (Util.Helper.IsFolder(item.Attributes))
@@ -54,11 +57,9 @@ namespace MusicBrowser.Providers
                 }
 
                 entity.UpdateValues();
-                //CacheEngineFactory.GetCacheEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
             }
 
             _entity.UpdateValues();
-            //CacheEngineFactory.GetCacheEngine().Update(_entity.CacheKey, EntityPersistance.Serialize(_entity));
         }
 
         #endregion

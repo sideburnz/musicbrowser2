@@ -15,13 +15,14 @@ namespace MusicBrowser.Providers.Metadata
 
         private const string Name = "MediaInfo.DLL";
         private static int _state = 0;
-        private static object obj;
+        private static object obj = new object();
 
         public string FriendlyName() { return Name; }
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
             Logging.Logger.Debug(Name + ": " + dto.Path);
+            dto.Outcome = DataProviderOutcome.Success;
 
             #region killer questions
 
@@ -32,7 +33,7 @@ namespace MusicBrowser.Providers.Metadata
                 return dto;
             }
 
-            if (!Helper.IsSong(dto.Path))
+            if (dto.DataType != DataTypes.Song)
             {
                 dto.Outcome = DataProviderOutcome.InvalidInput;
                 dto.Errors = new List<string> { "Not a song: " + dto.Path };
@@ -43,24 +44,23 @@ namespace MusicBrowser.Providers.Metadata
 
             try
             {
-
                 MediaInfo mediaInfo = new MediaInfo();
                 int i = mediaInfo.Open(dto.Path);
-
                 if (i != 0)
                 {
                     // sample rate
                     string audioSampleRate = mediaInfo.Get(StreamKind.Audio, 0, "SamplingRate/String");
                     dto.SampleRate = audioSampleRate;
-
                     // channels
                     int audioChannels;
-                    Int32.TryParse(mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)"), out audioChannels);
-                    switch (audioChannels)
+                    if (Int32.TryParse(mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)"), out audioChannels))
                     {
-                        case 1: dto.Channels = "Mono"; break;
-                        case 2: dto.Channels = "Stereo"; break;
-                        default: dto.Channels = audioChannels + " channels"; break;
+                        switch (audioChannels)
+                        {
+                            case 1: dto.Channels = "Mono"; break;
+                            case 2: dto.Channels = "Stereo"; break;
+                            default: dto.Channels = audioChannels + " channels"; break;
+                        }
                     }
 
                     // sample resolution
@@ -69,19 +69,20 @@ namespace MusicBrowser.Providers.Metadata
 
                     // track rating
                     int Rating;
-                    Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Rating"), out Rating);
-                    dto.Rating = Rating;
+                    if (Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Rating"), out Rating)) { dto.Rating = Rating; }
+
+                    // label (sony/bmg etc)
+                    string label = mediaInfo.Get(StreamKind.General, 0, "Label");
+                    dto.Label = label;
                 }
                 mediaInfo.Close();
             }
             catch (Exception e)
             {
                 Logging.Logger.Error(e);
-
                 dto.Outcome = DataProviderOutcome.SystemError;
                 dto.Errors = new List<string> { "Error retrieving data" };
             }
-
             return dto;
         }
 
@@ -98,13 +99,15 @@ namespace MusicBrowser.Providers.Metadata
 
         private static bool Enabled()
         {
-
             if (_state == 0)
             {
-                _state = -1;
-                if (CheckForLib())
+                lock (obj)
                 {
-                    _state = 1;
+                    _state = -1;
+                    if (CheckForLib())
+                    {
+                        _state = 1;
+                    }
                 }
             }
             return (_state == 1);
@@ -112,16 +115,13 @@ namespace MusicBrowser.Providers.Metadata
 
         private static bool CheckForLib()
         {
-            lock (obj)
+            string mediaInfoPath = Path.Combine(Helper.PlugInFolder, "mediainfo.dll");
+            if (File.Exists(mediaInfoPath))
             {
-                string mediaInfoPath = Path.Combine(Helper.PlugInFolder, "mediainfo.dll");
-                if (File.Exists(mediaInfoPath))
-                {
-                    var handle = LoadLibrary(mediaInfoPath);
-                    return handle != IntPtr.Zero;
-                }
-                return false;
+                var handle = LoadLibrary(mediaInfoPath);
+                return handle != IntPtr.Zero;
             }
+            return false;
         }
     }
 }

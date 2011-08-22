@@ -228,13 +228,19 @@ namespace MusicBrowser.Util
             Dictionary<string,knownType> retVal = new Dictionary<string,knownType>();
             IEnumerable<string> extentions;
 
-            extentions = StandingData.GetStandingData("playlists");
+            extentions = Config.GetInstance().GetListSetting("Extensions.Playlist");
             foreach (string extention in extentions)
             {
                 retVal.Add(extention, knownType.Playlist);
             }
 
-            extentions = StandingData.GetStandingData("nonentityextentions");
+            extentions = Config.GetInstance().GetListSetting("Extensions.Ignore");
+            foreach (string extention in extentions)
+            {
+                retVal.Add(extention, knownType.Other);
+            }
+
+            extentions = Config.GetInstance().GetListSetting("Extensions.Image");
             foreach (string extention in extentions)
             {
                 retVal.Add(extention, knownType.Other);
