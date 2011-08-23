@@ -62,7 +62,7 @@ namespace MusicBrowser.CacheEngine
 
         private string CalculateCacheFileFromKey(string key)
         {
-            string temp =  _cacheLocation + "\\" + key.Substring(0, 2) + "\\";
+            string temp =  string.Concat(_cacheLocation, "\\", key.Substring(0, 2), "\\");
             Directory.CreateDirectory(temp);
             return temp + key + ".cache.xml";
         }

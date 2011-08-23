@@ -25,43 +25,45 @@ namespace MusicBrowser.Providers.Metadata
                 dto.Errors = new List<string> { "Not a folder: " + dto.Path };
                 return dto;
             }
-
             #endregion
 
-            int descendants = 0;
-            int children = 0;
             int duration = 0;
+            int albums = 0;
+            int artists = 0;
+            int tracks = 0;
 
-            ICacheEngine cacheEngine = CacheEngineFactory.GetCacheEngine();
+            EntityFactory factory = new EntityFactory();
 
             IEnumerable<FileSystemItem> allPaths = FileSystemProvider.GetAllSubPaths(dto.Path);
             foreach (FileSystemItem item in allPaths)
             {
-                if (Util.Helper.IsSong(item.FullPath))
-                {
-                    descendants++;
+                IEntity e = factory.GetItem(item);
 
-                    //TODO: can this be done smarter? - Tag#lite?
-                    IEntity e = EntityPersistance.Deserialize(cacheEngine.Read(Util.Helper.GetCacheKey(item.FullPath)));
-                    duration += e.Duration;
+                switch (e.Kind)
+                {
+                    case EntityKind.Song:
+                        {
+                            tracks++;
+                            duration += e.Duration;
+                            break;
+                        }
+                    case EntityKind.Album:
+                        {
+                            albums++;
+                            break;
+                        }
+                    case EntityKind.Artist:
+                        {
+                            artists++;
+                            break;
+                        }
                 }
             }
-            dto.TrackCount = descendants;
 
-            IEnumerable<FileSystemItem> childPaths = FileSystemProvider.GetFolderContents(dto.Path);
-            foreach (FileSystemItem item in childPaths)
-            {
-                if (Util.Helper.IsSong(item.FullPath))
-                {
-                    children++;
-                }
-                else if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
-                {
-                    children++;
-                }
-            }
-            dto.Children = children;
+            dto.TrackCount = tracks;
             dto.Duration = duration;
+            dto.ArtistCount = artists;
+            dto.AlbumCount = albums;
 
             return dto;
         }

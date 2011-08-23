@@ -27,6 +27,8 @@ namespace MusicBrowser.Providers.Metadata
 
             #endregion
 
+            //TODO: also inherit the artist from the tracks if the album artist isn't set
+
             DateTime albumDate = DateTime.MinValue;
             ICacheEngine cacheEngine = CacheEngineFactory.GetCacheEngine();
 

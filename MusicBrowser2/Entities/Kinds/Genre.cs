@@ -65,8 +65,11 @@ namespace MusicBrowser.Entities.Kinds
 
             StringBuilder sb = new StringBuilder();
 
-            if (Children == 1) { sb.Append("1 Artist  "); }
-            if (Children > 1) { sb.Append(Children + " Artists  "); }
+            if (ArtistCount == 1) { sb.Append("1 Artist  "); }
+            if (ArtistCount > 1) { sb.Append(ArtistCount + " Artists  "); }
+
+            if (AlbumCount == 1) { sb.Append("1 Albums  "); }
+            if (AlbumCount > 1) { sb.Append(AlbumCount + " Albums  "); }
 
             if (TrackCount == 1) { sb.Append("1 Track  "); }
             if (TrackCount > 1) { sb.Append(TrackCount + " Tracks  "); }

@@ -15,27 +15,6 @@ namespace MusicBrowser.Entities.Kinds
             get { return EntityKind.Song; }
         }
 
-        public string Track
-        {
-            get
-            {
-                if (Util.Config.GetInstance().GetBooleanSetting("PutDiscInTrackNo"))
-                {
-                    if (TrackNumber < 1) 
-                    { 
-                        return string.Empty; 
-                    }
-                    if (DiscNumber > 0) 
-                    {
-                        return DiscNumber + "." + TrackNumber;
-                    }
-                    return TrackNumber.ToString(); 
-                }
-                if (TrackNumber > 0) { return TrackNumber.ToString(); }
-                return string.Empty;
-            }
-        }
-
         public override bool Playable
         {
             get
@@ -72,29 +51,6 @@ namespace MusicBrowser.Entities.Kinds
 
             if (sb.Length > 0) { base.ShortSummaryLine1 = "Song  (" + sb.ToString().Trim() + ")"; }
             base.UpdateValues();
-        }
-
-        public override IEntity Parent
-        {
-            get { return base.Parent; }
-            set
-            {
-                base.Parent = value;
-                if (value.Kind.Equals(EntityKind.Album))
-                {
-                    if (String.IsNullOrEmpty(AlbumName)) { AlbumName = value.AlbumName; }
-                    Dirty = true;
-                }
-                if (value.Kind.Equals(EntityKind.Album))
-                {
-                    if (String.IsNullOrEmpty(AlbumArtist)) { AlbumArtist = value.ArtistName; }
-                    Dirty = true;
-                }
-                if (Util.Config.GetInstance().GetBooleanSetting("UseFolderImageForTracks"))
-                {
-                    IconPath = value.IconPath;
-                }
-            }
         }
     }
 }

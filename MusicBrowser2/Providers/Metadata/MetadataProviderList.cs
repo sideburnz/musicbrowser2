@@ -91,10 +91,11 @@ namespace MusicBrowser.Providers.Metadata
             dto.TotalPlays = entity.TotalPlays;
             dto.TrackNumber = entity.TrackNumber;
 
-            dto.Children = entity.Children;
             dto.TrackCount = entity.TrackCount;
             dto.Title = entity.Title;
-            //dto.Label = entity.Label;
+            dto.Label = entity.Label;
+            dto.AlbumCount = entity.AlbumCount;
+            dto.ArtistCount = entity.ArtistCount;
 
             switch (entity.Kind)
             {
@@ -171,7 +172,8 @@ namespace MusicBrowser.Providers.Metadata
             if (!String.IsNullOrEmpty(dto.Title)) { entity.Title = dto.Title; }
             if (dto.TotalPlays > 0) { entity.TotalPlays = dto.TotalPlays; }
             if (dto.TrackNumber > 0) { entity.TrackNumber = dto.TrackNumber; }
-            if (dto.Children > 0) { entity.Children = dto.Children; }
+            if (dto.AlbumCount > 0) { entity.AlbumCount = dto.AlbumCount; }
+            if (dto.ArtistCount > 0) { entity.ArtistCount = dto.ArtistCount; }
             if (dto.TrackCount > 0) { entity.TrackCount = dto.TrackCount; }
 
             if (dto.ThumbImage != null)

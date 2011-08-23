@@ -79,7 +79,8 @@ namespace MusicBrowser.Entities
         public int Index { get; set; }
         public virtual string ShortSummaryLine1 { get; set; }
         public int Duration { get; set; }
-        public int Children { get; set; }
+        public int AlbumCount { get; set; }
+        public int ArtistCount { get; set; }
         public int TrackCount { get; set; }
         public bool Dirty { get; set; }
         public long Version { get; set; }
@@ -251,8 +252,8 @@ namespace MusicBrowser.Entities
                         break;
                     case "kind":
                         output = output.Replace("[kind]", KindName); break;
-                    case "children":
-                        output = output.Replace("[children]", Children.ToString("N0")); break;
+                    case "tracks":
+                        output = output.Replace("[tracks]", TrackCount.ToString("N0")); break;
                     case "rating":
                         output = output.Replace("[rating]", Rating.ToString()); break;
                     case "favorite":

@@ -58,7 +58,8 @@ namespace MusicBrowser.Interfaces
         public DateTime ReleaseDate;
         public string Label;
 
-        public int Children;
+        public int AlbumCount;
+        public int ArtistCount;
         public int TrackCount;
 
         public string Codec;

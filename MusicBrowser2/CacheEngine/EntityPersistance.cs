@@ -34,7 +34,8 @@ namespace MusicBrowser.CacheEngine
             writer.WriteElementString("IconPath", data.IconPath);
             writer.WriteElementString("BackgroundPath", data.BackgroundPath);
 
-            writer.WriteElementString("Children", data.Children.ToString());
+            writer.WriteElementString("Artists", data.ArtistCount.ToString());
+            writer.WriteElementString("Albums", data.AlbumCount.ToString());
             writer.WriteElementString("Tracks", data.TrackCount.ToString());
 
             writer.WriteElementString("MusicBrainzID", data.MusicBrainzID);
@@ -94,42 +95,41 @@ namespace MusicBrowser.CacheEngine
 
                 xml.LoadXml(data);
 
-                EntityKind kind = EntityKindParse(Helper.ReadXmlNode(xml, "EntityXML/@type"));
-                switch (kind)
+                switch (Helper.ReadXmlNode(xml, "EntityXML/@type").ToLower())
                 {
-                    case EntityKind.Album:
+                    case "song":
+                        {
+                            entity = new Song();
+                            break;
+                        }
+                    case "album":
                         {
                             entity = new Album();
                             break;
                         }
-                    case EntityKind.Artist:
+                    case "artist":
                         {
                             entity = new Artist();
                             break;
                         }
-                    case EntityKind.Folder:
-                        {
-                            entity = new Folder();
-                            break;
-                        }
-                    case EntityKind.Genre:
+                    case "genre":
                         {
                             entity = new Genre();
                             break;
                         }
-                    case EntityKind.Home:
-                        {
-                            entity = new Home();
-                            break;
-                        }
-                    case EntityKind.Playlist:
+                    case "playlist":
                         {
                             entity = new Playlist();
                             break;
                         }
-                    case EntityKind.Song:
+                    case "folder":
                         {
-                            entity = new Song();
+                            entity = new Folder();
+                            break;
+                        }
+                    case "home":
+                        {
+                            entity = new Home();
                             break;
                         }
                     default:
@@ -169,7 +169,8 @@ namespace MusicBrowser.CacheEngine
                 int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Rating"), out i); entity.Rating = i;
                 int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/TrackNumber"), out i); entity.TrackNumber = i;
                 int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/DiscNumber"), out i); entity.DiscNumber = i;
-                int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Children"), out i); entity.Children = i;
+                int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Albums"), out i); entity.AlbumCount = i;
+                int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Artists"), out i); entity.ArtistCount = i;
                 int.TryParse(Helper.ReadXmlNode(xml, "EntityXML/Tracks"), out i); entity.TrackCount = i;
 
                 // date reads
@@ -201,33 +202,6 @@ namespace MusicBrowser.CacheEngine
                 return new Unknown();
             }
             return entity;
-        }
-
-        /// <summary>
-        /// EntityKind is a enum, this parse method converts string to an EntityKind
-        /// </summary>
-        /// <param name="value">value to parse</param>
-        /// <returns>EntityKind</returns>
-        public static EntityKind EntityKindParse(string value)
-        {
-            switch (value.ToLower())
-            {
-                case "album":
-                    return EntityKind.Album;
-                case "artist":
-                    return EntityKind.Artist;
-                case "folder":
-                    return EntityKind.Folder;
-                case "home":
-                    return EntityKind.Home;
-                case "playlist":
-                    return EntityKind.Playlist;
-                case "song":
-                    return EntityKind.Song;
-                case "genre":
-                    return EntityKind.Genre;
-            }
-            return EntityKind.Unknown;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace MusicBrowser.Entities
 {
     public class EntityFactory
     {
-        private static readonly long FirstCompatibleCache = Util.Helper.ParseVersion("2.2.2.4");
+        private static readonly long FirstCompatibleCache = Util.Helper.ParseVersion("2.2.2.6");
         private readonly ICacheEngine _cacheEngine = CacheEngineFactory.GetCacheEngine();
 
         #region IEntityFactory Members
