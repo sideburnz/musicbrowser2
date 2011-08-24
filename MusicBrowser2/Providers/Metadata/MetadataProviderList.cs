@@ -16,8 +16,11 @@ namespace MusicBrowser.Providers.Metadata
             providerList.Add(new TagSharpMetadataProvider());
             providerList.Add(new MediaInfoProvider());
             providerList.Add(new InheritanceProvider());
-            //providerList.Add(new HTBackdropMetadataProvider());
-            //providerList.Add(new LastFMMetadataProvider());
+            if (Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+            {
+                providerList.Add(new HTBackdropMetadataProvider());
+                providerList.Add(new LastFMMetadataProvider());
+            }
             providerList.Add(new FileSystemMetadataProvider());
             providerList.Add(new IconProvider());
             // add new providers here
@@ -41,13 +44,13 @@ namespace MusicBrowser.Providers.Metadata
                     if (dto.Outcome == DataProviderOutcome.Success)
                     {
                         entity = PopulateEntity(entity, dto);
-                        entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
                         requiresUpdate = true;
                     }
                     else
                     {
                         Logging.Logger.Debug(dto.Outcome.ToString() + " " + dto.Errors[0]);
                     }
+                    entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
                 }
                 catch (Exception e)
                 {
@@ -97,6 +100,9 @@ namespace MusicBrowser.Providers.Metadata
             dto.AlbumCount = entity.AlbumCount;
             dto.ArtistCount = entity.ArtistCount;
 
+            dto.hasThumbImage = !String.IsNullOrEmpty(entity.IconPath);
+            dto.hasBackImage = !String.IsNullOrEmpty(entity.BackgroundPath);
+
             switch (entity.Kind)
             {
                     case EntityKind.Album:
@@ -109,6 +115,7 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         dto.DataType = DataTypes.Artist;
                         dto.ArtistName = entity.Title;
+                        dto.AlbumArtist = entity.Title;
                         break;
                     }
                     case EntityKind.Disc:
@@ -150,7 +157,7 @@ namespace MusicBrowser.Providers.Metadata
             if (dto.Duration > 0) { entity.Duration = dto.Duration; }
             entity.Favorite = dto.Favorite;
             if (dto.Genres != null) { entity.Genres = dto.Genres; }
-//            if (!String.IsNullOrEmpty(dto.Label)) { entity.Label = dto.Label; }
+            if (!String.IsNullOrEmpty(dto.Label)) { entity.Label = dto.Label; }
             if (dto.Listeners > 0) { entity.Listeners = dto.Listeners; }
             if (!String.IsNullOrEmpty(dto.Lyrics)) { entity.Lyrics = dto.Lyrics; }
             if (!String.IsNullOrEmpty(dto.MusicBrainzId)) { entity.MusicBrainzID = dto.MusicBrainzId; }
@@ -188,6 +195,34 @@ namespace MusicBrowser.Providers.Metadata
                 string backgroundPath = Util.Helper.ImageCacheFullName(entity.CacheKey, "Backgrounds");
                 ImageProvider.Save(ImageProvider.Resize(dto.BackImage, ImageType.Backdrop), backgroundPath);
                 entity.BackgroundPath = backgroundPath;
+            }
+
+            switch (dto.DataType)
+            {
+                case DataTypes.Album:
+                    {
+                        if (!String.IsNullOrEmpty(dto.AlbumName)) 
+                        {
+                            entity.Title = dto.AlbumName;  
+                        }
+                        break;
+                    }
+                case DataTypes.Artist:
+                    {
+                        if (!String.IsNullOrEmpty(dto.ArtistName))
+                        {
+                            entity.Title = dto.ArtistName;
+                        }
+                        break;
+                    }
+                case DataTypes.Song:
+                    {
+                        if (!String.IsNullOrEmpty(dto.TrackName))
+                        {
+                            entity.Title = dto.TrackName;
+                        }
+                        break;
+                    }
             }
             
             return entity;

@@ -42,6 +42,8 @@ namespace MusicBrowser.Providers.Metadata
 
             #endregion
 
+            Statistics.GetInstance().Hit(Name + ".hit");
+
             try
             {
                 MediaInfo mediaInfo = new MediaInfo();

@@ -27,6 +27,8 @@ namespace MusicBrowser.Providers.Metadata
             }
             #endregion
 
+            Statistics.GetInstance().Hit(Name + ".hit");
+
             int duration = 0;
             int albums = 0;
             int artists = 0;

@@ -28,6 +28,8 @@ namespace MusicBrowser.Providers.Metadata
 
             #endregion
 
+            Statistics.GetInstance().Hit(Name + ".hit");
+
             TagLib.File fileTag = TagLib.File.Create(dto.Path);
 
             if (!String.IsNullOrEmpty(fileTag.Tag.Title))

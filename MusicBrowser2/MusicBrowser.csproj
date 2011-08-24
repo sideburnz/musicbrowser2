@@ -133,8 +133,8 @@
     <Compile Include="Providers\Metadata\InheritanceProvider.cs" />
     <Compile Include="Providers\Metadata\IconProvider.cs" />
     <Compile Include="Providers\Metadata\FileSystemMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\_HTBackdropMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\_LastFMMetadataProvider.cs" />
+    <Compile Include="Providers\Metadata\HTBackdropMetadataProvider.cs" />
+    <Compile Include="Providers\Metadata\LastFMMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\MediaInfoProvider.cs" />
     <Compile Include="Providers\Metadata\MetadataProviderList.cs" />
     <Compile Include="Providers\Metadata\TagSharpMetadataProvider.cs" />
@@ -186,12 +186,6 @@
     <Compile Include="WebServices\Services\HTBackdrop\ArtistImagesService.cs" />
     <Compile Include="WebServices\Services\LastFM\AlbumInfoService.cs" />
     <Compile Include="WebServices\Services\LastFM\ArtistInfoService.cs" />
-    <Compile Include="WebServices\Services\LastFM\LastFMContext.cs" />
-    <Compile Include="WebServices\Services\LastFM\LastFMService.cs" />
-    <Compile Include="WebServices\Services\LastFM\LoveTrackService.cs" />
-    <Compile Include="WebServices\Services\LastFM\NowPlayingService.cs" />
-    <Compile Include="WebServices\Services\LastFM\ScrobbleService.cs" />
-    <Compile Include="WebServices\Services\LastFM\SessionService.cs" />
     <Compile Include="WebServices\Services\LastFM\TrackInfoService.cs" />
     <Compile Include="WebServices\WebServiceProviders\LastFMWebProvider.cs" />
   </ItemGroup>

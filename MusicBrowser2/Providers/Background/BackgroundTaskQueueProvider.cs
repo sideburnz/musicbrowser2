@@ -97,7 +97,7 @@ namespace MusicBrowser.Providers.Background
                     {
                         task.Execute();
                         // there's a problem with the UI thread saying it's not responding
-                        Thread.Sleep(5);
+                        Thread.Sleep(15);
                     }
                     catch (Exception e)
                     {

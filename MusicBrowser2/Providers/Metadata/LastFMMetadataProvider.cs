@@ -3,13 +3,13 @@ using MusicBrowser.Entities;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.WebServices.Services.LastFM;
 using MusicBrowser.WebServices.WebServiceProviders;
+using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    class LastFMMetadataProvider //: IMetadataProvider
+    class LastFMMetadataProvider : IDataProvider
     {
-        private const string Marker = "LAST.FM";
-
+        private const string Name = "Last.fm";
 
         private const int MinDaysBetweenHits = 1;
         private const int MaxDaysBetweenHits = 7;
@@ -17,6 +17,164 @@ namespace MusicBrowser.Providers.Metadata
 
         private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
         
+        public DataProviderDTO Fetch(DataProviderDTO dto)
+        {
+            Logging.Logger.Debug(Name + ": " + dto.Path);
+            dto.Outcome = DataProviderOutcome.Success;
+
+            Statistics.GetInstance().Hit(Name + ".hit");
+
+            WebServiceProvider lfmProvider = new LastFMWebProvider();
+
+            switch (dto.DataType)
+            {
+                case DataTypes.Album:
+                    {
+                        #region killer questions
+
+                        if (string.IsNullOrEmpty(dto.AlbumName))
+                        {
+                            dto.Outcome = DataProviderOutcome.InvalidInput;
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing data: Album name" };
+                            return dto;
+                        }
+
+                        if (string.IsNullOrEmpty(dto.AlbumArtist))
+                        {
+                            dto.Outcome = DataProviderOutcome.InvalidInput;
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing data: Artist name" };
+                            return dto;
+                        }
+
+                        #endregion
+
+                        AlbumInfoServiceDTO albumDTO = new AlbumInfoServiceDTO();
+                        albumDTO.Album = dto.AlbumName;
+                        albumDTO.MusicBrainzID = dto.MusicBrainzId;
+                        albumDTO.Artist = dto.AlbumArtist;
+                        albumDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
+
+                        AlbumInfoService albumService = new AlbumInfoService();
+                        albumService.SetProvider(lfmProvider);
+                        albumService.Fetch(albumDTO);
+
+                        // handle error back from the provider
+                        if (albumDTO.Status == WebServiceStatus.Error)
+                        {
+                            dto.Outcome = DataProviderOutcome.SystemError;
+                            dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + albumDTO.Error + ")" };
+                            return dto;
+                        }
+
+                        dto.PlayCount = albumDTO.Plays;
+                        dto.Listeners = albumDTO.Listeners;
+                        dto.TotalPlays = albumDTO.TotalPlays;
+
+                        dto.Title = albumDTO.Album;
+                        dto.Summary = albumDTO.Summary;
+                        dto.MusicBrainzId = albumDTO.MusicBrainzID;
+
+                        dto.ReleaseDate = albumDTO.Release;
+
+                        if (!dto.hasThumbImage && !string.IsNullOrEmpty(albumDTO.Image))
+                        {
+                            dto.ThumbImage = ImageProvider.Download(albumDTO.Image, ImageType.Thumb);
+                        }
+
+                        break;
+                    }
+                case DataTypes.Artist:
+                    {
+                        #region killer questions
+
+                        if (string.IsNullOrEmpty(dto.ArtistName))
+                        {
+                            dto.Outcome = DataProviderOutcome.InvalidInput;
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing data: Artist name" };
+                            return dto;
+                        }
+
+                        #endregion
+
+                        ArtistInfoServiceDTO artistDTO = new ArtistInfoServiceDTO();
+                        artistDTO.Artist = dto.ArtistName;
+                        artistDTO.MusicBrainzID = dto.MusicBrainzId;
+                        artistDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
+
+                        ArtistInfoService artistService = new ArtistInfoService();
+                        artistService.SetProvider(lfmProvider);
+                        artistService.Fetch(artistDTO);
+
+                        // handle error back from the provider
+                        if (artistDTO.Status == WebServiceStatus.Error)
+                        {
+                            dto.Outcome = DataProviderOutcome.SystemError;
+                            dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + artistDTO.Error + ")" };
+                            return dto;
+                        }
+
+                        dto.PlayCount = artistDTO.Plays;
+                        dto.Listeners = artistDTO.Listeners;
+                        dto.TotalPlays = artistDTO.TotalPlays;
+
+                        dto.ArtistName = artistDTO.Artist;
+                        dto.MusicBrainzId = artistDTO.MusicBrainzID;
+                        dto.Summary = artistDTO.Summary;
+
+                        if (!dto.hasThumbImage && !string.IsNullOrEmpty(artistDTO.Image))
+                        {
+                            dto.ThumbImage = ImageProvider.Download(artistDTO.Image, ImageType.Thumb);
+                        }
+
+                        break;
+                    }
+                case DataTypes.Song:
+                    {
+                        #region killer questions
+
+                        if (string.IsNullOrEmpty(dto.ArtistName))
+                        {
+                            dto.Outcome = DataProviderOutcome.InvalidInput;
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing data: Artist name" };
+                            return dto;
+                        }
+
+                        #endregion
+
+                        TrackInfoDTO trackDTO = new TrackInfoDTO();
+                        trackDTO.Track = dto.TrackName;
+                        trackDTO.Artist = dto.ArtistName;
+                        trackDTO.MusicBrainzID = dto.MusicBrainzId;
+                        trackDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
+
+                        TrackInfoService trackService = new TrackInfoService();
+                        trackService.SetProvider(lfmProvider);
+                        trackService.Fetch(trackDTO);
+
+                        // handle error back from the provider
+                        if (trackDTO.Status == WebServiceStatus.Error)
+                        {
+                            dto.Outcome = DataProviderOutcome.SystemError;
+                            dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + trackDTO.Error + ")" };
+                            return dto;
+                        }
+
+                        dto.PlayCount = trackDTO.Plays;
+                        dto.Listeners = trackDTO.Listeners;
+                        dto.TotalPlays = trackDTO.TotalPlays;
+
+                        dto.TrackName = trackDTO.Track;
+                        dto.Summary = trackDTO.Summary;
+                        dto.MusicBrainzId = trackDTO.MusicBrainzID;
+                        dto.Favorite = trackDTO.Loved;
+
+                        break;
+                    }
+            }
+
+            return dto;
+        }
+
         /// <summary>
         /// This determines if data should be refreshed, it makes it more likely
         /// the older the data is to be refreshed.
@@ -31,118 +189,20 @@ namespace MusicBrowser.Providers.Metadata
             return (refreshProbability >= Rnd.Next(100));
         }
 
-        #region IMetadataProvider Members
-
-        public IEntity Fetch(IEntity entity)
+        public string FriendlyName()
         {
-            //killer questions
-            if (!Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders")) { return entity; }
-            //if (entity.Properties.ContainsKey(Marker))
-            //{
-            //    if (!RandomlyRefreshData(DateTime.Parse(entity.Properties[Marker]))) { return entity; } 
-            //}
-#if DEBUG
-            Logging.Logger.Verbose("LastFMMetadataProvider.Fetch", "start");
-#endif
-            Statistics.GetInstance().Hit("lastfm.hit");
-
-            WebServiceProvider lfmProvider = new LastFMWebProvider();
-
-            switch (entity.Kind)
-            {
-                case EntityKind.Album:
-                    {
-                        AlbumInfoServiceDTO albumDTO = new AlbumInfoServiceDTO();
-                        albumDTO.Album = entity.Title;
-                        if (entity.Parent.Kind.Equals(EntityKind.Artist)) { albumDTO.Artist = entity.Parent.Title; }
-                        albumDTO.MusicBrainzID = entity.MusicBrainzID;
-                        albumDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
-
-                        AlbumInfoService albumService = new AlbumInfoService();
-                        albumService.SetProvider(lfmProvider);
-                        albumService.Fetch(albumDTO);
-                        if (albumDTO.Status != WebServiceStatus.Success) { break; }
-
-                        entity.PlayCount = albumDTO.Plays;
-                        entity.Listeners = albumDTO.Listeners;
-                        entity.TotalPlays = albumDTO.TotalPlays;
-
-                        if (albumDTO.Release != DateTime.MinValue && entity.ReleaseDate != DateTime.MinValue)
-                        {
-                            entity.ReleaseDate = albumDTO.Release;
-                        }
-                        if (string.IsNullOrEmpty(entity.IconPath) && !string.IsNullOrEmpty(albumDTO.Image))
-                        {
-                            string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Thumbs");
-                            ImageProvider.Save(ImageProvider.Download(albumDTO.Image, ImageType.Thumb), tmpThumb);
-                            entity.IconPath = tmpThumb;
-                        }
-                        entity.Title = albumDTO.Album;
-                        entity.Summary = albumDTO.Summary;
-                        entity.MusicBrainzID = albumDTO.MusicBrainzID;
-
-                        break;
-                    }
-                case EntityKind.Artist:
-                    {
-                        ArtistInfoServiceDTO artistDTO = new ArtistInfoServiceDTO();
-                        artistDTO.Artist = entity.Title;
-                        artistDTO.MusicBrainzID = entity.MusicBrainzID;
-                        artistDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
-
-                        ArtistInfoService artistService = new ArtistInfoService();
-                        artistService.SetProvider(lfmProvider);
-                        artistService.Fetch(artistDTO);
-
-                        if (artistDTO.Status != WebServiceStatus.Success) { break; }
-
-                        entity.PlayCount = artistDTO.Plays;
-                        entity.Listeners = artistDTO.Listeners;
-                        entity.TotalPlays = artistDTO.TotalPlays;
-
-                        entity.Title = artistDTO.Artist;
-                        entity.MusicBrainzID = artistDTO.MusicBrainzID;
-                        entity.Summary = artistDTO.Summary;
-
-                        if (string.IsNullOrEmpty(entity.IconPath) && !string.IsNullOrEmpty(artistDTO.Image))
-                        {
-                            string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Thumbs");
-                            ImageProvider.Save(ImageProvider.Download(artistDTO.Image, ImageType.Thumb), tmpThumb);
-                            entity.IconPath = tmpThumb;
-                        }
-
-                        break;
-                    }
-                case EntityKind.Song:
-                    {
-                        TrackInfoDTO trackDTO = new TrackInfoDTO();
-                        trackDTO.Track = entity.Title;
-                        trackDTO.Artist = entity.ArtistName;
-                        trackDTO.MusicBrainzID = entity.MusicBrainzID;
-                        trackDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
-
-                        TrackInfoService trackService = new TrackInfoService();
-                        trackService.SetProvider(lfmProvider);
-                        trackService.Fetch(trackDTO);
-                        if (trackDTO.Status != WebServiceStatus.Success) { break; }
-
-                        entity.PlayCount = trackDTO.Plays;
-                        entity.Listeners = trackDTO.Listeners;
-                        entity.TotalPlays = trackDTO.TotalPlays;
-
-                        entity.Title = trackDTO.Track;
-                        entity.Summary = trackDTO.Summary;
-                        entity.MusicBrainzID = trackDTO.MusicBrainzID;
-                        entity.Favorite = trackDTO.Loved;
-
-                        break;
-                    }
-            }
-
-            entity.Dirty = true;
-            return entity;
+            return Name;
         }
 
-        #endregion
+        public bool CompatibleWith(string type)
+        {
+            return (type.ToLower() == "artist") || (type.ToLower() == "album") || (type.ToLower() == "song");
+        }
+
+        public bool isStale(DateTime lastAccess)
+        {
+            // refresh fortnightly
+            return RandomlyRefreshData(lastAccess);
+        }
     }
 }

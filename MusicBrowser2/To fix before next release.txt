@@ -1,6 +1,8 @@
 ﻿V2.2.2
 
-- find out why summary 2 always looks like description
+- put mediainfo.dll in the installer
+- fix thumb inheritance
+- work out why albums aren't getting any detail from last.fm
 
 V2.2.3
 

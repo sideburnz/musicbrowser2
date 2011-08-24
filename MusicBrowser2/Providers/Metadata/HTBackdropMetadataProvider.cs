@@ -4,66 +4,94 @@ using MusicBrowser.Entities;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.WebServices.Services.HTBackdrop;
 using MusicBrowser.WebServices.WebServiceProviders;
+using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    public class HTBackdropMetadataProvider //: IMetadataProvider
+    public class HTBackdropMetadataProvider : IDataProvider
     {
-        private const string Marker = "HTBACK";
+        private const string Name = "HTBackdrops";
 
-        #region IMetadataProvider Members
-
-        public IEntity Fetch(IEntity entity)
+        public DataProviderDTO Fetch(DataProviderDTO dto)
         {
-            // killer questions
-            if (!Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders")) { return entity; }
-            if (!entity.Kind.Equals(EntityKind.Artist)) { return entity; }
-            if (!String.IsNullOrEmpty(entity.IconPath) && !String.IsNullOrEmpty(entity.BackgroundPath)) { return entity; }
-            //if (entity.Properties.ContainsKey(Marker))
-            //{
-            //    // only check fro new images once every seven days
-            //    if (DateTime.Parse(entity.Properties[Marker]) > DateTime.Now.AddDays(-14)) { return entity; }
-            //}
+            Logging.Logger.Debug(Name + ": " + dto.Path);
+            dto.Outcome = DataProviderOutcome.Success;
 
-#if DEBUG
-            Logging.Logger.Verbose("HTBackdropMetadataProvider.Fetch(" + entity.Path + ")", "start");
-#endif
+            #region killer questions
+
+            if (dto.hasBackImage && dto.hasThumbImage)
+            {
+                dto.Outcome = DataProviderOutcome.NoData;
+                dto.Errors = new System.Collections.Generic.List<string> { "Entity already has images" };
+                return dto;
+            }
+
+            if (string.IsNullOrEmpty(dto.ArtistName))
+            {
+                dto.Outcome = DataProviderOutcome.NoData;
+                dto.Errors = new System.Collections.Generic.List<string> { "Unknown Artist" };
+                return dto;
+            }
+
+            #endregion
+
+            Statistics.GetInstance().Hit(Name + ".hit");
+
             // set up the web service classes
-            ArtistImageServiceDTO dto = new ArtistImageServiceDTO();
+            ArtistImageServiceDTO serviceDTO = new ArtistImageServiceDTO();
             ArtistImageService service = new ArtistImageService();
 
             // set up the search criteria
-            dto.ArtistName = entity.Title;
-            dto.ArtistMusicBrainzID = entity.MusicBrainzID;
-            dto.GetBackdrops = String.IsNullOrEmpty(entity.BackgroundPath);
-            dto.GetThumbs = String.IsNullOrEmpty(entity.IconPath);
+            serviceDTO.ArtistName = dto.ArtistName;
+            serviceDTO.ArtistMusicBrainzID = dto.MusicBrainzId;
+            serviceDTO.GetBackdrops = !dto.hasBackImage;
+            serviceDTO.GetThumbs = !dto.hasThumbImage;
 
-            // use the HTB provider to execute the web service
+            // use the HTTP provider to execute the web service
             WebServiceProvider webProvider = new HTBackdropWebProvider();
             service.SetProvider(webProvider);
-            service.Fetch(dto);
+            service.Fetch(serviceDTO);
+
+            // handle error back from the provider
+            if (serviceDTO.Status == WebServiceStatus.Error)
+            {
+                dto.Outcome = DataProviderOutcome.SystemError;
+                dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + serviceDTO.Error + ")" };
+                return dto;
+            }
 
             // handle the response
-            if (dto.ThumbList.Count > 0) 
-            { 
-                string tmpThumb = Util.Helper.ImageCacheFullName(entity.CacheKey, "Thumbs");
+            if (serviceDTO.ThumbList.Count > 0)
+            {
                 // randomize the list
-                dto.ThumbList = dto.ThumbList.OrderBy(i => new Guid()).ToList();
-                ImageProvider.Save(ImageProvider.Download(dto.ThumbList[0], ImageType.Thumb), tmpThumb);
-                entity.IconPath = tmpThumb;
+                serviceDTO.ThumbList = serviceDTO.ThumbList.OrderBy(i => new Guid()).ToList();
+                dto.ThumbImage = ImageProvider.Download(serviceDTO.ThumbList[0], ImageType.Thumb);
             }
-            if (dto.BackdropList.Count > 0) 
-            { 
-                string tmpBack = Util.Helper.ImageCacheFullName(entity.CacheKey, "Backgrounds");
-                dto.BackdropList = dto.BackdropList.OrderBy(i => new Guid()).ToList();
-                ImageProvider.Save(ImageProvider.Download(dto.BackdropList[0], ImageType.Backdrop), tmpBack);
-                entity.BackgroundPath = tmpBack;
+            if (serviceDTO.BackdropList.Count > 0)
+            {
+                // randomize the list
+                serviceDTO.ThumbList = serviceDTO.BackdropList.OrderBy(i => new Guid()).ToList();
+                dto.BackImage = ImageProvider.Download(serviceDTO.BackdropList[0], ImageType.Backdrop);
             }
 
-            entity.Dirty = true;
-            return entity;
+            return dto;
         }
 
-        #endregion
+        public string FriendlyName()
+        {
+            return Name;
+        }
+
+        public bool CompatibleWith(string type)
+        {
+            return (type.ToLower() == "artist");
+        }
+
+        public bool isStale(DateTime lastAccess)
+        {
+            // refresh fortnightly
+            return (lastAccess.AddDays(14) < DateTime.Now);
+        }
+
     }
 }

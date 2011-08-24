@@ -77,6 +77,9 @@ namespace MusicBrowser.Interfaces
         public Bitmap ThumbImage;
         public Bitmap BackImage;
 
+        public bool hasThumbImage;
+        public bool hasBackImage;
+
         public string MusicBrainzId;
 
         public List<string> Performers;

@@ -27,6 +27,8 @@ namespace MusicBrowser.Providers.Metadata
 
             #endregion
 
+            Statistics.GetInstance().Hit(Name + ".hit");
+
             string IBNPath = Path.Combine(Path.Combine(Util.Config.GetInstance().GetSetting("ImagesByName"), "genres"), dto.Title);
             dto.ThumbImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Thumb));
             dto.BackImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Backdrop));

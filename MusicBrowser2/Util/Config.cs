@@ -27,6 +27,8 @@ namespace MusicBrowser.Util
                 { "HomeBackground", Path.Combine(Helper.AppFolder, "backdrop.jpg") },
 
                 { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
+                { "UseInternetProviders", true.ToString() } ,
+                { "LastFMUserName", String.Empty },
 
                 { "SortReplaceWords", "the|a|an" },
                 { "PutDiscInTrackNo", true.ToString() },

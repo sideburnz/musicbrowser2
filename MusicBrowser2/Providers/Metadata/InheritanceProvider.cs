@@ -27,19 +27,26 @@ namespace MusicBrowser.Providers.Metadata
 
             #endregion
 
-            //TODO: also inherit the artist from the tracks if the album artist isn't set
+            Statistics.GetInstance().Hit(Name + ".hit");
 
             DateTime albumDate = DateTime.MinValue;
+            string ArtistName = string.Empty;
+            System.Drawing.Bitmap thumb = null; 
+
             ICacheEngine cacheEngine = CacheEngineFactory.GetCacheEngine();
 
             IEnumerable<FileSystemItem> children = FileSystemProvider.GetFolderContents(dto.Path);
             foreach (FileSystemItem child in children)
             {
                 IEntity e = EntityPersistance.Deserialize(cacheEngine.Read(Util.Helper.GetCacheKey(child.FullPath)));
+                
                 if (e.ReleaseDate > albumDate) { albumDate = e.ReleaseDate; }
+                if (!String.IsNullOrEmpty(ArtistName)) { ArtistName = e.AlbumArtist; }
+                if (thumb == null) { if (!String.IsNullOrEmpty(e.IconPath)) { thumb = ImageProvider.Load(e.IconPath); } }
             }
 
             if (albumDate > DateTime.Parse("01-JAN-1000")) { dto.ReleaseDate = albumDate; }
+            if (!String.IsNullOrEmpty(ArtistName)) { dto.AlbumArtist = ArtistName; }
 
             return dto;
         }
