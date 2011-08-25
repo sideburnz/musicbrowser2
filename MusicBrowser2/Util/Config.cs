@@ -34,44 +34,44 @@ namespace MusicBrowser.Util
                 { "PutDiscInTrackNo", true.ToString() },
                                         
                 { "Home.View", "Thumb" },
-                { "Home.Format", "[title]" },
+                { "Home.Format", "" },
                 { "Home.SortOrder", "[title]" },
-                { "Home.Summary", "[title]" },
+                { "Home.Summary", "" },
 
                 { "Artist.View", "List" },
                 { "Artist.Format", "[title]" },
                 { "Artist.SortOrder", "[title]" },
-                { "Artist.Summary", "[title]" },
+                { "Artist.Summary", "[playcount]  [listeners]  [allplays]" },
 
                 { "Album.View", "List" },
                 { "Album.Format", "([release]) [title]" },
                 { "Album.SortOrder", "[release]" },
-                { "Album.Summary", "[title]" },
+                { "Album.Summary", "[playcount]  [listeners]  [allplays]" },
 
                 { "Unknown.View", "List" },
-                { "Unknown.Format", "[title]" },
-                { "Unknown.SortOrder", "[title]" },
-                { "Unknown.Summary", "[title]" },
+                { "Unknown.Format", "" },
+                { "Unknown.SortOrder", "" },
+                { "Unknown.Summary", "" },
 
                 { "Genre.View", "List" },
                 { "Genre.Format", "[title]" },
                 { "Genre.SortOrder", "[title]" },
-                { "Genre.Summary", "[title]" },
+                { "Genre.Summary", "" },
 
                 { "Song.View", "List" },
                 { "Song.Format", "[track] - [title]" },
                 { "Song.SortOrder", "[track]" },
-                { "Song.Summary", "[title]" },
+                { "Song.Summary", "[playcount]  [listeners]  [allplays]" },
 
-                { "Playlist.View", "List" },
+                { "Playlist.View", "" },
                 { "Playlist.Format", "[title]" },
-                { "Playlist.SortOrder", "[title]" },
-                { "Playlist.Summary", "[title]" },
+                { "Playlist.SortOrder", "" },
+                { "Playlist.Summary", "" },
 
-                { "Folder.View", "List" },
+                { "Folder.View", "" },
                 { "Folder.Format", "[title]" },
-                { "Folder.SortOrder", "[title]" },
-                { "Folder.Summary", "[title]" },
+                { "Folder.SortOrder", "" },
+                { "Folder.Summary", "" },
                                         
                 { "ThreadPoolSize", "2" },
                 { "LogStatsOnClose", false.ToString() },
@@ -82,8 +82,8 @@ namespace MusicBrowser.Util
                 { "CachePath", Helper.CachePath },
 
                 { "Extensions.Playlist", ".wpl|.m3u|.asx" },
-                { "Extensions.Image", ".jpg|.jpeg" },
-                { "Extensions.Ignore", ".xml|.cue|.txt" }
+                { "Extensions.Image", ".png|.jpg|.jpeg" },
+                { "Extensions.Ignore", ".xml|.cue|.txt|.nfo" }
  
 //                                        { "ShowCDs", true.ToString() }
                                                };

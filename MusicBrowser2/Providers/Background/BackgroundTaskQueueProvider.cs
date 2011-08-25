@@ -58,15 +58,15 @@ namespace MusicBrowser.Providers.Background
                 else { _queue.Add(task); }
 
 
-                // if there's more than twice as many pending tasks as there is active threads 
+                // if there's more than four time as many pending tasks as there is active threads 
                 // and we have spare active threads, start another oone up to process tasks 
-                if ((_activeThreads < _maximumThreads) && ((_activeThreads * 2) < _queue.Count))
+                if ((_activeThreads < _maximumThreads) && ((_activeThreads * 4) < _queue.Count))
                 {
                     for (int i = 0; i < _maximumThreads; i++)
                     {
                         if (_threadpool[i].ThreadState == (ThreadState.Suspended | ThreadState.Background))
                         {
-                            Logging.Logger.Info("Thread is being resumed: " + i);
+                            Logging.Logger.Debug("Thread is being resumed: " + i);
                             _activeThreads++;
                             _threadpool[i].Resume();
                             break;
@@ -97,7 +97,7 @@ namespace MusicBrowser.Providers.Background
                     {
                         task.Execute();
                         // there's a problem with the UI thread saying it's not responding
-                        Thread.Sleep(15);
+                        Thread.Sleep(10);
                     }
                     catch (Exception e)
                     {
@@ -106,7 +106,7 @@ namespace MusicBrowser.Providers.Background
                 }
                 else
                 {
-                    Logging.Logger.Info("Thread is being suspended: " + id);
+                    Logging.Logger.Debug("Thread is being suspended: " + id);
                     _activeThreads--;
                     _threadpool[id].Suspend(); 
                 }

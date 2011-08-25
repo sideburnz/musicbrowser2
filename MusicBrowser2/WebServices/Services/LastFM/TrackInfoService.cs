@@ -88,7 +88,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                 localDTO.Status = WebServiceStatus.Error;
                 localDTO.Error = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/error");
 
-                Logging.Logger.Debug(string.Format("Last.fm track lookup for \"{0}\" returned this error - {1}", localDTO.Track, localDTO.Error));
+//                Logging.Logger.Debug(string.Format("Last.fm track lookup for \"{0}\" returned this error - {1}", localDTO.Track, localDTO.Error));
             }
     
             return localDTO;

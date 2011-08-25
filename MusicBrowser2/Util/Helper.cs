@@ -252,6 +252,7 @@ namespace MusicBrowser.Util
         public static string outputTypes()
         {
             StringBuilder s = new StringBuilder();
+            s.AppendLine("Known File Types: ");
             foreach (string k in perceivedTypeCache.Keys)
             {
                 s.AppendLine(k + " " + perceivedTypeCache[k].ToString());

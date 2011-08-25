@@ -13,7 +13,9 @@ namespace MusicBrowser.Providers.Metadata
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
-            Logging.Logger.Debug(Name + ": " + dto.Path);
+#if DEBUG
+            Logging.Logger.Verbose(Name + ": " + dto.Path, "start");
+#endif
             dto.Outcome = DataProviderOutcome.Success;
 
             #region killer questions
@@ -30,7 +32,7 @@ namespace MusicBrowser.Providers.Metadata
             Statistics.GetInstance().Hit(Name + ".hit");
 
             DateTime albumDate = DateTime.MinValue;
-            string ArtistName = string.Empty;
+            string ArtistName = new string(' ', 256);
             System.Drawing.Bitmap thumb = null; 
 
             ICacheEngine cacheEngine = CacheEngineFactory.GetCacheEngine();
@@ -41,12 +43,13 @@ namespace MusicBrowser.Providers.Metadata
                 IEntity e = EntityPersistance.Deserialize(cacheEngine.Read(Util.Helper.GetCacheKey(child.FullPath)));
                 
                 if (e.ReleaseDate > albumDate) { albumDate = e.ReleaseDate; }
-                if (!String.IsNullOrEmpty(ArtistName)) { ArtistName = e.AlbumArtist; }
+                if (ArtistName.Length > e.AlbumArtist.Length) { ArtistName = e.AlbumArtist; }
                 if (thumb == null) { if (!String.IsNullOrEmpty(e.IconPath)) { thumb = ImageProvider.Load(e.IconPath); } }
             }
 
             if (albumDate > DateTime.Parse("01-JAN-1000")) { dto.ReleaseDate = albumDate; }
             if (!String.IsNullOrEmpty(ArtistName)) { dto.AlbumArtist = ArtistName; }
+            if (thumb != null) { dto.ThumbImage = thumb; }
 
             return dto;
         }

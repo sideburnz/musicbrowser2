@@ -29,9 +29,7 @@ namespace MusicBrowser
             _factory = new EntityFactory();
 
             Util.Config.GetInstance().SetDefaultSettings();
-
             Logging.Logger.Info("Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
-
         }
 
         private MediaCenterEnvironment MediaCenterEnvironment

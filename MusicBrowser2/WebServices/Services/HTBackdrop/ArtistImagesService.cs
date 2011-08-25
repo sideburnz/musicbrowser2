@@ -46,7 +46,7 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
             localDTO.BackdropList = new List<string>();
 
             _provider.DoService();
-            if (_provider.ResponseStatus != "200") { Logging.Logger.Debug(_provider.ResponseStatus); return localDTO; }
+            if (_provider.ResponseStatus != "200") { return localDTO; }
 
             XmlDocument xmlResult = new XmlDocument();
 

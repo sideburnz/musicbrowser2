@@ -83,8 +83,6 @@ namespace MusicBrowser.Entities
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") [metadata " + metadataFile + " : " + !String.IsNullOrEmpty(metadata.Name) + "]", "start");
 #endif
-            Logging.Logger.Debug("FACTORY: " + item.FullPath);
-
             if (!String.IsNullOrEmpty(metadata.Name))
             {
                 string metadataText = File.ReadAllText(metadataFile);

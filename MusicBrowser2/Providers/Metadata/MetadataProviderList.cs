@@ -54,9 +54,9 @@ namespace MusicBrowser.Providers.Metadata
                 }
                 catch (Exception e)
                 {
-//#if DEBUG
+#if DEBUG
                     Logging.Logger.Error(new Exception(string.Format("MetadataProviderList failed whilst running {0} for {1}\r", provider.GetType().ToString(), entity.Path), e));
-//#endif
+#endif
                 }
             }
             if (requiresUpdate)

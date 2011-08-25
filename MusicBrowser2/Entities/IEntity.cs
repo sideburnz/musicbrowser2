@@ -25,12 +25,10 @@ namespace MusicBrowser.Entities
         private string _sortName;
         private readonly string _view;
         private string _cacheKey;
-        private readonly string _summary2Format;
 
         public IEntity()
         {
             _view = Config.GetInstance().GetSetting(KindName + ".View").ToLower();
-            _summary2Format = Config.GetInstance().GetSetting(KindName + ".Summary");
             DefaultBackgroundPath = string.Empty;
             Performers = new List<string>();
             ProviderTimeStamps = new Dictionary<string, DateTime>();
@@ -176,7 +174,7 @@ namespace MusicBrowser.Entities
 
         public string ShortSummaryLine2
         {
-            get { return MacroSubstitution(_summary2Format); }
+            get { return MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".Summary")); }
         }
 
         public new string Description
@@ -232,11 +230,35 @@ namespace MusicBrowser.Entities
                     case "label":
                         output = output.Replace("[label]", Label); break;
                     case "playcount":
-                        output = output.Replace("[playcount]", PlayCount.ToString("N0")); break;
+                        {
+                            if (PlayCount > 0)
+                            {
+                                output = output.Replace("[playcount]", "Plays: " + PlayCount.ToString("N0"));
+                                break;
+                            }
+                            output = output.Replace("[playcount]", String.Empty);
+                            break;
+                        }
                     case "listeners":
-                        output = output.Replace("[listeners]", Listeners.ToString("N0")); break;
+                        {
+                            if (Listeners > 0)
+                            {
+                                output = output.Replace("[listeners]", "Listeners: " + Listeners.ToString("N0"));
+                                break;
+                            }
+                            output = output.Replace("[listeners]", String.Empty);
+                            break;
+                        }
                     case "allplays":
-                        output = output.Replace("[allplays]", TotalPlays.ToString("N0")); break;
+                        {
+                            if (TotalPlays > 0)
+                            {
+                                output = output.Replace("[allplays]", "Total Plays: " + TotalPlays.ToString("N0"));
+                                break;
+                            }
+                            output = output.Replace("[allplays]", String.Empty);
+                            break;
+                        }
                     case "length":
                         TimeSpan t = TimeSpan.FromSeconds(Duration);
                         string length;
@@ -262,7 +284,7 @@ namespace MusicBrowser.Entities
                 }
 
             }
-            return output;
+            return output.Trim();
         }
 
     }

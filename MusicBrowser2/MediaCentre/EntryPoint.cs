@@ -21,7 +21,9 @@ namespace MusicBrowser
             if (Util.Config.GetInstance().GetBooleanSetting("LogStatsOnClose"))
             {
                 Logging.Logger.Stats(Providers.Statistics.GetInstance());
-                //Logging.Logger.Debug(Util.Helper.outputTypes());
+#if DEBUG
+                Logging.Logger.Verbose(Util.Helper.outputTypes(), "stats");
+#endif
             }
         }
         

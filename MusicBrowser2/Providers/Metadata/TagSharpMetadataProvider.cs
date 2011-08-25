@@ -14,7 +14,9 @@ namespace MusicBrowser.Providers.Metadata
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
-            Logging.Logger.Debug(Name + ": " + dto.Path);
+#if DEBUG
+            Logging.Logger.Verbose(Name + ": " + dto.Path, "start");
+#endif
             dto.Outcome = DataProviderOutcome.Success;
 
             #region killer questions
@@ -92,6 +94,7 @@ namespace MusicBrowser.Providers.Metadata
                     entity.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
                     entity.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
                     entity.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
+                    entity.AlbumArtist = fileTag.Tag.FirstAlbumArtist;
                 }
             }
             catch { }
