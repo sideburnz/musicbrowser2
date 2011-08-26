@@ -143,7 +143,9 @@ namespace MusicBrowser.Entities
             // do this here so that if the user browses to a folder that isn't cached, it retrieves some basic metadata
             TagSharpMetadataProvider.FetchLite(entity);
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
-
+#if DEBUG
+            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName, "finish");
+#endif
             return entity;
         }
 
@@ -172,6 +174,9 @@ namespace MusicBrowser.Entities
 
                         if (subItems.Count() == 0)
                         {
+#if DEBUG
+                            Logging.Logger.Verbose(entity.FullPath + " is a folder because it's empty", "finish");
+#endif
                             return EntityKind.Folder;
                         }
 
@@ -201,6 +206,9 @@ namespace MusicBrowser.Entities
                 {
                     return EntityKind.Genre;
                 }
+#if DEBUG
+                Logging.Logger.Verbose(entity.FullPath + " is a folder because it's not anything else", "finish");
+#endif
                 return EntityKind.Folder;
             }
             if (Util.Helper.IsSong(entity.FullPath))

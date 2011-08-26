@@ -56,7 +56,7 @@ namespace MusicBrowser
                             EntityCollection entities = new EntityCollection();
                             foreach (string item in Entities.Kinds.Home.Paths)
                             {
-                                entities.Populate(FileSystemProvider.GetFolderContents(item), _factory, entity);
+                                entities.Populate(FileSystemProvider.GetFolderContents(item), _factory);
                             }
 
                             FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
@@ -67,7 +67,7 @@ namespace MusicBrowser
                             //trigger the background caching tasks
                             foreach (string path in Entities.Kinds.Home.Paths)
                             {
-                                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path, _factory, new Entities.Kinds.Unknown()));
+                                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path, _factory));
                             }
                             break;
                         }
@@ -79,7 +79,7 @@ namespace MusicBrowser
                     default:
                         {
                             EntityCollection entities = new EntityCollection();
-                            entities.Populate(FileSystemProvider.GetFolderContents(entity.Path), _factory, entity);
+                            entities.Populate(FileSystemProvider.GetFolderContents(entity.Path), _factory);
                             FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
                             properties["FolderModel"] = folderModel;
                             properties["UINotifier"] = UINotifier.GetInstance();

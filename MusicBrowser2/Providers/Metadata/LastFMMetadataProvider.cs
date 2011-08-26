@@ -12,7 +12,7 @@ namespace MusicBrowser.Providers.Metadata
         private const string Name = "Last.fm";
 
         private const int MinDaysBetweenHits = 1;
-        private const int MaxDaysBetweenHits = 7;
+        private const int MaxDaysBetweenHits = 14;
         private const int RefreshWindow = MaxDaysBetweenHits - MinDaysBetweenHits;
 
         private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);

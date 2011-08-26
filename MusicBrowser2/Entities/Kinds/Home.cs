@@ -15,7 +15,6 @@ namespace MusicBrowser.Entities.Kinds
             DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/MusicBrowser2";
             string temp = Util.Config.GetInstance().GetSetting("HomeBackground");
             if (System.IO.File.Exists(temp)) { DefaultBackgroundPath = temp; }
-            base.Parent = new Unknown();
             base.UpdateValues();
         }
 

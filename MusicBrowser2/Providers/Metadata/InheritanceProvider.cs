@@ -37,19 +37,52 @@ namespace MusicBrowser.Providers.Metadata
 
             ICacheEngine cacheEngine = CacheEngineFactory.GetCacheEngine();
 
+            #region inherit
+
             IEnumerable<FileSystemItem> children = FileSystemProvider.GetFolderContents(dto.Path);
             foreach (FileSystemItem child in children)
             {
                 IEntity e = EntityPersistance.Deserialize(cacheEngine.Read(Util.Helper.GetCacheKey(child.FullPath)));
-                
-                if (e.ReleaseDate > albumDate) { albumDate = e.ReleaseDate; }
-                if (ArtistName.Length > e.AlbumArtist.Length) { ArtistName = e.AlbumArtist; }
-                if (thumb == null) { if (!String.IsNullOrEmpty(e.IconPath)) { thumb = ImageProvider.Load(e.IconPath); } }
+
+                if (e.ReleaseDate != null)
+                {
+                    if (e.ReleaseDate > albumDate)
+                    {
+                        albumDate = e.ReleaseDate;
+                    }
+                }
+                if (!string.IsNullOrEmpty(e.AlbumArtist))
+                {
+                    if (ArtistName.Length > e.AlbumArtist.Length)
+                    {
+                        ArtistName = e.AlbumArtist;
+                    }
+                }
+                if (thumb == null && !dto.hasThumbImage) 
+                { 
+                    if (!String.IsNullOrEmpty(e.IconPath)) 
+                    { 
+                        thumb = ImageProvider.Load(e.IconPath); 
+                    } 
+                }
             }
 
             if (albumDate > DateTime.Parse("01-JAN-1000")) { dto.ReleaseDate = albumDate; }
-            if (!String.IsNullOrEmpty(ArtistName)) { dto.AlbumArtist = ArtistName; }
-            if (thumb != null) { dto.ThumbImage = thumb; }
+            if (!String.IsNullOrEmpty(ArtistName)) { dto.AlbumArtist = ArtistName.Trim(); }
+            if (thumb != null) { dto.ThumbImage = thumb; dto.hasThumbImage = true; }
+
+            #endregion
+
+            #region decent
+
+            IEntity parent = EntityPersistance.Deserialize(cacheEngine.Read(Util.Helper.GetCacheKey(Directory.GetParent(dto.Path).FullName)));
+            if (!String.IsNullOrEmpty(parent.BackgroundPath) && !dto.hasBackImage)
+            {
+                dto.BackImage = ImageProvider.Load(parent.BackgroundPath);
+                dto.hasBackImage = true;
+            }
+
+            #endregion
 
             return dto;
         }

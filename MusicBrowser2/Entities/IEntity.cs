@@ -82,7 +82,6 @@ namespace MusicBrowser.Entities
         public int TrackCount { get; set; }
         public bool Dirty { get; set; }
         public long Version { get; set; }
-        public virtual IEntity Parent { get; set; }
 
         // Read Only values
         public string SortName { get { return _sortName; } }
@@ -106,13 +105,6 @@ namespace MusicBrowser.Entities
                 if (!String.IsNullOrEmpty(DefaultBackgroundPath))
                 {
                     return GetImage(DefaultBackgroundPath);
-                }
-                if (Parent != null)
-                {
-                    if (!Parent.Kind.Equals(EntityKind.Home) && !Kind.Equals(EntityKind.Home))
-                    {
-                        return Parent.Background;
-                    }
                 }
                 return GetImage(String.Empty);
             }

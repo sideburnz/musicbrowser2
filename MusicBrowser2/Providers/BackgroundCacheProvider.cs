@@ -3,6 +3,7 @@ using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.Metadata;
+using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers
 {
@@ -10,16 +11,33 @@ namespace MusicBrowser.Providers
     {
         private readonly string _path;
         private readonly EntityFactory _factory;
-        private readonly IEntity _entity;
 
-        public BackgroundCacheProvider(string path, EntityFactory factory, IEntity entity)
+        public BackgroundCacheProvider(string path, EntityFactory factory)
         {
             _path = path;
             _factory = factory;
-            _entity = entity;
         }
 
         #region IBackgroundTaskable Members
+
+        private static IEnumerable<IDataProvider> GetProviders()
+        {
+            List<IDataProvider> providerList = new List<IDataProvider>();
+
+            providerList.Add(new TagSharpMetadataProvider());
+            providerList.Add(new MediaInfoProvider());
+            providerList.Add(new InheritanceProvider());
+            if (Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+            {
+                providerList.Add(new HTBackdropMetadataProvider());
+                providerList.Add(new LastFMMetadataProvider());
+            }
+            providerList.Add(new FileSystemMetadataProvider());
+            providerList.Add(new IconProvider());
+            // add new providers here
+
+            return providerList;
+        }
 
         public string Title
         {
@@ -28,7 +46,8 @@ namespace MusicBrowser.Providers
 
         public void Execute()
         {
-            IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(_path);
+            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path);
+            IEnumerable<IDataProvider> providers = GetProviders();
 
             foreach (FileSystemItem item in items)
             {
@@ -41,25 +60,12 @@ namespace MusicBrowser.Providers
 
                 if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
-                entity.Parent = _entity;
-
                 // fire off the metadata providers
                 if (!entity.Kind.Equals(EntityKind.Home))
                 {
-                    CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
+                    CommonTaskQueue.Enqueue(new MetadataProviderList(entity, providers));
                 }
-
-                // fire off cache tasks for sub items
-                if (Util.Helper.IsFolder(item.Attributes))
-                {
-                    IBackgroundTaskable task = new BackgroundCacheProvider(item.FullPath, _factory, entity);
-                    task.Execute();
-                }
-
-                entity.UpdateValues();
             }
-
-            _entity.UpdateValues();
         }
 
         #endregion

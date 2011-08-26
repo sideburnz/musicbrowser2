@@ -1,8 +1,9 @@
 ﻿v2.2.2
 
-- track thumbs don't populate up if they aren't saved to disc before the inheritance provider deals with them
-- cache doesn't expire correctly c.f. SEB
-- change last.fm refresh interval
+bugs
+1) app needs to be loaded three times before a full refresh takes place
+2) background is not going to all the sub folders (c.f. brighten the corners)
+3) summary line isn't updating
 
 
 V2.2.3

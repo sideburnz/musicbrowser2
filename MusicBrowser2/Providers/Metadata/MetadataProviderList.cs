@@ -9,30 +9,12 @@ namespace MusicBrowser.Providers.Metadata
 {
     class MetadataProviderList : IBackgroundTaskable
     {
-        private static IEnumerable<IDataProvider> GetProviders()
-        {
-            List<IDataProvider> providerList = new List<IDataProvider>();
 
-            providerList.Add(new TagSharpMetadataProvider());
-            providerList.Add(new MediaInfoProvider());
-            providerList.Add(new InheritanceProvider());
-            if (Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
-            {
-                providerList.Add(new HTBackdropMetadataProvider());
-                providerList.Add(new LastFMMetadataProvider());
-            }
-            providerList.Add(new FileSystemMetadataProvider());
-            providerList.Add(new IconProvider());
-            // add new providers here
-            
-            return providerList;
-        }
-
-        public static void ProcessEntity(IEntity entity)
+        public static void ProcessEntity(IEntity entity, IEnumerable<IDataProvider> providers)
         {
             bool requiresUpdate = false;
 
-            foreach (IDataProvider provider in GetProviders())
+            foreach (IDataProvider provider in providers)
             {
                 try
                 {
@@ -168,10 +150,6 @@ namespace MusicBrowser.Providers.Metadata
             if (entity.ReleaseDate < DateTime.Parse("01-JAN-1000")) 
             { 
                 entity.ReleaseDate = dto.ReleaseDate;
-                if (entity.Parent.ReleaseDate < DateTime.Parse("01-JAN-1000"))
-                {
-                    entity.Parent.ReleaseDate = dto.ReleaseDate;
-                }
             } 
             if (!String.IsNullOrEmpty(dto.Resolution)) { entity.Resolution = dto.Resolution; }
             if (!String.IsNullOrEmpty(dto.SampleRate)) { entity.SampleRate = dto.SampleRate; }
@@ -229,10 +207,12 @@ namespace MusicBrowser.Providers.Metadata
         }
 
         private readonly IEntity _entity;
+        private readonly IEnumerable<IDataProvider> _providers;
 
-        public MetadataProviderList(IEntity entity)
+        public MetadataProviderList(IEntity entity, IEnumerable<IDataProvider> providers)
         {
             _entity = entity;
+            _providers = providers;
         }
 
         #region IBackgroundTaskable Members
@@ -246,7 +226,7 @@ namespace MusicBrowser.Providers.Metadata
         {
             try
             {
-                ProcessEntity(_entity);
+                ProcessEntity(_entity, _providers);
             }
             catch (Exception e)
             {
