@@ -146,6 +146,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static byte[] ctrlHomePopUp {
+            get {
+                object obj = ResourceManager.GetObject("ctrlHomePopUp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] ctrlPlayListAction {
             get {
                 object obj = ResourceManager.GetObject("ctrlPlayListAction", resourceCulture);
@@ -170,6 +177,13 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap IconClose {
             get {
                 object obj = ResourceManager.GetObject("IconClose", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconHome {
+            get {
+                object obj = ResourceManager.GetObject("IconHome", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -237,16 +251,16 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap imagePlaylist {
+        internal static System.Drawing.Bitmap imageGenre {
             get {
-                object obj = ResourceManager.GetObject("imagePlaylist", resourceCulture);
+                object obj = ResourceManager.GetObject("imageGenre", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap imageQuestion {
+        internal static System.Drawing.Bitmap imagePlaylist {
             get {
-                object obj = ResourceManager.GetObject("imageQuestion", resourceCulture);
+                object obj = ResourceManager.GetObject("imagePlaylist", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -286,16 +300,16 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap progressImage {
+        internal static System.Drawing.Bitmap thumbFavorite {
             get {
-                object obj = ResourceManager.GetObject("progressImage", resourceCulture);
+                object obj = ResourceManager.GetObject("thumbFavorite", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap star {
+        internal static System.Drawing.Bitmap thumbStar {
             get {
-                object obj = ResourceManager.GetObject("star", resourceCulture);
+                object obj = ResourceManager.GetObject("thumbStar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

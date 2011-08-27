@@ -141,6 +141,7 @@ namespace MusicBrowser.Entities
 
             FirePropertyChanged("ShortSummaryLine1");
             FirePropertyChanged("ShortSummaryLine2");
+            FirePropertyChanged("OptionalArtistLine");
             FirePropertyChanged("Description");
             FirePropertyChanged("Background");
             FirePropertyChanged("Icon");
@@ -172,6 +173,18 @@ namespace MusicBrowser.Entities
         public new string Description
         {
             get { return MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".Format")); }
+        }
+
+        public string OptionalArtistLine
+        {
+            get
+            {
+                if (ArtistName != AlbumArtist && !String.IsNullOrEmpty(ArtistName) && !String.IsNullOrEmpty(AlbumArtist))
+                {
+                    return ArtistName;
+                }
+                return string.Empty;
+            }
         }
 
         public string MacroSubstitution(string input)

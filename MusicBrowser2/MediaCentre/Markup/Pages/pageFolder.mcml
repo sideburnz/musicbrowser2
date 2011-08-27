@@ -10,6 +10,7 @@
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlHeader"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlFooter"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayPopUp"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlHomePopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
@@ -126,6 +127,7 @@
           <!-- POP UPS -->
           <me:ctrlPlayPopup Name="PopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
           <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
+          
           
           <!-- FADER -->
           <Panel Visible="true">

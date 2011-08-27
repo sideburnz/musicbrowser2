@@ -21,6 +21,15 @@
     <Rules>
       <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
+      <!--<Changed Source="[Entity.Index]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Home" />
+        </Conditions>
+        <Actions>
+          <Set Target="[HomeMenu.Visible]" Value="true" />
+          <Set Target="[QueueMenu.Visible]" Value="false" />
+        </Actions>
+      </Changed>-->
     </Rules>
 
     <Content>
@@ -64,8 +73,9 @@
                   <FlowLayout Orientation="Vertical"/>
                 </Layout>
                 <Children>
-                  <me:buttonIcon Command="[CmdQueue]" Text=" queue" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" Margins="0,0,0,-20" />
-                  <me:buttonIcon Command="[CmdPlayAll]" Text=" play   " Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+                  <me:buttonIcon Command="[CmdQueue]" Name="HomeMenu" Text=" library" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconHome" Margins="0,0,0,-20" Visible="false" />
+                  <me:buttonIcon Command="[CmdQueue]" Name="QueueMenu" Text=" queue" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" Margins="0,0,0,-20" />
+                  <me:buttonIcon Command="[CmdPlayAll]" Name="PlayMenu" Text=" play   " Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
                 </Children>
               </Panel>
 

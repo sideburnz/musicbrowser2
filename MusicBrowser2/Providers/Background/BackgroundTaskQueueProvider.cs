@@ -60,7 +60,7 @@ namespace MusicBrowser.Providers.Background
 
                 // if there's more than four time as many pending tasks as there is active threads 
                 // and we have spare active threads, start another oone up to process tasks 
-                if ((_activeThreads < _maximumThreads) && ((_activeThreads * 4) < _queue.Count))
+                if (((_activeThreads < _maximumThreads) && ((_activeThreads * 4) < _queue.Count)) || _activeThreads == 0)
                 {
                     for (int i = 0; i < _maximumThreads; i++)
                     {
@@ -93,11 +93,14 @@ namespace MusicBrowser.Providers.Background
                 }
                 if (task != null)
                 {
+#if DEBUG
+                    Logging.Logger.Verbose("Thread " + id.ToString() + " " + task.Title, "thread start");
+#endif
                     try
                     {
                         task.Execute();
                         // there's a problem with the UI thread saying it's not responding
-                        Thread.Sleep(10);
+                        Thread.Sleep(25);
                     }
                     catch (Exception e)
                     {

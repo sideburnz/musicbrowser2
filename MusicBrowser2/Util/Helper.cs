@@ -178,23 +178,25 @@ namespace MusicBrowser.Util
             return false;
         }
 
-        public static bool IsNotEntity(string fileName)
+        public static bool IsEntity(string fileName)
         {
+            if (Directory.Exists(fileName)) { return true; }
+
+            string extension = Path.GetExtension(fileName).ToLower();
+            if (String.IsNullOrEmpty(extension)) { return false; }
+
             if (perceivedTypeCache == null) 
             {
                 perceivedTypeCache = getKnownTypes();
             }
 
-            if (!System.IO.File.Exists(fileName)) return false;
-            string extension = System.IO.Path.GetExtension(fileName).ToLower();
-
             knownType itemType;
             if (perceivedTypeCache.TryGetValue(extension, out itemType))
             {
-                return itemType == knownType.Other;
+                return itemType != knownType.Other;
             }
             knownType type = determineType(extension);
-            return (type != knownType.Song); 
+            return type != knownType.Other;
         }
 
         public static knownType determineType(string extension)

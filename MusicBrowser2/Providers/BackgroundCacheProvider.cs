@@ -52,12 +52,11 @@ namespace MusicBrowser.Providers
             foreach (FileSystemItem item in items)
             {
                 // don't waste time on the item
-                if (Util.Helper.IsNotEntity(item.FullPath)) { continue; }
+                if (!Util.Helper.IsEntity(item.FullPath)) { continue; }
                 if (item.Name.ToLower() == "metadata") { continue; }
 
                 // process the item in context
                 IEntity entity = _factory.GetItem(item);
-
                 if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
                 // fire off the metadata providers

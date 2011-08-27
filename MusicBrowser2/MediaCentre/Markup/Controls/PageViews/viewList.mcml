@@ -94,7 +94,7 @@
               <FlowLayout Orientation="Vertical"/>
             </Layout>
             <Children>
-              <Scroller Name="TextScroller" Margins="25,10,25,20" Orientation="Vertical" FadeSize="-30" ScrollingData="[TextScrollingData]">
+              <Scroller Name="TextScroller" Margins="25,12,25,20" Orientation="Vertical" FadeSize="-30" ScrollingData="[TextScrollingData]">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Fill"  Position="Client"  />
                 </LayoutInput>
@@ -126,7 +126,7 @@
     </Properties>
     <Rules>
       <Condition Source="[Input.KeyFocus]" SourceValue="true" Target="[Body.Alpha]" Value="1"/>
-      <Condition Source="[Input.KeyFocus]" SourceValue="false" Target="[Body.Alpha]" Value="0.7"/>
+      <Condition Source="[Input.KeyFocus]" SourceValue="false" Target="[Body.Alpha]" Value="0.8"/>
       <Binding Source="[Entity.Summary]" Target="[Body.Content]" />
     </Rules>
     <Content>
@@ -226,7 +226,7 @@
             <Children>
               <Graphic Name="graphicBullet" Content="[Entity.Icon]" Margins="9,8,3,0" MaximumSize="42,42" MinimumSize="36,36" MaintainAspectRatio="false" Visible="true">
               </Graphic>
-              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="10,12,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center, 20" HorizontalAlignment="Near" MaximumSize="[Size]">
+              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="10,8,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" MaximumSize="[Size]">
               </Text>
             </Children>
           </Graphic>

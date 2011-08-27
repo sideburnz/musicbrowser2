@@ -122,8 +122,10 @@
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
-    <Content Include="MediaCentre\Images\icons\imageQuestion.png" />
-    <Content Include="MediaCentre\Images\icons\star.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
+    <Content Include="MediaCentre\Images\icons\imageGenre.png" />
+    <Content Include="MediaCentre\Images\icons\thumbFavorite.png" />
+    <Content Include="MediaCentre\Images\icons\thumbStar.png" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
     <Compile Include="CacheEngine\EntityPersistance.cs" />
     <Compile Include="Providers\CD\CDDrive.cs" />
@@ -189,6 +191,7 @@
     <Compile Include="WebServices\WebServiceProviders\LastFMWebProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlHomePopUp.mcml" />
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -223,10 +226,6 @@
     <Content Include="MediaCentre\Images\icons\imageSong.png" />
     <Content Include="MediaCentre\Images\icons\MusicBrowser2.png" />
     <Content Include="MediaCentre\Images\nullImage.png" />
-    <Content Include="MediaCentre\Images\Progress\songNotified.png" />
-    <Content Include="MediaCentre\Images\Progress\songNotPlaying.png" />
-    <Content Include="MediaCentre\Images\Progress\songPlaying.png" />
-    <Content Include="MediaCentre\Images\Progress\songScrobbled.png" />
     <Content Include="MediaCentre\Markup\blank.mcml" />
     <Content Include="MediaCentre\Markup\Controls\Buttons\buttonBasic.mcml" />
     <Content Include="MediaCentre\Markup\Controls\Buttons\buttonIcon.mcml" />

@@ -52,7 +52,7 @@ namespace MusicBrowser.Entities
         public IEntity GetItem(FileSystemItem item)
         {
             // don't waste time trying to determine a known not entity
-            if (Util.Helper.IsNotEntity(item.FullPath)) { return new Unknown(); }
+            if (!Util.Helper.IsEntity(item.FullPath)) { return new Unknown(); }
             if (item.Name.ToLower() == "metadata") { return new Unknown(); }
 
             IEntity entity;
@@ -159,6 +159,9 @@ namespace MusicBrowser.Entities
                 bool containsAlbums = false;
                 bool containsFolders = false;
 
+                // if it's empty, it's a folder
+                if (content.Count() == 0) { return EntityKind.Folder; }
+
                 foreach (FileSystemItem item in content)
                 {
                     if (Util.Helper.IsSong(item.Name))
@@ -168,17 +171,8 @@ namespace MusicBrowser.Entities
                     if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
                     {
                         containsFolders = true;
-                        containsAlbums = false;
 
                         IEnumerable<FileSystemItem> subItems = FileSystemProvider.GetFolderContents(item.FullPath);
-
-                        if (subItems.Count() == 0)
-                        {
-#if DEBUG
-                            Logging.Logger.Verbose(entity.FullPath + " is a folder because it's empty", "finish");
-#endif
-                            return EntityKind.Folder;
-                        }
 
                         foreach (FileSystemItem subItem in subItems)
                         {
@@ -186,14 +180,6 @@ namespace MusicBrowser.Entities
                             {
                                 containsAlbums = true;
                                 continue;
-                            }
-                            if ((subItem.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
-                            {
-                                if (subItem.Name.StartsWith("disc ") || subItem.Name.StartsWith("CD"))
-                                {
-                                    containsAlbums = true;
-                                    continue;
-                                }
                             }
                         }
                     }
@@ -206,9 +192,6 @@ namespace MusicBrowser.Entities
                 {
                     return EntityKind.Genre;
                 }
-#if DEBUG
-                Logging.Logger.Verbose(entity.FullPath + " is a folder because it's not anything else", "finish");
-#endif
                 return EntityKind.Folder;
             }
             if (Util.Helper.IsSong(entity.FullPath))

@@ -20,66 +20,87 @@ namespace MusicBrowser.Providers.Metadata
 
             #region killer questions
 
-            if (!Directory.Exists(dto.Path))
-            {
-                dto.Outcome = DataProviderOutcome.InvalidInput;
-                dto.Errors = new List<string> { "Not a folder: " + dto.Path };
-                return dto;
-            }
-
             #endregion
 
             Statistics.GetInstance().Hit(Name + ".hit");
+            EntityFactory factory = new EntityFactory();
 
-            DateTime albumDate = DateTime.MinValue;
-            string ArtistName = new string(' ', 256);
-            System.Drawing.Bitmap thumb = null; 
-
-            ICacheEngine cacheEngine = CacheEngineFactory.GetCacheEngine();
-
-            #region inherit
-
-            IEnumerable<FileSystemItem> children = FileSystemProvider.GetFolderContents(dto.Path);
-            foreach (FileSystemItem child in children)
+            #region album
+            if (dto.DataType == DataTypes.Album)
             {
-                IEntity e = EntityPersistance.Deserialize(cacheEngine.Read(Util.Helper.GetCacheKey(child.FullPath)));
+                DateTime albumDate = DateTime.MinValue;
+                string ArtistName = new string(' ', 256);
+                System.Drawing.Bitmap thumb = null;
 
-                if (e.ReleaseDate != null)
+                // data on <albums> <= tracks
+                #region inherit
+
+                IEnumerable<FileSystemItem> children = FileSystemProvider.GetFolderContents(dto.Path);
+                foreach (FileSystemItem child in children)
                 {
-                    if (e.ReleaseDate > albumDate)
+                    IEntity e = factory.GetItem(child.FullPath);
+                    if (e.Kind == EntityKind.Song || e.Kind == EntityKind.Album)
                     {
-                        albumDate = e.ReleaseDate;
+                        if (e.ReleaseDate != null)
+                        {
+                            if (e.ReleaseDate > albumDate)
+                            {
+                                albumDate = e.ReleaseDate;
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(e.AlbumArtist))
+                        {
+                            if (ArtistName.Length > e.AlbumArtist.Length)
+                            {
+                                ArtistName = e.AlbumArtist;
+                            }
+                        }
+                        if (thumb == null && !dto.hasThumbImage)
+                        {
+                            if (!String.IsNullOrEmpty(e.IconPath))
+                            {
+                                thumb = ImageProvider.Load(e.IconPath);
+                            }
+                        }
                     }
                 }
-                if (!string.IsNullOrEmpty(e.AlbumArtist))
+
+                if (albumDate > DateTime.Parse("01-JAN-1000")) { dto.ReleaseDate = albumDate; }
+                if (!String.IsNullOrEmpty(ArtistName)) { dto.AlbumArtist = ArtistName.Trim(); }
+                if (thumb != null) { dto.ThumbImage = thumb; dto.hasThumbImage = true; }
+
+                #endregion
+
+                // data on artists => <albums>
+                #region decent
+
+                IEntity parent = factory.GetItem(Directory.GetParent(dto.Path).FullName);
+                if (parent.Kind == EntityKind.Artist)
                 {
-                    if (ArtistName.Length > e.AlbumArtist.Length)
+                    if (!String.IsNullOrEmpty(parent.BackgroundPath) && !dto.hasBackImage)
                     {
-                        ArtistName = e.AlbumArtist;
+                        dto.BackImage = ImageProvider.Load(parent.BackgroundPath);
+                        dto.hasBackImage = true;
                     }
                 }
-                if (thumb == null && !dto.hasThumbImage) 
-                { 
-                    if (!String.IsNullOrEmpty(e.IconPath)) 
-                    { 
-                        thumb = ImageProvider.Load(e.IconPath); 
-                    } 
-                }
+
+                #endregion
             }
-
-            if (albumDate > DateTime.Parse("01-JAN-1000")) { dto.ReleaseDate = albumDate; }
-            if (!String.IsNullOrEmpty(ArtistName)) { dto.AlbumArtist = ArtistName.Trim(); }
-            if (thumb != null) { dto.ThumbImage = thumb; dto.hasThumbImage = true; }
-
             #endregion
 
-            #region decent
+            #region song
 
-            IEntity parent = EntityPersistance.Deserialize(cacheEngine.Read(Util.Helper.GetCacheKey(Directory.GetParent(dto.Path).FullName)));
-            if (!String.IsNullOrEmpty(parent.BackgroundPath) && !dto.hasBackImage)
+            if (dto.DataType == DataTypes.Song)
             {
-                dto.BackImage = ImageProvider.Load(parent.BackgroundPath);
-                dto.hasBackImage = true;
+                if (!dto.hasThumbImage && Util.Config.GetInstance().GetBooleanSetting("UseFolderImageForTracks"))
+                {
+                    IEntity parent = factory.GetItem(Directory.GetParent(dto.Path).FullName);
+                    if (parent.Kind == EntityKind.Album && !String.IsNullOrEmpty(parent.IconPath))
+                    {
+                        dto.ThumbImage = ImageProvider.Load(parent.IconPath);
+                        dto.hasThumbImage = true;
+                    }
+                }
             }
 
             #endregion
@@ -94,13 +115,13 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool CompatibleWith(string type)
         {
-            return (type.ToLower() == "album");
+            return (type.ToLower() == "album") || (type.ToLower() == "song");
         }
 
         public bool isStale(DateTime lastAccess)
         {
-            // refresh weekly
-            return (lastAccess.AddDays(7) < DateTime.Now);
+            // always refesh
+            return true;
         }
     }
 }

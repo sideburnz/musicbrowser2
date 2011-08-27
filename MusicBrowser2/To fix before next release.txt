@@ -1,13 +1,11 @@
 ﻿v2.2.2
 
 bugs
-1) app needs to be loaded three times before a full refresh takes place
-2) background is not going to all the sub folders (c.f. brighten the corners)
-3) summary line isn't updating
-
+2) paths with one item are reported as empty by the factory
 
 V2.2.3
 
+- finish the home menu option [play favorite tracks, play 5* tracks, play 10 most played tracks]
 - put mediainfo.dll in the installer
 - create a way of saying which order the plug-ins are run in
 - page down and page up on menus should jump to top or bottom of list

@@ -33,9 +33,9 @@ namespace MusicBrowser.MediaCentre
                     }
             }
 
-            //TODO: this should be put on a background thread otherwise it freezes the app
+            //this needs to be put on a background thread otherwise it freezes the app
             PlaylistProvider PP = new PlaylistProvider(Action, Entity);
-            PP.Execute();
+            Providers.Background.CommonTaskQueue.Enqueue(PP, true);
         }
             
         public static void PlayTrackList(IEnumerable<string> tracks, bool queue)

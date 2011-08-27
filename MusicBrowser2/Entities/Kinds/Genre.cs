@@ -8,7 +8,7 @@ namespace MusicBrowser.Entities.Kinds
     {
         public Genre()
         {
-            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageQuestion";
+            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageGenre";
         }
 
         public override EntityKind Kind

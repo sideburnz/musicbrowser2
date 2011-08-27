@@ -58,8 +58,7 @@ namespace MusicBrowser.Providers
                 ShuffleList(tracks);
             }
             // Kick off a new thread
-            Thread thread = new Thread(() => MediaCentre.Playlist.PlayTrackList(tracks, queue));
-            thread.Start();
+            MediaCentre.Playlist.PlayTrackList(tracks, queue);
         }
 
         #region IBackgroundTaskable Members
