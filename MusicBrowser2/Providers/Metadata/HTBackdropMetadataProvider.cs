@@ -91,8 +91,8 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool isStale(DateTime lastAccess)
         {
-            // refresh fortnightly
-            return (lastAccess.AddDays(14) < DateTime.Now);
+            // refresh weekly (it won't download if it already has the images)
+            return (lastAccess.AddDays(7) < DateTime.Now);
         }
 
     }

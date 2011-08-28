@@ -11,9 +11,8 @@ namespace MusicBrowser.Providers.Metadata
     {
         private const string Name = "Last.fm";
 
-        private const int MinDaysBetweenHits = 1;
-        private const int MaxDaysBetweenHits = 14;
-        private const int RefreshWindow = MaxDaysBetweenHits - MinDaysBetweenHits;
+        private const int MinDaysBetweenHits = 3;
+        private const int MaxDaysBetweenHits = 300;
 
         private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
         
@@ -178,17 +177,17 @@ namespace MusicBrowser.Providers.Metadata
         }
 
         /// <summary>
-        /// This determines if data should be refreshed, it makes it more likely
-        /// the older the data is to be refreshed.
+        /// refresh requests between the min and max refresh period have 50% chance of going to next step
         /// </summary>
         /// <param name="stamp"></param>
         /// <returns></returns>
         private static bool RandomlyRefreshData(DateTime stamp)
         {
             int dataAge = (DateTime.Today.Subtract(stamp)).Days;
-            int refreshProbability = (10 * (dataAge / (RefreshWindow - MinDaysBetweenHits))) ^ 2;
             if (dataAge <= MinDaysBetweenHits) { return false; }
-            return (refreshProbability >= Rnd.Next(100));
+            if (dataAge >= MaxDaysBetweenHits) { return false; }
+
+            return (Rnd.Next(100) > 50);
         }
 
         public string FriendlyName()
@@ -203,7 +202,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool isStale(DateTime lastAccess)
         {
-            // refresh fortnightly
+            // refresh strategy for Last.fm is complicated, this first bit is just to randomly 
             return RandomlyRefreshData(lastAccess);
         }
     }

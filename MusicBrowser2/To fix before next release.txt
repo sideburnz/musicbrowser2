@@ -1,7 +1,20 @@
 ﻿v2.2.2
 
 bugs
-2) paths with one item are reported as empty by the factory
+1) last.fm lookup + inheritance incorrectly changed Harry Potter => John Williams
+3) investigate why the firepropertieschanged doesn't work
+
+- Last.fm refresh strategy should take into account track popularity rather than refresh everything every 10 days.
+
+0-9 plays - 300 days
+10 - 99 plays - 30 days
+100+ plays - 3 days
+1000+ plays - always
+
+And/Or, refresh on access to avoid new tracks not being refreshed.
+
+Last.fm should use last accessed as a modified-since header.
+
 
 V2.2.3
 

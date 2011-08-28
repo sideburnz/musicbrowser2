@@ -22,6 +22,8 @@ namespace MusicBrowser.Providers.Metadata
 
             #endregion
 
+            bool hasUpdated = false;
+
             Statistics.GetInstance().Hit(Name + ".hit");
             EntityFactory factory = new EntityFactory();
 
@@ -65,9 +67,29 @@ namespace MusicBrowser.Providers.Metadata
                     }
                 }
 
-                if (albumDate > DateTime.Parse("01-JAN-1000")) { dto.ReleaseDate = albumDate; }
-                if (!String.IsNullOrEmpty(ArtistName)) { dto.AlbumArtist = ArtistName.Trim(); }
-                if (thumb != null) { dto.ThumbImage = thumb; dto.hasThumbImage = true; }
+                if (albumDate > DateTime.Parse("01-JAN-1000")) 
+                {
+                    if (dto.ReleaseDate != albumDate)
+                    {
+                        dto.ReleaseDate = albumDate;
+                        hasUpdated = true;
+                    }
+                }
+                ArtistName = ArtistName.Trim();
+                if (!String.IsNullOrEmpty(ArtistName)) 
+                {
+                    if (dto.ArtistName != ArtistName)
+                    {
+                        dto.AlbumArtist = ArtistName.Trim();
+                        hasUpdated = true;
+                    }
+                }
+                if (thumb != null && !dto.hasThumbImage) 
+                { 
+                    dto.ThumbImage = thumb; 
+                    dto.hasThumbImage = true;
+                    hasUpdated = true;
+                }
 
                 #endregion
 
@@ -81,6 +103,7 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         dto.BackImage = ImageProvider.Load(parent.BackgroundPath);
                         dto.hasBackImage = true;
+                        hasUpdated = true;
                     }
                 }
 
@@ -99,11 +122,18 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         dto.ThumbImage = ImageProvider.Load(parent.IconPath);
                         dto.hasThumbImage = true;
+                        hasUpdated = true;
                     }
                 }
             }
 
             #endregion
+
+            if (!hasUpdated)
+            {
+                dto.Outcome = DataProviderOutcome.NoData;
+                dto.Errors = new List<string> { "No updates made" };
+            }
 
             return dto;
         }

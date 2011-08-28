@@ -90,11 +90,13 @@ namespace MusicBrowser.Providers.Metadata
                 if (!String.IsNullOrEmpty(fileTag.Tag.Title))
                 {
                     entity.Title = fileTag.Tag.Title;
+                    entity.TrackName = entity.Title;
                     entity.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);
                     entity.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
                     entity.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
                     entity.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
                     entity.AlbumArtist = fileTag.Tag.FirstAlbumArtist;
+                    entity.ArtistName = fileTag.Tag.FirstPerformer;
                 }
             }
             catch { }
