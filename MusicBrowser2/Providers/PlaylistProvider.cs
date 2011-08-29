@@ -34,21 +34,45 @@ namespace MusicBrowser.Providers
             }
         }
 
-        private static void CreatePlaylist(IEnumerable<string> paths, bool queue, bool shuffle)
+        private static void CreatePlaylist(IEnumerable<string> paths, bool queue, bool shuffle, bool favorites, int minPlays, int minStars)
         {
+            EntityFactory factory = new EntityFactory();
             List<string> tracks = new List<string>();
             // get all of the songs from sub folders
 
             foreach (string path in paths)
             {
 #if DEBUG
-                Logging.Logger.Verbose("PlaylistProvider.CreatePlaylist(" + path +", " + queue + ", " + shuffle + ")", "loop");
+                Logging.Logger.Verbose("PlaylistProvider.CreatePlaylist(" + path + ", " + queue + ", " + shuffle + ", " + favorites + ", " + minPlays + ", " + minStars + ")", "loop");
 #endif
                 foreach (FileSystemItem item in FileSystemProvider.GetAllSubPaths(path))
                 {
                     if (Util.Helper.IsSong(item.FullPath))
                     {
-                        tracks.Add(item.FullPath);
+                        // fairly rough implementation to play favorite tracks by various criteria
+                        if (favorites || minPlays > 0 || minStars > 0)
+                        {
+                            IEntity e = factory.GetItem(item);
+                            if (favorites && e.Favorite)
+                            {
+                                tracks.Add(item.FullPath);
+                                continue;
+                            }
+                            if (minPlays > 0 && e.PlayCount >= minPlays)
+                            {
+                                tracks.Add(item.FullPath);
+                                continue;
+                            }
+                            if (minStars > 0 && e.Rating >= minStars)
+                            {
+                                tracks.Add(item.FullPath);
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            tracks.Add(item.FullPath);
+                        }
                     }
                 }
             }
@@ -90,7 +114,7 @@ namespace MusicBrowser.Providers
                     }
                     else
                     {
-                        CreatePlaylist(paths, false, false);
+                        CreatePlaylist(paths, false, false, false, 0, 0);
                     }
                     break;
                 case "cmdaddtoqueue":
@@ -101,7 +125,7 @@ namespace MusicBrowser.Providers
                     }
                     else
                     {
-                        CreatePlaylist(paths, true, false);
+                        CreatePlaylist(paths, true, false, false, 0, 0);
                     }
                     break;
                 case "cmdshuffle":
@@ -111,9 +135,14 @@ namespace MusicBrowser.Providers
                     }
                     else
                     {
-                        CreatePlaylist(paths, false, true);
+                        CreatePlaylist(paths, false, true, false, 0, 0);
                     }
                     break;
+                case "cmdplayfavorites":
+                    {
+                        CreatePlaylist(paths, false, false, true, 0, 5);
+                        break;
+                    }
             }
         }
         #endregion

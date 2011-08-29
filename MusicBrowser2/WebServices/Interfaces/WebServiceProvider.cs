@@ -15,6 +15,7 @@ namespace MusicBrowser.WebServices.Interfaces
         public string RequestBody { get; set; }
         public string ResponseBody { get; set; }
         public string ResponseStatus { get; set; }
+        public DateTime LastAccessed { get; set; }
 
         public abstract bool ValidateParams();
         public abstract void Execute();

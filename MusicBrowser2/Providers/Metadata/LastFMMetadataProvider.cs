@@ -12,7 +12,7 @@ namespace MusicBrowser.Providers.Metadata
         private const string Name = "Last.fm";
 
         private const int MinDaysBetweenHits = 3;
-        private const int MaxDaysBetweenHits = 300;
+        private const int MaxDaysBetweenHits = 100;
 
         private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
         
@@ -54,6 +54,7 @@ namespace MusicBrowser.Providers.Metadata
                         albumDTO.MusicBrainzID = dto.MusicBrainzId;
                         albumDTO.Artist = dto.AlbumArtist;
                         albumDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
+                        albumDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
 
                         AlbumInfoService albumService = new AlbumInfoService();
                         albumService.SetProvider(lfmProvider);
@@ -101,6 +102,7 @@ namespace MusicBrowser.Providers.Metadata
                         artistDTO.Artist = dto.ArtistName;
                         artistDTO.MusicBrainzID = dto.MusicBrainzId;
                         artistDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
+                        artistDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
 
                         ArtistInfoService artistService = new ArtistInfoService();
                         artistService.SetProvider(lfmProvider);
@@ -139,7 +141,7 @@ namespace MusicBrowser.Providers.Metadata
                             dto.Errors = new System.Collections.Generic.List<string> { "Missing data: Artist name" };
                             return dto;
                         }
-
+                        
                         #endregion
 
                         TrackInfoDTO trackDTO = new TrackInfoDTO();
@@ -147,6 +149,7 @@ namespace MusicBrowser.Providers.Metadata
                         trackDTO.Artist = dto.ArtistName;
                         trackDTO.MusicBrainzID = dto.MusicBrainzId;
                         trackDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
+                        trackDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
 
                         TrackInfoService trackService = new TrackInfoService();
                         trackService.SetProvider(lfmProvider);
@@ -179,14 +182,17 @@ namespace MusicBrowser.Providers.Metadata
         /// <summary>
         /// refresh requests between the min and max refresh period have 50% chance of going to next step
         /// </summary>
-        /// <param name="stamp"></param>
-        /// <returns></returns>
         private static bool RandomlyRefreshData(DateTime stamp)
         {
+            // if it's never refreshed, refresh it
+            if (stamp < DateTime.Parse("01-JAN-1000")) { return true; }
+
+            // if it's less then the min, don't refresh if it's older than the max then do refresh
             int dataAge = (DateTime.Today.Subtract(stamp)).Days;
             if (dataAge <= MinDaysBetweenHits) { return false; }
-            if (dataAge >= MaxDaysBetweenHits) { return false; }
+            if (dataAge >= MaxDaysBetweenHits) { return true; }
 
+            // otherwise refresh randomly
             return (Rnd.Next(100) > 50);
         }
 

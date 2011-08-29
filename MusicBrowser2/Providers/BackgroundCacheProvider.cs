@@ -20,25 +20,6 @@ namespace MusicBrowser.Providers
 
         #region IBackgroundTaskable Members
 
-        private static IEnumerable<IDataProvider> GetProviders()
-        {
-            List<IDataProvider> providerList = new List<IDataProvider>();
-
-            providerList.Add(new TagSharpMetadataProvider());
-            providerList.Add(new MediaInfoProvider());
-            providerList.Add(new InheritanceProvider());
-            if (Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
-            {
-                providerList.Add(new HTBackdropMetadataProvider());
-                providerList.Add(new LastFMMetadataProvider());
-            }
-            providerList.Add(new FileSystemMetadataProvider());
-            providerList.Add(new IconProvider());
-            // add new providers here
-
-            return providerList;
-        }
-
         public string Title
         {
             get { return "BackgroundCacheProvider(" + _path + ")"; }
@@ -47,7 +28,7 @@ namespace MusicBrowser.Providers
         public void Execute()
         {
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path);
-            IEnumerable<IDataProvider> providers = GetProviders();
+            IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
 
             foreach (FileSystemItem item in items)
             {

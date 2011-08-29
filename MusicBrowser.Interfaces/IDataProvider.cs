@@ -40,6 +40,7 @@ namespace MusicBrowser.Interfaces
         public DataTypes DataType;
         public string Path;
         public string DiscId;
+        public IDictionary<string, DateTime> ProviderTimeStamps;
 
         // out
         public DataProviderOutcome Outcome;

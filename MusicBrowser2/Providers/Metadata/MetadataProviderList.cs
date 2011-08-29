@@ -9,9 +9,31 @@ namespace MusicBrowser.Providers.Metadata
 {
     class MetadataProviderList : IBackgroundTaskable
     {
-
-        public static void ProcessEntity(IEntity entity, IEnumerable<IDataProvider> providers)
+        public static IEnumerable<IDataProvider> GetProviders()
         {
+            List<IDataProvider> providerList = new List<IDataProvider>();
+
+            providerList.Add(new TagSharpMetadataProvider());
+            providerList.Add(new MediaInfoProvider());
+            providerList.Add(new InheritanceProvider());
+            if (Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+            {
+                providerList.Add(new HTBackdropMetadataProvider());
+                providerList.Add(new LastFMMetadataProvider());
+            }
+            providerList.Add(new FileSystemMetadataProvider());
+            providerList.Add(new IconProvider());
+            // add new providers here
+
+            return providerList;
+        }
+
+        public static void ProcessEntity(IEntity entity, IEnumerable<IDataProvider> providers, bool Forced)
+        {
+#if DEBUG
+            Logging.Logger.Verbose("ProcessEntity(" + entity.Path + ", <providers>, " + Forced + ")", "start");
+#endif
+
             bool requiresUpdate = false;
 
             foreach (IDataProvider provider in providers)
@@ -20,7 +42,7 @@ namespace MusicBrowser.Providers.Metadata
                 {
                     DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
                     if (!provider.CompatibleWith(entity.KindName)) { continue; }
-                    if (!provider.isStale(lastAccess)) { continue; }
+                    if (!Forced && !provider.isStale(lastAccess)) { continue; }
                     DataProviderDTO dto = PopulateDTO(entity);
                     dto = provider.Fetch(dto);
                     if (dto.Outcome == DataProviderOutcome.Success)
@@ -84,6 +106,8 @@ namespace MusicBrowser.Providers.Metadata
 
             dto.hasThumbImage = !String.IsNullOrEmpty(entity.IconPath);
             dto.hasBackImage = !String.IsNullOrEmpty(entity.BackgroundPath);
+
+            dto.ProviderTimeStamps = entity.ProviderTimeStamps;
 
             switch (entity.Kind)
             {
@@ -208,11 +232,20 @@ namespace MusicBrowser.Providers.Metadata
 
         private readonly IEntity _entity;
         private readonly IEnumerable<IDataProvider> _providers;
+        private readonly bool _forced;
 
         public MetadataProviderList(IEntity entity, IEnumerable<IDataProvider> providers)
         {
             _entity = entity;
             _providers = providers;
+            _forced = false;
+        }
+
+        public MetadataProviderList(IEntity entity, IEnumerable<IDataProvider> providers, bool forced)
+        {
+            _entity = entity;
+            _providers = providers;
+            _forced = forced;
         }
 
         #region IBackgroundTaskable Members
@@ -226,7 +259,7 @@ namespace MusicBrowser.Providers.Metadata
         {
             try
             {
-                ProcessEntity(_entity, _providers);
+                ProcessEntity(_entity, _providers, _forced);
             }
             catch (Exception e)
             {

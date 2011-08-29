@@ -13,6 +13,7 @@ namespace MusicBrowser.WebServices.Helper
         private HttpMethod _method;
         private string _response;
         private string _status;
+        private DateTime _lastAccessed;
 
         public enum HttpMethod
         {
@@ -23,6 +24,7 @@ namespace MusicBrowser.WebServices.Helper
         public string Url { set { _url = value; } }
         public string Body { set { _body = value; } }
         public HttpMethod Method { set { _method = value; } }
+        public DateTime LastUpdated { set { _lastAccessed = value; } }
 
         public string Response { get { return _response; } }
         public string Status { get { return _status; } }
@@ -37,7 +39,8 @@ namespace MusicBrowser.WebServices.Helper
             {
                 request = (HttpWebRequest)WebRequest.Create(_url);
                 request.Method = _method.ToString();
-                request.Timeout = 5000; 
+                request.Timeout = 5000;
+                if (_lastAccessed > DateTime.Parse("01-JAN-2000")) { request.IfModifiedSince = _lastAccessed; }
 
                 if (!String.IsNullOrEmpty(_body))
                 {
@@ -55,7 +58,10 @@ namespace MusicBrowser.WebServices.Helper
                 throw e;
             }
 
-            Logger.Debug(_url);
+#if DEBUG
+            Logger.Verbose(_url, "request");
+#endif
+
             try
             {
                 using (WebResponse response = request.GetResponse())

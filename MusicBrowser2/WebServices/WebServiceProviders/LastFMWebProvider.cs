@@ -69,6 +69,7 @@ namespace MusicBrowser.WebServices.WebServiceProviders
     
             http.Url = sb.ToString();
             http.Method = HttpProvider.HttpMethod.Get;
+            http.LastUpdated = LastAccessed;
 
             if (!String.IsNullOrEmpty(RequestBody))
             {

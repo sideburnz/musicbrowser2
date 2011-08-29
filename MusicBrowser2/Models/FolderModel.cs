@@ -5,7 +5,11 @@ using System.Text.RegularExpressions;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Entities;
 using MusicBrowser.Entities.Kinds;
+using MusicBrowser.Interfaces;
+using MusicBrowser.Providers;
+using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.CD;
+using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Providers.Transport;
 using MusicBrowser.Util;
 
@@ -76,6 +80,37 @@ namespace MusicBrowser.Models
                 _selectedIndex = value;
                 FirePropertyChanged("SelectedIndex");
             }
+        }
+
+        public void ForceRefresh()
+        {
+            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parentEntity.Path);
+            IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
+            EntityFactory factory = new EntityFactory();
+
+            CommonTaskQueue.Enqueue(new MetadataProviderList(_parentEntity, providers, true));
+
+            foreach (FileSystemItem item in items)
+            {
+                // don't waste time on the item
+                if (!Util.Helper.IsEntity(item.FullPath)) { continue; }
+                if (item.Name.ToLower() == "metadata") { continue; }
+
+                // process the item in context
+                IEntity entity = factory.GetItem(item);
+                if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }
+
+                // fire off the metadata providers
+                if (!entity.Kind.Equals(EntityKind.Home))
+                {
+                    CommonTaskQueue.Enqueue(new MetadataProviderList(entity, providers, true));
+                }
+            }
+
+
+
+            //TODO: does this need to go on a background thread
+            
         }
 
         public IEntity SelectedItem

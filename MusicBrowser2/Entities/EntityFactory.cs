@@ -153,55 +153,38 @@ namespace MusicBrowser.Entities
 
         private static EntityKind DetermineKind(FileSystemItem entity)
         {
-            if ((entity.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
+            if (!Util.Helper.IsEntity(entity.FullPath))
             {
-                IEnumerable<FileSystemItem> content = FileSystemProvider.GetFolderContents(entity.FullPath);
-                bool containsAlbums = false;
-                bool containsFolders = false;
-
-                // if it's empty, it's a folder
-                if (content.Count() == 0) { return EntityKind.Folder; }
-
-                foreach (FileSystemItem item in content)
-                {
-                    if (Util.Helper.IsSong(item.Name))
-                    {
-                        return EntityKind.Album;
-                    }
-                    if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
-                    {
-                        containsFolders = true;
-
-                        IEnumerable<FileSystemItem> subItems = FileSystemProvider.GetFolderContents(item.FullPath);
-
-                        foreach (FileSystemItem subItem in subItems)
-                        {
-                            if (Util.Helper.IsSong(subItem.FullPath))
-                            {
-                                containsAlbums = true;
-                                continue;
-                            }
-                        }
-                    }
-                }
-                if (containsAlbums)
-                {
-                    return EntityKind.Artist;
-                }
-                if (containsFolders)
-                {
-                    return EntityKind.Genre;
-                }
-                return EntityKind.Folder;
+                return EntityKind.Unknown;
             }
             if (Util.Helper.IsSong(entity.FullPath))
             {
                 return EntityKind.Song;
             }
+            if (Util.Helper.IsFolder(entity.Attributes))
+            {
+                IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
+
+                foreach(FileSystemItem item in items)
+                {
+                    EntityKind e = DetermineKind(item);
+                    switch (e)
+                    {
+                        case EntityKind.Song:
+                            return EntityKind.Album;
+                        case EntityKind.Album:
+                            return EntityKind.Artist;
+                        case EntityKind.Artist:
+                            return EntityKind.Genre;
+                    }
+                    return EntityKind.Folder;
+                }
+            }
             if (Util.Helper.IsPlaylist(entity.FullPath))
             {
                 return EntityKind.Playlist;
             }
+
             Logging.Logger.Info("unable to determine entity type for : " + entity.FullPath);
             return EntityKind.Unknown;
         }

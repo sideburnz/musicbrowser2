@@ -30,6 +30,9 @@
       <Command Name="CmdClosePopup"/>
       <Command Name="CmdPlayAll"/>
       <Command Name="CmdQueue"/>
+      <Command Name="CmdHomeMenu"/>
+      <Command Name="CmdRefresh" />
+      
       <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
       <playlist:Playlist Name="playlist"/>
       <models:Clock Name="Clock"/>
@@ -39,6 +42,7 @@
       <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Bubbled"/>
       <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Bubbled" />
       <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Bubbled" />
+      <ShortcutHandler Name="hRec" Shortcut="Record" HandlerStage="Bubbled" />
     </Locals>
 
     <Rules>
@@ -67,6 +71,11 @@
           <Invoke Target="[FolderModel.TransportCommand]" command="playpause" />
         </Actions>
       </Changed>
+      <Changed Source="[hRec.Invoked]">
+        <Actions>
+          <Invoke Target="[FolderModel.ForceRefresh]" />
+        </Actions>
+      </Changed>
       
       <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
       <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
@@ -81,7 +90,12 @@
           <Invoke Target="[playlist.DoAction]" Action="CmdAddToQueue" Entity="[FolderModel.ParentEntity]"/>
         </Actions>
       </Changed>
-
+      <Changed Source="[CmdHomeMenu.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdPlayFavorites" Entity="[FolderModel.ParentEntity]"/>
+        </Actions>
+      </Changed>
+      
       <Rule>
         <Actions>
           <Invoke Target="[ViewPanel.NavigateInto]" />
@@ -159,7 +173,7 @@
           </Panel>
 
           <!-- Page Header -->
-          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" Crumbs="[FolderModel.Crumbs]" CmdPlayAll="[CmdPlayAll]" CmdQueue="[CmdQueue]">
+          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" Crumbs="[FolderModel.Crumbs]" CmdPlayAll="[CmdPlayAll]" CmdQueue="[CmdQueue]" CmdHome="[CmdHomeMenu]">
             <LayoutInput>
               <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.15" Right="Parent,1"/>
             </LayoutInput>
