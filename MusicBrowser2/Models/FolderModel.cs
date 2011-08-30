@@ -84,11 +84,16 @@ namespace MusicBrowser.Models
 
         public void ForceRefresh()
         {
+            if (_parentEntity.Kind == EntityKind.Home) { return; }
+
+            int itemCount = 1;
+            ICacheEngine cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
+
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parentEntity.Path);
             IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
             EntityFactory factory = new EntityFactory();
 
-            CommonTaskQueue.Enqueue(new MetadataProviderList(_parentEntity, providers, true));
+            CommonTaskQueue.Enqueue(new MetadataProviderList(_parentEntity, providers, true), true);
 
             foreach (FileSystemItem item in items)
             {
@@ -96,21 +101,20 @@ namespace MusicBrowser.Models
                 if (!Util.Helper.IsEntity(item.FullPath)) { continue; }
                 if (item.Name.ToLower() == "metadata") { continue; }
 
+                // remove the cache (force it to rediscover the type)
+                cacheEngine.Delete(Util.Helper.GetCacheKey(item.FullPath));
+
                 // process the item in context
                 IEntity entity = factory.GetItem(item);
                 if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
                 // fire off the metadata providers
-                if (!entity.Kind.Equals(EntityKind.Home))
-                {
-                    CommonTaskQueue.Enqueue(new MetadataProviderList(entity, providers, true));
-                }
+                
+                CommonTaskQueue.Enqueue(new MetadataProviderList(entity, providers, true), true);
+                itemCount++;
             }
 
-
-
-            //TODO: does this need to go on a background thread
-            
+            UINotifier.GetInstance().Message = "refreshing metadata for " + itemCount + " items";
         }
 
         public IEntity SelectedItem

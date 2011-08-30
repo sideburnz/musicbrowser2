@@ -136,8 +136,11 @@ namespace MusicBrowser.Entities
 
         public virtual void UpdateValues()
         {
-            // cache the sortname, we don't want to do this complex calc every time
-            _sortName = Config.HandleIgnoreWords(MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".SortOrder"))).ToLower();
+            // cache the sortname, we don't want to do this complex calc every time its accessed
+            string sortName = MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".SortOrder")).ToLower();
+            sortName = Config.HandleIgnoreWords(sortName);
+            Regex rgx = new Regex(@"[^#a-z0-9]+");
+            _sortName = rgx.Replace(sortName, " ").Trim();
 
             FirePropertyChanged("ShortSummaryLine1");
             FirePropertyChanged("ShortSummaryLine2");

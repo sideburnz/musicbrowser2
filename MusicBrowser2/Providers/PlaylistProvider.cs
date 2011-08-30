@@ -52,7 +52,7 @@ namespace MusicBrowser.Providers
                         // fairly rough implementation to play favorite tracks by various criteria
                         if (favorites || minPlays > 0 || minStars > 0)
                         {
-                            IEntity e = factory.GetItem(item);
+                            IEntity e = factory.GetItem(item); // this is very very very slow to do in bulk
                             if (favorites && e.Favorite)
                             {
                                 tracks.Add(item.FullPath);
@@ -120,7 +120,7 @@ namespace MusicBrowser.Providers
                 case "cmdaddtoqueue":
                     if (_entity.Kind.Equals(EntityKind.Song) || _entity.Kind.Equals(EntityKind.Playlist))
                     {
-                        Models.UINotifier.GetInstance().Message = "Adding \"" + _entity.Title + "\" to playlist";
+                        Models.UINotifier.GetInstance().Message = "adding \"" + _entity.Title + "\" to playlist";
                         MediaCentre.Playlist.PlaySong(_entity, true);
                     }
                     else

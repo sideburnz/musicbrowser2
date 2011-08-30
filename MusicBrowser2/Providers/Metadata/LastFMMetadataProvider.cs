@@ -11,7 +11,7 @@ namespace MusicBrowser.Providers.Metadata
     {
         private const string Name = "Last.fm";
 
-        private const int MinDaysBetweenHits = 3;
+        private const int MinDaysBetweenHits = 0;
         private const int MaxDaysBetweenHits = 100;
 
         private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
@@ -54,7 +54,11 @@ namespace MusicBrowser.Providers.Metadata
                         albumDTO.MusicBrainzID = dto.MusicBrainzId;
                         albumDTO.Artist = dto.AlbumArtist;
                         albumDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
-                        albumDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
+                        if (dto.ProviderTimeStamps.ContainsKey(FriendlyName()))
+                        {
+                            albumDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
+                        }
+                        else { albumDTO.lastAccessed = DateTime.Parse("01-01-1000"); }
 
                         AlbumInfoService albumService = new AlbumInfoService();
                         albumService.SetProvider(lfmProvider);
@@ -102,7 +106,11 @@ namespace MusicBrowser.Providers.Metadata
                         artistDTO.Artist = dto.ArtistName;
                         artistDTO.MusicBrainzID = dto.MusicBrainzId;
                         artistDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
-                        artistDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
+                        if (dto.ProviderTimeStamps.ContainsKey(FriendlyName()))
+                        {
+                            artistDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
+                        }
+                        else { artistDTO.lastAccessed = DateTime.Parse("01-01-1000"); }
 
                         ArtistInfoService artistService = new ArtistInfoService();
                         artistService.SetProvider(lfmProvider);
@@ -149,7 +157,11 @@ namespace MusicBrowser.Providers.Metadata
                         trackDTO.Artist = dto.ArtistName;
                         trackDTO.MusicBrainzID = dto.MusicBrainzId;
                         trackDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
-                        trackDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
+                        if (dto.ProviderTimeStamps.ContainsKey(FriendlyName()))
+                        {
+                            trackDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
+                        }
+                        else { trackDTO.lastAccessed = DateTime.Parse("01-01-1000"); }
 
                         TrackInfoService trackService = new TrackInfoService();
                         trackService.SetProvider(lfmProvider);
@@ -180,7 +192,7 @@ namespace MusicBrowser.Providers.Metadata
         }
 
         /// <summary>
-        /// refresh requests between the min and max refresh period have 50% chance of going to next step
+        /// refresh requests between the min and max refresh period have 10% chance of refreshing
         /// </summary>
         private static bool RandomlyRefreshData(DateTime stamp)
         {
@@ -192,8 +204,8 @@ namespace MusicBrowser.Providers.Metadata
             if (dataAge <= MinDaysBetweenHits) { return false; }
             if (dataAge >= MaxDaysBetweenHits) { return true; }
 
-            // otherwise refresh randomly
-            return (Rnd.Next(100) > 50);
+            // otherwise refresh randomly (90% don't refresh)
+            return (Rnd.Next(100) >= 90);
         }
 
         public string FriendlyName()

@@ -51,8 +51,7 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <FullyQualifiedOutputPath>$(MSBuildProjectDirectory)\bin\Release</FullyQualifiedOutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -112,6 +111,7 @@
     <Compile Include="CacheEngine\CacheEngineFactory.cs" />
     <Compile Include="CacheEngine\DummyCacheEngine.cs" />
     <Compile Include="CacheEngine\FileSystemCacheEngine.cs" />
+    <Compile Include="CacheEngine\NearLineCache.cs" />
     <Compile Include="Entities\Kinds\Folder.cs" />
     <Compile Include="Entities\Kinds\Unknown.cs" />
     <Compile Include="Models\BaseModel.cs" />

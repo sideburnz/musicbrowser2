@@ -55,10 +55,18 @@ namespace MusicBrowser.Entities
             if (!Util.Helper.IsEntity(item.FullPath)) { return new Unknown(); }
             if (item.Name.ToLower() == "metadata") { return new Unknown(); }
 
+            NearLineCache nlCache = NearLineCache.GetInstance();
+            string key = Util.Helper.GetCacheKey(item.FullPath);
+
+            if (nlCache.Exists(key))
+            {
+                return nlCache.Read(key);
+            }
+
             IEntity entity;
+
             string metadataFile = MetadataPath(item);
 
-            string key = Util.Helper.GetCacheKey(item.FullPath);
             FileSystemItem metadata = FileSystemProvider.GetItemDetails(metadataFile);
 
             // get the value from cache
@@ -143,6 +151,7 @@ namespace MusicBrowser.Entities
             // do this here so that if the user browses to a folder that isn't cached, it retrieves some basic metadata
             TagSharpMetadataProvider.FetchLite(entity);
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
+            nlCache.Update(key, entity);
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName, "finish");
 #endif
@@ -177,8 +186,8 @@ namespace MusicBrowser.Entities
                         case EntityKind.Artist:
                             return EntityKind.Genre;
                     }
-                    return EntityKind.Folder;
                 }
+                return EntityKind.Folder;
             }
             if (Util.Helper.IsPlaylist(entity.FullPath))
             {

@@ -50,7 +50,7 @@ namespace MusicBrowser.Providers.Metadata
                         entity = PopulateEntity(entity, dto);
                         requiresUpdate = true;
                     }
-                    else
+                    else if (dto.Outcome != DataProviderOutcome.NoData) // no data is a warning, ignore it and move on
                     {
                         Logging.Logger.Debug(dto.Outcome.ToString() + " " + dto.Errors[0]);
                     }

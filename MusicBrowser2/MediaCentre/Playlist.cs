@@ -40,7 +40,7 @@ namespace MusicBrowser.MediaCentre
             
         public static void PlayTrackList(IEnumerable<string> tracks, bool queue)
         {
-            Models.UINotifier.GetInstance().Message = string.Format("Adding {0} tracks to playlist", tracks.Count());
+            Models.UINotifier.GetInstance().Message = string.Format("adding {0} tracks to playlist", tracks.Count());
             Transport.GetTransport().Play(queue, tracks);
             AutoShowNowPlaying();
         }
