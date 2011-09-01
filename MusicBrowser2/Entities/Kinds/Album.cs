@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Text;
 using MusicBrowser.Providers;
+using System.Runtime.Serialization;
 
 namespace MusicBrowser.Entities.Kinds
 {
+    [DataContract]
+    [KnownType(typeof(Album))]
     class Album : IEntity
     {
         public Album()
@@ -34,7 +37,6 @@ namespace MusicBrowser.Entities.Kinds
                             ImageProvider.Load(temp),
                             ImageType.Thumb),
                             IconPath);
-                        Dirty = true;
                     }
                 }
                 if (string.IsNullOrEmpty(BackgroundPath))

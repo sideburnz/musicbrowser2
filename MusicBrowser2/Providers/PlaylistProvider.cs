@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
+using MusicBrowser.CacheEngine;
 
 namespace MusicBrowser.Providers
 {
@@ -34,7 +36,7 @@ namespace MusicBrowser.Providers
             }
         }
 
-        private static void CreatePlaylist(IEnumerable<string> paths, bool queue, bool shuffle, bool favorites, int minPlays, int minStars)
+        private static void CreatePlaylist(IEnumerable<string> paths, bool queue, bool shuffle, bool favorites)
         {
             EntityFactory factory = new EntityFactory();
             List<string> tracks = new List<string>();
@@ -43,38 +45,35 @@ namespace MusicBrowser.Providers
             foreach (string path in paths)
             {
 #if DEBUG
-                Logging.Logger.Verbose("PlaylistProvider.CreatePlaylist(" + path + ", " + queue + ", " + shuffle + ", " + favorites + ", " + minPlays + ", " + minStars + ")", "loop");
+                Logging.Logger.Verbose("PlaylistProvider.CreatePlaylist(" + path + ", " + queue + ", " + shuffle + ", " + favorites + ")", "loop");
 #endif
-                foreach (FileSystemItem item in FileSystemProvider.GetAllSubPaths(path))
+
+                if (favorites) // use the NearLine cache to find the favorites
                 {
-                    if (Util.Helper.IsSong(item.FullPath))
+                    tracks.AddRange(NearLineCache.GetInstance().FindFavorites());
+                }
+                //if (minPlays > 0)
+                //{
+                //    tracks.AddRange(NearLineCache.GetInstance().FindByPlays(minPlays));
+                //}
+                //if (minStars > 0)
+                //{
+                //    tracks.AddRange(NearLineCache.GetInstance().FindByRating(minStars));
+                //}
+                
+                if (!favorites)
+                {
+                    foreach (FileSystemItem item in FileSystemProvider.GetAllSubPaths(path))
                     {
-                        // fairly rough implementation to play favorite tracks by various criteria
-                        if (favorites || minPlays > 0 || minStars > 0)
-                        {
-                            IEntity e = factory.GetItem(item); // this is very very very slow to do in bulk
-                            if (favorites && e.Favorite)
-                            {
-                                tracks.Add(item.FullPath);
-                                continue;
-                            }
-                            if (minPlays > 0 && e.PlayCount >= minPlays)
-                            {
-                                tracks.Add(item.FullPath);
-                                continue;
-                            }
-                            if (minStars > 0 && e.Rating >= minStars)
-                            {
-                                tracks.Add(item.FullPath);
-                                continue;
-                            }
-                        }
-                        else
+                        if (Util.Helper.IsSong(item.FullPath))
                         {
                             tracks.Add(item.FullPath);
                         }
                     }
                 }
+
+                //dedupe the list
+                tracks = tracks.Distinct().ToList();
             }
             // shuffle the tracks if requested
             if (shuffle)
@@ -114,7 +113,7 @@ namespace MusicBrowser.Providers
                     }
                     else
                     {
-                        CreatePlaylist(paths, false, false, false, 0, 0);
+                        CreatePlaylist(paths, false, false, false);
                     }
                     break;
                 case "cmdaddtoqueue":
@@ -125,7 +124,7 @@ namespace MusicBrowser.Providers
                     }
                     else
                     {
-                        CreatePlaylist(paths, true, false, false, 0, 0);
+                        CreatePlaylist(paths, true, false, false);
                     }
                     break;
                 case "cmdshuffle":
@@ -135,12 +134,12 @@ namespace MusicBrowser.Providers
                     }
                     else
                     {
-                        CreatePlaylist(paths, false, true, false, 0, 0);
+                        CreatePlaylist(paths, false, true, false);
                     }
                     break;
                 case "cmdplayfavorites":
                     {
-                        CreatePlaylist(paths, false, false, true, 0, 5);
+                        CreatePlaylist(paths, false, false, true);
                         break;
                     }
             }

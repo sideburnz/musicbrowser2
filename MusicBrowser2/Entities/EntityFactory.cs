@@ -55,33 +55,23 @@ namespace MusicBrowser.Entities
             if (!Util.Helper.IsEntity(item.FullPath)) { return new Unknown(); }
             if (item.Name.ToLower() == "metadata") { return new Unknown(); }
 
-            NearLineCache nlCache = NearLineCache.GetInstance();
             string key = Util.Helper.GetCacheKey(item.FullPath);
-
-            if (nlCache.Exists(key))
-            {
-                return nlCache.Read(key);
-            }
-
             IEntity entity;
-
-            string metadataFile = MetadataPath(item);
-
-            FileSystemItem metadata = FileSystemProvider.GetItemDetails(metadataFile);
 
             // get the value from cache
             if (_cacheEngine.Exists(key))
             {
-                if (IsFresh(_cacheEngine.GetAge(key), metadata.LastUpdated, item.LastUpdated))
+                if (IsFresh(_cacheEngine.GetAge(key), item.LastUpdated)) 
                 {
                     entity = EntityPersistance.Deserialize(_cacheEngine.Read(key));
-                    if (entity.Version >= FirstCompatibleCache)
+                    if (entity.Kind != EntityKind.Unknown)
                     {
                         Statistics.GetInstance().Hit("cache.hit");
                         entity.Path = item.FullPath;
                         return entity;
                     }
                 }
+
                 // if it's not the latest version of the entity, delete it refreshing the cache
                 _cacheEngine.Delete(key);
                 Statistics.GetInstance().Hit("cache.expiry");
@@ -89,16 +79,8 @@ namespace MusicBrowser.Entities
 
             Statistics.GetInstance().Hit("factory.hit");
 #if DEBUG
-            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") [metadata " + metadataFile + " : " + !String.IsNullOrEmpty(metadata.Name) + "]", "start");
+            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
 #endif
-            if (!String.IsNullOrEmpty(metadata.Name))
-            {
-                string metadataText = File.ReadAllText(metadataFile);
-                entity = EntityPersistance.Deserialize(metadataText);
-                if (String.IsNullOrEmpty(entity.Title)) { entity.Title = item.Name; }
-                entity.Path = item.FullPath;
-                return entity;
-            }
 
             EntityKind kind = DetermineKind(item);
             switch (kind)
@@ -151,7 +133,6 @@ namespace MusicBrowser.Entities
             // do this here so that if the user browses to a folder that isn't cached, it retrieves some basic metadata
             TagSharpMetadataProvider.FetchLite(entity);
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
-            nlCache.Update(key, entity);
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName, "finish");
 #endif

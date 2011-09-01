@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace MusicBrowser.Entities.Kinds
 {
+    [DataContract]
+    [KnownType(typeof(Song))]
     public class Song : IEntity
     {
         public Song()

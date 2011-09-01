@@ -66,6 +66,7 @@ namespace MusicBrowser.Providers.Metadata
             if (requiresUpdate)
             {
                 entity.UpdateValues();
+                NearLineCache.GetInstance().Update(entity);
                 CacheEngineFactory.GetCacheEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
             }
         }

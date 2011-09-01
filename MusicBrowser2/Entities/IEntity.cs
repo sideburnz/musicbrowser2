@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Models;
@@ -7,6 +11,7 @@ using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
+    [DataContract]
     public enum EntityKind
     {
         Album,
@@ -20,72 +25,100 @@ namespace MusicBrowser.Entities
         Unknown
     }
 
-    public class IEntity : BaseModel
+    [DataContract]
+    public abstract class IEntity : BaseModel
     {
         private string _sortName;
-        private readonly string _view;
         private string _cacheKey;
 
         public IEntity()
         {
-            _view = Config.GetInstance().GetSetting(KindName + ".View").ToLower();
             DefaultBackgroundPath = string.Empty;
             Performers = new List<string>();
             ProviderTimeStamps = new Dictionary<string, DateTime>();
             Genres = new List<string>();
-            Dirty = false;
         }
 
+        [DataMember]
         public virtual string Path { get; set; }
+        [DataMember]
         public string Title { get; set; }
+        [DataMember]
         public string Summary { get; set; }
+        [DataMember]
         public string IconPath { get; set; }
+        [DataMember]
         public string DefaultIconPath { get; set; }
+        [DataMember]
         public string DefaultBackgroundPath { get; set; }
+        [DataMember]
         public string BackgroundPath { get; set; }
+        [DataMember]
         public string MusicBrainzID { get; set; }
-
+        [DataMember]
         public string DiscId { get; set; }
+        [DataMember]
         public string Label { get; set; }
+        [DataMember]
         public string TrackName { get; set; }
+        [DataMember]
         public string ArtistName { get; set; }
+        [DataMember]
         public string AlbumArtist { get; set; }
+        [DataMember]
         public string AlbumName { get; set; }
+        [DataMember]
         public int TrackNumber { get; set; }
+        [DataMember]
         public int DiscNumber { get; set; }
+        [DataMember]
         public DateTime ReleaseDate { get; set; }
+        [DataMember]
         public string Codec { get; set; }
+        [DataMember]
         public string Channels { get; set; }
+        [DataMember]
         public string SampleRate { get; set; }
+        [DataMember]
         public string Resolution { get; set; }
+        [DataMember]
         public int PlayCount { get; set; }
+        [DataMember]
         public int Rating { get; set; }
+        [DataMember]
         public int Listeners { get; set; }
+        [DataMember]
         public int TotalPlays { get; set; }
+        [DataMember]
         public bool Favorite { get; set; }
+        [DataMember]
         public List<string> Performers { get; set; }
+        [DataMember]
         public List<string> Genres { get; set; }
+        [DataMember]
         public string Lyrics { get; set; }
+        [DataMember]
+        public Dictionary<string, DateTime> ProviderTimeStamps { get; set; }
 
         // read only and have default values
         public virtual EntityKind Kind { get { return EntityKind.Unknown; } }
         public string KindName { get { return Kind.ToString(); } }
 
-        public Dictionary<string, DateTime> ProviderTimeStamps { get; set; }
-
         // Calculated/transient
         public int Index { get; set; }
         public virtual string ShortSummaryLine1 { get; set; }
+        [DataMember]
         public int Duration { get; set; }
+        [DataMember]
         public int AlbumCount { get; set; }
+        [DataMember]
         public int ArtistCount { get; set; }
+        [DataMember]
         public int TrackCount { get; set; }
-        public bool Dirty { get; set; }
-        public long Version { get; set; }
 
         // Read Only values
         public string SortName { get { return _sortName; } }
-        public virtual string View { get { return _view; } }
+        public virtual string View { get { return Config.GetInstance().GetSetting(KindName + ".View").ToLower(); } }
         public virtual bool Playable { get { return false; } }
 
         // Fully implemented

@@ -38,12 +38,19 @@ namespace MusicBrowser.CacheEngine
 
         public void Update(string key, string value)
         {
-            string fileName = CalculateCacheFileFromKey(key);
-            lock (_obj)
+            if (!String.IsNullOrEmpty(value))
             {
-                StreamWriter file = new StreamWriter(fileName);
-                file.Write(value);
-                file.Close();
+                string fileName = CalculateCacheFileFromKey(key);
+                lock (_obj)
+                {
+                    StreamWriter file = new StreamWriter(fileName);
+                    file.Write(value);
+                    file.Close();
+                }
+            }
+            else
+            {
+                Delete(key);
             }
         }
 

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.MediaCenter.UI;
+using System.Runtime.Serialization;
 
 namespace MusicBrowser.Models
 {
+    [DataContract]
     public class BaseModel : IModelItem
     {
         #region IModelItem Members

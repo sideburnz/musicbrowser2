@@ -8,12 +8,17 @@ namespace MusicBrowser.Entities
     {
         public void Populate(IEnumerable<FileSystemItem> items, EntityFactory entityFactory)
         {
+            NearLineCache nl = NearLineCache.GetInstance();
+
             foreach (FileSystemItem item in items)
             {
+                //Logging.Logger.Debug("EntityCollection.Loop (" + item.FullPath);
+
                 IEntity entity = entityFactory.GetItem(item);
                 if (!entity.Kind.Equals(EntityKind.Unknown) && !entity.Kind.Equals(EntityKind.Folder))
                 {
                     entity.UpdateValues();
+                    nl.Update(entity);
                     Add(entity);
                 }
             }

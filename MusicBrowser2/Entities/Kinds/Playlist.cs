@@ -1,5 +1,9 @@
-﻿namespace MusicBrowser.Entities.Kinds
+﻿using System.Runtime.Serialization;
+
+namespace MusicBrowser.Entities.Kinds
 {
+    [DataContract]
+    [KnownType(typeof(Playlist))]
     class Playlist : IEntity
     {
         public Playlist()

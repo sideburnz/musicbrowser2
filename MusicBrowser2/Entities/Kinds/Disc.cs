@@ -1,8 +1,11 @@
 ﻿using System;
 using MusicBrowser.Providers.CD;
+using System.Runtime.Serialization;
 
 namespace MusicBrowser.Entities.Kinds
 {
+    [DataContract]
+    [KnownType(typeof(Disc))]
     class Disc : IEntity
     {
         private readonly char _letter;

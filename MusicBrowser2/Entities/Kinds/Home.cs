@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using MusicBrowser.Providers.FolderItems;
+using System.Runtime.Serialization;
 
 namespace MusicBrowser.Entities.Kinds
 {
+    [DataContract]
+    [KnownType(typeof(Home))]
     public class Home : IEntity
     {
         static IEnumerable<string> _paths;
@@ -21,6 +24,11 @@ namespace MusicBrowser.Entities.Kinds
         public override EntityKind Kind 
         {
             get { return EntityKind.Home; }
+        }
+
+        public new string Description
+        {
+            get { return "MusicBrowser 2"; }
         }
 
         public static IEnumerable<string> Paths
