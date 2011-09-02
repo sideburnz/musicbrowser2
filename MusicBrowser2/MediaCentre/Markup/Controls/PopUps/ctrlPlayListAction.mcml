@@ -1,0 +1,38 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <UI Name="ctrlPlayListAction">
+
+    <Properties>
+      <models:UINotifier Name="UINotifier" UINotifier="$Required"/>
+    </Properties>
+
+    <Rules>
+      <Binding Source="[UINotifier.ShowPopUp]" Target="[PlayListNotice.Visible]" />
+      <Binding Source="[UINotifier.Message]" Target="[Notice.Content]" />
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Children>
+          <Panel Layout="Form">
+            <Children>
+              <Panel Name="PlayListNotice">
+                <LayoutInput>
+                  <FormLayoutInput Right="Parent,1" Top="Parent,0.2"/>
+                </LayoutInput>
+                <Children>
+                  <Text Name="Notice" BackColor="White" Color="Black" Font="Segoe Media Center,24"/>
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+        </Children>
+      </Panel>
+     
+    </Content>
+
+  </UI>
+
+</Mcml>

@@ -1,0 +1,91 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:me="Me"
+      >
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonIcon"/>
+
+  <UI Name="ctrlHeader">
+
+    <Properties>
+      <entities:IEntity Name="Entity" IEntity="$Required" />
+      <models:Breadcrumbs Name="Crumbs" Breadcrumbs="$Required" />
+      <Command Name="CmdPlayAll" Command="null"/>
+      <Command Name="CmdHome" Command="null"/>
+      <Command Name="CmdQueue" Command="null"/>
+    </Properties>
+
+    <Rules>
+      <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
+      <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
+      <Changed Source="[Entity.Index]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Home" />
+        </Conditions>
+        <Actions>
+          <Set Target="[HomeMenu.Visible]" Value="true" />
+          <Set Target="[QueueMenu.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Children>
+          <Panel Layout="Form">
+            <Children>
+
+              <Panel>
+                <LayoutInput>
+                  <FormLayoutInput Right="Parent,0.98" Top="Parent,0.1"/>
+                </LayoutInput>
+                <Children>
+                  <Graphic Name="icon" Content="[Entity.Icon]" Layout="Fill" MaximumSize="96,96"/>
+                </Children>
+              </Panel>
+
+              <Panel>
+                <LayoutInput>
+                  <FormLayoutInput Right="Parent,0.89" Top="Parent,0.35" Left="Parent,0.22" Horizontal="Far" Vertical="Near"/>
+                </LayoutInput>
+                <Children>
+                  <Text Name="PageName_Label" Content="[Entity.Description]" HorizontalAlignment="Near" Color="White" Font="Segoe Media Center Light, 36" />
+                </Children>
+              </Panel>
+
+              <Panel>
+                <LayoutInput>
+                  <FormLayoutInput Right="Parent,0.89" Top="Parent,0.04" Left="Parent,0.22" Horizontal="Far" Vertical="Near"/>
+                </LayoutInput>
+                <Children>
+                  <Text Name="PageCrumbs_Label" Content="[Crumbs.Path]" HorizontalAlignment="Near" Color="White" Font="Segoe Media Center Light, 24" Alpha="0.7" />
+                </Children>
+              </Panel>
+
+              <Panel Layout="Form">
+                <LayoutInput>
+                  <FormLayoutInput Left="Parent,0.055" Bottom="Parent,0.9"/>
+                </LayoutInput>
+                <Layout>
+                  <FlowLayout Orientation="Vertical"/>
+                </Layout>
+                <Children>
+                  <me:buttonIcon Command="[CmdPlayAll]" Name="PlayMenu" Text=" play all" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" Margins="0,0,0,-20" />
+                  <me:buttonIcon Command="[CmdQueue]" Name="QueueMenu" Text=" queue all" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
+                  <me:buttonIcon Command="[CmdHome]" Name="HomeMenu" Text=" play favorites" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconHome" Visible="false" />
+                </Children>
+              </Panel>
+
+            </Children>
+          </Panel>
+          
+          <ColorFill Content="Black" Alpha="0.33" />
+        </Children>
+      </Panel>
+    </Content>
+
+  </UI>
+
+</Mcml>

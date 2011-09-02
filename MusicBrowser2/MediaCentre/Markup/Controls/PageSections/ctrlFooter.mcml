@@ -1,0 +1,98 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <UI Name="ctrlFooter">
+
+    <Properties>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+    </Properties>
+
+    <Rules>
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Actions>
+          <Set Target="[Desc.Content]" Value="[FolderModel.SelectedItem.Title]" />
+          <Set Target="[Summary1.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine1]" />
+          <Set Target="[Summary2.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine2]" />
+          <Set Target="[ArtistLine.Content]" Value="[FolderModel.SelectedItem.OptionalArtistLine]" /> 
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="100" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Star5.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="80" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Star4.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="60" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Star3.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="40" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Star2.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="20" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Star1.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Actions>
+          <Set Target="[Favorite.Visible]" Value="[FolderModel.SelectedItem.Favorite]" />
+        </Actions>
+      </Changed>
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Layout>
+          <FlowLayout Orientation="Vertical"/>
+        </Layout>
+        <Children>
+
+          <Panel>
+            <Layout>
+              <FlowLayout Orientation="Horizontal"/>
+            </Layout>
+            <Children>
+              <Text Name="Desc" Color="White" Font="Segoe Media Center Light, 24" Content="" Margins="0,-5,0,-2"/>
+              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="20,5,0,0" Visible="false"/>
+              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,5,0,0" Visible="false"/>
+              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,5,0,0" Visible="false"/>
+              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,5,0,0" Visible="false"/>
+              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,5,0,0" Visible="false"/>
+              <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbFavorite" Margins="10,9,0,0" Visible="false"/>
+            </Children>
+          </Panel>
+
+          <Text Name="ArtistLine" Color="White" Font="Segoe Media Center Light, 16" Content="" Alpha="0.6" Margins="0,-3,0,0"/>
+          <Text Name="Summary1" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
+          <Text Name="Summary2" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+</Mcml>
