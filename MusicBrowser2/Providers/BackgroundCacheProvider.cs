@@ -4,6 +4,7 @@ using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Interfaces;
+using System.Linq;
 
 namespace MusicBrowser.Providers
 {
@@ -27,6 +28,8 @@ namespace MusicBrowser.Providers
 
         public void Execute()
         {
+            Logging.Logger.Verbose(this.GetType().ToString(), "start");
+
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path);
             IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
 
@@ -46,6 +49,8 @@ namespace MusicBrowser.Providers
                     CommonTaskQueue.Enqueue(new MetadataProviderList(entity, providers));
                 }
             }
+
+            Logging.Logger.Verbose(this.GetType().ToString() + " " + items.Count() , "end");
         }
 
         #endregion

@@ -33,7 +33,6 @@ namespace MusicBrowser.Entities
 
         public IEntity()
         {
-            DefaultBackgroundPath = string.Empty;
             Performers = new List<string>();
             ProviderTimeStamps = new Dictionary<string, DateTime>();
             Genres = new List<string>();
@@ -47,10 +46,6 @@ namespace MusicBrowser.Entities
         public string Summary { get; set; }
         [DataMember]
         public string IconPath { get; set; }
-        [DataMember]
-        public string DefaultIconPath { get; set; }
-        [DataMember]
-        public string DefaultBackgroundPath { get; set; }
         [DataMember]
         public string BackgroundPath { get; set; }
         [DataMember]
@@ -103,6 +98,8 @@ namespace MusicBrowser.Entities
         // read only and have default values
         public virtual EntityKind Kind { get { return EntityKind.Unknown; } }
         public string KindName { get { return Kind.ToString(); } }
+        public virtual string DefaultBackgroundPath { get { return string.Empty; } }
+        public virtual string DefaultIconPath { get { return string.Empty; } }
 
         // Calculated/transient
         public int Index { get; set; }

@@ -55,8 +55,23 @@ namespace MusicBrowser.Entities
             if (!Util.Helper.IsEntity(item.FullPath)) { return new Unknown(); }
             if (item.Name.ToLower() == "metadata") { return new Unknown(); }
 
+#if DEBUG
+            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
+#endif
+
             string key = Util.Helper.GetCacheKey(item.FullPath);
             IEntity entity;
+
+            // get from the NL cache if it's cached there
+            entity = NearLineCache.GetInstance().Fetch(key);
+            if (entity.Kind != EntityKind.Unknown) 
+            {
+#if DEBUG
+                Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - NearLine cache", "end");
+#endif
+                entity.Path = item.FullPath;
+                return entity; 
+            }
 
             // get the value from cache
             if (_cacheEngine.Exists(key))
@@ -66,6 +81,10 @@ namespace MusicBrowser.Entities
                     entity = EntityPersistance.Deserialize(_cacheEngine.Read(key));
                     if (entity.Kind != EntityKind.Unknown)
                     {
+#if DEBUG
+                        Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - cache", "end");
+#endif
+                        NearLineCache.GetInstance().Update(entity);
                         Statistics.GetInstance().Hit("cache.hit");
                         entity.Path = item.FullPath;
                         return entity;
@@ -78,9 +97,6 @@ namespace MusicBrowser.Entities
             }
 
             Statistics.GetInstance().Hit("factory.hit");
-#if DEBUG
-            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
-#endif
 
             EntityKind kind = DetermineKind(item);
             switch (kind)
@@ -133,8 +149,9 @@ namespace MusicBrowser.Entities
             // do this here so that if the user browses to a folder that isn't cached, it retrieves some basic metadata
             TagSharpMetadataProvider.FetchLite(entity);
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
+            NearLineCache.GetInstance().Update(entity);
 #if DEBUG
-            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName, "finish");
+            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName + " - first principles", "finish");
 #endif
             return entity;
         }
