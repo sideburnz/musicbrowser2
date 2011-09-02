@@ -8,9 +8,9 @@ namespace MusicBrowser.Entities.Kinds
     [KnownType(typeof(Song))]
     public class Song : IEntity
     {
-        public Song()
+        public override string DefaultIconPath
         {
-            DefaultIconPath = "resx://MusicBrowser/MusicBrowser.Resources/imageSong";
+            get { return "resx://MusicBrowser/MusicBrowser.Resources/imageSong"; }
         }
 
         public override EntityKind Kind

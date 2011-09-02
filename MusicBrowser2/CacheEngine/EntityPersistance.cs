@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Xml;
-using MusicBrowser.Entities;
-using MusicBrowser.Util;
+﻿using MusicBrowser.Entities;
 using MusicBrowser.Entities.Kinds;
 using ServiceStack.Text;
 

@@ -28,10 +28,13 @@ namespace MusicBrowser.CacheEngine
 
             if (File.Exists(fileName))
             {
-                StreamReader file = new StreamReader(fileName);
-                string cachedValue = file.ReadToEnd();
-                file.Close();
-                return cachedValue;
+                lock (_obj)
+                {
+                    StreamReader file = new StreamReader(fileName);
+                    string cachedValue = file.ReadToEnd();
+                    file.Close();
+                    return cachedValue;
+                }
             }
             return string.Empty;
         }

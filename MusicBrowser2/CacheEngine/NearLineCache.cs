@@ -25,13 +25,10 @@ namespace MusicBrowser.CacheEngine
             _cache.Columns.Add("key", System.Type.GetType("System.String"));
             _cache.Columns.Add("path", System.Type.GetType("System.String"));
             _cache.Columns.Add("artist", System.Type.GetType("System.String"));
-            _cache.Columns.Add("album", System.Type.GetType("System.String"));
             _cache.Columns.Add("track", System.Type.GetType("System.String"));
-            _cache.Columns.Add("plays", System.Type.GetType("System.Int32"));
             _cache.Columns.Add("favorite", System.Type.GetType("System.Boolean"));
-            _cache.Columns.Add("genres", System.Type.GetType("System.String"));
             _cache.Columns.Add("rating", System.Type.GetType("System.Int32"));
-            _cache.Columns.Add("release", System.Type.GetType("System.DateTime")); 
+            _cache.Columns.Add("serialized", System.Type.GetType("System.String"));
 
             _cache.Constraints.Add("PK", _cache.Columns["key"], true);
 
@@ -51,18 +48,15 @@ namespace MusicBrowser.CacheEngine
             // we don't cache non-songs
             if (entity.Kind != EntityKind.Song) { return; }
 
-            object[] rowData = new object[10];
+            object[] rowData = new object[7];
 
             rowData[0] = entity.CacheKey;
             rowData[1] = entity.Path;
             rowData[2] = entity.ArtistName;
-            rowData[3] = entity.AlbumName;
-            rowData[4] = entity.TrackName;
-            rowData[5] = entity.PlayCount;
-            rowData[6] = entity.Favorite;
-            rowData[7] = String.Join("|", entity.Genres.ToArray());
-            rowData[8] = entity.Rating;
-            rowData[9] = entity.ReleaseDate;
+            rowData[3] = entity.TrackName;
+            rowData[4] = entity.Favorite;
+            rowData[5] = entity.Rating;
+            rowData[6] = EntityPersistance.Serialize(entity);
 
             _cache.LoadDataRow(rowData, LoadOption.OverwriteChanges);
         }
@@ -109,6 +103,17 @@ namespace MusicBrowser.CacheEngine
                 ret.Add((string)row["path"]);
             }
             return ret;
+        }
+
+        public IEntity Fetch(string key)
+        {
+            DataRow dr = _cache.Rows.Find(key);
+            if (dr != null)
+            {
+                Providers.Statistics.GetInstance().Hit("NLCache.hit");
+                return EntityPersistance.Deserialize((string)dr["serialized"]);
+            }
+            return new Entities.Kinds.Unknown();
         }
 
     }
