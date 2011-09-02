@@ -18,7 +18,6 @@ namespace MusicBrowser.Entities
                 if (!entity.Kind.Equals(EntityKind.Unknown) && !entity.Kind.Equals(EntityKind.Folder))
                 {
                     entity.UpdateValues();
-                    nl.Update(entity);
                     Add(entity);
                 }
             }
