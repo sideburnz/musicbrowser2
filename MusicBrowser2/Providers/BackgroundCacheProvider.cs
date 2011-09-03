@@ -28,8 +28,9 @@ namespace MusicBrowser.Providers
 
         public void Execute()
         {
+#if DEBUG
             Logging.Logger.Verbose(this.GetType().ToString(), "start");
-
+#endif
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path);
             IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
 
@@ -49,8 +50,9 @@ namespace MusicBrowser.Providers
                     CommonTaskQueue.Enqueue(new MetadataProviderList(entity, providers));
                 }
             }
-
+#if DEBUG
             Logging.Logger.Verbose(this.GetType().ToString() + " " + items.Count() , "end");
+#endif
         }
 
         #endregion

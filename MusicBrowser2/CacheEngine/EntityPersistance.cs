@@ -2,7 +2,6 @@
 using MusicBrowser.Entities.Kinds;
 using ServiceStack.Text;
 
-
 namespace MusicBrowser.CacheEngine
 {
     public static class EntityPersistance
@@ -32,8 +31,6 @@ namespace MusicBrowser.CacheEngine
                         return XmlSerializer.DeserializeFromString<Playlist>(data);
                     case "home ":
                         return XmlSerializer.DeserializeFromString<Home>(data);
-                    case "disc ":
-                        return XmlSerializer.DeserializeFromString<Disc>(data);
                     case "folde":
                         return XmlSerializer.DeserializeFromString<Folder>(data);
                 }

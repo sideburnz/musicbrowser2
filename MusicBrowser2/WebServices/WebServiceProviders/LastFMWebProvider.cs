@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using MusicBrowser.WebServices.Helper;
 using MusicBrowser.WebServices.Interfaces;
 
@@ -20,7 +21,14 @@ namespace MusicBrowser.WebServices.WebServiceProviders
 
         public void SetParameters(IDictionary<string, string> parms)
         {
-            _parms = parms;
+            _parms = new Dictionary<string, string>();
+            Regex rgx = new Regex(@"[^a-zA-Z0-9_\\.\\<\\>\\*\\|\\.\\?\\#\\~\\'\\@\\&\\$]+");
+
+            foreach (string key in parms.Keys)
+            {
+                _parms.Add(key, rgx.Replace(parms[key], "").Trim());
+            }
+
             _parms.Add("api_key", ApiKey);
         }
 

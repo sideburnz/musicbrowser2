@@ -16,7 +16,6 @@ namespace MusicBrowser.Entities
     {
         Album,
         Artist,
-        Disc,
         Folder,
         Home,
         Playlist,

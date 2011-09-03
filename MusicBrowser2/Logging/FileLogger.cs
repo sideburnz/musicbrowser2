@@ -15,7 +15,6 @@ namespace MusicBrowser.Logging
 
         static readonly object Padlock = new object();
 
-
         #region constructors
         public FileLogger()
         {
@@ -107,6 +106,7 @@ namespace MusicBrowser.Logging
 
         void ILogger.LogVerbose(string className, string endPoint)
         {
+#if DEBUG
             if (_logVerbose)
             {
                 StringBuilder sb = new StringBuilder();
@@ -117,6 +117,7 @@ namespace MusicBrowser.Logging
                 sb.Append(endPoint);
                 InnerLog(sb.ToString());
             }
+#endif
         }
 
         void ILogger.LogStats(Providers.Statistics stats)

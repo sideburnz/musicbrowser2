@@ -125,11 +125,6 @@ namespace MusicBrowser.Providers.Metadata
                         dto.AlbumArtist = entity.Title;
                         break;
                     }
-                    case EntityKind.Disc:
-                    {
-                        dto.DataType = DataTypes.Disc;
-                        break;
-                    }
                     case EntityKind.Playlist:
                     {
                         dto.DataType = DataTypes.Playlist;

@@ -14,6 +14,7 @@ namespace MusicBrowser.CacheEngine
     public class NearLineCache
     {
         private readonly DataTable _cache;
+        private static readonly object _obj = new object();
 
         #region singleton
         static NearLineCache _instance;
@@ -37,9 +38,15 @@ namespace MusicBrowser.CacheEngine
 
         public static NearLineCache GetInstance()
         {
-            if (_instance != null) return _instance;
-            _instance = new NearLineCache();
-            return _instance;
+            if (_instance != null)
+            {
+                return _instance;
+            }
+            lock (_obj)
+            {
+                _instance = new NearLineCache();
+                return _instance;
+            }
         }
         #endregion
 
@@ -58,7 +65,11 @@ namespace MusicBrowser.CacheEngine
             rowData[5] = entity.Rating;
             rowData[6] = EntityPersistance.Serialize(entity);
 
-            _cache.LoadDataRow(rowData, LoadOption.OverwriteChanges);
+            // made threadsafe, was getting errors about there being clashes in the key
+            lock (_obj)
+            {
+                _cache.LoadDataRow(rowData, LoadOption.OverwriteChanges);
+            }
         }
 
         public IEnumerable<string> FindFavorites()
@@ -113,8 +124,17 @@ namespace MusicBrowser.CacheEngine
                 Providers.Statistics.GetInstance().Hit("NLCache.hit");
                 return EntityPersistance.Deserialize((string)dr["serialized"]);
             }
+            Providers.Statistics.GetInstance().Hit("NLCache.miss");
             return new Entities.Kinds.Unknown();
         }
 
+        public void Remove(string key)
+        {
+            DataRow dr = _cache.Rows.Find(key);
+            if (dr != null)
+            {
+                _cache.Rows.Remove(dr);
+            }
+        }
     }
 }

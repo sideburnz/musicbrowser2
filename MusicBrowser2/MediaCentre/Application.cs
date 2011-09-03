@@ -71,11 +71,6 @@ namespace MusicBrowser
                             }
                             break;
                         }
-                    case EntityKind.Disc:
-                        {
-                            Playlist.PlayDisc(entity);
-                            break;
-                        }
                     default:
                         {
                             EntityCollection entities = new EntityCollection();
