@@ -62,7 +62,8 @@ namespace MusicBrowser.Entities
             string key = Util.Helper.GetCacheKey(item.FullPath);
             IEntity entity;
 
-            // get from the NL cache if it's cached there
+            #region NearLine Cache
+            // get from the NL cache if it's cached there, this is the fastest cache but it's not persistent
             entity = NearLineCache.GetInstance().Fetch(key);
             if (entity.Kind != EntityKind.Unknown) 
             {
@@ -70,10 +71,12 @@ namespace MusicBrowser.Entities
                 Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - NearLine cache", "end");
 #endif
                 entity.Path = item.FullPath;
-                return entity; 
+                return entity;
             }
+            #endregion
 
-            // get the value from cache
+            #region persistent cache
+            // get the value from persistent cache
             if (_cacheEngine.Exists(key))
             {
                 if (IsFresh(_cacheEngine.GetAge(key), item.LastUpdated)) 
@@ -82,7 +85,7 @@ namespace MusicBrowser.Entities
                     if (entity.Kind != EntityKind.Unknown)
                     {
 #if DEBUG
-                        Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - cache", "end");
+                        Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - persistent cache", "end");
 #endif
                         NearLineCache.GetInstance().Update(entity);
                         Statistics.GetInstance().Hit("cache.hit");
@@ -95,6 +98,7 @@ namespace MusicBrowser.Entities
                 _cacheEngine.Delete(key);
                 Statistics.GetInstance().Hit("cache.expiry");
             }
+            #endregion
 
             Statistics.GetInstance().Hit("factory.hit");
 
@@ -146,7 +150,7 @@ namespace MusicBrowser.Entities
             entity.Title = item.Name;
             entity.Path = item.FullPath;
 
-            // do this here so that if the user browses to a folder that isn't cached, it retrieves some basic metadata
+            // do this here because some of the providers need basic data about the tracks
             TagSharpMetadataProvider.FetchLite(entity);
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
             NearLineCache.GetInstance().Update(entity);

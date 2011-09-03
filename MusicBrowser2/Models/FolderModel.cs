@@ -8,7 +8,6 @@ using MusicBrowser.Entities.Kinds;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Background;
-using MusicBrowser.Providers.CD;
 using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Providers.Transport;
 using MusicBrowser.Util;
@@ -28,7 +27,6 @@ namespace MusicBrowser.Models
         private int _matches;
 
         private readonly bool _isHome;
-        private readonly IList<CDDrive> _CDDrives = new List<CDDrive>();
 
         public FolderModel(IEntity parentEntity, Breadcrumbs crumbs, EntityCollection entities)
         {
@@ -45,8 +43,6 @@ namespace MusicBrowser.Models
             _fullentities = new EntityCollection();
             _fullentities.AddRange(_entities);
             _matches = _fullentities.Count;
-
-//          if (_isHome) { DealWithCDs(); }
 
             _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;    
         }
@@ -102,7 +98,9 @@ namespace MusicBrowser.Models
                 if (item.Name.ToLower() == "metadata") { continue; }
 
                 // remove the cache (force it to rediscover the type)
-                cacheEngine.Delete(Util.Helper.GetCacheKey(item.FullPath));
+                string key = Util.Helper.GetCacheKey(item.FullPath);
+                cacheEngine.Delete(key);
+                CacheEngine.NearLineCache.GetInstance().Remove(key);
 
                 // process the item in context
                 IEntity entity = factory.GetItem(item);
@@ -241,59 +239,6 @@ namespace MusicBrowser.Models
         public static bool isPaused
         {
             get { return Transport.GetTransport().State == PlayState.Paused; }
-        }
-
-        private void DealWithCDs()
-        {
-            /* for each CD, register listeners for the on insert and remove
-             * the insert should put the disc into the home list and fetch metadata
-             * remove should remove from the list */
-
-            if (_isHome & Config.GetInstance().GetBooleanSetting("ShowCDs"))
-            {
-                foreach (char letter in CDDrive.GetCDDriveLetters())
-                {
-                    CDDrive d = new CDDrive();
-                    d.Open(letter);
-                    _CDDrives.Add(d);
-                    d.CDInserted += OnCDInserted;
-                    d.CDRemoved += OnCDRemoved;
-                    
-                    OnCDInserted(d, null);
-                }
-            }
-        }
-
-        private void OnCDInserted(object sender, EventArgs e)
-        {
-            Logging.Logger.Debug("CD inserted: " + ((CDDrive)sender).Letter);
-
-            _fullentities.Insert(0, new Disc(((CDDrive)sender).Letter));
-            RefreshEntities();
-        }
-
-        private void OnCDRemoved(object sender, EventArgs e)
-        {
-            CDDrive obj = (CDDrive)sender;
-
-            Logging.Logger.Debug("CD removed: " + obj.Letter);
-
-            for (int i = 0; i < _entities.Count; i++)
-            {
-                if (_entities[i].Kind.Equals(EntityKind.Disc))
-                {
-                    if (((Disc)_entities[i]).Letter == obj.Letter)
-                    {
-                        _fullentities.RemoveAt(i);
-                        RefreshEntities();
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
         }
 
         private void RefreshEntities()

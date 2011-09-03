@@ -36,7 +36,7 @@ namespace MusicBrowser.Providers.Metadata
                         if (string.IsNullOrEmpty(dto.AlbumName))
                         {
                             dto.Outcome = DataProviderOutcome.InvalidInput;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Missing data: Album name" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing album data: Album name" };
                             return dto;
                         }
 
@@ -96,7 +96,7 @@ namespace MusicBrowser.Providers.Metadata
                         if (string.IsNullOrEmpty(dto.ArtistName))
                         {
                             dto.Outcome = DataProviderOutcome.InvalidInput;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Missing data: Artist name" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing artist data: Artist name" };
                             return dto;
                         }
 
@@ -146,7 +146,7 @@ namespace MusicBrowser.Providers.Metadata
                         if (string.IsNullOrEmpty(dto.ArtistName))
                         {
                             dto.Outcome = DataProviderOutcome.InvalidInput;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Missing data: Artist name" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing song data: Artist name" };
                             return dto;
                         }
                         

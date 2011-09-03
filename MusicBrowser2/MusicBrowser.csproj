@@ -104,11 +104,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="taglib-sharp, Version=2.0.3.7, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Resource\taglib-sharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +133,6 @@
     <Content Include="MediaCentre\Images\icons\thumbStar.png" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
     <Compile Include="CacheEngine\EntityPersistance.cs" />
-    <Compile Include="Providers\CD\CDDrive.cs" />
-    <Compile Include="Providers\CD\CDDriveEvents.cs" />
-    <Compile Include="Providers\CD\Win32Functions.cs" />
     <Compile Include="Providers\Metadata\InheritanceProvider.cs" />
     <Compile Include="Providers\Metadata\IconProvider.cs" />
     <Compile Include="Providers\Metadata\FileSystemMetadataProvider.cs" />
@@ -148,7 +145,6 @@
     <Compile Include="Entities\Kinds\Home.cs" />
     <Compile Include="Entities\Kinds\Playlist.cs" />
     <Compile Include="Entities\Kinds\Song.cs" />
-    <Compile Include="Entities\Kinds\Disc.cs" />
     <Compile Include="Models\Breadcrumbs.cs" />
     <Compile Include="Logging\EventLogLogger.cs" />
     <Compile Include="Logging\FileLogger.cs" />

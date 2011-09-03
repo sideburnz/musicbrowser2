@@ -11,6 +11,7 @@ namespace MusicBrowser.Providers.Metadata
     public class HTBackdropMetadataProvider : IDataProvider
     {
         private const string Name = "HTBackdrops";
+        private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
@@ -65,15 +66,14 @@ namespace MusicBrowser.Providers.Metadata
             // handle the response
             if (serviceDTO.ThumbList.Count > 0)
             {
-                // randomize the list
-                serviceDTO.ThumbList = serviceDTO.ThumbList.OrderBy(i => new Guid()).ToList();
-                dto.ThumbImage = ImageProvider.Download(serviceDTO.ThumbList[0], ImageType.Thumb);
+                // get random item
+                dto.ThumbImage = ImageProvider.Download(serviceDTO.ThumbList[Rnd.Next(serviceDTO.ThumbList.Count)], ImageType.Thumb);
             }
+
             if (serviceDTO.BackdropList.Count > 0)
             {
-                // randomize the list
-                serviceDTO.ThumbList = serviceDTO.BackdropList.OrderBy(i => new Guid()).ToList();
-                dto.BackImage = ImageProvider.Download(serviceDTO.BackdropList[0], ImageType.Backdrop);
+                // get random item
+                dto.BackImage = ImageProvider.Download(serviceDTO.BackdropList[Rnd.Next(serviceDTO.BackdropList.Count)], ImageType.Backdrop);
             }
 
             return dto;

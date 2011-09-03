@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using MusicBrowser.Util;
+using System.Drawing.Drawing2D;
 
 namespace MusicBrowser.Providers
 {
@@ -42,10 +43,23 @@ namespace MusicBrowser.Providers
             if (bitmap.Width < Thumbsize) { return bitmap; }
             if (bitmap.Height < Thumbsize) { return bitmap; }
 
-            Bitmap result = new Bitmap(Thumbsize, Thumbsize);
-            using (Graphics g = Graphics.FromImage(result))
+            Bitmap b = new Bitmap(Thumbsize, Thumbsize);
+
+            try
+            {
+                Graphics g = Graphics.FromImage((Image)b);
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 g.DrawImage(bitmap, 0, 0, Thumbsize, Thumbsize);
-            return result;
+                g.Dispose();
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Logging.Logger.Error(e);
+#endif
+            }
+
+            return b;
         }
 
         public static void Save(Image bitmap, string filename)
@@ -53,7 +67,7 @@ namespace MusicBrowser.Providers
             if (bitmap == null) { return; }
 
             EncoderParameters parms = new EncoderParameters(1);
-            parms.Param[0] = new EncoderParameter(Encoder.Quality, Int64.Parse("95"));
+            parms.Param[0] = new EncoderParameter(Encoder.Quality, Int64.Parse("90"));
 
             ImageCodecInfo codec = null;
             foreach (ImageCodecInfo codectemp in ImageCodecInfo.GetImageDecoders())
@@ -65,7 +79,13 @@ namespace MusicBrowser.Providers
                 }
             }
 
-            bitmap.Save(filename, codec, parms);
+            try
+            {
+                // this fails on rare occassions for reasons I don't know
+                // if that happens just don't save and let the item refresh in due course
+                bitmap.Save(filename, codec, parms);
+            }
+            catch { }
         }
 
         static IEnumerable<string> _images;
@@ -107,8 +127,11 @@ namespace MusicBrowser.Providers
                 stream.Close();
                 return Resize(bitmap, type);
             }
-            catch
+            catch (Exception e)
             {
+#if DEBUG
+                Logging.Logger.Error(e);
+#endif
                 return null;
             }
         }

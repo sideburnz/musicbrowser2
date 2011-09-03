@@ -64,7 +64,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
             //}
 
             // this is a dummy URL for logging
-            _provider.URL = "last.fm - track info - track=" + localDTO.Track + "  artist=" + localDTO.Artist + "&mbid=" + localDTO.MusicBrainzID;
+            _provider.URL = "last.fm - track info - track=" + localDTO.Track + "  artist=" + localDTO.Artist;
             _provider.SetParameters(parms);
             _provider.DoService();
 

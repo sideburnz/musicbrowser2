@@ -58,7 +58,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
             }
 
             // this is a dummy URL for logging
-            _provider.URL = "last.fm - artist info - artist=" + localDTO.Artist + "&mbid=" + localDTO.MusicBrainzID;
+            _provider.URL = "last.fm - artist info - artist=" + localDTO.Artist;
             _provider.SetParameters(parms);
             _provider.DoService();
 
@@ -80,7 +80,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                 localDTO.Status = WebServiceStatus.Error;
                 localDTO.Error = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/error");
 
-//                Logging.Logger.Debug(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1}", localDTO.Artist, localDTO.Error));
+                Logging.Logger.Debug(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1} [{2}]", localDTO.Artist, localDTO.Error, _provider.URL));
             }
             return localDTO;
         }

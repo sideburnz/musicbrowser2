@@ -13,7 +13,7 @@ namespace MusicBrowser.Providers.Metadata
         [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
         static extern IntPtr LoadLibrary(string lpFileName);
 
-        private const string Name = "MediaInfo.DLL";
+        private const string Name = "MediaInfo.dll";
         private static int _state = 0;
         private static object obj = new object();
 
@@ -90,6 +90,14 @@ namespace MusicBrowser.Providers.Metadata
             return dto;
         }
 
+        private static bool Is64Bit
+        {
+            get
+            {
+                return IntPtr.Size == 8;
+            }
+        }
+
         public bool CompatibleWith(string type)
         {
             return (type.ToLower() == "song");
@@ -119,7 +127,15 @@ namespace MusicBrowser.Providers.Metadata
 
         private static bool CheckForLib()
         {
-            string mediaInfoPath = Path.Combine(Helper.PlugInFolder, "mediainfo.dll");
+            string mediaInfoPath = Path.Combine(Helper.PlugInFolder, "MediaInfo.dll");
+
+            if (!File.Exists(mediaInfoPath))
+            {
+                string sourceFile = Path.Combine(Helper.PlugInFolder, String.Format("mediainfo_{0}.dll", Is64Bit ? 64 : 32));
+                if (!File.Exists(sourceFile)) { return false; }
+                File.Copy(sourceFile, mediaInfoPath);
+            }
+
             if (File.Exists(mediaInfoPath))
             {
                 var handle = LoadLibrary(mediaInfoPath);
