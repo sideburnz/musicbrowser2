@@ -44,7 +44,10 @@ namespace MusicBrowser.CacheEngine
             }
             lock (_obj)
             {
-                _instance = new NearLineCache();
+                if (_instance == null)
+                {
+                    _instance = new NearLineCache();
+                }
                 return _instance;
             }
         }
@@ -52,7 +55,6 @@ namespace MusicBrowser.CacheEngine
 
         public void Update(IEntity entity)
         {
-            // we don't cache non-songs
             if (entity.Kind != EntityKind.Song) { return; }
 
             object[] rowData = new object[7];
@@ -65,10 +67,9 @@ namespace MusicBrowser.CacheEngine
             rowData[5] = entity.Rating;
             rowData[6] = EntityPersistance.Serialize(entity);
 
-            // made threadsafe, was getting errors about there being clashes in the key
             lock (_obj)
             {
-                _cache.LoadDataRow(rowData, LoadOption.OverwriteChanges);
+                _cache.LoadDataRow(rowData, true);
             }
         }
 
