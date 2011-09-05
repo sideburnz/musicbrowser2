@@ -67,13 +67,27 @@ namespace MusicBrowser.WebServices.Services.LastFM
 
             if (_provider.ResponseStatus == "200")
             {
-                localDTO.Artist = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/name", localDTO.Artist);
-                localDTO.MusicBrainzID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/mbid", localDTO.MusicBrainzID);
-                localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/bio/summary", localDTO.Summary));
-                localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/image[@size='large']").Replace("126", "174s");
-                localDTO.Plays = Int32.Parse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/stats/userplaycount", "0"));
-                localDTO.TotalPlays = Int32.Parse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/stats/playcount", "0"));
-                localDTO.Listeners = Int32.Parse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/stats/listeners", "0"));
+                string lfmMBID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/mbid", localDTO.MusicBrainzID);
+                string lfmArtistName = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/name", localDTO.Artist);
+
+                // is what was returned what we sent, allow minor differences for corrections (e.g. Beyonce => Beyoncé)
+                if ((localDTO.MusicBrainzID == lfmMBID) || 
+                    (Util.Helper.Levenshtein(localDTO.Artist.ToLower(), lfmArtistName.ToLower()) < 3))
+                {
+                    localDTO.MusicBrainzID = lfmMBID;
+                    localDTO.Artist = lfmArtistName;
+                    localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/bio/summary", localDTO.Summary));
+                    localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/image[@size='large']").Replace("126", "174s");
+                    localDTO.Plays = Int32.Parse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/stats/userplaycount", "0"));
+                    localDTO.TotalPlays = Int32.Parse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/stats/playcount", "0"));
+                    localDTO.Listeners = Int32.Parse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/stats/listeners", "0"));
+                }
+                else
+                {
+                    localDTO.Status = WebServiceStatus.Error;
+                    localDTO.Error = "Match not close enough";
+                    Logging.Logger.Debug(string.Format("Last.fm artist look up for \"{0}\" but matched \"{1}\" instead", localDTO.Artist, lfmArtistName));
+                }
             }
             else
             {

@@ -59,7 +59,7 @@ namespace MusicBrowser.Providers.Metadata
             if (serviceDTO.Status == WebServiceStatus.Error)
             {
                 dto.Outcome = DataProviderOutcome.SystemError;
-                dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + serviceDTO.Error + ")" };
+                dto.Errors = new System.Collections.Generic.List<string> { "SystemError Web Service Error (" + serviceDTO.Error + ") " + serviceDTO.ArtistName };
                 return dto;
             }
 
