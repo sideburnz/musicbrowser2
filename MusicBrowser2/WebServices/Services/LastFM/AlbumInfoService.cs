@@ -68,27 +68,38 @@ namespace MusicBrowser.WebServices.Services.LastFM
             XmlDocument xmlDoc = new XmlDocument();
 
             xmlDoc.LoadXml(_provider.ResponseBody);
- 
-            localDTO.Album = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/name");
-            localDTO.Artist = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/artist");
-            localDTO.MusicBrainzID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/mbid");
-            
-            DateTime rel;
-            DateTime.TryParse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/releasedate"), out rel);
-            if (rel > DateTime.MinValue) { localDTO.Release = rel; }
-            
-            localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='mega']");
-            if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='extralarge']"); }
-            if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='large']"); }
-            if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='medium']"); }
-            if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='small']"); }
 
-            localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/wiki/summary"));
+            string lfmMBID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/mbid", localDTO.MusicBrainzID);
+            string lfmArtistName = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/name", localDTO.Artist);
 
-            localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/userplaycount"));
-            localDTO.TotalPlays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/playcount"));
-            localDTO.Listeners = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/listeners"));
+            if ((localDTO.MusicBrainzID == lfmMBID) || (Util.Helper.Levenshtein(localDTO.Artist.ToLower(), lfmArtistName.ToLower()) < 3))
+            {
+                localDTO.Album = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/name");
+                localDTO.Artist = lfmArtistName;
+                localDTO.MusicBrainzID = lfmMBID;
 
+                DateTime rel;
+                DateTime.TryParse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/releasedate"), out rel);
+                if (rel > DateTime.MinValue) { localDTO.Release = rel; }
+
+                localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='mega']");
+                if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='extralarge']"); }
+                if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='large']"); }
+                if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='medium']"); }
+                if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='small']"); }
+
+                localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/wiki/summary"));
+
+                localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/userplaycount"));
+                localDTO.TotalPlays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/playcount"));
+                localDTO.Listeners = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/listeners"));
+            }
+            else
+            {
+                localDTO.Status = WebServiceStatus.Error;
+                localDTO.Error = "Match not close enough";
+                Logging.Logger.Debug(string.Format("Last.fm album look up for \"{0}\" by \"{1}\" but matched \"{2}\" instead", localDTO.Album, localDTO.Artist, lfmArtistName));
+            }
             return localDTO;
         }
 

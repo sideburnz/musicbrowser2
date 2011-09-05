@@ -63,7 +63,6 @@ namespace MusicBrowser.Providers.Background
                 // and we have spare active threads, start another oone up to process tasks 
                 if (((_activeThreads < _maximumThreads) && ((_activeThreads * 2) < _queue.Count)) || _activeThreads == 0)
                 {
-
                     for (int i = 0; i < _maximumThreads; i++)
                     {
                         if (!_threadAwake[i])

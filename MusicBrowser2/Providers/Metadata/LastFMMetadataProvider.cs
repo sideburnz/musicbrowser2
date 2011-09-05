@@ -68,7 +68,7 @@ namespace MusicBrowser.Providers.Metadata
                         if (albumDTO.Status == WebServiceStatus.Error)
                         {
                             dto.Outcome = DataProviderOutcome.SystemError;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + albumDTO.Error + ")" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + albumDTO.Error + ") Artist (" + albumDTO.Artist + ") Album (" + albumDTO.Album + ")" };
                             return dto;
                         }
 
@@ -120,7 +120,7 @@ namespace MusicBrowser.Providers.Metadata
                         if (artistDTO.Status == WebServiceStatus.Error)
                         {
                             dto.Outcome = DataProviderOutcome.SystemError;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + artistDTO.Error + ")" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + artistDTO.Error + ") Artist (" + artistDTO.Artist + ")" };
                             return dto;
                         }
 
@@ -171,7 +171,7 @@ namespace MusicBrowser.Providers.Metadata
                         if (trackDTO.Status == WebServiceStatus.Error)
                         {
                             dto.Outcome = DataProviderOutcome.SystemError;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + trackDTO.Error + ")" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Web Service Error (" + trackDTO.Error + ") Artist (" + trackDTO.Artist + ") Track (" + trackDTO.Track + ")" };
                             return dto;
                         }
 
