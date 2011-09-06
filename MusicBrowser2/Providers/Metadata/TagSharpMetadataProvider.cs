@@ -49,6 +49,7 @@ namespace MusicBrowser.Providers.Metadata
 
                 if (fileTag.Tag.Performers != null) { dto.Performers.AddRange(fileTag.Tag.Performers); }
                 if (fileTag.Tag.Genres != null) { dto.Genres.AddRange(fileTag.Tag.Genres); }
+                if (string.IsNullOrEmpty(dto.AlbumArtist)) { dto.AlbumArtist = dto.ArtistName; }
 
                 // cache the thumb
                 foreach (TagLib.IPicture pic in fileTag.Tag.Pictures)
@@ -97,6 +98,8 @@ namespace MusicBrowser.Providers.Metadata
                     entity.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
                     entity.AlbumArtist = fileTag.Tag.FirstAlbumArtist;
                     entity.ArtistName = fileTag.Tag.FirstPerformer;
+
+                    if (string.IsNullOrEmpty(entity.AlbumArtist)) { entity.AlbumArtist = entity.ArtistName; }
                 }
             }
             catch { }

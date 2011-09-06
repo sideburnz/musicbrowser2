@@ -36,14 +36,14 @@ namespace MusicBrowser.Providers.Metadata
                         if (string.IsNullOrEmpty(dto.AlbumName))
                         {
                             dto.Outcome = DataProviderOutcome.InvalidInput;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Missing album data: Album name" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing album data: Album name [" + dto.Path + "]" };
                             return dto;
                         }
 
                         if (string.IsNullOrEmpty(dto.AlbumArtist))
                         {
                             dto.Outcome = DataProviderOutcome.InvalidInput;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Missing data: Artist name" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing data: Artist name [" + dto.Path + "]" };
                             return dto;
                         }
 
@@ -96,7 +96,7 @@ namespace MusicBrowser.Providers.Metadata
                         if (string.IsNullOrEmpty(dto.ArtistName))
                         {
                             dto.Outcome = DataProviderOutcome.InvalidInput;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Missing artist data: Artist name" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing artist data: Artist name [" + dto.Path + "]" };
                             return dto;
                         }
 
@@ -146,7 +146,7 @@ namespace MusicBrowser.Providers.Metadata
                         if (string.IsNullOrEmpty(dto.ArtistName))
                         {
                             dto.Outcome = DataProviderOutcome.InvalidInput;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Missing song data: Artist name" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing song data: Artist name [" + dto.Path + "]" };
                             return dto;
                         }
                         

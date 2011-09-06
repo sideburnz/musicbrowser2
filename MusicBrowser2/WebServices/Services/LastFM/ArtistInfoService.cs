@@ -72,7 +72,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
 
                 // is what was returned what we sent, allow minor differences for corrections (e.g. Beyonce => Beyoncé)
                 if ((localDTO.MusicBrainzID == lfmMBID) || 
-                    (Util.Helper.Levenshtein(localDTO.Artist.ToLower(), lfmArtistName.ToLower()) < 3))
+                    (Util.Helper.Levenshtein(localDTO.Artist, lfmArtistName) < 3))
                 {
                     localDTO.MusicBrainzID = lfmMBID;
                     localDTO.Artist = lfmArtistName;
