@@ -32,7 +32,7 @@ namespace MusicBrowser.Providers.Metadata
             if (string.IsNullOrEmpty(dto.ArtistName))
             {
                 dto.Outcome = DataProviderOutcome.NoData;
-                dto.Errors = new System.Collections.Generic.List<string> { "Unknown Artist" };
+                dto.Errors = new System.Collections.Generic.List<string> { Name + ": no artist specificed [" + dto.Path + "]" };
                 return dto;
             }
 

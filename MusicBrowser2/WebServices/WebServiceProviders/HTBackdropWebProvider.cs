@@ -25,22 +25,32 @@ namespace MusicBrowser.WebServices.WebServiceProviders
 #if DEBUG
             Logging.Logger.Verbose("HTBackdropWebProvider.Execute(" + base.URL + ")", "start");
 #endif
-            HttpProvider http = new HttpProvider();
-            http.Url = URL;
-            http.Method = HttpProvider.HttpMethod.Get;
 
-            if (!String.IsNullOrEmpty(RequestBody)) 
+            try
             {
-                http.Body = RequestBody; 
-                http.Method = HttpProvider.HttpMethod.Post; 
+                HttpProvider http = new HttpProvider();
+                http.Url = URL;
+                http.Method = HttpProvider.HttpMethod.Get;
+
+                if (!String.IsNullOrEmpty(RequestBody))
+                {
+                    http.Body = RequestBody;
+                    http.Method = HttpProvider.HttpMethod.Post;
+                }
+
+                ResponseStatus = "System Error";
+
+                http.DoService();
+
+                ResponseStatus = http.Status;
+                ResponseBody = http.Response;
             }
-
-            ResponseStatus = "System Error";
-
-            http.DoService();
-
-            ResponseStatus = http.Status;
-            ResponseBody = http.Response;
+            catch (Exception e)
+            {
+                Logging.Logger.Error(e);
+                ResponseStatus = "Unhandled and unexpected error";
+                ResponseBody = string.Empty;
+            }
         }
     }
 }

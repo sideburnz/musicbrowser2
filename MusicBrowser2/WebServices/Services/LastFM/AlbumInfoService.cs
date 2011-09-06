@@ -70,12 +70,12 @@ namespace MusicBrowser.WebServices.Services.LastFM
             xmlDoc.LoadXml(_provider.ResponseBody);
 
             string lfmMBID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/mbid", localDTO.MusicBrainzID);
-            string lfmArtistName = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/name", localDTO.Artist);
+            string lfmAlbumName = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/name", localDTO.Artist);
 
-            if ((localDTO.MusicBrainzID == lfmMBID) || (Util.Helper.Levenshtein(localDTO.Artist.ToLower(), lfmArtistName.ToLower()) < 3))
+            if ((localDTO.MusicBrainzID == lfmMBID) || (Util.Helper.Levenshtein(localDTO.Album, lfmAlbumName) < 3))
             {
-                localDTO.Album = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/name");
-                localDTO.Artist = lfmArtistName;
+                localDTO.Album = lfmAlbumName;
+                localDTO.Artist = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/artist", localDTO.Artist);
                 localDTO.MusicBrainzID = lfmMBID;
 
                 DateTime rel;
@@ -98,7 +98,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
             {
                 localDTO.Status = WebServiceStatus.Error;
                 localDTO.Error = "Match not close enough";
-                Logging.Logger.Debug(string.Format("Last.fm album look up for \"{0}\" by \"{1}\" but matched \"{2}\" instead", localDTO.Album, localDTO.Artist, lfmArtistName));
+                Logging.Logger.Debug(string.Format("Last.fm album look up for \"{0}\" by \"{1}\" but matched \"{2}\" instead", localDTO.Album, localDTO.Artist, lfmAlbumName));
             }
             return localDTO;
         }
