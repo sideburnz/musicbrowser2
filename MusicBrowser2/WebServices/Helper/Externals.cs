@@ -18,6 +18,7 @@ namespace MusicBrowser.WebServices.Helper
         );
 
         const UInt32 UrlEscapePercent = 0x1000;
+        const UInt32 URL_ESCAPE_SEGMENT_ONLY = 0x00002000;
         const Int32 UrlMax = 3000;
         const UInt32 UrlSuccess = 0;
 
@@ -27,7 +28,7 @@ namespace MusicBrowser.WebServices.Helper
             UInt32 pos = UrlMax;
             string strTemp = new string(' ', UrlMax);
 
-            if (UrlEscape(strData, strTemp, ref pos, UrlEscapePercent) == UrlSuccess)
+            if (UrlEscape(strData, strTemp, ref pos, UrlEscapePercent + URL_ESCAPE_SEGMENT_ONLY) == UrlSuccess)
             {
                 return strTemp.Substring(0, Int32.Parse(pos.ToString()));
             }

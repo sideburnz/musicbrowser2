@@ -34,7 +34,7 @@ namespace MusicBrowser.Util
                 { "PutDiscInTrackNo", true.ToString() },
                                         
                 { "Home.View", "Thumb" },
-                { "Home.Format", "" },
+                { "Home.Format", "MusicBrowser 2" },
                 { "Home.SortOrder", "[title]" },
                 { "Home.Summary", "" },
 

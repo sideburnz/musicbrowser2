@@ -131,7 +131,7 @@ namespace MusicBrowser.Providers.Metadata
 
             if (!File.Exists(mediaInfoPath))
             {
-                string sourceFile = Path.Combine(Helper.PlugInFolder, String.Format("mediainfo_{0}.dll", Is64Bit ? 64 : 32));
+                string sourceFile = Path.Combine(Helper.PlugInFolder, String.Format("mediainfo.dll.{0}", Is64Bit ? 64 : 32));
                 if (!File.Exists(sourceFile)) { return false; }
                 File.Copy(sourceFile, mediaInfoPath);
             }

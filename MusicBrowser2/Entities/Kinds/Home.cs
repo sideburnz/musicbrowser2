@@ -40,11 +40,6 @@ namespace MusicBrowser.Entities.Kinds
             get { return EntityKind.Home; }
         }
 
-        public new string Description
-        {
-            get { return "MusicBrowser 2"; }
-        }
-
         public static IEnumerable<string> Paths
         {
             get 
