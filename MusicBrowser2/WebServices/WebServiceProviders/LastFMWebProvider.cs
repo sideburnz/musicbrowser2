@@ -22,7 +22,7 @@ namespace MusicBrowser.WebServices.WebServiceProviders
         public void SetParameters(IDictionary<string, string> parms)
         {
             _parms = new Dictionary<string, string>();
-            Regex rgx = new Regex(@"[^a-zA-Z0-9_\\.\\<\\>\\*\\|\\.\\?\\#\\~\\'\\@\\&\\$\\ \\-]+");
+            Regex rgx = new Regex(@"[^a-zA-Z0-9_\\.\\<\\>\\*\\|\\.\\?\\#\\~\\'\\@\\&\\$\\ \\-]+\\(\\)");
 
             foreach (string key in parms.Keys)
             {
