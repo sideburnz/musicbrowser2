@@ -22,7 +22,7 @@ namespace MusicBrowser.Models
         private readonly EntityCollection _fullentities;
         Int32 _selectedIndex;
         readonly Breadcrumbs _crumbs;
-        IEntity _popupPlayContext = new Unknown();
+        IEntity _popupPlayContext = null;
         private readonly EditableText _remoteFilter = new EditableText();
         private int _matches;
 
@@ -104,7 +104,7 @@ namespace MusicBrowser.Models
 
                 // process the item in context
                 IEntity entity = factory.GetItem(item);
-                if (entity.Kind.Equals(EntityKind.Unknown) || entity.Kind.Equals(EntityKind.Folder)) { continue; }
+                if (entity == null || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
                 // fire off the metadata providers
                 
@@ -123,7 +123,7 @@ namespace MusicBrowser.Models
                 {
                     return _entities[SelectedIndex];
                 }
-                return new Unknown();
+                return null;
             }
         }
 
@@ -134,7 +134,7 @@ namespace MusicBrowser.Models
 
         public bool ShowPopupPlay
         {
-            get { return (_popupPlayContext.Kind != EntityKind.Unknown); }
+            get { return !(_popupPlayContext == null); }
         }
 
         public IEntity GetPopupPlayContext
@@ -150,7 +150,7 @@ namespace MusicBrowser.Models
 
         public void ClearPopupPlayContext()
         {
-            SetPopupPlayContext(new Unknown());
+            SetPopupPlayContext(null);
         }
 
         void RemoteFilterPropertyChanged(IPropertyObject sender, string property)

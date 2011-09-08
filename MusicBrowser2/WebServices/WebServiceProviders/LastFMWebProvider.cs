@@ -19,14 +19,26 @@ namespace MusicBrowser.WebServices.WebServiceProviders
         private const string ApiSecret = "e8f555849feb3e323e4ec12ae19904a7";
         #endregion
 
+        private readonly char[,] _replace = { 
+                                                    { 'é', 'e' },
+                                                    { 'ö', 'o' },
+                                                    { 'í', 'i' },
+                                                    { 'ř', 'r' },
+                                                    { 'á', 'a' }
+                                               };
+
         public void SetParameters(IDictionary<string, string> parms)
         {
             _parms = new Dictionary<string, string>();
-            Regex rgx = new Regex(@"[^a-zA-Z0-9_\\.\\<\\>\\*\\|\\.\\?\\#\\~\\'\\@\\&\\$\\ \\-]+\\(\\)");
 
             foreach (string key in parms.Keys)
             {
-                _parms.Add(key, rgx.Replace(parms[key], "").Trim());
+                string val = parms[key];
+                for (int x = 0; x < _replace.GetLength(0); x++)
+                {
+                    val = val.Replace(_replace[x, 0], _replace[x, 1]);
+                }
+                _parms.Add(key, val);
             }
 
             _parms.Add("api_key", ApiKey);

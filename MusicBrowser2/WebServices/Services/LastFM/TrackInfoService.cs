@@ -76,7 +76,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
             {
                 localDTO.Status = WebServiceStatus.Success;
                 localDTO.Track = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/track/name", localDTO.Track);
-                localDTO.Artist = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/track/artist", localDTO.Artist);
+                localDTO.Artist = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/track/artist/name", localDTO.Artist);
                 localDTO.MusicBrainzID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/track/mbid", localDTO.MusicBrainzID);
                 localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/track/bio/summary", localDTO.Summary));
                 localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "lfm/track/userplaycount", "0"));

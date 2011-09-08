@@ -20,8 +20,7 @@ namespace MusicBrowser.Entities
         Home,
         Playlist,
         Song,
-        Genre,
-        Unknown
+        Genre
     }
 
     [DataContract]
@@ -95,7 +94,7 @@ namespace MusicBrowser.Entities
         public Dictionary<string, DateTime> ProviderTimeStamps { get; set; }
 
         // read only and have default values
-        public virtual EntityKind Kind { get { return EntityKind.Unknown; } }
+        public virtual EntityKind Kind { get { return EntityKind.Home; } }
         public string KindName { get { return Kind.ToString(); } }
         public virtual string DefaultBackgroundPath { get { return string.Empty; } }
         public virtual string DefaultIconPath { get { return string.Empty; } }

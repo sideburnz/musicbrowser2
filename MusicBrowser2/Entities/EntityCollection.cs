@@ -15,7 +15,7 @@ namespace MusicBrowser.Entities
                 //Logging.Logger.Debug("EntityCollection.Loop (" + item.FullPath);
 
                 IEntity entity = entityFactory.GetItem(item);
-                if (!entity.Kind.Equals(EntityKind.Unknown) && !entity.Kind.Equals(EntityKind.Folder))
+                if (!(entity == null) && !entity.Kind.Equals(EntityKind.Folder))
                 {
                     entity.UpdateValues();
                     Add(entity);

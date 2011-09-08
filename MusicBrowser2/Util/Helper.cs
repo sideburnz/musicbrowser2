@@ -241,6 +241,8 @@ namespace MusicBrowser.Util
             {
                 retVal.Add(extention, knownType.Other);
             }
+            // special circumstance
+            retVal.Add(String.Empty, knownType.Other);
 
             extentions = Config.GetInstance().GetListSetting("Extensions.Image");
             foreach (string extention in extentions)

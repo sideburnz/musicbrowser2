@@ -22,16 +22,11 @@ namespace MusicBrowser.WebServices.Interfaces
 
         public void DoService()
         {
+            string uid = Guid.NewGuid().ToString();
 #if DEBUG
             Logging.Logger.Verbose("WebServices.WebServiceProvider.DoService", "start");
+            Helper.Logging.LogRequest(uid, URL, Method);
 #endif
-            bool loggingEnabled = Registry.Read("WebServicesFramework", "EnableLogging").ToLower() == "true";
-            string uid = Guid.NewGuid().ToString();
-
-            if (loggingEnabled)
-            {
-                Helper.Logging.LogRequest(uid, URL, Method);
-            }
             if (!ValidateParams()) { throw new NullReferenceException(); }
             try
             {
@@ -41,12 +36,17 @@ namespace MusicBrowser.WebServices.Interfaces
 
                 Execute();
             }
+            catch (Exception e)
+            {
+                Logging.Logger.Error(e);
+                ResponseStatus = "FATAL ERROR";
+                ResponseBody = string.Empty;
+            }
             finally
             {
-                if (loggingEnabled)
-                {
-                    Helper.Logging.LogResponse(uid, ResponseStatus, ResponseBody);
-                }
+#if DEBUG
+                Helper.Logging.LogResponse(uid, ResponseStatus, ResponseBody);
+#endif
             }
         }
     }

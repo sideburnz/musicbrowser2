@@ -41,6 +41,8 @@ namespace MusicBrowser.Providers.Metadata
                 foreach (FileSystemItem child in children)
                 {
                     IEntity e = factory.GetItem(child.FullPath);
+                    if (e == null) { continue; }
+
                     if (e.Kind == EntityKind.Song || e.Kind == EntityKind.Album)
                     {
                         if (e.ReleaseDate != null)

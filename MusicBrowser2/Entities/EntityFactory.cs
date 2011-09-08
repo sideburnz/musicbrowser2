@@ -52,8 +52,8 @@ namespace MusicBrowser.Entities
         public IEntity GetItem(FileSystemItem item)
         {
             // don't waste time trying to determine a known not entity
-            if (!Util.Helper.IsEntity(item.FullPath)) { return new Unknown(); }
-            if (item.Name.ToLower() == "metadata") { return new Unknown(); }
+            if (!Util.Helper.IsEntity(item.FullPath)) { return null; }
+            if (item.Name.ToLower() == "metadata") { return null; }
 
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
@@ -65,7 +65,7 @@ namespace MusicBrowser.Entities
             #region NearLine Cache
             // get from the NL cache if it's cached there, this is the fastest cache but it's not persistent
             entity = NearLineCache.GetInstance().Fetch(key);
-            if (entity.Kind != EntityKind.Unknown) 
+            if (entity != null) 
             {
 #if DEBUG
                 Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - NearLine cache", "end");
@@ -82,7 +82,7 @@ namespace MusicBrowser.Entities
                 if (IsFresh(_cacheEngine.GetAge(key), item.LastUpdated)) 
                 {
                     entity = EntityPersistance.Deserialize(_cacheEngine.Read(key));
-                    if (entity.Kind != EntityKind.Unknown)
+                    if (entity != null)
                     {
 #if DEBUG
                         Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - persistent cache", "end");
@@ -102,7 +102,7 @@ namespace MusicBrowser.Entities
 
             Statistics.GetInstance().Hit("factory.hit");
 
-            EntityKind kind = DetermineKind(item);
+            EntityKind? kind = DetermineKind(item);
             switch (kind)
             {
                 case EntityKind.Album:
@@ -142,8 +142,7 @@ namespace MusicBrowser.Entities
                     }
                 default:
                     {
-                        entity = new Unknown {Path = item.FullPath};
-                        break;
+                        return null;
                     }
             }
 
@@ -162,11 +161,11 @@ namespace MusicBrowser.Entities
 
         #endregion
 
-        private static EntityKind DetermineKind(FileSystemItem entity)
+        private static Nullable<EntityKind> DetermineKind(FileSystemItem entity)
         {
             if (!Util.Helper.IsEntity(entity.FullPath))
             {
-                return EntityKind.Unknown;
+                return null;
             }
             if (Util.Helper.IsSong(entity.FullPath))
             {
@@ -178,7 +177,7 @@ namespace MusicBrowser.Entities
 
                 foreach(FileSystemItem item in items)
                 {
-                    EntityKind e = DetermineKind(item);
+                    EntityKind? e = DetermineKind(item);
                     switch (e)
                     {
                         case EntityKind.Song:
@@ -197,7 +196,7 @@ namespace MusicBrowser.Entities
             }
 
             Logging.Logger.Info("unable to determine entity type for : " + entity.FullPath);
-            return EntityKind.Unknown;
+            return null;
         }
     }
 }

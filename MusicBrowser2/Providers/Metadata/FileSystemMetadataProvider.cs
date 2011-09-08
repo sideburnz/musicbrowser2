@@ -44,24 +44,27 @@ namespace MusicBrowser.Providers.Metadata
             {
                 IEntity e = factory.GetItem(item);
 
-                switch (e.Kind)
+                if (e != null)
                 {
-                    case EntityKind.Song:
-                        {
-                            tracks++;
-                            duration += e.Duration;
-                            break;
-                        }
-                    case EntityKind.Album:
-                        {
-                            albums++;
-                            break;
-                        }
-                    case EntityKind.Artist:
-                        {
-                            artists++;
-                            break;
-                        }
+                    switch (e.Kind)
+                    {
+                        case EntityKind.Song:
+                            {
+                                tracks++;
+                                duration += e.Duration;
+                                break;
+                            }
+                        case EntityKind.Album:
+                            {
+                                albums++;
+                                break;
+                            }
+                        case EntityKind.Artist:
+                            {
+                                artists++;
+                                break;
+                            }
+                    }
                 }
             }
 

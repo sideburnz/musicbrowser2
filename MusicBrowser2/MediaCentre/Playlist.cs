@@ -16,7 +16,7 @@ namespace MusicBrowser.MediaCentre
 #if DEBUG
             Logging.Logger.Verbose("Playlist.DoAction(" + Action + ", " + Entity.Kind.ToString() + ": " + Entity.Path + ")", "start");
 #endif
-            if (Entity.Kind.Equals(EntityKind.Unknown)) { return; }
+            if (Entity == null) { return; }
 
             switch (Action.ToLower())
             {

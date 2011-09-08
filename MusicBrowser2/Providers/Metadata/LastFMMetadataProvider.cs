@@ -77,6 +77,7 @@ namespace MusicBrowser.Providers.Metadata
                         dto.TotalPlays = albumDTO.TotalPlays;
 
                         dto.Title = albumDTO.Album;
+                        dto.AlbumName = dto.Title;
                         dto.Summary = albumDTO.Summary;
                         dto.MusicBrainzId = albumDTO.MusicBrainzID;
 
@@ -128,7 +129,8 @@ namespace MusicBrowser.Providers.Metadata
                         dto.Listeners = artistDTO.Listeners;
                         dto.TotalPlays = artistDTO.TotalPlays;
 
-                        dto.ArtistName = artistDTO.Artist;
+                        dto.Title = artistDTO.Artist;
+                        dto.ArtistName = dto.Title;
                         dto.MusicBrainzId = artistDTO.MusicBrainzID;
                         dto.Summary = artistDTO.Summary;
 
@@ -179,7 +181,8 @@ namespace MusicBrowser.Providers.Metadata
                         dto.Listeners = trackDTO.Listeners;
                         dto.TotalPlays = trackDTO.TotalPlays;
 
-                        dto.TrackName = trackDTO.Track;
+                        dto.Title = trackDTO.Track;
+                        dto.TrackName = dto.Title;
                         dto.Summary = trackDTO.Summary;
                         dto.MusicBrainzId = trackDTO.MusicBrainzID;
                         dto.Favorite = trackDTO.Loved;
