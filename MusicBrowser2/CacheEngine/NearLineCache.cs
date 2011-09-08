@@ -126,7 +126,7 @@ namespace MusicBrowser.CacheEngine
                 return EntityPersistance.Deserialize((string)dr["serialized"]);
             }
             Providers.Statistics.GetInstance().Hit("NLCache.miss");
-            return new Entities.Kinds.Unknown();
+            return null;
         }
 
         public void Remove(string key)

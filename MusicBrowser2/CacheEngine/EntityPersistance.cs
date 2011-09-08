@@ -34,11 +34,11 @@ namespace MusicBrowser.CacheEngine
                     case "folde":
                         return XmlSerializer.DeserializeFromString<Folder>(data);
                 }
-                return new Unknown();
+                return null;
             }
             catch
             {
-                return new Unknown();
+                return null;
             }
         }
 
