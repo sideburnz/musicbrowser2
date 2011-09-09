@@ -126,8 +126,6 @@ namespace MusicBrowser.Providers.Background
                         Logging.Logger.Verbose("Thread " + id.ToString() + " " + task.Title, "thread start");
 #endif
                         task.Execute();
-                        // there's a problem with the UI thread saying it's not responding
-                        Thread.Sleep(25);
                     }
                     catch (Exception e)
                     {
@@ -137,6 +135,8 @@ namespace MusicBrowser.Providers.Background
                     Logging.Logger.Verbose(String.Format("Thread {0} finished {1}. {2} threads alive, {3} jobs pending", id, task.Title, _activeThreads, _queue.Count), "thread finish");
 #endif
                 }
+
+                Thread.Sleep(100);
 
                 if (_queue.Count == 0)
                 {
@@ -164,6 +164,7 @@ namespace MusicBrowser.Providers.Background
                         }
                     }
                 }
+
             }
         }
 

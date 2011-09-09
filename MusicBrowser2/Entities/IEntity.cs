@@ -177,6 +177,7 @@ namespace MusicBrowser.Entities
             FirePropertyChanged("Background");
             FirePropertyChanged("Icon");
             FirePropertyChanged("Title");
+            FirePropertyChanged("Summary");
         }
 
         private static Image GetImage(string path)
