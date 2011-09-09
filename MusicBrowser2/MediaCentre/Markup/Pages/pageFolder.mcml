@@ -112,6 +112,7 @@
 
       <Binding Source="[FolderModel.RemoteTyper]" Target="[RemoteTyper.EditableText]" />
       <Binding Source="[FolderModel.RemoteTyper.Value]" Target="[FilterDisplay.Content]"/>
+      <Binding Source="[FolderModel.ParentEntity.Background]" Target="[EntityBackground.Content]"/>
 
       <Binding Source="[FolderModel.ShowPopupPlay]" Target="[PopupPlay.Visible]" />
       <Rule ConditionLogicalOp="Or">

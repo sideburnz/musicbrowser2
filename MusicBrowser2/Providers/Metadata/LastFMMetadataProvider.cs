@@ -11,7 +11,7 @@ namespace MusicBrowser.Providers.Metadata
     {
         private const string Name = "Last.fm";
 
-        private const int MinDaysBetweenHits = 0;
+        private const int MinDaysBetweenHits = 5;
         private const int MaxDaysBetweenHits = 100;
 
         private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
@@ -207,7 +207,7 @@ namespace MusicBrowser.Providers.Metadata
             if (dataAge <= MinDaysBetweenHits) { return false; }
             if (dataAge >= MaxDaysBetweenHits) { return true; }
 
-            // otherwise refresh randomly (90% don't refresh)
+            // otherwise refresh randomly (90% don't refresh each run)
             return (Rnd.Next(100) >= 90);
         }
 

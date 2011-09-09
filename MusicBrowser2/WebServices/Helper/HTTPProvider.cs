@@ -78,16 +78,20 @@ namespace MusicBrowser.WebServices.Helper
             }
             catch (WebException e)
             {
-                _status = ((HttpWebResponse) e.Response).StatusCode.ToString();
-                using (var stream = e.Response.GetResponseStream())
+                try
                 {
-                    using (var reader = new StreamReader(stream))
-                    {
-                        _response = reader.ReadToEnd();
-                    }
+                    _status = ((HttpWebResponse)e.Response).StatusCode.ToString();
+                    Stream stream = e.Response.GetResponseStream();
+                    StreamReader reader = new StreamReader(stream);
+                    _response = reader.ReadToEnd();
+                }
+                catch
+                {
+                    _status = "CATASTROPHIC ERROR";
+                    _response = string.Empty;
                 }
             }
-            catch (Exception e)
+            catch
             {
                 _status = "Unknown Error";
                 _response = string.Empty;
