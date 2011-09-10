@@ -89,7 +89,7 @@ namespace MusicBrowser.Models
             IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
             EntityFactory factory = new EntityFactory();
 
-            CommonTaskQueue.Enqueue(new MetadataProviderList(_parentEntity, providers, true), true);
+            CommonTaskQueue.Enqueue(new MetadataProviderList(_parentEntity, true), true);
 
             foreach (FileSystemItem item in items)
             {
@@ -108,7 +108,7 @@ namespace MusicBrowser.Models
 
                 // fire off the metadata providers
                 
-                CommonTaskQueue.Enqueue(new MetadataProviderList(entity, providers, true), true);
+                CommonTaskQueue.Enqueue(new MetadataProviderList(entity, true), true);
                 itemCount++;
             }
 

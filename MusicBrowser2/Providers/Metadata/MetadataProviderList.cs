@@ -9,26 +9,36 @@ namespace MusicBrowser.Providers.Metadata
 {
     class MetadataProviderList : IBackgroundTaskable
     {
+        private static object obj = new object();
+        private static IList<IDataProvider> _providers = null;
+
         public static IEnumerable<IDataProvider> GetProviders()
         {
-            List<IDataProvider> providerList = new List<IDataProvider>();
-
-            providerList.Add(new TagSharpMetadataProvider());
-            providerList.Add(new MediaInfoProvider());
-            providerList.Add(new InheritanceProvider());
-            if (Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+            if (_providers == null)
             {
-                providerList.Add(new HTBackdropMetadataProvider());
-                providerList.Add(new LastFMMetadataProvider());
-            }
-            providerList.Add(new FileSystemMetadataProvider());
-            providerList.Add(new IconProvider());
-            // add new providers here
+                lock (obj)
+                {
+                    if (_providers == null)
+                    {
+                        _providers = new List<IDataProvider>();
 
-            return providerList;
+                        _providers.Add(new TagSharpMetadataProvider());
+                        _providers.Add(new MediaInfoProvider());
+                        _providers.Add(new InheritanceProvider());
+                        if (Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+                        {
+                            _providers.Add(new HTBackdropMetadataProvider());
+                            _providers.Add(new LastFMMetadataProvider());
+                        }
+                        _providers.Add(new FileSystemMetadataProvider());
+                        _providers.Add(new IconProvider());
+                    }
+                }
+            }
+            return _providers;
         }
 
-        public static void ProcessEntity(IEntity entity, IEnumerable<IDataProvider> providers, bool Forced)
+        public static void ProcessEntity(IEntity entity, bool Forced)
         {
 #if DEBUG
             Logging.Logger.Verbose("ProcessEntity(" + entity.Path + ", <providers>, " + Forced + ")", "start");
@@ -36,7 +46,7 @@ namespace MusicBrowser.Providers.Metadata
 
             bool requiresUpdate = false;
 
-            foreach (IDataProvider provider in providers)
+            foreach (IDataProvider provider in GetProviders())
             {
                 try
                 {
@@ -49,12 +59,13 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         entity = PopulateEntity(entity, dto);
                         requiresUpdate = true;
+                        entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
                     }
                     else if (dto.Outcome != DataProviderOutcome.NoData) // no data is a warning, ignore it and move on
                     {
                         Logging.Logger.Debug(dto.Outcome.ToString() + " " + dto.Errors[0]);
+                        entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
                     }
-                    entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
                 }
                 catch (Exception e)
                 {
@@ -227,20 +238,17 @@ namespace MusicBrowser.Providers.Metadata
         }
 
         private readonly IEntity _entity;
-        private readonly IEnumerable<IDataProvider> _providers;
         private readonly bool _forced;
 
-        public MetadataProviderList(IEntity entity, IEnumerable<IDataProvider> providers)
+        public MetadataProviderList(IEntity entity)
         {
             _entity = entity;
-            _providers = providers;
             _forced = false;
         }
 
-        public MetadataProviderList(IEntity entity, IEnumerable<IDataProvider> providers, bool forced)
+        public MetadataProviderList(IEntity entity, bool forced)
         {
             _entity = entity;
-            _providers = providers;
             _forced = forced;
         }
 
@@ -255,7 +263,7 @@ namespace MusicBrowser.Providers.Metadata
         {
             try
             {
-                ProcessEntity(_entity, _providers, _forced);
+                ProcessEntity(_entity, _forced);
             }
             catch (Exception e)
             {

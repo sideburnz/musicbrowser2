@@ -47,7 +47,7 @@ namespace MusicBrowser.Providers
                 // fire off the metadata providers
                 if (!entity.Kind.Equals(EntityKind.Home))
                 {
-                    CommonTaskQueue.Enqueue(new MetadataProviderList(entity, providers));
+                    CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
                 }
             }
 #if DEBUG
