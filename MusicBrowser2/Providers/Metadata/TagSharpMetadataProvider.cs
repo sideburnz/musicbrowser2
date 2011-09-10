@@ -32,39 +32,47 @@ namespace MusicBrowser.Providers.Metadata
 
             Statistics.GetInstance().Hit(Name + ".hit");
 
-            TagLib.File fileTag = TagLib.File.Create(dto.Path);
-
-            if (!String.IsNullOrEmpty(fileTag.Tag.Title))
+            try
             {
-                dto.TrackName = fileTag.Tag.Title;
-                dto.AlbumName = fileTag.Tag.Album;
-                dto.ArtistName = fileTag.Tag.FirstPerformer;
-                dto.AlbumArtist = fileTag.Tag.FirstAlbumArtist;
-                dto.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
-                dto.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);
-                dto.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
-                dto.Codec = fileTag.MimeType.Substring(7).ToLower();
-                dto.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
-                dto.MusicBrainzId = fileTag.Tag.MusicBrainzTrackId;
+                TagLib.File fileTag = TagLib.File.Create(dto.Path);
 
-                if (fileTag.Tag.Performers != null) { dto.Performers.AddRange(fileTag.Tag.Performers); }
-                if (fileTag.Tag.Genres != null) { dto.Genres.AddRange(fileTag.Tag.Genres); }
-                if (string.IsNullOrEmpty(dto.AlbumArtist)) { dto.AlbumArtist = dto.ArtistName; }
-
-                // cache the thumb
-                foreach (TagLib.IPicture pic in fileTag.Tag.Pictures)
+                if (!String.IsNullOrEmpty(fileTag.Tag.Title))
                 {
-                    if (!pic.Data.IsEmpty)
+                    dto.TrackName = fileTag.Tag.Title;
+                    dto.AlbumName = fileTag.Tag.Album;
+                    dto.ArtistName = fileTag.Tag.FirstPerformer;
+                    dto.AlbumArtist = fileTag.Tag.FirstAlbumArtist;
+                    dto.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
+                    dto.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);
+                    dto.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
+                    dto.Codec = fileTag.MimeType.Substring(7).ToLower();
+                    dto.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
+                    dto.MusicBrainzId = fileTag.Tag.MusicBrainzTrackId;
+
+                    if (fileTag.Tag.Performers != null) { dto.Performers.AddRange(fileTag.Tag.Performers); }
+                    if (fileTag.Tag.Genres != null) { dto.Genres.AddRange(fileTag.Tag.Genres); }
+                    if (string.IsNullOrEmpty(dto.AlbumArtist)) { dto.AlbumArtist = dto.ArtistName; }
+
+                    // cache the thumb
+                    foreach (TagLib.IPicture pic in fileTag.Tag.Pictures)
                     {
-                        dto.ThumbImage = ImageProvider.Convert(pic);
-                        break;
+                        if (!pic.Data.IsEmpty)
+                        {
+                            dto.ThumbImage = ImageProvider.Convert(pic);
+                            break;
+                        }
                     }
                 }
+                else
+                {
+                    dto.Outcome = DataProviderOutcome.NotFound;
+                    dto.Errors = new List<string> { "No data found in tags" };
+                }
             }
-            else
+            catch
             {
-                dto.Outcome = DataProviderOutcome.NotFound;
-                dto.Errors = new List<string> { "No data found in tags" };
+                dto.Outcome = DataProviderOutcome.SystemError;
+                dto.Errors = new List<string> { "Error processing file" };
             }
 
             return dto;
