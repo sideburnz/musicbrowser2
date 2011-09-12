@@ -24,7 +24,8 @@ namespace MusicBrowser.WebServices.WebServiceProviders
                                                     { 'ö', 'o' },
                                                     { 'í', 'i' },
                                                     { 'ř', 'r' },
-                                                    { 'á', 'a' }
+                                                    { 'á', 'a' },
+                                                    { 'Å', 'a' },
                                                };
 
         public void SetParameters(IDictionary<string, string> parms)

@@ -19,16 +19,18 @@ namespace MusicBrowser.CacheEngine
         public void Delete(string key)
         {
             string fileName = CalculateCacheFileFromKey(key);
-            if (File.Exists(fileName)) { File.Delete(fileName); }
+            lock (_obj)
+            {
+                if (File.Exists(fileName)) { File.Delete(fileName); }
+            }
         }
 
         public string Read(string key)
         {
             string fileName = CalculateCacheFileFromKey(key);
-
-            if (File.Exists(fileName))
+            lock (_obj)
             {
-                lock (_obj)
+                if (File.Exists(fileName))
                 {
                     StreamReader file = new StreamReader(fileName);
                     string cachedValue = file.ReadToEnd();
