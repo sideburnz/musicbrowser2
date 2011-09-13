@@ -26,24 +26,21 @@ namespace MusicBrowser.Providers.Background
 
         public BackgroundTaskQueueProvider(ThreadPriority priority, int poolSize)
         {
-            lock (_obj)
+            // set up the task queue 
+            _queue = new List<IBackgroundTaskable>();
+
+            _activeThreads = poolSize;
+
+            // spin up the threads 
+            _maximumThreads = poolSize;
+            _threadPool = new Thread[poolSize];
+            _threadAwake = new bool[poolSize];
+
+            for (int i = 0; i < poolSize; i++)
             {
-                // set up the task queue 
-                _queue = new List<IBackgroundTaskable>();
-
-                _activeThreads = poolSize;
-
-                // spin up the threads 
-                _maximumThreads = poolSize;
-                _threadPool = new Thread[poolSize];
-                _threadAwake = new bool[poolSize];
-
-                for (int i = 0; i < poolSize; i++)
-                {
-                    _threadPool[i] = new Thread(Processor) { Priority = priority, IsBackground = true, Name = i.ToString() };
-                    _threadAwake[i] = true;
-                    _threadPool[i].Start();
-                }
+                _threadPool[i] = new Thread(Processor) { Priority = priority, IsBackground = true, Name = i.ToString() };
+                _threadAwake[i] = false;
+                _threadPool[i].Start();
             }
         }
 
@@ -75,6 +72,7 @@ namespace MusicBrowser.Providers.Background
             }
         }
 
+        //TODO: this causes random crashes - investigate
         private void Processor()
         {
             int id = int.Parse(Thread.CurrentThread.Name);
@@ -82,11 +80,8 @@ namespace MusicBrowser.Providers.Background
             // the first thing we do is make the thread sleep until it has work
             try
             {
-                lock (_obj)
-                {
-                    _threadAwake[id] = false;
-                    _activeThreads--;
-                }
+                _threadAwake[id] = false;
+                _activeThreads--;
                 if (id == 0) { Thread.Sleep(1000); }
                 else { Thread.Sleep(60000); }
                 lock (_obj)
@@ -135,8 +130,6 @@ namespace MusicBrowser.Providers.Background
                     Logging.Logger.Verbose(String.Format("Thread {0} finished {1}. {2} threads alive, {3} jobs pending", id, task.Title, _activeThreads, _queue.Count), "thread finish");
 #endif
                 }
-
-                Thread.Sleep(100);
 
                 if (_queue.Count == 0)
                 {

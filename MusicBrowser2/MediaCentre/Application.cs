@@ -17,7 +17,6 @@ namespace MusicBrowser
     {
         private readonly AddInHost _host;
         private readonly HistoryOrientedPageSession _session;
-        private readonly EntityFactory _factory;
 
         public Application() : this(null, null) { }
 
@@ -25,8 +24,6 @@ namespace MusicBrowser
         {
             _session = session; 
             _host = host;
-
-            _factory = new EntityFactory();
 
             Util.Config.GetInstance().SetDefaultSettings();
             Logging.Logger.Info("Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
@@ -56,7 +53,7 @@ namespace MusicBrowser
                             EntityCollection entities = new EntityCollection();
                             foreach (string item in Entities.Kinds.Home.Paths)
                             {
-                                entities.Populate(FileSystemProvider.GetFolderContents(item), _factory);
+                                entities.Populate(FileSystemProvider.GetFolderContents(item));
                             }
 
                             FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
@@ -64,17 +61,12 @@ namespace MusicBrowser
                             properties["UINotifier"] = UINotifier.GetInstance();
                             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
 
-                            //trigger the background caching tasks
-                            foreach (string path in Entities.Kinds.Home.Paths)
-                            {
-                                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path, _factory));
-                            }
                             break;
                         }
                     default:
                         {
                             EntityCollection entities = new EntityCollection();
-                            entities.Populate(FileSystemProvider.GetFolderContents(entity.Path), _factory);
+                            entities.Populate(FileSystemProvider.GetFolderContents(entity.Path));
                             FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
                             properties["FolderModel"] = folderModel;
                             properties["UINotifier"] = UINotifier.GetInstance();

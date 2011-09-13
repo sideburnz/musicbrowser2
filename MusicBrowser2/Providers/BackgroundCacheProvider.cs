@@ -11,12 +11,10 @@ namespace MusicBrowser.Providers
     class BackgroundCacheProvider : IBackgroundTaskable 
     {
         private readonly string _path;
-        private readonly EntityFactory _factory;
 
-        public BackgroundCacheProvider(string path, EntityFactory factory)
+        public BackgroundCacheProvider(string path)
         {
             _path = path;
-            _factory = factory;
         }
 
         #region IBackgroundTaskable Members
@@ -41,7 +39,7 @@ namespace MusicBrowser.Providers
                 if (item.Name.ToLower() == "metadata") { continue; }
 
                 // process the item in context
-                IEntity entity = _factory.GetItem(item);
+                IEntity entity = EntityFactory.GetItem(item);
                 if (entity == null || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
                 // fire off the metadata providers

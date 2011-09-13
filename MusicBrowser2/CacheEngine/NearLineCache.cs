@@ -6,35 +6,25 @@ using MusicBrowser.Interfaces;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers;
 using System.Data;
+using ServiceStack.Text;
+using System.IO;
+using MusicBrowser.Entities.Kinds;
 
 // in memory caching, intended to allow faster searches
+//TODO: write scavenger to clean up dead items
+//TODO: implement a IsFresh type check for use with the Factory (or scavenger)
+//TODO: review to ensure is implemented in a smart manner
 
 namespace MusicBrowser.CacheEngine
 {
     public class NearLineCache
     {
-        private readonly DataTable _cache;
+        private Dictionary<string, Song> _cache;
         private static readonly object _obj = new object();
+        private readonly string _cacheFile = System.IO.Path.Combine(Util.Config.GetInstance().GetSetting("CachePath"), "cache.json");
 
         #region singleton
         static NearLineCache _instance;
-
-        NearLineCache()
-        {
-            _cache = new DataTable();
-
-            _cache.Columns.Add("key", System.Type.GetType("System.String"));
-            _cache.Columns.Add("path", System.Type.GetType("System.String"));
-            _cache.Columns.Add("artist", System.Type.GetType("System.String"));
-            _cache.Columns.Add("track", System.Type.GetType("System.String"));
-            _cache.Columns.Add("favorite", System.Type.GetType("System.Boolean"));
-            _cache.Columns.Add("rating", System.Type.GetType("System.Int32"));
-            _cache.Columns.Add("serialized", System.Type.GetType("System.String"));
-
-            _cache.Constraints.Add("PK", _cache.Columns["key"], true);
-
-            _cache.CaseSensitive = false;
-        }
 
         public static NearLineCache GetInstance()
         {
@@ -55,86 +45,108 @@ namespace MusicBrowser.CacheEngine
 
         public void Update(IEntity entity)
         {
-            if (entity.Kind != EntityKind.Song) { return; }
-
-            object[] rowData = new object[7];
-
-            rowData[0] = entity.CacheKey;
-            rowData[1] = entity.Path;
-            rowData[2] = entity.ArtistName;
-            rowData[3] = entity.TrackName;
-            rowData[4] = entity.Favorite;
-            rowData[5] = entity.Rating;
-            rowData[6] = EntityPersistance.Serialize(entity);
+            if (!(entity.Kind == EntityKind.Song)) { return; }
 
             lock (_obj)
             {
-                _cache.LoadDataRow(rowData, true);
+                if (_cache.ContainsKey(entity.CacheKey))
+                {
+                    _cache[entity.CacheKey] = (Song)entity;
+                }
+                else
+                {
+                    _cache.Add(entity.CacheKey, (Song)entity);
+                }
             }
         }
 
         public IEnumerable<string> FindFavorites()
         {
-            List<string> ret = new List<string>(100);
-            DataRow[] rows = _cache.Select("rating > 4 OR favorite = True");
-            foreach (DataRow row in rows)
-            {
-                ret.Add((string)row["path"]);
-            }
-            return ret;
+            return _cache.Where(item => ((item.Value.Rating == 5) || (item.Value.Favorite))).Select(item => item.Key);
         }
 
         public IEnumerable<string> FindByRating(int rating)
         {
             List<string> ret = new List<string>(100);
-            DataRow[] rows = _cache.Select("rating >= " + rating);
-            foreach (DataRow row in rows)
-            {
-                ret.Add((string)row["path"]);
-            }
+            //DataRow[] rows = _cache.Select("rating >= " + rating);
+            //foreach (DataRow row in rows)
+            //{
+            //    ret.Add((string)row["path"]);
+            //}
             return ret;
         }
 
         public IEnumerable<string> FindByPlays(int plays)
         {
             List<string> ret = new List<string>(100);
-            DataRow[] rows = _cache.Select("plays >= " + plays);
-            foreach (DataRow row in rows)
-            {
-                ret.Add((string)row["path"]);
-            }
+            //DataRow[] rows = _cache.Select("plays >= " + plays);
+            //foreach (DataRow row in rows)
+            //{
+            //    ret.Add((string)row["path"]);
+            //}
             return ret;
         }
 
         public IEnumerable<string> FindTrack(string artist, string track)
         {
             List<string> ret = new List<string>(100);
-            DataRow[] rows = _cache.Select(String.Format("artist = '{0}' AND track = '{1}'", artist, track));
-            foreach (DataRow row in rows)
-            {
-                ret.Add((string)row["path"]);
-            }
+            //DataRow[] rows = _cache.Select(String.Format("artist = '{0}' AND track = '{1}'", artist, track));
+            //foreach (DataRow row in rows)
+            //{
+            //    ret.Add((string)row["path"]);
+            //}
             return ret;
         }
 
         public IEntity Fetch(string key)
         {
-            DataRow dr = _cache.Rows.Find(key);
-            if (dr != null)
+            if (_cache.ContainsKey(key))
             {
-                Providers.Statistics.GetInstance().Hit("NLCache.hit");
-                return EntityPersistance.Deserialize((string)dr["serialized"]);
+                return _cache[key];
             }
-            Providers.Statistics.GetInstance().Hit("NLCache.miss");
             return null;
         }
 
         public void Remove(string key)
         {
-            DataRow dr = _cache.Rows.Find(key);
-            if (dr != null)
+            if (_cache.ContainsKey(key))
             {
-                _cache.Rows.Remove(dr);
+                _cache.Remove(key);
+            }
+        }
+
+        public void Save()
+        {
+            //
+            FileStream file = new FileStream(_cacheFile, FileMode.Create);
+            JsonSerializer.SerializeToStream<Dictionary<string, Song>>(_cache, file);
+            file.Close();
+
+            Logging.Logger.Debug("Saving NL cache to disc: Rows Saved = " + _cache.Count);
+        }
+
+        public void Init()
+        {
+            if (System.IO.File.Exists(_cacheFile))
+            {
+                try
+                {
+                    FileStream file = new FileStream(_cacheFile, FileMode.OpenOrCreate);
+                    _cache = JsonSerializer.DeserializeFromStream<Dictionary<string, Song>>(file);
+                    Logging.Logger.Debug("Loading NL cache from disc: Rows Loaded = " + _cache.Count);
+                }
+                catch(Exception ex)
+                {
+                    System.IO.File.Delete(_cacheFile);
+                    _cache = new Dictionary<string, Song>(1000);
+
+                    Logging.Logger.Error(ex);
+                }
+            }
+            else
+            {
+                _cache = new Dictionary<string, Song>(1000);
+                Logging.Logger.Debug("NL Cache couldn't be found");
             }
         }
     }

@@ -87,7 +87,6 @@ namespace MusicBrowser.Models
 
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parentEntity.Path);
             IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
-            EntityFactory factory = new EntityFactory();
 
             CommonTaskQueue.Enqueue(new MetadataProviderList(_parentEntity, true), true);
 
@@ -103,7 +102,7 @@ namespace MusicBrowser.Models
                 CacheEngine.NearLineCache.GetInstance().Remove(key);
 
                 // process the item in context
-                IEntity entity = factory.GetItem(item);
+                IEntity entity = EntityFactory.GetItem(item);
                 if (entity == null || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
                 // fire off the metadata providers
@@ -155,8 +154,6 @@ namespace MusicBrowser.Models
 
         void RemoteFilterPropertyChanged(IPropertyObject sender, string property)
         {
-            //TODO: implement parallel extentions when migrating to .Net4
-
             if (property == "Value")
             {
                 Logging.Logger.Debug("filter = " + _remoteFilter.Value);

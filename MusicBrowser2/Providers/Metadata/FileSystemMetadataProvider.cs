@@ -37,12 +37,10 @@ namespace MusicBrowser.Providers.Metadata
             int artists = 0;
             int tracks = 0;
 
-            EntityFactory factory = new EntityFactory();
-
             IEnumerable<FileSystemItem> allPaths = FileSystemProvider.GetAllSubPaths(dto.Path);
             foreach (FileSystemItem item in allPaths)
             {
-                IEntity e = factory.GetItem(item);
+                IEntity e = EntityFactory.GetItem(item);
 
                 if (e != null)
                 {

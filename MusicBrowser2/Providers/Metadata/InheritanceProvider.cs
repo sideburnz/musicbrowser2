@@ -25,8 +25,7 @@ namespace MusicBrowser.Providers.Metadata
             bool hasUpdated = false;
 
             Statistics.GetInstance().Hit(Name + ".hit");
-            EntityFactory factory = new EntityFactory();
-
+ 
             #region album
             if (dto.DataType == DataTypes.Album)
             {
@@ -40,7 +39,7 @@ namespace MusicBrowser.Providers.Metadata
                 IEnumerable<FileSystemItem> children = FileSystemProvider.GetFolderContents(dto.Path);
                 foreach (FileSystemItem child in children)
                 {
-                    IEntity e = factory.GetItem(child.FullPath);
+                    IEntity e = EntityFactory.GetItem(child.FullPath);
                     if (e == null) { continue; }
 
                     if (e.Kind == EntityKind.Song || e.Kind == EntityKind.Album)
@@ -98,7 +97,7 @@ namespace MusicBrowser.Providers.Metadata
                 // data on artists => <albums>
                 #region decent
 
-                IEntity parent = factory.GetItem(Directory.GetParent(dto.Path).FullName);
+                IEntity parent = EntityFactory.GetItem(Directory.GetParent(dto.Path).FullName);
                 if (parent.Kind == EntityKind.Artist)
                 {
                     if (!String.IsNullOrEmpty(parent.BackgroundPath) && !dto.hasBackImage)
@@ -119,7 +118,7 @@ namespace MusicBrowser.Providers.Metadata
             {
                 if (!dto.hasThumbImage && Util.Config.GetInstance().GetBooleanSetting("UseFolderImageForTracks"))
                 {
-                    IEntity parent = factory.GetItem(Directory.GetParent(dto.Path).FullName);
+                    IEntity parent = EntityFactory.GetItem(Directory.GetParent(dto.Path).FullName);
                     if (parent.Kind == EntityKind.Album && !String.IsNullOrEmpty(parent.IconPath))
                     {
                         dto.ThumbImage = ImageProvider.Load(parent.IconPath);

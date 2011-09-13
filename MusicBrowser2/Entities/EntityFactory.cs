@@ -10,47 +10,17 @@ using MusicBrowser.Providers.Metadata;
 
 namespace MusicBrowser.Entities
 {
-    public class EntityFactory
+    public static class EntityFactory
     {
-        private static readonly long FirstCompatibleCache = Util.Helper.ParseVersion("2.2.2.6");
-        private readonly ICacheEngine _cacheEngine = CacheEngineFactory.GetCacheEngine();
-
-        #region IEntityFactory Members
-
-        public IEntity GetItem(string item)
+        public static IEntity GetItem(string item)
         {
             return GetItem(FileSystemProvider.GetItemDetails(item));
         }
 
-        bool IsFresh(DateTime cacheDate, params DateTime[] comparisons)
+        public static IEntity GetItem(FileSystemItem item)
         {
-            foreach (DateTime d in comparisons)
-            {
-                if (d >= cacheDate) { return false; }
-            }
-            return true;
-        }
+            ICacheEngine _cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
 
-        // works out where the metadata file is (if there is one)
-        string MetadataPath(FileSystemItem item)
-        {
-            string metadataPath = Directory.GetParent(item.FullPath).FullName;
-
-            string metadataLocal = metadataPath + "\\" + item.Name + "\\metadata.xml";
-            if (File.Exists(metadataLocal))
-            {
-                return metadataLocal;
-            }
-            string metadataInParent =  metadataPath + "\\metadata\\" + item.Name + ".xml";
-            if (File.Exists(metadataInParent))
-            {
-                return metadataInParent;
-            }
-            return string.Empty;
-        }
-
-        public IEntity GetItem(FileSystemItem item)
-        {
             // don't waste time trying to determine a known not entity
             if (!Util.Helper.IsEntity(item.FullPath)) { return null; }
             if (item.Name.ToLower() == "metadata") { return null; }
@@ -159,8 +129,6 @@ namespace MusicBrowser.Entities
             return entity;
         }
 
-        #endregion
-
         private static Nullable<EntityKind> DetermineKind(FileSystemItem entity)
         {
             if (!Util.Helper.IsEntity(entity.FullPath))
@@ -197,6 +165,33 @@ namespace MusicBrowser.Entities
 
             Logging.Logger.Info("unable to determine entity type for : " + entity.FullPath);
             return null;
+        }
+
+        private static bool IsFresh(DateTime cacheDate, params DateTime[] comparisons)
+        {
+            foreach (DateTime d in comparisons)
+            {
+                if (d >= cacheDate) { return false; }
+            }
+            return true;
+        }
+
+        // works out where the metadata file is (if there is one)
+        private static string MetadataPath(FileSystemItem item)
+        {
+            string metadataPath = Directory.GetParent(item.FullPath).FullName;
+
+            string metadataLocal = metadataPath + "\\" + item.Name + "\\metadata.xml";
+            if (File.Exists(metadataLocal))
+            {
+                return metadataLocal;
+            }
+            string metadataInParent = metadataPath + "\\metadata\\" + item.Name + ".xml";
+            if (File.Exists(metadataInParent))
+            {
+                return metadataInParent;
+            }
+            return string.Empty;
         }
     }
 }
