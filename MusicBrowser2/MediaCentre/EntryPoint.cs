@@ -2,6 +2,8 @@
 using Microsoft.MediaCenter.Hosting;
 using MusicBrowser.Entities;
 using MusicBrowser.Models;
+using MusicBrowser.Providers.Background;
+using MusicBrowser.Providers;
  
 // taken from the SDK example, I've changed the namespace and classname
 
@@ -25,6 +27,7 @@ namespace MusicBrowser
                 Logging.Logger.Verbose(Util.Helper.outputTypes(), "stats");
 #endif
             }
+            CacheEngine.NearLineCache.GetInstance().Save();
         }
         
         public void Launch(AddInHost host)         
@@ -32,11 +35,21 @@ namespace MusicBrowser
             if (host != null && host.ApplicationContext != null)
             {                 
                 host.ApplicationContext.SingleInstance = true;
-            }             
+            }
             _sSession = new HistoryOrientedPageSession();
             Application app = new Application(_sSession, host);
             IEntity home = new Entities.Kinds.Home();
+
+            // load the nearline cache
+            CacheEngine.NearLineCache.GetInstance().Init();
+
             app.Navigate(home, new Breadcrumbs());
+
+            //trigger the background caching tasks
+            foreach (string path in MusicBrowser.Entities.Kinds.Home.Paths)
+            {
+                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path));
+            }
         }     
     } 
 } 

@@ -177,6 +177,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Util\Helper.cs" />
+    <Compile Include="Util\Telemetry.cs" />
     <Compile Include="WebServices\Helper\Externals.cs" />
     <Compile Include="WebServices\WebServiceProviders\HTBackdropWebProvider.cs" />
     <Compile Include="WebServices\Helper\HTTPProvider.cs" />
@@ -242,7 +243,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Music.ico" />
-    <Content Include="To fix before next release.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

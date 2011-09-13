@@ -38,7 +38,6 @@ namespace MusicBrowser.Providers
 
         private static void CreatePlaylist(IEnumerable<string> paths, bool queue, bool shuffle, bool favorites)
         {
-            EntityFactory factory = new EntityFactory();
             List<string> tracks = new List<string>();
             // get all of the songs from sub folders
 

@@ -10,6 +10,7 @@ namespace MusicBrowser.Providers.Background
 {
     public static class CommonTaskQueue 
     {
+        private static readonly object _lock = new object();
         private static readonly BackgroundTaskQueueProvider Queue = CreateQueue();
 
         public static void Enqueue(IBackgroundTaskable task)
@@ -24,13 +25,15 @@ namespace MusicBrowser.Providers.Background
 
         private static BackgroundTaskQueueProvider CreateQueue()
         {
-            string smaxthreads = Util.Config.GetInstance().GetSetting("ThreadPoolSize");
-            int maxthreads;
-            if (!int.TryParse(smaxthreads, out maxthreads)) { maxthreads = 1; }
-            if (maxthreads < 0) { maxthreads = 0; }
-            if (maxthreads > 8) { maxthreads = 8; }
-            Util.Config.GetInstance().SetSetting("ThreadPoolSize", maxthreads.ToString());
-            return new BackgroundTaskQueueProvider(ThreadPriority.Lowest, maxthreads);
+            lock (_lock)
+            {
+                string smaxthreads = Util.Config.GetInstance().GetSetting("ThreadPoolSize");
+                int maxthreads;
+                if (!int.TryParse(smaxthreads, out maxthreads)) { maxthreads = 1; }
+                if (maxthreads < 1) { maxthreads = 1; }
+                if (maxthreads > 8) { maxthreads = 8; }
+                return new BackgroundTaskQueueProvider(ThreadPriority.Lowest, maxthreads);
+            }
         }
     }
 }

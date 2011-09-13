@@ -6,7 +6,7 @@ namespace MusicBrowser.Entities
 {
     public class EntityCollection : List<IEntity>
     {
-        public void Populate(IEnumerable<FileSystemItem> items, EntityFactory entityFactory)
+        public void Populate(IEnumerable<FileSystemItem> items)
         {
             NearLineCache nl = NearLineCache.GetInstance();
 
@@ -14,7 +14,7 @@ namespace MusicBrowser.Entities
             {
                 //Logging.Logger.Debug("EntityCollection.Loop (" + item.FullPath);
 
-                IEntity entity = entityFactory.GetItem(item);
+                IEntity entity = EntityFactory.GetItem(item);
                 if (!(entity == null) && !entity.Kind.Equals(EntityKind.Folder))
                 {
                     entity.UpdateValues();
