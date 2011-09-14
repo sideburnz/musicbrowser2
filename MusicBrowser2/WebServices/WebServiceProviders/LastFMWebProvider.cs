@@ -124,13 +124,21 @@ namespace MusicBrowser.WebServices.WebServiceProviders
 
         public static bool Hit()
         {
-            if (DateTime.Now <= _nextHit)
+            try
             {
-                System.Threading.Thread.Sleep(MsBetweenHits);
+                if (DateTime.Now <= _nextHit)
+                {
+                    System.Threading.Thread.Sleep(MsBetweenHits);
+                    return false;
+                }
+                _nextHit = DateTime.Now.AddMilliseconds(MsBetweenHits);
+                return true;
+            }
+            catch 
+            {
+                // thread.interrupt from the Background processor can cause the Sleep function here to throw an exception
                 return false;
             }
-            _nextHit = DateTime.Now.AddMilliseconds(MsBetweenHits);
-            return true;
         }
     }
 }

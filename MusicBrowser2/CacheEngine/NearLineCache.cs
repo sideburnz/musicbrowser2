@@ -62,48 +62,27 @@ namespace MusicBrowser.CacheEngine
 
         public IEnumerable<string> FindFavorites()
         {
-            return _cache.Where(item => ((item.Value.Rating == 5) || (item.Value.Favorite))).Select(item => item.Key);
+            return _cache.Where(item => ((item.Value.Rating == 5) || (item.Value.Favorite))).Select(item => item.Value.Path);
         }
 
-        public IEnumerable<string> FindByRating(int rating)
+        public IEnumerable<string> FindMostPlayed(int records)
         {
-            List<string> ret = new List<string>(100);
-            //DataRow[] rows = _cache.Select("rating >= " + rating);
-            //foreach (DataRow row in rows)
-            //{
-            //    ret.Add((string)row["path"]);
-            //}
-            return ret;
+            return _cache.OrderBy(item => item.Value.PlayCount).Reverse().Take(records).Select(item => item.Value.Path);
         }
 
-        public IEnumerable<string> FindByPlays(int plays)
+        public IEnumerable<string> FindRecentlyAdded(int records)
         {
-            List<string> ret = new List<string>(100);
-            //DataRow[] rows = _cache.Select("plays >= " + plays);
-            //foreach (DataRow row in rows)
-            //{
-            //    ret.Add((string)row["path"]);
-            //}
-            return ret;
-        }
-
-        public IEnumerable<string> FindTrack(string artist, string track)
-        {
-            List<string> ret = new List<string>(100);
-            //DataRow[] rows = _cache.Select(String.Format("artist = '{0}' AND track = '{1}'", artist, track));
-            //foreach (DataRow row in rows)
-            //{
-            //    ret.Add((string)row["path"]);
-            //}
-            return ret;
+            return _cache.OrderBy(item => item.Value.Added).Reverse().Take(records).Select(item => item.Value.Path);
         }
 
         public IEntity Fetch(string key)
         {
             if (_cache.ContainsKey(key))
             {
+                Statistics.GetInstance().Hit("NLCache.Hit");
                 return _cache[key];
             }
+            Statistics.GetInstance().Hit("NLCache.Miss");
             return null;
         }
 

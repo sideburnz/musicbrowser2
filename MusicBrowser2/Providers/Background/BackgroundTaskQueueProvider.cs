@@ -10,100 +10,73 @@ using System.Threading;
  * 03-FEB-2011 - JJ
  * ----------------------------------------------------------------------------
  * + rewritten using Sleep and Interrupt - 04-SEP-2011
+ * + major changes to simplify
  * ***************************************************************************/
 
 namespace MusicBrowser.Providers.Background
-{ 
+{
     public class BackgroundTaskQueueProvider : IDisposable
-    { 
-        private readonly List<IBackgroundTaskable> _queue; 
+    {
+        private readonly List<IBackgroundTaskable> _queue;
         private Thread[] _threadPool;
-        private bool[] _threadAwake;
         private readonly object _obj = new object();
-
-        private int _activeThreads; 
         private readonly int _maximumThreads;
+        private readonly bool[] _threadStates;
 
-        public BackgroundTaskQueueProvider(ThreadPriority priority, int poolSize)
+        public BackgroundTaskQueueProvider(ThreadPriority priority)
         {
             // set up the task queue 
             _queue = new List<IBackgroundTaskable>();
 
-            _activeThreads = poolSize;
-
             // spin up the threads 
-            _maximumThreads = poolSize;
-            _threadPool = new Thread[poolSize];
-            _threadAwake = new bool[poolSize];
+            _maximumThreads = System.Environment.ProcessorCount;
+            _threadPool = new Thread[_maximumThreads];
+            _threadStates = new bool[_maximumThreads];
+            for (int i = 0; i < _maximumThreads; i++) { _threadStates[i] = false; }
 
-            for (int i = 0; i < poolSize; i++)
+            for (int i = 0; i < _maximumThreads; i++)
             {
                 _threadPool[i] = new Thread(Processor) { Priority = priority, IsBackground = true, Name = i.ToString() };
-                _threadAwake[i] = false;
                 _threadPool[i].Start();
             }
         }
 
-        public void Enqueue(IBackgroundTaskable task) 
-        { 
-            Enqueue(task, false); 
-        }
-
-        public void Enqueue(IBackgroundTaskable task, bool highPriority)
+        public void Enqueue(IBackgroundTaskable task)
         {
-            if (highPriority) { _queue.Insert(0, task); }
-            else { _queue.Add(task); }
-
             lock (_obj)
             {
-                // if there's more than two times as many pending tasks as there is active threads 
-                // and we have spare active threads, start another oone up to process tasks 
-                if (((_activeThreads < _maximumThreads) && ((_activeThreads * 2) < _queue.Count)) || _activeThreads == 0)
+                AddTask(task, false);
+            }
+        }
+
+        public void Enqueue(IBackgroundTaskable task, bool urgent)
+        {
+            lock (_obj)
+            {
+                AddTask(task, urgent);
+            }
+        }
+
+        private void AddTask(IBackgroundTaskable task, bool urgent)
+        {
+            if (urgent) { _queue.Insert(0, task); }
+            else { _queue.Add(task); }
+
+            // if we have a spare thread, spin one up
+            for (int i = 0; i < _maximumThreads; i++)
+            {
+                if (!_threadStates[i] & Sleeping(i))
                 {
-                    for (int i = 0; i < _maximumThreads; i++)
-                    {
-                        if (!_threadAwake[i])
-                        {
-                            _threadPool[i].Interrupt();
-                            break;
-                        }
-                    }
+                    _threadStates[i] = true;
+                    _threadPool[i].Interrupt();
+                    break;
                 }
             }
         }
 
-        //TODO: this causes random crashes - investigate
         private void Processor()
         {
             int id = int.Parse(Thread.CurrentThread.Name);
-
-            // the first thing we do is make the thread sleep until it has work
-            try
-            {
-                _threadAwake[id] = false;
-                _activeThreads--;
-                if (id == 0) { Thread.Sleep(1000); }
-                else { Thread.Sleep(60000); }
-                lock (_obj)
-                {
-                    _threadAwake[id] = true;
-                    _activeThreads++;
-#if DEBUG
-                    Logging.Logger.Verbose("Thread " + id.ToString() + " awakened - initial sleep timeout", "thread awake");
-#endif
-                }
-            }
-            catch (ThreadInterruptedException e)
-            {
-                lock (_obj)
-                {
-                    _threadAwake[id] = true;
-                    _activeThreads++;
-#if DEBUG
-                    Logging.Logger.Verbose("Thread " + id.ToString() + " awakened - first time", "thread awake");
-#endif
-                }
-            }
 
             while (true)
             {
@@ -120,6 +93,7 @@ namespace MusicBrowser.Providers.Background
 #if DEBUG
                         Logging.Logger.Verbose("Thread " + id.ToString() + " " + task.Title, "thread start");
 #endif
+                        System.Threading.Thread.Sleep(10);
                         task.Execute();
                     }
                     catch (Exception e)
@@ -130,31 +104,21 @@ namespace MusicBrowser.Providers.Background
                     Logging.Logger.Verbose(String.Format("Thread {0} finished {1}. {2} threads alive, {3} jobs pending", id, task.Title, _activeThreads, _queue.Count), "thread finish");
 #endif
                 }
-
-                if (_queue.Count == 0)
+                else
                 {
                     try
                     {
-                        lock (_obj)
-                        {
-                            _threadAwake[id] = false;
-                            _activeThreads--;
 #if DEBUG
-                            Logging.Logger.Verbose(String.Format("Thread {0} is being suspended, {1} threads alive, {2} jobs pending", id, _activeThreads, _queue.Count), "thread asleep");
+                        Logging.Logger.Verbose(String.Format("Thread {0} is being suspended, {1} threads alive, {2} jobs pending", id, _activeThreads, _queue.Count), "thread asleep");
 #endif
-                        }
+                        _threadStates[id] = false;
                         Thread.Sleep(Timeout.Infinite);
                     }
                     catch (ThreadInterruptedException e)
                     {
-                        lock (_obj)
-                        {
-                            _threadAwake[id] = true;
-                            _activeThreads++;
 #if DEBUG
-                            Logging.Logger.Verbose("Thread " + id.ToString() + " awakened", "thread awake");
+                        Logging.Logger.Verbose("Thread " + id.ToString() + " awakened", "thread awake");
 #endif
-                        }
                     }
                 }
 
@@ -169,5 +133,12 @@ namespace MusicBrowser.Providers.Background
                 _threadPool[i].Abort();
             }
         }
-    } 
+
+        private bool Sleeping(int threadID)
+        {
+            ThreadState ts = _threadPool[threadID].ThreadState;
+
+            return ((ts & ThreadState.WaitSleepJoin) == ThreadState.WaitSleepJoin);
+        }
+    }
 }

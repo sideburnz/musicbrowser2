@@ -26,6 +26,8 @@ namespace MusicBrowser.Util
                 { "AutoLoadNowPlaying", false.ToString() },
                 { "HomeBackground", Path.Combine(Helper.AppFolder, "backdrop.jpg") },
 
+                { "AutoPlaylistSize", "50" },
+
                 { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
                 { "UseInternetProviders", true.ToString() } ,
                 { "LastFMUserName", String.Empty },
@@ -73,7 +75,6 @@ namespace MusicBrowser.Util
                 { "Folder.SortOrder", "" },
                 { "Folder.Summary", "" },
                                         
-                { "ThreadPoolSize", "2" },
                 { "LogStatsOnClose", false.ToString() },
 
                 { "Engine", "MediaCentre" },

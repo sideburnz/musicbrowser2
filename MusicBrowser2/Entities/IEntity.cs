@@ -39,6 +39,8 @@ namespace MusicBrowser.Entities
         [DataMember]
         public virtual string Path { get; set; }
         [DataMember]
+        public DateTime Added { get; set; }
+        [DataMember]
         public string Title { get; set; }
         [DataMember]
         public string Summary { get; set; }

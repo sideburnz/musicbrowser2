@@ -91,10 +91,14 @@ namespace MusicBrowser.WebServices.Services.LastFM
             }
             else
             {
-                localDTO.Status = WebServiceStatus.Error;
+                localDTO.Status = WebServiceStatus.Warning;
                 localDTO.Error = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/error");
+                if (String.IsNullOrEmpty(localDTO.Error))
+                {
+                    localDTO.Status = WebServiceStatus.Error;
+                }
 
-                Logging.Logger.Debug(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1} [{2}]", localDTO.Artist, localDTO.Error, _provider.URL));
+//                Logging.Logger.Debug(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1} [{2}]", localDTO.Artist, localDTO.Error, _provider.URL));
             }
             return localDTO;
         }

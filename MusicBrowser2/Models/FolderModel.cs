@@ -78,6 +78,7 @@ namespace MusicBrowser.Models
             }
         }
 
+        //TODO: ensure this is clearing down all the caches, none of the images appear to update when this is called
         public void ForceRefresh()
         {
             if (_parentEntity.Kind == EntityKind.Home) { return; }
