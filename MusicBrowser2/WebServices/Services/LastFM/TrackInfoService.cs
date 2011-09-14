@@ -53,15 +53,8 @@ namespace MusicBrowser.WebServices.Services.LastFM
             parms.Add("username", localDTO.Username);
 
             // Last.fm appears to have a defect with MusicBrainzID for tracks
-            //if (String.IsNullOrEmpty(localDTO.MusicBrainzID))
-            //{
-                parms.Add("artist", localDTO.Artist);
-                parms.Add("track", localDTO.Track);
-            //}
-            //else
-            //{
-            //    parms.Add("mbid", localDTO.MusicBrainzID);
-            //}
+            parms.Add("artist", localDTO.Artist);
+            parms.Add("track", localDTO.Track);
 
             // this is a dummy URL for logging
             _provider.URL = "last.fm - track info - track=" + localDTO.Track + "  artist=" + localDTO.Artist;
@@ -86,8 +79,12 @@ namespace MusicBrowser.WebServices.Services.LastFM
             }
             else
             {
-                localDTO.Status = WebServiceStatus.Error;
+                localDTO.Status = WebServiceStatus.Warning;
                 localDTO.Error = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/error");
+                if (String.IsNullOrEmpty(localDTO.Error))
+                {
+                    localDTO.Status = WebServiceStatus.Error;
+                }
 
 //                Logging.Logger.Debug(string.Format("Last.fm track lookup for \"{0}\" returned this error - {1}", localDTO.Track, localDTO.Error));
             }

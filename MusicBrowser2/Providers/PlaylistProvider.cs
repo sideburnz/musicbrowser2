@@ -38,6 +38,9 @@ namespace MusicBrowser.Providers
 
         private static void CreatePlaylist(IEnumerable<string> paths, bool queue, bool shuffle, bool favorites)
         {
+            //TODO: write a GetIntSetting that accepts a min val to ensure this is safe
+            int size = Int32.Parse(Util.Config.GetInstance().GetSetting("AutoPlaylistSize"));
+
             List<string> tracks = new List<string>();
             // get all of the songs from sub folders
 
@@ -49,16 +52,11 @@ namespace MusicBrowser.Providers
 
                 if (favorites) // use the NearLine cache to find the favorites
                 {
-                    tracks.AddRange(NearLineCache.GetInstance().FindFavorites());
+                    //TODO: change this back
+                    //tracks.AddRange(NearLineCache.GetInstance().FindFavorites());
+                    //tracks.AddRange(NearLineCache.GetInstance().FindMostPlayed(size));
+                    tracks.AddRange(NearLineCache.GetInstance().FindRecentlyAdded(size));
                 }
-                //if (minPlays > 0)
-                //{
-                //    tracks.AddRange(NearLineCache.GetInstance().FindByPlays(minPlays));
-                //}
-                //if (minStars > 0)
-                //{
-                //    tracks.AddRange(NearLineCache.GetInstance().FindByRating(minStars));
-                //}
                 
                 if (!favorites)
                 {

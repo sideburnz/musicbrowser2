@@ -64,41 +64,53 @@ namespace MusicBrowser.WebServices.Services.LastFM
             _provider.SetParameters(parms);
             _provider.DoService();
 
-            if (_provider.ResponseStatus != "200") { return localDTO; }
             XmlDocument xmlDoc = new XmlDocument();
 
             xmlDoc.LoadXml(_provider.ResponseBody);
 
-            string lfmMBID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/mbid", localDTO.MusicBrainzID);
-            string lfmAlbumName = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/name", localDTO.Artist);
-
-            if ((localDTO.MusicBrainzID == lfmMBID) || (Util.Helper.Levenshtein(localDTO.Album, lfmAlbumName) < 3))
+            if (_provider.ResponseStatus == "200")
             {
-                localDTO.Album = lfmAlbumName;
-                localDTO.Artist = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/artist", localDTO.Artist);
-                localDTO.MusicBrainzID = lfmMBID;
 
-                DateTime rel;
-                DateTime.TryParse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/releasedate"), out rel);
-                if (rel > DateTime.MinValue) { localDTO.Release = rel; }
+                string lfmMBID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/mbid", localDTO.MusicBrainzID);
+                string lfmAlbumName = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/name", localDTO.Artist);
 
-                localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='mega']");
-                if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='extralarge']"); }
-                if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='large']"); }
-                if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='medium']"); }
-                if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='small']"); }
+                if ((localDTO.MusicBrainzID == lfmMBID) || (Util.Helper.Levenshtein(localDTO.Album, lfmAlbumName) < 3))
+                {
+                    localDTO.Album = lfmAlbumName;
+                    localDTO.Artist = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/artist", localDTO.Artist);
+                    localDTO.MusicBrainzID = lfmMBID;
 
-                localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/wiki/summary"));
+                    DateTime rel;
+                    DateTime.TryParse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/releasedate"), out rel);
+                    if (rel > DateTime.MinValue) { localDTO.Release = rel; }
 
-                localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/userplaycount"));
-                localDTO.TotalPlays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/playcount"));
-                localDTO.Listeners = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/listeners"));
+                    localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='mega']");
+                    if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='extralarge']"); }
+                    if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='large']"); }
+                    if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='medium']"); }
+                    if (string.IsNullOrEmpty(localDTO.Image)) { localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/image[@size='small']"); }
+
+                    localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/wiki/summary"));
+
+                    localDTO.Plays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/userplaycount"));
+                    localDTO.TotalPlays = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/playcount"));
+                    localDTO.Listeners = Int32.Parse("0" + Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/listeners"));
+                }
+                else
+                {
+                    localDTO.Status = WebServiceStatus.Warning;
+                    localDTO.Error = "Match not close enough";
+                    Logging.Logger.Debug(string.Format("Last.fm album look up for \"{0}\" by \"{1}\" but matched \"{2}\" instead", localDTO.Album, localDTO.Artist, lfmAlbumName));
+                }
             }
             else
             {
-                localDTO.Status = WebServiceStatus.Error;
-                localDTO.Error = "Match not close enough";
-                Logging.Logger.Debug(string.Format("Last.fm album look up for \"{0}\" by \"{1}\" but matched \"{2}\" instead", localDTO.Album, localDTO.Artist, lfmAlbumName));
+                localDTO.Status = WebServiceStatus.Warning;
+                localDTO.Error = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/error");
+                if (String.IsNullOrEmpty(localDTO.Error))
+                {
+                    localDTO.Status = WebServiceStatus.Error;
+                }
             }
             return localDTO;
         }

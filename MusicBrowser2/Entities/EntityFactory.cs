@@ -118,6 +118,7 @@ namespace MusicBrowser.Entities
 
             entity.Title = item.Name;
             entity.Path = item.FullPath;
+            entity.Added = item.Created;
 
             // do this here because some of the providers need basic data about the tracks
             TagSharpMetadataProvider.FetchLite(entity);

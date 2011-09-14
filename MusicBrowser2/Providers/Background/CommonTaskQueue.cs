@@ -27,12 +27,7 @@ namespace MusicBrowser.Providers.Background
         {
             lock (_lock)
             {
-                string smaxthreads = Util.Config.GetInstance().GetSetting("ThreadPoolSize");
-                int maxthreads;
-                if (!int.TryParse(smaxthreads, out maxthreads)) { maxthreads = 1; }
-                if (maxthreads < 1) { maxthreads = 1; }
-                if (maxthreads > 8) { maxthreads = 8; }
-                return new BackgroundTaskQueueProvider(ThreadPriority.Lowest, maxthreads);
+                return new BackgroundTaskQueueProvider(ThreadPriority.Lowest);
             }
         }
     }
