@@ -38,7 +38,7 @@ namespace MusicBrowser
             }
         }
 
-        public void Navigate(IEntity entity, Breadcrumbs parentCrumbs)
+        public void Navigate(Entity entity, Breadcrumbs parentCrumbs)
         {
             Logging.Logger.Info("Navigating to " + entity.Description);
             try
@@ -51,7 +51,7 @@ namespace MusicBrowser
                     case EntityKind.Home:
                         {
                             EntityCollection entities = new EntityCollection();
-                            foreach (string item in Entities.Kinds.Home.Paths)
+                            foreach (string item in Providers.FolderItems.HomePathProvider.Paths)
                             {
                                 entities.Populate(FileSystemProvider.GetFolderContents(item));
                             }

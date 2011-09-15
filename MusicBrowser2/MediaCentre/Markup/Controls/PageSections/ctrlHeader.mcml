@@ -10,7 +10,7 @@
   <UI Name="ctrlHeader">
 
     <Properties>
-      <entities:IEntity Name="Entity" IEntity="$Required" />
+      <entities:Entity Name="Entity" Entity="$Required" />
       <models:Breadcrumbs Name="Crumbs" Breadcrumbs="$Required" />
       <Command Name="CmdPlayAll" Command="null"/>
       <Command Name="CmdHome" Command="null"/>

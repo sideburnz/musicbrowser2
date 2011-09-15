@@ -39,7 +39,7 @@ namespace MusicBrowser.Providers
                 if (item.Name.ToLower() == "metadata") { continue; }
 
                 // process the item in context
-                IEntity entity = EntityFactory.GetItem(item);
+                Entity entity = EntityFactory.GetItem(item);
                 if (entity == null || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
                 // fire off the metadata providers

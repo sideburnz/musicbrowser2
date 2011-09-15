@@ -117,14 +117,11 @@
     <Compile Include="CacheEngine\DummyCacheEngine.cs" />
     <Compile Include="CacheEngine\FileSystemCacheEngine.cs" />
     <Compile Include="CacheEngine\NearLineCache.cs" />
-    <Compile Include="Entities\Kinds\Folder.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Providers\Background\BackgroundTaskQueueProvider.cs" />
     <Compile Include="Entities\EntityCollection.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
-    <Compile Include="Entities\Kinds\Album.cs" />
-    <Compile Include="Entities\Kinds\Artist.cs" />
-    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\Entity.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
@@ -133,6 +130,7 @@
     <Content Include="MediaCentre\Images\icons\thumbStar.png" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
     <Compile Include="CacheEngine\EntityPersistance.cs" />
+    <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
     <Compile Include="Providers\Metadata\InheritanceProvider.cs" />
     <Compile Include="Providers\Metadata\IconProvider.cs" />
     <Compile Include="Providers\Metadata\FileSystemMetadataProvider.cs" />
@@ -141,10 +139,6 @@
     <Compile Include="Providers\Metadata\MediaInfoProvider.cs" />
     <Compile Include="Providers\Metadata\MetadataProviderList.cs" />
     <Compile Include="Providers\Metadata\TagSharpMetadataProvider.cs" />
-    <Compile Include="Entities\Kinds\Genre.cs" />
-    <Compile Include="Entities\Kinds\Home.cs" />
-    <Compile Include="Entities\Kinds\Playlist.cs" />
-    <Compile Include="Entities\Kinds\Song.cs" />
     <Compile Include="Models\Breadcrumbs.cs" />
     <Compile Include="Logging\EventLogLogger.cs" />
     <Compile Include="Logging\FileLogger.cs" />

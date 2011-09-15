@@ -11,7 +11,7 @@ namespace MusicBrowser.MediaCentre
 {
     public class Playlist
     {
-        public static void DoAction(string Action, IEntity Entity)
+        public static void DoAction(string Action, Entity Entity)
         {
 #if DEBUG
             Logging.Logger.Verbose("Playlist.DoAction(" + Action + ", " + Entity.Kind.ToString() + ": " + Entity.Path + ")", "start");
@@ -45,13 +45,13 @@ namespace MusicBrowser.MediaCentre
             AutoShowNowPlaying();
         }
 
-        public static void PlaySong(IEntity entity, Boolean add)
+        public static void PlaySong(Entity entity, Boolean add)
         {
             Transport.GetTransport().Play(add, entity.Path);
             AutoShowNowPlaying();
         }
 
-        public static void PlayDisc(IEntity entity)
+        public static void PlayDisc(Entity entity)
         {
             Transport.GetTransport().PlayDisc(entity.Path);
             AutoShowNowPlaying();

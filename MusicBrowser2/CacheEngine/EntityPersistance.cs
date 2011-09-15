@@ -1,5 +1,4 @@
 ﻿using MusicBrowser.Entities;
-using MusicBrowser.Entities.Kinds;
 using ServiceStack.Text;
 
 namespace MusicBrowser.CacheEngine
@@ -7,34 +6,16 @@ namespace MusicBrowser.CacheEngine
     public static class EntityPersistance
     {
 
-        public static string Serialize(IEntity data)
+        public static string Serialize(Entity data)
         {
-            return XmlSerializer.SerializeToString<IEntity>(data);
+            return JsonSerializer.SerializeToString<Entity>(data);
         }
 
-        public static IEntity Deserialize(string data)
+        public static Entity Deserialize(string data)
         {
             try
             {
-                // this is a bit of a hack
-                switch (data.Substring(1, 5).ToLower())
-                {
-                    case "song ":
-                        return XmlSerializer.DeserializeFromString<Song>(data);
-                    case "genre":
-                        return XmlSerializer.DeserializeFromString<Genre>(data);
-                    case "artis":
-                        return XmlSerializer.DeserializeFromString<Artist>(data);
-                    case "album":
-                        return XmlSerializer.DeserializeFromString<Album>(data);
-                    case "playl":
-                        return XmlSerializer.DeserializeFromString<Playlist>(data);
-                    case "home ":
-                        return XmlSerializer.DeserializeFromString<Home>(data);
-                    case "folde":
-                        return XmlSerializer.DeserializeFromString<Folder>(data);
-                }
-                return null;
+                return JsonSerializer.DeserializeFromString<Entity>(data);
             }
             catch
             {

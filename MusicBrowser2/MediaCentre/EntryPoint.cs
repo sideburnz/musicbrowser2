@@ -38,15 +38,15 @@ namespace MusicBrowser
             }
             _sSession = new HistoryOrientedPageSession();
             Application app = new Application(_sSession, host);
-            IEntity home = new Entities.Kinds.Home();
+            Entity home = new Entity() { Kind = EntityKind.Home };
 
             // load the nearline cache
-            CacheEngine.NearLineCache.GetInstance().Init();
+            CacheEngine.NearLineCache.GetInstance().Load();
 
             app.Navigate(home, new Breadcrumbs());
 
             //trigger the background caching tasks
-            foreach (string path in MusicBrowser.Entities.Kinds.Home.Paths)
+            foreach (string path in Providers.FolderItems.HomePathProvider.Paths)
             {
                 CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path));
             }

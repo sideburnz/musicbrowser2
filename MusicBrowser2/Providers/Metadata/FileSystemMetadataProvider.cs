@@ -40,7 +40,7 @@ namespace MusicBrowser.Providers.Metadata
             IEnumerable<FileSystemItem> allPaths = FileSystemProvider.GetAllSubPaths(dto.Path);
             foreach (FileSystemItem item in allPaths)
             {
-                IEntity e = EntityFactory.GetItem(item);
+                Entity e = EntityFactory.GetItem(item);
 
                 if (e != null)
                 {

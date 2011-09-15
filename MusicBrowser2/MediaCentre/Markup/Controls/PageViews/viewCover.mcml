@@ -71,14 +71,14 @@
     </Content>
 
     <Content Name="Thumb">
-      <me:ThumbItem Entity="[RepeatedItem!entities:IEntity]" Application="[Application]" FolderModel="[FolderModel]" />
+      <me:ThumbItem Entity="[RepeatedItem!entities:Entity]" Application="[Application]" FolderModel="[FolderModel]" />
     </Content>
     
   </UI>
 
   <UI Name="ThumbItem">
     <Properties>
-      <entities:IEntity Name="Entity" IEntity="$Required" />
+      <entities:Entity Name="Entity" Entity="$Required" />
       <a:Application Name="Application" Application="$Required"/>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
 

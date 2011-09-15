@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MusicBrowser.CacheEngine;
-using MusicBrowser.Entities.Kinds;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
@@ -12,12 +11,12 @@ namespace MusicBrowser.Entities
 {
     public static class EntityFactory
     {
-        public static IEntity GetItem(string item)
+        public static Entity GetItem(string item)
         {
             return GetItem(FileSystemProvider.GetItemDetails(item));
         }
 
-        public static IEntity GetItem(FileSystemItem item)
+        public static Entity GetItem(FileSystemItem item)
         {
             ICacheEngine _cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
 
@@ -30,12 +29,12 @@ namespace MusicBrowser.Entities
 #endif
 
             string key = Util.Helper.GetCacheKey(item.FullPath);
-            IEntity entity;
+            Entity entity;
 
             #region NearLine Cache
             // get from the NL cache if it's cached there, this is the fastest cache but it's not persistent
             entity = NearLineCache.GetInstance().Fetch(key);
-            if (entity != null) 
+            if (entity != null)
             {
 #if DEBUG
                 Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - NearLine cache", "end");
@@ -73,49 +72,10 @@ namespace MusicBrowser.Entities
             Statistics.GetInstance().Hit("factory.hit");
 
             EntityKind? kind = DetermineKind(item);
-            switch (kind)
-            {
-                case EntityKind.Album:
-                    {
-                        entity = new Album();
-                        break;
-                    }
-                case EntityKind.Artist:
-                    {
-                        entity = new Artist();
-                        break;
-                    }
-                case EntityKind.Folder:
-                    {
-                        entity = new Folder();
-                        break;
-                    }
-                case EntityKind.Home:
-                    {
-                        entity = new Home();
-                        break;
-                    }
-                case EntityKind.Playlist:
-                    {
-                        entity = new Playlist();
-                        break;
-                    }
-                case EntityKind.Song:
-                    {
-                        entity = new Song();
-                        break;
-                    }
-                case EntityKind.Genre:
-                    {
-                        entity = new Genre();
-                        break;
-                    }
-                default:
-                    {
-                        return null;
-                    }
-            }
+            if (kind == null) { return null; }
 
+            entity = new Entity();
+            entity.Kind = kind.GetValueOrDefault();
             entity.Title = item.Name;
             entity.Path = item.FullPath;
             entity.Added = item.Created;

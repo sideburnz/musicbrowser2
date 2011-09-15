@@ -4,7 +4,7 @@ using MusicBrowser.Providers;
 
 namespace MusicBrowser.Entities
 {
-    public class EntityCollection : List<IEntity>
+    public class EntityCollection : List<Entity>
     {
         public void Populate(IEnumerable<FileSystemItem> items)
         {
@@ -14,7 +14,7 @@ namespace MusicBrowser.Entities
             {
                 //Logging.Logger.Debug("EntityCollection.Loop (" + item.FullPath);
 
-                IEntity entity = EntityFactory.GetItem(item);
+                Entity entity = EntityFactory.GetItem(item);
                 if (!(entity == null) && !entity.Kind.Equals(EntityKind.Folder))
                 {
                     entity.UpdateValues();
@@ -36,16 +36,12 @@ namespace MusicBrowser.Entities
 
     #region Folder Sorter
 
-    sealed class EntityCollectionSorter : IComparer<IEntity>
+    sealed class EntityCollectionSorter : IComparer<Entity>
     {
-        public int Compare(IEntity x, IEntity y)
+        public int Compare(Entity x, Entity y)
         {
-            bool xIsFolder = (x.Kind.Equals(EntityKind.Album)) || 
-                (x.Kind.Equals(EntityKind.Artist) || 
-                (x.Kind.Equals(EntityKind.Genre)));
-            bool yIsFolder = (y.Kind.Equals(EntityKind.Album)) || 
-                (y.Kind.Equals(EntityKind.Artist) || 
-                (y.Kind.Equals(EntityKind.Genre)));
+            bool xIsFolder = !x.Playable;
+            bool yIsFolder = !y.Playable;
 
             // folders (artists and albums) have a higher priority than playlists and songs
             if (xIsFolder && !(yIsFolder))

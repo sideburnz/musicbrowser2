@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Entities;
-using MusicBrowser.Entities.Kinds;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Background;
@@ -17,18 +16,18 @@ namespace MusicBrowser.Models
     public class FolderModel : ModelItem
     {
 
-        readonly IEntity _parentEntity;
+        readonly Entity _parentEntity;
         private readonly EntityCollection _entities;
         private readonly EntityCollection _fullentities;
         Int32 _selectedIndex;
         readonly Breadcrumbs _crumbs;
-        IEntity _popupPlayContext = null;
+        Entity _popupPlayContext = null;
         private readonly EditableText _remoteFilter = new EditableText();
         private int _matches;
 
         private readonly bool _isHome;
 
-        public FolderModel(IEntity parentEntity, Breadcrumbs crumbs, EntityCollection entities)
+        public FolderModel(Entity parentEntity, Breadcrumbs crumbs, EntityCollection entities)
         {
 #if DEBUG
             Logging.Logger.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", path: " + crumbs.Path + ", size: " + entities.Count + ")", "start");  
@@ -50,7 +49,7 @@ namespace MusicBrowser.Models
         /// <summary>
         /// This is used to display the information in the page header
         /// </summary>
-        public IEntity ParentEntity
+        public Entity ParentEntity
         {
             get 
             {
@@ -103,7 +102,7 @@ namespace MusicBrowser.Models
                 CacheEngine.NearLineCache.GetInstance().Remove(key);
 
                 // process the item in context
-                IEntity entity = EntityFactory.GetItem(item);
+                Entity entity = EntityFactory.GetItem(item);
                 if (entity == null || entity.Kind.Equals(EntityKind.Folder)) { continue; }
 
                 // fire off the metadata providers
@@ -115,7 +114,7 @@ namespace MusicBrowser.Models
             UINotifier.GetInstance().Message = "refreshing metadata for " + itemCount + " items";
         }
 
-        public IEntity SelectedItem
+        public Entity SelectedItem
         {
             get
             {
@@ -137,12 +136,12 @@ namespace MusicBrowser.Models
             get { return !(_popupPlayContext == null); }
         }
 
-        public IEntity GetPopupPlayContext
+        public Entity GetPopupPlayContext
         {
             get { return _popupPlayContext; }
         }
 
-        public void SetPopupPlayContext(IEntity entity)
+        public void SetPopupPlayContext(Entity entity)
         {
             _popupPlayContext = entity;
             FirePropertyChanged("ShowPopupPlay");

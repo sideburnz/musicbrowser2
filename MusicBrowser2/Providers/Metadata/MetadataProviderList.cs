@@ -38,7 +38,7 @@ namespace MusicBrowser.Providers.Metadata
             return _providers;
         }
 
-        public static void ProcessEntity(IEntity entity, bool Forced)
+        public static void ProcessEntity(Entity entity, bool Forced)
         {
 #if DEBUG
             Logging.Logger.Verbose("ProcessEntity(" + entity.Path + ", <providers>, " + Forced + ")", "start");
@@ -82,7 +82,7 @@ namespace MusicBrowser.Providers.Metadata
             }
         }
 
-        private static DataProviderDTO PopulateDTO(IEntity entity)
+        private static DataProviderDTO PopulateDTO(Entity entity)
         {
             DataProviderDTO dto = new DataProviderDTO();
 
@@ -157,7 +157,7 @@ namespace MusicBrowser.Providers.Metadata
             return dto;
         }
         
-        private static IEntity PopulateEntity(IEntity entity, DataProviderDTO dto)
+        private static Entity PopulateEntity(Entity entity, DataProviderDTO dto)
         {
 
             if (!String.IsNullOrEmpty(dto.AlbumArtist)) { entity.AlbumArtist = dto.AlbumArtist; }
@@ -237,16 +237,16 @@ namespace MusicBrowser.Providers.Metadata
             return entity;
         }
 
-        private readonly IEntity _entity;
+        private readonly Entity _entity;
         private readonly bool _forced;
 
-        public MetadataProviderList(IEntity entity)
+        public MetadataProviderList(Entity entity)
         {
             _entity = entity;
             _forced = false;
         }
 
-        public MetadataProviderList(IEntity entity, bool forced)
+        public MetadataProviderList(Entity entity, bool forced)
         {
             _entity = entity;
             _forced = forced;

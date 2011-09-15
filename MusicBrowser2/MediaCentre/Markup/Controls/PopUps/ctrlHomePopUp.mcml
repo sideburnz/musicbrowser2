@@ -76,9 +76,9 @@
           <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
         </Layout>
         <Children>
-          <me:buttonImage Command="[CmdPlayAll]" Name="cmdPlay" Text="Play Favorited Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
-          <me:buttonImage Command="[CmdAddToQueue]" Name="cmdQueue" Text="Play 5 star Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
-          <me:buttonImage Command="[CmdShuffle]" Name="cmdShuffle" Text="Play 100+ Play Count Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconShuffle" />
+          <me:buttonImage Command="[CmdPlayAll]" Name="cmdPlay" Text="Favorite Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdAddToQueue]" Name="cmdQueue" Text="Most Played Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
+          <me:buttonImage Command="[CmdShuffle]" Name="cmdShuffle" Text="Recently Added Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconShuffle" />
           <me:buttonImage Command="[CmdClose]" Name="cmdClose" Text="Close" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
         </Children>
       </Panel>

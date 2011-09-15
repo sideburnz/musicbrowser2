@@ -6,11 +6,11 @@ namespace MusicBrowser.Models
 {
     public sealed class Breadcrumbs
     {
-        readonly List<IEntity> _entities = new List<IEntity>();
+        readonly List<Entity> _entities = new List<Entity>();
 
         public Breadcrumbs(Breadcrumbs crumbs)
         {
-            foreach (IEntity item in crumbs.Crumbs)
+            foreach (Entity item in crumbs.Crumbs)
             {
                 _entities.Add(item);
             }
@@ -20,7 +20,7 @@ namespace MusicBrowser.Models
         {
         }
 
-        public void Add(IEntity entity)
+        public void Add(Entity entity)
         {
             _entities.Add(entity);
         }
@@ -39,7 +39,7 @@ namespace MusicBrowser.Models
             }
         }
 
-        private IEnumerable<IEntity> Crumbs
+        private IEnumerable<Entity> Crumbs
         {
             get { return _entities; }
         }
