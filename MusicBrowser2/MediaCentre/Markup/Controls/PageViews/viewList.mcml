@@ -83,7 +83,7 @@
                   <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
                 </Layout>
                 <Content>
-                  <me:buttonEntity Entity="[RepeatedItem!entities:IEntity]" Application="[Application]" FolderModel="[FolderModel]" cmdRight="[RightHandler]"/>
+                  <me:buttonEntity Entity="[RepeatedItem!entities:Entity]" Application="[Application]" FolderModel="[FolderModel]" cmdRight="[RightHandler]"/>
                 </Content>
               </Repeater>
             </Children>
@@ -122,7 +122,7 @@
 
   <UI Name="summaryText">
     <Properties>
-      <entities:IEntity Name="Entity" IEntity="$Required" />
+      <entities:Entity Name="Entity" Entity="$Required" />
     </Properties>
     <Rules>
       <Condition Source="[Input.KeyFocus]" SourceValue="true" Target="[Body.Alpha]" Value="1"/>
@@ -137,7 +137,7 @@
   <UI Name="buttonEntity">
 
     <Properties>
-      <entities:IEntity Name="Entity" IEntity="$Required" />
+      <entities:Entity Name="Entity" Entity="$Required" />
       <a:Application Name="Application" Application="$Required"/>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
 

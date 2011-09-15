@@ -101,7 +101,7 @@ namespace MusicBrowser.Providers.Background
                         Logging.Logger.Error(new Exception(string.Format("Thread {0} failed whilst running {1}\r", id, task.Title), e));
                     }
 #if DEBUG
-                    Logging.Logger.Verbose(String.Format("Thread {0} finished {1}. {2} threads alive, {3} jobs pending", id, task.Title, _activeThreads, _queue.Count), "thread finish");
+                    Logging.Logger.Verbose(String.Format("Thread {0} finished {1}. {2} jobs pending", id, task.Title, _queue.Count), "thread finish");
 #endif
                 }
                 else
@@ -109,7 +109,7 @@ namespace MusicBrowser.Providers.Background
                     try
                     {
 #if DEBUG
-                        Logging.Logger.Verbose(String.Format("Thread {0} is being suspended, {1} threads alive, {2} jobs pending", id, _activeThreads, _queue.Count), "thread asleep");
+                        Logging.Logger.Verbose(String.Format("Thread {0} is being suspended, {1} jobs pending", id, _queue.Count), "thread asleep");
 #endif
                         _threadStates[id] = false;
                         Thread.Sleep(Timeout.Infinite);

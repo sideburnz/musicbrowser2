@@ -83,7 +83,7 @@ namespace MusicBrowser.Providers.Metadata
             return (type.ToLower() == "song");
         }
 
-        public static void FetchLite(IEntity entity)
+        public static void FetchLite(Entity entity)
         {
             // this implements a cut-down version of the Tag# metadata fetcher
             // this is meant to be as quick as possible to not hold up the UI

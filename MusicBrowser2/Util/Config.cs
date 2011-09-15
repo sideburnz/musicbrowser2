@@ -24,7 +24,6 @@ namespace MusicBrowser.Util
                 { "ManualLibraryFile", Path.Combine(Helper.AppFolder, "MusicLibrary.vf") },
                 { "CacheEngine", "FileSystem" },
                 { "AutoLoadNowPlaying", false.ToString() },
-                { "HomeBackground", Path.Combine(Helper.AppFolder, "backdrop.jpg") },
 
                 { "AutoPlaylistSize", "50" },
 

@@ -11,10 +11,10 @@ namespace MusicBrowser.Providers
     class PlaylistProvider : IBackgroundTaskable
     {
         private readonly string _action;
-        private readonly IEntity _entity;
+        private readonly Entity _entity;
         private static readonly Random Random = new Random();
 
-        public PlaylistProvider(string action, IEntity entity)
+        public PlaylistProvider(string action, Entity entity)
         {
             _action = action.ToLower();
             _entity = entity;
@@ -92,7 +92,7 @@ namespace MusicBrowser.Providers
             IEnumerable<string> paths;
             if (_entity.Kind.Equals(EntityKind.Home)) 
             { 
-                paths = Entities.Kinds.Home.Paths; 
+                paths = Providers.FolderItems.HomePathProvider.Paths; 
             }
             else
             {
