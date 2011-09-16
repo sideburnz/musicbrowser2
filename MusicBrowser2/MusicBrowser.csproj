@@ -124,7 +124,9 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
+    <Content Include="MediaCentre\Images\buttonicons\IconConfig.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
     <Content Include="MediaCentre\Images\icons\imageGenre.png" />
     <Content Include="MediaCentre\Images\icons\thumbFavorite.png" />
     <Content Include="MediaCentre\Images\icons\thumbStar.png" />
@@ -186,7 +188,9 @@
     <Compile Include="WebServices\WebServiceProviders\LastFMWebProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlHomePopUp.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlHomePopUp.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -229,9 +233,10 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml" />
-    <Content Include="MediaCentre\Markup\Controls\PageViews\viewCover.mcml" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />
-    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayPopUp.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayPopUp.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml" />
     <Content Include="MediaCentre\Markup\Pages\pageFolder.mcml">
       <SubType>Designer</SubType>

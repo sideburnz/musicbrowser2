@@ -263,5 +263,17 @@ namespace MusicBrowser.Models
             }
         }
 
+        private bool _homePopUpVisible = false; 
+        public bool HomePopupVisible
+        {
+            get { return _homePopUpVisible; }
+            set { _homePopUpVisible = value; FirePropertyChanged("HomePopupVisible"); }
+        }
+
+        public void SetHomePopupVisible(bool Value)
+        {
+            HomePopupVisible = Value;
+        }
+
     }
 }

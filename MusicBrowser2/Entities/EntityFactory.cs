@@ -34,7 +34,7 @@ namespace MusicBrowser.Entities
             #region NearLine Cache
             // get from the NL cache if it's cached there, this is the fastest cache but it's not persistent
             entity = NearLineCache.GetInstance().Fetch(key);
-            if (entity != null)
+            if (entity != null && IsFresh(entity.CacheDate, item.LastUpdated))
             {
 #if DEBUG
                 Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - NearLine cache", "end");

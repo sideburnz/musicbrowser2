@@ -26,7 +26,11 @@
         </Conditions>
         <Actions>
           <Set Target="[HomeMenu.Visible]" Value="true" />
+          <Set Target="[GroupMenu.Visible]" Value="true" />
+          <Set Target="[SettingsMenu.Visible]" Value="true" />
+          
           <Set Target="[QueueMenu.Visible]" Value="false" />
+          <Set Target="[PlayMenu.Visible]" Value="false" />
         </Actions>
       </Changed>
     </Rules>
@@ -66,7 +70,7 @@
 
               <Panel Layout="Form">
                 <LayoutInput>
-                  <FormLayoutInput Left="Parent,0.055" Bottom="Parent,0.9"/>
+                  <FormLayoutInput Left="Parent,0.055" Bottom="Parent,1"/>
                 </LayoutInput>
                 <Layout>
                   <FlowLayout Orientation="Vertical"/>
@@ -74,7 +78,10 @@
                 <Children>
                   <me:buttonIcon Command="[CmdPlayAll]" Name="PlayMenu" Text=" play all" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" Margins="0,0,0,-20" />
                   <me:buttonIcon Command="[CmdQueue]" Name="QueueMenu" Text=" queue all" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
-                  <me:buttonIcon Command="[CmdHome]" Name="HomeMenu" Text=" play favorites" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconHome" Visible="false" />
+                  
+                  <me:buttonIcon Command="[CmdHome]" Name="SettingsMenu" Text=" settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" Visible="false" Margins="0,-20,0,0" />
+                  <me:buttonIcon Command="[CmdHome]" Name="GroupMenu" Text=" group by" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconGroup" Visible="false" Margins="0,-20,0,0" />
+                  <me:buttonIcon Command="[CmdHome]" Name="HomeMenu" Text=" playlists" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconHome" Visible="false" Margins="0,-20,0,0" />
                 </Children>
               </Panel>
 

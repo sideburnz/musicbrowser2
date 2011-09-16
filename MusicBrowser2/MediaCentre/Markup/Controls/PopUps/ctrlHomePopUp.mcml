@@ -13,72 +13,59 @@
     </Properties>
 
     <Locals>
-      <Command Name="CmdPlayAll" />
-      <Command Name="CmdShuffle"/>
-      <Command Name="CmdAddToQueue"/>
-      <Command Name="CmdResume"/>
-      <Command Name="CmdPause"/>
+      <Command Name="CmdFavourited" />
+      <Command Name="CmdMostPlayed"/>
+      <Command Name="CmdNew"/>
+      <Command Name="CmdPlay"/>
       
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[CmdClose]"/>
       <playlist:Playlist Name="playlist"/>
     </Locals>
-    <!--
-    <Rules>
+    
 
-      <Changed Source="[CmdPlayAll.Invoked]">
+    <Rules>
+      <Changed Source="[CmdPlay.Invoked]">
         <Actions>
-          <Invoke Target="[playlist.DoAction]" Action="CmdPlayAll" Entity="[FolderModel.GetPopupPlayContext]"/>
-          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
+          <Invoke Target="[playlist.DoAction]" Action="CmdPlayAll" Entity="[FolderModel.ParentEntity]"/>
+          <Invoke Target="[CmdClose.Invoke]" />
+        </Actions>
+      </Changed> 
+      <Changed Source="[CmdFavourited.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdFavourited" Entity="[FolderModel.ParentEntity]"/>
+          <Invoke Target="[CmdClose.Invoke]" />
         </Actions>
       </Changed>
-      <Changed Source="[CmdAddToQueue.Invoked]">
+      <Changed Source="[CmdMostPlayed.Invoked]">
         <Actions>
-          <Invoke Target="[playlist.DoAction]" Action="CmdAddToQueue" Entity="[FolderModel.GetPopupPlayContext]"/>
-          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
+          <Invoke Target="[playlist.DoAction]" Action="CmdMostPlayed" Entity="[FolderModel.ParentEntity]"/>
+          <Invoke Target="[CmdClose.Invoke]" />
         </Actions>
       </Changed>
-      <Changed Source="[CmdShuffle.Invoked]">
+      <Changed Source="[CmdNew.Invoked]">
         <Actions>
-          <Invoke Target="[playlist.DoAction]" Action="CmdShuffle" Entity="[FolderModel.GetPopupPlayContext]"/>
-          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
+          <Invoke Target="[playlist.DoAction]" Action="CmdNew" Entity="[FolderModel.ParentEntity]"/>
+          <Invoke Target="[CmdClose.Invoke]" />
         </Actions>
       </Changed>
-      <Changed Source="[CmdResume.Invoked]">
-        <Actions>
-          <Invoke Target="[playlist.DoAction]" Action="CmdResume" Entity="[FolderModel.GetPopupPlayContext]"/>
-          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
-        </Actions>
-      </Changed>
-      <Changed Source="[CmdPause.Invoked]">
-        <Actions>
-          <Invoke Target="[playlist.DoAction]" Action="CmdPause" Entity="[FolderModel.GetPopupPlayContext]"/>
-          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
-        </Actions>
-      </Changed>
+      
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
-      <Condition Source="[FolderModel.GetPopupPlayContext.KindName]" ConditionOp="Equals" SourceValue="Song">
-        <Actions>
-          <Set Target="[cmdPlay.Text]" Value="Play" />
-          <Set Target="[cmdQueue.Text]" Value="Queue" />
-          <Set Target="[cmdShuffle.Visible]" Value="False" />
-        </Actions>
-      </Condition>
-      <Binding Source="[FolderModel.isPlaying]" Target="[cmdPause.Visible]" />
-      <Binding Source="[FolderModel.isPaused]" Target="[cmdResume.Visible]" />
+
     </Rules>
-    -->
+
     <Content>
       <Panel Navigation="ContainAll" Name="PlayPopUp">
         <Layout>
           <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
         </Layout>
         <Children>
-          <me:buttonImage Command="[CmdPlayAll]" Name="cmdPlay" Text="Favorite Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
-          <me:buttonImage Command="[CmdAddToQueue]" Name="cmdQueue" Text="Most Played Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
-          <me:buttonImage Command="[CmdShuffle]" Name="cmdShuffle" Text="Recently Added Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconShuffle" />
+          <me:buttonImage Command="[CmdPlay]" Name="cmdPlayLibrary" Text="Entire Library" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdFavourited]" Name="cmdPlayFavorites" Text="Favorite Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdMostPlayed]" Name="cmdPlayMostPlayed" Text="Most Played Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdNew]" Name="cmdPlayNew" Text="New Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
           <me:buttonImage Command="[CmdClose]" Name="cmdClose" Text="Close" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
         </Children>
       </Panel>
