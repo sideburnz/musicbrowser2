@@ -15,7 +15,7 @@ namespace MusicBrowser.Entities
                 //Logging.Logger.Debug("EntityCollection.Loop (" + item.FullPath);
 
                 Entity entity = EntityFactory.GetItem(item);
-                if (!(entity == null) && !entity.Kind.Equals(EntityKind.Folder))
+                if (!(entity == null))
                 {
                     entity.UpdateValues();
                     Add(entity);
@@ -27,10 +27,7 @@ namespace MusicBrowser.Entities
 
         public void IndexItems()
         {
-            for (int i = 0; i < Count; i++)
-            {
-                this[i].Index = i;
-            }
+            for (int i = 0; i < Count; i++) { this[i].Index = i; }
         }
     }
 
@@ -44,14 +41,8 @@ namespace MusicBrowser.Entities
             bool yIsFolder = !y.Playable;
 
             // folders (artists and albums) have a higher priority than playlists and songs
-            if (xIsFolder && !(yIsFolder))
-            {
-                return -1;
-            }
-            if (!(xIsFolder) && yIsFolder)
-            {
-                return 1;
-            }
+            if (xIsFolder && !(yIsFolder)) { return -1; }
+            if (!(xIsFolder) && yIsFolder) { return 1; }
 
             return string.Compare(x.SortName, y.SortName, true);
         }

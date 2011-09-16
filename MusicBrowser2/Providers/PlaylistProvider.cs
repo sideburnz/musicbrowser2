@@ -36,36 +36,21 @@ namespace MusicBrowser.Providers
             }
         }
 
-        private static void CreatePlaylist(IEnumerable<string> paths, bool queue, bool shuffle, bool favorites)
+        private static void CreatePlaylist(IEnumerable<string> paths, bool queue, bool shuffle)
         {
-            //TODO: write a GetIntSetting that accepts a min val to ensure this is safe
-            int size = Int32.Parse(Util.Config.GetInstance().GetSetting("AutoPlaylistSize"));
-
             List<string> tracks = new List<string>();
             // get all of the songs from sub folders
 
             foreach (string path in paths)
             {
 #if DEBUG
-                Logging.Logger.Verbose("PlaylistProvider.CreatePlaylist(" + path + ", " + queue + ", " + shuffle + ", " + favorites + ")", "loop");
+                Logging.Logger.Verbose("PlaylistProvider.CreatePlaylist(" + path + ", " + queue + ", " + shuffle + ")", "loop");
 #endif
-
-                if (favorites) // use the NearLine cache to find the favorites
+                foreach (FileSystemItem item in FileSystemProvider.GetAllSubPaths(path))
                 {
-                    //TODO: change this back
-                    //tracks.AddRange(NearLineCache.GetInstance().FindFavorites());
-                    //tracks.AddRange(NearLineCache.GetInstance().FindMostPlayed(size));
-                    tracks.AddRange(NearLineCache.GetInstance().FindRecentlyAdded(size));
-                }
-                
-                if (!favorites)
-                {
-                    foreach (FileSystemItem item in FileSystemProvider.GetAllSubPaths(path))
+                    if (Util.Helper.IsSong(item.FullPath))
                     {
-                        if (Util.Helper.IsSong(item.FullPath))
-                        {
-                            tracks.Add(item.FullPath);
-                        }
+                        tracks.Add(item.FullPath);
                     }
                 }
 
@@ -110,7 +95,7 @@ namespace MusicBrowser.Providers
                     }
                     else
                     {
-                        CreatePlaylist(paths, false, false, false);
+                        CreatePlaylist(paths, false, false);
                     }
                     break;
                 case "cmdaddtoqueue":
@@ -121,7 +106,7 @@ namespace MusicBrowser.Providers
                     }
                     else
                     {
-                        CreatePlaylist(paths, true, false, false);
+                        CreatePlaylist(paths, true, false);
                     }
                     break;
                 case "cmdshuffle":
@@ -131,12 +116,29 @@ namespace MusicBrowser.Providers
                     }
                     else
                     {
-                        CreatePlaylist(paths, false, true, false);
+                        CreatePlaylist(paths, false, true);
                     }
                     break;
-                case "cmdplayfavorites":
+                case "cmdfavourited":
+                case "cmdmostplayed":
+                case "cmdnew":
                     {
-                        CreatePlaylist(paths, false, false, true);
+                        //TODO: write a GetIntSetting that accepts a min val to ensure this is safe
+                        //TODO: put into a method
+                        int size = Int32.Parse(Util.Config.GetInstance().GetSetting("AutoPlaylistSize"));
+                        List<string> tracks = new List<string>();
+                        switch (_action)
+                        {
+                            case "cmdfavourited":
+                                tracks.AddRange(NearLineCache.GetInstance().FindFavorites()); break;
+                            case "cmdmostplayed":
+                                tracks.AddRange(NearLineCache.GetInstance().FindMostPlayed(size)); break;
+                            case "cmdnew":
+                                tracks.AddRange(NearLineCache.GetInstance().FindRecentlyAdded(size)); break;
+                        }
+                        //dedupe the list
+                        tracks = tracks.Distinct().ToList();
+                        MediaCentre.Playlist.PlayTrackList(tracks, false);
                         break;
                     }
             }

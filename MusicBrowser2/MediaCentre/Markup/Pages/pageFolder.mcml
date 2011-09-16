@@ -15,7 +15,6 @@
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumb"/>
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewCover"/>
   
   <UI Name="pageMain">
 
@@ -90,9 +89,12 @@
           <Invoke Target="[playlist.DoAction]" Action="CmdAddToQueue" Entity="[FolderModel.ParentEntity]"/>
         </Actions>
       </Changed>
+      
       <Changed Source="[CmdHomeMenu.Invoked]">
-        <Actions>
-          <Invoke Target="[playlist.DoAction]" Action="CmdPlayFavorites" Entity="[FolderModel.ParentEntity]"/>
+        <Actions>          
+          <Set Target="[pageFader.Visible]" Value="true" />
+          <Invoke Target="[FolderModel.SetHomePopupVisible]" Value="true"/>
+          <Invoke Target="[HomePopupPlay.NavigateInto]" />
         </Actions>
       </Changed>
       
@@ -113,6 +115,7 @@
       <Binding Source="[FolderModel.RemoteTyper]" Target="[RemoteTyper.EditableText]" />
       <Binding Source="[FolderModel.RemoteTyper.Value]" Target="[FilterDisplay.Content]"/>
       <Binding Source="[FolderModel.ParentEntity.Background]" Target="[EntityBackground.Content]"/>
+      <Binding Source="[FolderModel.HomePopupVisible]" Target="[HomePopupPlay.Visible]" />
 
       <Binding Source="[FolderModel.ShowPopupPlay]" Target="[PopupPlay.Visible]" />
       <Rule ConditionLogicalOp="Or">
@@ -130,6 +133,7 @@
           <Invoke Target="[ViewPanel.NavigateInto]" />
           <Set Target="[pageFader.Visible]" Value="false" />
           <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
+          <Invoke Target="[FolderModel.SetHomePopupVisible]" Value="false"/>
         </Actions>
       </Changed>
       
@@ -142,7 +146,7 @@
           <!-- POP UPS -->
           <me:ctrlPlayPopup Name="PopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
           <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
-          
+          <me:ctrlHomePopup Name="HomePopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
           
           <!-- FADER -->
           <Panel Visible="true">
@@ -168,8 +172,7 @@
             </LayoutInput>
             <Children>
               <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
-              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
-              <me:viewCover Visible="true" FolderModel="[FolderModel]" Application="[Application]" />              
+              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" />            
             </Children>
           </Panel>
 

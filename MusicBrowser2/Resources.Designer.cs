@@ -181,6 +181,20 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconConfig {
+            get {
+                object obj = ResourceManager.GetObject("IconConfig", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconGroup {
+            get {
+                object obj = ResourceManager.GetObject("IconGroup", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconHome {
             get {
                 object obj = ResourceManager.GetObject("IconHome", resourceCulture);
@@ -318,13 +332,6 @@ namespace MusicBrowser {
             get {
                 object obj = ResourceManager.GetObject("underline", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static byte[] viewCover {
-            get {
-                object obj = ResourceManager.GetObject("viewCover", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
