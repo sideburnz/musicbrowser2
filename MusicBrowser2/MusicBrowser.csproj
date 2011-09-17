@@ -132,6 +132,7 @@
     <Content Include="MediaCentre\Images\icons\thumbStar.png" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
     <Compile Include="CacheEngine\EntityPersistance.cs" />
+    <Compile Include="Providers\FolderItems\GroupByFolderProvider.cs" />
     <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
     <Compile Include="Providers\Metadata\InheritanceProvider.cs" />
     <Compile Include="Providers\Metadata\IconProvider.cs" />
@@ -191,6 +192,9 @@
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlHomePopUp.mcml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlGroupByPopUp.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -232,7 +236,9 @@
     <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayPopUp.mcml">
       <SubType>Designer</SubType>

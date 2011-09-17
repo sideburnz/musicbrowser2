@@ -95,7 +95,7 @@ namespace MusicBrowser.Providers.Metadata
             dto.DiscNumber = entity.DiscNumber;
             dto.Duration = entity.Duration;
             dto.Favorite = entity.Favorite;
-            dto.Genres = entity.Genres;
+            dto.Genre = entity.Genre;
             dto.Listeners = entity.Listeners;
             dto.Lyrics = entity.Lyrics;
             dto.MusicBrainzId = entity.MusicBrainzID;
@@ -169,7 +169,7 @@ namespace MusicBrowser.Providers.Metadata
             if (dto.DiscNumber > 0) { entity.DiscNumber = dto.DiscNumber; }
             if (dto.Duration > 0) { entity.Duration = dto.Duration; }
             entity.Favorite = dto.Favorite;
-            if (dto.Genres != null) { entity.Genres = dto.Genres; }
+            if (dto.Genre != null) { entity.Genre = dto.Genre; }
             if (!String.IsNullOrEmpty(dto.Label)) { entity.Label = dto.Label; }
             if (dto.Listeners > 0) { entity.Listeners = dto.Listeners; }
             if (!String.IsNullOrEmpty(dto.Lyrics)) { entity.Lyrics = dto.Lyrics; }

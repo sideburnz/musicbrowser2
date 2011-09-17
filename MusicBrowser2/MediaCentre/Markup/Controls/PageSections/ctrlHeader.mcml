@@ -14,6 +14,7 @@
       <models:Breadcrumbs Name="Crumbs" Breadcrumbs="$Required" />
       <Command Name="CmdPlayAll" Command="null"/>
       <Command Name="CmdHome" Command="null"/>
+      <Command Name="CmdGroupBy" Command="null"/>
       <Command Name="CmdQueue" Command="null"/>
     </Properties>
 
@@ -80,7 +81,7 @@
                   <me:buttonIcon Command="[CmdQueue]" Name="QueueMenu" Text=" queue all" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
                   
                   <me:buttonIcon Command="[CmdHome]" Name="SettingsMenu" Text=" settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" Visible="false" Margins="0,-20,0,0" />
-                  <me:buttonIcon Command="[CmdHome]" Name="GroupMenu" Text=" group by" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconGroup" Visible="false" Margins="0,-20,0,0" />
+                  <me:buttonIcon Command="[CmdGroupBy]" Name="GroupMenu" Text=" group by" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconGroup" Visible="false" Margins="0,-20,0,0" />
                   <me:buttonIcon Command="[CmdHome]" Name="HomeMenu" Text=" playlists" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconHome" Visible="false" Margins="0,-20,0,0" />
                 </Children>
               </Panel>

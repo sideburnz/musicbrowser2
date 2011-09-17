@@ -9,8 +9,10 @@
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlHeader"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlFooter"/>
+  
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlHomePopUp"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlGroupByPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
@@ -30,6 +32,7 @@
       <Command Name="CmdPlayAll"/>
       <Command Name="CmdQueue"/>
       <Command Name="CmdHomeMenu"/>
+      <Command Name="CmdGroupByMenu"/>
       <Command Name="CmdRefresh" />
       
       <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
@@ -97,6 +100,13 @@
           <Invoke Target="[HomePopupPlay.NavigateInto]" />
         </Actions>
       </Changed>
+      <Changed Source="[CmdGroupByMenu.Invoked]">
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="true" />
+          <Invoke Target="[FolderModel.SetGroupByPopupVisible]" Value="true"/>
+          <Invoke Target="[GroupByPopupPlay.NavigateInto]" />
+        </Actions>
+      </Changed>
       
       <Rule>
         <Actions>
@@ -116,6 +126,7 @@
       <Binding Source="[FolderModel.RemoteTyper.Value]" Target="[FilterDisplay.Content]"/>
       <Binding Source="[FolderModel.ParentEntity.Background]" Target="[EntityBackground.Content]"/>
       <Binding Source="[FolderModel.HomePopupVisible]" Target="[HomePopupPlay.Visible]" />
+      <Binding Source="[FolderModel.GroupByPopupVisible]" Target="[GroupByPopupPlay.Visible]" />
 
       <Binding Source="[FolderModel.ShowPopupPlay]" Target="[PopupPlay.Visible]" />
       <Rule ConditionLogicalOp="Or">
@@ -134,6 +145,7 @@
           <Set Target="[pageFader.Visible]" Value="false" />
           <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
           <Invoke Target="[FolderModel.SetHomePopupVisible]" Value="false"/>
+          <Invoke Target="[FolderModel.SetGroupByPopupVisible]" Value="false"/>
         </Actions>
       </Changed>
       
@@ -147,6 +159,7 @@
           <me:ctrlPlayPopup Name="PopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
           <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
           <me:ctrlHomePopup Name="HomePopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
+          <me:ctrlGroupByPopup Name="GroupByPopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
           
           <!-- FADER -->
           <Panel Visible="true">
@@ -177,7 +190,7 @@
           </Panel>
 
           <!-- Page Header -->
-          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" Crumbs="[FolderModel.Crumbs]" CmdPlayAll="[CmdPlayAll]" CmdQueue="[CmdQueue]" CmdHome="[CmdHomeMenu]">
+          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" Crumbs="[FolderModel.Crumbs]" CmdPlayAll="[CmdPlayAll]" CmdQueue="[CmdQueue]" CmdHome="[CmdHomeMenu]" CmdGroupBy="[CmdGroupByMenu]">
             <LayoutInput>
               <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.15" Right="Parent,1"/>
             </LayoutInput>

@@ -32,19 +32,19 @@ namespace MusicBrowser
         
         public void Launch(AddInHost host)         
         {
-            if (host != null && host.ApplicationContext != null)
-            {                 
-                host.ApplicationContext.SingleInstance = true;
-            }
-            _sSession = new HistoryOrientedPageSession();
-            Application app = new Application(_sSession, host);
-
             // Set up a reference to "home"
             Entity home = new Entity() { Kind = EntityKind.Home };
             home.UpdateValues();
 
             // Load the NearLine cache
             CacheEngine.NearLineCache.GetInstance().Load();
+
+            if (host != null && host.ApplicationContext != null)
+            {
+                host.ApplicationContext.SingleInstance = true;
+            }
+            _sSession = new HistoryOrientedPageSession();
+            Application app = new Application(_sSession, host);
 
             // Go to the initial screen
             app.Navigate(home, new Breadcrumbs());
@@ -54,6 +54,9 @@ namespace MusicBrowser
             {
                 CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path));
             }
+
+            // run the scavenger task
+            CommonTaskQueue.Enqueue(CacheEngine.NearLineCache.GetInstance());
         }     
     } 
 } 

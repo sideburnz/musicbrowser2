@@ -122,6 +122,7 @@ namespace MusicBrowser.Providers
                 case "cmdfavourited":
                 case "cmdmostplayed":
                 case "cmdnew":
+                case "cmdrandom":
                     {
                         //TODO: write a GetIntSetting that accepts a min val to ensure this is safe
                         //TODO: put into a method
@@ -135,6 +136,8 @@ namespace MusicBrowser.Providers
                                 tracks.AddRange(NearLineCache.GetInstance().FindMostPlayed(size)); break;
                             case "cmdnew":
                                 tracks.AddRange(NearLineCache.GetInstance().FindRecentlyAdded(size)); break;
+                            case "cmdrandom":
+                                tracks.AddRange(NearLineCache.GetInstance().FindRandomPlayed(size, size * 5)); break;
                         }
                         //dedupe the list
                         tracks = tracks.Distinct().ToList();

@@ -17,6 +17,7 @@
       <Command Name="CmdMostPlayed"/>
       <Command Name="CmdNew"/>
       <Command Name="CmdPlay"/>
+      <Command Name="CmdRandom" />
       
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[CmdClose]"/>
@@ -49,6 +50,12 @@
           <Invoke Target="[CmdClose.Invoke]" />
         </Actions>
       </Changed>
+      <Changed Source="[CmdRandom.Invoked]">
+        <Actions>
+          <Invoke Target="[playlist.DoAction]" Action="CmdRandom" Entity="[FolderModel.ParentEntity]"/>
+          <Invoke Target="[CmdClose.Invoke]" />
+        </Actions>
+      </Changed>
       
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Default Target="[Input.KeyInteractive]" Value="true" />
@@ -62,11 +69,12 @@
           <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
         </Layout>
         <Children>
-          <me:buttonImage Command="[CmdPlay]" Name="cmdPlayLibrary" Text="Entire Library" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
-          <me:buttonImage Command="[CmdFavourited]" Name="cmdPlayFavorites" Text="Favorite Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
-          <me:buttonImage Command="[CmdMostPlayed]" Name="cmdPlayMostPlayed" Text="Most Played Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
-          <me:buttonImage Command="[CmdNew]" Name="cmdPlayNew" Text="New Tracks" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
-          <me:buttonImage Command="[CmdClose]" Name="cmdClose" Text="Close" Size="340,52" MinSize="340,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
+          <me:buttonImage Command="[CmdPlay]" Name="cmdPlayLibrary" Text="Entire Library" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdFavourited]" Name="cmdPlayFavorites" Text="Favorite Tracks" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdMostPlayed]" Name="cmdPlayMostPlayed" Text="Most Played Tracks" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdNew]" Name="cmdPlayNew" Text="New Tracks" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdRandom]" Name="cmdPlayRandom" Text="Random Popular Tracks" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
+          <me:buttonImage Command="[CmdClose]" Name="cmdClose" Text="Close" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
         </Children>
       </Panel>
     </Content>
