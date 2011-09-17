@@ -50,7 +50,7 @@ namespace MusicBrowser.Providers.Metadata
                     dto.MusicBrainzId = fileTag.Tag.MusicBrainzTrackId;
 
                     if (fileTag.Tag.Performers != null) { dto.Performers.AddRange(fileTag.Tag.Performers); }
-                    if (fileTag.Tag.Genres != null) { dto.Genres.AddRange(fileTag.Tag.Genres); }
+                    if (fileTag.Tag.Genres != null) { dto.Genre = fileTag.Tag.FirstGenre; }
                     if (string.IsNullOrEmpty(dto.AlbumArtist)) { dto.AlbumArtist = dto.ArtistName; }
 
                     // cache the thumb

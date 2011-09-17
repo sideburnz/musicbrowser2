@@ -36,7 +36,6 @@ namespace MusicBrowser.Entities
         {
             Performers = new List<string>();
             ProviderTimeStamps = new Dictionary<string, DateTime>();
-            Genres = new List<string>();
         }
 
         [DataMember]
@@ -92,7 +91,7 @@ namespace MusicBrowser.Entities
         [DataMember]
         public List<string> Performers { get; set; }
         [DataMember]
-        public List<string> Genres { get; set; }
+        public string Genre { get; set; }
         [DataMember]
         public string Lyrics { get; set; }
         [DataMember]

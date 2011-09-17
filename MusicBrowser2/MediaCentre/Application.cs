@@ -57,10 +57,36 @@ namespace MusicBrowser
                             }
 
                             FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
+                            folderModel.application = this;
                             properties["FolderModel"] = folderModel;
                             properties["UINotifier"] = UINotifier.GetInstance();
                             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
 
+                            break;
+                        }
+                    case EntityKind.Virtual:
+                        {
+                            EntityCollection entities = new EntityCollection();
+
+                            switch (entity.Title.ToLower())
+                            {
+                                case "tracks by genre":
+                                    {
+                                        IEnumerable<string> genres = NearLineCache.GetInstance().GetTrackGenres();
+                                        foreach (string genre in genres)
+                                        {
+                                            entities.Add(new Entity { Kind = EntityKind.Virtual, Title = genre });
+                                        }
+                                        entities.IndexItems();
+                                        break;
+                                    }
+                            }
+
+                            FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
+                            folderModel.application = this;
+                            properties["FolderModel"] = folderModel;
+                            properties["UINotifier"] = UINotifier.GetInstance();
+                            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
                             break;
                         }
                     default:
@@ -68,6 +94,7 @@ namespace MusicBrowser
                             EntityCollection entities = new EntityCollection();
                             entities.Populate(FileSystemProvider.GetFolderContents(entity.Path));
                             FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
+                            folderModel.application = this;
                             properties["FolderModel"] = folderModel;
                             properties["UINotifier"] = UINotifier.GetInstance();
                             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);

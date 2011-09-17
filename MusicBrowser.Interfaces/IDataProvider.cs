@@ -84,7 +84,7 @@ namespace MusicBrowser.Interfaces
         public string MusicBrainzId;
 
         public List<string> Performers;
-        public List<string> Genres;
+        public string Genre;
 
         public string Lyrics;
 

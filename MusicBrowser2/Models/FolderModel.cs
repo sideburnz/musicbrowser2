@@ -24,6 +24,7 @@ namespace MusicBrowser.Models
         Entity _popupPlayContext = null;
         private readonly EditableText _remoteFilter = new EditableText();
         private int _matches;
+        private Application _app;
 
         private readonly bool _isHome;
 
@@ -56,6 +57,8 @@ namespace MusicBrowser.Models
                 return _parentEntity; 
             }
         }
+
+        public Application application { get; set; }
 
         /// <summary>
         /// This is the list of items to display on the page
@@ -275,5 +278,24 @@ namespace MusicBrowser.Models
             HomePopupVisible = Value;
         }
 
+        private bool _groupByPopUpVisible = false;
+        public bool GroupByPopupVisible
+        {
+            get { return _groupByPopUpVisible; }
+            set { _groupByPopUpVisible = value; FirePropertyChanged("GroupByPopupVisible"); }
+        }
+
+        public void SetGroupByPopupVisible(bool Value)
+        {
+            GroupByPopupVisible = Value;
+        }
+
+        public void NavigateToVirtual(string name)
+        {
+            Entity v = new Entity();
+            v.Kind = EntityKind.Virtual;
+            v.Title = name;
+            application.Navigate(v, _crumbs);
+        }
     }
 }

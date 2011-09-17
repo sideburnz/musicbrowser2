@@ -8,6 +8,7 @@ using MusicBrowser.Providers;
 using System.Data;
 using ServiceStack.Text;
 using System.IO;
+using MusicBrowser.Providers.Background;
 
 // in memory caching, intended to allow faster searches
 //TODO: write scavenger to clean up dead items
@@ -16,7 +17,7 @@ using System.IO;
 
 namespace MusicBrowser.CacheEngine
 {
-    public class NearLineCache
+    public class NearLineCache : IBackgroundTaskable
     {
         private Dictionary<string, Entity> _cache;
         private static readonly object _obj = new object();
@@ -60,10 +61,26 @@ namespace MusicBrowser.CacheEngine
         //TODO: put these into a different class
         //TODO: write GetGenreList, GetTracksInGenre
         //TODO: write GetYearList, GetAlbumsFromYear
+
+        public IEnumerable<string> GetTrackGenres()
+        {
+            return _cache
+                .Where(item => item.Value.Kind == EntityKind.Song)
+                .Select(item => item.Value.Genre)
+                .Distinct();
+        }
+
+        public IEnumerable<string> GetTracksInGenre(string Genre)
+        {
+            return _cache
+                .Where(item => item.Value.Kind == EntityKind.Song || item.Value.Genre.Equals(Genre, StringComparison.OrdinalIgnoreCase))
+                .Select(item => item.Value.Path);
+        }
+        
         public IEnumerable<string> FindFavorites()
         {
             return _cache
-                .Where(item => ((item.Value.Rating == 5) || (item.Value.Favorite)) && (item.Value.Kind == EntityKind.Song))
+                .Where(item => ((item.Value.Rating >= 90) || (item.Value.Favorite)) && (item.Value.Kind == EntityKind.Song))
                 .Select(item => item.Value.Path);
         }
 
@@ -71,8 +88,7 @@ namespace MusicBrowser.CacheEngine
         {
             return _cache
                 .Where(item => item.Value.Kind == EntityKind.Song)
-                .OrderBy(item => item.Value.PlayCount)
-                .Reverse()
+                .OrderByDescending(item => item.Value.PlayCount)
                 .Take(records)
                 .Select(item => item.Value.Path);
         }
@@ -81,8 +97,18 @@ namespace MusicBrowser.CacheEngine
         {
             return _cache
                 .Where(item => item.Value.Kind == EntityKind.Song)
-                .OrderBy(item => item.Value.Added)
-                .Reverse()
+                .OrderByDescending(item => item.Value.Added)
+                .Take(records)
+                .Select(item => item.Value.Path);
+        }
+
+        public IEnumerable<string> FindRandomPlayed(int records, int sample)
+        {
+            return _cache
+                .Where(item => item.Value.Kind == EntityKind.Song)
+                .OrderByDescending(item => item.Value.PlayCount)
+                .Take(sample)
+                .OrderBy(item => Guid.NewGuid())
                 .Take(records)
                 .Select(item => item.Value.Path);
         }
@@ -100,9 +126,12 @@ namespace MusicBrowser.CacheEngine
 
         public void Remove(string key)
         {
-            if (_cache.ContainsKey(key))
+            lock (_obj)
             {
-                _cache.Remove(key);
+                if (_cache.ContainsKey(key))
+                {
+                    _cache.Remove(key);
+                }
             }
         }
 
@@ -139,5 +168,28 @@ namespace MusicBrowser.CacheEngine
                 _cache = new Dictionary<string, Entity>(1000);
             }
         }
+
+
+        #region background task
+        public string Title
+        {
+            get { return "NearLineCache Scavenger"; }
+        }
+
+        /// <summary>
+        /// This is a scavenger process to help ensure that the NearLine cache doesn't become bloated with
+        /// expired data
+        /// </summary>
+        public void Execute()
+        {
+            string[] keys = _cache.Keys.ToArray();
+            foreach (string key in keys)
+            {
+                FileSystemItem item = FileSystemProvider.GetItemDetails(_cache[key].Path);
+                if (string.IsNullOrEmpty(item.Name)) { Remove(key); Statistics.GetInstance().Hit("NLCache.Scavenged.Gone"); continue; }
+                if (item.LastUpdated > _cache[key].CacheDate) { Remove(key); Statistics.GetInstance().Hit("NLCache.Scavenged.Expired"); continue; }
+            }
+        }
+        #endregion
     }
 }
