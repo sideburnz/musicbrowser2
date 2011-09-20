@@ -22,6 +22,7 @@ namespace MusicBrowser.Entities
         Playlist,
         Song,
         Genre,
+        Group,
         Virtual
     }
 
@@ -144,6 +145,11 @@ namespace MusicBrowser.Entities
                     case EntityKind.Album:
                         {
                             return "resx://MusicBrowser/MusicBrowser.Resources/imageAlbum";
+                        }
+                    case EntityKind.Group:
+                    case EntityKind.Virtual:
+                        {
+                            return "resx://MusicBrowser/MusicBrowser.Resources/imageFolder";
                         }
                 }
                 return string.Empty; 

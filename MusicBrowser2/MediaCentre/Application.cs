@@ -64,7 +64,7 @@ namespace MusicBrowser
 
                             break;
                         }
-                    case EntityKind.Virtual:
+                    case EntityKind.Group:
                         {
                             EntityCollection entities = new EntityCollection();
 
@@ -75,12 +75,63 @@ namespace MusicBrowser
                                         IEnumerable<string> genres = NearLineCache.GetInstance().GetTrackGenres();
                                         foreach (string genre in genres)
                                         {
-                                            entities.Add(new Entity { Kind = EntityKind.Virtual, Title = genre });
+                                            entities.Add(new Entity { Kind = EntityKind.Virtual, Title = genre, Path = "tracks by genre" });
+                                        }
+                                        entities.IndexItems();
+                                        break;
+                                    }
+                                case "albums by year":
+                                    {
+                                        IEnumerable<string> years = NearLineCache.GetInstance().GetAlbumYears();
+                                        foreach (string year in years)
+                                        {
+                                            entities.Add(new Entity { Kind = EntityKind.Virtual, Title = year, Path = "albums by year" });
                                         }
                                         entities.IndexItems();
                                         break;
                                     }
                             }
+
+                            FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
+                            folderModel.application = this;
+                            properties["FolderModel"] = folderModel;
+                            properties["UINotifier"] = UINotifier.GetInstance();
+                            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
+                            break;
+                        }
+                    case EntityKind.Virtual:
+                        {
+                            IEnumerable<string> items;
+                            EntityCollection entities = new EntityCollection();
+
+                            switch (entity.Path)
+                            {
+                                case "tracks by genre":
+                                    {
+                                        items = NearLineCache.GetInstance().GetTracksInGenre(entity.Title);
+                                        foreach (string item in items)
+                                        {
+                                            Entity e = EntityFactory.GetItem(item);
+                                            e.UpdateValues();
+                                            entities.Add(e);
+                                        }
+                                        break;
+                                    }
+                                case "albums by year":
+                                    {
+                                        items = NearLineCache.GetInstance().GetAlbumsInYear(entity.Title);
+                                        foreach (string item in items)
+                                        {
+                                            Entity e = EntityFactory.GetItem(item);
+                                            e.UpdateValues();
+                                            entities.Add(e);
+                                        }
+                                        break;
+                                    }
+                            }
+                            //TODO: fix the collisions here
+                            //entities.Sort();
+                            entities.IndexItems();
 
                             FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
                             folderModel.application = this;

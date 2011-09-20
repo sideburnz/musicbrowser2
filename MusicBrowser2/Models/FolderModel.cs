@@ -292,9 +292,7 @@ namespace MusicBrowser.Models
 
         public void NavigateToVirtual(string name)
         {
-            Entity v = new Entity();
-            v.Kind = EntityKind.Virtual;
-            v.Title = name;
+            Entity v = new Entity() { Kind = EntityKind.Group, Title = name };
             application.Navigate(v, _crumbs);
         }
     }
