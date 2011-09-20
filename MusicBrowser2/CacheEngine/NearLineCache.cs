@@ -59,22 +59,46 @@ namespace MusicBrowser.CacheEngine
         }
 
         //TODO: put these into a different class
-        //TODO: write GetGenreList, GetTracksInGenre
         //TODO: write GetYearList, GetAlbumsFromYear
 
+        //TODO: can this somehow produce a set of Group entities with duration and size data populated?
         public IEnumerable<string> GetTrackGenres()
         {
             return _cache
                 .Where(item => item.Value.Kind == EntityKind.Song)
                 .Select(item => item.Value.Genre)
-                .Distinct();
+                .Distinct()
+                .Where(item => item != null)
+                .OrderBy(item => item);
         }
 
         public IEnumerable<string> GetTracksInGenre(string Genre)
         {
-            return _cache
-                .Where(item => item.Value.Kind == EntityKind.Song || item.Value.Genre.Equals(Genre, StringComparison.OrdinalIgnoreCase))
+            //TODO: tidy 
+            IEnumerable<string> temp = _cache
+                .Where(item => item.Value.Genre == Genre) //item.Value.Kind == EntityKind.Song) 
                 .Select(item => item.Value.Path);
+            return temp;
+
+            return _cache
+                .Where(item => item.Value.Kind == EntityKind.Song || item.Value.Genre.ToLower() == Genre.ToLower())
+                .Select(item => item.Value.Path);
+        }
+
+        public IEnumerable<string> GetAlbumsInYear(string year)
+        {
+            return _cache
+                .Where(item => item.Value.Kind == EntityKind.Album && item.Value.ReleaseDate.ToString("yyyy") == year)
+                .Select(item => item.Value.Path);
+        }
+
+        public IEnumerable<string> GetAlbumYears()
+        {
+            return _cache
+                .Where(item => item.Value.Kind == EntityKind.Album && item.Value.ReleaseDate > DateTime.Parse("01-JAN-1000"))
+                .Select(item => item.Value.ReleaseDate.ToString("yyyy"))
+                .Distinct()
+                .OrderBy(item => item);
         }
         
         public IEnumerable<string> FindFavorites()

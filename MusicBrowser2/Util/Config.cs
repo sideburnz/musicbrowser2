@@ -46,13 +46,8 @@ namespace MusicBrowser.Util
 
                 { "Album.View", "List" },
                 { "Album.Format", "([release]) [title]" },
-                { "Album.SortOrder", "[release]" },
+                { "Album.SortOrder", "[release][title]" },
                 { "Album.Summary", "[playcount]  [listeners]  [allplays]" },
-
-                { "Unknown.View", "List" },
-                { "Unknown.Format", "" },
-                { "Unknown.SortOrder", "" },
-                { "Unknown.Summary", "" },
 
                 { "Genre.View", "List" },
                 { "Genre.Format", "[title]" },
@@ -61,7 +56,7 @@ namespace MusicBrowser.Util
 
                 { "Song.View", "List" },
                 { "Song.Format", "[track] - [title]" },
-                { "Song.SortOrder", "[track]" },
+                { "Song.SortOrder", "[track][title]" },
                 { "Song.Summary", "[playcount]  [listeners]  [allplays]" },
 
                 { "Playlist.View", "" },
@@ -69,10 +64,20 @@ namespace MusicBrowser.Util
                 { "Playlist.SortOrder", "" },
                 { "Playlist.Summary", "" },
 
-                { "Folder.View", "" },
+                { "Folder.View", "list" },
                 { "Folder.Format", "[title]" },
-                { "Folder.SortOrder", "" },
+                { "Folder.SortOrder", "[title]" },
                 { "Folder.Summary", "" },
+
+                { "Group.View", "thumb" },
+                { "Group.Format", "[title]" },
+                { "Group.SortOrder", "[title]" },
+                { "Group.Summary", "" },
+
+                { "Virtual.View", "list" },
+                { "Virtual.Format", "[title]" },
+                { "Virtual.SortOrder", "[title]" },
+                { "Virtual.Summary", "" },
                                         
                 { "LogStatsOnClose", false.ToString() },
 

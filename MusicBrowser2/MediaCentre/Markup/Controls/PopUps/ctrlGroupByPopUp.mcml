@@ -32,7 +32,7 @@
       <Changed Source="[CmdAlbumsByYear.Invoked]">
         <Actions>
           <Invoke Target="[CmdClose.Invoke]" />
-          <Invoke Target="[playlist.DoAction]" Action="CmdFavourited" Entity="[FolderModel.ParentEntity]"/>
+          <Invoke Target="[FolderModel.NavigateToVirtual]" name="Albums by Year"/>
         </Actions>
       </Changed>
       
