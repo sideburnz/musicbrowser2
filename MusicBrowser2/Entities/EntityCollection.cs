@@ -12,22 +12,31 @@ namespace MusicBrowser.Entities
 
             foreach (FileSystemItem item in items)
             {
-                //Logging.Logger.Debug("EntityCollection.Loop (" + item.FullPath);
-
                 Entity entity = EntityFactory.GetItem(item);
-                if (!(entity == null))
-                {
-                    entity.UpdateValues();
-                    Add(entity);
-                }
+                Add(entity);
             }
-            Sort(new EntityCollectionSorter());
-            IndexItems();
         }
 
         public void IndexItems()
         {
-            for (int i = 0; i < Count; i++) { this[i].Index = i; }
+            for (int i = 0; i < Count; i++) 
+            {
+                this[i].Index = i; 
+            }
+        }
+
+        public new void Add(Entity e)
+        {
+            if (e != null) 
+            {
+                e.UpdateValues();
+                base.Add(e); 
+            }
+        }
+
+        public new void Sort()
+        {
+            base.Sort(new EntityCollectionSorter());
         }
     }
 
@@ -37,12 +46,12 @@ namespace MusicBrowser.Entities
     {
         public int Compare(Entity x, Entity y)
         {
-            bool xIsFolder = !x.Playable;
-            bool yIsFolder = !y.Playable;
+            bool xIsItem = x.Playable;
+            bool yIsItem = y.Playable;
 
             // folders (artists and albums) have a higher priority than playlists and songs
-            if (xIsFolder && !(yIsFolder)) { return -1; }
-            if (!(xIsFolder) && yIsFolder) { return 1; }
+            if (!xIsItem && yIsItem) { return -1; }
+            if (xIsItem && !yIsItem) { return 1; }
 
             return string.Compare(x.SortName, y.SortName, true);
         }

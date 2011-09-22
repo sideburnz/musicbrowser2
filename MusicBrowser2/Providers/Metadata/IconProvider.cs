@@ -31,7 +31,7 @@ namespace MusicBrowser.Providers.Metadata
 
             Statistics.GetInstance().Hit(Name + ".hit");
 
-            string IBNPath = Path.Combine(Path.Combine(Util.Config.GetInstance().GetSetting("ImagesByName"), "genres"), dto.Title);
+            string IBNPath = Path.Combine(Path.Combine(Util.Config.GetInstance().GetSetting("ImagesByName"), "musicgenre"), dto.Title);
             dto.ThumbImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Thumb));
             dto.BackImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Backdrop));
 
@@ -52,6 +52,12 @@ namespace MusicBrowser.Providers.Metadata
         {
             // refresh weekly
             return (lastAccess.AddDays(7) < DateTime.Now);
+        }
+
+
+        public ProviderSpeed Speed
+        {
+            get { return ProviderSpeed.Fast; }
         }
     }
 }

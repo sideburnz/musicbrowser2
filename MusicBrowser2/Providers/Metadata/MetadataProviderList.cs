@@ -27,7 +27,11 @@ namespace MusicBrowser.Providers.Metadata
                         _providers.Add(new InheritanceProvider());
                         if (Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
                         {
-                            _providers.Add(new HTBackdropMetadataProvider());
+                            if (Util.Config.GetInstance().GetBooleanSetting("EnableFanArt"))
+                            {
+                                _providers.Add(new HTBackdropMetadataProvider());
+                            }
+
                             _providers.Add(new LastFMMetadataProvider());
                         }
                         _providers.Add(new FileSystemMetadataProvider());
@@ -43,14 +47,17 @@ namespace MusicBrowser.Providers.Metadata
 #if DEBUG
             Logging.Logger.Verbose("ProcessEntity(" + entity.Path + ", <providers>, " + Forced + ")", "start");
 #endif
-
+            // only waste time triggering cache updates if the content has changed
             bool requiresUpdate = false;
+            // only do the slow providers if it looks like we've done the fast ones
+            bool onlyFastProviders = entity.ProviderTimeStamps.Count <= 1;
 
             foreach (IDataProvider provider in GetProviders())
             {
                 try
                 {
                     DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
+                    if (onlyFastProviders && provider.Speed == ProviderSpeed.Slow) { continue; }
                     if (!provider.CompatibleWith(entity.KindName)) { continue; }
                     if (!Forced && !provider.isStale(lastAccess)) { continue; }
                     DataProviderDTO dto = PopulateDTO(entity);
@@ -176,7 +183,7 @@ namespace MusicBrowser.Providers.Metadata
             if (!String.IsNullOrEmpty(dto.MusicBrainzId)) { entity.MusicBrainzID = dto.MusicBrainzId; }
             if (!String.IsNullOrEmpty(dto.Path)) { entity.Path = dto.Path; }
             if (dto.Performers != null) { entity.Performers = dto.Performers; }
-            if (dto.PlayCount > 0) { entity.PlayCount = dto.PlayCount; }
+            if (dto.PlayCount > entity.PlayCount) { entity.PlayCount = dto.PlayCount; }
             if (dto.Rating > 0) { entity.Rating = dto.Rating; }
             if (entity.ReleaseDate < DateTime.Parse("01-JAN-1000")) 
             { 

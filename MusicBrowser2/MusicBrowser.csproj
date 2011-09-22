@@ -134,6 +134,7 @@
     <Compile Include="CacheEngine\EntityPersistance.cs" />
     <Compile Include="Providers\FolderItems\GroupByFolderProvider.cs" />
     <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
+    <Compile Include="Providers\Metadata\WMPProvider.cs" />
     <Compile Include="Providers\Metadata\InheritanceProvider.cs" />
     <Compile Include="Providers\Metadata\IconProvider.cs" />
     <Compile Include="Providers\Metadata\FileSystemMetadataProvider.cs" />

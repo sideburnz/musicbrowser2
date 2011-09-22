@@ -31,6 +31,12 @@ namespace MusicBrowser.Interfaces
         Disc
     }
 
+    public enum ProviderSpeed
+    {
+        Slow,
+        Fast
+    }
+
     /// <summary>
     /// DTO for passing data to and from data providers
     /// </summary>
@@ -108,5 +114,7 @@ namespace MusicBrowser.Interfaces
         bool CompatibleWith(string type);
 
         bool isStale(DateTime lastAccess);
+
+        ProviderSpeed Speed { get; }
     }
 }

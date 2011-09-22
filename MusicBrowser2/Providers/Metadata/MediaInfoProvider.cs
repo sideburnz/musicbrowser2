@@ -143,6 +143,12 @@ namespace MusicBrowser.Providers.Metadata
             }
             return false;
         }
+
+
+        public ProviderSpeed Speed
+        {
+            get { return ProviderSpeed.Slow; }
+        }
     }
 }
 

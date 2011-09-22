@@ -79,6 +79,12 @@ namespace MusicBrowser.CacheEngine
             return _conn;
         }
 
+
+
+        public void Scavenge()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

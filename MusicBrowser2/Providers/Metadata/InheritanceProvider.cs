@@ -154,5 +154,11 @@ namespace MusicBrowser.Providers.Metadata
             // always refesh
             return true;
         }
+
+
+        public ProviderSpeed Speed
+        {
+            get { return ProviderSpeed.Fast; }
+        }
     }
 }

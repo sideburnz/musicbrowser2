@@ -21,6 +21,7 @@
     <Rules>
       <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
+      
       <Changed Source="[Entity.Index]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Home" />
@@ -34,6 +35,7 @@
           <Set Target="[PlayMenu.Visible]" Value="false" />
         </Actions>
       </Changed>
+      
     </Rules>
 
     <Content>

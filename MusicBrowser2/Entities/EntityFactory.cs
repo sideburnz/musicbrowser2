@@ -32,7 +32,7 @@ namespace MusicBrowser.Entities
             Entity entity;
 
             #region NearLine Cache
-            // get from the NL cache if it's cached there, this is the fastest cache but it's not persistent
+            // get from the NL cache if it's cached there, this is the fastest cache
             entity = NearLineCache.GetInstance().Fetch(key);
             if (entity != null && IsFresh(entity.CacheDate, item.LastUpdated))
             {
@@ -76,6 +76,15 @@ namespace MusicBrowser.Entities
 
             entity = new Entity();
             entity.Kind = kind.GetValueOrDefault();
+
+            // these are needed for aggregation calculations
+            switch (entity.Kind)
+            {
+                case EntityKind.Album: { entity.AlbumCount = 1; break; }
+                case EntityKind.Artist: { entity.ArtistCount = 1; break; }
+                case EntityKind.Song: { entity.TrackCount = 1; break; }
+            }
+
             entity.Title = item.Name;
             entity.Path = item.FullPath;
             entity.Added = item.Created;
