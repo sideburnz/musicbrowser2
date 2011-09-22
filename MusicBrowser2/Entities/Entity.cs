@@ -9,6 +9,8 @@ using Microsoft.MediaCenter.UI;
 using MusicBrowser.Models;
 using MusicBrowser.Util;
 using MusicBrowser.Providers;
+using MusicBrowser.CacheEngine;
+using System.Linq;
 
 namespace MusicBrowser.Entities
 {
@@ -126,6 +128,7 @@ namespace MusicBrowser.Entities
                         {
                             return "resx://MusicBrowser/MusicBrowser.Resources/imagePlaylist";
                         }
+                    case EntityKind.Group:
                     case EntityKind.Home:
                         {
                             return "resx://MusicBrowser/MusicBrowser.Resources/MusicBrowser2";
@@ -146,7 +149,6 @@ namespace MusicBrowser.Entities
                         {
                             return "resx://MusicBrowser/MusicBrowser.Resources/imageAlbum";
                         }
-                    case EntityKind.Group:
                     case EntityKind.Virtual:
                         {
                             return "resx://MusicBrowser/MusicBrowser.Resources/imageFolder";
@@ -189,6 +191,12 @@ namespace MusicBrowser.Entities
         {
             get
             {
+                if (Kind == EntityKind.Virtual)
+                {
+                    string IBNPath = System.IO.Path.Combine(System.IO.Path.Combine(Util.Config.GetInstance().GetSetting("ImagesByName"), Label), Title);
+                    IconPath = ImageProvider.LocateFanArt(IBNPath, ImageType.Thumb);
+                }
+
                 // implementing with a "DefaultIconPath" allows the true resx path of the default icon
                 // to be hidden from things like the cache
                 if (String.IsNullOrEmpty(IconPath) || !System.IO.File.Exists(IconPath)) 
@@ -276,8 +284,64 @@ namespace MusicBrowser.Entities
                         {
                             StringBuilder sb = new StringBuilder();
 
-                            if (ArtistCount == 1) { sb.Append("1 Artist  "); }
-                            if (ArtistCount > 1) { sb.Append(ArtistCount + " Artists  "); }
+                            if (Kind == EntityKind.Genre)
+                            {
+                                if (ArtistCount == 1) { sb.Append("1 Artist  "); }
+                                if (ArtistCount > 1) { sb.Append(ArtistCount + " Artists  "); }
+                            }
+                            if (Kind == EntityKind.Genre || Kind == EntityKind.Artist)
+                            {
+                                if (AlbumCount == 1) { sb.Append("1 Album  "); }
+                                if (AlbumCount > 1) { sb.Append(AlbumCount + " Albums  "); }
+                            }
+                            if (TrackCount == 1) { sb.Append("1 Track  "); }
+                            if (TrackCount > 1) { sb.Append(TrackCount + " Tracks  "); }
+
+                            if (Duration > 0)
+                            {
+                                TimeSpan t = TimeSpan.FromSeconds(Duration);
+                                if (t.Hours == 0)
+                                {
+                                    sb.Append(string.Format("{0}:{1:D2}  ", (Int32)Math.Floor(t.TotalMinutes), t.Seconds));
+                                }
+                                else
+                                {
+                                    sb.Append(string.Format("{0}:{1:D2}:{2:D2}  ", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds));
+                                }
+                            }
+
+                            if (ReleaseDate > DateTime.Parse("01-JAN-1000")) { sb.Append(ReleaseDate.ToString("yyyy") + "  "); }
+
+                            if (sb.Length > 0) { return KindName + "  (" + sb.ToString().Trim() + ")"; }
+                            break;
+                        }
+                    case EntityKind.Virtual:
+                        {
+                            Duration = 0;
+                            TrackCount = 0;
+                            AlbumCount = 0;
+                            string head = string.Empty;
+
+                            IEnumerable<Entity> items = null;
+                            StringBuilder sb = new StringBuilder();
+
+                            if (Path == "tracks by genre")
+                            {
+                                head = "Track Group";
+                                items = NearLineCache.GetInstance().GetTracksInGenre(Title);
+                            }
+                            if (Path == "albums by year")
+                            {
+                                head = "Album Group";
+                                NearLineCache.GetInstance().GetAlbumsInYear(Title);
+                            }
+
+                            foreach (Entity item in items)
+                            {
+                                Duration += item.Duration;
+                                TrackCount += item.TrackCount;
+                                AlbumCount += item.AlbumCount;
+                            }
 
                             if (AlbumCount == 1) { sb.Append("1 Album  "); }
                             if (AlbumCount > 1) { sb.Append(AlbumCount + " Albums  "); }
@@ -298,9 +362,8 @@ namespace MusicBrowser.Entities
                                 }
                             }
 
-                            if (ReleaseDate > DateTime.Parse("01-JAN-1000")) { sb.Append(ReleaseDate.ToString("yyyy") + "  "); }
+                            if (sb.Length > 0) { return head + "  (" + sb.ToString().Trim() + ")"; }
 
-                            if (sb.Length > 0) { return KindName + "  (" + sb.ToString().Trim() + ")"; }
                             break;
                         }
                 }
@@ -325,6 +388,10 @@ namespace MusicBrowser.Entities
                 if (ArtistName != AlbumArtist && !String.IsNullOrEmpty(ArtistName) && !String.IsNullOrEmpty(AlbumArtist))
                 {
                     return ArtistName;
+                }
+                if (Kind == EntityKind.Virtual)
+                {
+                    return AlbumArtist;
                 }
                 return string.Empty;
             }

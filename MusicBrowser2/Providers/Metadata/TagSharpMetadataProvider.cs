@@ -118,5 +118,11 @@ namespace MusicBrowser.Providers.Metadata
             // this shouldn't need any updates
             return (lastAccess < DateTime.Parse("01-JAN-1000"));
         }
+
+
+        public ProviderSpeed Speed
+        {
+            get { return ProviderSpeed.Fast; }
+        }
     }
 }

@@ -42,10 +42,7 @@
 
       <Rule>
         <Actions>
-          <!--<Invoke Target="[viewThumbRepeater.DetachAnimation]" type="Move" InvokePolicy="Synchronous" />-->
           <Invoke Target="[viewThumbRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" InvokePolicy="Synchronous" />
-          <!--<Set Target="[viewThumbRepeater.Visible]" Value="true" InvokePolicy="Synchronous" />
-          <Invoke Target="[viewThumbRepeater.AttachAnimation]" animation="[Slide]" InvokePolicy="Synchronous"/>-->
         </Actions>
       </Rule>
     </Rules>
@@ -55,12 +52,12 @@
         <Children> 
           <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100">
             <LayoutInput>
-              <FormLayoutInput Bottom="Parent,1" Top="Parent,0" Left="Parent,0" Right="Parent,1"/>
+              <FormLayoutInput Bottom="Parent,0.98" Top="Parent,0.02" Left="Parent,0" Right="Parent,1"/>
             </LayoutInput>
             <Children>
               <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true">
                 <Layout>
-                  <GridLayout Orientation="Vertical" Rows="3" Columns="8" AllowWrap="true" Spacing="1,1" Repeat="WhenTooBig" RepeatGap="100"/>
+                  <GridLayout Orientation="Vertical" Rows="3" Columns="9" AllowWrap="true" Spacing="1,1" Repeat="WhenTooBig" RepeatGap="100"/>
                 </Layout>
                 <Animations>
                   <Animation Animation="[Slide]" />

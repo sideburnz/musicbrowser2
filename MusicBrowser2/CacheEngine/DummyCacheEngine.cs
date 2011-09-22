@@ -32,5 +32,7 @@ namespace MusicBrowser.CacheEngine
         {
             return DateTime.MinValue;
         }
+
+        public void Scavenge() { }
     }
 }

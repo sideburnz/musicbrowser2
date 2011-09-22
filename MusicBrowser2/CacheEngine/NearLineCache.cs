@@ -72,24 +72,18 @@ namespace MusicBrowser.CacheEngine
                 .OrderBy(item => item);
         }
 
-        public IEnumerable<string> GetTracksInGenre(string Genre)
+        public IEnumerable<Entity> GetTracksInGenre(string Genre)
         {
-            //TODO: tidy 
-            IEnumerable<string> temp = _cache
-                .Where(item => item.Value.Genre == Genre) //item.Value.Kind == EntityKind.Song) 
-                .Select(item => item.Value.Path);
-            return temp;
-
             return _cache
-                .Where(item => item.Value.Kind == EntityKind.Song || item.Value.Genre.ToLower() == Genre.ToLower())
-                .Select(item => item.Value.Path);
+                .Where(item => item.Value.Genre == Genre && item.Value.Kind == EntityKind.Song)
+                .Select(item => item.Value);
         }
 
-        public IEnumerable<string> GetAlbumsInYear(string year)
+        public IEnumerable<Entity> GetAlbumsInYear(string year)
         {
             return _cache
                 .Where(item => item.Value.Kind == EntityKind.Album && item.Value.ReleaseDate.ToString("yyyy") == year)
-                .Select(item => item.Value.Path);
+                .Select(item => item.Value);
         }
 
         public IEnumerable<string> GetAlbumYears()

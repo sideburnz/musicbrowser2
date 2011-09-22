@@ -78,5 +78,11 @@ namespace MusicBrowser.CacheEngine
             Directory.CreateDirectory(temp);
             return temp + key + ".cache.json";
         }
+
+
+        public void Scavenge()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

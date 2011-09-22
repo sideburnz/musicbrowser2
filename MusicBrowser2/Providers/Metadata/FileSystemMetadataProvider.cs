@@ -89,5 +89,10 @@ namespace MusicBrowser.Providers.Metadata
             // refresh weekly
             return (lastAccess.AddDays(7) < DateTime.Now);
         }
+
+        public ProviderSpeed Speed
+        {
+            get { return ProviderSpeed.Fast; }
+        }
     }
 }

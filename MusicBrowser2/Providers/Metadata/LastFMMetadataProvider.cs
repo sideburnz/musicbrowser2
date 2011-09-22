@@ -241,5 +241,11 @@ namespace MusicBrowser.Providers.Metadata
             // refresh strategy for Last.fm is complicated, this first bit is just to randomly 
             return RandomlyRefreshData(lastAccess);
         }
+
+
+        public ProviderSpeed Speed
+        {
+            get { return ProviderSpeed.Slow; }
+        }
     }
 }

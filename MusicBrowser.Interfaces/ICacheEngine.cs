@@ -10,5 +10,7 @@ namespace MusicBrowser.Interfaces
 
         bool Exists(string key);
         DateTime GetAge(string key);
+
+        void Scavenge();
     }
 }
