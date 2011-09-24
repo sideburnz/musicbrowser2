@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
 using MusicBrowser.CacheEngine;
@@ -33,7 +34,14 @@ namespace MusicBrowser.Providers.Metadata
 
             string IBNPath = Path.Combine(Path.Combine(Util.Config.GetInstance().GetSetting("ImagesByName"), "musicgenre"), dto.Title);
             dto.ThumbImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Thumb));
-            dto.BackImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Backdrop));
+
+            IEnumerable<string> backPaths = ImageProvider.LocateBackdropList(IBNPath);
+            List<Bitmap> backImages = new List<Bitmap>();
+            foreach (string back in backPaths)
+            {
+                backImages.Add(ImageProvider.Load(back));
+            }
+            dto.BackImages = backImages;
 
             return dto;
         }

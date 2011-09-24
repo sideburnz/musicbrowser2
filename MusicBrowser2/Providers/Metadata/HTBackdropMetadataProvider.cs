@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using MusicBrowser.Entities;
 using MusicBrowser.WebServices.Interfaces;
@@ -73,7 +74,13 @@ namespace MusicBrowser.Providers.Metadata
             if (serviceDTO.BackdropList.Count > 0)
             {
                 // get random item
-                dto.BackImage = ImageProvider.Download(serviceDTO.BackdropList[Rnd.Next(serviceDTO.BackdropList.Count)], ImageType.Backdrop);
+
+                foreach (string img in serviceDTO.BackdropList)
+                {
+                    Bitmap i = ImageProvider.Download(img, ImageType.Backdrop);
+                    if (i != null) { dto.BackImages.Add(i); }
+                }
+
             }
 
             return dto;

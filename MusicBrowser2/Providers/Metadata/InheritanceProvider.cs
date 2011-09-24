@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 using System.IO;
 using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities;
@@ -10,6 +12,7 @@ namespace MusicBrowser.Providers.Metadata
     class InheritanceProvider : IDataProvider
     {
         private const string Name = "InheritanceProvider";
+        private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
@@ -100,9 +103,9 @@ namespace MusicBrowser.Providers.Metadata
                 Entity parent = EntityFactory.GetItem(Directory.GetParent(dto.Path).FullName);
                 if (parent.Kind == EntityKind.Artist)
                 {
-                    if (!String.IsNullOrEmpty(parent.BackgroundPath) && !dto.hasBackImage)
+                    if (!(parent.BackgroundPaths.FirstOrDefault() == null) && !dto.hasBackImage)
                     {
-                        dto.BackImage = ImageProvider.Load(parent.BackgroundPath);
+                        dto.BackImages.Add(ImageProvider.Load(parent.BackgroundPaths[Rnd.Next(parent.BackgroundPaths.Count)]));
                         dto.hasBackImage = true;
                         hasUpdated = true;
                     }

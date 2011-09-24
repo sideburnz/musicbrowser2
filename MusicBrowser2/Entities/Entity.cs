@@ -39,6 +39,7 @@ namespace MusicBrowser.Entities
         {
             Performers = new List<string>();
             ProviderTimeStamps = new Dictionary<string, DateTime>();
+            BackgroundPaths = new List<string>();
         }
 
         [DataMember]
@@ -52,7 +53,7 @@ namespace MusicBrowser.Entities
         [DataMember]
         public string IconPath { get; set; }
         [DataMember]
-        public string BackgroundPath { get; set; }
+        public List<string> BackgroundPaths { get; set; }
         [DataMember]
         public string MusicBrainzID { get; set; }
         [DataMember]
@@ -166,7 +167,7 @@ namespace MusicBrowser.Entities
         public string View { get { return Config.GetInstance().GetSetting(KindName + ".View").ToLower(); } }
         public bool Playable { get { return (Kind == EntityKind.Song || Kind == EntityKind.Playlist); } }
 
-        // Fully implemented
+        //TODO: cycle through backgrounds
         public Image Background
         {
             get
@@ -176,9 +177,9 @@ namespace MusicBrowser.Entities
                 {
                     return GetImage(String.Empty);
                 }
-                if (!String.IsNullOrEmpty(BackgroundPath))
+                if (BackgroundPaths.FirstOrDefault() != null)
                 {
-                    return GetImage(BackgroundPath);
+                    return GetImage(BackgroundPaths.First());
                 }
                 if (!String.IsNullOrEmpty(DefaultBackgroundPath))
                 {
@@ -317,30 +318,33 @@ namespace MusicBrowser.Entities
                         }
                     case EntityKind.Virtual:
                         {
-                            Duration = 0;
-                            TrackCount = 0;
-                            AlbumCount = 0;
-                            string head = string.Empty;
-
-                            IEnumerable<Entity> items = null;
                             StringBuilder sb = new StringBuilder();
 
-                            if (Path == "tracks by genre")
+                            if (Duration == 0)
                             {
-                                head = "Track Group";
-                                items = NearLineCache.GetInstance().GetTracksInGenre(Title);
-                            }
-                            if (Path == "albums by year")
-                            {
-                                head = "Album Group";
-                                NearLineCache.GetInstance().GetAlbumsInYear(Title);
-                            }
+                                Duration = 0;
+                                TrackCount = 0;
+                                AlbumCount = 0;
 
-                            foreach (Entity item in items)
-                            {
-                                Duration += item.Duration;
-                                TrackCount += item.TrackCount;
-                                AlbumCount += item.AlbumCount;
+                                IEnumerable<Entity> items = null;
+
+                                if (Path == "tracks by genre")
+                                {
+                                    Summary = "Track Group";
+                                    items = NearLineCache.GetInstance().GetTracksInGenre(Title);
+                                }
+                                if (Path == "albums by year")
+                                {
+                                    Summary = "Album Group";
+                                    NearLineCache.GetInstance().GetAlbumsInYear(Title);
+                                }
+
+                                foreach (Entity item in items)
+                                {
+                                    Duration += item.Duration;
+                                    TrackCount += item.TrackCount;
+                                    AlbumCount += item.AlbumCount;
+                                }
                             }
 
                             if (AlbumCount == 1) { sb.Append("1 Album  "); }
@@ -362,7 +366,7 @@ namespace MusicBrowser.Entities
                                 }
                             }
 
-                            if (sb.Length > 0) { return head + "  (" + sb.ToString().Trim() + ")"; }
+                            if (sb.Length > 0) { return Summary + "  (" + sb.ToString().Trim() + ")"; }
 
                             break;
                         }
@@ -511,25 +515,31 @@ namespace MusicBrowser.Entities
             get { return _path; }
             set
             {
+                // don't waste time if nothing's changed
+                if (_path == value) { return; }
+
                 _path = value;
 
-                if (string.IsNullOrEmpty(IconPath))
+                if (Kind != EntityKind.Song && Kind != EntityKind.Playlist)
                 {
-                    string temp = ImageProvider.LocateFanArt(_path, ImageType.Thumb);
-                    if (!String.IsNullOrEmpty(temp))
+                    if (string.IsNullOrEmpty(IconPath))
                     {
-                        IconPath = Util.Helper.ImageCacheFullName(CacheKey, "Thumbs");
-                        ImageProvider.Save(
-                            ImageProvider.Resize(
-                            ImageProvider.Load(temp),
-                            ImageType.Thumb),
-                            IconPath);
+                        string temp = ImageProvider.LocateFanArt(_path, ImageType.Thumb);
+                        if (!String.IsNullOrEmpty(temp))
+                        {
+                            IconPath = Util.Helper.ImageCacheFullName(CacheKey, "Thumbs");
+                            ImageProvider.Save(
+                                ImageProvider.Resize(
+                                ImageProvider.Load(temp),
+                                ImageType.Thumb),
+                                IconPath);
+                        }
                     }
-                }
-                if (string.IsNullOrEmpty(BackgroundPath))
-                {
-                    string temp = ImageProvider.LocateFanArt(_path, ImageType.Backdrop);
-                    if (!String.IsNullOrEmpty(temp)) { BackgroundPath = temp; }
+                    if (BackgroundPaths.FirstOrDefault() == null)
+                    {
+                        List<string> backPaths = ImageProvider.LocateBackdropList(_path);
+                        BackgroundPaths = backPaths;
+                    }
                 }
             }
         }

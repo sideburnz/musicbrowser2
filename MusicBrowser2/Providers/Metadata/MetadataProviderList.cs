@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 using MusicBrowser.CacheEngine;
 using MusicBrowser.Entities;
 using MusicBrowser.Interfaces;
@@ -57,7 +60,7 @@ namespace MusicBrowser.Providers.Metadata
                 try
                 {
                     DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
-                    if (onlyFastProviders && provider.Speed == ProviderSpeed.Slow) { continue; }
+                    if (!Forced && onlyFastProviders && provider.Speed == ProviderSpeed.Slow) { continue; }
                     if (!provider.CompatibleWith(entity.KindName)) { continue; }
                     if (!Forced && !provider.isStale(lastAccess)) { continue; }
                     DataProviderDTO dto = PopulateDTO(entity);
@@ -124,7 +127,7 @@ namespace MusicBrowser.Providers.Metadata
             dto.ArtistCount = entity.ArtistCount;
 
             dto.hasThumbImage = !String.IsNullOrEmpty(entity.IconPath);
-            dto.hasBackImage = !String.IsNullOrEmpty(entity.BackgroundPath);
+            dto.hasBackImage = !(entity.BackgroundPaths.FirstOrDefault() == null);
 
             dto.ProviderTimeStamps = entity.ProviderTimeStamps;
 
@@ -206,11 +209,11 @@ namespace MusicBrowser.Providers.Metadata
                 entity.IconPath = iconPath;
             }
 
-            if (dto.BackImage != null)
+            for (int i = 0; i < dto.BackImages.Count(); i++)
             {
-                string backgroundPath = Util.Helper.ImageCacheFullName(entity.CacheKey, "Backgrounds");
-                ImageProvider.Save(ImageProvider.Resize(dto.BackImage, ImageType.Backdrop), backgroundPath);
-                entity.BackgroundPath = backgroundPath;
+                string backgroundPath = Util.Helper.ImageCacheFullName(entity.CacheKey + "[" + i + "]", "Backgrounds");
+                ImageProvider.Save(ImageProvider.Resize(dto.BackImages[i], ImageType.Backdrop), backgroundPath);
+                entity.BackgroundPaths.Add(backgroundPath);
             }
 
             switch (dto.DataType)

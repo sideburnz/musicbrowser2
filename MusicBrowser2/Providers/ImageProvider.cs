@@ -105,6 +105,23 @@ namespace MusicBrowser.Providers
             return string.Empty;
         }
 
+        public static List<string> LocateBackdropList(string path)
+        {
+            List<string> backs = new List<string>();
+
+            string iconPath = internalFanArtSearch(path, "backdrop");
+            if (String.IsNullOrEmpty(iconPath)) { return backs; }
+            backs.Add(iconPath);
+
+            for (int i = 1; i < 10; i++)
+            {
+                iconPath = internalFanArtSearch(path, "backdrop" + i);
+                if (String.IsNullOrEmpty(iconPath)) { return backs; }
+                backs.Add(iconPath);
+            }
+            return backs;
+        }
+
         private static string internalFanArtSearch(string path, string filename)
         {
             if (_images == null) { _images = Config.GetInstance().GetListSetting("Extensions.Image"); }
