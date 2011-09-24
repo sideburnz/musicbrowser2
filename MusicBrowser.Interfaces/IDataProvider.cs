@@ -82,7 +82,7 @@ namespace MusicBrowser.Interfaces
         public bool Favorite;
 
         public Bitmap ThumbImage;
-        public Bitmap BackImage;
+        public List<Bitmap> BackImages;
 
         public bool hasThumbImage;
         public bool hasBackImage;

@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+# SharpDevelop 4.1.0.8000
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicBrowser", "MusicBrowser2\MusicBrowser.csproj", "{455E3B6A-B80B-432B-BBAA-936C625FECF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicBrowser.Interfaces", "MusicBrowser.Interfaces\MusicBrowser.Interfaces.csproj", "{EF0ECB7F-1384-40F8-838D-DD9ADD917B07}"

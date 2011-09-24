@@ -59,9 +59,23 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
             try
             {
                 // thumbs
-                foreach (XmlNode node in xmlResult.SelectNodes("/search/images/image[aid=5]/id"))
+                foreach (XmlNode node in xmlResult.SelectNodes("/search/images/image[aid=5]"))
                 {
-                    localDTO.ThumbList.Add("http://htbackdrops.com/api/" + ApiKey + "/download/" + node.InnerText + "/thumbnail");
+                    // make sure the item we've found matches the artist we were looking for, use Levenshtein distance
+
+                    string id = string.Empty;
+                    string title = string.Empty;
+
+                    foreach(XmlNode ch in node.ChildNodes)
+                    {
+                        if (ch.Name == "id") { id = ch.InnerText; }
+                        if (ch.Name == "title") { title = ch.InnerText; }
+                    }
+
+                    if (!String.IsNullOrEmpty(localDTO.ArtistMusicBrainzID) || (Util.Helper.Levenshtein(title, localDTO.ArtistName) < 3))
+                    {
+                        localDTO.ThumbList.Add("http://htbackdrops.com/api/" + ApiKey + "/download/" + id + "/thumbnail");
+                    }
                 }
             }
             catch { }
@@ -69,9 +83,23 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
             try
             {
                 // backgrounds
-                foreach (XmlNode node in xmlResult.SelectNodes("/search/images/image[aid=1]/id"))
+                foreach (XmlNode node in xmlResult.SelectNodes("/search/images/image[aid=1]"))
                 {
-                    localDTO.BackdropList.Add("http://htbackdrops.com/api/" + ApiKey + "/download/" + node.InnerText + "/fullsize");
+                    // make sure the item we've found matches the artist we were looking for, use Levenshtein distance
+                    
+                    string id = string.Empty;
+                    string title = string.Empty;
+
+                    foreach (XmlNode ch in node.ChildNodes)
+                    {
+                        if (ch.Name == "id") { id = ch.InnerText; }
+                        if (ch.Name == "title") { title = ch.InnerText; }
+                    }
+
+                    if (!String.IsNullOrEmpty(localDTO.ArtistMusicBrainzID) || (Util.Helper.Levenshtein(title, localDTO.ArtistName) < 3))
+                    {
+                        localDTO.ThumbList.Add("http://htbackdrops.com/api/" + ApiKey + "/download/" + id + "/fullsize");
+                    }
                 }
             }
             catch { }
