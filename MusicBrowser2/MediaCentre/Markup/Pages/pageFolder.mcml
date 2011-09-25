@@ -45,9 +45,17 @@
       <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Bubbled" />
       <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Bubbled" />
       <ShortcutHandler Name="hRec" Shortcut="Record" HandlerStage="Bubbled" />
+
+      <Timer Name="BackgroundTimer" AutoRepeat="True" Interval="7500" Enabled="True" />
     </Locals>
 
     <Rules>
+      <Changed Source="[BackgroundTimer.Tick]">
+        <Actions>
+          <Invoke Target="[FolderModel.ParentEntity.GetNextBackground]"/>
+        </Actions>
+      </Changed>
+
       <Changed Source="[hNext.Invoked]">
         <Actions>
           <Invoke Target="[FolderModel.TransportCommand]" command="next" />

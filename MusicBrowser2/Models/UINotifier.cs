@@ -23,10 +23,6 @@ namespace MusicBrowser.Models
         }
         #endregion
 
-        /**********************************************************************
-         * TODO: make configurable
-         * *******************************************************************/
-
         private string _message = "no message";
         private readonly System.Timers.Timer _timer;
         private bool _active = false;

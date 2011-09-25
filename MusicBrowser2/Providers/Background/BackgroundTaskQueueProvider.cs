@@ -28,9 +28,12 @@ namespace MusicBrowser.Providers.Background
             // set up the task queue 
             _queue = new List<IBackgroundTaskable>();
 
-            // spin up the threads
-            //TODO: restore
-            _maximumThreads = 1; // System.Environment.ProcessorCount;
+            // spin up the threads - one per logical CPU
+            _maximumThreads = System.Environment.ProcessorCount;
+#if DEBUG
+            // if we're debugging, multithreading is a pain in the ass
+            _maximumThreads = 1;
+#endif
             _threadPool = new Thread[_maximumThreads];
             _threadStates = new bool[_maximumThreads];
             for (int i = 0; i < _maximumThreads; i++) { _threadStates[i] = false; }
