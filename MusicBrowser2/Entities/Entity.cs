@@ -167,7 +167,18 @@ namespace MusicBrowser.Entities
         public string View { get { return Config.GetInstance().GetSetting(KindName + ".View").ToLower(); } }
         public bool Playable { get { return (Kind == EntityKind.Song || Kind == EntityKind.Playlist); } }
 
-        //TODO: cycle through backgrounds
+        // this allows the backgrounds to be cycled
+        static int _backgroundID = 0;
+        public void GetNextBackground()
+        {
+            if (BackgroundPaths.FirstOrDefault() != null)
+            {
+                _backgroundID++;
+                if (_backgroundID >= BackgroundPaths.Count()) { _backgroundID = 0; }
+                FirePropertyChanged("Background");
+            }
+        }
+
         public Image Background
         {
             get
@@ -177,11 +188,11 @@ namespace MusicBrowser.Entities
                 {
                     return GetImage(String.Empty);
                 }
-                if (BackgroundPaths.FirstOrDefault() != null)
+                else if (BackgroundPaths.FirstOrDefault() != null)
                 {
-                    return GetImage(BackgroundPaths.First());
+                    return GetImage(BackgroundPaths[_backgroundID]);
                 }
-                if (!String.IsNullOrEmpty(DefaultBackgroundPath))
+                else if (!String.IsNullOrEmpty(DefaultBackgroundPath))
                 {
                     return GetImage(DefaultBackgroundPath);
                 }

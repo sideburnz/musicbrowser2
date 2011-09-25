@@ -11,7 +11,6 @@ using System.IO;
 using MusicBrowser.Providers.Background;
 
 // in memory caching, intended to allow faster searches
-//TODO: write scavenger to clean up dead items
 //TODO: implement a IsFresh type check for use with the Factory (or scavenger)
 //TODO: review to ensure is implemented in a smart manner
 
@@ -59,8 +58,6 @@ namespace MusicBrowser.CacheEngine
         }
 
         //TODO: put these into a different class
-        //TODO: write GetYearList, GetAlbumsFromYear
-
         //TODO: can this somehow produce a set of Group entities with duration and size data populated?
         public IEnumerable<string> GetTrackGenres()
         {
