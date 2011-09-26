@@ -82,6 +82,7 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
 
             try
             {
+                //TODO: only download 10, choose the highest rated ones if possible
                 // backgrounds
                 foreach (XmlNode node in xmlResult.SelectNodes("/search/images/image[aid=1]"))
                 {
@@ -98,7 +99,7 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
 
                     if (!String.IsNullOrEmpty(localDTO.ArtistMusicBrainzID) || (Util.Helper.Levenshtein(title, localDTO.ArtistName) < 3))
                     {
-                        localDTO.ThumbList.Add("http://htbackdrops.com/api/" + ApiKey + "/download/" + id + "/fullsize");
+                        localDTO.BackdropList.Add("http://htbackdrops.com/api/" + ApiKey + "/download/" + id + "/fullsize");
                     }
                 }
             }

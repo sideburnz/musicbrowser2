@@ -292,6 +292,7 @@ namespace MusicBrowser.Entities
                         }
                     case EntityKind.Genre:
                     case EntityKind.Artist:
+                    case EntityKind.Virtual:
                     case EntityKind.Album:
                         {
                             StringBuilder sb = new StringBuilder();
@@ -325,60 +326,6 @@ namespace MusicBrowser.Entities
                             if (ReleaseDate > DateTime.Parse("01-JAN-1000")) { sb.Append(ReleaseDate.ToString("yyyy") + "  "); }
 
                             if (sb.Length > 0) { return KindName + "  (" + sb.ToString().Trim() + ")"; }
-                            break;
-                        }
-                    case EntityKind.Virtual:
-                        {
-                            StringBuilder sb = new StringBuilder();
-
-                            if (Duration == 0)
-                            {
-                                Duration = 0;
-                                TrackCount = 0;
-                                AlbumCount = 0;
-
-                                IEnumerable<Entity> items = null;
-
-                                if (Path == "tracks by genre")
-                                {
-                                    Summary = "Track Group";
-                                    items = NearLineCache.GetInstance().GetTracksInGenre(Title);
-                                }
-                                if (Path == "albums by year")
-                                {
-                                    Summary = "Album Group";
-                                    NearLineCache.GetInstance().GetAlbumsInYear(Title);
-                                }
-
-                                foreach (Entity item in items)
-                                {
-                                    Duration += item.Duration;
-                                    TrackCount += item.TrackCount;
-                                    AlbumCount += item.AlbumCount;
-                                }
-                            }
-
-                            if (AlbumCount == 1) { sb.Append("1 Album  "); }
-                            if (AlbumCount > 1) { sb.Append(AlbumCount + " Albums  "); }
-
-                            if (TrackCount == 1) { sb.Append("1 Track  "); }
-                            if (TrackCount > 1) { sb.Append(TrackCount + " Tracks  "); }
-
-                            if (Duration > 0)
-                            {
-                                TimeSpan t = TimeSpan.FromSeconds(Duration);
-                                if (t.Hours == 0)
-                                {
-                                    sb.Append(string.Format("{0}:{1:D2}  ", (Int32)Math.Floor(t.TotalMinutes), t.Seconds));
-                                }
-                                else
-                                {
-                                    sb.Append(string.Format("{0}:{1:D2}:{2:D2}  ", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds));
-                                }
-                            }
-
-                            if (sb.Length > 0) { return Summary + "  (" + sb.ToString().Trim() + ")"; }
-
                             break;
                         }
                 }
