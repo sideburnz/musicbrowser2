@@ -59,13 +59,13 @@ namespace MusicBrowser.Logging
                 sb.Append(DateTime.Now.ToString("HH:mm:ss.ff") + ", ");
                 sb.Append("Error, ");
 
-                sb.Append(ex.Source + ", ");
+//                sb.Append(ex.Source + ", ");
                 sb.Append(ex.GetType() + ", ");
                 sb.Append("\"" + ex.Message + "\"");
                 if (ex.InnerException != null)
                 {
                     sb.Append(", Inner Exception, ");
-                    sb.Append(ex.InnerException.Source + ", ");
+//                    sb.Append(ex.InnerException.Source + ", ");
                     sb.Append(ex.InnerException.GetType() + ", ");
                     sb.Append("\"" + ex.InnerException.Message + "\"");
                 }

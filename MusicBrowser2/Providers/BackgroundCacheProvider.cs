@@ -5,6 +5,7 @@ using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Interfaces;
 using System.Linq;
+using System;
 
 namespace MusicBrowser.Providers
 {
@@ -34,18 +35,22 @@ namespace MusicBrowser.Providers
 
             foreach (FileSystemItem item in items)
             {
-                // don't waste time on the item
-                if (!Util.Helper.IsEntity(item.FullPath)) { continue; }
-                if (item.Name.ToLower() == "metadata") { continue; }
-
-                // process the item in context
-                Entity entity = EntityFactory.GetItem(item);
-                if (entity == null || entity.Kind.Equals(EntityKind.Folder)) { continue; }
-
-                // fire off the metadata providers
-                if (!entity.Kind.Equals(EntityKind.Home))
+                try
                 {
+                    // don't waste time on the item
+                    if (!Util.Helper.IsEntity(item.FullPath)) { continue; }
+                    if (item.Name.ToLower() == "metadata") { continue; }
+
+                    // process the item in context
+                    Entity entity = EntityFactory.GetItem(item);
+                    if (entity == null || entity.Kind.Equals(EntityKind.Folder) || entity.Kind.Equals(EntityKind.Home)) { continue; }
+
+                    // fire off the metadata providers
                     CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
+                }
+                catch (Exception e) 
+                {
+                    Logging.Logger.Error(e);
                 }
             }
 #if DEBUG

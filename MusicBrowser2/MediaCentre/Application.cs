@@ -62,20 +62,12 @@ namespace MusicBrowser
                             {
                                 case "tracks by genre":
                                     {
-                                        IEnumerable<string> genres = NearLineCache.GetInstance().GetTrackGenres();
-                                        foreach (string genre in genres)
-                                        {
-                                            entities.Add(new Entity { Kind = EntityKind.Virtual, Title = genre, Path = "tracks by genre", Label = "musicgenre" });
-                                        }
+                                        entities = NearLineCache.GetInstance().DataSet.Group(EntityKind.Song, "genre");
                                         break;
                                     }
                                 case "albums by year":
                                     {
-                                        IEnumerable<string> years = NearLineCache.GetInstance().GetAlbumYears();
-                                        foreach (string year in years)
-                                        {
-                                            entities.Add(new Entity { Kind = EntityKind.Virtual, Title = year, Path = "albums by year", Label = "year" });
-                                        }
+                                        entities = NearLineCache.GetInstance().DataSet.Group(EntityKind.Album, "year");
                                         break;
                                     }
                             }
@@ -87,12 +79,12 @@ namespace MusicBrowser
                             {
                                 case "tracks by genre":
                                     {
-                                        entities.AddRange(NearLineCache.GetInstance().GetTracksInGenre(entity.Title));
+                                        entities = NearLineCache.GetInstance().DataSet.Filter(EntityKind.Song, "genre", entity.Title);
                                         break;
                                     }
                                 case "albums by year":
                                     {
-                                        entities.AddRange(NearLineCache.GetInstance().GetAlbumsInYear(entity.Title));
+                                        entities = NearLineCache.GetInstance().DataSet.Filter(EntityKind.Album, "year", entity.Title);
                                         break;
                                     }
                             }

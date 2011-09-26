@@ -60,7 +60,7 @@ namespace MusicBrowser.Providers.Metadata
                 try
                 {
                     DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
-                    if (!Forced && onlyFastProviders && provider.Speed == ProviderSpeed.Slow) { continue; }
+//                    if (!Forced && onlyFastProviders && provider.Speed == ProviderSpeed.Slow) { continue; }
                     if (!provider.CompatibleWith(entity.KindName)) { continue; }
                     if (!Forced && !provider.isStale(lastAccess)) { continue; }
                     DataProviderDTO dto = PopulateDTO(entity);
@@ -128,6 +128,7 @@ namespace MusicBrowser.Providers.Metadata
 
             dto.hasThumbImage = !String.IsNullOrEmpty(entity.IconPath);
             dto.hasBackImage = !(entity.BackgroundPaths.FirstOrDefault() == null);
+            dto.BackImages = new List<Bitmap>();
 
             dto.ProviderTimeStamps = entity.ProviderTimeStamps;
 
@@ -181,12 +182,10 @@ namespace MusicBrowser.Providers.Metadata
             entity.Favorite = dto.Favorite;
             if (dto.Genre != null) { entity.Genre = dto.Genre; }
             if (!String.IsNullOrEmpty(dto.Label)) { entity.Label = dto.Label; }
-            if (dto.Listeners > 0) { entity.Listeners = dto.Listeners; }
             if (!String.IsNullOrEmpty(dto.Lyrics)) { entity.Lyrics = dto.Lyrics; }
             if (!String.IsNullOrEmpty(dto.MusicBrainzId)) { entity.MusicBrainzID = dto.MusicBrainzId; }
             if (!String.IsNullOrEmpty(dto.Path)) { entity.Path = dto.Path; }
             if (dto.Performers != null) { entity.Performers = dto.Performers; }
-            if (dto.PlayCount > entity.PlayCount) { entity.PlayCount = dto.PlayCount; }
             if (dto.Rating > 0) { entity.Rating = dto.Rating; }
             if (entity.ReleaseDate < DateTime.Parse("01-JAN-1000")) 
             { 
@@ -201,6 +200,8 @@ namespace MusicBrowser.Providers.Metadata
             if (dto.AlbumCount > 0) { entity.AlbumCount = dto.AlbumCount; }
             if (dto.ArtistCount > 0) { entity.ArtistCount = dto.ArtistCount; }
             if (dto.TrackCount > 0) { entity.TrackCount = dto.TrackCount; }
+            if (dto.Listeners > 0) { entity.Listeners = dto.Listeners; }
+            if (dto.PlayCount > entity.PlayCount) { entity.PlayCount = dto.PlayCount; }
 
             if (dto.ThumbImage != null)
             {
@@ -209,11 +210,14 @@ namespace MusicBrowser.Providers.Metadata
                 entity.IconPath = iconPath;
             }
 
-            for (int i = 0; i < dto.BackImages.Count(); i++)
+            if (dto.BackImages != null && dto.BackImages.Count > 0)
             {
-                string backgroundPath = Util.Helper.ImageCacheFullName(entity.CacheKey + "[" + i + "]", "Backgrounds");
-                ImageProvider.Save(ImageProvider.Resize(dto.BackImages[i], ImageType.Backdrop), backgroundPath);
-                entity.BackgroundPaths.Add(backgroundPath);
+                for (int i = 0; i < dto.BackImages.Count; i++)
+                {
+                    string backgroundPath = Util.Helper.ImageCacheFullName(entity.CacheKey + "[" + i + "]", "Backgrounds");
+                    ImageProvider.Save(ImageProvider.Resize(dto.BackImages[i], ImageType.Backdrop), backgroundPath);
+                    entity.BackgroundPaths.Add(backgroundPath);
+                }
             }
 
             switch (dto.DataType)

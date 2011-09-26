@@ -11,6 +11,9 @@ namespace MusicBrowser.Entities
 {
     public static class EntityFactory
     {
+        private static ICacheEngine _cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
+        private static NearLineCache _NLCache = NearLineCache.GetInstance();
+
         public static Entity GetItem(string item)
         {
             return GetItem(FileSystemProvider.GetItemDetails(item));
@@ -18,8 +21,6 @@ namespace MusicBrowser.Entities
 
         public static Entity GetItem(FileSystemItem item)
         {
-            ICacheEngine _cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
-
             // don't waste time trying to determine a known not entity
             if (!Util.Helper.IsEntity(item.FullPath)) { return null; }
             if (item.Name.ToLower() == "metadata") { return null; }
@@ -31,10 +32,11 @@ namespace MusicBrowser.Entities
             string key = Util.Helper.GetCacheKey(item.FullPath);
             Entity entity;
 
-            #region NearLine Cache
+            #region NearLine 
             // get from the NL cache if it's cached there, this is the fastest cache
-            entity = NearLineCache.GetInstance().Fetch(key);
-            if (entity != null && IsFresh(entity.CacheDate, item.LastUpdated))
+            entity = _NLCache.Fetch(key);
+            //TODO: find out why this expires all the time
+            if (entity != null) // && IsFresh(entity.CacheDate, item.LastUpdated))
             {
 #if DEBUG
                 Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - NearLine cache", "end");
@@ -56,7 +58,7 @@ namespace MusicBrowser.Entities
 #if DEBUG
                         Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - persistent cache", "end");
 #endif
-                        NearLineCache.GetInstance().Update(entity);
+                        _NLCache.Update(entity);
                         Statistics.GetInstance().Hit("cache.hit");
                         entity.Path = item.FullPath;
                         return entity;
@@ -92,7 +94,7 @@ namespace MusicBrowser.Entities
             // do this here because some of the providers need basic data about the tracks
             TagSharpMetadataProvider.FetchLite(entity);
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
-            NearLineCache.GetInstance().Update(entity);
+            _NLCache.Update(entity);
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName + " - first principles", "finish");
 #endif

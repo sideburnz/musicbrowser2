@@ -3,6 +3,8 @@ using System.Text;
 
 namespace MusicBrowser.Providers
 {
+    //TODO: extend to provider telemetry
+
     public class Statistics
     {
         #region singleton

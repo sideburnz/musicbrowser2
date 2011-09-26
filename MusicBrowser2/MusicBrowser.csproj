@@ -132,7 +132,6 @@
     <Content Include="MediaCentre\Images\icons\thumbStar.png" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
     <Compile Include="CacheEngine\EntityPersistance.cs" />
-    <Compile Include="Providers\FolderItems\GroupByFolderProvider.cs" />
     <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
     <Compile Include="Providers\Metadata\WMPProvider.cs" />
     <Compile Include="Providers\Metadata\InheritanceProvider.cs" />
@@ -175,7 +174,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Util\Helper.cs" />
-    <Compile Include="Util\Telemetry.cs" />
     <Compile Include="WebServices\Helper\Externals.cs" />
     <Compile Include="WebServices\WebServiceProviders\HTBackdropWebProvider.cs" />
     <Compile Include="WebServices\Helper\HTTPProvider.cs" />

@@ -42,6 +42,17 @@ namespace MusicBrowser.CacheEngine
         }
         #endregion
 
+        // gets the full cache back as an EntityCollection
+        public EntityCollection DataSet
+        {
+            get
+            {
+                EntityCollection ret = new EntityCollection();
+                ret.AddRange(_cache.Values);
+                return ret;
+            }
+        }
+
         public void Update(Entity entity)
         {
             lock (_obj)
@@ -55,41 +66,6 @@ namespace MusicBrowser.CacheEngine
                     _cache.Add(entity.CacheKey, entity);
                 }
             }
-        }
-
-        //TODO: put these into a different class
-        //TODO: can this somehow produce a set of Group entities with duration and size data populated?
-        public IEnumerable<string> GetTrackGenres()
-        {
-            return _cache
-                .Where(item => item.Value.Kind == EntityKind.Song)
-                .Select(item => item.Value.Genre)
-                .Distinct()
-                .Where(item => item != null)
-                .OrderBy(item => item);
-        }
-
-        public IEnumerable<Entity> GetTracksInGenre(string Genre)
-        {
-            return _cache
-                .Where(item => item.Value.Genre == Genre && item.Value.Kind == EntityKind.Song)
-                .Select(item => item.Value);
-        }
-
-        public IEnumerable<Entity> GetAlbumsInYear(string year)
-        {
-            return _cache
-                .Where(item => item.Value.Kind == EntityKind.Album && item.Value.ReleaseDate.ToString("yyyy") == year)
-                .Select(item => item.Value);
-        }
-
-        public IEnumerable<string> GetAlbumYears()
-        {
-            return _cache
-                .Where(item => item.Value.Kind == EntityKind.Album && item.Value.ReleaseDate > DateTime.Parse("01-JAN-1000"))
-                .Select(item => item.Value.ReleaseDate.ToString("yyyy"))
-                .Distinct()
-                .OrderBy(item => item);
         }
         
         public IEnumerable<string> FindFavorites()
@@ -197,13 +173,25 @@ namespace MusicBrowser.CacheEngine
         /// </summary>
         public void Execute()
         {
-            string[] keys = _cache.Keys.ToArray();
-            foreach (string key in keys)
-            {
-                FileSystemItem item = FileSystemProvider.GetItemDetails(_cache[key].Path);
-                if (string.IsNullOrEmpty(item.Name)) { Remove(key); Statistics.GetInstance().Hit("NLCache.Scavenged.Gone"); continue; }
-                if (item.LastUpdated > _cache[key].CacheDate) { Remove(key); Statistics.GetInstance().Hit("NLCache.Scavenged.Expired"); continue; }
-            }
+            //TODO: find out why this is failing
+
+            //string[] keys = _cache.Keys.ToArray();
+            //foreach (string key in keys)
+            //{
+            //    FileSystemItem item = FileSystemProvider.GetItemDetails(_cache[key].Path);
+            //    if (string.IsNullOrEmpty(item.Name)) 
+            //    { 
+            //        Remove(key); 
+            //        Statistics.GetInstance().Hit("NLCache.Scavenged.Gone"); 
+            //        continue; 
+            //    }
+            //    if (item.LastUpdated > _cache[key].CacheDate) 
+            //    { 
+            //        Remove(key); 
+            //        Statistics.GetInstance().Hit("NLCache.Scavenged.Expired"); 
+            //        continue; 
+            //    }
+            //}
         }
         #endregion
     }

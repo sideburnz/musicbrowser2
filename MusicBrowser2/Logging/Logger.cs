@@ -52,7 +52,7 @@ namespace MusicBrowser.Logging
                     EventLog.WriteEntry("MusicBrowser2",
                         "MusicBrowser 2 Fallback Logging\n\n" +
                         "Message: " + e.Message + "\n" +
-                        "Source: " + e.Source + "\n\n" +
+//                        "Source: " + e.Source + "\n\n" +
                         e.StackTrace,
                         EventLogEntryType.Error);
                 }
