@@ -45,7 +45,7 @@ namespace MusicBrowser.MediaCentre
             AutoShowNowPlaying();
         }
 
-        public static void PlaySong(Entity entity, Boolean add)
+        public static void PlayTrack(Entity entity, Boolean add)
         {
             Transport.GetTransport().Play(add, entity.Path);
             AutoShowNowPlaying();

@@ -22,7 +22,7 @@ namespace MusicBrowser.Entities
         Folder,
         Home,
         Playlist,
-        Song,
+        Track,
         Genre,
         Group,
         Virtual
@@ -121,9 +121,9 @@ namespace MusicBrowser.Entities
             {
                 switch (Kind)
                 {
-                    case EntityKind.Song:
+                    case EntityKind.Track:
                         {
-                            return "resx://MusicBrowser/MusicBrowser.Resources/imageSong";
+                            return "resx://MusicBrowser/MusicBrowser.Resources/imageTrack";
                         }
                     case EntityKind.Playlist:
                         {
@@ -165,10 +165,10 @@ namespace MusicBrowser.Entities
         // Read Only values
         public string SortName { get { return _sortName; } }
         public string View { get { return Config.GetInstance().GetSetting(KindName + ".View").ToLower(); } }
-        public bool Playable { get { return (Kind == EntityKind.Song || Kind == EntityKind.Playlist); } }
+        public bool Playable { get { return (Kind == EntityKind.Track || Kind == EntityKind.Playlist); } }
 
         // this allows the backgrounds to be cycled
-        static int _backgroundID = 0;
+        private int _backgroundID = 0;
         public void GetNextBackground()
         {
             if (BackgroundPaths.FirstOrDefault() != null)
@@ -274,7 +274,7 @@ namespace MusicBrowser.Entities
             {
                 switch (Kind)
                 {
-                    case EntityKind.Song:
+                    case EntityKind.Track:
                         {
                             StringBuilder sb = new StringBuilder();
                             if (Duration > 0)
@@ -287,7 +287,7 @@ namespace MusicBrowser.Entities
                             if (!String.IsNullOrEmpty(SampleRate)) { sb.Append(SampleRate + "  "); }
                             if (!String.IsNullOrEmpty(Codec)) { sb.Append(Codec + "  "); }
 
-                            if (sb.Length > 0) { return "Song  (" + sb.ToString().Trim() + ")"; }
+                            if (sb.Length > 0) { return "Track  (" + sb.ToString().Trim() + ")"; }
                             break;
                         }
                     case EntityKind.Genre:
@@ -478,7 +478,7 @@ namespace MusicBrowser.Entities
 
                 _path = value;
 
-                if (Kind != EntityKind.Song && Kind != EntityKind.Playlist)
+                if (Kind != EntityKind.Track && Kind != EntityKind.Playlist)
                 {
                     if (string.IsNullOrEmpty(IconPath))
                     {

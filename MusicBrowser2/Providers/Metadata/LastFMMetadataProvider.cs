@@ -151,14 +151,14 @@ namespace MusicBrowser.Providers.Metadata
 
                         break;
                     }
-                case DataTypes.Song:
+                case DataTypes.Track:
                     {
                         #region killer questions
 
                         if (string.IsNullOrEmpty(dto.ArtistName))
                         {
                             dto.Outcome = DataProviderOutcome.InvalidInput;
-                            dto.Errors = new System.Collections.Generic.List<string> { "Missing song data: Artist name [" + dto.Path + "]" };
+                            dto.Errors = new System.Collections.Generic.List<string> { "Missing track data: Artist name [" + dto.Path + "]" };
                             return dto;
                         }
                         
@@ -222,8 +222,8 @@ namespace MusicBrowser.Providers.Metadata
             if (dataAge <= MinDaysBetweenHits) { return false; }
             if (dataAge >= MaxDaysBetweenHits) { return true; }
 
-            // otherwise refresh randomly (90% don't refresh each run)
-            return (Rnd.Next(100) >= 90);
+            // otherwise refresh randomly (95% don't refresh each run)
+            return (Rnd.Next(100) >= 95);
         }
 
         public string FriendlyName()
@@ -233,7 +233,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool CompatibleWith(string type)
         {
-            return (type.ToLower() == "artist") || (type.ToLower() == "album") || (type.ToLower() == "song");
+            return (type.ToLower() == "artist") || (type.ToLower() == "album") || (type.ToLower() == "track");
         }
 
         public bool isStale(DateTime lastAccess)

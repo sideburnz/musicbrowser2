@@ -46,7 +46,7 @@ namespace MusicBrowser.Providers.Metadata
                 {
                     switch (e.Kind)
                     {
-                        case EntityKind.Song:
+                        case EntityKind.Track:
                             {
                                 tracks++;
                                 duration += e.Duration;

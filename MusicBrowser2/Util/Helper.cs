@@ -137,13 +137,13 @@ namespace MusicBrowser.Util
 
         public enum knownType
         {
-            Song,
+            Track,
             Playlist,
             Other
         }
         public static Dictionary<string, knownType> perceivedTypeCache = null;
 
-        public static bool IsSong(string filename)
+        public static bool IsTrack(string filename)
         {
             if (perceivedTypeCache == null)
             {
@@ -155,9 +155,9 @@ namespace MusicBrowser.Util
             knownType itemType;
             if (perceivedTypeCache.TryGetValue(extension, out itemType))
             {
-                return itemType == knownType.Song;
+                return itemType == knownType.Track;
             }
-            return determineType(extension) == knownType.Song;            
+            return determineType(extension) == knownType.Track;            
         }
 
         public static bool IsPlaylist(string fileName)
@@ -215,7 +215,7 @@ namespace MusicBrowser.Util
             {
                 if (pt == "audio")
                 {
-                    perceivedTypeCache.Add(extension, knownType.Song);
+                    perceivedTypeCache.Add(extension, knownType.Track);
                 }
                 else
                 {

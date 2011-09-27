@@ -71,6 +71,7 @@ namespace MusicBrowser.Providers.Background
             {
                 if (!_threadStates[i] & Sleeping(i))
                 {
+                    if (AllAsleep() && !(OnStateChanged == null)) { OnStateChanged(true); }
                     _threadStates[i] = true;
                     _threadPool[i].Interrupt();
                     break;
@@ -116,6 +117,7 @@ namespace MusicBrowser.Providers.Background
                         Logging.Logger.Verbose(String.Format("Thread {0} is being suspended, {1} jobs pending", id, _queue.Count), "thread asleep");
 #endif
                         _threadStates[id] = false;
+                        if (AllAsleep() && !(OnStateChanged == null)) { OnStateChanged(false); }
                         Thread.Sleep(Timeout.Infinite);
                     }
                     catch (ThreadInterruptedException e)
@@ -144,5 +146,17 @@ namespace MusicBrowser.Providers.Background
 
             return ((ts & ThreadState.WaitSleepJoin) == ThreadState.WaitSleepJoin);
         }
+
+        public bool AllAsleep()
+        {
+            foreach (bool a in _threadStates)
+            {
+                if (a) { return false; }
+            }
+            return true;
+        }
+
+        public delegate void ChangedEventHandler(bool busy);
+        public event ChangedEventHandler OnStateChanged;
     }
 }

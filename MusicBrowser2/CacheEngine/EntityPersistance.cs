@@ -35,9 +35,9 @@ namespace MusicBrowser.CacheEngine
 
         //        switch (Helper.ReadXmlNode(xml, "EntityXML/@type").ToLower())
         //        {
-        //            case "song":
+        //            case "track":
         //                {
-        //                    entity = new Song();
+        //                    entity = new Track();
         //                    break;
         //                }
         //            case "album":

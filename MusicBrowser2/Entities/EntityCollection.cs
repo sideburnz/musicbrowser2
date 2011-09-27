@@ -17,14 +17,6 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public void IndexItems()
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                this[i].Index = i;
-            }
-        }
-
         public new void Add(Entity e)
         {
             if (e != null)
@@ -34,14 +26,16 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public new void Add(IEnumerable<Entity> entities)
+        public void Add(IEnumerable<Entity> entities)
         {
+            foreach (Entity e in entities) { e.UpdateValues(); }
             base.AddRange(entities);
         }
 
         public new void Sort()
         {
             base.Sort(new EntityCollectionSorter());
+            for (int i = 0; i < Count; this[i].Index = i++);
         }
 
         public EntityCollection Filter(EntityKind kind, string key, string value)
@@ -122,7 +116,7 @@ namespace MusicBrowser.Entities
             bool xIsItem = x.Playable;
             bool yIsItem = y.Playable;
 
-            // folders (artists and albums) have a higher priority than playlists and songs
+            // folders (artists and albums) have a higher priority than playlists and tracks
             if (!xIsItem && yIsItem) { return -1; }
             if (xIsItem && !yIsItem) { return 1; }
 

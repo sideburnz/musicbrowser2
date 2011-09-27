@@ -43,7 +43,7 @@ namespace MusicBrowser.Providers
 
                     // process the item in context
                     Entity entity = EntityFactory.GetItem(item);
-                    if (entity == null || entity.Kind.Equals(EntityKind.Folder) || entity.Kind.Equals(EntityKind.Home)) { continue; }
+                    if (entity == null || entity.Kind.Equals(EntityKind.Home)) { continue; }
 
                     // fire off the metadata providers
                     CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
