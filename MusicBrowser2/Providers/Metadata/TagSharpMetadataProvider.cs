@@ -21,10 +21,10 @@ namespace MusicBrowser.Providers.Metadata
 
             #region killer questions
 
-            if (!Helper.IsSong(dto.Path))
+            if (!Helper.IsTrack(dto.Path))
             {
                 dto.Outcome = DataProviderOutcome.InvalidInput;
-                dto.Errors = new List<string> { "Not a song: " + dto.Path };
+                dto.Errors = new List<string> { "Not a track: " + dto.Path };
                 return dto;
             }
 
@@ -80,7 +80,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool CompatibleWith(string type)
         {
-            return (type.ToLower() == "song");
+            return (type.ToLower() == "track");
         }
 
         public static void FetchLite(Entity entity)
@@ -90,7 +90,7 @@ namespace MusicBrowser.Providers.Metadata
 
             #region killer questions
             if (entity.ProviderTimeStamps.ContainsKey(Name)) { return; }
-            if (!entity.Kind.Equals(EntityKind.Song)) { return; }
+            if (!entity.Kind.Equals(EntityKind.Track)) { return; }
             #endregion
 
             try

@@ -196,9 +196,6 @@
   <data name="imagePlaylist" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\images\icons\imageplaylist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="imageSong" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\imagesong.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MusicBrowser2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\images\icons\musicbrowser2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -241,8 +238,14 @@
   <data name="IconGroup" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\images\buttonicons\icongroup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ctrlGroupByPopUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\markup\controls\popups\ctrlgroupbypopup.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="imageTrack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagetrack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="imageSpinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagespinner.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

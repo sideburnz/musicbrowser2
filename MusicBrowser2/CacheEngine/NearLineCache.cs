@@ -71,14 +71,14 @@ namespace MusicBrowser.CacheEngine
         public IEnumerable<string> FindFavorites()
         {
             return _cache
-                .Where(item => ((item.Value.Rating >= 90) || (item.Value.Favorite)) && (item.Value.Kind == EntityKind.Song))
+                .Where(item => ((item.Value.Rating >= 90) || (item.Value.Favorite)) && (item.Value.Kind == EntityKind.Track))
                 .Select(item => item.Value.Path);
         }
 
         public IEnumerable<string> FindMostPlayed(int records)
         {
             return _cache
-                .Where(item => item.Value.Kind == EntityKind.Song)
+                .Where(item => item.Value.Kind == EntityKind.Track)
                 .OrderByDescending(item => item.Value.PlayCount)
                 .Take(records)
                 .Select(item => item.Value.Path);
@@ -87,7 +87,7 @@ namespace MusicBrowser.CacheEngine
         public IEnumerable<string> FindRecentlyAdded(int records)
         {
             return _cache
-                .Where(item => item.Value.Kind == EntityKind.Song)
+                .Where(item => item.Value.Kind == EntityKind.Track)
                 .OrderByDescending(item => item.Value.Added)
                 .Take(records)
                 .Select(item => item.Value.Path);
@@ -96,7 +96,7 @@ namespace MusicBrowser.CacheEngine
         public IEnumerable<string> FindRandomPlayed(int records, int sample)
         {
             return _cache
-                .Where(item => item.Value.Kind == EntityKind.Song)
+                .Where(item => item.Value.Kind == EntityKind.Track)
                 .OrderByDescending(item => item.Value.PlayCount)
                 .Take(sample)
                 .OrderBy(item => Guid.NewGuid())
@@ -175,23 +175,26 @@ namespace MusicBrowser.CacheEngine
         {
             //TODO: find out why this is failing
 
-            //string[] keys = _cache.Keys.ToArray();
-            //foreach (string key in keys)
-            //{
-            //    FileSystemItem item = FileSystemProvider.GetItemDetails(_cache[key].Path);
-            //    if (string.IsNullOrEmpty(item.Name)) 
-            //    { 
-            //        Remove(key); 
-            //        Statistics.GetInstance().Hit("NLCache.Scavenged.Gone"); 
-            //        continue; 
-            //    }
-            //    if (item.LastUpdated > _cache[key].CacheDate) 
-            //    { 
-            //        Remove(key); 
-            //        Statistics.GetInstance().Hit("NLCache.Scavenged.Expired"); 
-            //        continue; 
-            //    }
-            //}
+            string[] keys = _cache.Keys.ToArray();
+            foreach (string key in keys)
+            {
+                FileSystemItem item = FileSystemProvider.GetItemDetails(_cache[key].Path);
+                if (string.IsNullOrEmpty(item.Name)) 
+                {
+                    Remove(key); 
+                    Statistics.GetInstance().Hit("NLCache.Scavenged.Gone");
+                    continue;
+                }
+                if (_cache[key].CacheDate > DateTime.Parse("01-JAN-1000") && item.LastUpdated > _cache[key].CacheDate)
+                {
+                    Remove(key);
+#if DEBUG
+            Logging.Logger.Verbose("NearLineCache item expired: item.FullPath", "report");
+#endif
+                    Statistics.GetInstance().Hit("NLCache.Scavenged.Expired");
+                    continue;
+                }
+            }
         }
         #endregion
     }

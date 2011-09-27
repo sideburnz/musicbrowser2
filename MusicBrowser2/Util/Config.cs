@@ -54,10 +54,10 @@ namespace MusicBrowser.Util
                 { "Genre.SortOrder", "[title]" },
                 { "Genre.Summary", "" },
 
-                { "Song.View", "List" },
-                { "Song.Format", "[track] - [title]" },
-                { "Song.SortOrder", "[track][title]" },
-                { "Song.Summary", "[playcount]  [listeners]  [allplays]" },
+                { "Track.View", "List" },
+                { "Track.Format", "[track] - [title]" },
+                { "Track.SortOrder", "[track][title]" },
+                { "Track.Summary", "[playcount]  [listeners]  [allplays]" },
 
                 { "Playlist.View", "" },
                 { "Playlist.Format", "[title]" },

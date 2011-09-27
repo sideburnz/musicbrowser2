@@ -58,7 +58,7 @@
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
-      <Condition Source="[FolderModel.GetPopupPlayContext.KindName]" ConditionOp="Equals" SourceValue="Song">
+      <Condition Source="[FolderModel.GetPopupPlayContext.KindName]" ConditionOp="Equals" SourceValue="Track">
         <Actions>
           <Set Target="[cmdPlay.Text]" Value="Play" />
           <Set Target="[cmdQueue.Text]" Value="Queue" />

@@ -127,7 +127,9 @@
     <Content Include="MediaCentre\Images\buttonicons\IconConfig.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
+    <Content Include="MediaCentre\Images\icons\imageGears.png" />
     <Content Include="MediaCentre\Images\icons\imageGenre.png" />
+    <Content Include="MediaCentre\Images\icons\imageSpinner.png" />
     <Content Include="MediaCentre\Images\icons\thumbFavorite.png" />
     <Content Include="MediaCentre\Images\icons\thumbStar.png" />
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
@@ -225,7 +227,7 @@
     <Content Include="MediaCentre\Images\icons\imageAlbum.png" />
     <Content Include="MediaCentre\Images\icons\imageArtist.png" />
     <Content Include="MediaCentre\Images\icons\imagePlaylist.png" />
-    <Content Include="MediaCentre\Images\icons\imageSong.png" />
+    <Content Include="MediaCentre\Images\icons\imageTrack.png" />
     <Content Include="MediaCentre\Images\icons\MusicBrowser2.png" />
     <Content Include="MediaCentre\Images\nullImage.png" />
     <Content Include="MediaCentre\Markup\blank.mcml" />

@@ -17,7 +17,9 @@
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumb"/>
-  
+
+
+
   <UI Name="pageMain">
 
     <Properties>
@@ -52,10 +54,12 @@
     <Rules>
       <Changed Source="[BackgroundTimer.Tick]">
         <Actions>
+          <!--<PlayAnimation Animation="animation://an:FadeOut" Target="[graphicBullet]"  />-->
           <Invoke Target="[FolderModel.ParentEntity.GetNextBackground]"/>
+          <!--<PlayAnimation Animation="animation://an:FadeIn" Target="[graphicBullet]"  />-->
         </Actions>
       </Changed>
-
+      
       <Changed Source="[hNext.Invoked]">
         <Actions>
           <Invoke Target="[FolderModel.TransportCommand]" command="next" />
@@ -136,6 +140,8 @@
       <Binding Source="[FolderModel.HomePopupVisible]" Target="[HomePopupPlay.Visible]" />
       <Binding Source="[FolderModel.GroupByPopupVisible]" Target="[GroupByPopupPlay.Visible]" />
 
+      <Binding Source="[FolderModel.Busy]" Target="[imageSpinner.Visible]" />
+
       <Binding Source="[FolderModel.ShowPopupPlay]" Target="[PopupPlay.Visible]" />
       <Rule ConditionLogicalOp="Or">
         <Conditions>
@@ -213,6 +219,16 @@
               <FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
             </Layout>
             <Children>
+              <Graphic Name="imageSpinner" Content="resx://MusicBrowser/MusicBrowser.Resources/imageSpinner" MinimumSize="30,30" MaximumSize="30,30" Visible="false">
+                <Animations>
+                  <Animation Name="RotateRound" CenterPointPercent="0.5,0.5,0.5" Loop="-1">
+                    <Keyframes>
+                      <RotateKeyframe Time="0.0" Value="0deg;0,0,0" Interpolation="Linear" RelativeTo="Current" />
+                      <RotateKeyframe Time="4.0" Value="360deg;0,0,0" RelativeTo="Current" />
+                    </Keyframes>
+                  </Animation>
+                </Animations>
+              </Graphic>
               <Panel>
                 <LayoutInput>
                   <FormLayoutInput Right="Parent,0.89" Top="Parent,0.6"/>

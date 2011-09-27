@@ -23,7 +23,7 @@ namespace MusicBrowser.Interfaces
 
     public enum DataTypes
     {
-        Song,
+        Track,
         Album,
         Artist,
         Genre,

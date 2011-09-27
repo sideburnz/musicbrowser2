@@ -62,7 +62,7 @@ namespace MusicBrowser
                             {
                                 case "tracks by genre":
                                     {
-                                        entities = NearLineCache.GetInstance().DataSet.Group(EntityKind.Song, "genre");
+                                        entities = NearLineCache.GetInstance().DataSet.Group(EntityKind.Track, "genre");
                                         break;
                                     }
                                 case "albums by year":
@@ -79,7 +79,7 @@ namespace MusicBrowser
                             {
                                 case "tracks by genre":
                                     {
-                                        entities = NearLineCache.GetInstance().DataSet.Filter(EntityKind.Song, "genre", entity.Title);
+                                        entities = NearLineCache.GetInstance().DataSet.Filter(EntityKind.Track, "genre", entity.Title);
                                         break;
                                     }
                                 case "albums by year":
@@ -97,8 +97,13 @@ namespace MusicBrowser
                         }
                 }
 
+                if (entities.Count == 0)
+                {
+                    Dialog("The selected item is empty");
+                    return;
+                }
+
                 entities.Sort();
-                entities.IndexItems();
 
                 properties["Application"] = this;
                 FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);

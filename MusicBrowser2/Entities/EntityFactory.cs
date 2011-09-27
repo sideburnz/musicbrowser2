@@ -35,8 +35,7 @@ namespace MusicBrowser.Entities
             #region NearLine 
             // get from the NL cache if it's cached there, this is the fastest cache
             entity = _NLCache.Fetch(key);
-            //TODO: find out why this expires all the time
-            if (entity != null) // && IsFresh(entity.CacheDate, item.LastUpdated))
+            if (entity != null && IsFresh(entity.CacheDate, item.LastUpdated))
             {
 #if DEBUG
                 Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - NearLine cache", "end");
@@ -84,7 +83,7 @@ namespace MusicBrowser.Entities
             {
                 case EntityKind.Album: { entity.AlbumCount = 1; break; }
                 case EntityKind.Artist: { entity.ArtistCount = 1; break; }
-                case EntityKind.Song: { entity.TrackCount = 1; break; }
+                case EntityKind.Track: { entity.TrackCount = 1; break; }
             }
 
             entity.Title = item.Name;
@@ -107,9 +106,9 @@ namespace MusicBrowser.Entities
             {
                 return null;
             }
-            if (Util.Helper.IsSong(entity.FullPath))
+            if (Util.Helper.IsTrack(entity.FullPath))
             {
-                return EntityKind.Song;
+                return EntityKind.Track;
             }
             if (Util.Helper.IsFolder(entity.Attributes))
             {
@@ -120,7 +119,7 @@ namespace MusicBrowser.Entities
                     EntityKind? e = DetermineKind(item);
                     switch (e)
                     {
-                        case EntityKind.Song:
+                        case EntityKind.Track:
                             return EntityKind.Album;
                         case EntityKind.Album:
                             return EntityKind.Artist;

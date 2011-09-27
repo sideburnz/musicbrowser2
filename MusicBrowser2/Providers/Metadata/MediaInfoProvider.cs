@@ -35,10 +35,10 @@ namespace MusicBrowser.Providers.Metadata
                 return dto;
             }
 
-            if (dto.DataType != DataTypes.Song)
+            if (dto.DataType != DataTypes.Track)
             {
                 dto.Outcome = DataProviderOutcome.InvalidInput;
-                dto.Errors = new List<string> { "Not a song: " + dto.Path };
+                dto.Errors = new List<string> { "Not a track: " + dto.Path };
                 return dto;
             }
 
@@ -100,7 +100,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool CompatibleWith(string type)
         {
-            return (type.ToLower() == "song");
+            return (type.ToLower() == "track");
         }
 
         public bool isStale(DateTime lastAccess)

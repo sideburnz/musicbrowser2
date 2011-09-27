@@ -286,9 +286,16 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap imageSong {
+        internal static System.Drawing.Bitmap imageSpinner {
             get {
-                object obj = ResourceManager.GetObject("imageSong", resourceCulture);
+                object obj = ResourceManager.GetObject("imageSpinner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap imageTrack {
+            get {
+                object obj = ResourceManager.GetObject("imageTrack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -152,9 +152,9 @@ namespace MusicBrowser.Providers.Metadata
                         dto.DataType = DataTypes.Playlist;
                         break;
                     }
-                    case EntityKind.Song:
+                    case EntityKind.Track:
                     {
-                        dto.DataType = DataTypes.Song;
+                        dto.DataType = DataTypes.Track;
                         dto.TrackName = entity.Title;
                         break;
                     }
@@ -238,7 +238,7 @@ namespace MusicBrowser.Providers.Metadata
                         }
                         break;
                     }
-                case DataTypes.Song:
+                case DataTypes.Track:
                     {
                         if (!String.IsNullOrEmpty(dto.TrackName))
                         {

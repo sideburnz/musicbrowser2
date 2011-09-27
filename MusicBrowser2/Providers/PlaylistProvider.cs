@@ -39,7 +39,7 @@ namespace MusicBrowser.Providers
         private static void CreatePlaylist(IEnumerable<string> paths, bool queue, bool shuffle)
         {
             List<string> tracks = new List<string>();
-            // get all of the songs from sub folders
+            // get all of the tracks from sub folders
 
             foreach (string path in paths)
             {
@@ -48,7 +48,7 @@ namespace MusicBrowser.Providers
 #endif
                 foreach (FileSystemItem item in FileSystemProvider.GetAllSubPaths(path))
                 {
-                    if (Util.Helper.IsSong(item.FullPath))
+                    if (Util.Helper.IsTrack(item.FullPath))
                     {
                         tracks.Add(item.FullPath);
                     }
@@ -89,9 +89,9 @@ namespace MusicBrowser.Providers
             switch (_action)
             {
                 case "cmdplayall":
-                    if (_entity.Kind.Equals(EntityKind.Song) || _entity.Kind.Equals(EntityKind.Playlist))
+                    if (_entity.Kind.Equals(EntityKind.Track) || _entity.Kind.Equals(EntityKind.Playlist))
                     {
-                        MediaCentre.Playlist.PlaySong(_entity, false);
+                        MediaCentre.Playlist.PlayTrack(_entity, false);
                     }
                     else
                     {
@@ -99,10 +99,10 @@ namespace MusicBrowser.Providers
                     }
                     break;
                 case "cmdaddtoqueue":
-                    if (_entity.Kind.Equals(EntityKind.Song) || _entity.Kind.Equals(EntityKind.Playlist))
+                    if (_entity.Kind.Equals(EntityKind.Track) || _entity.Kind.Equals(EntityKind.Playlist))
                     {
                         Models.UINotifier.GetInstance().Message = "adding \"" + _entity.Title + "\" to playlist";
-                        MediaCentre.Playlist.PlaySong(_entity, true);
+                        MediaCentre.Playlist.PlayTrack(_entity, true);
                     }
                     else
                     {
@@ -110,9 +110,9 @@ namespace MusicBrowser.Providers
                     }
                     break;
                 case "cmdshuffle":
-                    if (_entity.Kind.Equals(EntityKind.Song) || _entity.Kind.Equals(EntityKind.Playlist))
+                    if (_entity.Kind.Equals(EntityKind.Track) || _entity.Kind.Equals(EntityKind.Playlist))
                     {
-                        MediaCentre.Playlist.PlaySong(_entity, false);
+                        MediaCentre.Playlist.PlayTrack(_entity, false);
                     }
                     else
                     {
@@ -125,7 +125,6 @@ namespace MusicBrowser.Providers
                 case "cmdrandom":
                     {
                         //TODO: write a GetIntSetting that accepts a min val to ensure this is safe
-                        //TODO: put into a method
                         int size = Int32.Parse(Util.Config.GetInstance().GetSetting("AutoPlaylistSize"));
                         List<string> tracks = new List<string>();
                         switch (_action)
@@ -137,7 +136,7 @@ namespace MusicBrowser.Providers
                             case "cmdnew":
                                 tracks.AddRange(NearLineCache.GetInstance().FindRecentlyAdded(size)); break;
                             case "cmdrandom":
-                                tracks.AddRange(NearLineCache.GetInstance().FindRandomPlayed(size, size * 5)); break;
+                                tracks.AddRange(NearLineCache.GetInstance().FindRandomPlayed(size, size * 10)); break;
                         }
                         //dedupe the list
                         tracks = tracks.Distinct().ToList();

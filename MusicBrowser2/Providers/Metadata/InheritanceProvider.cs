@@ -45,7 +45,7 @@ namespace MusicBrowser.Providers.Metadata
                     Entity e = EntityFactory.GetItem(child.FullPath);
                     if (e == null) { continue; }
 
-                    if (e.Kind == EntityKind.Song || e.Kind == EntityKind.Album)
+                    if (e.Kind == EntityKind.Track || e.Kind == EntityKind.Album)
                     {
                         if (e.ReleaseDate != null)
                         {
@@ -115,9 +115,9 @@ namespace MusicBrowser.Providers.Metadata
             }
             #endregion
 
-            #region song
+            #region track
 
-            if (dto.DataType == DataTypes.Song)
+            if (dto.DataType == DataTypes.Track)
             {
                 if (!dto.hasThumbImage && Util.Config.GetInstance().GetBooleanSetting("UseFolderImageForTracks"))
                 {
@@ -149,7 +149,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool CompatibleWith(string type)
         {
-            return (type.ToLower() == "album") || (type.ToLower() == "song");
+            return (type.ToLower() == "album") || (type.ToLower() == "track");
         }
 
         public bool isStale(DateTime lastAccess)

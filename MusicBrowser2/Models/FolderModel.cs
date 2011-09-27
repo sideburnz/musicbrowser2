@@ -24,7 +24,6 @@ namespace MusicBrowser.Models
         Entity _popupPlayContext = null;
         private readonly EditableText _remoteFilter = new EditableText();
         private int _matches;
-        private Application _app;
 
         private readonly bool _isHome;
 
@@ -44,7 +43,10 @@ namespace MusicBrowser.Models
             _fullentities.AddRange(_entities);
             _matches = _fullentities.Count;
 
-            _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;    
+            _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;
+
+            CommonTaskQueue.OnStateChanged += BusyStateChanged;
+            Busy = CommonTaskQueue.Busy;
         }
 
         /// <summary>
@@ -106,7 +108,7 @@ namespace MusicBrowser.Models
 
                 // process the item in context
                 Entity entity = EntityFactory.GetItem(item);
-                if (entity == null || entity.Kind.Equals(EntityKind.Folder)) { continue; }
+                if (entity == null) { continue; }
 
                 // fire off the metadata providers
                 
@@ -177,7 +179,7 @@ namespace MusicBrowser.Models
                 _matches = temp.Count;
                 if (_matches > 0)
                 {
-                    temp.IndexItems();
+                    temp.Sort();
                     _entities.Clear();
                     _entities.AddRange(temp);
                     FirePropertyChanged("Matches");
@@ -246,7 +248,7 @@ namespace MusicBrowser.Models
             _entities.Clear();
             _entities.AddRange(_fullentities);
             _matches = _fullentities.Count;
-            _entities.IndexItems();
+            _entities.Sort();
             _remoteFilter.Value = String.Empty;
             FirePropertyChanged("Matches");
             FirePropertyChanged("EntityCollection");
@@ -294,6 +296,14 @@ namespace MusicBrowser.Models
         {
             Entity v = new Entity() { Kind = EntityKind.Group, Title = name };
             application.Navigate(v, _crumbs);
+        }
+
+        public bool Busy { get; set; }
+
+        private void BusyStateChanged(bool busy)
+        {
+            Busy = busy;
+            FirePropertyChanged("Busy");
         }
     }
 }
