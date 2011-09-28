@@ -21,7 +21,7 @@ namespace MusicBrowser.Providers.Metadata
 
             #region killer questions
 
-            if (!Helper.IsTrack(dto.Path))
+            if (dto.DataType != DataTypes.Track)
             {
                 dto.Outcome = DataProviderOutcome.InvalidInput;
                 dto.Errors = new List<string> { "Not a track: " + dto.Path };

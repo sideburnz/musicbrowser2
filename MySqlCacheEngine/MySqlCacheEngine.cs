@@ -20,8 +20,10 @@ namespace MusicBrowser.CacheEngine
             cmd.ExecuteNonQuery();
         }
 
-        public string Read(string key)
+        public string FetchIfFresh(string key, DateTime comparer)
         {
+            if (GetAge(key) < comparer) { return string.Empty; }
+
             string sql = string.Format("SELECT `value` FROM t_cache WHERE `key` = '{0}'", key);
 
             MySqlCommand cmd = new MySqlCommand(sql, GetConnection());
@@ -53,7 +55,7 @@ namespace MusicBrowser.CacheEngine
             return Int64.Parse(cmd.ExecuteScalar().ToString()) == 1;
         }
 
-        public DateTime GetAge(string key)
+        private DateTime GetAge(string key)
         {
             string sql = string.Format("SELECT `timestamp` FROM t_cache WHERE `key` = '{0}'", key);
 

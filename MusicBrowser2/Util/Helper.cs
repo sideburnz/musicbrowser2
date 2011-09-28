@@ -7,6 +7,7 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using Microsoft.Win32;
+using MusicBrowser.Providers;
 
 namespace MusicBrowser.Util
 {
@@ -139,67 +140,12 @@ namespace MusicBrowser.Util
         {
             Track,
             Playlist,
+            Folder,
             Other
         }
-        public static Dictionary<string, knownType> perceivedTypeCache = null;
+        public static Dictionary<string, knownType> perceivedTypeCache = getKnownTypes();
 
-        public static bool IsTrack(string filename)
-        {
-            if (perceivedTypeCache == null)
-            {
-                perceivedTypeCache = getKnownTypes();
-            }
-
-            string extension = System.IO.Path.GetExtension(filename).ToLower();
-
-            knownType itemType;
-            if (perceivedTypeCache.TryGetValue(extension, out itemType))
-            {
-                return itemType == knownType.Track;
-            }
-            return determineType(extension) == knownType.Track;            
-        }
-
-        public static bool IsPlaylist(string fileName)
-        {
-            if (perceivedTypeCache == null) 
-            {
-                perceivedTypeCache = getKnownTypes();
-            }
-
-            if (!System.IO.File.Exists(fileName)) return false;
-            string extension = System.IO.Path.GetExtension(fileName).ToLower();
-
-            knownType itemType;
-            if (perceivedTypeCache.TryGetValue(extension, out itemType))
-            {
-                return itemType == knownType.Playlist;
-            }
-            return false;
-        }
-
-        public static bool IsEntity(string fileName)
-        {
-            if (Directory.Exists(fileName)) { return true; }
-
-            string extension = Path.GetExtension(fileName).ToLower();
-            if (String.IsNullOrEmpty(extension)) { return false; }
-
-            if (perceivedTypeCache == null) 
-            {
-                perceivedTypeCache = getKnownTypes();
-            }
-
-            knownType itemType;
-            if (perceivedTypeCache.TryGetValue(extension, out itemType))
-            {
-                return itemType != knownType.Other;
-            }
-            knownType type = determineType(extension);
-            return type != knownType.Other;
-        }
-
-        public static knownType determineType(string extension)
+        private static knownType determineType(string extension)
         {
             string pt = null;
             RegistryKey key = Registry.ClassesRoot;
@@ -223,6 +169,24 @@ namespace MusicBrowser.Util
                 }
             }
             return perceivedTypeCache[extension];
+        }
+
+        public static knownType getKnownType(FileSystemItem item)
+        {
+            // if it's a folder, don't worry about the type cache
+            if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
+            {
+                return knownType.Folder;
+            }
+
+            string extension = System.IO.Path.GetExtension(item.Name).ToLower();
+            knownType itemType;
+            // try to get the item from the type cache
+            if (perceivedTypeCache.TryGetValue(extension, out itemType))
+            {
+                return itemType;
+            }
+            return determineType(extension);
         }
 
         private static Dictionary<string, knownType> getKnownTypes()

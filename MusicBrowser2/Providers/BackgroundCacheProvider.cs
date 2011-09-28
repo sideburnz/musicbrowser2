@@ -37,14 +37,9 @@ namespace MusicBrowser.Providers
             {
                 try
                 {
-                    // don't waste time on the item
-                    if (!Util.Helper.IsEntity(item.FullPath)) { continue; }
-                    if (item.Name.ToLower() == "metadata") { continue; }
-
                     // process the item in context
                     Entity entity = EntityFactory.GetItem(item);
                     if (entity == null || entity.Kind.Equals(EntityKind.Home)) { continue; }
-
                     // fire off the metadata providers
                     CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
                 }

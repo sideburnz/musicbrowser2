@@ -25,16 +25,24 @@ namespace MusicBrowser.CacheEngine
             }
         }
 
-        public string Read(string key)
+        public string FetchIfFresh(string key, DateTime comparer)
         {
             string fileName = CalculateCacheFileFromKey(key);
+
             lock (_obj)
             {
                 if (File.Exists(fileName))
                 {
+                    if (File.GetLastWriteTime(fileName) < comparer)
+                    {
+                        return string.Empty;
+                    }
                     StreamReader file = new StreamReader(fileName);
                     string cachedValue = file.ReadToEnd();
                     file.Close();
+
+                    Statistics.GetInstance().Hit("cache.hit");
+
                     return cachedValue;
                 }
             }
@@ -63,13 +71,6 @@ namespace MusicBrowser.CacheEngine
         {
             string fileName = CalculateCacheFileFromKey(key);
             return File.Exists(fileName);
-        }
-
-        public DateTime GetAge(string key)
-        {
-            string fileName = CalculateCacheFileFromKey(key);
-            FileSystemItem item = FileSystemProvider.GetItemDetails(fileName);
-            return item.LastUpdated;
         }
 
         private string CalculateCacheFileFromKey(string key)

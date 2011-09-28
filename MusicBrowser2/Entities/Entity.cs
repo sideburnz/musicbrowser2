@@ -161,9 +161,9 @@ namespace MusicBrowser.Entities
 
         // Calculated/transient
         public int Index { get; set; }
+        public string SortName { get; set; }
 
         // Read Only values
-        public string SortName { get { return _sortName; } }
         public string View { get { return Config.GetInstance().GetSetting(KindName + ".View").ToLower(); } }
         public bool Playable { get { return (Kind == EntityKind.Track || Kind == EntityKind.Playlist); } }
 
@@ -232,13 +232,6 @@ namespace MusicBrowser.Entities
 
         public void UpdateValues()
         {
-            // cache the sortname, we don't want to do this complex calc every time its accessed
-            string sortName = MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".SortOrder")).ToLower();
-            sortName = Config.HandleIgnoreWords(sortName);
-            Regex rgx = new Regex(@"[^#a-z0-9]+");
-            _sortName = rgx.Replace(sortName, " ").Trim();
-
-            CacheDate = DateTime.Now;
             if (Kind == EntityKind.Home) { Title = "MusicBrowser 2"; }
 
             FirePropertyChanged("ShortSummaryLine1");
@@ -249,6 +242,15 @@ namespace MusicBrowser.Entities
             FirePropertyChanged("Icon");
             FirePropertyChanged("Title");
             FirePropertyChanged("Summary");
+        }
+
+        public void CacheSortName()
+        {
+            // cache the sortname, we don't want to do this complex calc every time its accessed
+            string sortName = MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".SortOrder")).ToLower();
+            sortName = Config.HandleIgnoreWords(sortName);
+            Regex rgx = new Regex(@"[^#a-z0-9]+");
+            SortName = rgx.Replace(sortName, " ").Trim();
         }
 
         private static Image GetImage(string path)

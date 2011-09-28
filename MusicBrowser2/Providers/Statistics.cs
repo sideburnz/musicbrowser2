@@ -31,13 +31,18 @@ namespace MusicBrowser.Providers
 
         public void Hit(string key)
         {
+            Hit(key, 1);
+        }
+
+        public void Hit(string key, int incrementor)
+        {
             if (_stats.ContainsKey(key))
             {
-                _stats[key]++;
+                _stats[key] += incrementor;
             }
             else
             {
-                _stats.Add(key, 1);
+                _stats.Add(key, incrementor);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using MusicBrowser.Entities;
 using ServiceStack.Text;
+using System;
 
 namespace MusicBrowser.CacheEngine
 {
@@ -8,11 +9,14 @@ namespace MusicBrowser.CacheEngine
 
         public static string Serialize(Entity data)
         {
+            data.CacheDate = DateTime.Now;
             return JsonSerializer.SerializeToString<Entity>(data);
         }
 
         public static Entity Deserialize(string data)
         {
+            if (String.IsNullOrEmpty(data)) { return null; }
+
             try
             {
                 return JsonSerializer.DeserializeFromString<Entity>(data);
