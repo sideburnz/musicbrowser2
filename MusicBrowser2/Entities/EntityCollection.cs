@@ -21,19 +21,18 @@ namespace MusicBrowser.Entities
         {
             if (e != null)
             {
-                e.UpdateValues();
                 base.Add(e);
             }
         }
 
         public void Add(IEnumerable<Entity> entities)
         {
-            foreach (Entity e in entities) { e.UpdateValues(); }
             base.AddRange(entities);
         }
 
         public new void Sort()
         {
+            foreach (Entity e in this) { e.CacheSortName(); }
             base.Sort(new EntityCollectionSorter());
             for (int i = 0; i < Count; this[i].Index = i++);
         }

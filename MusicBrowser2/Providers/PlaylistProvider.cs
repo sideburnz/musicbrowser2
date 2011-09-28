@@ -48,7 +48,7 @@ namespace MusicBrowser.Providers
 #endif
                 foreach (FileSystemItem item in FileSystemProvider.GetAllSubPaths(path))
                 {
-                    if (Util.Helper.IsTrack(item.FullPath))
+                    if (Util.Helper.getKnownType(item) == Util.Helper.knownType.Track)
                     {
                         tracks.Add(item.FullPath);
                     }

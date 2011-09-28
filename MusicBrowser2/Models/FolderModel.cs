@@ -98,7 +98,7 @@ namespace MusicBrowser.Models
             foreach (FileSystemItem item in items)
             {
                 // don't waste time on the item
-                if (!Util.Helper.IsEntity(item.FullPath)) { continue; }
+                if (Helper.getKnownType(item) == Helper.knownType.Other) { continue; }
                 if (item.Name.ToLower() == "metadata") { continue; }
 
                 // remove the cache (force it to rediscover the type)

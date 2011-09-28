@@ -6,6 +6,7 @@ using MusicBrowser.CacheEngine;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
@@ -22,7 +23,7 @@ namespace MusicBrowser.Entities
         public static Entity GetItem(FileSystemItem item)
         {
             // don't waste time trying to determine a known not entity
-            if (!Util.Helper.IsEntity(item.FullPath)) { return null; }
+            if (Util.Helper.getKnownType(item) == Helper.knownType.Other) { return null; }
             if (item.Name.ToLower() == "metadata") { return null; }
 
 #if DEBUG
@@ -34,40 +35,28 @@ namespace MusicBrowser.Entities
 
             #region NearLine 
             // get from the NL cache if it's cached there, this is the fastest cache
-            entity = _NLCache.Fetch(key);
-            if (entity != null && IsFresh(entity.CacheDate, item.LastUpdated))
+            entity = _NLCache.FetchIfFresh(key, item.LastUpdated);
+            if (entity != null)
             {
 #if DEBUG
                 Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - NearLine cache", "end");
 #endif
-                entity.Path = item.FullPath;
                 return entity;
             }
             #endregion
 
             #region persistent cache
             // get the value from persistent cache
-            if (_cacheEngine.Exists(key))
+            entity = EntityPersistance.Deserialize(_cacheEngine.FetchIfFresh(key, item.LastUpdated));
+            if (entity != null)
             {
-                if (IsFresh(_cacheEngine.GetAge(key), item.LastUpdated)) 
-                {
-                    entity = EntityPersistance.Deserialize(_cacheEngine.Read(key));
-                    if (entity != null)
-                    {
 #if DEBUG
-                        Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - persistent cache", "end");
+                Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - persistent cache", "end");
 #endif
-                        _NLCache.Update(entity);
-                        Statistics.GetInstance().Hit("cache.hit");
-                        entity.Path = item.FullPath;
-                        return entity;
-                    }
-                }
-
-                // if it's not the latest version of the entity, delete it refreshing the cache
-                _cacheEngine.Delete(key);
-                Statistics.GetInstance().Hit("cache.expiry");
+                _NLCache.Update(entity);
+                return entity;
             }
+
             #endregion
 
             Statistics.GetInstance().Hit("factory.hit");
@@ -75,8 +64,13 @@ namespace MusicBrowser.Entities
             EntityKind? kind = DetermineKind(item);
             if (kind == null) { return null; }
 
-            entity = new Entity();
-            entity.Kind = kind.GetValueOrDefault();
+            entity = new Entity()
+            {
+                Kind = kind.GetValueOrDefault(),
+                Title = item.Name,
+                Path = item.FullPath,
+                Added = item.Created
+            };
 
             // these are needed for aggregation calculations
             switch (entity.Kind)
@@ -85,10 +79,6 @@ namespace MusicBrowser.Entities
                 case EntityKind.Artist: { entity.ArtistCount = 1; break; }
                 case EntityKind.Track: { entity.TrackCount = 1; break; }
             }
-
-            entity.Title = item.Name;
-            entity.Path = item.FullPath;
-            entity.Added = item.Created;
 
             // do this here because some of the providers need basic data about the tracks
             TagSharpMetadataProvider.FetchLite(entity);
@@ -102,50 +92,43 @@ namespace MusicBrowser.Entities
 
         private static Nullable<EntityKind> DetermineKind(FileSystemItem entity)
         {
-            if (!Util.Helper.IsEntity(entity.FullPath))
-            {
-                return null;
-            }
-            if (Util.Helper.IsTrack(entity.FullPath))
-            {
-                return EntityKind.Track;
-            }
-            if (Util.Helper.IsFolder(entity.Attributes))
-            {
-                IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
+            Helper.knownType type = Helper.getKnownType(entity);
 
-                foreach(FileSystemItem item in items)
-                {
-                    EntityKind? e = DetermineKind(item);
-                    switch (e)
+            switch (type)
+            {
+                case Helper.knownType.Folder:
                     {
-                        case EntityKind.Track:
-                            return EntityKind.Album;
-                        case EntityKind.Album:
-                            return EntityKind.Artist;
-                        case EntityKind.Artist:
-                            return EntityKind.Genre;
-                    }
-                }
-                return EntityKind.Folder;
-            }
-            if (Util.Helper.IsPlaylist(entity.FullPath))
-            {
-                return EntityKind.Playlist;
-            }
+                        // ignore metadata folders
+                        if (entity.Name.ToLower() == "metadata") { return null; }
 
-            Logging.Logger.Info("unable to determine entity type for : " + entity.FullPath);
+                        IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
+                        foreach (FileSystemItem item in items)
+                        {
+                            EntityKind? e = DetermineKind(item);
+                            switch (e)
+                            {
+                                case EntityKind.Track:
+                                    return EntityKind.Album;
+                                case EntityKind.Album:
+                                    return EntityKind.Artist;
+                                case EntityKind.Artist:
+                                    return EntityKind.Genre;
+                            }
+                        }
+                        return EntityKind.Folder;
+                    }
+                case Helper.knownType.Track:
+                    {
+                        return EntityKind.Track;
+                    }
+                case Helper.knownType.Playlist:
+                    {
+                        return EntityKind.Playlist;
+                    }
+            }
             return null;
         }
 
-        private static bool IsFresh(DateTime cacheDate, params DateTime[] comparisons)
-        {
-            foreach (DateTime d in comparisons)
-            {
-                if (d >= cacheDate) { return false; }
-            }
-            return true;
-        }
 
         // works out where the metadata file is (if there is one)
         private static string MetadataPath(FileSystemItem item)

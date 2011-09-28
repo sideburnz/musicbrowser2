@@ -15,7 +15,7 @@ namespace MusicBrowser.CacheEngine
         public void Delete(string key)
         { }
 
-        public string Read(string key)
+        public string FetchIfFresh(string key, DateTime comparer)
         {
             return String.Empty;
         }
@@ -26,11 +26,6 @@ namespace MusicBrowser.CacheEngine
         public bool Exists(string key) 
         {
             return false;
-        }
-
-        public DateTime GetAge(string key)
-        {
-            return DateTime.MinValue;
         }
 
         public void Scavenge() { }

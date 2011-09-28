@@ -104,15 +104,26 @@ namespace MusicBrowser.CacheEngine
                 .Select(item => item.Value.Path);
         }
 
-        public Entity Fetch(string key)
+        public Entity FetchIfFresh(string key, DateTime comparer)
         {
-            if (_cache.ContainsKey(key))
+            if (!_cache.ContainsKey(key))
             {
-                Statistics.GetInstance().Hit("NLCache.Hit");
-                return _cache[key];
+                Statistics.GetInstance().Hit("NLCache.Miss");
+                return null;
             }
-            Statistics.GetInstance().Hit("NLCache.Miss");
-            return null;
+
+            Entity e = _cache[key];
+
+            if (e.CacheDate < comparer)
+            {
+                _cache.Remove(key);
+                Statistics.GetInstance().Hit("NLCache.Expired");
+                return null;
+            }
+
+            Statistics.GetInstance().Hit("NLCache.Hit");
+            return e;
+
         }
 
         public void Remove(string key)
@@ -133,7 +144,7 @@ namespace MusicBrowser.CacheEngine
             JsonSerializer.SerializeToStream<Dictionary<string, Entity>>(_cache, file);
             file.Close();
 
-            Statistics.GetInstance().Hit("NLCache.Saved." + _cache.Count);
+            Statistics.GetInstance().Hit("NLCache.Saved", _cache.Count);
         }
 
         public void Load()
@@ -144,7 +155,7 @@ namespace MusicBrowser.CacheEngine
                 {
                     FileStream file = new FileStream(_cacheFile, FileMode.OpenOrCreate);
                     _cache = JsonSerializer.DeserializeFromStream<Dictionary<string, Entity>>(file);
-                    Statistics.GetInstance().Hit("NLCache.Loaded." + _cache.Count);
+                    Statistics.GetInstance().Hit("NLCache.Loaded", _cache.Count);
                 }
                 catch(Exception ex)
                 {
