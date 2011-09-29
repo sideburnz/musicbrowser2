@@ -32,7 +32,7 @@ namespace MusicBrowser.Providers.Metadata
 
             Statistics.GetInstance().Hit(Name + ".hit");
 
-            string IBNPath = Path.Combine(Path.Combine(Util.Config.GetInstance().GetSetting("ImagesByName"), "musicgenre"), dto.Title);
+            string IBNPath = Path.Combine(Path.Combine(Util.Config.GetInstance().GetStringSetting("ImagesByName"), "musicgenre"), dto.Title);
             dto.ThumbImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Thumb));
 
             IEnumerable<string> backPaths = ImageProvider.LocateBackdropList(IBNPath);

@@ -164,7 +164,7 @@ namespace MusicBrowser.Entities
         public string SortName { get; set; }
 
         // Read Only values
-        public string View { get { return Config.GetInstance().GetSetting(KindName + ".View").ToLower(); } }
+        public string View { get { return Config.GetInstance().GetStringSetting(KindName + ".View").ToLower(); } }
         public bool Playable { get { return (Kind == EntityKind.Track || Kind == EntityKind.Playlist); } }
 
         // this allows the backgrounds to be cycled
@@ -205,7 +205,7 @@ namespace MusicBrowser.Entities
             {
                 if (Kind == EntityKind.Virtual)
                 {
-                    string IBNPath = System.IO.Path.Combine(System.IO.Path.Combine(Util.Config.GetInstance().GetSetting("ImagesByName"), Label), Title);
+                    string IBNPath = System.IO.Path.Combine(System.IO.Path.Combine(Util.Config.GetInstance().GetStringSetting("ImagesByName"), Label), Title);
                     IconPath = ImageProvider.LocateFanArt(IBNPath, ImageType.Thumb);
                 }
 
@@ -247,7 +247,7 @@ namespace MusicBrowser.Entities
         public void CacheSortName()
         {
             // cache the sortname, we don't want to do this complex calc every time its accessed
-            string sortName = MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".SortOrder")).ToLower();
+            string sortName = MacroSubstitution(Config.GetInstance().GetStringSetting(KindName + ".SortOrder")).ToLower();
             sortName = Config.HandleIgnoreWords(sortName);
             Regex rgx = new Regex(@"[^#a-z0-9]+");
             SortName = rgx.Replace(sortName, " ").Trim();
@@ -337,12 +337,12 @@ namespace MusicBrowser.Entities
 
         public string ShortSummaryLine2
         {
-            get { return MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".Summary")); }
+            get { return MacroSubstitution(Config.GetInstance().GetStringSetting(KindName + ".Summary")); }
         }
 
         public new string Description
         {
-            get { return MacroSubstitution(Config.GetInstance().GetSetting(KindName + ".Format")); }
+            get { return MacroSubstitution(Config.GetInstance().GetStringSetting(KindName + ".Format")); }
         }
 
         public string OptionalArtistLine

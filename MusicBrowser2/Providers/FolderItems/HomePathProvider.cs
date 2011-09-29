@@ -21,11 +21,11 @@ namespace MusicBrowser.Providers.FolderItems
                     {
                         IFolderItemsProvider folderItemsProvider = new WindowsLibraryProvider();
                         _paths = folderItemsProvider.GetItems("music");
-                        VirtualFolderProvider.WriteVF(Util.Config.GetInstance().GetSetting("ManualLibraryFile"), _paths);
+                        VirtualFolderProvider.WriteVF(Util.Config.GetInstance().GetStringSetting("ManualLibraryFile"), _paths);
                     }
                     else
                     {
-                        string vfFile = Util.Config.GetInstance().GetSetting("ManualLibraryFile");
+                        string vfFile = Util.Config.GetInstance().GetStringSetting("ManualLibraryFile");
                         if (System.IO.File.Exists(vfFile))
                         {
                             IFolderItemsProvider folderItemsProvider = new VirtualFolderProvider();

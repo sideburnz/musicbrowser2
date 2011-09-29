@@ -73,13 +73,20 @@ namespace MusicBrowser.Providers.Metadata
 
             if (serviceDTO.BackdropList.Count > 0)
             {
-                //TODO: wrap in a try, don't want all to fail because of one
-                foreach (string img in serviceDTO.BackdropList)
+                // limit to 10 backdrops
+                foreach (string img in serviceDTO.BackdropList.Take(10))
                 {
-                    Bitmap i = ImageProvider.Download(img, ImageType.Backdrop);
-                    if (i != null) { dto.BackImages.Add(i); }
+                    // wrap in a try, if one fails we don't want them all to fail
+                    try
+                    {
+                        Bitmap i = ImageProvider.Download(img, ImageType.Backdrop);
+                        if (i != null) 
+                        { 
+                            dto.BackImages.Add(i); 
+                        }
+                    }
+                    catch { }
                 }
-
             }
 
             return dto;

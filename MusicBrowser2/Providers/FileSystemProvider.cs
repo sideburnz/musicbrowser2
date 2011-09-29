@@ -101,7 +101,7 @@ namespace MusicBrowser.Providers
             foreach (FileSystemItem item in GetFolderContents(dir))
             {
                 temp.Add(item);
-                if (Util.Helper.IsFolder(item.Attributes))
+                if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     temp.AddRange(GetAllSubPaths(item.FullPath));
                 }

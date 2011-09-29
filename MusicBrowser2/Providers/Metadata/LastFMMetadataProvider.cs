@@ -53,7 +53,7 @@ namespace MusicBrowser.Providers.Metadata
                         albumDTO.Album = dto.AlbumName;
                         albumDTO.MusicBrainzID = dto.MusicBrainzId;
                         albumDTO.Artist = dto.AlbumArtist;
-                        albumDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
+                        albumDTO.Username = (Util.Config.GetInstance().GetStringSetting("LastFMUserName"));
                         if (dto.ProviderTimeStamps.ContainsKey(FriendlyName()))
                         {
                             albumDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
@@ -111,7 +111,7 @@ namespace MusicBrowser.Providers.Metadata
                         ArtistInfoServiceDTO artistDTO = new ArtistInfoServiceDTO();
                         artistDTO.Artist = dto.ArtistName;
                         artistDTO.MusicBrainzID = dto.MusicBrainzId;
-                        artistDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
+                        artistDTO.Username = (Util.Config.GetInstance().GetStringSetting("LastFMUserName"));
                         if (dto.ProviderTimeStamps.ContainsKey(FriendlyName()))
                         {
                             artistDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
@@ -168,7 +168,7 @@ namespace MusicBrowser.Providers.Metadata
                         trackDTO.Track = dto.TrackName;
                         trackDTO.Artist = dto.ArtistName;
                         trackDTO.MusicBrainzID = dto.MusicBrainzId;
-                        trackDTO.Username = (Util.Config.GetInstance().GetSetting("LastFMUserName"));
+                        trackDTO.Username = (Util.Config.GetInstance().GetStringSetting("LastFMUserName"));
                         if (dto.ProviderTimeStamps.ContainsKey(FriendlyName()))
                         {
                             trackDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];

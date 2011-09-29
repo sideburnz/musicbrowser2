@@ -13,7 +13,7 @@ namespace MusicBrowser.Entities
     public static class EntityFactory
     {
         private static ICacheEngine _cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
-        private static NearLineCache _NLCache = NearLineCache.GetInstance();
+        private static InMemoryCache _MemCache = InMemoryCache.GetInstance();
 
         public static Entity GetItem(string item)
         {
@@ -33,9 +33,9 @@ namespace MusicBrowser.Entities
             string key = Util.Helper.GetCacheKey(item.FullPath);
             Entity entity;
 
-            #region NearLine 
-            // get from the NL cache if it's cached there, this is the fastest cache
-            entity = _NLCache.FetchIfFresh(key, item.LastUpdated);
+            #region InMemoryCache 
+            // get from the Mem cache if it's cached there, this is the fastest cache
+            entity = _MemCache.Fetch(key);
             if (entity != null)
             {
 #if DEBUG
@@ -53,7 +53,7 @@ namespace MusicBrowser.Entities
 #if DEBUG
                 Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - persistent cache", "end");
 #endif
-                _NLCache.Update(entity);
+                _MemCache.Update(entity);
                 return entity;
             }
 
@@ -73,7 +73,7 @@ namespace MusicBrowser.Entities
             };
 
             // these are needed for aggregation calculations
-            switch (entity.Kind)
+            switch (kind)
             {
                 case EntityKind.Album: { entity.AlbumCount = 1; break; }
                 case EntityKind.Artist: { entity.ArtistCount = 1; break; }
@@ -83,7 +83,7 @@ namespace MusicBrowser.Entities
             // do this here because some of the providers need basic data about the tracks
             TagSharpMetadataProvider.FetchLite(entity);
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
-            _NLCache.Update(entity);
+            _MemCache.Update(entity);
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName + " - first principles", "finish");
 #endif
