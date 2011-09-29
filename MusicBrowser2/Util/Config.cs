@@ -139,7 +139,7 @@ namespace MusicBrowser.Util
             }
         }
 
-        public string GetSetting(string key)
+        private string GetSetting(string key)
         {
             // see if we've already cached the setting
             if (_settingCache.ContainsKey(key))
@@ -179,6 +179,18 @@ namespace MusicBrowser.Util
         public bool GetBooleanSetting(string key)
         {
             return (GetSetting(key).ToLower() == "true");
+        }
+
+        public int GetIntSetting(string key)
+        {
+            int value;
+            if (int.TryParse(GetSetting(key), out value)) { return value; }
+            return 0;
+        }
+
+        public string GetStringSetting(string key)
+        {
+            return GetSetting(key);
         }
 
         public IEnumerable<string> GetListSetting(string key)

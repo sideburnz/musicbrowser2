@@ -20,6 +20,44 @@ namespace MusicBrowser.Providers
             _entity = entity;
         }
 
+
+        public IEnumerable<string> FindFavorites()
+        {
+            return InMemoryCache.GetInstance().DataSet
+                .Where(item => ((item.Rating >= 90) || (item.Favorite)) && (item.Kind == EntityKind.Track))
+                .Select(item => item.Path);
+        }
+
+        public IEnumerable<string> FindMostPlayed(int records)
+        {
+            return InMemoryCache.GetInstance().DataSet
+                .Where(item => item.Kind == EntityKind.Track)
+                .OrderByDescending(item => item.PlayCount)
+                .Take(records)
+                .Select(item => item.Path);
+        }
+
+        public IEnumerable<string> FindRecentlyAdded(int records)
+        {
+            return InMemoryCache.GetInstance().DataSet
+                .Where(item => item.Kind == EntityKind.Track)
+                .OrderByDescending(item => item.Added)
+                .Take(records)
+                .Select(item => item.Path);
+        }
+
+        public IEnumerable<string> FindRandomPlayed(int records, int sample)
+        {
+            return InMemoryCache.GetInstance().DataSet
+                .Where(item => item.Kind == EntityKind.Track)
+                .OrderByDescending(item => item.PlayCount)
+                .Take(sample)
+                .OrderBy(item => Guid.NewGuid())
+                .Take(records)
+                .Select(item => item.Path);
+        }
+
+
         public static void ShuffleList<TE>(IList<TE> list)
         {
             if (list.Count > 1)
@@ -28,7 +66,6 @@ namespace MusicBrowser.Providers
                 {
                     TE tmp = list[i];
                     int randomIndex = Random.Next(i + 1);
-
                     //Swap elements
                     list[i] = list[randomIndex];
                     list[randomIndex] = tmp;
@@ -124,22 +161,20 @@ namespace MusicBrowser.Providers
                 case "cmdnew":
                 case "cmdrandom":
                     {
-                        //TODO: write a GetIntSetting that accepts a min val to ensure this is safe
-                        int size = Int32.Parse(Util.Config.GetInstance().GetSetting("AutoPlaylistSize"));
+                        int size = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
                         List<string> tracks = new List<string>();
                         switch (_action)
                         {
                             case "cmdfavourited":
-                                tracks.AddRange(NearLineCache.GetInstance().FindFavorites()); break;
+                                tracks.AddRange(FindFavorites()); break;
                             case "cmdmostplayed":
-                                tracks.AddRange(NearLineCache.GetInstance().FindMostPlayed(size)); break;
+                                tracks.AddRange(FindMostPlayed(size)); break;
                             case "cmdnew":
-                                tracks.AddRange(NearLineCache.GetInstance().FindRecentlyAdded(size)); break;
+                                tracks.AddRange(FindRecentlyAdded(size)); break;
                             case "cmdrandom":
-                                tracks.AddRange(NearLineCache.GetInstance().FindRandomPlayed(size, size * 10)); break;
+                                tracks.AddRange(FindRandomPlayed(size, size * 5)); break;
                         }
                         //dedupe the list
-                        tracks = tracks.Distinct().ToList();
                         MediaCentre.Playlist.PlayTrackList(tracks, false);
                         break;
                     }

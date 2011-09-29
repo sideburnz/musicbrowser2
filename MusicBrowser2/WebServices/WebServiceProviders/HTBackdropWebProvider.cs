@@ -16,7 +16,6 @@ namespace MusicBrowser.WebServices.WebServiceProviders
     {
         public override bool ValidateParams()
         {
-            //TODO: implement
             return true;
         }
 

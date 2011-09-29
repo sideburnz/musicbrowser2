@@ -110,7 +110,7 @@ namespace MusicBrowser.Providers.Transport
 
         private string FooPath
         {
-            get { return Util.Config.GetInstance().GetSetting("foobar2000"); }
+            get { return Util.Config.GetInstance().GetStringSetting("foobar2000"); }
         }
 
         private void HideFoobar()

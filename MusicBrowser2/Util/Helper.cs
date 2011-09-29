@@ -228,11 +228,6 @@ namespace MusicBrowser.Util
             return s.ToString();
         }
         
-
-        public static bool IsFolder(FileAttributes attributes)
-        {
-            return ((attributes & FileAttributes.Directory) == FileAttributes.Directory);
-        }
         #endregion
 
         public static XmlNode CreateXmlNode(XmlDocument parent, string name, string value)
@@ -268,7 +263,7 @@ namespace MusicBrowser.Util
 
         static public string ImageCacheFullName(string key, string imageType)
         {
-            string path = Config.GetInstance().GetSetting("CachePath") + "\\Images\\" + imageType + "\\" + key.Substring(0, 2);
+            string path = Config.GetInstance().GetStringSetting("CachePath") + "\\Images\\" + imageType + "\\" + key.Substring(0, 2);
             Directory.CreateDirectory(path);
             return path + "\\" + key + ".jpg";
         }

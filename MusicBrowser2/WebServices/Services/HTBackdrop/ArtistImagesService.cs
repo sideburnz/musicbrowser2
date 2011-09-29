@@ -82,12 +82,10 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
 
             try
             {
-                //TODO: only download 10, choose the highest rated ones if possible
                 // backgrounds
                 foreach (XmlNode node in xmlResult.SelectNodes("/search/images/image[aid=1]"))
                 {
                     // make sure the item we've found matches the artist we were looking for, use Levenshtein distance
-                    
                     string id = string.Empty;
                     string title = string.Empty;
 

@@ -14,7 +14,7 @@ namespace MusicBrowser.CacheEngine
         {
             if (_cacheEngine == null)
             {
-                string libraryName = Util.Config.GetInstance().GetSetting("CacheEngine");
+                string libraryName = Util.Config.GetInstance().GetStringSetting("CacheEngine");
                 lock (Obj)
                 {
                     switch (libraryName.ToLower())

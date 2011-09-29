@@ -62,12 +62,12 @@ namespace MusicBrowser
                             {
                                 case "tracks by genre":
                                     {
-                                        entities = NearLineCache.GetInstance().DataSet.Group(EntityKind.Track, "genre");
+                                        entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Track, "genre");
                                         break;
                                     }
                                 case "albums by year":
                                     {
-                                        entities = NearLineCache.GetInstance().DataSet.Group(EntityKind.Album, "year");
+                                        entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Album, "year");
                                         break;
                                     }
                             }
@@ -79,12 +79,12 @@ namespace MusicBrowser
                             {
                                 case "tracks by genre":
                                     {
-                                        entities = NearLineCache.GetInstance().DataSet.Filter(EntityKind.Track, "genre", entity.Title);
+                                        entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track, "genre", entity.Title);
                                         break;
                                     }
                                 case "albums by year":
                                     {
-                                        entities = NearLineCache.GetInstance().DataSet.Filter(EntityKind.Album, "year", entity.Title);
+                                        entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "year", entity.Title);
                                         break;
                                     }
                             }
