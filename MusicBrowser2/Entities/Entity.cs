@@ -31,7 +31,6 @@ namespace MusicBrowser.Entities
     [DataContract]
     public sealed class Entity : BaseModel
     {
-        private string _sortName;
         private string _cacheKey;
         private string _path;
 

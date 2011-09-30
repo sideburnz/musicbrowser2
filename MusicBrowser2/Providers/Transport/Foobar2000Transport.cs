@@ -88,29 +88,16 @@ namespace MusicBrowser.Providers.Transport
             ExecuteCommand("/exit");
         }
 
-        public TrackInfo CurrentTrackInfo
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public int Progress
-        {
-            get { return -1; }
-        }
-
         public PlayState State
         {
             get { return PlayState.Undefined; }
         }
 
-        public event EventHandler TrackChanged;
-        public event EventHandler TrackProgress;
-
         #endregion
 
         private string FooPath
         {
-            get { return Util.Config.GetInstance().GetStringSetting("foobar2000"); }
+            get { return Util.Config.GetInstance().GetStringSetting("Player.foobar2000"); }
         }
 
         private void HideFoobar()

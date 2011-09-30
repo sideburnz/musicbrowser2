@@ -16,6 +16,11 @@ namespace MusicBrowser.Providers.Transport
                             _transport = new Foobar2000Transport();
                             break;
                         }
+                    case "vlc":
+                        {
+                            _transport = new VLCTransport();
+                            break;
+                        }
                     default:
                         {
                             _transport = new MediaCentreTransport();

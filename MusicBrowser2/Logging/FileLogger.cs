@@ -106,18 +106,18 @@ namespace MusicBrowser.Logging
 
         void ILogger.LogVerbose(string className, string endPoint)
         {
-#if DEBUG
             if (_logVerbose)
             {
+#if DEBUG
                 StringBuilder sb = new StringBuilder();
                 sb.Append(DateTime.Now.ToShortDateString() + ", ");
                 sb.Append(DateTime.Now.ToString("HH:mm:ss.ff") + ", ");
                 sb.Append("Verbose, ");
                 sb.Append(className + ",");
                 sb.Append(endPoint);
-                InnerLog(sb.ToString());
-            }
+                InnerLog(sb.ToString())
 #endif
+            }
         }
 
         void ILogger.LogStats(Providers.Statistics stats)

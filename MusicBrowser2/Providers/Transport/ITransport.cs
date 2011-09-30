@@ -6,16 +6,6 @@ using System.Collections.Generic;
 
 namespace MusicBrowser.Providers.Transport
 {
-    public struct TrackInfo
-    {
-        string Album;
-        string Artist;
-        string Track;
-        int Length;
-        DateTime Release;
-        int TrackNumber;
-    }
-
     public enum PlayState
     {
         Undefined,
@@ -37,15 +27,15 @@ namespace MusicBrowser.Providers.Transport
         void Close();
 
         // context information
-        TrackInfo CurrentTrackInfo { get; }
-        int Progress { get; }
+        //TrackInfo CurrentTrackInfo { get; }
+        //int Progress { get; }
         PlayState State { get; }
 
         // events
         //void OnTrackChanged();
         //void OnTrackProgress();
-        event EventHandler TrackChanged;
-        event EventHandler TrackProgress;
+        //event EventHandler TrackChanged;
+        //event EventHandler TrackProgress;
 
     }
 }
