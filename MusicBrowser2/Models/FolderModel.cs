@@ -97,20 +97,12 @@ namespace MusicBrowser.Models
 
             foreach (FileSystemItem item in items)
             {
-                // remove the cache (force it to rediscover the type)
-                string key = Util.Helper.GetCacheKey(item.FullPath);
-                cacheEngine.Delete(key);
-                CacheEngine.InMemoryCache.GetInstance().Remove(key);
-
-                // process the item in context
+                // get the item from the cache so we're dealing with the item actually on the screen
                 Entity entity = EntityFactory.GetItem(item);
-                if (entity == null) { continue; }
-
                 // fire off the metadata providers
                 CommonTaskQueue.Enqueue(new MetadataProviderList(entity, true), true);
                 itemCount++;
             }
-
             UINotifier.GetInstance().Message = "refreshing metadata for " + itemCount + " items";
         }
 

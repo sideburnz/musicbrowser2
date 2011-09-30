@@ -52,13 +52,7 @@ namespace MusicBrowser.Providers
                 g.DrawImage(bitmap, 0, 0, Thumbsize, Thumbsize);
                 g.Dispose();
             }
-            catch (Exception e)
-            {
-#if DEBUG
-                Logging.Logger.Error(e);
-#endif
-            }
-
+            catch { }
             return b;
         }
 
@@ -144,11 +138,8 @@ namespace MusicBrowser.Providers
                 stream.Close();
                 return Resize(bitmap, type);
             }
-            catch (Exception e)
+            catch
             {
-#if DEBUG
-                Logging.Logger.Error(e);
-#endif
                 return null;
             }
         }

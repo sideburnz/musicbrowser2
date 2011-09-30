@@ -82,7 +82,8 @@ namespace MusicBrowser.Util
                 { "LogStatsOnClose", false.ToString() },
 
                 { "Engine", "MediaCentre" },
-                { "foobar2000", "C:\\Program Files\\foobar2000\\foobar2000.exe" },
+                { "Player.foobar2000", (Is64Bit ? "C:\\Program Files (x86)" : "C:\\Program Files") + "\\foobar2000\\foobar2000.exe" },
+                { "Player.VLC", (Is64Bit ? "C:\\Program Files (x86)" : "C:\\Program Files") + "\\VideoLAN\\VLC\\vlc.exe" },
 
                 { "CachePath", Helper.CachePath },
 
@@ -128,6 +129,11 @@ namespace MusicBrowser.Util
             return _instance;
         }
         #endregion
+
+        private static bool Is64Bit
+        {
+            get { return IntPtr.Size == 8; }
+        }
 
         readonly Dictionary<string, string> _settingCache = new Dictionary<string, string>();
 

@@ -91,12 +91,12 @@ namespace MusicBrowser.Logging
 
         void ILogger.LogVerbose(string className, string endPoint)
         {
-#if DEBUG
             if (_logVerbose)
             {
+#if DEBUG
                 InnerLog(string.Format("{0}: {1}", className, endPoint), EventLogEntryType.Information);
-            }
 #endif
+            }
         }
 
         void ILogger.LogStats(Providers.Statistics stats)

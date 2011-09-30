@@ -60,11 +60,6 @@ namespace MusicBrowser.Providers.Transport
             // do nothing, for external players only
         }
 
-        public TrackInfo CurrentTrackInfo
-        {
-            get { throw new NotImplementedException(); }
-        }
-
         public int Progress
         {
             get
@@ -100,10 +95,6 @@ namespace MusicBrowser.Providers.Transport
                 return PlayState.Undefined;
             }
         }
-
-        public event EventHandler TrackChanged;
-
-        public event EventHandler TrackProgress;
 
         #endregion
     }
