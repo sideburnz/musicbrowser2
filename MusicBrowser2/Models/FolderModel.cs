@@ -82,28 +82,11 @@ namespace MusicBrowser.Models
             }
         }
 
-        //TODO: ensure this is clearing down all the caches, none of the images appear to update when this is called
         public void ForceRefresh()
         {
-            if (_parentEntity.Kind == EntityKind.Home) { return; }
+            UINotifier.GetInstance().Message = "refreshing metadata for " + SelectedItem.Title;
 
-            int itemCount = 1;
-            ICacheEngine cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
-
-            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parentEntity.Path);
-            IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
-
-            CommonTaskQueue.Enqueue(new MetadataProviderList(_parentEntity, true), true);
-
-            foreach (FileSystemItem item in items)
-            {
-                // get the item from the cache so we're dealing with the item actually on the screen
-                Entity entity = EntityFactory.GetItem(item);
-                // fire off the metadata providers
-                CommonTaskQueue.Enqueue(new MetadataProviderList(entity, true), true);
-                itemCount++;
-            }
-            UINotifier.GetInstance().Message = "refreshing metadata for " + itemCount + " items";
+            CommonTaskQueue.Enqueue(new ForceMetadataRefreshProvider(SelectedItem));
         }
 
         public Entity SelectedItem

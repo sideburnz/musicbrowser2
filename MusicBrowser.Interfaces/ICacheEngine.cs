@@ -5,7 +5,7 @@ namespace MusicBrowser.Interfaces
     public interface ICacheEngine
     {
         void Delete(string key);
-        string FetchIfFresh(string key, DateTime comparer);
+        string Fetch(string key);
         void Update(string key, string value);
 
         bool Exists(string key);

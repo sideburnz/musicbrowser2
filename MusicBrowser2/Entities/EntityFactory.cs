@@ -17,15 +17,21 @@ namespace MusicBrowser.Entities
 
         public static Entity GetItem(string item)
         {
-            return GetItem(FileSystemProvider.GetItemDetails(item));
+            return GetItem(item, false);
+        }
+
+        public static Entity GetItem(string item, bool forced)
+        {
+            return GetItem(FileSystemProvider.GetItemDetails(item), forced);
         }
 
         public static Entity GetItem(FileSystemItem item)
         {
-            // don't waste time trying to determine a known not entity
-            if (Util.Helper.getKnownType(item) == Helper.knownType.Other) { return null; }
-            if (item.Name.ToLower() == "metadata") { return null; }
+            return GetItem(item, false);
+        }
 
+        public static Entity GetItem(FileSystemItem item, bool forced)
+        {
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
 #endif
@@ -33,31 +39,42 @@ namespace MusicBrowser.Entities
             string key = Util.Helper.GetCacheKey(item.FullPath);
             Entity entity;
 
-            #region InMemoryCache 
-            // get from the Mem cache if it's cached there, this is the fastest cache
-            entity = _MemCache.Fetch(key);
-            if (entity != null)
+            if (!forced)
             {
+                #region InMemoryCache
+                // get from the Mem cache if it's cached there, this is the fastest cache
+                entity = _MemCache.Fetch(key);
+                if (entity != null)
+                {
 #if DEBUG
                 Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - NearLine cache", "end");
 #endif
-                return entity;
-            }
-            #endregion
+                    return entity;
+                }
+                #endregion
 
-            #region persistent cache
-            // get the value from persistent cache
-            entity = EntityPersistance.Deserialize(_cacheEngine.FetchIfFresh(key, item.LastUpdated));
-            if (entity != null)
-            {
+                #region persistent cache
+                // get the value from persistent cache
+                entity = EntityPersistance.Deserialize(_cacheEngine.Fetch(key));
+                if (entity != null && entity.CacheDate > item.LastUpdated)
+                {
 #if DEBUG
                 Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - persistent cache", "end");
 #endif
-                _MemCache.Update(entity);
-                return entity;
+                    _MemCache.Update(entity);
+                    return entity;
+                }
+                else
+                {
+                    Statistics.GetInstance().Hit("factory.missorexpired");
+                }
+
+                #endregion
             }
 
-            #endregion
+            // don't waste time trying to determine a known not entity
+            if (Util.Helper.getKnownType(item) == Helper.knownType.Other) { return null; }
+            if (item.Name.ToLower() == "metadata") { return null; }
 
             Statistics.GetInstance().Hit("factory.hit");
 

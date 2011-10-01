@@ -20,10 +20,8 @@ namespace MusicBrowser.CacheEngine
             cmd.ExecuteNonQuery();
         }
 
-        public string FetchIfFresh(string key, DateTime comparer)
+        public string Fetch(string key)
         {
-            if (GetAge(key) < comparer) { return string.Empty; }
-
             string sql = string.Format("SELECT `value` FROM t_cache WHERE `key` = '{0}'", key);
 
             MySqlCommand cmd = new MySqlCommand(sql, GetConnection());

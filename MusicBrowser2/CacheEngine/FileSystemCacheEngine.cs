@@ -25,7 +25,7 @@ namespace MusicBrowser.CacheEngine
             }
         }
 
-        public string FetchIfFresh(string key, DateTime comparer)
+        public string Fetch(string key)
         {
             string fileName = CalculateCacheFileFromKey(key);
 
@@ -33,16 +33,10 @@ namespace MusicBrowser.CacheEngine
             {
                 if (File.Exists(fileName))
                 {
-                    if (File.GetLastWriteTime(fileName) < comparer)
-                    {
-                        return string.Empty;
-                    }
                     StreamReader file = new StreamReader(fileName);
                     string cachedValue = file.ReadToEnd();
                     file.Close();
-
                     Statistics.GetInstance().Hit("cache.hit");
-
                     return cachedValue;
                 }
             }
