@@ -15,7 +15,7 @@ namespace MusicBrowser.CacheEngine
         public void Delete(string key)
         { }
 
-        public string FetchIfFresh(string key, DateTime comparer)
+        public string Fetch(string key)
         {
             return String.Empty;
         }

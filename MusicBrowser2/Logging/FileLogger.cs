@@ -115,7 +115,7 @@ namespace MusicBrowser.Logging
                 sb.Append("Verbose, ");
                 sb.Append(className + ",");
                 sb.Append(endPoint);
-                InnerLog(sb.ToString())
+                InnerLog(sb.ToString());
 #endif
             }
         }

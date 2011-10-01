@@ -224,7 +224,7 @@
                   <Animation Name="RotateRound" CenterPointPercent="0.5,0.5,0.5" Loop="-1">
                     <Keyframes>
                       <RotateKeyframe Time="0.0" Value="0deg;0,0,0" Interpolation="Linear" RelativeTo="Current" />
-                      <RotateKeyframe Time="4.0" Value="360deg;0,0,0" RelativeTo="Current" />
+                      <RotateKeyframe Time="1.0" Value="360deg;0,0,0" RelativeTo="Current" />
                     </Keyframes>
                   </Animation>
                 </Animations>
