@@ -30,7 +30,7 @@ namespace MusicBrowser.Providers.Metadata
 
             #endregion
 
-            Statistics.GetInstance().Hit(Name + ".hit");
+            Statistics.Hit(Name + ".hit");
 
             string IBNPath = Path.Combine(Path.Combine(Util.Config.GetInstance().GetStringSetting("ImagesByName"), "musicgenre"), dto.Title);
             dto.ThumbImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Thumb));
@@ -61,7 +61,6 @@ namespace MusicBrowser.Providers.Metadata
             // refresh weekly
             return (lastAccess.AddDays(7) < DateTime.Now);
         }
-
 
         public ProviderSpeed Speed
         {

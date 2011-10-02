@@ -17,6 +17,7 @@
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumb"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewStrip"/>
 
 
 
@@ -199,7 +200,8 @@
             </LayoutInput>
             <Children>
               <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
-              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" />            
+              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
+              <me:viewStrip Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
             </Children>
           </Panel>
 

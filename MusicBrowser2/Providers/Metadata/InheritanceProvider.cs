@@ -27,7 +27,7 @@ namespace MusicBrowser.Providers.Metadata
 
             bool hasUpdated = false;
 
-            Statistics.GetInstance().Hit(Name + ".hit");
+            Statistics.Hit(Name + ".hit");
  
             #region album
             if (dto.DataType == DataTypes.Album)
@@ -154,8 +154,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool isStale(DateTime lastAccess)
         {
-            // always refesh
-            return true;
+            return (lastAccess.AddDays(1) < DateTime.Now);
         }
 
 

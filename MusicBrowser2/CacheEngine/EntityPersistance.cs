@@ -9,7 +9,6 @@ namespace MusicBrowser.CacheEngine
 
         public static string Serialize(Entity data)
         {
-            data.CacheDate = DateTime.Now;
             return JsonSerializer.SerializeToString<Entity>(data);
         }
 

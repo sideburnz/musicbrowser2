@@ -356,6 +356,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static byte[] viewStrip {
+            get {
+                object obj = ResourceManager.GetObject("viewStrip", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] viewThumb {
             get {
                 object obj = ResourceManager.GetObject("viewThumb", resourceCulture);

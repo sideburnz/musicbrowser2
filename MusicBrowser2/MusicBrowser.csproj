@@ -136,6 +136,7 @@
     <Compile Include="CacheEngine\EntityPersistance.cs" />
     <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
     <Compile Include="Providers\ForceMetadataRefreshProvider.cs" />
+    <Compile Include="Providers\Metadata\FastProviderMarker.cs" />
     <Compile Include="Providers\Metadata\InheritanceProvider.cs" />
     <Compile Include="Providers\Metadata\IconProvider.cs" />
     <Compile Include="Providers\Metadata\FileSystemMetadataProvider.cs" />
@@ -197,6 +198,7 @@
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlGroupByPopUp.mcml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml" />
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
