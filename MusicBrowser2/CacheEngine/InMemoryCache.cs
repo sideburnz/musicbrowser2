@@ -68,11 +68,11 @@ namespace MusicBrowser.CacheEngine
         {
             if (!_cache.ContainsKey(key))
             {
-                Statistics.GetInstance().Hit("MemCache.Miss");
+                Statistics.Hit("MemCache.Miss");
                 return null;
             }
             Entity e = _cache[key];
-            Statistics.GetInstance().Hit("MemCache.Hit");
+            Statistics.Hit("MemCache.Hit");
             return e;
         }
 

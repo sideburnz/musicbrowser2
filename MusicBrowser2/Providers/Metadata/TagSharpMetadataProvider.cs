@@ -30,7 +30,7 @@ namespace MusicBrowser.Providers.Metadata
 
             #endregion
 
-            Statistics.GetInstance().Hit(Name + ".hit");
+            Statistics.Hit(Name + ".hit");
 
             try
             {
@@ -115,10 +115,8 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool isStale(DateTime lastAccess)
         {
-            // this shouldn't need any updates
-            return (lastAccess < DateTime.Parse("01-JAN-1000"));
+            return (lastAccess.AddDays(365) < DateTime.Now);
         }
-
 
         public ProviderSpeed Speed
         {

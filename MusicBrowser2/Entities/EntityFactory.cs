@@ -17,20 +17,10 @@ namespace MusicBrowser.Entities
 
         public static Entity GetItem(string item)
         {
-            return GetItem(item, false);
-        }
-
-        public static Entity GetItem(string item, bool forced)
-        {
-            return GetItem(FileSystemProvider.GetItemDetails(item), forced);
+            return GetItem(FileSystemProvider.GetItemDetails(item));
         }
 
         public static Entity GetItem(FileSystemItem item)
-        {
-            return GetItem(item, false);
-        }
-
-        public static Entity GetItem(FileSystemItem item, bool forced)
         {
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
@@ -39,44 +29,35 @@ namespace MusicBrowser.Entities
             string key = Util.Helper.GetCacheKey(item.FullPath);
             Entity entity;
 
-            if (!forced)
+            #region InMemoryCache
+            // get from the Mem cache if it's cached there, this is the fastest cache
+            entity = _MemCache.Fetch(key);
+            if (entity != null)
             {
-                #region InMemoryCache
-                // get from the Mem cache if it's cached there, this is the fastest cache
-                entity = _MemCache.Fetch(key);
-                if (entity != null)
-                {
-#if DEBUG
-                Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - NearLine cache", "end");
-#endif
-                    return entity;
-                }
-                #endregion
-
-                #region persistent cache
-                // get the value from persistent cache
-                entity = EntityPersistance.Deserialize(_cacheEngine.Fetch(key));
-                if (entity != null && entity.CacheDate > item.LastUpdated)
-                {
-#if DEBUG
-                Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") - persistent cache", "end");
-#endif
-                    _MemCache.Update(entity);
-                    return entity;
-                }
-                else
-                {
-                    Statistics.GetInstance().Hit("factory.missorexpired");
-                }
-
-                #endregion
+                return entity;
             }
+            #endregion
+
+            #region persistent cache
+            // get the value from persistent cache
+            entity = EntityPersistance.Deserialize(_cacheEngine.Fetch(key));
+            if (entity != null && entity.CacheDate > item.LastUpdated)
+            {
+                _MemCache.Update(entity);
+                return entity;
+            }
+            else
+            {
+                Statistics.Hit("factory.missorexpired");
+            }
+
+            #endregion
 
             // don't waste time trying to determine a known not entity
             if (Util.Helper.getKnownType(item) == Helper.knownType.Other) { return null; }
             if (item.Name.ToLower() == "metadata") { return null; }
 
-            Statistics.GetInstance().Hit("factory.hit");
+            Statistics.Hit("factory.hit");
 
             EntityKind? kind = DetermineKind(item);
             if (kind == null) { return null; }
@@ -86,7 +67,8 @@ namespace MusicBrowser.Entities
                 Kind = kind.GetValueOrDefault(),
                 Title = item.Name,
                 Path = item.FullPath,
-                Added = item.Created
+                Added = item.Created,
+                CacheDate = DateTime.Now
             };
 
             // these are needed for aggregation calculations
@@ -148,21 +130,21 @@ namespace MusicBrowser.Entities
 
 
         // works out where the metadata file is (if there is one)
-        private static string MetadataPath(FileSystemItem item)
-        {
-            string metadataPath = Directory.GetParent(item.FullPath).FullName;
+        //private static string MetadataPath(FileSystemItem item)
+        //{
+        //    string metadataPath = Directory.GetParent(item.FullPath).FullName;
 
-            string metadataLocal = metadataPath + "\\" + item.Name + "\\metadata.xml";
-            if (File.Exists(metadataLocal))
-            {
-                return metadataLocal;
-            }
-            string metadataInParent = metadataPath + "\\metadata\\" + item.Name + ".xml";
-            if (File.Exists(metadataInParent))
-            {
-                return metadataInParent;
-            }
-            return string.Empty;
-        }
+        //    string metadataLocal = metadataPath + "\\" + item.Name + "\\metadata.xml";
+        //    if (File.Exists(metadataLocal))
+        //    {
+        //        return metadataLocal;
+        //    }
+        //    string metadataInParent = metadataPath + "\\metadata\\" + item.Name + ".xml";
+        //    if (File.Exists(metadataInParent))
+        //    {
+        //        return metadataInParent;
+        //    }
+        //    return string.Empty;
+        //}
     }
 }

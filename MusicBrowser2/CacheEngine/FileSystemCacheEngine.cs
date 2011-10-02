@@ -36,7 +36,7 @@ namespace MusicBrowser.CacheEngine
                     StreamReader file = new StreamReader(fileName);
                     string cachedValue = file.ReadToEnd();
                     file.Close();
-                    Statistics.GetInstance().Hit("cache.hit");
+                    Statistics.Hit("cache.hit");
                     return cachedValue;
                 }
             }

@@ -99,7 +99,7 @@ namespace MusicBrowser.Logging
             }
         }
 
-        void ILogger.LogStats(Providers.Statistics stats)
+        void ILogger.LogStats(string stats)
         {
             InnerLog("Stats: " + stats, EventLogEntryType.Information);
         }

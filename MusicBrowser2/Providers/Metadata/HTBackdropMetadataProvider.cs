@@ -39,7 +39,7 @@ namespace MusicBrowser.Providers.Metadata
 
             #endregion
 
-            Statistics.GetInstance().Hit(Name + ".hit");
+            Statistics.Hit(Name + ".hit");
 
             // set up the web service classes
             ArtistImageServiceDTO serviceDTO = new ArtistImageServiceDTO();

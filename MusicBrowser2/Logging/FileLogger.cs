@@ -120,7 +120,7 @@ namespace MusicBrowser.Logging
             }
         }
 
-        void ILogger.LogStats(Providers.Statistics stats)
+        void ILogger.LogStats(string stats)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(DateTime.Now.ToShortDateString() + ", ");

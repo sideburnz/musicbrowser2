@@ -34,11 +34,11 @@ namespace MusicBrowser.Providers.Metadata
                             {
                                 _providers.Add(new HTBackdropMetadataProvider());
                             }
-
                             _providers.Add(new LastFMMetadataProvider());
                         }
                         _providers.Add(new FileSystemMetadataProvider());
                         _providers.Add(new IconProvider());
+                        _providers.Add(new FastProviderMarker());
                     }
                 }
             }
@@ -52,19 +52,24 @@ namespace MusicBrowser.Providers.Metadata
 #endif
             // only waste time triggering cache updates if the content has changed
             bool requiresUpdate = false;
-            // only do the slow providers if it looks like we've done the fast ones
-            bool onlyFastProviders = entity.ProviderTimeStamps.Count <= 1;
+            // only do the slow providers if we've not done the fast Provider marker
+            bool onlyFastProviders = !entity.ProviderTimeStamps.ContainsKey("FastProviderMarker");
+
+            // put the data into the DTO for the providers to read
+            DataProviderDTO dto = PopulateDTO(entity);
 
             foreach (IDataProvider provider in GetProviders())
             {
                 try
                 {
                     DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
-//                    if (!Forced && onlyFastProviders && provider.Speed == ProviderSpeed.Slow) { continue; }
+                    if (!Forced && onlyFastProviders && provider.Speed == ProviderSpeed.Slow) { continue; }
                     if (!provider.CompatibleWith(entity.KindName)) { continue; }
                     if (!Forced && !provider.isStale(lastAccess)) { continue; }
-                    DataProviderDTO dto = PopulateDTO(entity);
+
+                    // execute the payload
                     dto = provider.Fetch(dto);
+
                     if (dto.Outcome == DataProviderOutcome.Success)
                     {
                         entity = PopulateEntity(entity, dto);
@@ -89,6 +94,12 @@ namespace MusicBrowser.Providers.Metadata
                 entity.UpdateValues();
                 InMemoryCache.GetInstance().Update(entity);
                 CacheEngineFactory.GetCacheEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
+            }
+
+            // go through the refresh again, this time it'll pick up the slow providers
+            if (!Forced && onlyFastProviders)
+            {
+                CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
             }
         }
 

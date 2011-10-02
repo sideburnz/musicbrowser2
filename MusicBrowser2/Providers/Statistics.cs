@@ -5,36 +5,16 @@ namespace MusicBrowser.Providers
 {
     //TODO: extend to provider telemetry
 
-    public class Statistics
+    public static class Statistics
     {
-        #region singleton
-        private static Statistics _instance;
-        private static readonly object Padlock = new object();
+        private static readonly Dictionary<string, int> _stats = new Dictionary<string, int>();
 
-        public static Statistics GetInstance()
-        {
-            lock (Padlock)
-            {
-                if (_instance != null) return _instance;
-                _instance = new Statistics();
-                return _instance;
-            }
-        }
-        #endregion
-
-        readonly Dictionary<string, int> _stats;
-
-        Statistics()
-        {
-            _stats = new Dictionary<string, int>();
-        }
-
-        public void Hit(string key)
+        public static void Hit(string key)
         {
             Hit(key, 1);
         }
 
-        public void Hit(string key, int incrementor)
+        public static void Hit(string key, int incrementor)
         {
             if (_stats.ContainsKey(key))
             {
@@ -46,7 +26,7 @@ namespace MusicBrowser.Providers
             }
         }
 
-        public override string ToString()
+        public static string GetReport()
         {
             StringBuilder sb = new StringBuilder();
             foreach (string item in _stats.Keys)
@@ -54,6 +34,11 @@ namespace MusicBrowser.Providers
                 sb.Append(item + ": " + _stats[item].ToString() + " ");
             }
             return sb.ToString();
+        }
+
+        public static void Send()
+        {
+
         }
 
     }

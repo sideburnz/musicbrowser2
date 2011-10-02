@@ -23,7 +23,7 @@ namespace MusicBrowser.Providers.Metadata
 #endif
             dto.Outcome = DataProviderOutcome.Success;
 
-            Statistics.GetInstance().Hit(Name + ".hit");
+            Statistics.Hit(Name + ".hit");
 
             WebServiceProvider lfmProvider = new LastFMWebProvider();
 
