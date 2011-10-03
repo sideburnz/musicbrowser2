@@ -31,10 +31,10 @@ namespace MusicBrowser.Interfaces
         Disc
     }
 
-    public enum ProviderSpeed
+    public enum ProviderType
     {
-        Slow,
-        Fast
+        Core,
+        Peripheral
     }
 
     /// <summary>
@@ -115,6 +115,6 @@ namespace MusicBrowser.Interfaces
 
         bool isStale(DateTime lastAccess);
 
-        ProviderSpeed Speed { get; }
+        ProviderType Type { get; }
     }
 }

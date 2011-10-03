@@ -20,7 +20,17 @@ namespace MusicBrowser.Entities
             return GetItem(FileSystemProvider.GetItemDetails(item));
         }
 
+        public static Entity GetItem(string item, bool forced)
+        {
+            return GetItem(FileSystemProvider.GetItemDetails(item), forced);
+        }
+
         public static Entity GetItem(FileSystemItem item)
+        {
+            return GetItem(item, false);
+        }
+
+        public static Entity GetItem(FileSystemItem item, bool forced)
         {
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
@@ -29,29 +39,31 @@ namespace MusicBrowser.Entities
             string key = Util.Helper.GetCacheKey(item.FullPath);
             Entity entity;
 
-            #region InMemoryCache
-            // get from the Mem cache if it's cached there, this is the fastest cache
-            entity = _MemCache.Fetch(key);
-            if (entity != null)
+            if (!forced)
             {
-                return entity;
-            }
-            #endregion
+                #region InMemoryCache
+                // get from the Mem cache if it's cached there, this is the fastest cache
+                entity = _MemCache.Fetch(key);
+                if (entity != null && entity.CacheDate > item.LastUpdated)
+                {
+                    return entity;
+                }
+                #endregion
 
-            #region persistent cache
-            // get the value from persistent cache
-            entity = EntityPersistance.Deserialize(_cacheEngine.Fetch(key));
-            if (entity != null && entity.CacheDate > item.LastUpdated)
-            {
-                _MemCache.Update(entity);
-                return entity;
+                #region persistent cache
+                // get the value from persistent cache
+                entity = EntityPersistance.Deserialize(_cacheEngine.Fetch(key));
+                if (entity != null && entity.CacheDate > item.LastUpdated)
+                {
+                    _MemCache.Update(entity);
+                    return entity;
+                }
+                else
+                {
+                    Statistics.Hit("factory.missorexpired");
+                }
+                #endregion
             }
-            else
-            {
-                Statistics.Hit("factory.missorexpired");
-            }
-
-            #endregion
 
             // don't waste time trying to determine a known not entity
             if (Util.Helper.getKnownType(item) == Helper.knownType.Other) { return null; }

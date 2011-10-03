@@ -19,8 +19,6 @@
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumb"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewStrip"/>
 
-
-
   <UI Name="pageMain">
 
     <Properties>
@@ -49,15 +47,13 @@
       <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Bubbled" />
       <ShortcutHandler Name="hRec" Shortcut="Record" HandlerStage="Bubbled" />
 
-      <Timer Name="BackgroundTimer" AutoRepeat="True" Interval="7500" Enabled="True" />
+      <Timer Name="BackgroundTimer" AutoRepeat="True" Interval="10000" Enabled="True" />
     </Locals>
 
     <Rules>
       <Changed Source="[BackgroundTimer.Tick]">
         <Actions>
-          <!--<PlayAnimation Animation="animation://an:FadeOut" Target="[graphicBullet]"  />-->
           <Invoke Target="[FolderModel.ParentEntity.GetNextBackground]"/>
-          <!--<PlayAnimation Animation="animation://an:FadeIn" Target="[graphicBullet]"  />-->
         </Actions>
       </Changed>
       
@@ -285,7 +281,22 @@
               <ColorFill Visible="true" Content="Black" Alpha="0.3"/>
             </Children>
           </Panel>
-          <Graphic Name="EntityBackground" Content="[FolderModel.ParentEntity.Background]" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true" />
+          <Graphic Name="EntityBackground" Content="[FolderModel.ParentEntity.Background]" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true">
+            <Animations>
+              <Animation Type="ContentChangeHide">
+                <Keyframes>
+                  <AlphaKeyframe Time="0.0" Value="1" />
+                  <AlphaKeyframe Time="3" Value="0" Interpolation="SCurve" />
+                </Keyframes>
+              </Animation>
+              <Animation Type="ContentChangeShow">
+                <Keyframes>
+                  <AlphaKeyframe Time="0.0" Value="0" />
+                  <AlphaKeyframe Time="3" Value="1" Interpolation="SCurve" />
+                </Keyframes>
+              </Animation>
+            </Animations>
+          </Graphic>
 
         </Children>
         

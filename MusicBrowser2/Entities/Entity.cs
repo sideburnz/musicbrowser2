@@ -31,6 +31,7 @@ namespace MusicBrowser.Entities
     [DataContract]
     public sealed class Entity : BaseModel
     {
+        private static readonly Random _rnd = new Random(DateTime.Now.Millisecond);
         private string _cacheKey;
         private string _path;
 
@@ -170,10 +171,10 @@ namespace MusicBrowser.Entities
         private int _backgroundID = 0;
         public void GetNextBackground()
         {
-            if (BackgroundPaths.FirstOrDefault() != null)
+            if (BackgroundPaths.Count > 1)
             {
-                _backgroundID++;
-                if (_backgroundID >= BackgroundPaths.Count()) { _backgroundID = 0; }
+                // randomize the backdrop order
+                _backgroundID = _rnd.Next(BackgroundPaths.Count);
                 FirePropertyChanged("Background");
             }
         }
@@ -303,7 +304,7 @@ namespace MusicBrowser.Entities
                                 if (ArtistCount == 1) { sb.Append("1 Artist  "); }
                                 if (ArtistCount > 1) { sb.Append(ArtistCount + " Artists  "); }
                             }
-                            if (Kind == EntityKind.Genre || Kind == EntityKind.Artist)
+                            if (Kind == EntityKind.Genre || Kind == EntityKind.Artist || Kind == EntityKind.Virtual)
                             {
                                 if (AlbumCount == 1) { sb.Append("1 Album  "); }
                                 if (AlbumCount > 1) { sb.Append(AlbumCount + " Albums  "); }
@@ -326,7 +327,17 @@ namespace MusicBrowser.Entities
 
                             if (ReleaseDate > DateTime.Parse("01-JAN-1000")) { sb.Append(ReleaseDate.ToString("yyyy") + "  "); }
 
-                            if (sb.Length > 0) { return KindName + "  (" + sb.ToString().Trim() + ")"; }
+                            if (sb.Length > 0)
+                            {
+                                if (Kind == EntityKind.Virtual)
+                                {
+                                    return Path + "  (" + sb.ToString().Trim() + ")";
+                                }
+                                else
+                                {
+                                    return KindName + "  (" + sb.ToString().Trim() + ")";
+                                }
+                            }
                             break;
                         }
                 }
@@ -412,7 +423,7 @@ namespace MusicBrowser.Entities
                         output = output.Replace("[label]", Label); break;
                     case "playcount":
                         {
-                            if (PlayCount > 0)
+                            if (PlayCount > 0 && Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
                             {
                                 output = output.Replace("[playcount]", "Plays: " + PlayCount.ToString("N0"));
                                 break;
@@ -422,7 +433,7 @@ namespace MusicBrowser.Entities
                         }
                     case "listeners":
                         {
-                            if (Listeners > 0)
+                            if (Listeners > 0 && Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
                             {
                                 output = output.Replace("[listeners]", "Listeners: " + Listeners.ToString("N0"));
                                 break;
@@ -432,7 +443,7 @@ namespace MusicBrowser.Entities
                         }
                     case "allplays":
                         {
-                            if (TotalPlays > 0)
+                            if (TotalPlays > 0 && Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
                             {
                                 output = output.Replace("[allplays]", "Total Plays: " + TotalPlays.ToString("N0"));
                                 break;

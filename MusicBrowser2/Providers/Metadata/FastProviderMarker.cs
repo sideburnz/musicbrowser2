@@ -31,13 +31,13 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool isStale(DateTime lastAccess)
         {
-            // refresh weekly
-            return true;
+            // this should only need to run once
+            return (lastAccess.AddDays(365) < DateTime.Now);
         }
 
-        public ProviderSpeed Speed
+        public ProviderType Type
         {
-            get { return ProviderSpeed.Fast; }
+            get { return ProviderType.Core; }
         }
     }
 }

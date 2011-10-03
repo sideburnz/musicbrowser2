@@ -12,6 +12,12 @@ namespace MusicBrowser.Providers.Metadata
     {
         private const string Name = "IconProvider";
 
+        private const int MinDaysBetweenHits = 7;
+        private const int MaxDaysBetweenHits = 14;
+        private const int RefreshPercentage = 25;
+
+        private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
+
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
 #if DEBUG
@@ -56,15 +62,31 @@ namespace MusicBrowser.Providers.Metadata
             return (type.ToLower() == "genre");
         }
 
-        public bool isStale(DateTime lastAccess)
+        /// <summary>
+        /// refresh requests between the min and max refresh period have 10% chance of refreshing
+        /// </summary>
+        private static bool RandomlyRefreshData(DateTime stamp)
         {
-            // refresh weekly
-            return (lastAccess.AddDays(7) < DateTime.Now);
+            // if it's never refreshed, refresh it
+            if (stamp < DateTime.Parse("01-JAN-1000")) { return true; }
+
+            // if it's less then the min, don't refresh if it's older than the max then do refresh
+            int dataAge = (DateTime.Today.Subtract(stamp)).Days;
+            if (dataAge <= MinDaysBetweenHits) { return false; }
+            if (dataAge >= MaxDaysBetweenHits) { return true; }
+
+            // otherwise refresh randomly (95% don't refresh each run)
+            return (Rnd.Next(100) >= RefreshPercentage);
         }
 
-        public ProviderSpeed Speed
+        public bool isStale(DateTime lastAccess)
         {
-            get { return ProviderSpeed.Fast; }
+            return RandomlyRefreshData(lastAccess);
+        }
+
+        public ProviderType Type
+        {
+            get { return ProviderType.Peripheral; }
         }
     }
 }

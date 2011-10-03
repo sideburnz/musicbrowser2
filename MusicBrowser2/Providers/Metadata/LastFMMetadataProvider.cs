@@ -13,6 +13,7 @@ namespace MusicBrowser.Providers.Metadata
 
         private const int MinDaysBetweenHits = 5;
         private const int MaxDaysBetweenHits = 100;
+        private const int RefreshPercentage = 95;
 
         private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
         
@@ -22,6 +23,17 @@ namespace MusicBrowser.Providers.Metadata
             Logging.Logger.Verbose(Name + ": " + dto.Path, "start");
 #endif
             dto.Outcome = DataProviderOutcome.Success;
+
+            #region killer questions
+
+            if (!Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+            {
+                dto.Outcome = DataProviderOutcome.NoData;
+                dto.Errors = new System.Collections.Generic.List<string> { "Internet Providers Disabled" };
+                return dto;
+            }
+
+            #endregion
 
             Statistics.Hit(Name + ".hit");
 
@@ -209,6 +221,16 @@ namespace MusicBrowser.Providers.Metadata
             return dto;
         }
 
+        public string FriendlyName()
+        {
+            return Name;
+        }
+
+        public bool CompatibleWith(string type)
+        {
+            return (type.ToLower() == "artist") || (type.ToLower() == "album") || (type.ToLower() == "track");
+        }
+
         /// <summary>
         /// refresh requests between the min and max refresh period have 10% chance of refreshing
         /// </summary>
@@ -223,17 +245,7 @@ namespace MusicBrowser.Providers.Metadata
             if (dataAge >= MaxDaysBetweenHits) { return true; }
 
             // otherwise refresh randomly (95% don't refresh each run)
-            return (Rnd.Next(100) >= 95);
-        }
-
-        public string FriendlyName()
-        {
-            return Name;
-        }
-
-        public bool CompatibleWith(string type)
-        {
-            return (type.ToLower() == "artist") || (type.ToLower() == "album") || (type.ToLower() == "track");
+            return (Rnd.Next(100) >= RefreshPercentage);
         }
 
         public bool isStale(DateTime lastAccess)
@@ -242,10 +254,9 @@ namespace MusicBrowser.Providers.Metadata
             return RandomlyRefreshData(lastAccess);
         }
 
-
-        public ProviderSpeed Speed
+        public ProviderType Type
         {
-            get { return ProviderSpeed.Slow; }
+            get { return ProviderType.Peripheral; }
         }
     }
 }

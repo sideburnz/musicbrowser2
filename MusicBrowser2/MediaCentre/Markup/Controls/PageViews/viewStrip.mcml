@@ -22,7 +22,7 @@
     </Properties>
 
     <Locals>
-      <ScrollingData Name="scrollData" EndPadding="2260" BeginPadding="240" PageStep="1" /> 
+      <ScrollingData Name="scrollData" EndPadding="2250" BeginPadding="250" PageStep="1" /> 
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
     </Locals>
 
@@ -60,7 +60,7 @@
         <Children>
           <Panel>
             <LayoutInput>
-              <FormLayoutInput Bottom="Parent,0.66" Top="Parent,0.0" Left="Parent,0.025" Right="Parent,0.6"/>
+              <FormLayoutInput Bottom="Parent,0.65" Top="Parent,0.0" Left="Parent,0.01" Right="Parent,0.59"/>
             </LayoutInput>
             <Layout>
               <FlowLayout Orientation="Vertical"/>
@@ -72,7 +72,7 @@
           </Panel>
           <Graphic Name="ViewBackground" Content="[FolderModel.SelectedItem.Background]" Alpha="1" MaintainAspectRatio="true" Margins="0,0,0,0" Visible="true">
             <LayoutInput>
-              <FormLayoutInput Bottom="Parent,0.66" Top="Parent,0" Right="Parent,1"/>
+              <FormLayoutInput Bottom="Parent,0.66" Top="Parent,0" Right="Parent,0.99"/>
             </LayoutInput>
           </Graphic>
           <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100">
@@ -118,7 +118,7 @@
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
-          <Set Target="[Wrapper.Scale]" Value="1.2,1.2,0.5"/>
+          <Set Target="[Wrapper.Scale]" Value="1.33,1.33,0.5"/>
           <Set Target="[Fader.Alpha]" Value="0" />
           <Set Target="[FolderModel.SelectedIndex]" Value="[Entity.Index]"/>
           <Set Target="[Wrapper.Padding]" Value="1,1,1,1" />
