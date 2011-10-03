@@ -15,6 +15,12 @@ namespace MusicBrowser.Providers.Metadata
         private static object obj = new object();
         private static IList<IDataProvider> _providers = null;
 
+        private const int MinDaysBetweenHits = 180;
+        private const int MaxDaysBetweenHits = 360;
+        private const int RefreshPercentage = 25;
+
+        private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
+
         public static IEnumerable<IDataProvider> GetProviders()
         {
             if (_providers == null)
@@ -28,14 +34,8 @@ namespace MusicBrowser.Providers.Metadata
                         _providers.Add(new TagSharpMetadataProvider());
                         _providers.Add(new MediaInfoProvider());
                         _providers.Add(new InheritanceProvider());
-                        if (Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
-                        {
-                            if (Util.Config.GetInstance().GetBooleanSetting("EnableFanArt"))
-                            {
-                                _providers.Add(new HTBackdropMetadataProvider());
-                            }
-                            _providers.Add(new LastFMMetadataProvider());
-                        }
+                        _providers.Add(new HTBackdropMetadataProvider());
+                        _providers.Add(new LastFMMetadataProvider());
                         _providers.Add(new FileSystemMetadataProvider());
                         _providers.Add(new IconProvider());
                         _providers.Add(new FastProviderMarker());
@@ -63,7 +63,7 @@ namespace MusicBrowser.Providers.Metadata
                 try
                 {
                     DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
-                    if (!Forced && onlyFastProviders && provider.Speed == ProviderSpeed.Slow) { continue; }
+                    if (!Forced && onlyFastProviders && provider.Type == ProviderType.Peripheral) { continue; }
                     if (!provider.CompatibleWith(entity.KindName)) { continue; }
                     if (!Forced && !provider.isStale(lastAccess)) { continue; }
 

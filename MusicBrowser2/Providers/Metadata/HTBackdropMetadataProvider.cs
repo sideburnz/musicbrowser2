@@ -12,6 +12,11 @@ namespace MusicBrowser.Providers.Metadata
     public class HTBackdropMetadataProvider : IDataProvider
     {
         private const string Name = "HTBackdrops";
+
+        private const int MinDaysBetweenHits = 7;
+        private const int MaxDaysBetweenHits = 14;
+        private const int RefreshPercentage = 25;
+
         private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
@@ -22,6 +27,20 @@ namespace MusicBrowser.Providers.Metadata
             dto.Outcome = DataProviderOutcome.Success;
 
             #region killer questions
+
+            if (!Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+            {
+                dto.Outcome = DataProviderOutcome.NoData;
+                dto.Errors = new System.Collections.Generic.List<string> { "Internet Providers Disabled" };
+                return dto;
+            }
+
+            if (!Util.Config.GetInstance().GetBooleanSetting("EnableFanArt"))
+            {
+                dto.Outcome = DataProviderOutcome.NoData;
+                dto.Errors = new System.Collections.Generic.List<string> { "Fan Art Disabled" };
+                return dto;
+            }
 
             if (dto.hasBackImage && dto.hasThumbImage)
             {
@@ -102,17 +121,31 @@ namespace MusicBrowser.Providers.Metadata
             return (type.ToLower() == "artist");
         }
 
-        public bool isStale(DateTime lastAccess)
+        /// <summary>
+        /// refresh requests between the min and max refresh period have 10% chance of refreshing
+        /// </summary>
+        private static bool RandomlyRefreshData(DateTime stamp)
         {
-            // refresh weekly (it won't download if it already has the images)
-            return (lastAccess.AddDays(7) < DateTime.Now);
+            // if it's never refreshed, refresh it
+            if (stamp < DateTime.Parse("01-JAN-1000")) { return true; }
+
+            // if it's less then the min, don't refresh if it's older than the max then do refresh
+            int dataAge = (DateTime.Today.Subtract(stamp)).Days;
+            if (dataAge <= MinDaysBetweenHits) { return false; }
+            if (dataAge >= MaxDaysBetweenHits) { return true; }
+
+            // otherwise refresh randomly
+            return (Rnd.Next(100) >= RefreshPercentage);
         }
 
-
-
-        public ProviderSpeed Speed
+        public bool isStale(DateTime lastAccess)
         {
-            get { return ProviderSpeed.Slow; }
+            return RandomlyRefreshData(lastAccess);
+        }
+
+        public ProviderType Type
+        {
+            get { return ProviderType.Peripheral; }
         }
     }
 }

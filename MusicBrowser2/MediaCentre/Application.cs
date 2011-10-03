@@ -62,12 +62,12 @@ namespace MusicBrowser
                             {
                                 case "tracks by genre":
                                     {
-                                        entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Track, "genre");
+                                        entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Track, "Genre");
                                         break;
                                     }
                                 case "albums by year":
                                     {
-                                        entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Album, "year");
+                                        entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Album, "Year");
                                         break;
                                     }
                             }
@@ -75,16 +75,16 @@ namespace MusicBrowser
                         }
                     case EntityKind.Virtual:
                         {
-                            switch (entity.Path)
+                            switch (entity.Path.ToLower())
                             {
                                 case "tracks by genre":
                                     {
-                                        entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track, "genre", entity.Title);
+                                        entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track, "Genre", entity.Title);
                                         break;
                                     }
                                 case "albums by year":
                                     {
-                                        entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "year", entity.Title);
+                                        entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "Year", entity.Title);
                                         break;
                                     }
                             }

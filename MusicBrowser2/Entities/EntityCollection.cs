@@ -67,7 +67,7 @@ namespace MusicBrowser.Entities
                             .Select(item =>
                             new Entity
                                 {
-                                    Path = kind.ToString().ToLower() + "s by " + key.ToLower(),
+                                    Path = kind.ToString() + "s by " + key,
                                     Title = item.Key,
                                     Duration = item.Sum(subitem => subitem.Duration),
                                     ArtistCount = item.Sum(subitem => subitem.ArtistCount),
@@ -88,7 +88,7 @@ namespace MusicBrowser.Entities
                             .Select(item =>
                                 new Entity
                                 {
-                                    Path = kind.ToString().ToLower() + "s by " + key.ToLower(),
+                                    Path = kind.ToString() + "s by " + key,
                                     Title = item.Key,
                                     Duration = item.Sum(subitem => subitem.Duration),
                                     ArtistCount = item.Sum(subitem => subitem.ArtistCount),

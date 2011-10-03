@@ -17,6 +17,12 @@ namespace MusicBrowser.Providers.Metadata
         private static int _state = 0;
         private static object obj = new object();
 
+        private const int MinDaysBetweenHits = 180;
+        private const int MaxDaysBetweenHits = 360;
+        private const int RefreshPercentage = 25;
+
+        private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
+
         public string FriendlyName() { return Name; }
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
@@ -103,10 +109,26 @@ namespace MusicBrowser.Providers.Metadata
             return (type.ToLower() == "track");
         }
 
+        /// <summary>
+        /// refresh requests between the min and max refresh period have 10% chance of refreshing
+        /// </summary>
+        private static bool RandomlyRefreshData(DateTime stamp)
+        {
+            // if it's never refreshed, refresh it
+            if (stamp < DateTime.Parse("01-JAN-1000")) { return true; }
+
+            // if it's less then the min, don't refresh if it's older than the max then do refresh
+            int dataAge = (DateTime.Today.Subtract(stamp)).Days;
+            if (dataAge <= MinDaysBetweenHits) { return false; }
+            if (dataAge >= MaxDaysBetweenHits) { return true; }
+
+            // otherwise refresh randomly (95% don't refresh each run)
+            return (Rnd.Next(100) >= RefreshPercentage);
+        }
+
         public bool isStale(DateTime lastAccess)
         {
-            // this shouldn't need any updates
-            return (lastAccess.AddDays(365) < DateTime.Now);
+            return RandomlyRefreshData(lastAccess);
         }
 
         private static bool Enabled()
@@ -144,10 +166,9 @@ namespace MusicBrowser.Providers.Metadata
             return false;
         }
 
-
-        public ProviderSpeed Speed
+        public ProviderType Type
         {
-            get { return ProviderSpeed.Slow; }
+            get { return ProviderType.Peripheral; }
         }
     }
 }
