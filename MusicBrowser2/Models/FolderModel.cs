@@ -65,9 +65,9 @@ namespace MusicBrowser.Models
         /// <summary>
         /// This is the list of items to display on the page
         /// </summary>
-        public EntityCollection EntityCollection
+        public EntityVirtualList EntityList
         {
-            get { return _entities; }
+            get { return new EntityVirtualList(_entities); }
         }
 
         /// <summary>
@@ -264,8 +264,26 @@ namespace MusicBrowser.Models
 
         public void NavigateToVirtual(string name)
         {
-            Entity v = new Entity() { Kind = EntityKind.Group, Title = name };
-            application.Navigate(v, _crumbs);
+            Entity virt = new Entity() 
+            { 
+                Kind = EntityKind.Virtual, 
+                Path = name,
+                Label = name,
+                Title = name 
+            };
+            application.Navigate(virt, _crumbs);
+        }
+
+        public void NavigateToGroup(string name)
+        {
+            Entity group = new Entity() 
+            { 
+                Kind = EntityKind.Group, 
+                Title = name,
+                Label = name,
+                Path = name
+            };
+            application.Navigate(group, _crumbs);
         }
 
         public bool Busy { get; set; }

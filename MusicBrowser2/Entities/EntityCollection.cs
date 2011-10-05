@@ -8,7 +8,7 @@ namespace MusicBrowser.Entities
 {
     public class EntityCollection : List<Entity>, IEnumerable<Entity>
     {
-        public void Populate(IEnumerable<FileSystemItem> items)
+        public void AddRange(IEnumerable<FileSystemItem> items)
         {
             foreach (FileSystemItem item in items)
             {
@@ -34,7 +34,7 @@ namespace MusicBrowser.Entities
         {
             foreach (Entity e in this) { e.CacheSortName(); }
             base.Sort(new EntityCollectionSorter());
-            for (int i = 0; i < Count; this[i].Index = i++);
+            for (int i = 0; i < Count; this[i].Index = i++) ;
         }
 
         public EntityCollection Filter(EntityKind kind, string key, string value)
@@ -48,6 +48,9 @@ namespace MusicBrowser.Entities
                     break;
                 case "year":
                     ret.Add(this.Where(item => item.Kind == kind && item.ReleaseDate.ToString("yyyy") == value));
+                    break;
+                case "":
+                    ret.Add(this.Where(item => item.Kind == kind));
                     break;
             }
             return ret;
@@ -66,16 +69,16 @@ namespace MusicBrowser.Entities
                             .GroupBy(item => item.ReleaseDate.ToString("yyyy"))
                             .Select(item =>
                             new Entity
-                                {
-                                    Path = kind.ToString() + "s by " + key,
-                                    Title = item.Key,
-                                    Duration = item.Sum(subitem => subitem.Duration),
-                                    ArtistCount = item.Sum(subitem => subitem.ArtistCount),
-                                    AlbumCount = item.Sum(subitem => subitem.AlbumCount),
-                                    TrackCount = item.Sum(subitem => subitem.TrackCount),
-                                    Label = key.ToLower(),
-                                    Kind = EntityKind.Virtual
-                                }
+                            {
+                                Path = kind.ToString() + "s by " + key,
+                                Title = item.Key,
+                                Duration = item.Sum(subitem => subitem.Duration),
+                                ArtistCount = item.Sum(subitem => subitem.ArtistCount),
+                                AlbumCount = item.Sum(subitem => subitem.AlbumCount),
+                                TrackCount = item.Sum(subitem => subitem.TrackCount),
+                                Label = key.ToLower(),
+                                Kind = EntityKind.Virtual
+                            }
                                 )
                         );
                         break;

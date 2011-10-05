@@ -299,12 +299,12 @@ namespace MusicBrowser.Entities
                         {
                             StringBuilder sb = new StringBuilder();
 
-                            if (Kind == EntityKind.Genre)
+                            if (Kind != EntityKind.Artist)
                             {
                                 if (ArtistCount == 1) { sb.Append("1 Artist  "); }
                                 if (ArtistCount > 1) { sb.Append(ArtistCount + " Artists  "); }
                             }
-                            if (Kind == EntityKind.Genre || Kind == EntityKind.Artist || Kind == EntityKind.Virtual)
+                            if (Kind != EntityKind.Album)
                             {
                                 if (AlbumCount == 1) { sb.Append("1 Album  "); }
                                 if (AlbumCount > 1) { sb.Append(AlbumCount + " Albums  "); }
