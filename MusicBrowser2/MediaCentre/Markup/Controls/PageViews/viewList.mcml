@@ -29,7 +29,7 @@
       
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewListRepeater]"/>
-      <Binding Target="[viewListRepeater.Source]" Source="[FolderModel.EntityCollection.ToArray]" />
+      <Binding Target="[viewListRepeater.Source]" Source="[FolderModel.EntityList]" />
 
       <Default Target="[TextScrollingHandler.ScrollingData]" Value="[TextScrollingData]"/>
 

@@ -69,7 +69,7 @@ namespace MusicBrowser.Util
                 { "Folder.SortOrder", "[title]" },
                 { "Folder.Summary", "" },
 
-                { "Group.View", "thumb" },
+                { "Group.View", "list" },
                 { "Group.Format", "[title]" },
                 { "Group.SortOrder", "[title]" },
                 { "Group.Summary", "" },

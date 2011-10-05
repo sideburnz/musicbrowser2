@@ -15,6 +15,7 @@
     <Locals>
       <Command Name="CmdTracksByGenre" />
       <Command Name="CmdAlbumsByYear"/>
+      <Command Name="CmdAllAlbums"/>
       
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[CmdClose]"/>
@@ -26,13 +27,19 @@
       <Changed Source="[CmdTracksByGenre.Invoked]">
         <Actions>
           <Invoke Target="[CmdClose.Invoke]" />
-          <Invoke Target="[FolderModel.NavigateToVirtual]" name="Tracks by Genre"/>
+          <Invoke Target="[FolderModel.NavigateToGroup]" name="Tracks by Genre"/>
         </Actions>
       </Changed> 
       <Changed Source="[CmdAlbumsByYear.Invoked]">
         <Actions>
           <Invoke Target="[CmdClose.Invoke]" />
-          <Invoke Target="[FolderModel.NavigateToVirtual]" name="Albums by Year"/>
+          <Invoke Target="[FolderModel.NavigateToGroup]" name="Albums by Year"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdAllAlbums.Invoked]">
+        <Actions>
+          <Invoke Target="[CmdClose.Invoke]" />
+          <Invoke Target="[FolderModel.NavigateToVirtual]" name="Albums"/>
         </Actions>
       </Changed>
       
@@ -48,6 +55,7 @@
           <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
         </Layout>
         <Children>
+          <me:buttonImage Command="[CmdAllAlbums]" Name="cmdAllAlbums" Text="All Albums" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
           <me:buttonImage Command="[CmdTracksByGenre]" Name="cmdTracksByGenre" Text="Tracks by Genre" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
           <me:buttonImage Command="[CmdAlbumsByYear]" Name="cmdAlbumsByYear" Text="Albums by Year" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" />
           <me:buttonImage Command="[CmdClose]" Name="cmdClose" Text="Close" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />

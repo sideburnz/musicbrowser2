@@ -29,7 +29,7 @@
     <Rules> 
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
-      <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityCollection.ToArray]" />
+      <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
       
       <Rule>
         <Conditions>
@@ -73,8 +73,6 @@
       <me:ThumbItem Entity="[RepeatedItem!entities:Entity]" Application="[Application]" FolderModel="[FolderModel]" />
     </Content>
 
-
-    
   </UI>
 
   <UI Name="ThumbItem">

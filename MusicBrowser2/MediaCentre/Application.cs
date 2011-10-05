@@ -52,7 +52,7 @@ namespace MusicBrowser
                         {
                             foreach (string item in Providers.FolderItems.HomePathProvider.Paths)
                             {
-                                entities.Populate(FileSystemProvider.GetFolderContents(item));
+                                entities.AddRange(FileSystemProvider.GetFolderContents(item));
                             }
                             break;
                         }
@@ -87,12 +87,17 @@ namespace MusicBrowser
                                         entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "Year", entity.Title);
                                         break;
                                     }
+                                case "albums":
+                                    {
+                                        entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "", entity.Title);
+                                        break;
+                                    }
                             }
                             break;
                         }
                     default:
                         {
-                            entities.Populate(FileSystemProvider.GetFolderContents(entity.Path));
+                            entities.AddRange(FileSystemProvider.GetFolderContents(entity.Path));
                             break;
                         }
                 }
@@ -102,8 +107,6 @@ namespace MusicBrowser
                     Dialog("The selected item is empty");
                     return;
                 }
-
-                entities.Sort();
 
                 properties["Application"] = this;
                 FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
