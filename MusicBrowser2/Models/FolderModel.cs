@@ -93,11 +93,14 @@ namespace MusicBrowser.Models
         {
             get
             {
-                if (_entities.Count > 0)
+                if (SelectedIndex < 0) { SelectedIndex = 0; }
+                if (SelectedIndex > _entities.Count) { SelectedIndex = _entities.Count; }
+
+                if (_entities.Count == 0)
                 {
-                    return _entities[SelectedIndex];
+                    return new Entity() { Kind = EntityKind.Home };
                 }
-                return null;
+                return _entities[SelectedIndex];
             }
         }
 
@@ -153,7 +156,7 @@ namespace MusicBrowser.Models
                     _entities.Clear();
                     _entities.AddRange(temp);
                     FirePropertyChanged("Matches");
-                    FirePropertyChanged("EntityCollection");
+                    FirePropertyChanged("EntityList");
                     FirePropertyChanged("FullSize");
                 }
                 else
@@ -221,7 +224,7 @@ namespace MusicBrowser.Models
             _entities.Sort();
             _remoteFilter.Value = String.Empty;
             FirePropertyChanged("Matches");
-            FirePropertyChanged("EntityCollection");
+            FirePropertyChanged("EntityList");
             FirePropertyChanged("FullSize");
         }
 
@@ -293,5 +296,6 @@ namespace MusicBrowser.Models
             Busy = busy;
             FirePropertyChanged("Busy");
         }
+
     }
 }
