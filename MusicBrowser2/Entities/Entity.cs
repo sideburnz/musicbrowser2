@@ -173,8 +173,15 @@ namespace MusicBrowser.Entities
         {
             if (BackgroundPaths.Count > 1)
             {
-                // randomize the backdrop order
-                _backgroundID = _rnd.Next(BackgroundPaths.Count);
+                // randomize the backdrop order - make a good effort at making sure we don't get the same one twice
+                int next = _rnd.Next(BackgroundPaths.Count);
+                int limit = 0;
+                while (next == _backgroundID && limit < 5)
+                {
+                    next = _rnd.Next(BackgroundPaths.Count);
+                    limit++;
+                }
+                _backgroundID = next;
                 FirePropertyChanged("Background");
             }
         }
@@ -218,6 +225,20 @@ namespace MusicBrowser.Entities
                 return GetImage(IconPath);
             }
         }
+
+        public Image TypeThumb
+        {
+            get
+            {
+                try
+                {
+                    return GetImage("resx://MusicBrowser/MusicBrowser.Resources/thumb" + KindName);
+                }
+                catch { }
+                return GetImage(String.Empty);
+            }
+        }
+
         public string CacheKey
         {
             get

@@ -247,8 +247,32 @@
   <data name="imageSpinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\images\icons\imagespinner.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="viewStrip" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\markup\controls\pageviews\viewstrip.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="thumbAlbum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\thumbs\thumbalbum.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="thumbArtist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\thumbs\thumbartist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="thumbFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\thumbs\thumbfolder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="thumbGenre" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\thumbs\thumbgenre.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="thumbPlaylist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\thumbs\thumbplaylist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="thumbTrack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\thumbs\thumbtrack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="thumbVirtual" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\thumbs\thumbvirtual.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="IconPlaylist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconplaylist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

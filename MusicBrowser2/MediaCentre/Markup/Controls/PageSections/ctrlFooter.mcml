@@ -14,7 +14,9 @@
           <Set Target="[Desc.Content]" Value="[FolderModel.SelectedItem.Title]" />
           <Set Target="[Summary1.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine1]" />
           <Set Target="[Summary2.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine2]" />
-          <Set Target="[ArtistLine.Content]" Value="[FolderModel.SelectedItem.OptionalArtistLine]" /> 
+          <Set Target="[ArtistLine.Content]" Value="[FolderModel.SelectedItem.OptionalArtistLine]" />
+          <Set Target="[Favorite.Visible]" Value="[FolderModel.SelectedItem.Favorite]" />
+          <Set Target="[Thumb.Content]" Value="[FolderModel.SelectedItem.TypeThumb]" />
         </Actions>
       </Changed>
 
@@ -58,11 +60,6 @@
           <Set Target="[Star1.Visible]" Value="true" />
         </Actions>
       </Changed>
-      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
-        <Actions>
-          <Set Target="[Favorite.Visible]" Value="[FolderModel.SelectedItem.Favorite]" />
-        </Actions>
-      </Changed>
     </Rules>
 
     <Content>
@@ -86,9 +83,16 @@
               <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbFavorite" Margins="10,9,0,0" Visible="false"/>
             </Children>
           </Panel>
-
           <Text Name="ArtistLine" Color="White" Font="Segoe Media Center Light, 16" Content="" Alpha="0.6" Margins="0,-3,0,0"/>
-          <Text Name="Summary1" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
+          <Panel>
+            <Layout>
+              <FlowLayout Orientation="Horizontal" />
+            </Layout>
+            <Children>
+              <Graphic Name="Thumb" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" Margins="0,0,3,0" Visible="true"/>
+              <Text Name="Summary1" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
+            </Children>
+          </Panel>
           <Text Name="Summary2" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
         </Children>
       </Panel>

@@ -8,13 +8,14 @@ using MusicBrowser.Providers;
 using System.Data;
 using System.IO;
 using MusicBrowser.Providers.Background;
+using ServiceStack.Text;
 
 // in memory caching, intended to allow faster searches
 namespace MusicBrowser.CacheEngine
 {
     public sealed class InMemoryCache //: IBackgroundTaskable
     {
-        private Dictionary<string, Entity> _cache = new Dictionary<string,Entity>();
+        private Dictionary<string, Entity> _cache;
         private static readonly object _obj = new object();
         private readonly string _cacheFile = System.IO.Path.Combine(Util.Config.GetInstance().GetStringSetting("CachePath"), "cache.json");
 
@@ -36,6 +37,12 @@ namespace MusicBrowser.CacheEngine
                 return _instance;
             }
         }
+
+        private InMemoryCache()
+        {
+            Load();
+        }
+
         #endregion
 
         // gets the full cache back as an EntityCollection
@@ -85,6 +92,38 @@ namespace MusicBrowser.CacheEngine
                     _cache.Remove(key);
                 }
             }
+        }
+
+        private void Load()
+        {
+            if (System.IO.File.Exists(_cacheFile))
+            {
+                try
+                {
+                    FileStream file = new FileStream(_cacheFile, FileMode.OpenOrCreate);
+                    _cache = JsonSerializer.DeserializeFromStream<Dictionary<string, Entity>>(file);
+                    Statistics.Hit("InMemoryCache.Loaded", _cache.Count);
+                }
+                catch (Exception ex)
+                {
+                    System.IO.File.Delete(_cacheFile);
+                    _cache = new Dictionary<string, Entity>(1000);
+                    Logging.Logger.Error(ex);
+                }
+            }
+            else
+            {
+                _cache = new Dictionary<string, Entity>(1000);
+            }
+        }
+
+        public void Save()
+        {
+            FileStream file = new FileStream(_cacheFile, FileMode.Create);
+            JsonSerializer.SerializeToStream<Dictionary<string, Entity>>(_cache, file);
+            file.Close();
+
+            Statistics.Hit("InMemoryCache.Saved", _cache.Count);
         }
     }
 }

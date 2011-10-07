@@ -4,6 +4,7 @@
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:playlist="assembly://MusicBrowser/MusicBrowser.MediaCentre"
+      xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
       xmlns:me="Me"
       >
 
@@ -28,7 +29,8 @@
     </Properties>
 
     <Locals>
-      <cor:String Name="SelectedDescription" String=""/>
+      <addin:AddInHost Name="AddInHost"/>
+      
       <Command Name="CmdClosePopup"/>
       <Command Name="CmdPlayAll"/>
       <Command Name="CmdQueue"/>
@@ -91,6 +93,7 @@
       <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
       <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
 
+
       <Changed Source="[CmdPlayAll.Invoked]">
         <Actions>
           <Invoke Target="[playlist.DoAction]" Action="CmdPlayAll" Entity="[FolderModel.ParentEntity]"/>
@@ -116,9 +119,11 @@
           <Invoke Target="[GroupByPopupPlay.NavigateInto]" />
         </Actions>
       </Changed>
-      
+
+      <!-- these rules are all executed unconditionally -->
       <Rule>
         <Actions>
+          <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
           <Invoke Target="[ViewPanel.NavigateInto]" />
         </Actions>
       </Rule>
@@ -159,6 +164,9 @@
           <Invoke Target="[FolderModel.SetGroupByPopupVisible]" Value="false"/>
         </Actions>
       </Changed>
+
+
+      <!--<Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AlbumArtMosaic"/>-->
       
     </Rules>
     

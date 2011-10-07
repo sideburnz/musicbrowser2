@@ -223,6 +223,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconPlaylist {
+            get {
+                object obj = ResourceManager.GetObject("IconPlaylist", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconQueue {
             get {
                 object obj = ResourceManager.GetObject("IconQueue", resourceCulture);
@@ -328,6 +335,20 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap thumbAlbum {
+            get {
+                object obj = ResourceManager.GetObject("thumbAlbum", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap thumbArtist {
+            get {
+                object obj = ResourceManager.GetObject("thumbArtist", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap thumbFavorite {
             get {
                 object obj = ResourceManager.GetObject("thumbFavorite", resourceCulture);
@@ -335,9 +356,44 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap thumbFolder {
+            get {
+                object obj = ResourceManager.GetObject("thumbFolder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap thumbGenre {
+            get {
+                object obj = ResourceManager.GetObject("thumbGenre", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap thumbPlaylist {
+            get {
+                object obj = ResourceManager.GetObject("thumbPlaylist", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap thumbStar {
             get {
                 object obj = ResourceManager.GetObject("thumbStar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap thumbTrack {
+            get {
+                object obj = ResourceManager.GetObject("thumbTrack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap thumbVirtual {
+            get {
+                object obj = ResourceManager.GetObject("thumbVirtual", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

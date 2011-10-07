@@ -27,10 +27,14 @@ namespace MusicBrowser
                 Logging.Logger.Verbose(Util.Helper.outputTypes(), "stats");
 #endif
             }
+            CacheEngine.InMemoryCache.GetInstance().Save();
         }
         
         public void Launch(AddInHost host)         
         {
+            // load the fast memory cache
+            CacheEngine.InMemoryCache.GetInstance();
+
             // Set up a reference to "home"
             Entity home = new Entity() { Kind = EntityKind.Home };
             home.UpdateValues();
