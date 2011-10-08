@@ -18,7 +18,10 @@
           <PositionKeyframe Time=".5" RelativeTo="Final"/>
         </Keyframes>
       </Animation>
-      
+
+      <Command Name="CmdRefresh"/>
+      <Timer Name="RefreshTimer" AutoRepeat="True" Interval="5000" Enabled="True" />
+
     </Properties>
 
     <Locals>
@@ -26,11 +29,32 @@
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
     </Locals>
 
-    <Rules> 
+    <Rules>
+
+      <Changed Source="[RefreshTimer.Tick]">
+        <Actions>
+          <Invoke Target="[CmdRefresh.Invoke]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdRefresh.Invoked]">
+        <Actions>
+          <Set Target="[Summary.Content]" Value="[FolderModel.SelectedItem.Summary]" />
+          <Set Target="[Title.Content]" Value="[FolderModel.SelectedItem.Title]" />
+          <Set Target="[ViewBackground.Content]" Value="[FolderModel.SelectedItem.Background]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Actions>
+          <Invoke Target="[CmdRefresh.Invoke]" />
+        </Actions>
+      </Changed>
+
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
       <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
-      
+
       <Rule>
         <Conditions>
           <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="strip" />
@@ -39,14 +63,6 @@
           <Set Target="[div_Strip.Visible]" Value="true" />
         </Actions>
       </Rule>
-
-      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
-        <Actions>
-          <Set Target="[Summary.Content]" Value="[FolderModel.SelectedItem.Summary]" />
-          <Set Target="[Title.Content]" Value="[FolderModel.SelectedItem.Title]" />
-          <Set Target="[ViewBackground.Content]" Value="[FolderModel.SelectedItem.Background]" />
-        </Actions>
-      </Changed>
 
       <Rule>
         <Actions>

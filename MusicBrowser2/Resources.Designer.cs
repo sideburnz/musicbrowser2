@@ -83,20 +83,6 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap ButtonDisabled {
-            get {
-                object obj = ResourceManager.GetObject("ButtonDisabled", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap ButtonDormant {
-            get {
-                object obj = ResourceManager.GetObject("ButtonDormant", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static byte[] buttonIcon {
             get {
                 object obj = ResourceManager.GetObject("buttonIcon", resourceCulture);
@@ -114,13 +100,6 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap ButtonLeftFocus {
             get {
                 object obj = ResourceManager.GetObject("ButtonLeftFocus", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap ButtonLeftFocusOverlay {
-            get {
-                object obj = ResourceManager.GetObject("ButtonLeftFocusOverlay", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

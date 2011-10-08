@@ -22,9 +22,10 @@
       <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
       
-      <Changed Source="[Entity.Index]" InitialEvaluate="true">
+      <Changed Source="[Entity.Index]" InitialEvaluate="true" ConditionLogicalOp="OR">
         <Conditions>
           <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Home" />
+          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Group" />
         </Conditions>
         <Actions>
           <Set Target="[HomeMenu.Visible]" Value="true" />
@@ -32,6 +33,8 @@
           
           <Set Target="[QueueMenu.Visible]" Value="false" />
           <Set Target="[PlayMenu.Visible]" Value="false" />
+
+          <Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
       </Changed>
       
@@ -42,13 +45,16 @@
         <Children>
           <Panel Layout="Form">
             <Children>
-
               <Panel>
                 <LayoutInput>
                   <FormLayoutInput Right="Parent,0.98" Top="Parent,0.1"/>
                 </LayoutInput>
                 <Children>
-                  <Graphic Name="icon" Content="[Entity.Icon]" Layout="Fill" MaximumSize="96,96"/>
+                  <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" MaximumSize="96,96" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1">
+                    <Children>
+                      <Graphic Content="[Entity.Icon]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
+                    </Children>
+                  </Graphic>
                 </Children>
               </Panel>
 
@@ -63,7 +69,7 @@
 
               <Panel>
                 <LayoutInput>
-                  <FormLayoutInput Right="Parent,0.89" Top="Parent,0.04" Left="Parent,0.22" Horizontal="Far" Vertical="Near"/>
+                  <FormLayoutInput Right="Parent,0.89" Top="Parent,0.1" Left="Parent,0.22" Horizontal="Far" Vertical="Near"/>
                 </LayoutInput>
                 <Children>
                   <Text Name="PageCrumbs_Label" Content="[Crumbs.Path]" HorizontalAlignment="Near" Color="White" Font="Segoe Media Center Light, 24" Alpha="0.7" />

@@ -6,17 +6,32 @@
 
     <Properties>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+      <Command Name="CmdRefresh"/>
+      <Timer Name="RefreshTimer" AutoRepeat="True" Interval="5000" Enabled="True" />
     </Properties>
 
     <Rules>
-      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+
+      <Changed Source="[CmdRefresh.Invoked]">
         <Actions>
           <Set Target="[Desc.Content]" Value="[FolderModel.SelectedItem.Title]" />
           <Set Target="[Summary1.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine1]" />
           <Set Target="[Summary2.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine2]" />
           <Set Target="[ArtistLine.Content]" Value="[FolderModel.SelectedItem.OptionalArtistLine]" />
-          <Set Target="[Favorite.Visible]" Value="[FolderModel.SelectedItem.Favorite]" />
           <Set Target="[Thumb.Content]" Value="[FolderModel.SelectedItem.TypeThumb]" />
+          <Set Target="[Favorite.Visible]" Value="[FolderModel.SelectedItem.Favorite]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[RefreshTimer.Tick]">
+        <Actions>
+          <Invoke Target="[CmdRefresh.Invoke]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Actions>
+          <Invoke Target="[CmdRefresh.Invoke]" />
         </Actions>
       </Changed>
 
@@ -74,13 +89,13 @@
               <FlowLayout Orientation="Horizontal"/>
             </Layout>
             <Children>
-              <Text Name="Desc" Color="White" Font="Segoe Media Center Light, 24" Content="" Margins="0,-5,0,-2"/>
-              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="20,5,0,0" Visible="false"/>
-              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,5,0,0" Visible="false"/>
-              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,5,0,0" Visible="false"/>
-              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,5,0,0" Visible="false"/>
-              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,5,0,0" Visible="false"/>
-              <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbFavorite" Margins="10,9,0,0" Visible="false"/>
+              <Text Name="Desc" Color="White" Font="Segoe Media Center Light, 26" Content="" Margins="0,-5,0,-2"/>
+              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="20,7,0,0" Visible="false"/>
+              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,7,0,0" Visible="false"/>
+              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,7,0,0" Visible="false"/>
+              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,7,0,0" Visible="false"/>
+              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,7,0,0" Visible="false"/>
+              <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbFavorite" Margins="10,10,0,0" Visible="false"/>
             </Children>
           </Panel>
           <Text Name="ArtistLine" Color="White" Font="Segoe Media Center Light, 16" Content="" Alpha="0.6" Margins="0,-3,0,0"/>

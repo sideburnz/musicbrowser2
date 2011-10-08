@@ -6,7 +6,7 @@
 
     <Properties>
       <Command Name="Command" Command="$Required" />
-      <Font Name="Font" Font="Segoe Media Center, 20" />
+      <Font Name="Font" Font="Segoe Media Center, 22" />
 
       <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
       <cor:Boolean Name="LeftAlign" Boolean="true" />
@@ -111,11 +111,9 @@
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
-              <Graphic Name="graphicBullet" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="12,15,3,0" Visible="true" Content="[Icon]">
-              </Graphic>
+              <Graphic Name="graphicBullet" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="12,16,3,0" Visible="true" Content="[Icon]" />
               <!-- The label to display. -->
-              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="4,8,0,0" Visible="[DisplayText]" FadeSize="5"  Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]">
-              </Text>
+              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="4,10,0,0" Visible="[DisplayText]" FadeSize="5"  Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]" />
             </Children>
           </Graphic>
         </Children>

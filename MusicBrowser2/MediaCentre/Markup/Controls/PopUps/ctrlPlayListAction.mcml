@@ -19,8 +19,16 @@
           <Panel Layout="Form">
             <Children>
               <Panel Name="PlayListNotice">
+                <Animations>
+                  <Animation Type="Hide">
+                    <Keyframes>
+                      <AlphaKeyframe Time="0.0" Value="1" />
+                      <AlphaKeyframe Time="1" Value="0" Interpolation="SCurve" />
+                    </Keyframes>
+                  </Animation>
+                </Animations>
                 <LayoutInput>
-                  <FormLayoutInput Right="Parent,1" Top="Parent,0.2"/>
+                  <FormLayoutInput Right="Parent,1" Top="Parent,0.21"/>
                 </LayoutInput>
                 <Children>
                   <Text Name="Notice" BackColor="White" Color="Black" Font="Segoe Media Center,24"/>

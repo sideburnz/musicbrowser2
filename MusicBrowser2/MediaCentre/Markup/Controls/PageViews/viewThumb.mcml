@@ -22,7 +22,7 @@
     </Properties>
 
     <Locals>
-      <ScrollingData Name="scrollData" EndPadding="1000" BeginPadding="50" PageStep="1" /> 
+      <ScrollingData Name="scrollData" EndPadding="2250" BeginPadding="250" PageStep="1" />
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
     </Locals>
 
@@ -57,7 +57,7 @@
             <Children>
               <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true">
                 <Layout>
-                  <GridLayout Orientation="Vertical" Rows="3" Columns="9" AllowWrap="true" Spacing="1,1" Repeat="WhenTooBig" RepeatGap="100"/>
+                  <GridLayout Orientation="Vertical" Rows="3" Columns="9" AllowWrap="true" Spacing="3,3" Repeat="WhenTooBig" RepeatGap="100"/>
                 </Layout>
                 <Animations>
                   <Animation Animation="[Slide]" />
@@ -91,7 +91,7 @@
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
-          <Set Target="[Wrapper.Scale]" Value="1.2,1.2,0.5"/>
+          <Set Target="[Wrapper.Scale]" Value="1.3,1.3,0.5"/>
           <Set Target="[Fader.Alpha]" Value="0" />
           <Set Target="[FolderModel.SelectedIndex]" Value="[Entity.Index]"/>
           <Set Target="[Wrapper.Padding]" Value="1,1,1,1" />
@@ -146,7 +146,7 @@
           <ColorFill Content="Transparent" Name="Blocker" Layout="Fill"/>
         </Children>
       </Graphic>
-  </Content>
+    </Content>
   </UI>
 
 </Mcml>
