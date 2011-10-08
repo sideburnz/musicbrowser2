@@ -39,7 +39,9 @@
       <Command Name="CmdRefresh" />
       
       <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
+      
       <playlist:Playlist Name="playlist"/>
+      
       <models:Clock Name="Clock"/>
 
       <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled"/>
@@ -89,10 +91,9 @@
           <Invoke Target="[FolderModel.ForceRefresh]" />
         </Actions>
       </Changed>
-      
+
       <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
       <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
-
 
       <Changed Source="[CmdPlayAll.Invoked]">
         <Actions>
@@ -138,6 +139,8 @@
 
       <Binding Source="[FolderModel.RemoteTyper]" Target="[RemoteTyper.EditableText]" />
       <Binding Source="[FolderModel.RemoteTyper.Value]" Target="[FilterDisplay.Content]"/>
+      <Binding Source="[FolderModel.ShowFilterAsYouType]" Target="[FindAsYouType.Visible]" />
+      
       <Binding Source="[FolderModel.ParentEntity.Background]" Target="[EntityBackground.Content]"/>
       <Binding Source="[FolderModel.HomePopupVisible]" Target="[HomePopupPlay.Visible]" />
       <Binding Source="[FolderModel.GroupByPopupVisible]" Target="[GroupByPopupPlay.Visible]" />
@@ -191,11 +194,19 @@
           </Panel>
 
           <!-- FIND AS YOU TYPE -->
-          <Text Name="FilterDisplay" Font="Segoe Media Center,150" Color="LightBlue">
+          <Panel Name="FindAsYouType">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,0" Top="Parent,.50" />
+              <FormLayoutInput Right="Parent,1" Top="Parent,0.15"/>
             </LayoutInput>
-          </Text>
+            <Layout>
+              <FlowLayout Orientation="Horizontal" />
+            </Layout>
+            <Children>
+              <Text Content=" Results for '" BackColor="White" Color="Black" Font="Segoe Media Center,24"/>
+              <Text Name="FilterDisplay" BackColor="White" Color="Black" Font="Segoe Media Center,24"/>
+              <Text Content="' " BackColor="White" Color="Black" Font="Segoe Media Center,24"/>
+            </Children>
+          </Panel>
 
           <!-- VIEWS -->
           <Panel Name="ViewPanel">

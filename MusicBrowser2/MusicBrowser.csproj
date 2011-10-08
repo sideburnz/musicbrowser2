@@ -141,7 +141,9 @@
     <Content Include="MediaCentre\Images\thumbs\thumbPlaylist.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbTrack.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbVirtual.png" />
-    <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <Compile Include="CacheEngine\EntityPersistance.cs" />
     <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
     <Compile Include="Providers\ForceMetadataRefreshProvider.cs" />
@@ -256,7 +258,9 @@
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayPopUp.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MediaCentre\Markup\Pages\pageFolder.mcml">
       <SubType>Designer</SubType>
     </Content>

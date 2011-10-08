@@ -155,14 +155,24 @@ namespace MusicBrowser.Models
                     temp.Sort();
                     _entities.Clear();
                     _entities.AddRange(temp);
-                    FirePropertyChanged("Matches");
-                    FirePropertyChanged("EntityList");
-                    FirePropertyChanged("FullSize");
                 }
                 else
                 {
                     _remoteFilter.Value = String.Empty;
                 }
+            }
+
+            FirePropertyChanged("Matches");
+            FirePropertyChanged("EntityList");
+            FirePropertyChanged("FullSize");
+            FirePropertyChanged("ShowFilterAsYouType");
+        }
+
+        public bool ShowFilterAsYouType
+        {
+            get
+            {
+                return (!(String.IsNullOrEmpty(_remoteFilter.Value)));
             }
         }
 

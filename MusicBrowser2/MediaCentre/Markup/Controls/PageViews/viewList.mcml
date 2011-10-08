@@ -224,10 +224,8 @@
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
-              <Graphic Name="graphicBullet" Content="[Entity.Icon]" Margins="9,8,3,0" MaximumSize="42,42" MinimumSize="36,36" MaintainAspectRatio="false" Visible="true">
-              </Graphic>
-              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="10,8,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" MaximumSize="[Size]">
-              </Text>
+              <Graphic Name="graphicBullet" Content="[Entity.Icon]" Margins="5,5,0,5" MaximumSize="47,47" MinimumSize="47,47" MaintainAspectRatio="false" Visible="true" />
+              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="10,5,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 22" HorizontalAlignment="Near" MaximumSize="[Size]" />
             </Children>
           </Graphic>
         </Children>
@@ -235,13 +233,7 @@
     </Content>
   </UI>
 
-  <Image Name="ButtonDisabled"          Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonDisabled"          NineGrid="7,7,7,7" />
-  <Image Name="ButtonDormant"           Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonDormant"           NineGrid="7,7,7,7" />
   <Image Name="ButtonLeftFocus"         Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
-  <Image Name="ButtonLeftFocusOverlay"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocusOverlay"  NineGrid="7,7,7,7" />
   <Image Name="ButtonNoFocus"           Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonNoFocus"           NineGrid="7,7,7,7" />
-  <Image Name="ButtonPressedAfterGlow"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonPressedAfterGlow"  NineGrid="7,7,7,7" />
-  <Image Name="ButtonPressedHighlight"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonPressedHighlight"  NineGrid="7,7,7,7" />
-
-
+  
 </Mcml>

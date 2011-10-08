@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.IO;
 using MusicBrowser.CacheEngine;
@@ -42,6 +43,7 @@ namespace MusicBrowser.Providers.Metadata
             int albums = 0;
             int artists = 0;
             int tracks = 0;
+            List<string> children = new List<string>();
 
             IEnumerable<FileSystemItem> allPaths = FileSystemProvider.GetAllSubPaths(dto.Path);
             foreach (FileSystemItem item in allPaths)
@@ -56,16 +58,22 @@ namespace MusicBrowser.Providers.Metadata
                             {
                                 tracks++;
                                 duration += e.Duration;
+
+                                if (dto.DataType == DataTypes.Album) { children.Add(e.Title); }
                                 break;
                             }
                         case EntityKind.Album:
                             {
                                 albums++;
+
+                                if (dto.DataType == DataTypes.Artist) { children.Add(e.Title); }
                                 break;
                             }
                         case EntityKind.Artist:
                             {
                                 artists++;
+
+                                if (dto.DataType == DataTypes.Genre) { children.Add(e.Title); }
                                 break;
                             }
                     }
@@ -76,6 +84,17 @@ namespace MusicBrowser.Providers.Metadata
             dto.Duration = duration;
             dto.ArtistCount = artists;
             dto.AlbumCount = albums;
+
+            if (String.IsNullOrEmpty(dto.Summary))
+            {
+                children.Sort();
+                StringBuilder sb = new StringBuilder();
+                foreach (string child in children)
+                {
+                    sb.Append(child + "\n");
+                }
+                dto.Summary = sb.ToString();
+            }
 
             return dto;
         }
