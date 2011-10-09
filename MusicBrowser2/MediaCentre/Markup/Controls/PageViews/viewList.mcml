@@ -6,8 +6,8 @@
       xmlns:me="Me"
       >
 
-  <!--<Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonEntity"/>-->
-  
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlScrollingText"/>
+
   <UI Name="viewList">
 
     <Properties>
@@ -15,23 +15,16 @@
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
     </Properties>
 
-    <Locals>
-      <ScrollingHandler Name="TextScrollingHandler" HandlePageKeys="true" HandleDirectionalKeys="true" HandlerStage="Direct" />
-      <ScrollingData Name="TextScrollingData" EndPadding="100"/>      
-      
+    <Locals>      
       <ScrollingData Name="scrollData" EndPadding="100" PageStep="1" />
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
-
-      <Command Name="RightHandler"/>
     </Locals>
 
     <Rules>
-      
+      <Binding Target="[viewListRepeater.Source]" Source="[FolderModel.EntityList]" />
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewListRepeater]"/>
-      <Binding Target="[viewListRepeater.Source]" Source="[FolderModel.EntityList]" />
-
-      <Default Target="[TextScrollingHandler.ScrollingData]" Value="[TextScrollingData]"/>
+      <Binding Target="[Summary.Summary]" Source="[FolderModel.ParentEntity.Summary]" />
 
       <Rule>
         <Conditions>
@@ -47,13 +40,6 @@
           <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" />
         </Actions>
       </Rule>
-
-      <Changed Source="[RightHandler.Invoked]">
-        <Actions>
-          <Invoke Target="[SummaryPanel.NavigateInto]" />
-        </Actions>
-      </Changed>
-
     </Rules>
 
     <Content>
@@ -62,14 +48,12 @@
           <FlowLayout Orientation="Horizontal"/>
         </Layout>
         <Children>
-          
           <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="-10" Margins="25,0,0,0" Name="viewListScroller" ScrollingData="[scrollData]" >
             <LayoutInput>
               <DockLayoutInput Alignment="Fill"  Position="Client"  />
             </LayoutInput>
             <Children>
               <Repeater Layout="Fill" Name="viewListRepeater" Navigation="RememberFocus">
-                
                 <Animations>
                   <Animation Type="Move">
                     <Keyframes>
@@ -78,60 +62,20 @@
                     </Keyframes>
                   </Animation>
                 </Animations>
-                
                 <Layout>
                   <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
                 </Layout>
                 <Content>
-                  <me:buttonEntity Entity="[RepeatedItem!entities:Entity]" Application="[Application]" FolderModel="[FolderModel]" cmdRight="[RightHandler]"/>
+                  <me:buttonEntity Entity="[RepeatedItem!entities:Entity]" Application="[Application]" FolderModel="[FolderModel]"/>
                 </Content>
               </Repeater>
             </Children>
           </Scroller>
-
-          <Panel Name="SummaryPanel">
-            <Layout>
-              <FlowLayout Orientation="Vertical"/>
-            </Layout>
-            <Children>
-              <Scroller Name="TextScroller" Margins="25,12,25,20" Orientation="Vertical" FadeSize="-30" ScrollingData="[TextScrollingData]">
-                <LayoutInput>
-                  <DockLayoutInput Alignment="Fill"  Position="Client"  />
-                </LayoutInput>
-                <Children>
-                  <me:summaryText Name="Summary" Entity="[FolderModel.ParentEntity]">
-                    <Animations>
-                      <Animation Type="Move">
-                        <Keyframes>
-                          <PositionKeyframe Time="0" Value="0,0,0" RelativeTo="Current" Interpolation="Exp"/>
-                          <PositionKeyframe Time=".1" Value="0,0,0"/>
-                        </Keyframes>
-                      </Animation>
-                    </Animations>
-                  </me:summaryText>
-                </Children>
-              </Scroller>
-            </Children>
-          </Panel>
-
+          <me:ctrlScrollingText Name="Summary" Summary="" Font="Segoe Media Center Light, 22" />
         </Children>
       </Panel>
     </Content>
 
-  </UI>
-
-  <UI Name="summaryText">
-    <Properties>
-      <entities:Entity Name="Entity" Entity="$Required" />
-    </Properties>
-    <Rules>
-      <Condition Source="[Input.KeyFocus]" SourceValue="true" Target="[Body.Alpha]" Value="1"/>
-      <Condition Source="[Input.KeyFocus]" SourceValue="false" Target="[Body.Alpha]" Value="0.8"/>
-      <Binding Source="[Entity.Summary]" Target="[Body.Content]" />
-    </Rules>
-    <Content>
-      <Text Name="Body" Content="[Entity.Summary]" Color="White" Font="Segoe Media Center Light, 22" WordWrap="true" />
-    </Content>
   </UI>
   
   <UI Name="buttonEntity">
@@ -141,12 +85,10 @@
       <a:Application Name="Application" Application="$Required"/>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
 
-      <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
       <Size Name="Size" Size="600,57" />
       <Size Name="MinSize" Size="600,57" />
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
       <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
-      <Command Name="cmdRight" Command="$Required"/>
     </Properties>
 
     <Locals>
@@ -154,16 +96,9 @@
       <ClickHandler Name="Clicker" />
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
       <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
-      <KeyHandler Name="RightHandler" Key="Right" Handle="true"/>
     </Locals>
 
     <Rules>
-
-      <Changed Source="[RightHandler.Invoked]">
-        <Actions>
-          <Invoke Target="[cmdRight.Invoke]" />
-        </Actions>
-      </Changed>
       
       <Rule ConditionLogicalOp="And">
         <Conditions>
@@ -225,7 +160,7 @@
             </Layout>
             <Children>
               <Graphic Name="graphicBullet" Content="[Entity.Icon]" Margins="5,5,0,5" MaximumSize="47,47" MinimumSize="47,47" MaintainAspectRatio="false" Visible="true" />
-              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="10,5,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 22" HorizontalAlignment="Near" MaximumSize="[Size]" />
+              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="10,7,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" MaximumSize="[Size]" />
             </Children>
           </Graphic>
         </Children>

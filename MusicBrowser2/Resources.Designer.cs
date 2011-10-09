@@ -153,6 +153,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static byte[] ctrlScrollingText {
+            get {
+                object obj = ResourceManager.GetObject("ctrlScrollingText", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap defaultBackground {
             get {
                 object obj = ResourceManager.GetObject("defaultBackground", resourceCulture);

@@ -172,7 +172,8 @@ namespace MusicBrowser.Models
         {
             get
             {
-                return (!(String.IsNullOrEmpty(_remoteFilter.Value)));
+                if (_remoteFilter.Value == null) { return false; }
+                return (_remoteFilter.Value.Trim().Length != 0);
             }
         }
 
@@ -284,7 +285,9 @@ namespace MusicBrowser.Models
                 Label = name,
                 Title = name 
             };
-            application.Navigate(virt, _crumbs);
+            Breadcrumbs crumbs = new Breadcrumbs();
+            crumbs.Add(virt);
+            application.Navigate(virt, crumbs);
         }
 
         public void NavigateToGroup(string name)
@@ -296,7 +299,9 @@ namespace MusicBrowser.Models
                 Label = name,
                 Path = name
             };
-            application.Navigate(group, _crumbs);
+            Breadcrumbs crumbs = new Breadcrumbs();
+            crumbs.Add(group);
+            application.Navigate(group, crumbs);
         }
 
         public bool Busy { get; set; }

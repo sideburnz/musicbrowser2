@@ -5,7 +5,9 @@
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:me="Me"
       >
-  
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlScrollingText"/>
+
   <UI Name="viewStrip">
 
     <Properties>
@@ -25,7 +27,7 @@
     </Properties>
 
     <Locals>
-      <ScrollingData Name="scrollData" EndPadding="2250" BeginPadding="250" PageStep="1" /> 
+      <ScrollingData Name="scrollData" EndPadding="2380" BeginPadding="120" PageStep="1" /> 
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
     </Locals>
 
@@ -39,9 +41,9 @@
 
       <Changed Source="[CmdRefresh.Invoked]">
         <Actions>
-          <Set Target="[Summary.Content]" Value="[FolderModel.SelectedItem.Summary]" />
           <Set Target="[Title.Content]" Value="[FolderModel.SelectedItem.Title]" />
           <Set Target="[ViewBackground.Content]" Value="[FolderModel.SelectedItem.Background]" />
+          <Set Target="[Summary.Summary]" Value="[FolderModel.SelectedItem.Summary]" />
         </Actions>
       </Changed>
 
@@ -54,6 +56,7 @@
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
       <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
+      <Binding Target="[Summary.Summary]" Source="[FolderModel.SelectedItem.Summary]" />
 
       <Rule>
         <Conditions>
@@ -76,7 +79,7 @@
         <Children>
           <Panel Layout="Dock">
             <LayoutInput>
-              <FormLayoutInput Bottom="Parent,0.65" Top="Parent,0.0" Left="Parent,0.01" Right="Parent,0.99"/>
+              <FormLayoutInput Bottom="Parent,0.65" Top="Parent,0" Left="Parent,0" Right="Parent,1"/>
             </LayoutInput>
             <Children>
               <Graphic Name="ViewBackground" Content="[FolderModel.SelectedItem.Background]" Alpha="1" MaintainAspectRatio="true" Margins="0,0,0,0" Visible="true">
@@ -84,7 +87,7 @@
                   <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
               </Graphic>
-              <Panel Margins="0,0,10,0">
+              <Panel Margins="0,0,10,10">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Left" />
                 </LayoutInput>
@@ -92,8 +95,8 @@
                   <FlowLayout Orientation="Vertical"/>
                 </Layout>
                 <Children>
-                  <Text Name="Title" Content="[FolderModel.SelectedItem.Title]" Color="White" Font="Segoe Media Center Bold, 22" WordWrap="false" />
-                  <Text Name="Summary" Content="[FolderModel.SelectedItem.Summary]" Color="White" Font="Segoe Media Center Light, 18" WordWrap="true" />
+                  <Text Name="Title" Content="[FolderModel.SelectedItem.Title]" Color="White" Font="Segoe Media Center Bold, 22" WordWrap="false" Margins="10,0,10,20"/>
+                  <me:ctrlScrollingText Name="Summary" Summary="" />
                 </Children>
               </Panel>
             </Children>

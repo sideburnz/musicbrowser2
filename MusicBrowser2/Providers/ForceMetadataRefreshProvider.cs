@@ -28,13 +28,12 @@ namespace MusicBrowser.Providers
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parent.Path);
             foreach (FileSystemItem item in items)
             {
-                Entity e = EntityFactory.GetItem(item, true);
-                e.CacheDate = DateTime.Now;
+                Entity e = EntityFactory.GetItem(item);
+                EntityFactory.Refactor(e);
                 new Metadata.MetadataProviderList(e, true).Execute();
             }
             // refresh the current item last
-            _parent.CacheDate = DateTime.Now;
-            _parent = EntityFactory.GetItem(_parent.Path, true);
+            EntityFactory.Refactor(_parent);
             new Metadata.MetadataProviderList(_parent, true).Execute();
         }
     }
