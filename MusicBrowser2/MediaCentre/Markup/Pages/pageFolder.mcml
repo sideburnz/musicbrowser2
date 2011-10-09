@@ -283,7 +283,7 @@
             <Children>
               <me:ctrlFooter Name="Footer" FolderModel="[FolderModel]">
                   <LayoutInput>
-                    <FormLayoutInput Top="Parent,0.1" Left="Parent,0.165"/>
+                    <FormLayoutInput Top="Parent,0.05" Left="Parent,0.165"/>
                   </LayoutInput>
               </me:ctrlFooter>
               <ColorFill Content="Black" Alpha="0.33" Layout="Fill" />

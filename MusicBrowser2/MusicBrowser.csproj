@@ -209,7 +209,10 @@
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlGroupByPopUp.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MediaCentre\Markup\Controls\Controls\ctrlScrollingText.mcml" />
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -245,16 +248,24 @@
     <Content Include="MediaCentre\Images\icons\MusicBrowser2.png" />
     <Content Include="MediaCentre\Images\nullImage.png" />
     <Content Include="MediaCentre\Markup\blank.mcml" />
-    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonBasic.mcml" />
-    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonIcon.mcml" />
-    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonImage.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonBasic.mcml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonIcon.mcml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonImage.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayPopUp.mcml">
       <SubType>Designer</SubType>
     </Content>
@@ -289,6 +300,7 @@
       <Name>MusicBrowser.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

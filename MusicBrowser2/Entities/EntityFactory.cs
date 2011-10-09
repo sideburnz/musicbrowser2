@@ -15,22 +15,61 @@ namespace MusicBrowser.Entities
         private static ICacheEngine _cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
         private static InMemoryCache _MemCache = InMemoryCache.GetInstance();
 
+        // this resets the entity back to a near-clean slate
+        public static void Refactor(Entity entity)
+        {
+            entity.BackgroundPaths = new List<string>();
+            entity.IconPath = String.Empty;
+
+            entity.AlbumArtist = String.Empty;
+            entity.AlbumName = String.Empty;
+            entity.ArtistName = String.Empty;
+            entity.Channels = String.Empty;
+            entity.Codec = String.Empty;
+            entity.DiscId = String.Empty;
+            entity.DiscNumber = 0;
+            entity.Duration = 0;
+            entity.Favorite = false;
+            entity.Genre = String.Empty;
+            entity.Label = String.Empty;
+            entity.Listeners = 0;
+            entity.Lyrics = String.Empty;
+            entity.MusicBrainzID = String.Empty;
+            entity.Performers = new List<string>();
+            entity.PlayCount = 0;
+            entity.ProviderTimeStamps = new Dictionary<string, DateTime>();
+            entity.Rating = 0;
+            entity.ReleaseDate = DateTime.MinValue;
+            entity.Resolution = String.Empty;
+            entity.SampleRate = String.Empty;
+            entity.Summary = String.Empty;
+            entity.TotalPlays = 0;
+            entity.TrackCount = 0;
+            entity.TrackName = String.Empty;
+            entity.TrackNumber = 0;
+
+            //force it to refresh
+            string path = entity.Path;
+            entity.Path = String.Empty;
+            entity.Path = path;
+
+            switch (entity.Kind)
+            {
+                case EntityKind.Album: { entity.AlbumCount = 1; break; }
+                case EntityKind.Artist: { entity.ArtistCount = 1; break; }
+                case EntityKind.Track: { entity.TrackCount = 1; break; }
+            }
+
+            // do this here because some of the providers need basic data about the tracks
+            TagSharpMetadataProvider.FetchLite(entity);
+        }
+
         public static Entity GetItem(string item)
         {
             return GetItem(FileSystemProvider.GetItemDetails(item));
         }
 
-        public static Entity GetItem(string item, bool forced)
-        {
-            return GetItem(FileSystemProvider.GetItemDetails(item), forced);
-        }
-
         public static Entity GetItem(FileSystemItem item)
-        {
-            return GetItem(item, false);
-        }
-
-        public static Entity GetItem(FileSystemItem item, bool forced)
         {
 #if DEBUG
             Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
@@ -39,31 +78,29 @@ namespace MusicBrowser.Entities
             string key = Util.Helper.GetCacheKey(item.FullPath);
             Entity entity;
 
-            if (!forced)
+            #region InMemoryCache
+            // get from the Mem cache if it's cached there, this is the fastest cache
+            entity = _MemCache.Fetch(key);
+            if (entity != null && entity.CacheDate > item.LastUpdated)
             {
-                #region InMemoryCache
-                // get from the Mem cache if it's cached there, this is the fastest cache
-                entity = _MemCache.Fetch(key);
-                if (entity != null && entity.CacheDate > item.LastUpdated)
-                {
-                    return entity;
-                }
-                #endregion
-
-                #region persistent cache
-                // get the value from persistent cache
-                entity = EntityPersistance.Deserialize(_cacheEngine.Fetch(key));
-                if (entity != null && entity.CacheDate > item.LastUpdated)
-                {
-                    _MemCache.Update(entity);
-                    return entity;
-                }
-                else
-                {
-                    Statistics.Hit("factory.missorexpired");
-                }
-                #endregion
+                return entity;
             }
+            #endregion
+
+            #region persistent cache
+            // get the value from persistent cache
+            entity = EntityPersistance.Deserialize(_cacheEngine.Fetch(key));
+            if (entity != null && entity.CacheDate > item.LastUpdated)
+            {
+                _MemCache.Update(entity);
+                return entity;
+            }
+            else
+            {
+                Statistics.Hit("factory.missorexpired");
+            }
+            #endregion
+
 
             // don't waste time trying to determine a known not entity
             if (Util.Helper.getKnownType(item) == Helper.knownType.Other) { return null; }

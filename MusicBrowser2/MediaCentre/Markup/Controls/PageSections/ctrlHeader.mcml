@@ -18,19 +18,19 @@
       <Command Name="CmdQueue" Command="null"/>
     </Properties>
 
+    <Locals>
+      <Command Name="CmdShowPlaylistHeader" />
+    </Locals>
+    
     <Rules>
       <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
-      
-      <Changed Source="[Entity.Index]" InitialEvaluate="true" ConditionLogicalOp="OR">
-        <Conditions>
-          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Home" />
-          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Group" />
-        </Conditions>
+
+      <Changed Source="[CmdShowPlaylistHeader.Invoked]">
         <Actions>
           <Set Target="[HomeMenu.Visible]" Value="true" />
           <Set Target="[GroupMenu.Visible]" Value="true" />
-          
+
           <Set Target="[QueueMenu.Visible]" Value="false" />
           <Set Target="[PlayMenu.Visible]" Value="false" />
 
@@ -38,6 +38,24 @@
         </Actions>
       </Changed>
       
+      <Changed Source="[Entity.Index]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Home" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[CmdShowPlaylistHeader.Invoke]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Entity.Index]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Group" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[CmdShowPlaylistHeader.Invoke]" />
+        </Actions>
+      </Changed>
+
     </Rules>
 
     <Content>
