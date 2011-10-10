@@ -119,16 +119,20 @@
     <Compile Include="CacheEngine\InMemoryCache.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Providers\Background\BackgroundTaskQueueProvider.cs" />
     <Compile Include="Entities\EntityCollection.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
+    <Content Include="MediaCentre\Images\backgrounds\blackBorder.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconConfig.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlaylist.png" />
+    <Content Include="MediaCentre\Images\buttonicons\radioSelected.png" />
+    <Content Include="MediaCentre\Images\buttonicons\radioUnselected.png" />
     <Content Include="MediaCentre\Images\icons\imageGears.png" />
     <Content Include="MediaCentre\Images\icons\imageGenre.png" />
     <Content Include="MediaCentre\Images\icons\imageSpinner.png" />
@@ -213,6 +217,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="MediaCentre\Markup\Controls\Controls\ctrlScrollingText.mcml" />
+    <Content Include="MediaCentre\Markup\Pages\pageSearch.mcml" />
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -224,7 +229,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MediaCentre\Images\backgrounds\border.png" />
-    <Content Include="MediaCentre\Images\backgrounds\progressImage.png" />
     <Content Include="MediaCentre\Images\backgrounds\underline.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPause.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlay.png" />

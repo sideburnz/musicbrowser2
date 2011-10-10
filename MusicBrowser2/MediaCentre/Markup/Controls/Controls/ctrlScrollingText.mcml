@@ -1,0 +1,76 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <UI Name="ctrlScrollingText">
+    
+    <Properties>
+      <cor:String Name="Summary" String="$Required" />
+      <Font Name="Font" Font="Segoe Media Center Light, 18" />
+    </Properties>
+    
+    <Locals>
+      <ScrollingHandler Name="TextScrollingHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
+      <ScrollingData Name="TextScrollingData" EndPadding="100" PageStep="0.5" />
+    </Locals>
+    
+    <Rules>
+
+      <Default Target="[TextScrollingHandler.ScrollingData]" Value="[TextScrollingData]"/>
+      <Binding Source="[Summary]" Target="[Body.Content]" />
+      <Binding Source="[TextScrollingData.TotalPages!cor:String]" Target="[TotalPages.Content]" />
+      <Binding Source="[TextScrollingData.CurrentPage!cor:String]" Target="[CurrentPage.Content]" />
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[Body.Alpha]" Value="1"/>
+        </Actions>
+      </Condition>
+    
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[Body.Alpha]" Value="0.7"/>
+        </Actions>
+      </Condition>
+
+      <Changed Source="[TextScrollingData.TotalPages]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[TextScrollingData.TotalPages]" ConditionOp="GreaterThan" Value="0" />
+        </Conditions>
+        <Actions>
+          <Set Target="[ProgressPanel.Visible]" Value="true" />
+          <Set Target="[Input.KeyInteractive]" Value="true" />
+        </Actions>
+      </Changed>
+
+    </Rules>
+
+    <Content>
+      <Panel Name="SummaryPanel" Layout="Dock" Visible="true">
+        <Children>
+          <Panel Name="ProgressPanel" Margins="0,5,5,-20" Visible="false">
+            <LayoutInput>
+              <DockLayoutInput Alignment="Far" Position="Bottom" />
+            </LayoutInput>
+            <Layout>
+              <FlowLayout Orientation="Horizontal"/>
+            </Layout>
+            <Children>
+              <Text Name="CurrentPage" Color="White" Font="Segoe Media Center Light, 18" />
+              <Text Content="|" Color="White" Font="Segoe Media Center Light, 16" />
+              <Text Name="TotalPages" Color="White" Font="Segoe Media Center Light, 18" />
+            </Children>
+          </Panel>
+          <Scroller Name="TextScroller" Orientation="Vertical" FadeSize="-5" ScrollingData="[TextScrollingData]" Navigation="Column, ContainVertical" Margins="10,-10,5,0">
+            <LayoutInput>
+              <DockLayoutInput Alignment="Fill" Position="Top" />
+            </LayoutInput>
+            <Children>
+              <Text Name="Body" Color="White" Font="[Font]" WordWrap="true" />
+            </Children>
+          </Scroller>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+</Mcml>

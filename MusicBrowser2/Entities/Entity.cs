@@ -520,11 +520,12 @@ namespace MusicBrowser.Entities
                         if (!String.IsNullOrEmpty(temp))
                         {
                             IconPath = Util.Helper.ImageCacheFullName(CacheKey, "Thumbs");
-                            ImageProvider.Save(
-                                ImageProvider.Resize(
-                                ImageProvider.Load(temp),
-                                ImageType.Thumb),
-                                IconPath);
+                            var img = ImageProvider.Load(temp);
+                            img = ImageProvider.Resize(img, ImageType.Thumb);
+                            if (!ImageProvider.Save(img, IconPath))
+                            { 
+                                IconPath = string.Empty; 
+                            }
                         }
                     }
                     if (BackgroundPaths.FirstOrDefault() == null)

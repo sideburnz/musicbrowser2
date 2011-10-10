@@ -18,13 +18,9 @@ namespace MusicBrowser.Models
 
         readonly Entity _parentEntity;
         private readonly EntityCollection _entities;
-        private readonly EntityCollection _fullentities;
         Int32 _selectedIndex;
         readonly Breadcrumbs _crumbs;
         Entity _popupPlayContext = null;
-        private readonly EditableText _remoteFilter = new EditableText();
-        private int _matches;
-
         private readonly bool _isHome;
 
         public FolderModel(Entity parentEntity, Breadcrumbs crumbs, EntityCollection entities)
@@ -36,14 +32,7 @@ namespace MusicBrowser.Models
             _crumbs.Add(parentEntity);
             _parentEntity = parentEntity;
             _entities = entities;
-
-            _isHome = parentEntity.Kind.Equals(EntityKind.Home);
-            
-            _fullentities = new EntityCollection();
-            _fullentities.AddRange(_entities);
-            _matches = _fullentities.Count;
-
-            _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;
+            _isHome = (parentEntity.Kind == EntityKind.Home);
 
             CommonTaskQueue.OnStateChanged += BusyStateChanged;
             Busy = CommonTaskQueue.Busy;
@@ -61,6 +50,14 @@ namespace MusicBrowser.Models
         }
 
         public Application application { get; set; }
+
+        public string Matches
+        {
+            get
+            {
+                return _entities.Count.ToString();
+            }
+        }
 
         /// <summary>
         /// This is the list of items to display on the page
@@ -86,7 +83,7 @@ namespace MusicBrowser.Models
         {
             UINotifier.GetInstance().Message = "refreshing metadata for " + SelectedItem.Title;
 
-            CommonTaskQueue.Enqueue(new ForceMetadataRefreshProvider(SelectedItem));
+            CommonTaskQueue.Enqueue(new ForceMetadataRefreshProvider(SelectedItem), true);
         }
 
         public Entity SelectedItem
@@ -130,53 +127,6 @@ namespace MusicBrowser.Models
             SetPopupPlayContext(null);
         }
 
-        void RemoteFilterPropertyChanged(IPropertyObject sender, string property)
-        {
-            if (property == "Value")
-            {
-                Logging.Logger.Debug("filter = " + _remoteFilter.Value);
-
-                // if it's resetting the filter, then just shortcut and load the
-                // entity list with the full set of data
-                if (string.IsNullOrEmpty(_remoteFilter.Value) || (_remoteFilter.Value.Contains('\\')))
-                {
-                    RefreshEntities();
-                    return;
-                }
-
-                _matches = 0;
-                Regex regex = new Regex("\\b" + _remoteFilter.Value.ToLower());
-                EntityCollection temp = new EntityCollection();
-                temp.AddRange(_fullentities.Where(item => regex.IsMatch(item.SortName)));
-
-                _matches = temp.Count;
-                if (_matches > 0)
-                {
-                    temp.Sort();
-                    _entities.Clear();
-                    _entities.AddRange(temp);
-                }
-                else
-                {
-                    _remoteFilter.Value = String.Empty;
-                }
-            }
-
-            FirePropertyChanged("Matches");
-            FirePropertyChanged("EntityList");
-            FirePropertyChanged("FullSize");
-            FirePropertyChanged("ShowFilterAsYouType");
-        }
-
-        public bool ShowFilterAsYouType
-        {
-            get
-            {
-                if (_remoteFilter.Value == null) { return false; }
-                return (_remoteFilter.Value.Trim().Length != 0);
-            }
-        }
-
         [MarkupVisible]
         public string Version
         {
@@ -185,28 +135,6 @@ namespace MusicBrowser.Models
                 if (Config.GetInstance().GetBooleanSetting("ShowVersion"))
                 {
                     return "Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                }
-                return string.Empty;
-            }
-        }
-
-        public EditableText RemoteTyper
-        {
-            get { return _remoteFilter; }
-        }
-
-        public string Matches
-        {
-            get { return _matches.ToString(); }
-        }
-
-        public string FullSize
-        {
-            get
-            {
-                if (_matches != 0 & _matches != _fullentities.Count)
-                {
-                    return "(" + _fullentities.Count + ")";
                 }
                 return string.Empty;
             }
@@ -225,18 +153,6 @@ namespace MusicBrowser.Models
         public static bool isPaused
         {
             get { return Transport.GetTransport().State == PlayState.Paused; }
-        }
-
-        private void RefreshEntities()
-        {
-            _entities.Clear();
-            _entities.AddRange(_fullentities);
-            _matches = _fullentities.Count;
-            _entities.Sort();
-            _remoteFilter.Value = String.Empty;
-            FirePropertyChanged("Matches");
-            FirePropertyChanged("EntityList");
-            FirePropertyChanged("FullSize");
         }
 
         public void TransportCommand(string command)

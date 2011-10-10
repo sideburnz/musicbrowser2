@@ -63,6 +63,7 @@ namespace MusicBrowser.Providers.Metadata
             // set up the web service classes
             ArtistImageServiceDTO serviceDTO = new ArtistImageServiceDTO();
             ArtistImageService service = new ArtistImageService();
+            bool doneSomething = false;
 
             // set up the search criteria
             serviceDTO.ArtistName = dto.ArtistName;
@@ -88,6 +89,7 @@ namespace MusicBrowser.Providers.Metadata
             {
                 // get random item
                 dto.ThumbImage = ImageProvider.Download(serviceDTO.ThumbList[Rnd.Next(serviceDTO.ThumbList.Count)], ImageType.Thumb);
+                doneSomething = true;
             }
 
             if (serviceDTO.BackdropList.Count > 0)
@@ -101,11 +103,18 @@ namespace MusicBrowser.Providers.Metadata
                         Bitmap i = ImageProvider.Download(img, ImageType.Backdrop);
                         if (i != null) 
                         { 
-                            dto.BackImages.Add(i); 
+                            dto.BackImages.Add(i);
+                            doneSomething = true;
                         }
                     }
                     catch { }
                 }
+            }
+
+            if (!doneSomething)
+            {
+                dto.Outcome = DataProviderOutcome.NoData;
+                dto.Errors = new System.Collections.Generic.List<string> { "no images loaded" };
             }
 
             return dto;

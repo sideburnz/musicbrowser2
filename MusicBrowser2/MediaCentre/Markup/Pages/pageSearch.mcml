@@ -1,0 +1,153 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:me="Me"
+      xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
+
+  <UI Name="pageSearch">
+
+    <Properties>
+      <models:SearchModel Name="Model" SearchModel="$Required" />
+    </Properties>
+
+    <Locals>
+      <addin:AddInHost Name="AddInHost"/>
+      
+      <Command Name="CmdSetScopeToContext" />
+      <Command Name="CmdSetScopeToEverything" />
+      <Command Name="CmdSetScopeToAlbums" />
+      <Command Name="CmdSetScopeToArtists" />
+      <Command Name="CmdSetScopeToTracks" />
+    </Locals>
+
+    <Rules>
+      <Rule>
+        <Actions>
+          <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
+          <!--<Invoke Target="[ViewPanel.NavigateInto]" />-->
+        </Actions>
+      </Rule>
+      
+      <!--
+      add a onchanged type rule for SearchScope
+      - this sets which radio button is selected
+      -->
+      
+      <Changed Source="[CmdSetScopeToContext.Invoked]">
+        <Actions>
+          <Invoke Target="[Model.SetSetSearchScope]" scope="everything" />
+          <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+          <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdSetScopeToEverything.Invoked]">
+        <Actions>
+          <Invoke Target="[Model.SetSetSearchScope]" scope="everything" />
+          <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdSetScopeToAlbums.Invoked]">
+        <Actions>
+          <Invoke Target="[Model.SetSetSearchScope]" scope="albums" />
+          <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdSetScopeToArtists.Invoked]">
+        <Actions>
+          <Invoke Target="[Model.SetSetSearchScope]" scope="artists" />
+          <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdSetScopeToTracks.Invoked]">
+        <Actions>
+          <Invoke Target="[Model.SetSetSearchScope]" scope="tracks" />
+          <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+        </Actions>
+      </Changed>
+      
+      <!-- 
+      make the text box selectable as part of the flow layout
+      -->
+      
+      <!--
+      have the text box show a [X] style button when selected
+      -->
+      
+    </Rules>
+
+    <Content>
+      <Panel Layout="Dock">
+        <Children>
+          <ColorFill Content="MidnightBlue" Padding="25,25,25,25">
+            <LayoutInput>
+              <DockLayoutInput Alignment="Near" Position="Right" />
+            </LayoutInput>
+            <Layout>
+              <FlowLayout FillStrip="true" Orientation="Vertical" Repeat="Never" StripAlignment="Near" ItemAlignment="Near" />
+            </Layout>
+            <Children>
+              <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" />
+
+              <Graphic Name="SelectBox" Content="resx://MusicBrowser/MusicBrowser.Resources/blackBorder" MaintainAspectRatio="false" MinimumSize="320,42" Margins="0,20,0,20">
+                <Children>
+                <ColorFill Content="White" Name="SearchBox" Margins="2,2,2,2" Layout="Fill">
+                  <Children>
+                    <Text Content="search for" Color="Black" Font="Segoe Media Center Light, 18" Margins="10,3,10,3"/>
+                  </Children>
+                </ColorFill>
+                </Children>
+              </Graphic>
+
+              <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
+              
+              <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Selected Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+              <me:buttonImage Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+              <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+              <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+              <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+
+            </Children>
+          </ColorFill>
+          <ColorFill Content="Transparent">
+            <LayoutInput>
+              <DockLayoutInput Alignment="Near" Position="Right" />
+            </LayoutInput>
+            <Layout>
+              <FlowLayout Orientation="Vertical"/>
+            </Layout>
+            <Children>
+              <Text Content="Selected Folder" />
+            </Children>
+          </ColorFill>
+        </Children>
+      </Panel>
+    </Content>
+
+  </UI>
+
+</Mcml>

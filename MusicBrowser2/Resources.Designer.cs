@@ -60,6 +60,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap blackBorder {
+            get {
+                object obj = ResourceManager.GetObject("blackBorder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to &lt;Settings&gt;&lt;/Settings&gt;.
         /// </summary>
@@ -318,6 +325,27 @@ namespace MusicBrowser {
             get {
                 object obj = ResourceManager.GetObject("pageFolder", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        internal static byte[] pageSearch {
+            get {
+                object obj = ResourceManager.GetObject("pageSearch", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap radioSelected {
+            get {
+                object obj = ResourceManager.GetObject("radioSelected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap radioUnselected {
+            get {
+                object obj = ResourceManager.GetObject("radioUnselected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
