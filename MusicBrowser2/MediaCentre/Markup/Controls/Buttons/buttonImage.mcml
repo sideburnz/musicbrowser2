@@ -18,7 +18,8 @@
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
       <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
       <Image Name="ImageDormant" Image="image://me:ButtonDormant" />
-
+      <Inset Name="TextMargins" Inset="4,10,0,0" />
+      <Inset Name="ImageMargins" Inset="12,16,3,0" />
     </Properties>
 
     <Locals>
@@ -33,6 +34,7 @@
       <Binding Source="[Command.Available]" Target="[Input.KeyInteractive]" />
       <Binding Source="[Font]" Target="[Label.Font]" />
       <Binding Source="[Text]" Target="[Label.Content]" />
+      <Binding Source="[Icon]" Target="[graphicBullet.Content]" />
 
       <Default Target="[Input.KeyInteractive]" Value="true" />
 
@@ -111,9 +113,9 @@
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
-              <Graphic Name="graphicBullet" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="12,16,3,0" Visible="true" Content="[Icon]" />
+              <Graphic Name="graphicBullet" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="[ImageMargins]" Visible="true" />
               <!-- The label to display. -->
-              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="4,10,0,0" Visible="[DisplayText]" FadeSize="5"  Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]" />
+              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="[TextMargins]" Visible="[DisplayText]" FadeSize="5" Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]" />
             </Children>
           </Graphic>
         </Children>

@@ -217,8 +217,10 @@ namespace MusicBrowser.Providers.Metadata
             if (dto.ThumbImage != null)
             {
                 string iconPath = Util.Helper.ImageCacheFullName(entity.CacheKey, "Thumbs");
-                ImageProvider.Save(ImageProvider.Resize(dto.ThumbImage, ImageType.Thumb), iconPath);
-                entity.IconPath = iconPath;
+                if (ImageProvider.Save(ImageProvider.Resize(dto.ThumbImage, ImageType.Thumb), iconPath))
+                {
+                    entity.IconPath = iconPath;
+                }
             }
 
             if (dto.BackImages != null && dto.BackImages.Count > 0)
@@ -226,8 +228,10 @@ namespace MusicBrowser.Providers.Metadata
                 for (int i = 0; i < dto.BackImages.Count; i++)
                 {
                     string backgroundPath = Util.Helper.ImageCacheFullName(entity.CacheKey + "[" + i + "]", "Backgrounds");
-                    ImageProvider.Save(ImageProvider.Resize(dto.BackImages[i], ImageType.Backdrop), backgroundPath);
-                    entity.BackgroundPaths.Add(backgroundPath);
+                    if (ImageProvider.Save(ImageProvider.Resize(dto.BackImages[i], ImageType.Backdrop), backgroundPath))
+                    {
+                        entity.BackgroundPaths.Add(backgroundPath);
+                    }
                 }
             }
 

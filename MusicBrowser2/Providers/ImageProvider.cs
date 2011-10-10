@@ -56,9 +56,9 @@ namespace MusicBrowser.Providers
             return b;
         }
 
-        public static void Save(Image bitmap, string filename)
+        public static bool Save(Image bitmap, string filename)
         {
-            if (bitmap == null) { return; }
+            if (bitmap == null) { return false; }
 
             EncoderParameters parms = new EncoderParameters(1);
             parms.Param[0] = new EncoderParameter(Encoder.Quality, Int64.Parse("90"));
@@ -78,8 +78,12 @@ namespace MusicBrowser.Providers
                 // this fails on rare occassions for reasons I don't know
                 // if that happens just don't save and let the item refresh in due course
                 bitmap.Save(filename, codec, parms);
+                return true;
             }
-            catch { }
+            catch 
+            {
+                return false;
+            }
         }
 
         static IEnumerable<string> _images;

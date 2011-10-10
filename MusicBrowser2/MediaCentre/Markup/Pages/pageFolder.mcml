@@ -38,8 +38,6 @@
       <Command Name="CmdGroupByMenu"/>
       <Command Name="CmdRefresh" />
       
-      <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
-      
       <playlist:Playlist Name="playlist"/>
       
       <models:Clock Name="Clock"/>
@@ -130,17 +128,12 @@
       </Rule>
 
       <Binding Source="[FolderModel.Matches]" Target="[List_Matches.Content]" />
-      <Binding Source="[FolderModel.FullSize]" Target="[List_Total.Content]" />
       <Binding Source="[FolderModel.SelectedIndex!cor:String]" Target="[List_Counter.Content]">
         <Transformer>
           <MathTransformer Add="1" />
         </Transformer>
       </Binding>
-
-      <Binding Source="[FolderModel.RemoteTyper]" Target="[RemoteTyper.EditableText]" />
-      <Binding Source="[FolderModel.RemoteTyper.Value]" Target="[FilterDisplay.Content]"/>
-      <Binding Source="[FolderModel.ShowFilterAsYouType]" Target="[FindAsYouType.Visible]" />
-      
+     
       <Binding Source="[FolderModel.ParentEntity.Background]" Target="[EntityBackground.Content]"/>
       <Binding Source="[FolderModel.HomePopupVisible]" Target="[HomePopupPlay.Visible]" />
       <Binding Source="[FolderModel.GroupByPopupVisible]" Target="[GroupByPopupPlay.Visible]" />
@@ -190,21 +183,6 @@
             </LayoutInput>
             <Children>
               <ColorFill Name="pageFader" Visible="false" Content="Black" Alpha="0.8"/>
-            </Children>
-          </Panel>
-
-          <!-- FIND AS YOU TYPE -->
-          <Panel Name="FindAsYouType">
-            <LayoutInput>
-              <FormLayoutInput Right="Parent,1" Top="Parent,0.15"/>
-            </LayoutInput>
-            <Layout>
-              <FlowLayout Orientation="Horizontal" />
-            </Layout>
-            <Children>
-              <Text Content=" Results for '" BackColor="White" Color="Black" Font="Segoe Media Center,24"/>
-              <Text Name="FilterDisplay" BackColor="White" Color="Black" Font="Segoe Media Center,24"/>
-              <Text Content="' " BackColor="White" Color="Black" Font="Segoe Media Center,24"/>
             </Children>
           </Panel>
 
@@ -259,13 +237,13 @@
                   <Text Name="List_Counter" Content="0" Color="White" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
                   <Text Name="List_Break" Content="|" Color="Gray" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
                   <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
-                  <Text Name="List_Total"  Content="[FolderModel.FullSize]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
                 </Children>
               </Panel>
               <Text Content="[FolderModel.Version]" Font="Segoe Media Center Light, 16" Color="White" Alpha="0.6" />
             </Children>
           </Panel>
 
+          <!-- Now Playing Pod -->
           <Panel>
             <LayoutInput>
               <AnchorLayoutInput Bottom="Parent,1" Left="Parent,0"/>
@@ -316,11 +294,9 @@
               </Animation>
             </Animations>
           </Graphic>
-
         </Children>
-        
       </ColorFill>
-
+      
     </Content>
 
   </UI>

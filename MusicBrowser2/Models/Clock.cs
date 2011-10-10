@@ -7,7 +7,7 @@ using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Models
 {
-    public class Clock : ModelItem
+    public class Clock : BaseModel
     {
         private string _time = String.Empty;
         private readonly Timer _timer;

@@ -29,6 +29,7 @@ namespace MusicBrowser.Providers
             foreach (FileSystemItem item in items)
             {
                 Entity e = EntityFactory.GetItem(item);
+                if (e == null) { continue; }
                 EntityFactory.Refactor(e);
                 new Metadata.MetadataProviderList(e, true).Execute();
             }
