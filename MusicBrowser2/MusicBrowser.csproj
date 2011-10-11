@@ -217,7 +217,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="MediaCentre\Markup\Controls\Controls\ctrlScrollingText.mcml" />
-    <Content Include="MediaCentre\Markup\Pages\pageSearch.mcml" />
+    <Content Include="MediaCentre\Markup\Pages\pageSearch.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -236,10 +238,7 @@
     <Content Include="MediaCentre\Images\buttonicons\IconResume.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconShuffle.png" />
     <Content Include="MediaCentre\Images\icons\imageDisc.png" />
-    <Content Include="MediaCentre\Images\buttons\ButtonDisabled.png" />
-    <Content Include="MediaCentre\Images\buttons\ButtonDormant.png" />
     <Content Include="MediaCentre\Images\buttons\ButtonLeftFocus.png" />
-    <Content Include="MediaCentre\Images\buttons\ButtonLeftFocusOverlay.png" />
     <Content Include="MediaCentre\Images\buttons\ButtonNoFocus.png" />
     <Content Include="MediaCentre\Images\backgrounds\defaultBackground.png" />
     <Content Include="MediaCentre\Images\buttons\ButtonIcon.png" />
