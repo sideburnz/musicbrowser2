@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.MediaCenter.UI;
+using MusicBrowser.Entities;
+using MusicBrowser.CacheEngine;
 
 namespace MusicBrowser.Models
 {
@@ -15,136 +17,90 @@ namespace MusicBrowser.Models
         private enum SearchScope
         {
             Everything,
-            Context,
+            Folder,
             Albums,
             Artists,
             Tracks
         }
 
-        private SearchScope _searchScope = SearchScope.Everything;
+        private SearchScope _searchScope;
+        private readonly InMemoryCache _fullCollection;
+        private EntityCollection _searchCollection;
 
+        private readonly EditableText _remoteFilter = new EditableText();
+
+
+        public SearchModel()
+        {
+            _searchScope = SearchScope.Everything;
+            _fullCollection = InMemoryCache.GetInstance();
+            _searchCollection = _fullCollection.DataSet;
+
+            _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;
+        }
 
         public void SetSetSearchScope(string scope)
         {
-            _searchScope = SearchScope.Everything;
-
             switch (scope.ToLower())
             {
-                case "context":
-                    _searchScope = SearchScope.Context;
+                case "folder":
+                    _searchScope = SearchScope.Folder;
                     break;
                 case "albums":
                     _searchScope = SearchScope.Albums;
+                    _searchCollection = _fullCollection.DataSet.Filter(EntityKind.Album, "");
                     break;
                 case "artists":
                     _searchScope = SearchScope.Artists;
+                    _searchCollection = _fullCollection.DataSet.Filter(EntityKind.Artist, "");
                     break;
                 case "tracks":
                     _searchScope = SearchScope.Tracks;
+                    _searchCollection = _fullCollection.DataSet.Filter(EntityKind.Track, "");
+                    break;
+                default:
+                    _searchScope = SearchScope.Everything;
+                    _searchCollection = _fullCollection.DataSet;
                     break;
             }
             FirePropertyChanged("Scope");
+            FirePropertyChanged("ResultSet");
         }
 
         public string Scope
         {
             get
             {
-                return _searchScope.ToString().ToLower();
+                if (_searchScope == SearchScope.Folder)
+                {
+                    return "Current Folder";
+                }
+                return _searchScope.ToString();
             }
         }
 
+        public VirtualList ResultSet
+        {
+            get
+            {
+                EntityCollection results = _searchCollection;
+                //TODO: apply filter
+                return new EntityVirtualList(results, false);
+            }
+        }
 
-        //private readonly EditableText _remoteFilter = new EditableText();
-        //private int _matches;
+        void RemoteFilterPropertyChanged(IPropertyObject sender, string property)
+        {
+            if (property == "Value")
+            {
+//                _remoteFilter.Value
+            }
+        }
 
-            //        _matches = _fullentities.Count;
+        public EditableText KeyboardHandler
+        {
+            get { return _remoteFilter; }
+        }
 
-            //_remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;
-
-                    
-            //_fullentities = new EntityCollection();
-            //_fullentities.AddRange(_entities);
-
-        //void RemoteFilterPropertyChanged(IPropertyObject sender, string property)
-        //{
-        //    if (property == "Value")
-        //    {
-        //        Logging.Logger.Debug("filter = " + _remoteFilter.Value);
-
-        //        // if it's resetting the filter, then just shortcut and load the
-        //        // entity list with the full set of data
-        //        if (string.IsNullOrEmpty(_remoteFilter.Value) || (_remoteFilter.Value.Contains('\\')))
-        //        {
-        //            RefreshEntities();
-        //            return;
-        //        }
-
-        //        _matches = 0;
-        //        Regex regex = new Regex("\\b" + _remoteFilter.Value.ToLower());
-        //        EntityCollection temp = new EntityCollection();
-        //        temp.AddRange(_fullentities.Where(item => regex.IsMatch(item.SortName)));
-
-        //        _matches = temp.Count;
-        //        if (_matches > 0)
-        //        {
-        //            temp.Sort();
-        //            _entities.Clear();
-        //            _entities.AddRange(temp);
-        //        }
-        //        else
-        //        {
-        //            _remoteFilter.Value = String.Empty;
-        //        }
-        //    }
-
-        //    FirePropertyChanged("Matches");
-        //    FirePropertyChanged("EntityList");
-        //    FirePropertyChanged("FullSize");
-        //    FirePropertyChanged("ShowFilterAsYouType");
-        //}
-
-        //public bool ShowFilterAsYouType
-        //{
-        //    get
-        //    {
-        //        if (_remoteFilter.Value == null) { return false; }
-        //        return (_remoteFilter.Value.Trim().Length != 0);
-        //    }
-        //}
-
-        //public EditableText RemoteTyper
-        //{
-        //    get { return _remoteFilter; }
-        //}
-
-        //public string Matches
-        //{
-        //    get { return _matches.ToString(); }
-        //}
-
-        //public string FullSize
-        //{
-        //    get
-        //    {
-        //        if (_matches != 0 & _matches != _fullentities.Count)
-        //        {
-        //            return "(" + _fullentities.Count + ")";
-        //        }
-        //        return string.Empty;
-        //    }
-        //}
-
-        //private void RefreshEntities()
-        //{
-        //    _entities.Clear();
-        //    _entities.AddRange(_fullentities);
-        //    _matches = _entities.Count;
-        //    _entities.Sort();
-        //    _remoteFilter.Value = String.Empty;
-        //    FirePropertyChanged("Matches");
-        //    FirePropertyChanged("EntityList");
-        //    FirePropertyChanged("FullSize");
-        //}
     }
 }

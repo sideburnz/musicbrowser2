@@ -2,6 +2,7 @@
       xmlns:me="Me"
       xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:cor="assembly://MSCorLib/System">
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
@@ -20,24 +21,24 @@
       <Command Name="CmdSetScopeToAlbums" />
       <Command Name="CmdSetScopeToArtists" />
       <Command Name="CmdSetScopeToTracks" />
+
+      <ScrollingData Name="SearchResultData" PageStep="1" />
+      <ScrollingHandler Name="ScrollHander" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
+
+      <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
     </Locals>
 
     <Rules>
       <Rule>
         <Actions>
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
-          <!--<Invoke Target="[ViewPanel.NavigateInto]" />-->
+          <Invoke Target="[SearchBox.NavigateInto]" />
         </Actions>
       </Rule>
       
-      <!--
-      add a onchanged type rule for SearchScope
-      - this sets which radio button is selected
-      -->
-      
       <Changed Source="[CmdSetScopeToContext.Invoked]">
         <Actions>
-          <Invoke Target="[Model.SetSetSearchScope]" scope="everything" />
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Folder" />
           <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
           <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
@@ -48,7 +49,7 @@
 
       <Changed Source="[CmdSetScopeToEverything.Invoked]">
         <Actions>
-          <Invoke Target="[Model.SetSetSearchScope]" scope="everything" />
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Everything" />
           <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
           <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
@@ -59,7 +60,7 @@
 
       <Changed Source="[CmdSetScopeToAlbums.Invoked]">
         <Actions>
-          <Invoke Target="[Model.SetSetSearchScope]" scope="albums" />
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Albums" />
           <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
@@ -70,7 +71,7 @@
 
       <Changed Source="[CmdSetScopeToArtists.Invoked]">
         <Actions>
-          <Invoke Target="[Model.SetSetSearchScope]" scope="artists" />
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Artists" />
           <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
@@ -81,7 +82,7 @@
 
       <Changed Source="[CmdSetScopeToTracks.Invoked]">
         <Actions>
-          <Invoke Target="[Model.SetSetSearchScope]" scope="tracks" />
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Tracks" />
           <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
@@ -89,21 +90,25 @@
           <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
         </Actions>
       </Changed>
-      
-      <!-- 
-      make the text box selectable as part of the flow layout
-      -->
-      
-      <!--
-      have the text box show a [X] style button when selected
-      -->
-      
+
+      <Binding Target="[txtScope.Content]" Source="[Model.Scope]" />
+
+      <Binding Target="[SearchResultRepeater.Source]" Source="[Model.ResultSet]" />
+      <Default Target="[ScrollHander.ScrollingData]" Value="[SearchResultData]"/>
+      <Default Target="[SearchResultData.Repeater]" Value="[SearchResultRepeater]"/>
+
+      <!-- on change this should set the focus back to the SearchBox -->
+      <!-- on change this should filter the results -->
+      <Binding Source="[Model.KeyboardHandler]" Target="[RemoteTyper.EditableText]" />
+      <Binding Source="[RemoteTyper.EditableText.Value]" Target="[lblFilterText.Content]"/>
+      <Binding Source="[RemoteTyper.EditableText.Value]" Target="[SearchBox.Text]"/>
+
     </Rules>
 
     <Content>
       <Panel Layout="Dock">
         <Children>
-          <ColorFill Content="MidnightBlue" Padding="25,25,25,25">
+          <ColorFill Content="DarkBlue" Padding="25,25,25,25">
             <LayoutInput>
               <DockLayoutInput Alignment="Near" Position="Right" />
             </LayoutInput>
@@ -113,20 +118,12 @@
             <Children>
               <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" />
 
-              <Graphic Name="SelectBox" Content="resx://MusicBrowser/MusicBrowser.Resources/blackBorder" MaintainAspectRatio="false" MinimumSize="320,42" Margins="0,20,0,20">
-                <Children>
-                <ColorFill Content="White" Name="SearchBox" Margins="2,2,2,2" Layout="Fill">
-                  <Children>
-                    <Text Content="search for" Color="Black" Font="Segoe Media Center Light, 18" Margins="10,3,10,3"/>
-                  </Children>
-                </ColorFill>
-                </Children>
-              </Graphic>
+              <me:searchBox Name="SearchBox" Text=""/>
 
               <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
               
-              <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Selected Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
-              <me:buttonImage Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+              <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+              <me:buttonImage Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
               <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
               <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
               <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
@@ -141,7 +138,38 @@
               <FlowLayout Orientation="Vertical"/>
             </Layout>
             <Children>
-              <Text Content="Selected Folder" />
+              <Panel Padding="50,25,25,25" Layout="Fill">
+                <Children>
+                  <Panel>
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal"/>
+                    </Layout>
+                    <Children>
+                      <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" />
+                      <Text Content="results for" Color="White" Font="Segoe Media Center Light, 18" Margins="10,20,0,0" />
+                      <Text Name="lblFilterText" Content="bbbb" Color="White" Font="Segoe Media Center Light, 18" Margins="0,20,0,0"/>
+                    </Children>
+                  </Panel>
+                  <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow">
+                    <Children>
+
+                      <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="-10" Margins="25,0,0,0" Name="viewListScroller" ScrollingData="[SearchResultData]" >
+                        <Children>
+                          <Repeater Name="SearchResultRepeater" Navigation="RememberFocus">
+                            <Layout>
+                              <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
+                            </Layout>
+                            <Content>
+                              <me:buttonSearchResult Entity="[RepeatedItem!entities:Entity]" />
+                            </Content>
+                          </Repeater>
+                        </Children>
+                      </Scroller>
+
+                    </Children>
+                  </ColorFill>
+                </Children>
+              </Panel>
             </Children>
           </ColorFill>
         </Children>
@@ -150,4 +178,88 @@
 
   </UI>
 
+  <UI Name="searchBox">
+
+    <Properties>
+      <cor:String Name="Text" String="" />
+    </Properties>
+    
+    <Rules>
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[txtSearchString.Alpha]" Value="1"/>
+          <Set Target="[SelectBox.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus" />
+        </Actions>
+      </Condition>
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[txtSearchString.Alpha]" Value="0.5"/>
+          <Set Target="[SelectBox.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+        </Actions>
+      </Condition>
+      <Binding Source="[Text]" Target="[txtSearchString.Content]" />
+    </Rules>
+    
+    <Content>
+      <Graphic Name="SelectBox" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" MaintainAspectRatio="false" MinimumSize="320,50" MaximumSize="320,50" Margins="0,40,0,0">
+        <Children>
+          <ColorFill Content="White" Name="SearchBox" Margins="2,2,2,2" Layout="Fill">
+            <Children>
+              <Text Name="txtSearchString" Content="search for" Color="Black" Font="Segoe Media Center Light, 18" Margins="10,3,10,3" />
+            </Children>
+          </ColorFill>
+        </Children>
+      </Graphic>
+    </Content>
+  </UI>
+
+  <UI Name="buttonSearchResult">
+    <Properties>
+      <entities:Entity Name="Entity" Entity="$Required" />
+    </Properties>
+
+    <Rules>
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[TextLabels.Alpha]" Value="1"/>
+          <Set Target="[lblSummary.Visible]" Value="true" />
+          <Set Target="[imgButton.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"/>
+        </Actions>
+      </Condition>
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[TextLabels.Alpha]" Value="0.8"/>
+          <Set Target="[lblSummary.Visible]" Value="false" />
+          <Set Target="[imgButton.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonNoFocus" />
+        </Actions>
+      </Condition>
+    </Rules>
+
+    <Content>
+      <Panel Name="EntityButtonFace">
+        <Children>
+          <Graphic Name="imgButton" Content="resx://MusicBrowser/MusicBrowser.Resources/ButtonNoFocus" MinimumSize="650,57" MaximumSize="650,57">
+            <Layout>
+              <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+            </Layout>
+            <Children>
+              <Graphic Name="graphicBullet" Content="[Entity.Icon]" Margins="5,5,0,5" MaximumSize="47,47" MinimumSize="47,47" MaintainAspectRatio="false" Visible="true" />
+              <Panel Name="TextLabels" >
+                <Layout>
+                  <FlowLayout Orientation="Vertical" ItemAlignment="Near" />
+                </Layout>
+                <Children>
+                  <Text Name="lblTitle" Content="[Entity.Title]" Color="White" Margins="10,-2,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" />
+                  <Text Name="lblSummary" Content="[Entity.ShortSummaryLine1]" Color="White" Margins="10,-6,0,0" Visible="false" FadeSize="5" Alpha="0.8" Font="Segoe Media Center Light, 12" HorizontalAlignment="Near" />
+                </Children>
+              </Panel>
+            </Children>
+          </Graphic>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+  
 </Mcml>

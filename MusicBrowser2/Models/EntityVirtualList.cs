@@ -16,6 +16,17 @@ namespace MusicBrowser.Models
             entityCollection.Sort();
             _collection = entityCollection;
             this.Count = _collection.Count;
+            this.EnableSlowDataRequests = false;  
+        }
+
+        public EntityVirtualList(EntityCollection entityCollection, bool sort)
+        {
+            if (sort)
+            {
+                entityCollection.Sort();
+            }
+            _collection = entityCollection;
+            this.Count = _collection.Count;
             this.EnableSlowDataRequests = false;
         }
 

@@ -56,6 +56,18 @@ namespace MusicBrowser.Entities
             return ret;
         }
 
+        //TODO: add the text part of the filter
+        public EntityCollection Filter(EntityKind kind, string value)
+        {
+            EntityCollection ret = new EntityCollection();
+
+            ret.Add(this
+                .Where(item => item.Kind == kind)
+                .OrderBy(item => item.Title)
+                );
+            return ret;
+        }
+
         public EntityCollection Group(EntityKind kind, string key)
         {
             EntityCollection ret = new EntityCollection();
