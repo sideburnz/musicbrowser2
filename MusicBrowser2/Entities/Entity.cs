@@ -17,6 +17,7 @@ namespace MusicBrowser.Entities
     [DataContract]
     public enum EntityKind
     {
+        Unknown,
         Album,
         Artist,
         Folder,
@@ -375,6 +376,11 @@ namespace MusicBrowser.Entities
         public new string Description
         {
             get { return MacroSubstitution(Config.GetInstance().GetStringSetting(KindName + ".Format")); }
+        }
+
+        public new string SearchSummary
+        {
+            get { return MacroSubstitution(Config.GetInstance().GetStringSetting(KindName + ".SearchSummary")); }
         }
 
         public string OptionalArtistLine

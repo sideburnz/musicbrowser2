@@ -42,7 +42,7 @@ namespace MusicBrowser
         {
             Dictionary<string, object> props = new Dictionary<string, object>();
             props.Add("Model", new SearchModel());
-            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props );
+            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props);
             return;
 
             Logging.Logger.Info("Navigating to " + entity.Description);
