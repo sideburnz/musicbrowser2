@@ -14,27 +14,16 @@ namespace MusicBrowser.Models
     /// </summary>
     public class SearchModel : BaseModel
     {
-        private enum SearchScope
-        {
-            Everything,
-            Folder,
-            Albums,
-            Artists,
-            Tracks
-        }
-
-        private SearchScope _searchScope;
+        private EntityKind _searchScope;
         private readonly InMemoryCache _fullCollection;
-        private EntityCollection _searchCollection;
-
         private readonly EditableText _remoteFilter = new EditableText();
+
 
 
         public SearchModel()
         {
-            _searchScope = SearchScope.Everything;
+            _searchScope = EntityKind.Unknown;
             _fullCollection = InMemoryCache.GetInstance();
-            _searchCollection = _fullCollection.DataSet;
 
             _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;
         }
@@ -44,23 +33,19 @@ namespace MusicBrowser.Models
             switch (scope.ToLower())
             {
                 case "folder":
-                    _searchScope = SearchScope.Folder;
+                    _searchScope = EntityKind.Folder;
                     break;
                 case "albums":
-                    _searchScope = SearchScope.Albums;
-                    _searchCollection = _fullCollection.DataSet.Filter(EntityKind.Album, "");
+                    _searchScope = EntityKind.Album;
                     break;
                 case "artists":
-                    _searchScope = SearchScope.Artists;
-                    _searchCollection = _fullCollection.DataSet.Filter(EntityKind.Artist, "");
+                    _searchScope = EntityKind.Artist;
                     break;
                 case "tracks":
-                    _searchScope = SearchScope.Tracks;
-                    _searchCollection = _fullCollection.DataSet.Filter(EntityKind.Track, "");
+                    _searchScope = EntityKind.Track;
                     break;
                 default:
-                    _searchScope = SearchScope.Everything;
-                    _searchCollection = _fullCollection.DataSet;
+                    _searchScope = EntityKind.Unknown;
                     break;
             }
             FirePropertyChanged("Scope");
@@ -71,11 +56,15 @@ namespace MusicBrowser.Models
         {
             get
             {
-                if (_searchScope == SearchScope.Folder)
+                if (_searchScope == EntityKind.Folder)
                 {
                     return "Current Folder";
                 }
-                return _searchScope.ToString();
+                if (_searchScope == EntityKind.Unknown)
+                {
+                    return "Everything";
+                }
+                return _searchScope.ToString() + "s";
             }
         }
 
@@ -83,18 +72,19 @@ namespace MusicBrowser.Models
         {
             get
             {
-                EntityCollection results = _searchCollection;
-                //TODO: apply filter
+                string filterText = String.Empty;
+                if (_remoteFilter.Value != null)
+                {
+                    filterText = _remoteFilter.Value;
+                }
+                EntityCollection results = _fullCollection.DataSet.Filter(_searchScope, filterText);
                 return new EntityVirtualList(results, false);
             }
         }
 
         void RemoteFilterPropertyChanged(IPropertyObject sender, string property)
         {
-            if (property == "Value")
-            {
-//                _remoteFilter.Value
-            }
+            FirePropertyChanged("ResultSet");
         }
 
         public EditableText KeyboardHandler

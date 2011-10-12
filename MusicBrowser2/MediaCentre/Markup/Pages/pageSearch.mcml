@@ -97,12 +97,33 @@
       <Default Target="[ScrollHander.ScrollingData]" Value="[SearchResultData]"/>
       <Default Target="[SearchResultData.Repeater]" Value="[SearchResultRepeater]"/>
 
-      <!-- on change this should set the focus back to the SearchBox -->
-      <!-- on change this should filter the results -->
       <Binding Source="[Model.KeyboardHandler]" Target="[RemoteTyper.EditableText]" />
-      <Binding Source="[RemoteTyper.EditableText.Value]" Target="[lblFilterText.Content]"/>
-      <Binding Source="[RemoteTyper.EditableText.Value]" Target="[SearchBox.Text]"/>
 
+      <Changed Source="[RemoteTyper.EditableText.Value]">
+        <Actions>
+          <Invoke Target="[SearchBox.NavigateInto]" />
+          <Set Target="[SearchBox.Text]" Value="[RemoteTyper.EditableText.Value]" />
+        </Actions>
+      </Changed>
+      
+      <Changed Source="[SearchResultData.TotalPages]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[SearchResultData.TotalPages]" ConditionOp="Equals" Value="0" />
+        </Conditions>
+        <Actions>
+          <Set Target="[labelNoResultsError.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[SearchResultData.TotalPages]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[SearchResultData.TotalPages]" ConditionOp="NotEquals" Value="0" />
+        </Conditions>
+        <Actions>
+          <Set Target="[labelNoResultsError.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+      
     </Rules>
 
     <Content>
@@ -117,17 +138,13 @@
             </Layout>
             <Children>
               <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" />
-
               <me:searchBox Name="SearchBox" Text=""/>
-
               <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
-              
               <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
               <me:buttonImage Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
               <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
               <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
               <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-
             </Children>
           </ColorFill>
           <ColorFill Content="Transparent">
@@ -140,19 +157,10 @@
             <Children>
               <Panel Padding="50,25,25,25" Layout="Fill">
                 <Children>
-                  <Panel>
-                    <Layout>
-                      <FlowLayout Orientation="Horizontal"/>
-                    </Layout>
-                    <Children>
-                      <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" />
-                      <Text Content="results for" Color="White" Font="Segoe Media Center Light, 18" Margins="10,20,0,0" />
-                      <Text Name="lblFilterText" Content="bbbb" Color="White" Font="Segoe Media Center Light, 18" Margins="0,20,0,0"/>
-                    </Children>
-                  </Panel>
+                  <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" />
                   <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow">
                     <Children>
-
+                      <Text Name="labelNoResultsError" Content="No items found" Color="White" Font="Segoe Media Center Light, 22" />
                       <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="-10" Margins="25,0,0,0" Name="viewListScroller" ScrollingData="[SearchResultData]" >
                         <Children>
                           <Repeater Name="SearchResultRepeater" Navigation="RememberFocus">
@@ -165,7 +173,6 @@
                           </Repeater>
                         </Children>
                       </Scroller>
-
                     </Children>
                   </ColorFill>
                 </Children>
@@ -175,7 +182,6 @@
         </Children>
       </Panel>
     </Content>
-
   </UI>
 
   <UI Name="searchBox">
@@ -206,7 +212,7 @@
         <Children>
           <ColorFill Content="White" Name="SearchBox" Margins="2,2,2,2" Layout="Fill">
             <Children>
-              <Text Name="txtSearchString" Content="search for" Color="Black" Font="Segoe Media Center Light, 18" Margins="10,3,10,3" />
+              <Text Name="txtSearchString" Content="search for" Color="Black" Font="Segoe Media Center Light, 18" Margins="10,4,10,3" />
             </Children>
           </ColorFill>
         </Children>
@@ -219,6 +225,15 @@
       <entities:Entity Name="Entity" Entity="$Required" />
     </Properties>
 
+    <Locals>
+      <Command Name="CmdEnter"/>
+
+      <ClickHandler Name="Clicker" />
+
+      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
+      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
+    </Locals>
+
     <Rules>
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
@@ -228,6 +243,7 @@
           <Set Target="[imgButton.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"/>
         </Actions>
       </Condition>
+      
       <Condition Source="[Input.KeyFocus]" SourceValue="false">
         <Actions>
           <Set Target="[TextLabels.Alpha]" Value="0.8"/>
@@ -235,6 +251,20 @@
           <Set Target="[imgButton.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonNoFocus" />
         </Actions>
       </Condition>
+
+      <!-- update this to actually play the items -->
+      <Rule ConditionLogicalOp="Or">
+        <Conditions>
+          <Modified Source="[CmdEnter.Invoked]"/>
+          <Modified Source="[PlayPauseHandler.Invoked]"/>
+          <Modified Source="[PlayHandler.Invoked]"/>
+          <Modified Source="[Clicker.Invoked]"/>
+        </Conditions>
+        <Actions>
+          <!--<Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>-->
+          <Set Target="[TextLabels.Alpha]" Value="1"/>
+        </Actions>
+      </Rule>
     </Rules>
 
     <Content>
@@ -252,7 +282,7 @@
                 </Layout>
                 <Children>
                   <Text Name="lblTitle" Content="[Entity.Title]" Color="White" Margins="10,-2,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" />
-                  <Text Name="lblSummary" Content="[Entity.ShortSummaryLine1]" Color="White" Margins="10,-6,0,0" Visible="false" FadeSize="5" Alpha="0.8" Font="Segoe Media Center Light, 12" HorizontalAlignment="Near" />
+                  <Text Name="lblSummary" Content="[Entity.SearchSummary]" Color="White" Margins="10,-6,0,0" Visible="false" FadeSize="5" Alpha="0.8" Font="Segoe Media Center Light, 12" HorizontalAlignment="Near" />
                 </Children>
               </Panel>
             </Children>
