@@ -12,6 +12,7 @@
     <Properties>
       <entities:Entity Name="Entity" Entity="$Required" />
       <models:Breadcrumbs Name="Crumbs" Breadcrumbs="$Required" />
+      
       <Command Name="CmdPlayAll" Command="null"/>
       <Command Name="CmdHome" Command="null"/>
       <Command Name="CmdGroupBy" Command="null"/>
@@ -25,94 +26,46 @@
     <Rules>
       <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
-
-      <Changed Source="[CmdShowPlaylistHeader.Invoked]">
-        <Actions>
-          <Set Target="[HomeMenu.Visible]" Value="true" />
-          <Set Target="[GroupMenu.Visible]" Value="true" />
-
-          <Set Target="[QueueMenu.Visible]" Value="false" />
-          <Set Target="[PlayMenu.Visible]" Value="false" />
-
-          <Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
-        </Actions>
-      </Changed>
-      
-      <Changed Source="[Entity.Index]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Home" />
-        </Conditions>
-        <Actions>
-          <Invoke Target="[CmdShowPlaylistHeader.Invoke]" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[Entity.Index]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Group" />
-        </Conditions>
-        <Actions>
-          <Invoke Target="[CmdShowPlaylistHeader.Invoke]" />
-        </Actions>
-      </Changed>
-
     </Rules>
 
     <Content>
       <Panel>
         <Children>
-          <Panel Layout="Form">
+          <ColorFill Content="Transparent" Layout="Dock">
             <Children>
-              <Panel>
+              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" MaximumSize="96,96" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="25,10,25,10">
                 <LayoutInput>
-                  <FormLayoutInput Right="Parent,0.98" Top="Parent,0.1"/>
+                  <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
                 <Children>
-                  <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" MaximumSize="96,96" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1">
-                    <Children>
-                      <Graphic Content="[Entity.Icon]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
-                    </Children>
-                  </Graphic>
+                  <Graphic Content="[Entity.Icon]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
+                </Children>
+              </Graphic>
+
+              <Panel Layout="HorizontalFlow" Margins="10,0,0,0">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Far" Position="Left" />
+                </LayoutInput>
+                <Children>
+                  <me:buttonIcon Command="[CmdQueue]" Name="SettingsMenu" Text="Settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
+                  <me:buttonIcon Command="[CmdQueue]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
+                  <me:buttonIcon Command="[CmdQueue]" Name="ViewMenu" Text="View" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
                 </Children>
               </Panel>
 
-              <Panel>
+              <Panel Layout="VerticalFlow" Margins="0,5,0,5">
                 <LayoutInput>
-                  <FormLayoutInput Right="Parent,0.89" Top="Parent,0.35" Left="Parent,0.22" Horizontal="Far" Vertical="Near"/>
+                  <DockLayoutInput Alignment="Far" Position="Right" />
                 </LayoutInput>
                 <Children>
-                  <Text Name="PageName_Label" Content="[Entity.Description]" HorizontalAlignment="Near" Color="White" Font="Segoe Media Center Light, 36" />
-                </Children>
-              </Panel>
-
-              <Panel>
-                <LayoutInput>
-                  <FormLayoutInput Right="Parent,0.89" Top="Parent,0.1" Left="Parent,0.22" Horizontal="Far" Vertical="Near"/>
-                </LayoutInput>
-                <Children>
-                  <Text Name="PageCrumbs_Label" Content="[Crumbs.Path]" HorizontalAlignment="Near" Color="White" Font="Segoe Media Center Light, 24" Alpha="0.7" />
-                </Children>
-              </Panel>
-
-              <Panel Layout="Form">
-                <LayoutInput>
-                  <FormLayoutInput Left="Parent,0.055" Bottom="Parent,1"/>
-                </LayoutInput>
-                <Layout>
-                  <FlowLayout Orientation="Vertical"/>
-                </Layout>
-                <Children>
-                  <me:buttonIcon Command="[CmdPlayAll]" Name="PlayMenu" Text=" play all" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlay" Margins="0,0,0,-20" />
-                  <me:buttonIcon Command="[CmdQueue]" Name="QueueMenu" Text=" queue all" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
-                  
-                  <me:buttonIcon Command="[CmdGroupBy]" Name="GroupMenu" Text=" group by" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconGroup" Visible="false" Margins="0,0,0,-20" />
-                  <me:buttonIcon Command="[CmdHome]" Name="HomeMenu" Text=" playlists" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlaylist" Visible="false" />
+                  <Text Name="PageCrumbs_Label" Content="[Crumbs.Path]" Color="White" Font="Segoe Media Center Light, 24" Alpha="0.7" HorizontalAlignment="Near" Margins="0,0,0,-10"/>
+                  <Text Name="PageName_Label" Content="[Entity.Description]" Color="White" Font="Segoe Media Center Light, 36" HorizontalAlignment="Far" />
                 </Children>
               </Panel>
 
             </Children>
-          </Panel>
-          
+
+          </ColorFill>
           <ColorFill Content="Black" Alpha="0.33" />
         </Children>
       </Panel>

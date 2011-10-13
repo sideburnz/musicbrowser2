@@ -117,6 +117,7 @@
     <Compile Include="CacheEngine\DummyCacheEngine.cs" />
     <Compile Include="CacheEngine\FileSystemCacheEngine.cs" />
     <Compile Include="CacheEngine\InMemoryCache.cs" />
+    <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
@@ -218,6 +219,15 @@
     </Content>
     <Content Include="MediaCentre\Markup\Controls\Controls\ctrlScrollingText.mcml" />
     <Content Include="MediaCentre\Markup\Pages\pageSearch.mcml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MediaCentre\Markup\Pages\pageSettings.mcml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MediaCentre\Markup\Controls\SettingsPages\SystemSettings.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\SettingsPages\CacheSettings.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\Controls\ctrlCheckbox.mcml">
       <SubType>Designer</SubType>
     </Content>
     <None Include="MusicBrowser.snk" />

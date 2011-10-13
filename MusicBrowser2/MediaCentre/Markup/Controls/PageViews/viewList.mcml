@@ -169,6 +169,6 @@
   </UI>
 
   <Image Name="ButtonLeftFocus"         Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
-  <Image Name="ButtonNoFocus"           Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonNoFocus"           NineGrid="7,7,7,7" />
+  <Image Name="ButtonNoFocus"           Source="resx://MusicBrowser/MusicBrowser.Resources/nullImage"           NineGrid="7,7,7,7" />
   
 </Mcml>

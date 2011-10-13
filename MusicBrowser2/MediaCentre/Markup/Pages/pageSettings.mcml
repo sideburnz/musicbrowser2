@@ -1,0 +1,124 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:me="Me"
+      xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/CacheSettings"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/DisplaySettings"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/SystemSettings"/>
+
+  <UI Name="pageSettings">
+
+    <Properties>
+      <models:ConfigModel Name="Model" ConfigModel="$Required" />
+    </Properties>
+
+    <Locals>
+      <addin:AddInHost Name="AddInHost"/>
+      
+      <Command Name="CmdSetScopeToSystem" />
+      <Command Name="CmdSetScopeToDisplay" />
+      <Command Name="CmdSetScopeToCache" />
+    </Locals>
+
+    <Rules>
+      <Rule>
+        <Actions>
+          <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
+        </Actions>
+      </Rule>
+      
+      <Changed Source="[CmdSetScopeToSystem.Invoked]">
+        <Actions>
+          <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+          <Set Target="[btnDisplay.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnCache.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+
+          <Set Target="[txtScope.Content]" Value="System Settings" />
+
+          <Set Target="[viewSystemSetings.Visible]" Value="true" />
+          <Set Target="[viewDisplaySetings.Visible]" Value="false" />
+          <Set Target="[viewCacheSetings.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdSetScopeToDisplay.Invoked]">
+        <Actions>
+          <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnDisplay.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+          <Set Target="[btnCache.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+
+          <Set Target="[txtScope.Content]" Value="Display Settings" />
+
+          <Set Target="[viewSystemSetings.Visible]" Value="false" />
+          <Set Target="[viewDisplaySetings.Visible]" Value="true" />
+          <Set Target="[viewCacheSetings.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdSetScopeToCache.Invoked]">
+        <Actions>
+          <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnDisplay.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnCache.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+
+          <Set Target="[txtScope.Content]" Value="Cache Settings" />
+
+          <Set Target="[viewSystemSetings.Visible]" Value="false" />
+          <Set Target="[viewDisplaySetings.Visible]" Value="false" />
+          <Set Target="[viewCacheSetings.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      
+    </Rules>
+
+    <Content>
+      <Panel Layout="Dock">
+        <Children>
+          <ColorFill Content="DarkBlue" Padding="25,25,25,25">
+            <LayoutInput>
+              <DockLayoutInput Alignment="Near" Position="Right" />
+            </LayoutInput>
+            <Layout>
+              <FlowLayout FillStrip="true" Orientation="Vertical" Repeat="Never" StripAlignment="Near" ItemAlignment="Near" />
+            </Layout>
+            <Children>
+              <Text Content="Settings" Color="White" Font="Segoe Media Center Light, 32" Margins="0,0,0,25" />
+
+              <me:buttonImage Command="[CmdSetScopeToSystem]" Name="btnSystem" Text="System" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+              <me:buttonImage Command="[CmdSetScopeToDisplay]" Name="btnDisplay" Text="Display" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+              <me:buttonImage Command="[CmdSetScopeToCache]" Name="btnCache" Text="Cache" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+            </Children>
+          </ColorFill>
+          <ColorFill Content="Transparent">
+            <LayoutInput>
+              <DockLayoutInput Alignment="Near" Position="Right" />
+            </LayoutInput>
+            <Layout>
+              <FlowLayout Orientation="Vertical"/>
+            </Layout>
+            <Children>
+              <Panel Padding="50,25,25,25" Layout="Fill">
+                <Children>
+                  <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" Content="System Settings"/>
+                  <ColorFill Content="Transparent" Margins="25,100,25,0">
+                    <Children>
+                      <me:SystemSettings Name="viewSystemSetings" Visible="true" Model="[Model]" />
+                      <me:DisplaySettings Name="viewDisplaySetings" Visible="false" Model="[Model]" />
+                      <me:CacheSettings Name="viewCacheSetings" Visible="false" Model="[Model]" />
+                    </Children>
+                  </ColorFill>
+                </Children>
+              </Panel>
+            </Children>
+          </ColorFill>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+  
+</Mcml>

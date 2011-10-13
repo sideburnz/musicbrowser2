@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicBrowser.Interfaces", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySqlCacheEngine", "MySqlCacheEngine\MySqlCacheEngine.csproj", "{EDC451A4-DFDC-4CC7-AE49-AB25C651B419}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configurator", "Configurator\Configurator.csproj", "{9D2782D6-63D6-4247-A527-6BD3255FF19C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,12 +35,6 @@ Global
 		{EDC451A4-DFDC-4CC7-AE49-AB25C651B419}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDC451A4-DFDC-4CC7-AE49-AB25C651B419}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EDC451A4-DFDC-4CC7-AE49-AB25C651B419}.Release|x86.ActiveCfg = Release|Any CPU
-		{9D2782D6-63D6-4247-A527-6BD3255FF19C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D2782D6-63D6-4247-A527-6BD3255FF19C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D2782D6-63D6-4247-A527-6BD3255FF19C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{9D2782D6-63D6-4247-A527-6BD3255FF19C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D2782D6-63D6-4247-A527-6BD3255FF19C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D2782D6-63D6-4247-A527-6BD3255FF19C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

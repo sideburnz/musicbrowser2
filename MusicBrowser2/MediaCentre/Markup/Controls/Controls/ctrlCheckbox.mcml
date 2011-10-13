@@ -2,7 +2,7 @@
       xmlns:cor="assembly://MSCorLib/System"
       xmlns:me="Me">
 
-  <UI Name="buttonImage">
+  <UI Name="ctrlCheckbox">
 
     <Properties>
       <Command Name="Command" Command="$Required" />
@@ -14,9 +14,10 @@
       <cor:String Name="Text" String="" />
       <Size Name="Size" Size="0,0" />
       <Size Name="MinSize" Size="57,57" />
-      <Image Name="Icon" Image="$Required" />
+      <Image Name="Icon" Image="image://me:ButtonDormant" />
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
       <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
+      <Image Name="ImageDormant" Image="image://me:ButtonDormant" />
       <Inset Name="TextMargins" Inset="4,10,0,0" />
       <Inset Name="ImageMargins" Inset="12,16,3,0" />
     </Properties>
@@ -89,6 +90,12 @@
         </Actions>
       </Condition>-->
 
+      <Condition Source="[Command.Available]" ConditionOp="Equals" SourceValue="false">
+        <Actions>
+          <Set Target="[imgButton.Content]" Value="[ImageDormant]" />
+        </Actions>
+      </Condition>
+
       <Condition Source="[LeftAlign]" ConditionOp="Equals" SourceValue="true">
         <Actions>
           <Set Target="[imgButton.Layout]" Value="HorizontalFlow" />
@@ -116,8 +123,13 @@
     </Content>
   </UI>
 
+  <Image Name="ButtonDisabled"          Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonDisabled"          NineGrid="7,7,7,7" />
+  <Image Name="ButtonDormant"           Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonDormant"           NineGrid="7,7,7,7" />
   <Image Name="ButtonLeftFocus"         Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
-  <Image Name="ButtonNoFocus"           Source="resx://MusicBrowser/MusicBrowser.Resources/nullImage"           NineGrid="7,7,7,7" />
- 
+  <Image Name="ButtonLeftFocusOverlay"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocusOverlay"  NineGrid="7,7,7,7" />
+  <Image Name="ButtonNoFocus"           Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonNoFocus"           NineGrid="7,7,7,7" />
+  <Image Name="ButtonPressedAfterGlow"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonPressedAfterGlow"  NineGrid="7,7,7,7" />
+  <Image Name="ButtonPressedHighlight"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonPressedHighlight"  NineGrid="7,7,7,7" />
+
 </Mcml>
 
