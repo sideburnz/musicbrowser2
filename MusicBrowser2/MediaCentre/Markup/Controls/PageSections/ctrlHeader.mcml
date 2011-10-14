@@ -2,6 +2,7 @@
       xmlns:cor="assembly://MSCorLib/System"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:me="Me"
       >
 
@@ -11,21 +12,23 @@
 
     <Properties>
       <entities:Entity Name="Entity" Entity="$Required" />
-      <models:Breadcrumbs Name="Crumbs" Breadcrumbs="$Required" />
-      
-      <Command Name="CmdPlayAll" Command="null"/>
-      <Command Name="CmdHome" Command="null"/>
-      <Command Name="CmdGroupBy" Command="null"/>
-      <Command Name="CmdQueue" Command="null"/>
+      <a:Application Name="Application" Application="$Required"/>
+
     </Properties>
 
     <Locals>
-      <Command Name="CmdShowPlaylistHeader" />
+      <Command Name="CmdSettings"/>
     </Locals>
     
     <Rules>
       <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
+
+      <Changed Source="[CmdSettings.Invoked]">
+        <Actions>
+          <Invoke Target="[Application.Navigate]" location="settings" />
+        </Actions>
+      </Changed>
     </Rules>
 
     <Content>
@@ -42,23 +45,22 @@
                 </Children>
               </Graphic>
 
-              <Panel Layout="HorizontalFlow" Margins="10,0,0,0">
+              <Panel Layout="HorizontalFlow" Margins="70,0,0,0">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Far" Position="Left" />
                 </LayoutInput>
                 <Children>
-                  <me:buttonIcon Command="[CmdQueue]" Name="SettingsMenu" Text="Settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
-                  <me:buttonIcon Command="[CmdQueue]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
-                  <me:buttonIcon Command="[CmdQueue]" Name="ViewMenu" Text="View" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconQueue" />
+                  <me:buttonIcon Command="[CmdSettings]" Name="SettingsMenu" Text="Settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" />
+                  <me:buttonIcon Command="[CmdSettings]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconAction" />
+                  <me:buttonIcon Command="[CmdSettings]" Name="ViewMenu" Text="View" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconView" />
                 </Children>
               </Panel>
 
               <Panel Layout="VerticalFlow" Margins="0,5,0,5">
                 <LayoutInput>
-                  <DockLayoutInput Alignment="Far" Position="Right" />
+                  <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
                 <Children>
-                  <Text Name="PageCrumbs_Label" Content="[Crumbs.Path]" Color="White" Font="Segoe Media Center Light, 24" Alpha="0.7" HorizontalAlignment="Near" Margins="0,0,0,-10"/>
                   <Text Name="PageName_Label" Content="[Entity.Description]" Color="White" Font="Segoe Media Center Light, 36" HorizontalAlignment="Far" />
                 </Children>
               </Panel>

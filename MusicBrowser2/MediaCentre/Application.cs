@@ -38,16 +38,27 @@ namespace MusicBrowser
             }
         }
 
-        public void Navigate(Entity entity, Breadcrumbs parentCrumbs)
+        public void Navigate(String location)
+        {
+            switch (location.ToLower())
+            {
+                case "settings":
+                    {
+                        Dictionary<string, object> props = new Dictionary<string, object>();
+                        props.Add("Model", new ConfigModel());
+                        _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSettings", props);
+                        return;
+                    }
+            }
+
+            Dialog("Failed to navigate to special location: " + location);
+        }
+
+        public void Navigate(Entity entity)
         {
             //Dictionary<string, object> props = new Dictionary<string, object>();
             //props.Add("Model", new SearchModel());
             //_session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props);
-            //return;
-
-            //Dictionary<string, object> props = new Dictionary<string, object>();
-            //props.Add("Model", new ConfigModel());
-            //_session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSettings", props);
             //return;
 
             Logging.Logger.Info("Navigating to " + entity.Description);
@@ -119,7 +130,7 @@ namespace MusicBrowser
                 }
 
                 properties["Application"] = this;
-                FolderModel folderModel = new FolderModel(entity, parentCrumbs, entities);
+                FolderModel folderModel = new FolderModel(entity, entities);
                 folderModel.application = this;
                 properties["FolderModel"] = folderModel;
                 properties["UINotifier"] = UINotifier.GetInstance();

@@ -128,10 +128,16 @@
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
     <Content Include="MediaCentre\Images\backgrounds\blackBorder.png" />
+    <Content Include="MediaCentre\Images\buttonicons\checkSelected.png" />
+    <Content Include="MediaCentre\Images\buttonicons\checkUnselected.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconAction.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconConfig.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlaylist.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconRefresh.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconSearch.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconView.png" />
     <Content Include="MediaCentre\Images\buttonicons\radioSelected.png" />
     <Content Include="MediaCentre\Images\buttonicons\radioUnselected.png" />
     <Content Include="MediaCentre\Images\icons\imageGears.png" />
@@ -161,7 +167,6 @@
     <Compile Include="Providers\Metadata\MediaInfoProvider.cs" />
     <Compile Include="Providers\Metadata\MetadataProviderList.cs" />
     <Compile Include="Providers\Metadata\TagSharpMetadataProvider.cs" />
-    <Compile Include="Models\Breadcrumbs.cs" />
     <Compile Include="Logging\EventLogLogger.cs" />
     <Compile Include="Logging\FileLogger.cs" />
     <Compile Include="Logging\Logger.cs" />
@@ -249,7 +254,6 @@
     <Content Include="MediaCentre\Images\buttonicons\IconShuffle.png" />
     <Content Include="MediaCentre\Images\icons\imageDisc.png" />
     <Content Include="MediaCentre\Images\buttons\ButtonLeftFocus.png" />
-    <Content Include="MediaCentre\Images\buttons\ButtonNoFocus.png" />
     <Content Include="MediaCentre\Images\backgrounds\defaultBackground.png" />
     <Content Include="MediaCentre\Images\buttons\ButtonIcon.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconClose.png" />

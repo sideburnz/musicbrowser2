@@ -19,17 +19,15 @@ namespace MusicBrowser.Models
         readonly Entity _parentEntity;
         private readonly EntityCollection _entities;
         Int32 _selectedIndex;
-        readonly Breadcrumbs _crumbs;
         Entity _popupPlayContext = null;
         private readonly bool _isHome;
 
-        public FolderModel(Entity parentEntity, Breadcrumbs crumbs, EntityCollection entities)
+        public FolderModel(Entity parentEntity, EntityCollection entities)
         {
 #if DEBUG
-            Logging.Logger.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", path: " + crumbs.Path + ", size: " + entities.Count + ")", "start");  
+            Logging.Logger.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", size: " + entities.Count + ")", "start");  
 #endif
-            _crumbs = new Breadcrumbs(crumbs);
-            _crumbs.Add(parentEntity);
+
             _parentEntity = parentEntity;
             _entities = entities;
             _isHome = (parentEntity.Kind == EntityKind.Home);
@@ -99,11 +97,6 @@ namespace MusicBrowser.Models
                 }
                 return _entities[SelectedIndex];
             }
-        }
-
-        public Breadcrumbs Crumbs()
-        {
-            return _crumbs;
         }
 
         public bool ShowPopupPlay
@@ -201,9 +194,7 @@ namespace MusicBrowser.Models
                 Label = name,
                 Title = name 
             };
-            Breadcrumbs crumbs = new Breadcrumbs();
-            crumbs.Add(virt);
-            application.Navigate(virt, crumbs);
+            application.Navigate(virt);
         }
 
         public void NavigateToGroup(string name)
@@ -215,9 +206,7 @@ namespace MusicBrowser.Models
                 Label = name,
                 Path = name
             };
-            Breadcrumbs crumbs = new Breadcrumbs();
-            crumbs.Add(group);
-            application.Navigate(group, crumbs);
+            application.Navigate(group);
         }
 
         public bool Busy { get; set; }

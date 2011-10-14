@@ -116,7 +116,7 @@
           <Equality ConditionOp="NotEquals" Source="[Entity.Playable]" Value="true" />
         </Conditions>
         <Actions>
-          <Invoke Target="[Application.Navigate]" entity="[Entity]" parentCrumbs="[FolderModel.Crumbs]"/>
+          <Invoke Target="[Application.Navigate]" entity="[Entity]" />
         </Actions>
       </Rule>
 
