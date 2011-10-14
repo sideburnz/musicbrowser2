@@ -5,131 +5,84 @@
   <UI Name="ctrlCheckbox">
 
     <Properties>
-      <Command Name="Command" Command="$Required" />
-      <Font Name="Font" Font="Segoe Media Center, 22" />
-
-      <cor:Boolean Name="IsNavigatingCommand" Boolean="false" />
-      <cor:Boolean Name="LeftAlign" Boolean="true" />
-      <cor:Boolean Name="DisplayText" Boolean="true" />
-      <cor:String Name="Text" String="" />
-      <Size Name="Size" Size="0,0" />
-      <Size Name="MinSize" Size="57,57" />
-      <Image Name="Icon" Image="image://me:ButtonDormant" />
-      <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
-      <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
-      <Image Name="ImageDormant" Image="image://me:ButtonDormant" />
-      <Inset Name="TextMargins" Inset="4,10,0,0" />
-      <Inset Name="ImageMargins" Inset="12,16,3,0" />
+      <cor:String Name="Label" String="" />
+      <cor:Boolean Name="Value" Boolean="false" />
     </Properties>
 
     <Locals>
-
       <ClickHandler Name="Clicker" />
-
+      <Command Name="CmdChange" />
     </Locals>
 
     <Rules>
-
-      <Binding Source="[Command]" Target="[Clicker.Command]" />
-      <Binding Source="[Command.Available]" Target="[Input.KeyInteractive]" />
-      <Binding Source="[Font]" Target="[Label.Font]" />
-      <Binding Source="[Text]" Target="[Label.Content]" />
-      <Binding Source="[Icon]" Target="[graphicBullet.Content]" />
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[CheckBox.Alpha]" Value="1"/>
+        </Actions>
+      </Condition>
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[CheckBox.Alpha]" Value="0.5"/>
+        </Actions>
+      </Condition>
 
       <Default Target="[Input.KeyInteractive]" Value="true" />
 
-      <Changed Source="[Command.Available]" InitialEvaluate="true">
+      <Binding Source="[CmdChange]" Target="[Clicker.Command]" />
+
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[Command.Available]" Value="true"/>
+          <Equality Source="[Value]" ConditionOp="Equals" Value="true" />
         </Conditions>
         <Actions>
-          <Set Target="[imgButton.Alpha]" Value="1"/>
+          <Set Target="[grpIndicator.Content]" Value="image://me:Checked" />
         </Actions>
       </Changed>
 
-      <Changed Source="[Command.Available]" InitialEvaluate="true">
+      <Changed Source="[Value]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[Command.Available]" Value="false"/>
+          <Equality Source="[Value]" ConditionOp="Equals" Value="false" />
         </Conditions>
         <Actions>
-          <Set Target="[imgButton.Alpha]" Value=".5"/>
+          <Set Target="[grpIndicator.Content]" Value="image://me:Unchecked" />
         </Actions>
       </Changed>
 
-      <Rule>
+      <Changed Source="[CmdChange.Invoked]">
         <Conditions>
-          <Equality Source="[Size]" Value="0,0"/>
+          <Equality Source="[Value]" ConditionOp="Equals" Value="false" />
         </Conditions>
         <Actions>
-          <Set Target="[imgButton.MaximumSize]" Value="1000,1000"/>
-          <Set Target="[imgButton.SizingPolicy]"  Value="SizeToConstraint"/>
+          <Set Target="[Value]" Value="true" />
         </Actions>
-      </Rule>
+      </Changed>
 
-      <Condition Source="[Input.KeyFocus]" SourceValue="true">
-        <Actions>
-          <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
-          <Set Target="[Label.Color]" Value="White"/>
-        </Actions>
-      </Condition>
-
-      <Condition Source="[Input.KeyFocus]" SourceValue="false">
-        <Actions>
-          <!--<Set Target="[imgButton.Content]" Value="[ImageFocus]"/>-->
-          <Set Target="[Label.Color]" Value="Gray"/>
-        </Actions>
-      </Condition>
-
-      <!--<Condition Source="[Input.MouseFocus]" SourceValue="true">
+      <Changed Source="[CmdChange.Invoked]">
         <Conditions>
-          <Equality Source="[Command.Available]" ConditionOp="Equals" Value="true" />
+          <Equality Source="[Value]" ConditionOp="Equals" Value="true" />
         </Conditions>
         <Actions>
-          <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
-          <Set Target="[Label.Visible]" Value="true" />
+          <Set Target="[Value]" Value="false" />
         </Actions>
-      </Condition>-->
-
-      <Condition Source="[Command.Available]" ConditionOp="Equals" SourceValue="false">
-        <Actions>
-          <Set Target="[imgButton.Content]" Value="[ImageDormant]" />
-        </Actions>
-      </Condition>
-
-      <Condition Source="[LeftAlign]" ConditionOp="Equals" SourceValue="true">
-        <Actions>
-          <Set Target="[imgButton.Layout]" Value="HorizontalFlow" />
-          <Set Target="[Label.HorizontalAlignment]" Value="Near" />
-        </Actions>
-      </Condition>
-
+      </Changed>
+      
     </Rules>
 
     <Content>
-      <Panel>
+      <Panel Name="CheckBox" MinimumSize="600,50" MaximumSize="600,50">
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+        </Layout>
         <Children>
-          <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[MinSize]" MaximumSize="[MinSize]">
-            <Layout>
-              <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
-            </Layout>
-            <Children>
-              <Graphic Name="graphicBullet" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="[ImageMargins]" Visible="true" />
-              <!-- The label to display. -->
-              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="[TextMargins]" Visible="[DisplayText]" FadeSize="5" Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]" />
-            </Children>
-          </Graphic>
+          <Graphic Name="grpIndicator" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="10,9,0,0" Visible="true" />
+          <Text Name="txtLabel" Content="[Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,3,3" />
         </Children>
       </Panel>
     </Content>
   </UI>
 
-  <Image Name="ButtonDisabled"          Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonDisabled"          NineGrid="7,7,7,7" />
-  <Image Name="ButtonDormant"           Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonDormant"           NineGrid="7,7,7,7" />
-  <Image Name="ButtonLeftFocus"         Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
-  <Image Name="ButtonLeftFocusOverlay"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocusOverlay"  NineGrid="7,7,7,7" />
-  <Image Name="ButtonNoFocus"           Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonNoFocus"           NineGrid="7,7,7,7" />
-  <Image Name="ButtonPressedAfterGlow"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonPressedAfterGlow"  NineGrid="7,7,7,7" />
-  <Image Name="ButtonPressedHighlight"  Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonPressedHighlight"  NineGrid="7,7,7,7" />
+  <Image Name="Checked"   Source="resx://MusicBrowser/MusicBrowser.Resources/checkSelected" NineGrid="7,7,7,7" />
+  <Image Name="Unchecked" Source="resx://MusicBrowser/MusicBrowser.Resources/checkUnselected" NineGrid="7,7,7,7" />
 
 </Mcml>
 

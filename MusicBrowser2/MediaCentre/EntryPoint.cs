@@ -47,7 +47,7 @@ namespace MusicBrowser
             Application app = new Application(_sSession, host);
 
             // Go to the initial screen
-            app.Navigate(home, new Breadcrumbs());
+            app.Navigate(home);
 
             // Trigger the background caching tasks
             foreach (string path in Providers.FolderItems.HomePathProvider.Paths)

@@ -4,6 +4,7 @@
       xmlns:cor="assembly://MSCorLib/System">
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlCheckbox"/>
 
   <UI Name="CacheSettings">
 
@@ -18,7 +19,7 @@
     <Content>
       <ColorFill Content="Transparent" Layout="VerticalFlow">
         <Children>
-          <me:buttonImage Command="[CmdTurnCacheOnOff]" Text="Use Cache" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+          <me:ctrlCheckbox Label="Use caching" Margins="0,0,0,2" Value="[Model.UseCache]" />
           <me:buttonImage Command="[CmdTurnCacheOnOff]" Text="Clear Cache" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
         </Children>
       </ColorFill>

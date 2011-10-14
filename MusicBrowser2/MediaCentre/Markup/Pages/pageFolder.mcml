@@ -199,7 +199,7 @@
           </Panel>
 
           <!-- Page Header -->
-          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" Crumbs="[FolderModel.Crumbs]" CmdPlayAll="[CmdPlayAll]" CmdQueue="[CmdQueue]" CmdHome="[CmdHomeMenu]" CmdGroupBy="[CmdGroupByMenu]">
+          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" Application="[Application]">
             <LayoutInput>
               <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.15" Right="Parent,1"/>
             </LayoutInput>

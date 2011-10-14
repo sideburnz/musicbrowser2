@@ -22,7 +22,7 @@
     </Properties>
 
     <Locals>
-      <ScrollingData Name="scrollData" EndPadding="2380" BeginPadding="120" PageStep="1" />
+      <ScrollingData Name="scrollData" EndPadding="2400" BeginPadding="100" PageStep="1" />
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
     </Locals>
 
@@ -123,7 +123,7 @@
           <Equality ConditionOp="NotEquals" Source="[Entity.Playable]" Value="true" />
         </Conditions>
         <Actions>
-          <Invoke Target="[Application.Navigate]" entity="[Entity]" parentCrumbs="[FolderModel.Crumbs]"/>
+          <Invoke Target="[Application.Navigate]" entity="[Entity]" />
         </Actions>
       </Rule>
       <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
