@@ -125,6 +125,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static byte[] ctrlActionPopUp {
+            get {
+                object obj = ResourceManager.GetObject("ctrlActionPopUp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] ctrlCheckbox {
             get {
                 object obj = ResourceManager.GetObject("ctrlCheckbox", resourceCulture);

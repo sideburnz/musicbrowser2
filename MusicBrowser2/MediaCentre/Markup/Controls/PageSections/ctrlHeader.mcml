@@ -13,11 +13,12 @@
     <Properties>
       <entities:Entity Name="Entity" Entity="$Required" />
       <a:Application Name="Application" Application="$Required"/>
-
+      <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
     </Properties>
 
     <Locals>
       <Command Name="CmdSettings"/>
+      <Command Name="CmdActions"/>
     </Locals>
     
     <Rules>
@@ -29,6 +30,13 @@
           <Invoke Target="[Application.Navigate]" location="settings" />
         </Actions>
       </Changed>
+
+      <Changed Source="[CmdActions.Invoked]">
+        <Actions>
+          <Set Target="[ActionsModel.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+      
     </Rules>
 
     <Content>
@@ -51,7 +59,7 @@
                 </LayoutInput>
                 <Children>
                   <me:buttonIcon Command="[CmdSettings]" Name="SettingsMenu" Text="Settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" />
-                  <me:buttonIcon Command="[CmdSettings]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconAction" />
+                  <me:buttonIcon Command="[CmdActions]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconAction" />
                   <me:buttonIcon Command="[CmdSettings]" Name="ViewMenu" Text="View" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconView" />
                 </Children>
               </Panel>

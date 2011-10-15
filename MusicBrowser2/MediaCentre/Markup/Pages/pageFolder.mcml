@@ -10,7 +10,8 @@
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlHeader"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlFooter"/>
-  
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlActionPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlHomePopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlGroupByPopUp"/>
@@ -26,6 +27,7 @@
       <a:Application Name="Application" Application="$Required"/>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
       <models:UINotifier Name="UINotifier" UINotifier="$Required" />
+      <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
     </Properties>
 
     <Locals>
@@ -153,6 +155,8 @@
 
       <Changed Source="[CmdClosePopup.Invoked]">
         <Actions>
+          <Set Target="[ActionsModel.Visible]" Value="false" />
+          
           <Invoke Target="[ViewPanel.NavigateInto]" />
           <Set Target="[pageFader.Visible]" Value="false" />
           <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
@@ -161,6 +165,7 @@
         </Actions>
       </Changed>
 
+      <Binding Source="[ActionsModel.Visible]" Target="[ActionPopUp.Visible]" />
 
       <!--<Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AlbumArtMosaic"/>-->
       
@@ -175,6 +180,7 @@
           <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
           <me:ctrlHomePopup Name="HomePopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
           <me:ctrlGroupByPopup Name="GroupByPopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
+          <me:ctrlActionPopup Name="ActionPopUp" Visible="true" CmdClose="[CmdClosePopup]" Model="[FolderModel.ParentEntity]" />
           
           <!-- FADER -->
           <Panel Visible="true">
@@ -199,7 +205,7 @@
           </Panel>
 
           <!-- Page Header -->
-          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" Application="[Application]">
+          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" Application="[Application]" ActionsModel="[ActionsModel]">
             <LayoutInput>
               <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.15" Right="Parent,1"/>
             </LayoutInput>

@@ -134,6 +134,7 @@ namespace MusicBrowser
                 folderModel.application = this;
                 properties["FolderModel"] = folderModel;
                 properties["UINotifier"] = UINotifier.GetInstance();
+                properties["ActionsModel"] = ActionsModel.GetInstance;
                 _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
             }
             catch (Exception ex)

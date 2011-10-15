@@ -1,0 +1,61 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:me="Me"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
+
+  <UI Name="ctrlActionPopup">
+    <Properties>
+      <Command Name="CmdClose"/>
+      <entities:Entity Name="Model" Entity="$Required" />
+    </Properties>
+
+    <Locals>
+      <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
+      <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[CmdClose]"/>
+
+      <ScrollingData Name="scrollData" EndPadding="100" PageStep="1" />
+      <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
+
+    </Locals>
+
+    <Rules>
+      <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
+      <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
+
+      <Binding Target="[viewListRepeater.Source]" Source="[Model.Actions]" />
+      <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/>
+      <Default Target="[scrollData.Repeater]" Value="[viewListRepeater]"/>
+    </Rules>
+
+    <!--
+    TODO:
+    this should have it's own control ActionButton that you pass the entity, actionmodel and action to and it renders it
+    and executes the action
+    -->
+    
+    <Content>
+      <Panel Navigation="ContainAll" Name="ActionPopUp">
+        <Layout>
+          <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
+        </Layout>
+        <Children>
+
+          <Repeater Layout="Fill" Name="viewListRepeater" Navigation="RememberFocus">
+            <Layout>
+              <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
+            </Layout>
+            <Content>
+              <me:buttonImage Command="[CmdClose]" Text="[RepeatedItem!actions:baseActionCommand.Label]" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="[RepeatedItem!actions:baseActionCommand.Icon]" />
+            </Content>
+          </Repeater>
+
+          <me:buttonImage Command="[CmdClose]" Name="cmdClose" Text="Close" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+</Mcml>

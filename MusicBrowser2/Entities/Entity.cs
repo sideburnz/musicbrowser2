@@ -11,6 +11,7 @@ using MusicBrowser.Util;
 using MusicBrowser.Providers;
 using MusicBrowser.CacheEngine;
 using System.Linq;
+using MusicBrowser.Actions;
 
 namespace MusicBrowser.Entities
 {
@@ -396,6 +397,34 @@ namespace MusicBrowser.Entities
                     return AlbumArtist;
                 }
                 return string.Empty;
+            }
+        }
+
+        public VirtualList Actions
+        {
+            get
+            {
+                VirtualList actions = new VirtualList();
+
+                switch (Kind)
+                {
+                    case EntityKind.Track:
+                        actions.Add(new ActionPlayEntity());
+                        break;
+                    case EntityKind.Genre:
+                    case EntityKind.Album:
+                    case EntityKind.Artist:
+                    case EntityKind.Home:
+                        actions.Add(new ActionPlayEntity());
+                        actions.Add(new ActionPlayEntity());
+                        actions.Add(new ActionPlayEntity());
+                        actions.Add(new ActionPlayEntity());
+                        actions.Add(new ActionPlayEntity());
+                        actions.Add(new ActionPlayEntity());
+                        break;
+                }
+
+                return actions;
             }
         }
 
