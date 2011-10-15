@@ -113,11 +113,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\baseActionCommand.cs" />
+    <Compile Include="Actions\ActionPlayEntity.cs" />
     <Compile Include="CacheEngine\CacheEngineFactory.cs" />
     <Compile Include="CacheEngine\DummyCacheEngine.cs" />
     <Compile Include="CacheEngine\FileSystemCacheEngine.cs" />
     <Compile Include="CacheEngine\InMemoryCache.cs" />
     <Compile Include="Models\ConfigModel.cs" />
+    <Compile Include="Models\ActionsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
@@ -152,7 +155,7 @@
     <Content Include="MediaCentre\Images\thumbs\thumbPlaylist.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbTrack.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbVirtual.png" />
-    <Content Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml">
+    <Content Include="MediaCentre\Markup\Controls\PopUps\viewThumb.mcml">
       <SubType>Designer</SubType>
     </Content>
     <Compile Include="CacheEngine\EntityPersistance.cs" />
@@ -235,6 +238,8 @@
     <Content Include="MediaCentre\Markup\Controls\Controls\ctrlCheckbox.mcml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlActionPopUp.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
