@@ -2,14 +2,16 @@
       xmlns:me="Me"
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:cor="assembly://MSCorLib/System">
 
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
-
   <UI Name="ctrlActionPopup">
+    
     <Properties>
+      <entities:Entity Name="Entity" Entity="$Required" />
+      <models:ActionsModel Name="Model" ActionsModel="$Required" />
+
       <Command Name="CmdClose"/>
-      <entities:Entity Name="Model" Entity="$Required" />
     </Properties>
 
     <Locals>
@@ -18,44 +20,92 @@
 
       <ScrollingData Name="scrollData" EndPadding="100" PageStep="1" />
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
-
     </Locals>
 
     <Rules>
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
 
-      <Binding Target="[viewListRepeater.Source]" Source="[Model.Actions]" />
+      <Binding Target="[viewListRepeater.Source]" Source="[Entity.Actions]" />
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/>
       <Default Target="[scrollData.Repeater]" Value="[viewListRepeater]"/>
+
+      <Changed Source="[CmdClose.Invoked]">
+        <Actions>
+          <Set Target="[Model.Visible]" Value="false" />
+        </Actions>
+      </Changed>
     </Rules>
 
-    <!--
-    TODO:
-    this should have it's own control ActionButton that you pass the entity, actionmodel and action to and it renders it
-    and executes the action
-    -->
-    
     <Content>
       <Panel Navigation="ContainAll" Name="ActionPopUp">
         <Layout>
           <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
         </Layout>
         <Children>
-
-          <Repeater Layout="Fill" Name="viewListRepeater" Navigation="RememberFocus">
+          <Repeater Layout="Fill" Name="viewListRepeater" Navigation="ContainAll">
             <Layout>
               <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
             </Layout>
             <Content>
-              <me:buttonImage Command="[CmdClose]" Text="[RepeatedItem!actions:baseActionCommand.Label]" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="[RepeatedItem!actions:baseActionCommand.Icon]" />
+              <me:buttonAction Action="[RepeatedItem!actions:baseActionCommand]" />
             </Content>
           </Repeater>
-
-          <me:buttonImage Command="[CmdClose]" Name="cmdClose" Text="Close" Size="360,52" MinSize="360,57" Font="Segoe Media Center,22" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
         </Children>
       </Panel>
     </Content>
+  </UI>
+
+
+  <UI Name="buttonAction">
+    
+    <Properties>
+      <actions:baseActionCommand Name="Action" baseActionCommand="$Required" />
+    </Properties>
+
+    <Locals>
+      <ClickHandler Name="Clicker" />
+      <Command Name="CmdChange" />
+    </Locals>
+
+    <Rules>
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"/>
+          <Set Target="[txtLabel.Alpha]" Value="1" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
+          <Set Target="[txtLabel.Alpha]" Value="0.5" />
+        </Actions>
+      </Condition>
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Binding Source="[CmdChange]" Target="[Clicker.Command]" />
+
+      <Changed Source="[CmdChange.Invoked]">
+        <Actions>
+          <Invoke Target="[Action.Execute]" />
+        </Actions>
+      </Changed>
+
+    </Rules>
+
+    <Content>
+      <Graphic Name="Frame" MinimumSize="360,57" MaximumSize="360,57" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage">
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+        </Layout>
+        <Children>
+          <Graphic Name="grpIcon" Content="[Action.Icon]" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="12,16,3,0" Visible="true" />
+          <Text Name="txtLabel" Content="[Action.Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="4,10,0,0" />
+        </Children>
+      </Graphic>
+    </Content>
+    
   </UI>
 
 </Mcml>

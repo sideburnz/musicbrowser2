@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Actions;
 using MusicBrowser.Entities;
@@ -7,8 +10,6 @@ namespace MusicBrowser.Models
 {
     public class ActionsModel : BaseModel
     {
-        //TODO: this should also do the work for the Actions - marshal the Execute calls
-
         #region singleton
         static ActionsModel _instance;
         
@@ -22,7 +23,6 @@ namespace MusicBrowser.Models
             }
         }
         #endregion
-
 
         public bool _visible = false;
 
@@ -42,15 +42,50 @@ namespace MusicBrowser.Models
             }
         }
 
-        public void ExecuteAction(baseActionCommand action, Entity entity, String context )
+        //TODO: move the logic for determining which acitions apply to which entities to this
+        //TODO: workout how to remove [Open] if the entity is already open
+        //public baseActionCommand GetDefaultAction(EntityKind kind)
+
+
+        //TODO : somehow execute a default action [usually open or play]
+        //TODO : make this configurable
+        public static VirtualList GetActionList(Entity entity)
         {
-            try
+            VirtualList actions = new VirtualList();
+
+            switch (entity.Kind)
             {
-                action.Execute(entity, context);
+                case EntityKind.Track:
+                    actions.Add(new ActionPlayEntity(entity));
+                    actions.Add(new ActionOpenEntity(entity));
+                    actions.Add(new ActionCloseMenu(null));
+                    break;
+                case EntityKind.Genre:
+                    actions.Add(new ActionPlayEntity(entity));
+                    actions.Add(new ActionOpenEntity(entity));
+                    actions.Add(new ActionCloseMenu(null));
+                    break;
+                case EntityKind.Album:
+                    actions.Add(new ActionPlayEntity(entity));
+                    actions.Add(new ActionOpenEntity(entity));
+                    actions.Add(new ActionCloseMenu(null));
+                    break;
+                case EntityKind.Artist:
+                    actions.Add(new ActionOpenEntity(entity));
+                    actions.Add(new ActionPlayEntity(entity));
+                    actions.Add(new ActionCloseMenu(null));
+                    break;
+                case EntityKind.Home:
+                    actions.Add(new ActionCloseMenu(null));
+                    break;
             }
-            catch
-            {
-            }
+
+            return actions;
+        }
+
+        public static baseActionCommand GetDefaultAction(Entity entity)
+        {
+            return (baseActionCommand)GetActionList(entity)[0];
         }
 
     }
