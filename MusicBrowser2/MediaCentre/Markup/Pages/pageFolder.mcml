@@ -33,11 +33,6 @@
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
       
-      <Command Name="CmdClosePopup"/>
-      <Command Name="CmdPlayAll"/>
-      <Command Name="CmdQueue"/>
-      <Command Name="CmdHomeMenu"/>
-      <Command Name="CmdGroupByMenu"/>
       <Command Name="CmdRefresh" />
       
       <playlist:Playlist Name="playlist"/>
@@ -94,33 +89,7 @@
 
       <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
       <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
-
-      <Changed Source="[CmdPlayAll.Invoked]">
-        <Actions>
-          <Invoke Target="[playlist.DoAction]" Action="CmdPlayAll" Entity="[FolderModel.ParentEntity]"/>
-        </Actions>
-      </Changed>
-      <Changed Source="[CmdQueue.Invoked]">
-        <Actions>
-          <Invoke Target="[playlist.DoAction]" Action="CmdAddToQueue" Entity="[FolderModel.ParentEntity]"/>
-        </Actions>
-      </Changed>
       
-      <Changed Source="[CmdHomeMenu.Invoked]">
-        <Actions>          
-          <Set Target="[pageFader.Visible]" Value="true" />
-          <Invoke Target="[FolderModel.SetHomePopupVisible]" Value="true"/>
-          <Invoke Target="[HomePopupPlay.NavigateInto]" />
-        </Actions>
-      </Changed>
-      <Changed Source="[CmdGroupByMenu.Invoked]">
-        <Actions>
-          <Set Target="[pageFader.Visible]" Value="true" />
-          <Invoke Target="[FolderModel.SetGroupByPopupVisible]" Value="true"/>
-          <Invoke Target="[GroupByPopupPlay.NavigateInto]" />
-        </Actions>
-      </Changed>
-
       <!-- these rules are all executed unconditionally -->
       <Rule>
         <Actions>
@@ -137,31 +106,25 @@
       </Binding>
      
       <Binding Source="[FolderModel.ParentEntity.Background]" Target="[EntityBackground.Content]"/>
-      <Binding Source="[FolderModel.HomePopupVisible]" Target="[HomePopupPlay.Visible]" />
-      <Binding Source="[FolderModel.GroupByPopupVisible]" Target="[GroupByPopupPlay.Visible]" />
-
       <Binding Source="[FolderModel.Busy]" Target="[imageSpinner.Visible]" />
 
-      <Binding Source="[FolderModel.ShowPopupPlay]" Target="[PopupPlay.Visible]" />
-      <Rule ConditionLogicalOp="Or">
+      <Changed Source="[ActionsModel.Visible]">
         <Conditions>
-          <Equality Source="[FolderModel.ShowPopupPlay]" Value="true" />
+          <Equality Source="[ActionsModel.Visible]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="false" />
+          <Invoke Target="[ViewPanel.NavigateInto]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[ActionsModel.Visible]">
+        <Conditions>
+          <Equality Source="[ActionsModel.Visible]" Value="true" />
         </Conditions>
         <Actions>
           <Set Target="[pageFader.Visible]" Value="true" />
-          <Invoke Target="[PopupPlay.NavigateInto]" />
-        </Actions>
-      </Rule>
-
-      <Changed Source="[CmdClosePopup.Invoked]">
-        <Actions>
-          <Set Target="[ActionsModel.Visible]" Value="false" />
-          
-          <Invoke Target="[ViewPanel.NavigateInto]" />
-          <Set Target="[pageFader.Visible]" Value="false" />
-          <Invoke Target="[FolderModel.ClearPopupPlayContext]"/>
-          <Invoke Target="[FolderModel.SetHomePopupVisible]" Value="false"/>
-          <Invoke Target="[FolderModel.SetGroupByPopupVisible]" Value="false"/>
+          <Invoke Target="[ActionPopUp.NavigateInto]" />
         </Actions>
       </Changed>
 
@@ -176,11 +139,8 @@
         <Children>
 
           <!-- POP UPS -->
-          <me:ctrlPlayPopup Name="PopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
           <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
-          <me:ctrlHomePopup Name="HomePopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
-          <me:ctrlGroupByPopup Name="GroupByPopupPlay" Visible="false" CmdClose="[CmdClosePopup]" FolderModel="[FolderModel]" />
-          <me:ctrlActionPopup Name="ActionPopUp" Visible="true" CmdClose="[CmdClosePopup]" Model="[FolderModel.ParentEntity]" />
+          <me:ctrlActionPopup Name="ActionPopUp" Visible="true" Model="[ActionsModel]" Entity="[FolderModel.ParentEntity]" />
           
           <!-- FADER -->
           <Panel Visible="true">

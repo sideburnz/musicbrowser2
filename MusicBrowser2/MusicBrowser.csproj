@@ -115,6 +115,8 @@
   <ItemGroup>
     <Compile Include="Actions\baseActionCommand.cs" />
     <Compile Include="Actions\ActionPlayEntity.cs" />
+    <Compile Include="Actions\ActionOpenEntity.cs" />
+    <Compile Include="Actions\ActionCloseMenu.cs" />
     <Compile Include="CacheEngine\CacheEngineFactory.cs" />
     <Compile Include="CacheEngine\DummyCacheEngine.cs" />
     <Compile Include="CacheEngine\FileSystemCacheEngine.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
+    <Content Include="Actions\Actions to write.txt" />
     <Content Include="MediaCentre\Images\backgrounds\blackBorder.png" />
     <Content Include="MediaCentre\Images\buttonicons\checkSelected.png" />
     <Content Include="MediaCentre\Images\buttonicons\checkUnselected.png" />
@@ -214,6 +217,7 @@
     <Compile Include="WebServices\Services\LastFM\ArtistInfoService.cs" />
     <Compile Include="WebServices\Services\LastFM\TrackInfoService.cs" />
     <Compile Include="WebServices\WebServiceProviders\LastFMWebProvider.cs" />
+    <Content Include="TextFile1.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlHomePopUp.mcml">
@@ -234,11 +238,15 @@
     </Content>
     <Content Include="MediaCentre\Markup\Controls\SettingsPages\SystemSettings.mcml" />
     <Content Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml" />
-    <Content Include="MediaCentre\Markup\Controls\SettingsPages\CacheSettings.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\SettingsPages\CacheSettings.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MediaCentre\Markup\Controls\Controls\ctrlCheckbox.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlActionPopUp.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlActionPopUp.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
     <None Include="MusicBrowser.snk" />
   </ItemGroup>

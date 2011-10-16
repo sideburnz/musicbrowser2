@@ -17,6 +17,7 @@ namespace MusicBrowser
     {
         private readonly AddInHost _host;
         private readonly HistoryOrientedPageSession _session;
+        private static Application _application;
 
         public Application() : this(null, null) { }
 
@@ -27,6 +28,13 @@ namespace MusicBrowser
 
             Util.Config.GetInstance().SetDefaultSettings();
             Logging.Logger.Info("Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+
+            _application = this;
+        }
+
+        public static Application GetReference()
+        {
+            return _application;
         }
 
         private MediaCenterEnvironment MediaCenterEnvironment
