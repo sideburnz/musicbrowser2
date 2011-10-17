@@ -11,36 +11,35 @@ namespace MusicBrowser.Actions
 {
     public abstract class baseActionCommand : BaseModel
     {
-        private readonly Entity _entity;
-
-        public baseActionCommand(Entity entity)
+         public baseActionCommand()
         {
             IconPath = "resx://MusicBrowser/MusicBrowser.Resources/nullImage";
             Label = this.GetType().Name;
-            _entity = entity;
         }
+
+        public Entity Entity { get; set; }
 
         public string Label { get; set; }
 
         public void Execute()
         {
             string title;
-            if (_entity == null)
+            if (Entity == null)
             {
                 title = "none defined";
             }
             else
             {
-                title = _entity.Title;
+                title = Entity.Title;
             }
 
-            Logging.Logger.Debug(String.Format("Action: {0}, Entity: {1}", Description, title));
+            Logging.Logger.Debug(String.Format("Action: {0}, Entity: {1}", Label, title));
 
-            Statistics.Hit("Action." + Description);
+            Statistics.Hit("Action." + Label);
 
             try
             {
-                DoAction(_entity);
+                DoAction(Entity);
                 ActionsModel.GetInstance.Visible = false;
             }
             catch(Exception e)

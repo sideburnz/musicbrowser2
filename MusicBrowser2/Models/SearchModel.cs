@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Entities;
 using MusicBrowser.CacheEngine;
+using MusicBrowser.Providers;
 
 namespace MusicBrowser.Models
 {
@@ -16,17 +17,30 @@ namespace MusicBrowser.Models
     {
         private EntityKind _searchScope;
         private readonly InMemoryCache _fullCollection;
+        private readonly EntityCollection _contextCollection;
         private readonly EditableText _remoteFilter = new EditableText();
 
-
-
-        public SearchModel()
+        public SearchModel(string initialSearchString, Entity context)
         {
-            _searchScope = EntityKind.Unknown;
             _fullCollection = InMemoryCache.GetInstance();
 
+            if (context == null || context.Kind == EntityKind.Home)
+            {
+                _searchScope = EntityKind.Unknown;
+                HasContext = false;
+            }
+            else //TODO: support for genres etc
+            {
+                _searchScope = EntityKind.Folder;
+                _contextCollection = new EntityCollection();
+                _contextCollection.AddRange(FileSystemProvider.GetAllSubPaths(context.Path)); //this line needs to change
+                HasContext = true;
+            }
             _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;
+            _remoteFilter.Value = initialSearchString;
         }
+
+        public bool HasContext { get; set; }
 
         public void SetSetSearchScope(string scope)
         {
@@ -72,12 +86,23 @@ namespace MusicBrowser.Models
         {
             get
             {
+                EntityCollection dataset;
+
+                if (HasContext && _searchScope == EntityKind.Folder)
+                {
+                    dataset = _contextCollection;
+                }
+                else
+                {
+                    dataset = _fullCollection.DataSet;
+                }
+
                 string filterText = String.Empty;
                 if (_remoteFilter.Value != null)
                 {
                     filterText = _remoteFilter.Value;
                 }
-                EntityCollection results = _fullCollection.DataSet.Filter(_searchScope, filterText);
+                EntityCollection results = dataset.Filter(_searchScope, filterText);
                 return new EntityVirtualList(results, false);
             }
         }

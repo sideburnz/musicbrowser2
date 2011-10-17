@@ -255,7 +255,7 @@ namespace MusicBrowser.Entities
 
         public void UpdateValues()
         {
-            if (Kind == EntityKind.Home) { Title = "MusicBrowser 2"; }
+            if (Kind == EntityKind.Home) { Title = MacroSubstitution(Config.GetInstance().GetStringSetting("Home.Format")); }
 //            if (Label.ToLower() == "genre") { Label = "MusicGenre"; }
 
             FirePropertyChanged("ShortSummaryLine1");

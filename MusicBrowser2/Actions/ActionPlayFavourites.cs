@@ -5,23 +5,22 @@ using System.Text;
 using MusicBrowser.Providers;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
-using MusicBrowser.Providers.Transport;
 
 namespace MusicBrowser.Actions
 {
-    class ActionPlayEntity : baseActionCommand
+    class ActionPlayFavourites : baseActionCommand
     {
-        private const string LABEL = "Play";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
+        private const string LABEL = "Play Favourites";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconFavorite";
 
-        public ActionPlayEntity(Entity entity)
+        public ActionPlayFavourites(Entity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionPlayEntity()
+        public ActionPlayFavourites()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -29,7 +28,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
-            Transport.GetTransport().Play(false, entity.Path);
+            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdfavourited", entity), true);   
         }
     }
 }

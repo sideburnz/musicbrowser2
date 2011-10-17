@@ -23,6 +23,8 @@
       <Command Name="CmdSetScopeToSystem" />
       <Command Name="CmdSetScopeToDisplay" />
       <Command Name="CmdSetScopeToCache" />
+
+      <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
     </Locals>
 
     <Rules>
@@ -79,7 +81,7 @@
     <Content>
       <Panel Layout="Dock">
         <Children>
-          <ColorFill Content="Transparent" Padding="25,25,25,25">
+          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="25,25,25,25">
             <LayoutInput>
               <DockLayoutInput Alignment="Near" Position="Right" />
             </LayoutInput>
@@ -92,11 +94,10 @@
               <me:buttonImage Command="[CmdSetScopeToSystem]" Name="btnSystem" Text="System" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
               <me:buttonImage Command="[CmdSetScopeToDisplay]" Name="btnDisplay" Text="Display" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
               <me:buttonImage Command="[CmdSetScopeToCache]" Name="btnCache" Text="Cache" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-
             </Children>
-          </ColorFill>
+          </Graphic>
 
-          <ColorFill Content="White" Alpha="0.5" MinimumSize="2,700">
+          <ColorFill Content="Black" Alpha="1" MinimumSize="1,1000">
             <LayoutInput>
               <DockLayoutInput Alignment="Center" Position="Right" />
             </LayoutInput>

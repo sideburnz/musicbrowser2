@@ -3,8 +3,8 @@
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
-      xmlns:playlist="assembly://MusicBrowser/MusicBrowser.MediaCentre"
       xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:me="Me"
       >
 
@@ -12,9 +12,6 @@
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlFooter"/>
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlActionPopUp"/>
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayPopUp"/>
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlHomePopUp"/>
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlGroupByPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
@@ -32,12 +29,12 @@
 
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
+      <models:Clock Name="Clock"/>
+      
+      <actions:ActionRefreshMetadata Name="RefreshAction" Entity="[FolderModel.ParentEntity]" />
+      <actions:ActionShowSearch Name="SearchAction" Entity="[FolderModel.ParentEntity]" />
       
       <Command Name="CmdRefresh" />
-      
-      <playlist:Playlist Name="playlist"/>
-      
-      <models:Clock Name="Clock"/>
 
       <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled"/>
       <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled"/>
@@ -47,9 +44,25 @@
       <ShortcutHandler Name="hRec" Shortcut="Record" HandlerStage="Bubbled" />
 
       <Timer Name="BackgroundTimer" AutoRepeat="True" Interval="10000" Enabled="True" />
+
+      <EditableText Name="editableText" />
+      <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
     </Locals>
 
     <Rules>
+
+      <Binding Source="[editableText]" Target="[typingHandler.EditableText]" />
+      <Changed Source="[editableText.Activity]">
+        <Conditions>
+          <Equality Source="[editableText.Value]" ConditionOp="NotEquals" Value="" />
+        </Conditions>
+        <Actions>
+          <Set Target="[SearchAction.SearchString]" Value="[editableText.Value]" />
+          <Invoke Target="[SearchAction.Execute]" />
+          <Set Target="[editableText.Value]" Value="" />
+        </Actions>
+      </Changed>
+
       <Changed Source="[BackgroundTimer.Tick]">
         <Actions>
           <Invoke Target="[FolderModel.ParentEntity.GetNextBackground]"/>
@@ -83,7 +96,7 @@
       </Changed>
       <Changed Source="[hRec.Invoked]">
         <Actions>
-          <Invoke Target="[FolderModel.ForceRefresh]" />
+          <Invoke Target="[RefreshAction.Execute]" />
         </Actions>
       </Changed>
 

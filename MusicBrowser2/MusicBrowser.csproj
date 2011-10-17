@@ -114,9 +114,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\baseActionCommand.cs" />
-    <Compile Include="Actions\ActionPlayEntity.cs" />
+    <Compile Include="Actions\ActionPlayFavourites.cs" />
     <Compile Include="Actions\ActionOpenEntity.cs" />
     <Compile Include="Actions\ActionCloseMenu.cs" />
+    <Compile Include="Actions\ActionRefreshMetadata.cs" />
+    <Compile Include="Actions\ActionShowSearch.cs" />
+    <Compile Include="Actions\ActionPlayEntity.cs" />
     <Compile Include="CacheEngine\CacheEngineFactory.cs" />
     <Compile Include="CacheEngine\DummyCacheEngine.cs" />
     <Compile Include="CacheEngine\FileSystemCacheEngine.cs" />
@@ -133,24 +136,25 @@
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
     <Content Include="Actions\Actions to write.txt" />
-    <Content Include="MediaCentre\Images\backgrounds\blackBorder.png" />
-    <Content Include="MediaCentre\Images\buttonicons\checkSelected.png" />
-    <Content Include="MediaCentre\Images\buttonicons\checkUnselected.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconAction.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconConfig.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconFavorite.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlaylist.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconRefresh.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconSearch.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconView.png" />
-    <Content Include="MediaCentre\Images\buttonicons\radioSelected.png" />
-    <Content Include="MediaCentre\Images\buttonicons\radioUnselected.png" />
+    <Content Include="MediaCentre\Images\buttons\checkSelected.png" />
+    <Content Include="MediaCentre\Images\buttons\checkUnselected.png" />
+    <Content Include="MediaCentre\Images\buttons\radioSelected.png" />
+    <Content Include="MediaCentre\Images\buttons\radioUnselected.png" />
     <Content Include="MediaCentre\Images\icons\imageGears.png" />
     <Content Include="MediaCentre\Images\icons\imageGenre.png" />
     <Content Include="MediaCentre\Images\icons\imageSpinner.png" />
     <Content Include="MediaCentre\Images\icons\thumbFavorite.png" />
     <Content Include="MediaCentre\Images\icons\thumbStar.png" />
+    <Content Include="MediaCentre\Images\backgrounds\NavPanel.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbAlbum.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbArtist.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbFolder.png" />
@@ -220,12 +224,6 @@
     <Content Include="TextFile1.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlHomePopUp.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlGroupByPopUp.mcml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml">
       <SubType>Designer</SubType>
     </Content>
@@ -294,9 +292,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayPopUp.mcml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml">

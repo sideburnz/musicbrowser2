@@ -146,13 +146,6 @@ namespace MusicBrowser {
             }
         }
         
-        internal static byte[] ctrlGroupByPopUp {
-            get {
-                object obj = ResourceManager.GetObject("ctrlGroupByPopUp", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
         internal static byte[] ctrlHeader {
             get {
                 object obj = ResourceManager.GetObject("ctrlHeader", resourceCulture);
@@ -160,23 +153,9 @@ namespace MusicBrowser {
             }
         }
         
-        internal static byte[] ctrlHomePopUp {
-            get {
-                object obj = ResourceManager.GetObject("ctrlHomePopUp", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
         internal static byte[] ctrlPlayListAction {
             get {
                 object obj = ResourceManager.GetObject("ctrlPlayListAction", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        internal static byte[] ctrlPlayPopUp {
-            get {
-                object obj = ResourceManager.GetObject("ctrlPlayPopUp", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -219,6 +198,20 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap IconConfig {
             get {
                 object obj = ResourceManager.GetObject("IconConfig", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconFavorite {
+            get {
+                object obj = ResourceManager.GetObject("IconFavorite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconFavorite1 {
+            get {
+                object obj = ResourceManager.GetObject("IconFavorite1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -366,6 +359,13 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap MusicBrowser2 {
             get {
                 object obj = ResourceManager.GetObject("MusicBrowser2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap NavPanel {
+            get {
+                object obj = ResourceManager.GetObject("NavPanel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
