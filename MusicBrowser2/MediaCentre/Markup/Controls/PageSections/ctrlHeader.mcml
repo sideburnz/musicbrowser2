@@ -3,6 +3,7 @@
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:me="Me"
       >
 
@@ -19,6 +20,9 @@
     <Locals>
       <Command Name="CmdSettings"/>
       <Command Name="CmdActions"/>
+      <Command Name="CmdView" />
+
+      <actions:ActionShowSearch Name="SearchAction" />
     </Locals>
     
     <Rules>
@@ -27,13 +31,19 @@
 
       <Changed Source="[CmdSettings.Invoked]">
         <Actions>
-          <Invoke Target="[Application.Navigate]" location="settings" />
+          <Invoke Target="[Application.NavigateToSettings]" />
         </Actions>
       </Changed>
 
       <Changed Source="[CmdActions.Invoked]">
         <Actions>
           <Set Target="[ActionsModel.Visible]" Value="true" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdView.Invoked]">
+        <Actions>
+          <Invoke Target="[SearchAction.Execute]" />
         </Actions>
       </Changed>
       
@@ -53,25 +63,25 @@
                 </Children>
               </Graphic>
 
-              <Panel Layout="HorizontalFlow" Margins="70,0,0,0">
-                <LayoutInput>
-                  <DockLayoutInput Alignment="Far" Position="Left" />
-                </LayoutInput>
-                <Children>
-                  <me:buttonIcon Command="[CmdSettings]" Name="SettingsMenu" Text="Settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" />
-                  <me:buttonIcon Command="[CmdActions]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconAction" />
-                  <me:buttonIcon Command="[CmdSettings]" Name="ViewMenu" Text="View" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconView" />
-                </Children>
-              </Panel>
+                  <ColorFill Content="Transparent" Layout="HorizontalFlow" Margins="70,70,0,0">
+                    <LayoutInput>
+                      <FormLayoutInput Bottom="Parent,1" Left="Parent,0"/>
+                    </LayoutInput>
+                    <Children>
+                      <me:buttonIcon Command="[CmdSettings]" Name="SettingsMenu" Text="Settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" Margins="0,0,5,0" />
+                      <me:buttonIcon Command="[CmdActions]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconAction" Margins="0,0,5,0" />
+                      <me:buttonIcon Command="[CmdView]" Name="ViewMenu" Text="View" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconView" Margins="0,0,5,0" />
+                    </Children>
+                  </ColorFill>
 
-              <Panel Layout="VerticalFlow" Margins="0,5,0,5">
-                <LayoutInput>
-                  <DockLayoutInput Alignment="Near" Position="Right" />
-                </LayoutInput>
-                <Children>
-                  <Text Name="PageName_Label" Content="[Entity.Description]" Color="White" Font="Segoe Media Center Light, 36" HorizontalAlignment="Far" />
-                </Children>
-              </Panel>
+                  <ColorFill Content="Transparent" Margins="0,0,0,0">
+                    <LayoutInput>
+                      <FormLayoutInput Top="Parent,0" Right="Parent,1"/>
+                    </LayoutInput>
+                    <Children>
+                      <Text Name="PageName_Label" Content="Entity.DescriptionEntity.DescriptionEntity.DescriptionEntity.Description" Color="White" Font="Segoe Media Center Light, 36" HorizontalAlignment="Far" />
+                    </Children>
+                  </ColorFill>
 
             </Children>
 

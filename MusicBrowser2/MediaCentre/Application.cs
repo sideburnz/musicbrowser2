@@ -46,29 +46,22 @@ namespace MusicBrowser
             }
         }
 
-        public void Navigate(String location)
+        public void NavigateToSettings()
         {
-            switch (location.ToLower())
-            {
-                case "settings":
-                    {
-                        Dictionary<string, object> props = new Dictionary<string, object>();
-                        props.Add("Model", new ConfigModel());
-                        _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSettings", props);
-                        return;
-                    }
-            }
+            Dictionary<string, object> props = new Dictionary<string, object>();
+            props.Add("Model", new ConfigModel());
+            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSettings", props);
+        }
 
-            Dialog("Failed to navigate to special location: " + location);
+        public void NavigateToSearch(string searchString, Entity entity)
+        {
+            Dictionary<string, object> props = new Dictionary<string, object>();
+            props.Add("Model", new SearchModel(searchString, entity));
+            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props);
         }
 
         public void Navigate(Entity entity)
         {
-            //Dictionary<string, object> props = new Dictionary<string, object>();
-            //props.Add("Model", new SearchModel());
-            //_session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props);
-            //return;
-
             Logging.Logger.Info("Navigating to " + entity.Description);
             try
             {

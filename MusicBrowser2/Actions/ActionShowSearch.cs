@@ -2,34 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MusicBrowser.Providers;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.Transport;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Actions
 {
-    class ActionPlayEntity : baseActionCommand
+    public class ActionShowSearch : baseActionCommand
     {
-        private const string LABEL = "Play";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
+        private const string LABEL = "Search";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconSearch";
 
-        public ActionPlayEntity(Entity entity)
+        public ActionShowSearch(Entity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionPlayEntity()
+        public ActionShowSearch()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
         }
 
+        public string SearchString { get; set; }
+
         public override void DoAction(Entity entity)
         {
-            Transport.GetTransport().Play(false, entity.Path);
+            Application.GetReference().NavigateToSearch(SearchString, entity);
         }
     }
 }

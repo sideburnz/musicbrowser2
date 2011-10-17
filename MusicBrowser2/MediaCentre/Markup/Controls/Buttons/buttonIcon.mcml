@@ -6,7 +6,7 @@
       <Image Name="Icon" Image="null"/>
       <ICommand Name="Command" ICommand="$Required"/>
       <cor:String Name="Text" String="" />
-      <Inset Name="Margins" Inset="0,0,0,0"/>
+      <Inset Name="TextMargins" Inset="2,3,5,0"/>
     </Properties>
     
     <Locals>
@@ -28,17 +28,17 @@
       </Condition>
     </Rules>
     <Content>
-      <Panel Margins="[Margins]">
+      <Panel>
         <Layout>
           <FlowLayout Orientation="Horizontal"/>
         </Layout>
         <Children>
-          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/imgButtonIcon" Name="ButtonBack" MinimumSize="35,35" MaximumSize="35,35" Margins="10,10,10,10">
+          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/imgButtonIcon" Name="ButtonBack" MinimumSize="35,35" MaximumSize="35,35" Margins="0,0,0,0">
             <Children>
               <Graphic Content="[Icon]" Name="ButtonFace" MinimumSize="25,25" MaximumSize="25,25" Margins="5,5,5,5"/>
             </Children>
           </Graphic>
-          <Text Name="Label" Content="[Text]" Color="White" Font="Segoe Media Center Bold, 18" Margins="-8,12,0,0" />
+          <Text Name="Label" Content="[Text]" Color="White" Font="Segoe Media Center Bold, 18" Margins="[TextMargins]" />
         </Children>
       </Panel>
     </Content>

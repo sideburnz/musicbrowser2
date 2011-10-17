@@ -58,24 +58,29 @@ namespace MusicBrowser.Models
                 case EntityKind.Track:
                     actions.Add(new ActionPlayEntity(entity));
                     actions.Add(new ActionOpenEntity(entity));
+                    actions.Add(new ActionRefreshMetadata(entity));
                     actions.Add(new ActionCloseMenu(null));
                     break;
                 case EntityKind.Genre:
                     actions.Add(new ActionPlayEntity(entity));
                     actions.Add(new ActionOpenEntity(entity));
+                    actions.Add(new ActionRefreshMetadata(entity));
                     actions.Add(new ActionCloseMenu(null));
                     break;
                 case EntityKind.Album:
                     actions.Add(new ActionPlayEntity(entity));
                     actions.Add(new ActionOpenEntity(entity));
+                    actions.Add(new ActionRefreshMetadata(entity));
                     actions.Add(new ActionCloseMenu(null));
                     break;
                 case EntityKind.Artist:
                     actions.Add(new ActionOpenEntity(entity));
                     actions.Add(new ActionPlayEntity(entity));
+                    actions.Add(new ActionRefreshMetadata(entity));
                     actions.Add(new ActionCloseMenu(null));
                     break;
                 case EntityKind.Home:
+                    actions.Add(new ActionPlayFavourites(entity));
                     actions.Add(new ActionCloseMenu(null));
                     break;
             }

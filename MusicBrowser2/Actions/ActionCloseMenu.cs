@@ -5,10 +5,20 @@ namespace MusicBrowser.Actions
 {
     class ActionCloseMenu : baseActionCommand
     {
-        public ActionCloseMenu(Entity entity) : base(entity)
+        private const string LABEL = "Cancel";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconClose";
+
+        public ActionCloseMenu(Entity entity)
         {
-            Label = "Close";
-            IconPath = "resx://MusicBrowser/MusicBrowser.Resources/IconClose";
+            Label = LABEL;
+            IconPath = ICON_PATH;
+            Entity = entity;
+        }
+
+        public ActionCloseMenu()
+        {
+            Label = LABEL;
+            IconPath = ICON_PATH;
         }
 
         public override void DoAction(Entity entity)

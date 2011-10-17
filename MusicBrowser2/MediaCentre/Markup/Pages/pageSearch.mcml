@@ -25,7 +25,7 @@
       <ScrollingData Name="SearchResultData" PageStep="1" />
       <ScrollingHandler Name="ScrollHander" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
 
-      <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
+      <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
     </Locals>
 
     <Rules>
@@ -35,6 +35,13 @@
           <Invoke Target="[SearchBox.NavigateInto]" />
         </Actions>
       </Rule>
+
+      <Condition Source="[Model.HasContext]" SourceValue="true">
+        <Actions>
+          <Set Target="[btnCurrentFolder.Visible]" Value="true"/>
+          <Invoke Target="[CmdSetScopeToContext.Invoke]"/>
+        </Actions>
+      </Condition>
       
       <Changed Source="[CmdSetScopeToContext.Invoked]">
         <Actions>
@@ -97,12 +104,12 @@
       <Default Target="[ScrollHander.ScrollingData]" Value="[SearchResultData]"/>
       <Default Target="[SearchResultData.Repeater]" Value="[SearchResultRepeater]"/>
 
-      <Binding Source="[Model.KeyboardHandler]" Target="[RemoteTyper.EditableText]" />
+      <Binding Source="[Model.KeyboardHandler]" Target="[typingHandler.EditableText]" />
 
-      <Changed Source="[RemoteTyper.EditableText.Value]">
+      <Changed Source="[typingHandler.EditableText.Value]">
         <Actions>
           <Invoke Target="[SearchBox.NavigateInto]" />
-          <Set Target="[SearchBox.Text]" Value="[RemoteTyper.EditableText.Value]" />
+          <Set Target="[SearchBox.Text]" Value="[typingHandler.EditableText.Value]" />
         </Actions>
       </Changed>
       
@@ -129,7 +136,7 @@
     <Content>
       <Panel Layout="Dock">
         <Children>
-          <ColorFill Content="Transparent" Padding="25,25,25,25">
+          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="25,25,25,25">
             <LayoutInput>
               <DockLayoutInput Alignment="Near" Position="Right" />
             </LayoutInput>
@@ -140,15 +147,15 @@
               <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" />
               <me:searchBox Name="SearchBox" Text=""/>
               <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
-              <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+              <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" Visible="false" />
               <me:buttonImage Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
               <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
               <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
               <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
             </Children>
-          </ColorFill>
+          </Graphic>
 
-          <ColorFill Content="White" Alpha="0.5" MinimumSize="2,700">
+          <ColorFill Content="Black" Alpha="1" MinimumSize="1,1000">
             <LayoutInput>
               <DockLayoutInput Alignment="Center" Position="Right" />
             </LayoutInput>
@@ -255,7 +262,7 @@
         <Actions>
           <Set Target="[TextLabels.Alpha]" Value="0.8"/>
           <Set Target="[lblSummary.Visible]" Value="false" />
-          <Set Target="[imgButton.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonNoFocus" />
+          <Set Target="[imgButton.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
       </Condition>
 
@@ -277,7 +284,7 @@
     <Content>
       <Panel Name="EntityButtonFace">
         <Children>
-          <Graphic Name="imgButton" Content="resx://MusicBrowser/MusicBrowser.Resources/ButtonNoFocus" MinimumSize="650,57" MaximumSize="650,57">
+          <Graphic Name="imgButton" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" MinimumSize="650,57" MaximumSize="650,57">
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>

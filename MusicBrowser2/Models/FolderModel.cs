@@ -77,13 +77,6 @@ namespace MusicBrowser.Models
             }
         }
 
-        public void ForceRefresh()
-        {
-            UINotifier.GetInstance().Message = "refreshing metadata for " + SelectedItem.Title;
-
-            CommonTaskQueue.Enqueue(new ForceMetadataRefreshProvider(SelectedItem), true);
-        }
-
         public Entity SelectedItem
         {
             get
