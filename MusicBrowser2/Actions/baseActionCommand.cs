@@ -9,19 +9,22 @@ using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Actions
 {
-    public abstract class baseActionCommand : BaseModel
+    public abstract class baseActionCommand : BaseModel, ICommand
     {
          public baseActionCommand()
         {
             IconPath = "resx://MusicBrowser/MusicBrowser.Resources/nullImage";
             Label = this.GetType().Name;
+            Available = true;
         }
 
         public Entity Entity { get; set; }
 
         public string Label { get; set; }
 
-        public void Execute()
+        public bool KeepMenuShowingAfterExecution { get; set; }
+
+        public void Invoke()
         {
             string title;
             if (Entity == null)
@@ -40,13 +43,20 @@ namespace MusicBrowser.Actions
             try
             {
                 DoAction(Entity);
-                ActionsModel.GetInstance.Visible = false;
+                ActionsModel.GetInstance.Visible = KeepMenuShowingAfterExecution;
             }
             catch(Exception e)
             {
                 Logging.Logger.Error(e);
             }
+
+            if (Invoked != null)
+            {
+                Invoked(this, new EventArgs());
+            }
         }
+
+        public event EventHandler Invoked;
 
         public abstract void DoAction(Entity entity);
 
@@ -56,5 +66,8 @@ namespace MusicBrowser.Actions
         {
             get { return new Image(IconPath); }
         }
+
+        public bool Available { get; set; }
+
     }
 }

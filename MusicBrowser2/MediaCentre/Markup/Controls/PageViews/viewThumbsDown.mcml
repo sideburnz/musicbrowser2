@@ -3,10 +3,11 @@
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:me="Me"
       >
-  
-  <UI Name="viewThumb">
+
+  <UI Name="viewThumbsDown">
 
     <Properties>
       <a:Application Name="Application" Application="$Required"/>
@@ -18,22 +19,22 @@
           <PositionKeyframe Time=".5" RelativeTo="Final"/>
         </Keyframes>
       </Animation>
-      
+
     </Properties>
 
     <Locals>
-      <ScrollingData Name="scrollData" EndPadding="2400" BeginPadding="100" PageStep="1" />
+      <ScrollingData Name="scrollData" PageStep="1" EndPadding="30" BeginPadding="30"/>
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
     </Locals>
 
-    <Rules> 
-      <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
+    <Rules>
+      <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/>
       <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
       <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
-      
+
       <Rule>
         <Conditions>
-          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="thumb" />
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="thumbsdown" />
         </Conditions>
         <Actions>
           <Set Target="[div_ListThumb.Visible]" Value="true" />
@@ -46,18 +47,15 @@
         </Actions>
       </Rule>
     </Rules>
-    
+
     <Content>
       <ColorFill Content="Transparent" Layout="Form" Name="div_ListThumb" Visible="false">
-        <Children> 
-          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100">
-            <LayoutInput>
-              <FormLayoutInput Bottom="Parent,0.98" Top="Parent,0.02" Left="Parent,0" Right="Parent,1"/>
-            </LayoutInput>
+        <Children>
+          <Scroller Orientation="Vertical" Name="Scroller" ScrollingData="[scrollData]" FadeSize="20" Margins="1,-20,1,-22">
             <Children>
               <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true">
                 <Layout>
-                  <GridLayout Orientation="Vertical" Rows="3" Columns="9" AllowWrap="true" Spacing="3,3" Repeat="WhenTooBig" RepeatGap="100"/>
+                  <GridLayout Orientation="Horizontal" Rows="3" Columns="8" AllowWrap="true" Spacing="3,3" Repeat="Never" RepeatGap="100"/>
                 </Layout>
                 <Animations>
                   <Animation Animation="[Slide]" />
@@ -82,6 +80,9 @@
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
     </Properties>
     <Locals>
+      <actions:ActionShowActions Name="ActionActions" Source="Context" Entity="[Entity]" />
+      <actions:ActionDefaultAction Name="DefaultAction" Source="Context" Entity="[Entity]" />
+
       <ClickHandler Name="Clicker" />
       <Command Name="enterCommand"/>
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
@@ -108,34 +109,24 @@
           <Set Target="[Blocker.Content]" Value="Transparent"/>
         </Actions>
       </Condition>
-      <Rule ConditionLogicalOp="And">
+      <Rule>
         <Conditions>
           <Modified Source="[enterCommand.Invoked]"/>
-          <Equality ConditionOp="Equals" Source="[Entity.Playable]" Value="true" />
         </Conditions>
         <Actions>
-          <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
+          <Invoke Target="[DefaultAction.Invoke]" />
         </Actions>
       </Rule>
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Modified Source="[enterCommand.Invoked]"/>
-          <Equality ConditionOp="NotEquals" Source="[Entity.Playable]" Value="true" />
-        </Conditions>
-        <Actions>
-          <Invoke Target="[Application.Navigate]" entity="[Entity]" />
-        </Actions>
-      </Rule>
-      <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
       <Rule ConditionLogicalOp="Or">
         <Conditions>
           <Modified Source="[PlayPauseHandler.Invoked]"/>
           <Modified Source="[PlayHandler.Invoked]"/>
         </Conditions>
         <Actions>
-          <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
+          <Invoke Target="[ActionActions.Invoke]"/>
         </Actions>
       </Rule>
+      <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
       <Binding Source="[enterCommand]" Target="[Clicker.Command]" />
     </Rules>
     <Content>

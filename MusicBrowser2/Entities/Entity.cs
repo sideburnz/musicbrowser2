@@ -18,16 +18,16 @@ namespace MusicBrowser.Entities
     [DataContract]
     public enum EntityKind
     {
-        Unknown,
-        Album,
-        Artist,
-        Folder,
-        Home,
-        Playlist,
-        Track,
-        Genre,
-        Group,
-        Virtual
+        Album = 1,
+        Artist = 2,
+        Folder = 3,
+        Home = 4,
+        Playlist = 5,
+        Track = 6,
+        Genre = 7,
+        Group = 8,
+        Virtual = 9,
+        None = 0
     }
 
     [DataContract]
@@ -112,15 +112,36 @@ namespace MusicBrowser.Entities
         public int TrackCount { get; set; }
 
         // read only and have default values
-        [DataMember]
-        public EntityKind Kind { get; set; }
         public string KindName { get { return Kind.ToString(); } }
         public string DefaultBackgroundPath{ get { return string.Empty; } }
+
+        [DataMember]
+        public int KindInt { get; set; }
+
+        public EntityKind Kind 
+        {
+            get
+            {
+                return (EntityKind)KindInt;
+            }
+            set
+            {
+                KindInt = (Int32)value;
+            }
+        }
 
         public string DefaultIconPath
         { 
             get 
             {
+                // try to get the images from the IBN first
+                string imagePath = ImageProvider.LocateFanArt(Helper.IBNPath("default", Kind.ToString()), ImageType.Thumb);
+                if (!String.IsNullOrEmpty(imagePath))
+                {
+                    return imagePath;
+                }
+
+                // use internal defaults
                 switch (Kind)
                 {
                     case EntityKind.Track:
@@ -546,12 +567,11 @@ namespace MusicBrowser.Entities
 
         public VirtualList Actions
         {
-            get { return (VirtualList)ActionsModel.GetActionList(this); }
-        }
-
-        public baseActionCommand DefaultAction
-        {
-            get { return ActionsModel.GetDefaultAction(this); }
+            get 
+            {
+                VirtualList actions = (VirtualList)ActionsModel.GetActionList(this);
+                return actions; 
+            }
         }
     }
 }

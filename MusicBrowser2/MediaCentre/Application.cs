@@ -37,6 +37,11 @@ namespace MusicBrowser
             return _application;
         }
 
+        public HistoryOrientedPageSession Session()
+        {
+            return _session;
+        }
+
         private MediaCenterEnvironment MediaCenterEnvironment
         {
             get

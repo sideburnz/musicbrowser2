@@ -60,7 +60,7 @@ namespace MusicBrowser.Entities
         {
             EntityCollection ret = new EntityCollection();
 
-            if (kind == EntityKind.Unknown)
+            if (kind == EntityKind.None || kind == EntityKind.Folder)
             {
                 ret.Add(this
                     .Where(item => item.Title.StartsWith(value, StringComparison.CurrentCultureIgnoreCase))

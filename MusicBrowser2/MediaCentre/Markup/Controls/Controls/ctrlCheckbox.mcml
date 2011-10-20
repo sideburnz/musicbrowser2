@@ -7,6 +7,9 @@
     <Properties>
       <cor:String Name="Label" String="" />
       <cor:Boolean Name="Value" Boolean="false" />
+
+      <Command Name="CmdOnTrue" />
+      <Command Name="CmdOnFalse" />
     </Properties>
 
     <Locals>
@@ -18,11 +21,13 @@
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
           <Set Target="[CheckBox.Alpha]" Value="1"/>
+          <Set Target="[Underline.Alpha]" Value="0.5" />
         </Actions>
       </Condition>
       <Condition Source="[Input.KeyFocus]" SourceValue="false">
         <Actions>
           <Set Target="[CheckBox.Alpha]" Value="0.5"/>
+          <Set Target="[Underline.Alpha]" Value="0" />
         </Actions>
       </Condition>
 
@@ -54,6 +59,7 @@
         </Conditions>
         <Actions>
           <Set Target="[Value]" Value="true" />
+          <Invoke Target="[CmdOnTrue.Invoke]" />
         </Actions>
       </Changed>
 
@@ -63,19 +69,29 @@
         </Conditions>
         <Actions>
           <Set Target="[Value]" Value="false" />
+          <Invoke Target="[CmdOnFalse.Invoke]" />
         </Actions>
       </Changed>
       
     </Rules>
 
     <Content>
-      <Panel Name="CheckBox" MinimumSize="600,50" MaximumSize="600,50">
-        <Layout>
-          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
-        </Layout>
+      <Panel Layout="Anchor">
         <Children>
-          <Graphic Name="grpIndicator" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="10,9,0,0" Visible="true" />
-          <Text Name="txtLabel" Content="[Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,3,3" />
+          <Panel Name="CheckBox">
+            <Layout>
+              <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+            </Layout>
+            <Children>
+              <Graphic Name="grpIndicator" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="10,9,0,0" Visible="true" />
+              <Text Name="txtLabel" Content="[Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,3,10" />
+            </Children>
+          </Panel>
+          <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" Alpha="0" Margins="5,0,0,0">
+            <LayoutInput>
+              <AnchorLayoutInput Left="CheckBox,0" Right="CheckBox,1" Bottom="CheckBox,1,-8"/>
+            </LayoutInput>   
+          </Graphic>
         </Children>
       </Panel>
     </Content>

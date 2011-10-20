@@ -12,14 +12,21 @@ namespace MusicBrowser.Models
     {
         #region singleton
         static ActionsModel _instance;
+        static readonly object _lock = new object();
         
         public static ActionsModel GetInstance
         {
-            get 
+            get
             {
-            if (_instance != null) return _instance;
-            _instance = new ActionsModel();
-            return _instance;
+                if (_instance != null) return _instance;
+                lock (_lock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new ActionsModel();
+                    }
+                    return _instance;
+                }
             }
         }
         #endregion
@@ -44,9 +51,6 @@ namespace MusicBrowser.Models
 
         //TODO: move the logic for determining which acitions apply to which entities to this
         //TODO: workout how to remove [Open] if the entity is already open
-        //public baseActionCommand GetDefaultAction(EntityKind kind)
-
-
         //TODO : somehow execute a default action [usually open or play]
         //TODO : make this configurable
         public static VirtualList GetActionList(Entity entity)
@@ -57,42 +61,50 @@ namespace MusicBrowser.Models
             {
                 case EntityKind.Track:
                     actions.Add(new ActionPlayEntity(entity));
-                    actions.Add(new ActionOpenEntity(entity));
+                    actions.Add(new ActionQueueEntity(entity));
                     actions.Add(new ActionRefreshMetadata(entity));
                     actions.Add(new ActionCloseMenu(null));
                     break;
                 case EntityKind.Genre:
-                    actions.Add(new ActionPlayEntity(entity));
                     actions.Add(new ActionOpenEntity(entity));
+                    actions.Add(new ActionPlayEntity(entity));
+                    actions.Add(new ActionQueueEntity(entity));
                     actions.Add(new ActionRefreshMetadata(entity));
                     actions.Add(new ActionCloseMenu(null));
                     break;
                 case EntityKind.Album:
-                    actions.Add(new ActionPlayEntity(entity));
                     actions.Add(new ActionOpenEntity(entity));
+                    actions.Add(new ActionPlayEntity(entity));
+                    actions.Add(new ActionQueueEntity(entity));
                     actions.Add(new ActionRefreshMetadata(entity));
                     actions.Add(new ActionCloseMenu(null));
                     break;
                 case EntityKind.Artist:
                     actions.Add(new ActionOpenEntity(entity));
                     actions.Add(new ActionPlayEntity(entity));
+                    actions.Add(new ActionQueueEntity(entity));
                     actions.Add(new ActionRefreshMetadata(entity));
                     actions.Add(new ActionCloseMenu(null));
                     break;
                 case EntityKind.Home:
+                    actions.Add(new ActionPlayEntireLibrary(entity));
                     actions.Add(new ActionPlayFavourites(entity));
+                    actions.Add(new ActionPlayNewlyAdded(entity));
+                    actions.Add(new ActionPlayRandomPopular(entity));
+                    actions.Add(new ActionCloseMenu(null));
+                    break;
+                case EntityKind.Playlist:
+                    actions.Add(new ActionPlayEntity(entity));
+                    actions.Add(new ActionQueueEntity(entity));
+                    actions.Add(new ActionCloseMenu(null));
+                    break;
+                case EntityKind.Folder:
+                    actions.Add(new ActionOpenEntity(entity));
                     actions.Add(new ActionCloseMenu(null));
                     break;
             }
 
             return actions;
         }
-
-        public static baseActionCommand GetDefaultAction(Entity entity)
-        {
-            return (baseActionCommand)GetActionList(entity)[0];
-        }
-
     }
-
 }

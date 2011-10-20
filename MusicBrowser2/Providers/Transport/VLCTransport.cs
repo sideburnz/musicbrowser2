@@ -8,6 +8,8 @@ namespace MusicBrowser.Providers.Transport
 {
     class VLCTransport : ITransport
     {
+        private const int BATCH_SIZE = 10;
+
         public void Play(bool queue, string file)
         {
             StringBuilder sb = new StringBuilder();
@@ -33,6 +35,17 @@ namespace MusicBrowser.Providers.Transport
 
         public void Play(bool queue, IEnumerable<string> files)
         {
+            // batch up large requests
+            if (files.Count() > BATCH_SIZE)
+            {
+                int startEntry = 0;
+                while (startEntry < files.Count())
+                {
+                    Play(startEntry == 0 && queue, files.Skip(startEntry).Take(BATCH_SIZE));
+                    startEntry += BATCH_SIZE;
+                }
+            }
+
             StringBuilder sb = new StringBuilder();
             playRate = 1;
             paused = false;
