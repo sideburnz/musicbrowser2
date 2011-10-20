@@ -18,35 +18,24 @@
     </Properties>
 
     <Locals>
-      <Command Name="CmdSettings"/>
-      <Command Name="CmdActions"/>
-      <Command Name="CmdView" />
-
       <actions:ActionShowSearch Name="SearchAction" />
+      <actions:ActionShowActions Name="ActionActions" Source="Menu" Entity="[Entity]" />
+      <actions:ActionShowSettings Name="SettingsAction" />
     </Locals>
     
     <Rules>
       <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
 
-      <Changed Source="[CmdSettings.Invoked]">
+      <Changed Source="[Entity.Index]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Home" />
+        </Conditions>
         <Actions>
-          <Invoke Target="[Application.NavigateToSettings]" />
+          <Set Target="[SettingsMenu.Visible]" Value="true" />
+          <Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
       </Changed>
-
-      <Changed Source="[CmdActions.Invoked]">
-        <Actions>
-          <Set Target="[ActionsModel.Visible]" Value="true" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[CmdView.Invoked]">
-        <Actions>
-          <Invoke Target="[SearchAction.Execute]" />
-        </Actions>
-      </Changed>
-      
     </Rules>
 
     <Content>
@@ -68,9 +57,9 @@
                       <FormLayoutInput Bottom="Parent,1" Left="Parent,0"/>
                     </LayoutInput>
                     <Children>
-                      <me:buttonIcon Command="[CmdSettings]" Name="SettingsMenu" Text="Settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" Margins="0,0,5,0" />
-                      <me:buttonIcon Command="[CmdActions]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconAction" Margins="0,0,5,0" />
-                      <me:buttonIcon Command="[CmdView]" Name="ViewMenu" Text="View" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconView" Margins="0,0,5,0" />
+                      <me:buttonIcon Command="[SettingsAction]" Name="SettingsMenu" Text="Settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" Margins="0,0,5,0" Visible="false" />
+                      <me:buttonIcon Command="[ActionActions]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconAction" Margins="0,0,5,0" />
+                      <!--<me:buttonIcon Command="[SearchAction]" Name="ViewMenu" Text="View" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconView" Margins="0,0,5,0" />-->
                     </Children>
                   </ColorFill>
 

@@ -90,12 +90,12 @@
             </Layout>
             <Children>
               <Text Name="Desc" Color="White" Font="Segoe Media Center Light, 26" Content="" Margins="0,-5,0,-2"/>
-              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="20,7,0,0" Visible="false"/>
-              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,7,0,0" Visible="false"/>
-              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,7,0,0" Visible="false"/>
-              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,7,0,0" Visible="false"/>
-              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbStar" Margins="2,7,0,0" Visible="false"/>
-              <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/thumbFavorite" Margins="10,10,0,0" Visible="false"/>
+              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="20,7,0,0" Visible="false"/>
+              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="false"/>
+              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="false"/>
+              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="false"/>
+              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="false"/>
+              <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="10,10,0,0" Visible="false"/>
             </Children>
           </Panel>
           <Text Name="ArtistLine" Color="White" Font="Segoe Media Center Light, 16" Content="" Alpha="0.6" Margins="0,-3,0,0"/>

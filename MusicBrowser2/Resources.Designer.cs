@@ -286,6 +286,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconStar {
+            get {
+                object obj = ResourceManager.GetObject("IconStar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconView {
             get {
                 object obj = ResourceManager.GetObject("IconView", resourceCulture);
@@ -352,6 +359,13 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap imgButtonIcon {
             get {
                 object obj = ResourceManager.GetObject("imgButtonIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Keyboard {
+            get {
+                object obj = ResourceManager.GetObject("Keyboard", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -433,13 +447,6 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap thumbFavorite {
-            get {
-                object obj = ResourceManager.GetObject("thumbFavorite", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap thumbFolder {
             get {
                 object obj = ResourceManager.GetObject("thumbFolder", resourceCulture);
@@ -457,13 +464,6 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap thumbPlaylist {
             get {
                 object obj = ResourceManager.GetObject("thumbPlaylist", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap thumbStar {
-            get {
-                object obj = ResourceManager.GetObject("thumbStar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -506,6 +506,13 @@ namespace MusicBrowser {
         internal static byte[] viewThumb {
             get {
                 object obj = ResourceManager.GetObject("viewThumb", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static byte[] viewThumbsDown {
+            get {
+                object obj = ResourceManager.GetObject("viewThumbsDown", resourceCulture);
                 return ((byte[])(obj));
             }
         }

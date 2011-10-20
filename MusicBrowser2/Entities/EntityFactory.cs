@@ -76,12 +76,13 @@ namespace MusicBrowser.Entities
 #endif
 
             string key = Util.Helper.GetCacheKey(item.FullPath);
+            FileSystemItem metadataFile = MetadataPath(item);
             Entity entity;
 
             #region InMemoryCache
             // get from the Mem cache if it's cached there, this is the fastest cache
             entity = _MemCache.Fetch(key);
-            if (entity != null && entity.CacheDate > item.LastUpdated)
+            if (entity != null && entity.CacheDate > item.LastUpdated && entity.CacheDate > metadataFile.LastUpdated)
             {
                 return entity;
             }
@@ -90,7 +91,7 @@ namespace MusicBrowser.Entities
             #region persistent cache
             // get the value from persistent cache
             entity = EntityPersistance.Deserialize(_cacheEngine.Fetch(key));
-            if (entity != null && entity.CacheDate > item.LastUpdated)
+            if (entity != null && entity.CacheDate > item.LastUpdated && entity.CacheDate > metadataFile.LastUpdated)
             {
                 _MemCache.Update(entity);
                 return entity;
@@ -126,6 +127,12 @@ namespace MusicBrowser.Entities
                 case EntityKind.Album: { entity.AlbumCount = 1; break; }
                 case EntityKind.Artist: { entity.ArtistCount = 1; break; }
                 case EntityKind.Track: { entity.TrackCount = 1; break; }
+            }
+
+            //TODO: apply data from the metadata file, if one exists
+            if (!String.IsNullOrEmpty(metadataFile.Name))
+            {
+
             }
 
             // do this here because some of the providers need basic data about the tracks
@@ -179,21 +186,21 @@ namespace MusicBrowser.Entities
 
 
         // works out where the metadata file is (if there is one)
-        //private static string MetadataPath(FileSystemItem item)
-        //{
-        //    string metadataPath = Directory.GetParent(item.FullPath).FullName;
+        private static FileSystemItem MetadataPath(FileSystemItem item)
+        {
+            string metadataPath = Directory.GetParent(item.FullPath).FullName;
+            FileSystemItem metadataFile;
 
-        //    string metadataLocal = metadataPath + "\\" + item.Name + "\\metadata.xml";
-        //    if (File.Exists(metadataLocal))
-        //    {
-        //        return metadataLocal;
-        //    }
-        //    string metadataInParent = metadataPath + "\\metadata\\" + item.Name + ".xml";
-        //    if (File.Exists(metadataInParent))
-        //    {
-        //        return metadataInParent;
-        //    }
-        //    return string.Empty;
-        //}
+            string metadataLocal = metadataPath + "\\" + item.Name + "\\metadata.xml";
+            metadataFile = FileSystemProvider.GetItemDetails(metadataLocal);
+            if (!String.IsNullOrEmpty(metadataFile.Name))
+            {
+                return metadataFile;
+            }
+            string metadataInParent = metadataPath + "\\metadata\\" + item.Name + ".xml";
+            metadataFile = FileSystemProvider.GetItemDetails(metadataInParent);
+            // this either returns detail or an empty struct which would indicate not found
+            return metadataFile;
+        }
     }
 }

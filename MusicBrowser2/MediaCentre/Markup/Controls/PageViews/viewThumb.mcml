@@ -3,6 +3,7 @@
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:me="Me"
       >
   
@@ -82,6 +83,9 @@
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
     </Properties>
     <Locals>
+      <actions:ActionShowActions Name="ActionActions" Source="Context" Entity="[Entity]" />
+      <actions:ActionDefaultAction Name="DefaultAction" Source="Context" Entity="[Entity]" />
+      
       <ClickHandler Name="Clicker" />
       <Command Name="enterCommand"/>
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
@@ -108,34 +112,24 @@
           <Set Target="[Blocker.Content]" Value="Transparent"/>
         </Actions>
       </Condition>
-      <Rule ConditionLogicalOp="And">
+      <Rule>
         <Conditions>
           <Modified Source="[enterCommand.Invoked]"/>
-          <Equality ConditionOp="Equals" Source="[Entity.Playable]" Value="true" />
         </Conditions>
         <Actions>
-          <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
+          <Invoke Target="[DefaultAction.Invoke]" />
         </Actions>
       </Rule>
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Modified Source="[enterCommand.Invoked]"/>
-          <Equality ConditionOp="NotEquals" Source="[Entity.Playable]" Value="true" />
-        </Conditions>
-        <Actions>
-          <Invoke Target="[Application.Navigate]" entity="[Entity]" />
-        </Actions>
-      </Rule>
-      <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
       <Rule ConditionLogicalOp="Or">
         <Conditions>
           <Modified Source="[PlayPauseHandler.Invoked]"/>
           <Modified Source="[PlayHandler.Invoked]"/>
         </Conditions>
         <Actions>
-          <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
+          <Invoke Target="[ActionActions.Invoke]"/>
         </Actions>
       </Rule>
+      <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
       <Binding Source="[enterCommand]" Target="[Clicker.Command]" />
     </Rules>
     <Content>

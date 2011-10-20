@@ -17,6 +17,7 @@
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumb"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewStrip"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumbsDown"/>
 
   <UI Name="pageMain">
 
@@ -25,23 +26,21 @@
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
       <models:UINotifier Name="UINotifier" UINotifier="$Required" />
       <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
+
+      <actions:ActionRefreshMetadata Name="RefreshAction" />
+      <actions:ActionShowSearch Name="SearchAction" />
     </Properties>
 
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
       <models:Clock Name="Clock"/>
       
-      <actions:ActionRefreshMetadata Name="RefreshAction" Entity="[FolderModel.ParentEntity]" />
-      <actions:ActionShowSearch Name="SearchAction" Entity="[FolderModel.ParentEntity]" />
-      
-      <Command Name="CmdRefresh" />
-
       <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled"/>
       <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled"/>
       <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Bubbled"/>
       <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Bubbled" />
       <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Bubbled" />
-      <ShortcutHandler Name="hRec" Shortcut="Record" HandlerStage="Bubbled" />
+      <ShortcutHandler Name="hRec" Shortcut="Record" HandlerStage="Bubbled" Command="[RefreshAction]" />
 
       <Timer Name="BackgroundTimer" AutoRepeat="True" Interval="10000" Enabled="True" />
 
@@ -51,14 +50,17 @@
 
     <Rules>
 
+      <Binding Source="[FolderModel.ParentEntity]" Target="[RefreshAction.Entity]" />
+      <Binding Source="[FolderModel.ParentEntity]" Target="[SearchAction.Entity]" />
+
       <Binding Source="[editableText]" Target="[typingHandler.EditableText]" />
-      <Changed Source="[editableText.Activity]">
+      <Changed Source="[editableText.Value]">
         <Conditions>
           <Equality Source="[editableText.Value]" ConditionOp="NotEquals" Value="" />
         </Conditions>
         <Actions>
           <Set Target="[SearchAction.SearchString]" Value="[editableText.Value]" />
-          <Invoke Target="[SearchAction.Execute]" />
+          <Invoke Target="[SearchAction.Invoke]" />
           <Set Target="[editableText.Value]" Value="" />
         </Actions>
       </Changed>
@@ -69,7 +71,7 @@
         </Actions>
       </Changed>
       
-      <Changed Source="[hNext.Invoked]">
+      <!--<Changed Source="[hNext.Invoked]">
         <Actions>
           <Invoke Target="[FolderModel.TransportCommand]" command="next" />
         </Actions>
@@ -93,12 +95,7 @@
         <Actions>
           <Invoke Target="[FolderModel.TransportCommand]" command="playpause" />
         </Actions>
-      </Changed>
-      <Changed Source="[hRec.Invoked]">
-        <Actions>
-          <Invoke Target="[RefreshAction.Execute]" />
-        </Actions>
-      </Changed>
+      </Changed>-->
 
       <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
       <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
@@ -174,6 +171,7 @@
               <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
               <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
               <me:viewStrip Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
+              <me:viewThumbsDown Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
             </Children>
           </Panel>
 

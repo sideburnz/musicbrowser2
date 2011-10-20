@@ -19,7 +19,6 @@ namespace MusicBrowser.Models
         readonly Entity _parentEntity;
         private readonly EntityCollection _entities;
         Int32 _selectedIndex;
-        Entity _popupPlayContext = null;
         private readonly bool _isHome;
 
         public FolderModel(Entity parentEntity, EntityCollection entities)
@@ -92,27 +91,6 @@ namespace MusicBrowser.Models
             }
         }
 
-        public bool ShowPopupPlay
-        {
-            get { return !(_popupPlayContext == null); }
-        }
-
-        public Entity GetPopupPlayContext
-        {
-            get { return _popupPlayContext; }
-        }
-
-        public void SetPopupPlayContext(Entity entity)
-        {
-            _popupPlayContext = entity;
-            FirePropertyChanged("ShowPopupPlay");
-        }
-
-        public void ClearPopupPlayContext()
-        {
-            SetPopupPlayContext(null);
-        }
-
         [MarkupVisible]
         public string Version
         {
@@ -141,66 +119,30 @@ namespace MusicBrowser.Models
             get { return Transport.GetTransport().State == PlayState.Paused; }
         }
 
-        public void TransportCommand(string command)
-        {
-            Logging.Logger.Debug("TransportCommand: " + command);
+        //TODO: these should be Actions?
+        //public void NavigateToVirtual(string name)
+        //{
+        //    Entity virt = new Entity() 
+        //    { 
+        //        Kind = EntityKind.Virtual, 
+        //        Path = name,
+        //        Label = name,
+        //        Title = name 
+        //    };
+        //    application.Navigate(virt);
+        //}
 
-            switch (command.ToLower())
-            {
-                case "next": Transport.GetTransport().Next(); break;
-                case "prev": Transport.GetTransport().Previous(); break;
-                case "stop": Transport.GetTransport().Stop(); break;
-                case "playpause": Transport.GetTransport().PlayPause(); break;
-            }
-        }
-
-        private bool _homePopUpVisible = false; 
-        public bool HomePopupVisible
-        {
-            get { return _homePopUpVisible; }
-            set { _homePopUpVisible = value; FirePropertyChanged("HomePopupVisible"); }
-        }
-
-        public void SetHomePopupVisible(bool Value)
-        {
-            HomePopupVisible = Value;
-        }
-
-        private bool _groupByPopUpVisible = false;
-        public bool GroupByPopupVisible
-        {
-            get { return _groupByPopUpVisible; }
-            set { _groupByPopUpVisible = value; FirePropertyChanged("GroupByPopupVisible"); }
-        }
-
-        public void SetGroupByPopupVisible(bool Value)
-        {
-            GroupByPopupVisible = Value;
-        }
-
-        public void NavigateToVirtual(string name)
-        {
-            Entity virt = new Entity() 
-            { 
-                Kind = EntityKind.Virtual, 
-                Path = name,
-                Label = name,
-                Title = name 
-            };
-            application.Navigate(virt);
-        }
-
-        public void NavigateToGroup(string name)
-        {
-            Entity group = new Entity() 
-            { 
-                Kind = EntityKind.Group, 
-                Title = name,
-                Label = name,
-                Path = name
-            };
-            application.Navigate(group);
-        }
+        //public void NavigateToGroup(string name)
+        //{
+        //    Entity group = new Entity() 
+        //    { 
+        //        Kind = EntityKind.Group, 
+        //        Title = name,
+        //        Label = name,
+        //        Path = name
+        //    };
+        //    application.Navigate(group);
+        //}
 
         public bool Busy { get; set; }
 

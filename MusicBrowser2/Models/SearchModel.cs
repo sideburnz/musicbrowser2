@@ -26,7 +26,7 @@ namespace MusicBrowser.Models
 
             if (context == null || context.Kind == EntityKind.Home)
             {
-                _searchScope = EntityKind.Unknown;
+                _searchScope = EntityKind.None;
                 HasContext = false;
             }
             else //TODO: support for genres etc
@@ -59,7 +59,7 @@ namespace MusicBrowser.Models
                     _searchScope = EntityKind.Track;
                     break;
                 default:
-                    _searchScope = EntityKind.Unknown;
+                    _searchScope = EntityKind.None;
                     break;
             }
             FirePropertyChanged("Scope");
@@ -74,7 +74,7 @@ namespace MusicBrowser.Models
                 {
                     return "Current Folder";
                 }
-                if (_searchScope == EntityKind.Unknown)
+                if (_searchScope == EntityKind.None)
                 {
                     return "Everything";
                 }
@@ -87,7 +87,7 @@ namespace MusicBrowser.Models
             get
             {
                 EntityCollection dataset;
-
+               
                 if (HasContext && _searchScope == EntityKind.Folder)
                 {
                     dataset = _contextCollection;

@@ -12,11 +12,15 @@
       <models:ActionsModel Name="Model" ActionsModel="$Required" />
 
       <Command Name="CmdClose"/>
+      <Command Name="CmdHome" />
+      <Command Name="CmdEnd" />
     </Properties>
 
     <Locals>
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[CmdClose]"/>
+      <KeyHandler Name="HomeHandler" Handle="true" Key="Home" HandlerStage="Bubbled" Command="[CmdHome]"/>
+      <KeyHandler Name="EndHandler" Handle="true" Key="End" HandlerStage="Bubbled" Command="[CmdEnd]"/>
 
       <ScrollingData Name="scrollData" EndPadding="100" PageStep="1" />
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
@@ -33,6 +37,18 @@
       <Changed Source="[CmdClose.Invoked]">
         <Actions>
           <Set Target="[Model.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+
+      <!-- fix these -->
+      <Changed Source="[HomeHandler.Invoked]">
+        <Actions>
+          <Invoke Target="[scrollData.Home]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdEnd.Invoked]">
+        <Actions>
+          <Invoke Target="[scrollData.End]" />
         </Actions>
       </Changed>
     </Rules>
@@ -88,7 +104,7 @@
 
       <Changed Source="[CmdChange.Invoked]">
         <Actions>
-          <Invoke Target="[Action.Execute]" />
+          <Invoke Target="[Action.Invoke]" />
         </Actions>
       </Changed>
 

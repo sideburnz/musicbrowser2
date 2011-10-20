@@ -215,6 +215,8 @@ namespace MusicBrowser.Util
 
         public void SetSetting(string key, string value)
         {
+            Logging.Logger.Debug(String.Format("Updating setting {0} to value {1}", key, value));
+
             string configFile = Helper.AppConfigFile;
             string xpathString = string.Format("Settings/{0}", key.Replace('.', '/'));
 

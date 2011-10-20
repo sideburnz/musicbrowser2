@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -7,6 +8,8 @@ namespace MusicBrowser.Providers.Transport
 {
     class Foobar2000Transport : ITransport
     {
+
+        private const int BATCH_SIZE = 10;
 
         #region ITransport Members
 
@@ -37,6 +40,17 @@ namespace MusicBrowser.Providers.Transport
 
         public void Play(bool queue, IEnumerable<string> files)
         {
+            // batch up the play, large playlists fail
+            if (files.Count() > BATCH_SIZE)
+            {
+                int startEntry = 0;
+                while (startEntry < files.Count())
+                {
+                    Play(startEntry == 0 && queue, files.Skip(startEntry).Take(BATCH_SIZE));
+                    startEntry += BATCH_SIZE;
+                }
+            }
+
             StringBuilder sb = new StringBuilder();
             if (queue)
             {
@@ -52,7 +66,7 @@ namespace MusicBrowser.Providers.Transport
             }
 
             ExecuteCommand(sb.ToString());
-            //pause
+            //TODO: why does this pause?
             System.Threading.Thread.Sleep(100);
             HideFoobar();
         }

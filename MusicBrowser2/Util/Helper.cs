@@ -154,7 +154,14 @@ namespace MusicBrowser.Util
             {
                 pt = key.GetValue("PerceivedType") as string;
             }
-            if (pt == null) pt = "";
+            if (String.IsNullOrEmpty(pt))
+            {
+                pt = key.GetValue("MediaCenter.16.PerceivedType.BAK") as string; // J. River fix
+            }
+            if (pt == null)
+            {
+                pt = String.Empty;
+            }
             pt = pt.ToLower();
 
             lock (perceivedTypeCache)
@@ -266,6 +273,12 @@ namespace MusicBrowser.Util
             string path = Config.GetInstance().GetStringSetting("CachePath") + "\\Images\\" + imageType + "\\" + key.Substring(0, 2);
             Directory.CreateDirectory(path);
             return path + "\\" + key + ".jpg";
+        }
+
+        public static string IBNPath(string category, string title)
+        {
+            return System.IO.Path.Combine(System.IO.Path.Combine(Util.Config.GetInstance().GetStringSetting("ImagesByName"), category), title);
+ 
         }
 
         /// <summary>

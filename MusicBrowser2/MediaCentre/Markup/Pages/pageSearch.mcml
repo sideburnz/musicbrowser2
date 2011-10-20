@@ -3,14 +3,19 @@
       xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:cor="assembly://MSCorLib/System">
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonIcon"/>
 
   <UI Name="pageSearch">
 
     <Properties>
       <models:SearchModel Name="Model" SearchModel="$Required" />
+      
+      <Command Name="CmdBack" />
+      <Command Name="CmdNoOp" />
     </Properties>
 
     <Locals>
@@ -21,11 +26,16 @@
       <Command Name="CmdSetScopeToAlbums" />
       <Command Name="CmdSetScopeToArtists" />
       <Command Name="CmdSetScopeToTracks" />
+      <Command Name="CmdShowKeyboard" />
 
       <ScrollingData Name="SearchResultData" PageStep="1" />
       <ScrollingHandler Name="ScrollHander" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
 
-      <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
+      <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" MaxLength="20" />
+
+      <KeyHandler Name="BackHandler" Handle="true" Key="Backspace" HandlerStage="Direct" Command="[CmdNoOp]"/>
+      <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Routed" Command="[CmdBack]"/>
+      <actions:ActionPreviousPage Name="BackAction" />
     </Locals>
 
     <Rules>
@@ -35,6 +45,12 @@
           <Invoke Target="[SearchBox.NavigateInto]" />
         </Actions>
       </Rule>
+
+      <Changed Source="[CmdBack.Invoked]">
+        <Actions>
+          <Invoke Target="[BackAction.Invoke]" />
+        </Actions>
+      </Changed>
 
       <Condition Source="[Model.HasContext]" SourceValue="true">
         <Actions>
@@ -110,6 +126,7 @@
         <Actions>
           <Invoke Target="[SearchBox.NavigateInto]" />
           <Set Target="[SearchBox.Text]" Value="[typingHandler.EditableText.Value]" />
+          <Invoke Target="[SearchResultData.Home]" />
         </Actions>
       </Changed>
       
@@ -145,7 +162,12 @@
             </Layout>
             <Children>
               <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" />
-              <me:searchBox Name="SearchBox" Text=""/>
+              <Panel Layout="HorizontalFlow" Margins="0,40,0,0">
+                <Children>
+                  <me:searchBox Name="SearchBox" Text=""/>
+                  <me:KeyboardButton Length="20" EditableText="[Model.KeyboardHandler]" Margins="3,7,3,7" />
+                </Children>
+              </Panel>
               <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
               <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" Visible="false" />
               <me:buttonImage Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
@@ -222,7 +244,7 @@
     </Rules>
     
     <Content>
-      <Graphic Name="SelectBox" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" MaintainAspectRatio="false" MinimumSize="320,50" MaximumSize="320,50" Margins="0,40,0,0">
+      <Graphic Name="SelectBox" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" MaintainAspectRatio="false" MinimumSize="280,50" MaximumSize="280,50">
         <Children>
           <ColorFill Content="White" Name="SearchBox" Margins="2,2,2,2" Layout="Fill">
             <Children>
@@ -246,9 +268,13 @@
 
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
       <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
+
+      <actions:ActionShowActions Name="ActionActions" Source="Context" Entity="[Entity]" />
+      <actions:ActionDefaultAction Name="DefaultAction" Source="Context" Entity="[Entity]" />
     </Locals>
 
     <Rules>
+      <Binding Source="[CmdEnter]" Target="[Clicker.Command]" />
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
@@ -257,7 +283,7 @@
           <Set Target="[imgButton.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"/>
         </Actions>
       </Condition>
-      
+
       <Condition Source="[Input.KeyFocus]" SourceValue="false">
         <Actions>
           <Set Target="[TextLabels.Alpha]" Value="0.8"/>
@@ -266,17 +292,21 @@
         </Actions>
       </Condition>
 
-      <!-- update this to actually play the items -->
-      <Rule ConditionLogicalOp="Or">
+      <Rule>
         <Conditions>
           <Modified Source="[CmdEnter.Invoked]"/>
-          <Modified Source="[PlayPauseHandler.Invoked]"/>
-          <Modified Source="[PlayHandler.Invoked]"/>
-          <Modified Source="[Clicker.Invoked]"/>
         </Conditions>
         <Actions>
-          <!--<Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>-->
-          <Set Target="[TextLabels.Alpha]" Value="1"/>
+          <Invoke Target="[DefaultAction.Invoke]" />
+        </Actions>
+      </Rule>
+      <Rule ConditionLogicalOp="Or">
+        <Conditions>
+          <Modified Source="[PlayPauseHandler.Invoked]"/>
+          <Modified Source="[PlayHandler.Invoked]"/>
+        </Conditions>
+        <Actions>
+          <Invoke Target="[ActionActions.Invoke]"/>
         </Actions>
       </Rule>
     </Rules>
@@ -305,5 +335,47 @@
       </Panel>
     </Content>
   </UI>
-  
+
+  <UI Name="KeyboardButton">
+    <Properties>
+      <Image Name="Icon" Image="resx://MusicBrowser/MusicBrowser.Resources/Keyboard"/>
+      <Command Name="Command" />
+      <EditableText Name="EditableText" />
+      <cor:Int32 Name="Length" Int32="20" />
+    </Properties>
+    <Locals>
+      <ClickHandler Name="Clicker" Command="[Command]"/>
+      <actions:ActionShowKeyboard Name="KeyboardAction" MaxLength="[Length]" editableText="[EditableText]" />
+    </Locals>
+    <Rules>
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Condition Source="[Input.KeyFocus]"  SourceValue="true">
+        <Actions>
+          <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/imgButtonIcon"/>
+        </Actions>
+      </Condition>
+      <Condition Source="[Input.KeyFocus]"  SourceValue="false">
+        <Actions>
+          <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
+        </Actions>
+      </Condition>
+      <Changed Source="[Command.Invoked]">
+        <Actions>
+          <Invoke Target="[KeyboardAction.Invoke]" />
+        </Actions>
+      </Changed>
+    </Rules>
+    <Content>
+      <Panel>
+        <Children>
+          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/imgButtonIcon" Name="ButtonBack" MinimumSize="40,40" MaximumSize="40,40" Margins="0,0,0,0">
+            <Children>
+              <Graphic Content="[Icon]" Name="ButtonFace" MinimumSize="32,32" MaximumSize="32,32" Margins="5,5,5,5" MaintainAspectRatio="true" />
+            </Children>
+          </Graphic>
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
 </Mcml>

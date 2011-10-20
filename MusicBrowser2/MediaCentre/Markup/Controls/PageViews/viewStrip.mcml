@@ -3,6 +3,7 @@
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:me="Me"
       >
 
@@ -124,8 +125,6 @@
       <me:ThumbItem Entity="[RepeatedItem!entities:Entity]" Application="[Application]" FolderModel="[FolderModel]" />
     </Content>
 
-
-    
   </UI>
 
   <UI Name="ThumbItem">
@@ -139,6 +138,9 @@
       <Command Name="enterCommand"/>
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
       <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
+
+      <actions:ActionShowActions Name="ActionActions" Source="Context" Entity="[Entity]" />
+      <actions:ActionDefaultAction Name="DefaultAction" Source="Context" Entity="[Entity]" />
     </Locals>
     <Rules>
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
@@ -161,35 +163,28 @@
           <Set Target="[Blocker.Content]" Value="Transparent"/>
         </Actions>
       </Condition>
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Modified Source="[enterCommand.Invoked]"/>
-          <Equality ConditionOp="Equals" Source="[Entity.Playable]" Value="true" />
-        </Conditions>
-        <Actions>
-          <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
-        </Actions>
-      </Rule>
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Modified Source="[enterCommand.Invoked]"/>
-          <Equality ConditionOp="NotEquals" Source="[Entity.Playable]" Value="true" />
-        </Conditions>
-        <Actions>
-          <Invoke Target="[Application.Navigate]" entity="[Entity]" />
-        </Actions>
-      </Rule>
+
       <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
+      <Binding Source="[enterCommand]" Target="[Clicker.Command]" />
+
+      <Rule>
+        <Conditions>
+          <Modified Source="[enterCommand.Invoked]"/>
+        </Conditions>
+        <Actions>
+          <Invoke Target="[DefaultAction.Invoke]" />
+        </Actions>
+      </Rule>
       <Rule ConditionLogicalOp="Or">
         <Conditions>
           <Modified Source="[PlayPauseHandler.Invoked]"/>
           <Modified Source="[PlayHandler.Invoked]"/>
         </Conditions>
         <Actions>
-          <Invoke Target="[FolderModel.SetPopupPlayContext]" entity="[Entity]"/>
+          <Invoke Target="[ActionActions.Invoke]"/>
         </Actions>
       </Rule>
-      <Binding Source="[enterCommand]" Target="[Clicker.Command]" />
+      
     </Rules>
     <Content>
       <Graphic Content="null" Layout="Fill" Name="Wrapper" CenterPointPercent=".5,.5,.5" SizingPolicy="SizeToChildren">

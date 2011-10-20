@@ -8,6 +8,9 @@ using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
 {
+    //TODO: extend to get artist and album images from IBN
+    //TODO: extend to allow groups and virtuals
+
     class IconProvider : IDataProvider
     {
         private const string Name = "IconProvider";
@@ -38,7 +41,7 @@ namespace MusicBrowser.Providers.Metadata
 
             Statistics.Hit(Name + ".hit");
 
-            string IBNPath = Path.Combine(Path.Combine(Util.Config.GetInstance().GetStringSetting("ImagesByName"), "musicgenre"), dto.Title);
+            string IBNPath = Util.Helper.IBNPath("musicgenre", dto.Title);
             dto.ThumbImage = ImageProvider.Load(ImageProvider.LocateFanArt(IBNPath, ImageType.Thumb));
 
             IEnumerable<string> backPaths = ImageProvider.LocateBackdropList(IBNPath);

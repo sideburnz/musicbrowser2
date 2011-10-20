@@ -120,6 +120,15 @@
     <Compile Include="Actions\ActionRefreshMetadata.cs" />
     <Compile Include="Actions\ActionShowSearch.cs" />
     <Compile Include="Actions\ActionPlayEntity.cs" />
+    <Compile Include="Actions\ActionPlayNew.cs" />
+    <Compile Include="Actions\ActionPlayRandomPopular.cs" />
+    <Compile Include="Actions\ActionPlayEntireLibrary.cs" />
+    <Compile Include="Actions\ActionQueueEntity.cs" />
+    <Compile Include="Actions\ActionShowActions.cs" />
+    <Compile Include="Actions\ActionDefaultActions.cs" />
+    <Compile Include="Actions\ActionShowSettings.cs" />
+    <Compile Include="Actions\ActionShowKeyboard.cs" />
+    <Compile Include="Actions\ActionPreviousPage.cs" />
     <Compile Include="CacheEngine\CacheEngineFactory.cs" />
     <Compile Include="CacheEngine\DummyCacheEngine.cs" />
     <Compile Include="CacheEngine\FileSystemCacheEngine.cs" />
@@ -135,25 +144,24 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
-    <Content Include="Actions\Actions to write.txt" />
     <Content Include="MediaCentre\Images\buttonicons\IconAction.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconConfig.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconFavorite.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconKeyboard.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlaylist.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconRefresh.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconSearch.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconStar.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconView.png" />
     <Content Include="MediaCentre\Images\buttons\checkSelected.png" />
     <Content Include="MediaCentre\Images\buttons\checkUnselected.png" />
+    <Content Include="MediaCentre\Images\buttons\Keyboard.png" />
     <Content Include="MediaCentre\Images\buttons\radioSelected.png" />
     <Content Include="MediaCentre\Images\buttons\radioUnselected.png" />
-    <Content Include="MediaCentre\Images\icons\imageGears.png" />
     <Content Include="MediaCentre\Images\icons\imageGenre.png" />
     <Content Include="MediaCentre\Images\icons\imageSpinner.png" />
-    <Content Include="MediaCentre\Images\icons\thumbFavorite.png" />
-    <Content Include="MediaCentre\Images\icons\thumbStar.png" />
     <Content Include="MediaCentre\Images\backgrounds\NavPanel.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbAlbum.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbArtist.png" />
@@ -162,9 +170,6 @@
     <Content Include="MediaCentre\Images\thumbs\thumbPlaylist.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbTrack.png" />
     <Content Include="MediaCentre\Images\thumbs\thumbVirtual.png" />
-    <Content Include="MediaCentre\Markup\Controls\PopUps\viewThumb.mcml">
-      <SubType>Designer</SubType>
-    </Content>
     <Compile Include="CacheEngine\EntityPersistance.cs" />
     <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
     <Compile Include="Providers\ForceMetadataRefreshProvider.cs" />
@@ -221,7 +226,6 @@
     <Compile Include="WebServices\Services\LastFM\ArtistInfoService.cs" />
     <Compile Include="WebServices\Services\LastFM\TrackInfoService.cs" />
     <Compile Include="WebServices\WebServiceProviders\LastFMWebProvider.cs" />
-    <Content Include="TextFile1.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml">
@@ -245,7 +249,12 @@
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlActionPopUp.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumbsDown.mcml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
