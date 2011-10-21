@@ -23,11 +23,11 @@
       <ColorFill Content="Transparent" Layout="VerticalFlow">
         <Children>
           <Text Content="Tracks" Color="White" Font="Segoe Media Center Light, 22" />
-          <me:ctrlCheckbox Label="Use folder image as track thumbs" Margins="0,0,0,2"  />
+          <!--<me:ctrlCheckbox Label="Use folder image as track thumbs" Margins="0,0,0,2" />-->
           <!--
           CmdOnTrue="[FolderImagesOnAction]" CmdOnFalse="[FolderImagesOffAction]"
           -->
-          <me:ctrlCheckbox Label="Put the disc number in the track number" Margins="0,0,0,2" />
+          <!--<me:ctrlCheckbox Label="Put the disc number in the track number" Margins="0,0,0,2" />-->
         </Children>
       </ColorFill>
     </Content>

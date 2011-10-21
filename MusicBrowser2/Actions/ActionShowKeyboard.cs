@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MusicBrowser.Providers.Transport;
 using MusicBrowser.Entities;
 using Microsoft.MediaCenter.UI;
 using Microsoft.MediaCenter.Hosting;

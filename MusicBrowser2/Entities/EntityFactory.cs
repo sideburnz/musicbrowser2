@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MusicBrowser.CacheEngine;
+using MusicBrowser.Engines.Cache;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
@@ -12,7 +12,7 @@ namespace MusicBrowser.Entities
 {
     public static class EntityFactory
     {
-        private static ICacheEngine _cacheEngine = CacheEngine.CacheEngineFactory.GetCacheEngine();
+        private static ICacheEngine _cacheEngine = CacheEngineFactory.GetCacheEngine();
         private static InMemoryCache _MemCache = InMemoryCache.GetInstance();
 
         // this resets the entity back to a near-clean slate

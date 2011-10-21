@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using MediaInfoLib;
+using MusicBrowser.Engines.Logging;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Util;
 
@@ -89,7 +90,7 @@ namespace MusicBrowser.Providers.Metadata
             }
             catch (Exception e)
             {
-                Logging.Logger.Error(e);
+                Logger.Error(e);
                 dto.Outcome = DataProviderOutcome.SystemError;
                 dto.Errors = new List<string> { "Error retrieving data" };
             }

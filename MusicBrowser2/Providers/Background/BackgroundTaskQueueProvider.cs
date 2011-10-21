@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using MusicBrowser.Engines.Logging;
 
 /******************************************************************************
  * 
@@ -103,7 +104,7 @@ namespace MusicBrowser.Providers.Background
                     }
                     catch (Exception e)
                     {
-                        Logging.Logger.Error(new Exception(string.Format("Thread {0} failed whilst running {1}\r", id, task.Title), e));
+                        Logger.Error(new Exception(string.Format("Thread {0} failed whilst running {1}\r", id, task.Title), e));
                     }
 #if DEBUG
                     Logging.Logger.Verbose(String.Format("Thread {0} finished {1}. {2} jobs pending", id, task.Title, _queue.Count), "thread finish");

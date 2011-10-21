@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic; 
+﻿using System.Collections.Generic;
 using Microsoft.MediaCenter.Hosting;
+using MusicBrowser.Engines.Cache;
+using MusicBrowser.Engines.Logging;
 using MusicBrowser.Entities;
-using MusicBrowser.Models;
-using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers;
+using MusicBrowser.Providers.Background;
+using MusicBrowser.Engines.Transport;
  
 // taken from the SDK example, I've changed the namespace and classname
 
@@ -19,21 +21,21 @@ namespace MusicBrowser
         
         public void Uninitialize()         
         {
-            Providers.Transport.Transport.GetTransport().Close();
+            Transport.GetTransport().Close();
             if (Util.Config.GetInstance().GetBooleanSetting("LogStatsOnClose"))
             {
-                Logging.Logger.Stats(Statistics.GetReport());
+                Logger.Stats(Statistics.GetReport());
 #if DEBUG
                 Logging.Logger.Verbose(Util.Helper.outputTypes(), "stats");
 #endif
             }
-            CacheEngine.InMemoryCache.GetInstance().Save();
+            InMemoryCache.GetInstance().Save();
         }
         
         public void Launch(AddInHost host)         
         {
             // load the fast memory cache
-            CacheEngine.InMemoryCache.GetInstance();
+            InMemoryCache.GetInstance();
 
             // Set up a reference to "home"
             Entity home = new Entity() { Kind = EntityKind.Home };

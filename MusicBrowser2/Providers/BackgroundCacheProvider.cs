@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using MusicBrowser.CacheEngine;
+﻿using System;
+using System.Collections.Generic;
+using MusicBrowser.Engines.Logging;
 using MusicBrowser.Entities;
+using MusicBrowser.Interfaces;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.Metadata;
-using MusicBrowser.Interfaces;
-using System.Linq;
-using System;
 
 namespace MusicBrowser.Providers
 {
@@ -45,7 +44,7 @@ namespace MusicBrowser.Providers
                 }
                 catch (Exception e) 
                 {
-                    Logging.Logger.Error(e);
+                    Logger.Error(e);
                 }
             }
 #if DEBUG

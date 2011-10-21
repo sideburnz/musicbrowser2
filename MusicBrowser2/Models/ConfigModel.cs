@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MusicBrowser.Engines.Logging;
 using MusicBrowser.Util;
 
 namespace MusicBrowser.Models
@@ -20,7 +17,7 @@ namespace MusicBrowser.Models
             }
             set 
             {
-                Logging.Logger.Debug(CACHE_ENGINE + " " + value);
+                Logger.Debug(CACHE_ENGINE + " " + value);
                 if (value)
                 {
                     _config.SetSetting(CACHE_ENGINE, "FileSystem");
@@ -34,7 +31,7 @@ namespace MusicBrowser.Models
 
         public void SetUseCache(bool value) 
         {
-            Logging.Logger.Debug("HIT " + value);
+            Logger.Debug("HIT " + value);
         
             UseCache = value; 
         }

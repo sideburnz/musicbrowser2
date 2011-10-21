@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers;
-using MusicBrowser.Models;
 using Microsoft.MediaCenter.UI;
+using MusicBrowser.Engines.Logging;
+using MusicBrowser.Entities;
+using MusicBrowser.Models;
+using MusicBrowser.Providers;
+using MusicBrowser.Engines.Logging;
 
 namespace MusicBrowser.Actions
 {
@@ -56,7 +55,7 @@ namespace MusicBrowser.Actions
                 title = Entity.Title;
             }
 
-            Logging.Logger.Debug(String.Format("Action: {0}, Entity: {1}", Label, title));
+            Logger.Debug(String.Format("Action: {0}, Entity: {1}", Label, title));
 
             Statistics.Hit("Action." + Label);
 
@@ -70,7 +69,7 @@ namespace MusicBrowser.Actions
             }
             catch(Exception e)
             {
-                Logging.Logger.Error(e);
+                Logger.Error(e);
             }
 
             if (Invoked != null)

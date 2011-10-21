@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.IO;
-using MusicBrowser.CacheEngine;
+using MusicBrowser.Engines.Cache;
 using MusicBrowser.Entities;
 using MusicBrowser.Interfaces;
 

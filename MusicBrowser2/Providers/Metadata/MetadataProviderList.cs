@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Drawing;
 using System.Collections.Generic;
-using System.Collections;
+using System.Drawing;
 using System.Linq;
-using MusicBrowser.CacheEngine;
+using MusicBrowser.Engines.Cache;
+using MusicBrowser.Engines.Logging;
 using MusicBrowser.Entities;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers.Background;
@@ -78,7 +78,7 @@ namespace MusicBrowser.Providers.Metadata
                     }
                     else if (dto.Outcome != DataProviderOutcome.NoData) // no data is a warning, ignore it and move on
                     {
-                        Logging.Logger.Debug(dto.Outcome.ToString() + " " + dto.Errors[0]);
+                        Logger.Debug(dto.Outcome.ToString() + " " + dto.Errors[0]);
                         entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
                     }
                 }
@@ -296,7 +296,7 @@ namespace MusicBrowser.Providers.Metadata
             }
             catch (Exception e)
             {
-                Logging.Logger.Error(new Exception(string.Format("MetadataProviderList failed for {0}\r", _entity.Path), e));
+                Logger.Error(new Exception(string.Format("MetadataProviderList failed for {0}\r", _entity.Path), e));
             }
 
         }

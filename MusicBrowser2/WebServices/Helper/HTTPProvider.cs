@@ -2,7 +2,7 @@
 using System.Text;
 using System.Net;
 using System.IO;
-using MusicBrowser.Logging;
+using MusicBrowser.Engines.Logging;
 
 namespace MusicBrowser.WebServices.Helper
 {

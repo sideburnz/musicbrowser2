@@ -1,8 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using MusicBrowser.Engines.Logging;
 
 namespace MusicBrowser.Providers.FolderItems
 {
@@ -45,7 +44,7 @@ namespace MusicBrowser.Providers.FolderItems
                     else
                     {
                         Exception ex = new Exception("Virtual Folder " + vfFile + " not found");
-                        Logging.Logger.Error(ex);
+                        Logger.Error(ex);
                         throw ex;
                     }
                 }

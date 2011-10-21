@@ -1,4 +1,5 @@
 ﻿using System;
+using MusicBrowser.Engines.Logging;
 using MusicBrowser.WebServices.Helper;
 using MusicBrowser.WebServices.Interfaces;
 
@@ -46,7 +47,7 @@ namespace MusicBrowser.WebServices.WebServiceProviders
             }
             catch (Exception e)
             {
-                Logging.Logger.Error(e);
+                Logger.Error(e);
                 ResponseStatus = "Unhandled and unexpected error";
                 ResponseBody = string.Empty;
             }

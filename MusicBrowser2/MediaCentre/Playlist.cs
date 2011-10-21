@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.MediaCenter;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers;
-using MusicBrowser.Providers.Transport;
+using MusicBrowser.Engines.Transport;
 using MusicBrowser.Util;
 
 namespace MusicBrowser.MediaCentre

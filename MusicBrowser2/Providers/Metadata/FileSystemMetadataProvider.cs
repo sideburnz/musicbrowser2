@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using System.IO;
-using MusicBrowser.CacheEngine;
+using MusicBrowser.Engines.Cache;
 using MusicBrowser.Entities;
 using MusicBrowser.Interfaces;
 

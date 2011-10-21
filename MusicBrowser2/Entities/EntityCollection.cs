@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
-using MusicBrowser.CacheEngine;
+using MusicBrowser.Engines.Cache;
 using MusicBrowser.Providers;
 
 namespace MusicBrowser.Entities

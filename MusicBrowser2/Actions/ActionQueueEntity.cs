@@ -5,7 +5,7 @@ using System.Text;
 using MusicBrowser.Providers;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
-using MusicBrowser.Providers.Transport;
+using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Actions
 {
