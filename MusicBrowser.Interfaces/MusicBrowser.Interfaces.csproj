@@ -48,7 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="baseAction.cs" />
     <Compile Include="DataProviderException.cs" />
     <Compile Include="ICacheEngine.cs" />
     <Compile Include="IDataProvider.cs" />

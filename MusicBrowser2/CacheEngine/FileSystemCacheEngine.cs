@@ -71,7 +71,7 @@ namespace MusicBrowser.CacheEngine
         {
             string temp =  string.Concat(_cacheLocation, "\\", key.Substring(0, 2), "\\");
             Directory.CreateDirectory(temp);
-            return temp + key + ".cache.json";
+            return temp + key + ".cache.xml";
         }
 
 

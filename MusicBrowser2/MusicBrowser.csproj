@@ -129,6 +129,8 @@
     <Compile Include="Actions\ActionShowSettings.cs" />
     <Compile Include="Actions\ActionShowKeyboard.cs" />
     <Compile Include="Actions\ActionPreviousPage.cs" />
+    <Compile Include="Actions\ActionCycleViews.cs" />
+    <Compile Include="Actions\ActionSetSetting.cs" />
     <Compile Include="CacheEngine\CacheEngineFactory.cs" />
     <Compile Include="CacheEngine\DummyCacheEngine.cs" />
     <Compile Include="CacheEngine\FileSystemCacheEngine.cs" />
@@ -239,7 +241,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="MediaCentre\Markup\Controls\SettingsPages\SystemSettings.mcml" />
-    <Content Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MediaCentre\Markup\Controls\SettingsPages\CacheSettings.mcml">
       <SubType>Designer</SubType>
     </Content>
@@ -334,7 +338,11 @@
       <Name>MusicBrowser.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Engines\Cache\" />
+    <Folder Include="Engines\Logging\" />
+    <Folder Include="Engines\Transport\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

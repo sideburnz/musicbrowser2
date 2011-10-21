@@ -35,12 +35,12 @@
       <addin:AddInHost Name="AddInHost"/>
       <models:Clock Name="Clock"/>
       
-      <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled"/>
-      <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled"/>
-      <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Bubbled"/>
-      <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Bubbled" />
-      <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Bubbled" />
-      <ShortcutHandler Name="hRec" Shortcut="Record" HandlerStage="Bubbled" Command="[RefreshAction]" />
+      <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Direct"/>
+      <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Direct"/>
+      <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Direct"/>
+      <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Direct" />
+      <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Direct" />
+      <ShortcutHandler Name="hRec" Shortcut="Record" HandlerStage="Direct" Command="[RefreshAction]" />
 
       <Timer Name="BackgroundTimer" AutoRepeat="True" Interval="10000" Enabled="True" />
 

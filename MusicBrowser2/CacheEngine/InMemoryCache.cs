@@ -17,7 +17,7 @@ namespace MusicBrowser.CacheEngine
     {
         private Dictionary<string, Entity> _cache;
         private static readonly object _obj = new object();
-        private readonly string _cacheFile = System.IO.Path.Combine(Util.Config.GetInstance().GetStringSetting("CachePath"), "cache.json");
+        private readonly string _cacheFile = System.IO.Path.Combine(Util.Config.GetInstance().GetStringSetting("CachePath"), "cache.xml");
 
         #region singleton
         static InMemoryCache _instance;
@@ -101,7 +101,8 @@ namespace MusicBrowser.CacheEngine
                 try
                 {
                     FileStream file = new FileStream(_cacheFile, FileMode.OpenOrCreate);
-                    _cache = JsonSerializer.DeserializeFromStream<Dictionary<string, Entity>>(file);
+                    _cache = XmlSerializer.DeserializeFromStream<Dictionary<String, Entity>>(file);
+                    //_cache = JsonSerializer.DeserializeFromStream<Dictionary<string, Entity>>(file);
                     Statistics.Hit("InMemoryCache.Loaded", _cache.Count);
                 }
                 catch (Exception ex)
@@ -119,11 +120,18 @@ namespace MusicBrowser.CacheEngine
 
         public void Save()
         {
-            FileStream file = new FileStream(_cacheFile, FileMode.Create);
-            JsonSerializer.SerializeToStream<Dictionary<string, Entity>>(_cache, file);
-            file.Close();
-
-            Statistics.Hit("InMemoryCache.Saved", _cache.Count);
+            try
+            {
+                FileStream file = new FileStream(_cacheFile, FileMode.Create);
+                XmlSerializer.SerializeToStream(_cache, file);
+                    //.SerializeToStream<Dictionary<string, Entity>>(_cache, file);
+                file.Close();
+                Statistics.Hit("InMemoryCache.Saved", _cache.Count);
+            }
+            catch
+            {
+                File.Delete(_cacheFile);
+            }
         }
     }
 }

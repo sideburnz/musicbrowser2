@@ -33,7 +33,7 @@
 
       <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" MaxLength="20" />
 
-      <KeyHandler Name="BackHandler" Handle="true" Key="Backspace" HandlerStage="Direct" Command="[CmdNoOp]"/>
+      <KeyHandler Name="BackHandler" Handle="true" Key="Backspace" HandlerStage="Bubbled" Command="[CmdNoOp]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Routed" Command="[CmdBack]"/>
       <actions:ActionPreviousPage Name="BackAction" />
     </Locals>
@@ -55,6 +55,7 @@
       <Condition Source="[Model.HasContext]" SourceValue="true">
         <Actions>
           <Set Target="[btnCurrentFolder.Visible]" Value="true"/>
+          <Set Target="[btnCurrentFolder.Text]" Value="[Model.ContextName]" />
           <Invoke Target="[CmdSetScopeToContext.Invoke]"/>
         </Actions>
       </Condition>
@@ -165,7 +166,7 @@
               <Panel Layout="HorizontalFlow" Margins="0,40,0,0">
                 <Children>
                   <me:searchBox Name="SearchBox" Text=""/>
-                  <me:KeyboardButton Length="20" EditableText="[Model.KeyboardHandler]" Margins="3,7,3,7" />
+                  <me:KeyboardButton Length="20" EditableText="[Model.KeyboardHandler]" Margins="3,10,3,7" />
                 </Children>
               </Panel>
               <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
@@ -368,9 +369,9 @@
     <Content>
       <Panel>
         <Children>
-          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/imgButtonIcon" Name="ButtonBack" MinimumSize="40,40" MaximumSize="40,40" Margins="0,0,0,0">
+          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/imgButtonIcon" MinimumSize="42,28" MaximumSize="42,28" Name="ButtonBack" Margins="0,0,0,0">
             <Children>
-              <Graphic Content="[Icon]" Name="ButtonFace" MinimumSize="32,32" MaximumSize="32,32" Margins="5,5,5,5" MaintainAspectRatio="true" />
+              <Graphic Content="[Icon]" Name="ButtonFace" Margins="5,5,5,5" MaintainAspectRatio="true" />
             </Children>
           </Graphic>
         </Children>

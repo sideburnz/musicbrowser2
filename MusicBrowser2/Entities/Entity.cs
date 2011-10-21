@@ -31,7 +31,7 @@ namespace MusicBrowser.Entities
     }
 
     [DataContract]
-    public sealed class Entity : BaseModel
+    public class Entity : BaseModel
     {
         private static readonly Random _rnd = new Random(DateTime.Now.Millisecond);
         private string _cacheKey;
@@ -187,7 +187,6 @@ namespace MusicBrowser.Entities
         public string SortName { get; set; }
 
         // Read Only values
-        public string View { get { return Config.GetInstance().GetStringSetting(KindName + ".View").ToLower(); } }
         public bool Playable { get { return (Kind == EntityKind.Track || Kind == EntityKind.Playlist); } }
 
         // this allows the backgrounds to be cycled

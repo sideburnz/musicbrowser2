@@ -31,16 +31,24 @@
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
       <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
-      
-      <Rule>
+
+      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="thumb" />
+          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="thumb" />
         </Conditions>
         <Actions>
           <Set Target="[div_ListThumb.Visible]" Value="true" />
         </Actions>
-      </Rule>
-
+      </Changed>
+      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="thumb" />
+        </Conditions>
+        <Actions>
+          <Set Target="[div_ListThumb.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+      
       <Rule>
         <Actions>
           <Invoke Target="[viewThumbRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" InvokePolicy="Synchronous" />

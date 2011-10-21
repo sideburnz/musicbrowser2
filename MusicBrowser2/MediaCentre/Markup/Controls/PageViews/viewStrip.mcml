@@ -59,14 +59,22 @@
       <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
       <Binding Target="[Summary.Summary]" Source="[FolderModel.SelectedItem.Summary]" />
 
-      <Rule>
+      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="strip" />
+          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="strip" />
         </Conditions>
         <Actions>
           <Set Target="[div_Strip.Visible]" Value="true" />
         </Actions>
-      </Rule>
+      </Changed>
+      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="strip" />
+        </Conditions>
+        <Actions>
+          <Set Target="[div_Strip.Visible]" Value="false" />
+        </Actions>
+      </Changed>
 
       <Rule>
         <Actions>

@@ -9,7 +9,7 @@ namespace MusicBrowser.CacheEngine
 
         public static string Serialize(Entity data)
         {
-            return JsonSerializer.SerializeToString<Entity>(data);
+            return data.ToXml();
         }
 
         public static Entity Deserialize(string data)
@@ -18,7 +18,7 @@ namespace MusicBrowser.CacheEngine
 
             try
             {
-                return JsonSerializer.DeserializeFromString<Entity>(data);
+                return XmlSerializer.DeserializeFromString<Entity>(data);
             }
             catch
             {

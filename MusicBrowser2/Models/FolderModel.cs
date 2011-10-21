@@ -31,6 +31,7 @@ namespace MusicBrowser.Models
             _entities = entities;
             _isHome = (parentEntity.Kind == EntityKind.Home);
 
+            Config.OnSettingUpdate += SettingsChanged;
             CommonTaskQueue.OnStateChanged += BusyStateChanged;
             Busy = CommonTaskQueue.Busy;
         }
@@ -151,6 +152,20 @@ namespace MusicBrowser.Models
             Busy = busy;
             FirePropertyChanged("Busy");
         }
+
+        private void SettingsChanged(string key)
+        {
+            if (key.ToLower() == "view") { FirePropertyChanged("View"); }
+        }
+
+        public string View 
+        { 
+            get 
+            { 
+                return Config.GetInstance().GetStringSetting(ParentEntity.KindName + ".View").ToLower(); 
+            } 
+        }
+
 
     }
 }
