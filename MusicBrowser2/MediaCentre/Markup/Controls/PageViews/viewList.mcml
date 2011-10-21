@@ -27,14 +27,22 @@
       <Default Target="[scrollData.Repeater]" Value="[viewListRepeater]"/>
       <Binding Target="[Summary.Summary]" Source="[FolderModel.ParentEntity.Summary]" />
 
-      <Rule>
+      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="list" />
+          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="list" />
         </Conditions>
         <Actions>
           <Set Target="[div_ListText.Visible]" Value="true" />
         </Actions>
-      </Rule>
+      </Changed>
+      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="list" />
+        </Conditions>
+        <Actions>
+          <Set Target="[div_ListText.Visible]" Value="false" />
+        </Actions>
+      </Changed>
 
       <Rule>
         <Actions>
@@ -67,7 +75,7 @@
                   <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
                 </Layout>
                 <Content>
-                  <me:buttonEntity Entity="[RepeatedItem!entities:Entity]" Application="[Application]" FolderModel="[FolderModel]"/>
+                  <me:buttonEntity Entity="[RepeatedItem!entities:Entity]" FolderModel="[FolderModel]"/>
                 </Content>
               </Repeater>
             </Children>
@@ -83,31 +91,30 @@
 
     <Properties>
       <entities:Entity Name="Entity" Entity="$Required" />
-      <a:Application Name="Application" Application="$Required"/>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
 
       <Size Name="Size" Size="600,57" />
       <Size Name="MinSize" Size="600,57" />
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
       <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
-
-      <actions:ActionShowActions Name="ActionActions" Source="Context" />
-      <actions:ActionDefaultAction Name="DefaultAction" Source="Context" />
     </Properties>
 
     <Locals>
       <Command Name="enterCommand"/>
       <ClickHandler Name="Clicker" />
-      
-      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" Command="[ActionActions]"/>
-      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" Command="[ActionActions]"/>
+
+      <actions:ActionShowActions Name="ActionActions" Source="Context" Entity="[Entity]" />
+      <actions:ActionDefaultAction Name="DefaultAction" Source="Context" Entity="[Entity]" />
+
+      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" />
+      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" />
     </Locals>
 
     <Rules>
-      <Binding Target="[DefaultAction.Entity]" Source="[Entity]" />
-      <Binding Target="[ActionActions.Entity]" Source="[Entity]" />
-      
+      <Binding Target="[PlayHandler.Command]" Source="[ActionActions]" />
+      <Binding Target="[PlayPauseHandler.Command]" Source="[ActionActions]" />
       <Binding Source="[DefaultAction]" Target="[Clicker.Command]" />
+      
       <Binding Source="[Entity.Icon]" Target="[graphicBullet.Content]" />
       <Binding Source="[Entity.Description]" Target="[Label.Content]" />
       <Default Target="[Input.KeyInteractive]" Value="true" />

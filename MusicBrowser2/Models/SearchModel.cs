@@ -35,6 +35,7 @@ namespace MusicBrowser.Models
                 _contextCollection = new EntityCollection();
                 _contextCollection.AddRange(FileSystemProvider.GetAllSubPaths(context.Path)); //this line needs to change
                 HasContext = true;
+                ContextName = context.Title;
             }
             _remoteFilter.PropertyChanged += RemoteFilterPropertyChanged;
             _remoteFilter.Value = initialSearchString;
@@ -65,6 +66,8 @@ namespace MusicBrowser.Models
             FirePropertyChanged("Scope");
             FirePropertyChanged("ResultSet");
         }
+
+        public string ContextName { get; set; }
 
         public string Scope
         {

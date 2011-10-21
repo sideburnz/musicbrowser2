@@ -254,7 +254,22 @@ namespace MusicBrowser.Util
                 node.InnerText = value;
             }
             _xml.Save(configFile);
+
+            if (!(OnSettingUpdate == null))
+            {
+                if (key.Contains("."))
+                {
+                    OnSettingUpdate(key.Substring(key.IndexOf('.') + 1));
+                }
+                else
+                {
+                    OnSettingUpdate(key);
+                }
+            }
         }
+
+        public delegate void SettingsChangedHandler(String Key);
+        public static event SettingsChangedHandler OnSettingUpdate;
 
         public void ResetSettings()
         {

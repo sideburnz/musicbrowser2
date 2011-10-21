@@ -8,8 +8,8 @@
       <cor:String Name="Label" String="" />
       <cor:Boolean Name="Value" Boolean="false" />
 
-      <Command Name="CmdOnTrue" />
-      <Command Name="CmdOnFalse" />
+      <ICommand Name="CmdOnTrue" ICommand="$Required"/>
+      <ICommand Name="CmdOnFalse" ICommand="$Required"/>
     </Properties>
 
     <Locals>
