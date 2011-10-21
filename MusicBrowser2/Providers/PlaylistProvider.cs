@@ -4,7 +4,7 @@ using System.Threading;
 using System.Linq;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
-using MusicBrowser.CacheEngine;
+using MusicBrowser.Engines.Cache;
 
 namespace MusicBrowser.Providers
 {

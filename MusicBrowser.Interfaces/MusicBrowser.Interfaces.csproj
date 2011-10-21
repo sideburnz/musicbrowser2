@@ -51,6 +51,7 @@
     <Compile Include="DataProviderException.cs" />
     <Compile Include="ICacheEngine.cs" />
     <Compile Include="IDataProvider.cs" />
+    <Compile Include="ITransport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

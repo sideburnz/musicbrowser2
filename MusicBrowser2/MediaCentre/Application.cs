@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.Hosting;
-using MusicBrowser.CacheEngine;
+using MusicBrowser.Engines.Cache;
+using MusicBrowser.Engines.Logging;
 using MusicBrowser.Entities;
-using MusicBrowser.MediaCentre;
 using MusicBrowser.Models;
 using MusicBrowser.Providers;
-using MusicBrowser.Providers.Background;
 
 // ReSharper disable CheckNamespace
 namespace MusicBrowser
@@ -27,7 +26,7 @@ namespace MusicBrowser
             _host = host;
 
             Util.Config.GetInstance().SetDefaultSettings();
-            Logging.Logger.Info("Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+            Logger.Info("Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
 
             _application = this;
         }
@@ -67,7 +66,7 @@ namespace MusicBrowser
 
         public void Navigate(Entity entity)
         {
-            Logging.Logger.Info("Navigating to " + entity.Description);
+            Logger.Info("Navigating to " + entity.Description);
             try
             {
                 Dictionary<string, object> properties = new Dictionary<string, object>();
@@ -145,7 +144,7 @@ namespace MusicBrowser
             }
             catch (Exception ex)
             {
-                Logging.Logger.Error(ex);
+                Logger.Error(ex);
                 Dialog("Failed to navigate to " + entity.Description);
             }
         }

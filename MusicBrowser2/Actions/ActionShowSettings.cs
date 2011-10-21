@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MusicBrowser.Providers.Transport;
+using MusicBrowser.Engines.Transport;
 using MusicBrowser.Entities;
 
 namespace MusicBrowser.Actions

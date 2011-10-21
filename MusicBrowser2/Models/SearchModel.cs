@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Entities;
-using MusicBrowser.CacheEngine;
+using MusicBrowser.Engines.Cache;
 using MusicBrowser.Providers;
 
 namespace MusicBrowser.Models

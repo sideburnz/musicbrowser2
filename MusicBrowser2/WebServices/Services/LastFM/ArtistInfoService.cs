@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using MusicBrowser.Engines.Logging;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.WebServices.WebServiceProviders;
 
@@ -86,7 +87,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                 {
                     localDTO.Status = WebServiceStatus.Error;
                     localDTO.Error = "Match not close enough";
-                    Logging.Logger.Debug(string.Format("Last.fm artist look up for \"{0}\" but matched \"{1}\" instead", localDTO.Artist, lfmArtistName));
+                    Logger.Debug(string.Format("Last.fm artist look up for \"{0}\" but matched \"{1}\" instead", localDTO.Artist, lfmArtistName));
                 }
             }
             else

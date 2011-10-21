@@ -8,7 +8,7 @@ using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers.Metadata;
-using MusicBrowser.Providers.Transport;
+using MusicBrowser.Engines.Transport;
 using MusicBrowser.Util;
 
 namespace MusicBrowser.Models

@@ -1,4 +1,5 @@
 ﻿using System;
+using MusicBrowser.Engines.Logging;
 using MusicBrowser.WebServices.Helper;
 
 namespace MusicBrowser.WebServices.Interfaces
@@ -38,7 +39,7 @@ namespace MusicBrowser.WebServices.Interfaces
             }
             catch (Exception e)
             {
-                Logging.Logger.Error(e);
+                Logger.Error(e);
                 ResponseStatus = "FATAL ERROR";
                 ResponseBody = string.Empty;
             }

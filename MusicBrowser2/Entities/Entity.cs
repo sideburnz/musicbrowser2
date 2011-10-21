@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Models;
-using MusicBrowser.Util;
 using MusicBrowser.Providers;
-using MusicBrowser.CacheEngine;
-using System.Linq;
-using MusicBrowser.Actions;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {

@@ -19,9 +19,9 @@
     <Content>
       <ColorFill Content="Transparent" Layout="VerticalFlow">
         <Children>
-          <me:ctrlCheckbox Label="Enable Fan Art" />
+          <!--<me:ctrlCheckbox Label="Enable Fan Art" />
           <me:ctrlCheckbox Label="Show Clock" />
-          <me:ctrlCheckbox Label="Use Internet Providers" />
+          <me:ctrlCheckbox Label="Use Internet Providers" />-->
           <me:buttonImage Command="[CmdTurnCacheOnOff]" Text="LastFMUserName" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
         </Children>
       </ColorFill>
