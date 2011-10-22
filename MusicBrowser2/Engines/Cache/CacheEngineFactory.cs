@@ -10,7 +10,7 @@ namespace MusicBrowser.Engines.Cache
         private static ICacheEngine _cacheEngine;
         private static readonly object Obj = new object();
 
-        public static ICacheEngine GetCacheEngine()
+        public static ICacheEngine GetEngine()
         {
             if (_cacheEngine == null)
             {
@@ -21,12 +21,12 @@ namespace MusicBrowser.Engines.Cache
                     {
                         case "none":
                             {
-                                _cacheEngine = new DummyCacheEngine();
+                                _cacheEngine = new NoCache();
                                 break;
                             }
                         case "filesystem":
                             {
-                                _cacheEngine = new FileSystemCacheEngine();
+                                _cacheEngine = new FileSystemCache();
                                 break;
                             }
                         default:
@@ -37,7 +37,7 @@ namespace MusicBrowser.Engines.Cache
                     }
                     if (_cacheEngine == null)
                     {
-                        _cacheEngine = new DummyCacheEngine();
+                        _cacheEngine = new NoCache();
                     }
                 }
             }
@@ -57,7 +57,7 @@ namespace MusicBrowser.Engines.Cache
                 }
                 catch(Exception e)
                 {
-                    Logging.Logger.Error(e);
+                    Logging.LoggerEngineFactory.Error(e);
                 }
             }
             return null;

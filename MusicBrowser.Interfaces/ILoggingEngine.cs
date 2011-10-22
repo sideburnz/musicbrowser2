@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace MusicBrowser.Engines.Logging
+namespace MusicBrowser.Interfaces
 {
-    public interface ILogger
+    public interface ILoggingEngine
     {
         void LogError(Exception ex);
         void LogInfo(string message);

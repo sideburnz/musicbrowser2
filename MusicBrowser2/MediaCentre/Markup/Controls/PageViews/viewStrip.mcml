@@ -64,15 +64,16 @@
           <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="strip" />
         </Conditions>
         <Actions>
-          <Set Target="[div_Strip.Visible]" Value="true" />
+          <Set Target="[div_Strip.Visible]" Value="true"/>
         </Actions>
       </Changed>
-      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
+      <Changed Source="[FolderModel.View]">
         <Conditions>
           <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="strip" />
         </Conditions>
         <Actions>
           <Set Target="[div_Strip.Visible]" Value="false" />
+          <Set Target="[Summary.Visible]" Value="[FolderModel.ShowSummary]" />
         </Actions>
       </Changed>
 
@@ -96,7 +97,7 @@
                   <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
               </Graphic>
-              <Panel Margins="0,0,10,10">
+              <Panel Margins="0,0,10,10" Name="SummaryPanel">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Left" />
                 </LayoutInput>
@@ -105,7 +106,7 @@
                 </Layout>
                 <Children>
                   <Text Name="Title" Content="[FolderModel.SelectedItem.Title]" Color="White" Font="Segoe Media Center Bold, 22" WordWrap="false" Margins="10,0,10,20"/>
-                  <me:ctrlScrollingText Name="Summary" Summary="" />
+                  <me:ctrlScrollingText Name="Summary" Summary="" Visible="true" />
                 </Children>
               </Panel>
             </Children>

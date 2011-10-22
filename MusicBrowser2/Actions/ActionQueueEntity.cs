@@ -29,7 +29,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
-            Transport.GetTransport().Play(true, entity.Path);
+            TransportEngineFactory.GetEngine().Play(true, entity.Path);
         }
     }
 }

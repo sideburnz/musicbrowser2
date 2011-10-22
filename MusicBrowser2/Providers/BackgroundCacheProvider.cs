@@ -44,7 +44,7 @@ namespace MusicBrowser.Providers
                 }
                 catch (Exception e) 
                 {
-                    Logger.Error(e);
+                    LoggerEngineFactory.Error(e);
                 }
             }
 #if DEBUG

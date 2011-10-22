@@ -2,11 +2,11 @@
 
 namespace MusicBrowser.Engines.Transport
 {
-    static class Transport
+    static class TransportEngineFactory
     {
-        private static ITransport _transport;
+        private static ITransportEngine _transport;
 
-        public static ITransport GetTransport()
+        public static ITransportEngine GetEngine()
         {
             if (_transport == null)
             {

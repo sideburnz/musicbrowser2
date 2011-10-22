@@ -78,7 +78,7 @@ namespace MusicBrowser.Providers.Metadata
                     }
                     else if (dto.Outcome != DataProviderOutcome.NoData) // no data is a warning, ignore it and move on
                     {
-                        Logger.Debug(dto.Outcome.ToString() + " " + dto.Errors[0]);
+                        LoggerEngineFactory.Debug(dto.Outcome.ToString() + " " + dto.Errors[0]);
                         entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
                     }
                 }
@@ -93,7 +93,7 @@ namespace MusicBrowser.Providers.Metadata
             {
                 entity.UpdateValues();
                 InMemoryCache.GetInstance().Update(entity);
-                CacheEngineFactory.GetCacheEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
+                CacheEngineFactory.GetEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
             }
 
             // go through the refresh again, this time it'll pick up the slow providers
@@ -296,7 +296,7 @@ namespace MusicBrowser.Providers.Metadata
             }
             catch (Exception e)
             {
-                Logger.Error(new Exception(string.Format("MetadataProviderList failed for {0}\r", _entity.Path), e));
+                LoggerEngineFactory.Error(new Exception(string.Format("MetadataProviderList failed for {0}\r", _entity.Path), e));
             }
 
         }

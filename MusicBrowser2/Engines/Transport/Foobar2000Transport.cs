@@ -7,7 +7,7 @@ using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Engines.Transport
 {
-    class Foobar2000Transport : ITransport
+    class Foobar2000Transport : ITransportEngine
     {
 
         private const int BATCH_SIZE = 10;
@@ -122,7 +122,7 @@ namespace MusicBrowser.Engines.Transport
 
         private void ExecuteCommand(string command)
         {
-            Logger.Debug(command);
+            LoggerEngineFactory.Debug(command);
 
             ProcessStartInfo externalProc = new ProcessStartInfo();
             externalProc.FileName = FooPath;

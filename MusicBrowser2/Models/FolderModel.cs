@@ -110,16 +110,6 @@ namespace MusicBrowser.Models
             get { return Config.GetInstance().GetBooleanSetting("ShowClock"); }
         }
 
-        public static bool isPlaying
-        {
-            get { return Transport.GetTransport().State == PlayState.Playing; }
-        }
-
-        public static bool isPaused
-        {
-            get { return Transport.GetTransport().State == PlayState.Paused; }
-        }
-
         //TODO: these should be Actions?
         //public void NavigateToVirtual(string name)
         //{
@@ -155,7 +145,11 @@ namespace MusicBrowser.Models
 
         private void SettingsChanged(string key)
         {
-            if (key.ToLower() == "view") { FirePropertyChanged("View"); }
+            if (key.ToLower() == "view") 
+            { 
+                FirePropertyChanged("View");
+                FirePropertyChanged("ShowSummary");
+            }
         }
 
         public string View 
@@ -164,6 +158,24 @@ namespace MusicBrowser.Models
             { 
                 return Config.GetInstance().GetStringSetting(ParentEntity.KindName + ".View").ToLower(); 
             } 
+        }
+
+        public bool ShowSummary
+        {
+            get
+            {
+                switch (View.ToLower())
+                {
+                    case "list":
+                        return Config.GetInstance().GetBooleanSetting("ShowSummary.List");
+                    case "thumb":
+                    case "thumbsdown":
+                        return Config.GetInstance().GetBooleanSetting("ShowSummary.Thumb");
+                    case "strip":
+                        return Config.GetInstance().GetBooleanSetting("ShowSummary.Strip");
+                }
+                return false;
+            }
         }
 
 

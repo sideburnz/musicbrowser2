@@ -44,7 +44,7 @@ namespace MusicBrowser.Providers.FolderItems
                     else
                     {
                         Exception ex = new Exception("Virtual Folder " + vfFile + " not found");
-                        Logger.Error(ex);
+                        LoggerEngineFactory.Error(ex);
                         throw ex;
                     }
                 }

@@ -33,9 +33,10 @@
         </Conditions>
         <Actions>
           <Set Target="[div_ListText.Visible]" Value="true" />
+          <Set Target="[Summary.Visible]" Value="[FolderModel.ShowSummary]" />
         </Actions>
       </Changed>
-      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
+      <Changed Source="[FolderModel.View]">
         <Conditions>
           <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="list" />
         </Conditions>
@@ -43,7 +44,6 @@
           <Set Target="[div_ListText.Visible]" Value="false" />
         </Actions>
       </Changed>
-
       <Rule>
         <Actions>
           <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" />

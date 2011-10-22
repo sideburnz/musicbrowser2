@@ -10,7 +10,7 @@ namespace MusicBrowser.Engines.Cache
     /// <summary>
     /// This is an empty implementation of the CacheEngine, it effectively turns the Cache off
     /// </summary>
-    class DummyCacheEngine : ICacheEngine
+    class NoCache : ICacheEngine
     {
         public void Delete(string key)
         { }

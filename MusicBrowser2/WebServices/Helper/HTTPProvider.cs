@@ -54,7 +54,7 @@ namespace MusicBrowser.WebServices.Helper
             catch (Exception ex)
             {
                 Exception e = new Exception("HTTP Provider - failed to set up HTTP request: " + _url, ex);
-                Logger.Error(e);
+                LoggerEngineFactory.Error(e);
                 throw e;
             }
 

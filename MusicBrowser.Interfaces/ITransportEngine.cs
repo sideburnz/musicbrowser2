@@ -13,7 +13,7 @@ namespace MusicBrowser.Interfaces
         Paused
     }
 
-    public interface ITransport
+    public interface ITransportEngine
     {
         // transport controls
         void Play(bool queue, string file);

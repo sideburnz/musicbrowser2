@@ -21,10 +21,10 @@ namespace MusicBrowser
         
         public void Uninitialize()         
         {
-            Transport.GetTransport().Close();
+            TransportEngineFactory.GetEngine().Close();
             if (Util.Config.GetInstance().GetBooleanSetting("LogStatsOnClose"))
             {
-                Logger.Stats(Statistics.GetReport());
+                LoggerEngineFactory.Stats(Statistics.GetReport());
 #if DEBUG
                 Logging.Logger.Verbose(Util.Helper.outputTypes(), "stats");
 #endif

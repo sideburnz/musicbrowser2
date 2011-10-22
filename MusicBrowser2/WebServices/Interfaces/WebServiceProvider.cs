@@ -39,7 +39,7 @@ namespace MusicBrowser.WebServices.Interfaces
             }
             catch (Exception e)
             {
-                Logger.Error(e);
+                LoggerEngineFactory.Error(e);
                 ResponseStatus = "FATAL ERROR";
                 ResponseBody = string.Empty;
             }

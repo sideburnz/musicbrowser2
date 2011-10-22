@@ -90,7 +90,7 @@ namespace MusicBrowser.Providers.Metadata
             }
             catch (Exception e)
             {
-                Logger.Error(e);
+                LoggerEngineFactory.Error(e);
                 dto.Outcome = DataProviderOutcome.SystemError;
                 dto.Errors = new List<string> { "Error retrieving data" };
             }
