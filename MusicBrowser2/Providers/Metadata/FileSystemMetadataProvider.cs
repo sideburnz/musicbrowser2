@@ -12,7 +12,7 @@ namespace MusicBrowser.Providers.Metadata
 
     class FileSystemMetadataProvider : IDataProvider
     {
-        private const string Name = "FileSystem";
+        private const string Name = "FileSystemMetadataProvider";
 
         private const int MinDaysBetweenHits = 5;
         private const int MaxDaysBetweenHits = 10;

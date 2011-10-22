@@ -8,7 +8,7 @@ namespace MusicBrowser.Providers.Metadata
 {
     public class TagSharpMetadataProvider : IDataProvider
     {
-        private const string Name = "Tag#";
+        private const string Name = "TagSharpMetadataProvider";
 
         private const int MinDaysBetweenHits = 180;
         private const int MaxDaysBetweenHits = 360;

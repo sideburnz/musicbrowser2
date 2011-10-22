@@ -41,6 +41,7 @@
     <Rules>
       <Rule>
         <Actions>
+          <Invoke Target="[CmdSetScopeToAlbums.Invoke]" />
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
           <Invoke Target="[SearchBox.NavigateInto]" />
         </Actions>
@@ -171,7 +172,7 @@
               </Panel>
               <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
               <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" Visible="false" />
-              <me:buttonImage Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+              <me:buttonImage Visible="false" Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
               <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
               <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
               <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
@@ -198,7 +199,7 @@
                   <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow">
                     <Children>
                       <Text Name="labelNoResultsError" Content="No items found" Color="White" Font="Segoe Media Center Light, 22" />
-                      <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="-10" Margins="25,0,0,0" Name="viewListScroller" ScrollingData="[SearchResultData]" >
+                      <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="-10" Margins="0,0,0,0" Name="viewListScroller" ScrollingData="[SearchResultData]" >
                         <Children>
                           <Repeater Name="SearchResultRepeater" Navigation="RememberFocus">
                             <Layout>

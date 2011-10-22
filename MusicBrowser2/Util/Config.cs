@@ -87,7 +87,8 @@ namespace MusicBrowser.Util
                 { "Virtual.SearchSummary", "[kind]" },
                 { "Virtual.Summary", "" },
                                         
-                { "LogStatsOnClose", false.ToString() },
+                { "Telemetry.Participate", false.ToString() },
+                { "Telemetry.ID", Guid.NewGuid().ToString() },
 
                 { "Engine", "MediaCentre" },
                 { "Player.foobar2000", (Is64Bit ? "C:\\Program Files (x86)" : "C:\\Program Files") + "\\foobar2000\\foobar2000.exe" },

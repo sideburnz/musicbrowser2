@@ -8,9 +8,9 @@ using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    class FastProviderMarker : IDataProvider
+    class CoreMetadataProvider : IDataProvider
     {
-        private const string Name = "FastProviderMarker";
+        private const string Name = "CoreMetadataProvider";
 
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {

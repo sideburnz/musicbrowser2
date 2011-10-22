@@ -9,9 +9,9 @@ using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Providers.Metadata
 {
-    class InheritanceProvider : IDataProvider
+    class InheritanceMetadataProvider : IDataProvider
     {
-        private const string Name = "InheritanceProvider";
+        private const string Name = "InheritanceMetadataProvider";
 
         private const int MinDaysBetweenHits = 1;
         private const int MaxDaysBetweenHits = 5;

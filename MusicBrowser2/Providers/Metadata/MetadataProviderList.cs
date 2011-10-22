@@ -32,13 +32,13 @@ namespace MusicBrowser.Providers.Metadata
                         _providers = new List<IDataProvider>();
 
                         _providers.Add(new TagSharpMetadataProvider());
-                        _providers.Add(new MediaInfoProvider());
-                        _providers.Add(new InheritanceProvider());
+                        _providers.Add(new MediaInfoMatadataProvider());
+                        _providers.Add(new InheritanceMatadataProvider());
                         _providers.Add(new HTBackdropMetadataProvider());
                         _providers.Add(new LastFMMetadataProvider());
                         _providers.Add(new FileSystemMetadataProvider());
-                        _providers.Add(new IconProvider());
-                        _providers.Add(new FastProviderMarker());
+                        _providers.Add(new IconMetadataProvider());
+                        _providers.Add(new CoreMetadataProvider());
                     }
                 }
             }
