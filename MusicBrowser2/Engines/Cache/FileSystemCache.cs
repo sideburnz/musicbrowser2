@@ -6,12 +6,12 @@ using MusicBrowser.Providers;
 
 namespace MusicBrowser.Engines.Cache
 {
-    class FileSystemCacheEngine : ICacheEngine
+    class FileSystemCache : ICacheEngine
     {
         private readonly string _cacheLocation = Config.GetInstance().GetStringSetting("CachePath") + "\\Entities\\";
         private readonly object _obj = new object();
 
-        public FileSystemCacheEngine()
+        public FileSystemCache()
         {
             Helper.BuildCachePath(Config.GetInstance().GetStringSetting("CachePath"));
         }

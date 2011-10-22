@@ -26,7 +26,7 @@ namespace MusicBrowser
             _host = host;
 
             Util.Config.GetInstance().SetDefaultSettings();
-            Logger.Info("Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+            LoggerEngineFactory.Info("Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
 
             _application = this;
         }
@@ -66,7 +66,7 @@ namespace MusicBrowser
 
         public void Navigate(Entity entity)
         {
-            Logger.Info("Navigating to " + entity.Description);
+            LoggerEngineFactory.Info("Navigating to " + entity.Description);
             try
             {
                 Dictionary<string, object> properties = new Dictionary<string, object>();
@@ -144,7 +144,7 @@ namespace MusicBrowser
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                LoggerEngineFactory.Error(ex);
                 Dialog("Failed to navigate to " + entity.Description);
             }
         }

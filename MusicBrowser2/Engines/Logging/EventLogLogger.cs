@@ -3,10 +3,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using MusicBrowser.Util;
+using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Engines.Logging
 {
-    public sealed class EventLogLogger : ILogger
+    public sealed class EventLogLogger : ILoggingEngine
     {
         readonly bool _logErrors;
         readonly bool _logInfo;
@@ -49,7 +50,7 @@ namespace MusicBrowser.Engines.Logging
 
         #region ILogger Members
 
-        void ILogger.LogError(Exception ex)
+        void ILoggingEngine.LogError(Exception ex)
         {
             if (_logErrors)
             {
@@ -73,7 +74,7 @@ namespace MusicBrowser.Engines.Logging
             }
         }
 
-        void ILogger.LogInfo(string message)
+        void ILoggingEngine.LogInfo(string message)
         {
             if (_logInfo)
             {
@@ -81,7 +82,7 @@ namespace MusicBrowser.Engines.Logging
             }
         }
 
-        void ILogger.LogDebug(string message)
+        void ILoggingEngine.LogDebug(string message)
         {
             if (_logDebug)
             {
@@ -89,7 +90,7 @@ namespace MusicBrowser.Engines.Logging
             }
         }
 
-        void ILogger.LogVerbose(string className, string endPoint)
+        void ILoggingEngine.LogVerbose(string className, string endPoint)
         {
             if (_logVerbose)
             {
@@ -99,7 +100,7 @@ namespace MusicBrowser.Engines.Logging
             }
         }
 
-        void ILogger.LogStats(string stats)
+        void ILoggingEngine.LogStats(string stats)
         {
             InnerLog("Stats: " + stats, EventLogEntryType.Information);
         }

@@ -12,7 +12,7 @@ namespace MusicBrowser.Entities
 {
     public static class EntityFactory
     {
-        private static ICacheEngine _cacheEngine = CacheEngineFactory.GetCacheEngine();
+        private static ICacheEngine _cacheEngine = CacheEngineFactory.GetEngine();
         private static InMemoryCache _MemCache = InMemoryCache.GetInstance();
 
         // this resets the entity back to a near-clean slate

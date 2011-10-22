@@ -23,12 +23,12 @@ namespace MusicBrowser.MediaCentre
                 // handle these in real-time
                 case "cmdresume":
                     {
-                        Transport.GetTransport().PlayPause();
+                        TransportEngineFactory.GetEngine().PlayPause();
                         return;
                     }
                 case "cmdpause":
                     {
-                        Transport.GetTransport().PlayPause();
+                        TransportEngineFactory.GetEngine().PlayPause();
                         return;
                     }
             }
@@ -41,19 +41,19 @@ namespace MusicBrowser.MediaCentre
         public static void PlayTrackList(IEnumerable<string> tracks, bool queue)
         {
             Models.UINotifier.GetInstance().Message = string.Format("adding {0} tracks to playlist", tracks.Count());
-            Transport.GetTransport().Play(queue, tracks);
+            TransportEngineFactory.GetEngine().Play(queue, tracks);
             AutoShowNowPlaying();
         }
 
         public static void PlayTrack(Entity entity, Boolean add)
         {
-            Transport.GetTransport().Play(add, entity.Path);
+            TransportEngineFactory.GetEngine().Play(add, entity.Path);
             AutoShowNowPlaying();
         }
 
         public static void PlayDisc(Entity entity)
         {
-            Transport.GetTransport().PlayDisc(entity.Path);
+            TransportEngineFactory.GetEngine().PlayDisc(entity.Path);
             AutoShowNowPlaying();
         }
 

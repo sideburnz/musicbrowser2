@@ -97,8 +97,13 @@ namespace MusicBrowser.Util
 
                 { "Extensions.Playlist", ".wpl|.m3u|.asx" },
                 { "Extensions.Image", ".png|.jpg|.jpeg" },
-                { "Extensions.Ignore", ".xml|.cue|.txt|.nfo" }
+                { "Extensions.Ignore", ".xml|.cue|.txt|.nfo" },
  
+               //TODO: { "ThumbViewIsHorizontal", true.ToString() },
+                { "ShowSummary.List", true.ToString() },
+                { "ShowSummary.Thumb", true.ToString() },
+                { "ShowSummary.Strip", true.ToString() }
+
 //                                        { "ShowCDs", true.ToString() }
                                                };
 
@@ -119,7 +124,7 @@ namespace MusicBrowser.Util
                 {
                     if (File.Exists(configFile))
                     {
-                        Logger.Error(new Exception("Error reading config file, file is being reset, all settings will be lost.", e));
+                        LoggerEngineFactory.Error(new Exception("Error reading config file, file is being reset, all settings will be lost.", e));
                         File.Delete(configFile);
                     }
                     File.WriteAllText(configFile, Resources.BlankSettings);
@@ -183,7 +188,7 @@ namespace MusicBrowser.Util
                         break;
                     }
                 }
-                if (!found) { Logger.Error(new InvalidDataException("No setting found for '" + key + "'")); }
+                if (!found) { LoggerEngineFactory.Error(new InvalidDataException("No setting found for '" + key + "'")); }
             }
             // cache the setting on read
             _settingCache[key] = retval;
@@ -192,7 +197,14 @@ namespace MusicBrowser.Util
 
         public bool GetBooleanSetting(string key)
         {
-            return (GetSetting(key).ToLower() == "true");
+            try
+            {
+                return (GetSetting(key).ToLower() == "true");
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public int GetIntSetting(string key)
@@ -214,7 +226,7 @@ namespace MusicBrowser.Util
 
         public void SetSetting(string key, string value)
         {
-            Logger.Debug(String.Format("Updating setting {0} to value {1}", key, value));
+            LoggerEngineFactory.Debug(String.Format("Updating setting '{0}' to '{1}'", key, value));
 
             string configFile = Helper.AppConfigFile;
             string xpathString = string.Format("Settings/{0}", key.Replace('.', '/'));

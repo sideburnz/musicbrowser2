@@ -6,7 +6,7 @@ using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Engines.Transport
 {
-    class MediaCentreTransport : ITransport
+    class MediaCentreTransport : ITransportEngine
     {
         #region ITransport Members
 

@@ -55,7 +55,7 @@ namespace MusicBrowser.Actions
                 title = Entity.Title;
             }
 
-            Logger.Debug(String.Format("Action: {0}, Entity: {1}", Label, title));
+            LoggerEngineFactory.Debug(String.Format("Action: {0}, Entity: {1}", Label, title));
 
             Statistics.Hit("Action." + Label);
 
@@ -69,7 +69,7 @@ namespace MusicBrowser.Actions
             }
             catch(Exception e)
             {
-                Logger.Error(e);
+                LoggerEngineFactory.Error(e);
             }
 
             if (Invoked != null)

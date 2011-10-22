@@ -132,8 +132,8 @@
     <Compile Include="Actions\ActionCycleViews.cs" />
     <Compile Include="Actions\ActionSetSetting.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
-    <Compile Include="Engines\Cache\DummyCacheEngine.cs" />
-    <Compile Include="Engines\Cache\FileSystemCacheEngine.cs" />
+    <Compile Include="Engines\Cache\NoCache.cs" />
+    <Compile Include="Engines\Cache\FileSystemCache.cs" />
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\ActionsModel.cs" />
@@ -186,9 +186,8 @@
     <Compile Include="Providers\Metadata\TagSharpMetadataProvider.cs" />
     <Compile Include="Engines\Logging\EventLogLogger.cs" />
     <Compile Include="Engines\Logging\FileLogger.cs" />
-    <Compile Include="Engines\Logging\Logger.cs" />
+    <Compile Include="Engines\Logging\LoggerEngineFactory.cs" />
     <Compile Include="Providers\FolderItems\InterOp\FileSystem.cs" />
-    <Compile Include="Engines\Logging\ILogger.cs" />
     <Compile Include="MediaCentre\Application.cs" />
     <Compile Include="MediaCentre\EntryPoint.cs" />
     <Compile Include="MediaCentre\Playlist.cs" />
@@ -204,7 +203,7 @@
     <Compile Include="Providers\Statistics.cs" />
     <Compile Include="Engines\Transport\Foobar2000Transport.cs" />
     <Compile Include="Engines\Transport\MediaCentreTransport.cs" />
-    <Compile Include="Engines\Transport\Transport.cs" />
+    <Compile Include="Engines\Transport\TransportEngineFactory.cs" />
     <Compile Include="Engines\Transport\VLCTransport.cs" />
     <Compile Include="Util\Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

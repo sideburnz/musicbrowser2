@@ -47,7 +47,7 @@ namespace MusicBrowser.WebServices.WebServiceProviders
             }
             catch (Exception e)
             {
-                Logger.Error(e);
+                LoggerEngineFactory.Error(e);
                 ResponseStatus = "Unhandled and unexpected error";
                 ResponseBody = string.Empty;
             }
