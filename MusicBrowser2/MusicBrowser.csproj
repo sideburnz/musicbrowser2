@@ -175,13 +175,13 @@
     <Compile Include="Engines\Cache\EntityPersistance.cs" />
     <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
     <Compile Include="Providers\ForceMetadataRefreshProvider.cs" />
-    <Compile Include="Providers\Metadata\FastProviderMarker.cs" />
-    <Compile Include="Providers\Metadata\InheritanceProvider.cs" />
-    <Compile Include="Providers\Metadata\IconProvider.cs" />
+    <Compile Include="Providers\Metadata\CoreMetadataProvider.cs" />
+    <Compile Include="Providers\Metadata\InheritanceMatadataProvider.cs" />
+    <Compile Include="Providers\Metadata\IconMatadataProvider.cs" />
     <Compile Include="Providers\Metadata\FileSystemMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\HTBackdropMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\LastFMMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\MediaInfoProvider.cs" />
+    <Compile Include="Providers\Metadata\MediaInfoMatadataProvider.cs" />
     <Compile Include="Providers\Metadata\MetadataProviderList.cs" />
     <Compile Include="Providers\Metadata\TagSharpMetadataProvider.cs" />
     <Compile Include="Engines\Logging\EventLogLogger.cs" />

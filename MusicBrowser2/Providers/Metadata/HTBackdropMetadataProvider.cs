@@ -11,7 +11,7 @@ namespace MusicBrowser.Providers.Metadata
 {
     public class HTBackdropMetadataProvider : IDataProvider
     {
-        private const string Name = "HTBackdrops";
+        private const string Name = "HTBackdropMetadataProvider";
 
         private const int MinDaysBetweenHits = 7;
         private const int MaxDaysBetweenHits = 14;

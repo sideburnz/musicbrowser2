@@ -9,7 +9,7 @@ namespace MusicBrowser.Providers.Metadata
 {
     class LastFMMetadataProvider : IDataProvider
     {
-        private const string Name = "Last.fm";
+        private const string Name = "LastFMMetadataProvider";
 
         private const int MinDaysBetweenHits = 5;
         private const int MaxDaysBetweenHits = 100;

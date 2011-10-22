@@ -24,7 +24,7 @@ namespace MusicBrowser
             TransportEngineFactory.GetEngine().Close();
             if (Util.Config.GetInstance().GetBooleanSetting("LogStatsOnClose"))
             {
-                LoggerEngineFactory.Stats(Statistics.GetReport());
+                Statistics.Send();
 #if DEBUG
                 Logging.Logger.Verbose(Util.Helper.outputTypes(), "stats");
 #endif

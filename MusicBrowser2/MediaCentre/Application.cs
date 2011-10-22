@@ -50,6 +50,14 @@ namespace MusicBrowser
             }
         }
 
+        public static string Version
+        {
+            get
+            {
+                return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            }
+        }
+
         public void NavigateToSettings()
         {
             Dictionary<string, object> props = new Dictionary<string, object>();

@@ -11,9 +11,9 @@ namespace MusicBrowser.Providers.Metadata
     //TODO: extend to get artist and album images from IBN
     //TODO: extend to allow groups and virtuals
 
-    class IconProvider : IDataProvider
+    class IconMetadataProvider : IDataProvider
     {
-        private const string Name = "IconProvider";
+        private const string Name = "IconMetadataProvider";
 
         private const int MinDaysBetweenHits = 7;
         private const int MaxDaysBetweenHits = 14;
