@@ -57,7 +57,7 @@ namespace MusicBrowser.Engines.Cache
                 }
                 catch(Exception e)
                 {
-                    Logging.LoggerEngineFactory.Error(e);
+                    Engines.Logging.LoggerEngineFactory.Error(e);
                 }
             }
             return null;

@@ -25,7 +25,7 @@ namespace MusicBrowser.WebServices.Interfaces
         {
             string uid = Guid.NewGuid().ToString();
 #if DEBUG
-            Logging.Logger.Verbose("WebServices.WebServiceProvider.DoService", "start");
+            Engines.Logging.LoggerEngineFactory.Verbose("WebServices.WebServiceProvider.DoService", "start");
             Helper.Logging.LogRequest(uid, URL, Method);
 #endif
             if (!ValidateParams()) { throw new NullReferenceException(); }

@@ -8,7 +8,6 @@
   <UI Name="ctrlActionPopup">
     
     <Properties>
-      <entities:Entity Name="Entity" Entity="$Required" />
       <models:ActionsModel Name="Model" ActionsModel="$Required" />
 
       <Command Name="CmdClose"/>
@@ -19,20 +18,16 @@
     <Locals>
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[CmdClose]"/>
-      <KeyHandler Name="HomeHandler" Handle="true" Key="Home" HandlerStage="Bubbled" Command="[CmdHome]"/>
-      <KeyHandler Name="EndHandler" Handle="true" Key="End" HandlerStage="Bubbled" Command="[CmdEnd]"/>
 
-      <ScrollingData Name="scrollData" EndPadding="100" PageStep="1" />
-      <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
+      <KeyHandler Name="HomeHandler" Handle="true" Key="PageUp" HandlerStage="Bubbled" Command="[CmdHome]"/>
+      <KeyHandler Name="EndHandler" Handle="true" Key="PageDown" HandlerStage="Bubbled" Command="[CmdEnd]"/>
     </Locals>
 
     <Rules>
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
 
-      <Binding Target="[viewListRepeater.Source]" Source="[Entity.Actions]" />
-      <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/>
-      <Default Target="[scrollData.Repeater]" Value="[viewListRepeater]"/>
+      <Binding Target="[viewListRepeater.Source]" Source="[Model.Context.Actions]" />
 
       <Changed Source="[CmdClose.Invoked]">
         <Actions>
@@ -40,23 +35,23 @@
         </Actions>
       </Changed>
 
-      <!-- fix these -->
       <Changed Source="[HomeHandler.Invoked]">
         <Actions>
-          <Invoke Target="[scrollData.Home]" />
+          <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="0" />
         </Actions>
       </Changed>
+      <!-- fix these -->
       <Changed Source="[CmdEnd.Invoked]">
         <Actions>
-          <Invoke Target="[scrollData.End]" />
+          <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[viewListRepeater.Source.Count]" />
         </Actions>
       </Changed>
     </Rules>
 
     <Content>
-      <Panel Navigation="ContainAll" Name="ActionPopUp">
+      <ColorFill Content="Transparent" Navigation="ContainAll" Name="ActionPopUp" Layout="Fill">
         <Layout>
-          <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
+          <FlowLayout Orientation="Vertical"/>
         </Layout>
         <Children>
           <Repeater Layout="Fill" Name="viewListRepeater" Navigation="ContainAll">
@@ -68,7 +63,7 @@
             </Content>
           </Repeater>
         </Children>
-      </Panel>
+      </ColorFill>
     </Content>
   </UI>
 

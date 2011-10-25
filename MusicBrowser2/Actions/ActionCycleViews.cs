@@ -20,17 +20,21 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
+        public override baseActionCommand NewInstance(Entity entity)
+        {
+            return new ActionCycleViews(entity);
+        }
+
         public override void DoAction(Entity entity)
         {
             string view = Util.Config.GetInstance().GetStringSetting(entity.KindName + ".View");
 
             switch (view.ToLower())
             {
-                case "list": view = "thumb"; break;
-                case "thumb": view = "thumbsdown"; break;
-                case "thumbsdown": view = "strip"; break;
-                case "strip": view = "list"; break;
-                default: view = "list"; break;
+                case "list": view = "Thumb"; break;
+                case "thumb": view = "Strip"; break;
+                case "strip": view = "List"; break;
+                default: view = "List"; break;
             }
 
             Util.Config.GetInstance().SetSetting(entity.KindName + ".View", view);

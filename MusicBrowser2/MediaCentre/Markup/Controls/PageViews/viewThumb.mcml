@@ -34,7 +34,7 @@
 
       <Changed Source="[FolderModel.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="thumb" />
+          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="Thumb" />
         </Conditions>
         <Actions>
           <Set Target="[div_ListThumb.Visible]" Value="true" />
@@ -42,7 +42,7 @@
       </Changed>
       <Changed Source="[FolderModel.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="thumb" />
+          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="Thumb" />
         </Conditions>
         <Actions>
           <Set Target="[div_ListThumb.Visible]" Value="false" />
@@ -91,11 +91,10 @@
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
     </Properties>
     <Locals>
-      <actions:ActionShowActions Name="ActionActions" Source="Context" Entity="[Entity]" />
-      <actions:ActionDefaultAction Name="DefaultAction" Source="Context" Entity="[Entity]" />
+      <actions:ActionOnPlay Name="PlayAction" Entity="[Entity]" />
+      <actions:ActionOnEnter Name="EnterAction" Entity="[Entity]" />
       
       <ClickHandler Name="Clicker" />
-      <Command Name="enterCommand"/>
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
       <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
     </Locals>
@@ -120,25 +119,12 @@
           <Set Target="[Blocker.Content]" Value="Transparent"/>
         </Actions>
       </Condition>
-      <Rule>
-        <Conditions>
-          <Modified Source="[enterCommand.Invoked]"/>
-        </Conditions>
-        <Actions>
-          <Invoke Target="[DefaultAction.Invoke]" />
-        </Actions>
-      </Rule>
-      <Rule ConditionLogicalOp="Or">
-        <Conditions>
-          <Modified Source="[PlayPauseHandler.Invoked]"/>
-          <Modified Source="[PlayHandler.Invoked]"/>
-        </Conditions>
-        <Actions>
-          <Invoke Target="[ActionActions.Invoke]"/>
-        </Actions>
-      </Rule>
+      
+      <Binding Target="[PlayHandler.Command]" Source="[PlayAction]" />
+      <Binding Target="[PlayPauseHandler.Command]" Source="[PlayAction]" />
+      <Binding Target="[Clicker.Command]" Source="[EnterAction]" />
+      
       <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
-      <Binding Source="[enterCommand]" Target="[Clicker.Command]" />
     </Rules>
     <Content>
       <Graphic Content="null" Layout="Fill" Name="Wrapper" CenterPointPercent=".5,.5,.5" SizingPolicy="SizeToChildren">

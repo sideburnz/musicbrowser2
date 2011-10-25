@@ -42,7 +42,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
         public IWebServiceDTO Fetch(IWebServiceDTO dto)
         {
 #if DEBUG
-            Logging.Logger.Verbose("LastFM.TrackInfoService", "start");
+            Engines.Logging.LoggerEngineFactory.Verbose("LastFM.TrackInfoService", "start");
 #endif
 
             TrackInfoDTO localDTO = (TrackInfoDTO)dto;
@@ -86,7 +86,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                     localDTO.Status = WebServiceStatus.Error;
                 }
 
-//                Logging.Logger.Debug(string.Format("Last.fm track lookup for \"{0}\" returned this error - {1}", localDTO.Track, localDTO.Error));
+//                Engines.Logging.LoggerEngineFactory.Debug(string.Format("Last.fm track lookup for \"{0}\" returned this error - {1}", localDTO.Track, localDTO.Error));
             }
     
             return localDTO;

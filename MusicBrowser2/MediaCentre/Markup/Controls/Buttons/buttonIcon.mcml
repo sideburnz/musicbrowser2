@@ -13,6 +13,7 @@
       <ClickHandler Name="Clicker" Command="[Command]"/>
     </Locals>
     <Rules>
+      <Binding Source="[Text]" Target="[Label.Content]" />
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Condition Source="[Input.KeyFocus]"  SourceValue="true">
         <Actions>

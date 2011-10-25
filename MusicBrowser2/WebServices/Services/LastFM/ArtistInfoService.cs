@@ -40,7 +40,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
         public IWebServiceDTO Fetch(IWebServiceDTO dto)
         {
 #if DEBUG
-            Logging.Logger.Verbose("LastFM.ArtistInfoService", "start");
+            Engines.Logging.LoggerEngineFactory.Verbose("LastFM.ArtistInfoService", "start");
 #endif
             ArtistInfoServiceDTO localDTO = (ArtistInfoServiceDTO)dto;
             SortedDictionary<string, string> parms = new SortedDictionary<string, string>();
@@ -99,7 +99,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                     localDTO.Status = WebServiceStatus.Error;
                 }
 
-//                Logging.Logger.Debug(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1} [{2}]", localDTO.Artist, localDTO.Error, _provider.URL));
+//                Engines.Logging.LoggerEngineFactory.Debug(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1} [{2}]", localDTO.Artist, localDTO.Error, _provider.URL));
             }
             return localDTO;
         }

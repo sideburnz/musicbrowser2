@@ -139,8 +139,6 @@
       </Changed>
 
       <Binding Source="[ActionsModel.Visible]" Target="[ActionPopUp.Visible]" />
-
-      <!--<Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AlbumArtMosaic"/>-->
       
     </Rules>
     
@@ -150,7 +148,7 @@
 
           <!-- POP UPS -->
           <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
-          <me:ctrlActionPopup Name="ActionPopUp" Visible="true" Model="[ActionsModel]" Entity="[FolderModel.ParentEntity]" />
+          <me:ctrlActionPopup Name="ActionPopUp" Visible="true" Model="[ActionsModel]" />
           
           <!-- FADER -->
           <Panel Visible="true">
@@ -176,7 +174,7 @@
           </Panel>
 
           <!-- Page Header -->
-          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" Application="[Application]" ActionsModel="[ActionsModel]">
+          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" FolderModel="[FolderModel]" ActionsModel="[ActionsModel]">
             <LayoutInput>
               <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.15" Right="Parent,1"/>
             </LayoutInput>

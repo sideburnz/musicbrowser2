@@ -109,7 +109,7 @@ namespace MusicBrowser.Engines.Cache
                 {
                     System.IO.File.Delete(_cacheFile);
                     _cache = new Dictionary<string, Entity>(1000);
-                    Logging.LoggerEngineFactory.Error(ex);
+                    Engines.Logging.LoggerEngineFactory.Error(ex);
                 }
             }
             else

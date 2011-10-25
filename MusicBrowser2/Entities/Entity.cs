@@ -562,10 +562,14 @@ namespace MusicBrowser.Entities
 
         public VirtualList Actions
         {
-            get 
+            get
             {
-                VirtualList actions = (VirtualList)ActionsModel.GetActionList(this);
-                return actions; 
+                VirtualList ret = new VirtualList();
+                foreach (object o in MusicBrowser.Actions.Helper.GetActionList(this))
+                {
+                    ret.Add(o);
+                }
+                return ret;
             }
         }
     }

@@ -72,7 +72,7 @@ namespace MusicBrowser.Entities
         public static Entity GetItem(FileSystemItem item)
         {
 #if DEBUG
-            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
+            Engines.Logging.LoggerEngineFactory.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
 #endif
 
             string key = Util.Helper.GetCacheKey(item.FullPath);
@@ -140,7 +140,7 @@ namespace MusicBrowser.Entities
             _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
             _MemCache.Update(entity);
 #if DEBUG
-            Logging.Logger.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName + " - first principles", "finish");
+            Engines.Logging.LoggerEngineFactory.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName + " - first principles", "finish");
 #endif
             return entity;
         }

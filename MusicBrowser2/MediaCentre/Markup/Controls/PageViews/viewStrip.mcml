@@ -61,7 +61,7 @@
 
       <Changed Source="[FolderModel.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="strip" />
+          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="Strip" />
         </Conditions>
         <Actions>
           <Set Target="[div_Strip.Visible]" Value="true"/>
@@ -69,7 +69,7 @@
       </Changed>
       <Changed Source="[FolderModel.View]">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="strip" />
+          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="Strip" />
         </Conditions>
         <Actions>
           <Set Target="[div_Strip.Visible]" Value="false" />
@@ -144,12 +144,12 @@
     </Properties>
     <Locals>
       <ClickHandler Name="Clicker" />
-      <Command Name="enterCommand"/>
+      
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
       <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
 
-      <actions:ActionShowActions Name="ActionActions" Source="Context" Entity="[Entity]" />
-      <actions:ActionDefaultAction Name="DefaultAction" Source="Context" Entity="[Entity]" />
+      <actions:ActionOnPlay Name="PlayAction" Entity="[Entity]" />
+      <actions:ActionOnEnter Name="EnterAction" Entity="[Entity]" />
     </Locals>
     <Rules>
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
@@ -174,26 +174,11 @@
       </Condition>
 
       <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
-      <Binding Source="[enterCommand]" Target="[Clicker.Command]" />
 
-      <Rule>
-        <Conditions>
-          <Modified Source="[enterCommand.Invoked]"/>
-        </Conditions>
-        <Actions>
-          <Invoke Target="[DefaultAction.Invoke]" />
-        </Actions>
-      </Rule>
-      <Rule ConditionLogicalOp="Or">
-        <Conditions>
-          <Modified Source="[PlayPauseHandler.Invoked]"/>
-          <Modified Source="[PlayHandler.Invoked]"/>
-        </Conditions>
-        <Actions>
-          <Invoke Target="[ActionActions.Invoke]"/>
-        </Actions>
-      </Rule>
-      
+      <Binding Target="[PlayHandler.Command]" Source="[PlayAction]" />
+      <Binding Target="[PlayPauseHandler.Command]" Source="[PlayAction]" />
+      <Binding Target="[Clicker.Command]" Source="[EnterAction]" />
+            
     </Rules>
     <Content>
       <Graphic Content="null" Layout="Fill" Name="Wrapper" CenterPointPercent=".5,.5,.5" SizingPolicy="SizeToChildren">

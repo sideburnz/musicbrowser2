@@ -9,27 +9,32 @@ using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Actions
 {
-    class ActionPlayEntity : baseActionCommand
+    class ActionQueue : baseActionCommand
     {
-        private const string LABEL = "Play";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
+        private const string LABEL = "Queue";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconQueue";
 
-        public ActionPlayEntity(Entity entity)
+        public ActionQueue(Entity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionPlayEntity()
+        public ActionQueue()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
         }
 
+        public override baseActionCommand NewInstance(Entity entity)
+        {
+            return new ActionQueue(entity);
+        }
+
         public override void DoAction(Entity entity)
         {
-            TransportEngineFactory.GetEngine().Play(false, entity.Path);
+            TransportEngineFactory.GetEngine().Play(true, entity.Path);
         }
     }
 }

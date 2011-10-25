@@ -2,22 +2,27 @@
 
 namespace MusicBrowser.Actions
 {
-    class ActionOpenEntity : baseActionCommand
+    class ActionOpen : baseActionCommand
     {
         private const string LABEL = "Open";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
 
-        public ActionOpenEntity(Entity entity)
+        public ActionOpen(Entity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionOpenEntity()
+        public ActionOpen()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
+        }
+
+        public override baseActionCommand NewInstance(Entity entity)
+        {
+            return new ActionOpen(entity);
         }
 
         public override void DoAction(Entity entity)

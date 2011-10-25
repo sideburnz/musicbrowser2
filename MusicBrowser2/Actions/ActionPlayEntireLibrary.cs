@@ -26,6 +26,11 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
+        public override baseActionCommand NewInstance(Entity entity)
+        {
+            return new ActionPlayEntireLibrary(entity);
+        }
+
         public override void DoAction(Entity entity)
         {
             CommonTaskQueue.Enqueue(new PlaylistProvider("cmdplayall", entity), true);   

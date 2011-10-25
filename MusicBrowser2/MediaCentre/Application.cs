@@ -69,6 +69,8 @@ namespace MusicBrowser
         {
             Dictionary<string, object> props = new Dictionary<string, object>();
             props.Add("Model", new SearchModel(searchString, entity));
+            props.Add("ActionsModel", ActionsModel.GetInstance);
+            props.Add("UINotifier", UINotifier.GetInstance());
             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props);
         }
 
