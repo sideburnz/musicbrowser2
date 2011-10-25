@@ -69,19 +69,19 @@ namespace MusicBrowser.Util
                 { "Playlist.SearchSummary", "[kind]" },
                 { "Playlist.Summary", "" },
 
-                { "Folder.View", "list" },
+                { "Folder.View", "List" },
                 { "Folder.Format", "[title]" },
                 { "Folder.SortOrder", "[title]" },
                 { "Folder.SearchSummary", "[kind]" },
                 { "Folder.Summary", "" },
 
-                { "Group.View", "list" },
+                { "Group.View", "List" },
                 { "Group.Format", "[title]" },
                 { "Group.SortOrder", "[title]" },
                 { "Group.SearchSummary", "[kind]" },
                 { "Group.Summary", "" },
 
-                { "Virtual.View", "list" },
+                { "Virtual.View", "List" },
                 { "Virtual.Format", "[title]" },
                 { "Virtual.SortOrder", "[title]" },
                 { "Virtual.SearchSummary", "[kind]" },
@@ -100,7 +100,7 @@ namespace MusicBrowser.Util
                 { "Extensions.Image", ".png|.jpg|.jpeg" },
                 { "Extensions.Ignore", ".xml|.cue|.txt|.nfo" },
  
-               //TODO: { "ThumbViewIsHorizontal", true.ToString() },
+                { "ThumbViewIsHorizontal", true.ToString() },
                 { "ShowSummary.List", true.ToString() },
                 { "ShowSummary.Thumb", true.ToString() },
                 { "ShowSummary.Strip", true.ToString() }

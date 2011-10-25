@@ -27,7 +27,7 @@ namespace MusicBrowser.Providers
         public void Execute()
         {
 #if DEBUG
-            Logging.Logger.Verbose(this.GetType().ToString(), "start");
+            Engines.Logging.LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
 #endif
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path);
             IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
@@ -48,7 +48,7 @@ namespace MusicBrowser.Providers
                 }
             }
 #if DEBUG
-            Logging.Logger.Verbose(this.GetType().ToString() + " " + items.Count() , "end");
+            Engines.Logging.LoggerEngineFactory.Verbose(this.GetType().ToString(), "end");
 #endif
         }
 

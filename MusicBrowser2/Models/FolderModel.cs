@@ -24,7 +24,7 @@ namespace MusicBrowser.Models
         public FolderModel(Entity parentEntity, EntityCollection entities)
         {
 #if DEBUG
-            Logging.Logger.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", size: " + entities.Count + ")", "start");  
+            Engines.Logging.LoggerEngineFactory.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", size: " + entities.Count + ")", "start");  
 #endif
 
             _parentEntity = parentEntity;
@@ -153,11 +153,16 @@ namespace MusicBrowser.Models
         }
 
         public string View 
-        { 
-            get 
-            { 
-                return Config.GetInstance().GetStringSetting(ParentEntity.KindName + ".View").ToLower(); 
-            } 
+        {
+            get
+            {
+                string view = Config.GetInstance().GetStringSetting(ParentEntity.KindName + ".View");
+                if (String.Compare(view, "thumb", true) == 0 && !Config.GetInstance().GetBooleanSetting("ThumbViewIsHorizontal"))
+                {
+                    return "ThumbsDown";
+                }
+                return view;
+            }
         }
 
         public bool ShowSummary

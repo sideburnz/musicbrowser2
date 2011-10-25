@@ -6,6 +6,9 @@
       xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:cor="assembly://MSCorLib/System">
 
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlActionPopUp"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
+
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonIcon"/>
 
@@ -13,14 +16,19 @@
 
     <Properties>
       <models:SearchModel Name="Model" SearchModel="$Required" />
+      <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
+      <models:UINotifier Name="UINotifier" UINotifier="$Required" />
       
+      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" HandlerStage="Bubbled"/>
+      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" HandlerStage="Bubbled"/>
+
       <Command Name="CmdBack" />
       <Command Name="CmdNoOp" />
     </Properties>
 
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
-      
+
       <Command Name="CmdSetScopeToContext" />
       <Command Name="CmdSetScopeToEverything" />
       <Command Name="CmdSetScopeToAlbums" />
@@ -35,13 +43,14 @@
 
       <KeyHandler Name="BackHandler" Handle="true" Key="Backspace" HandlerStage="Bubbled" Command="[CmdNoOp]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Routed" Command="[CmdBack]"/>
+      
       <actions:ActionPreviousPage Name="BackAction" />
     </Locals>
 
     <Rules>
       <Rule>
         <Actions>
-          <Invoke Target="[CmdSetScopeToAlbums.Invoke]" />
+          <Invoke Target="[CmdSetScopeToArtists.Invoke]" />
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
           <Invoke Target="[SearchBox.NavigateInto]" />
         </Actions>
@@ -60,7 +69,7 @@
           <Invoke Target="[CmdSetScopeToContext.Invoke]"/>
         </Actions>
       </Condition>
-      
+
       <Changed Source="[CmdSetScopeToContext.Invoked]">
         <Actions>
           <Invoke Target="[Model.SetSetSearchScope]" scope="Folder" />
@@ -131,7 +140,7 @@
           <Invoke Target="[SearchResultData.Home]" />
         </Actions>
       </Changed>
-      
+
       <Changed Source="[SearchResultData.TotalPages]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[SearchResultData.TotalPages]" ConditionOp="Equals" Value="0" />
@@ -149,76 +158,117 @@
           <Set Target="[labelNoResultsError.Visible]" Value="false" />
         </Actions>
       </Changed>
-      
+
+      <Changed Source="[ActionsModel.Visible]">
+        <Conditions>
+          <Equality Source="[ActionsModel.Visible]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[ActionsModel.Visible]">
+        <Conditions>
+          <Equality Source="[ActionsModel.Visible]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="true" />
+          <Invoke Target="[ActionPopUp.NavigateInto]" />
+        </Actions>
+      </Changed>
+
+      <Binding Source="[ActionsModel.Visible]" Target="[ActionPopUp.Visible]" />
+
     </Rules>
 
     <Content>
-      <Panel Layout="Dock">
+      <ColorFill Content="Transparent" Layout="Form">
         <Children>
-          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="25,25,25,25">
-            <LayoutInput>
-              <DockLayoutInput Alignment="Near" Position="Right" />
-            </LayoutInput>
-            <Layout>
-              <FlowLayout FillStrip="true" Orientation="Vertical" Repeat="Never" StripAlignment="Near" ItemAlignment="Near" />
-            </Layout>
-            <Children>
-              <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" />
-              <Panel Layout="HorizontalFlow" Margins="0,40,0,0">
-                <Children>
-                  <me:searchBox Name="SearchBox" Text=""/>
-                  <me:KeyboardButton Length="20" EditableText="[Model.KeyboardHandler]" Margins="3,10,3,7" />
-                </Children>
-              </Panel>
-              <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
-              <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" Visible="false" />
-              <me:buttonImage Visible="false" Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
-              <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-              <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-              <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-            </Children>
-          </Graphic>
 
-          <ColorFill Content="Black" Alpha="1" MinimumSize="1,1000">
+          <!-- POP UPS -->
+          <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
+          <me:ctrlActionPopup Name="ActionPopUp" Visible="true" Model="[ActionsModel]" />
+
+          <!-- FADER -->
+          <Panel Visible="true">
             <LayoutInput>
-              <DockLayoutInput Alignment="Center" Position="Right" />
+              <FormLayoutInput Left="Parent,0" Top="Parent,.0" Right="Parent,1" Bottom="Parent,1"/>
             </LayoutInput>
-          </ColorFill>
-          
-          <ColorFill Content="Transparent">
-            <LayoutInput>
-              <DockLayoutInput Alignment="Near" Position="Right" />
-            </LayoutInput>
-            <Layout>
-              <FlowLayout Orientation="Vertical"/>
-            </Layout>
             <Children>
-              <Panel Padding="50,25,25,25" Layout="Fill">
-                <Children>
-                  <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" />
-                  <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow">
-                    <Children>
-                      <Text Name="labelNoResultsError" Content="No items found" Color="White" Font="Segoe Media Center Light, 22" />
-                      <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="-10" Margins="0,0,0,0" Name="viewListScroller" ScrollingData="[SearchResultData]" >
-                        <Children>
-                          <Repeater Name="SearchResultRepeater" Navigation="RememberFocus">
-                            <Layout>
-                              <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
-                            </Layout>
-                            <Content>
-                              <me:buttonSearchResult Entity="[RepeatedItem!entities:Entity]" />
-                            </Content>
-                          </Repeater>
-                        </Children>
-                      </Scroller>
-                    </Children>
-                  </ColorFill>
-                </Children>
-              </Panel>
+              <ColorFill Name="pageFader" Visible="false" Content="Black" Alpha="0.8"/>
             </Children>
-          </ColorFill>
+          </Panel>
+
+          <!-- MAIN BODY -->
+          <Panel Layout="Dock">
+            <Children>
+              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="25,25,25,25">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Near" Position="Right" />
+                </LayoutInput>
+                <Layout>
+                  <FlowLayout FillStrip="true" Orientation="Vertical" Repeat="Never" StripAlignment="Near" ItemAlignment="Near" />
+                </Layout>
+                <Children>
+                  <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" />
+                  <Panel Layout="HorizontalFlow" Margins="0,40,0,0">
+                    <Children>
+                      <me:searchBox Name="SearchBox" Text=""/>
+                      <me:KeyboardButton Length="20" EditableText="[Model.KeyboardHandler]" Margins="3,10,3,7" />
+                    </Children>
+                  </Panel>
+                  <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
+                  <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" Visible="false" />
+                  <me:buttonImage Visible="false" Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+                  <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+                  <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+                  <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+                </Children>
+              </Graphic>
+
+              <ColorFill Content="Black" Alpha="1" MinimumSize="1,1000">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Center" Position="Right" />
+                </LayoutInput>
+              </ColorFill>
+
+              <ColorFill Content="Transparent">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Near" Position="Right" />
+                </LayoutInput>
+                <Layout>
+                  <FlowLayout Orientation="Vertical"/>
+                </Layout>
+                <Children>
+                  <Panel Padding="50,25,25,25" Layout="Fill">
+                    <Children>
+                      <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" />
+                      <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow">
+                        <Children>
+                          <Text Name="labelNoResultsError" Content="No items found" Color="White" Font="Segoe Media Center Light, 22" />
+                          <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="-10" Margins="0,0,0,0" Name="viewListScroller" ScrollingData="[SearchResultData]" >
+                            <Children>
+                              <Repeater Name="SearchResultRepeater" Navigation="RememberFocus">
+                                <Layout>
+                                  <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
+                                </Layout>
+                                <Content>
+                                  <me:buttonSearchResult Entity="[RepeatedItem!entities:Entity]" />
+                                </Content>
+                              </Repeater>
+                            </Children>
+                          </Scroller>
+                        </Children>
+                      </ColorFill>
+                    </Children>
+                  </Panel>
+                </Children>
+              </ColorFill>
+            </Children>
+          </Panel>
         </Children>
-      </Panel>
+      </ColorFill>
     </Content>
   </UI>
 
@@ -265,14 +315,13 @@
 
     <Locals>
       <Command Name="CmdEnter"/>
-
       <ClickHandler Name="Clicker" />
 
-      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
-      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
+      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" HandlerStage="Bubbled"/>
+      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" HandlerStage="Bubbled"/>
 
-      <actions:ActionShowActions Name="ActionActions" Source="Context" Entity="[Entity]" />
-      <actions:ActionDefaultAction Name="DefaultAction" Source="Context" Entity="[Entity]" />
+      <actions:ActionOnPlay Name="PlayAction" Entity="[Entity]" />
+      <actions:ActionOnEnter Name="EnterAction" Entity="[Entity]" />
     </Locals>
 
     <Rules>
@@ -299,7 +348,7 @@
           <Modified Source="[CmdEnter.Invoked]"/>
         </Conditions>
         <Actions>
-          <Invoke Target="[DefaultAction.Invoke]" />
+          <Invoke Target="[EnterAction.Invoke]" />
         </Actions>
       </Rule>
       <Rule ConditionLogicalOp="Or">
@@ -308,7 +357,7 @@
           <Modified Source="[PlayHandler.Invoked]"/>
         </Conditions>
         <Actions>
-          <Invoke Target="[ActionActions.Invoke]"/>
+          <Invoke Target="[PlayAction.Invoke]"/>
         </Actions>
       </Rule>
     </Rules>

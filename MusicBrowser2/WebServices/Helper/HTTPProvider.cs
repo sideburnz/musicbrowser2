@@ -59,7 +59,7 @@ namespace MusicBrowser.WebServices.Helper
             }
 
 #if DEBUG
-            Logger.Verbose(_url, "request");
+            Engines.Logging.LoggerEngineFactory.Verbose(_url, "request");
 #endif
 
             try

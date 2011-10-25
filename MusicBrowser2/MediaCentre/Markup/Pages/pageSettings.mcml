@@ -19,7 +19,7 @@
 
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
-      
+
       <Command Name="CmdSetScopeToSystem" />
       <Command Name="CmdSetScopeToDisplay" />
       <Command Name="CmdSetScopeToCache" />
@@ -33,7 +33,7 @@
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
         </Actions>
       </Rule>
-      
+
       <Changed Source="[CmdSetScopeToSystem.Invoked]">
         <Actions>
           <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
@@ -75,60 +75,64 @@
           <Set Target="[viewCacheSetings.Visible]" Value="true" />
         </Actions>
       </Changed>
-      
     </Rules>
 
     <Content>
-      <Panel Layout="Dock">
+      <ColorFill Content="Transparent">
         <Children>
-          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="25,25,25,25">
-            <LayoutInput>
-              <DockLayoutInput Alignment="Near" Position="Right" />
-            </LayoutInput>
-            <Layout>
-              <FlowLayout FillStrip="true" Orientation="Vertical" Repeat="Never" StripAlignment="Near" ItemAlignment="Near" />
-            </Layout>
-            <Children>
-              <Text Content="Settings" Color="White" Font="Segoe Media Center Light, 32" Margins="0,0,0,25" />
 
-              <me:buttonImage Command="[CmdSetScopeToSystem]" Name="btnSystem" Text="System" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
-              <me:buttonImage Command="[CmdSetScopeToDisplay]" Name="btnDisplay" Text="Display" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-              <me:buttonImage Command="[CmdSetScopeToCache]" Name="btnCache" Text="Cache" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-            </Children>
-          </Graphic>
-
-          <ColorFill Content="Black" Alpha="1" MinimumSize="1,1000">
-            <LayoutInput>
-              <DockLayoutInput Alignment="Center" Position="Right" />
-            </LayoutInput>
-          </ColorFill>
-          
-          <ColorFill Content="Transparent">
-            <LayoutInput>
-              <DockLayoutInput Alignment="Near" Position="Right" />
-            </LayoutInput>
-            <Layout>
-              <FlowLayout Orientation="Vertical"/>
-            </Layout>
+          <!-- MAIN BODY -->
+          <Panel Layout="Dock">
             <Children>
-              <Panel Padding="50,25,25,25" Layout="Fill">
+              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="25,25,25,25">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Near" Position="Right" />
+                </LayoutInput>
+                <Layout>
+                  <FlowLayout FillStrip="true" Orientation="Vertical" Repeat="Never" StripAlignment="Near" ItemAlignment="Near" />
+                </Layout>
                 <Children>
-                  <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" Content="System Settings"/>
-                  <ColorFill Content="Transparent" Margins="25,100,25,0">
-                    <Children>
-                      <me:SystemSettings Name="viewSystemSetings" Visible="true" Model="[Model]" />
-                      <me:DisplaySettings Name="viewDisplaySetings" Visible="false" Model="[Model]" />
-                      <me:CacheSettings Name="viewCacheSetings" Visible="false" Model="[Model]" />
-                    </Children>
-                  </ColorFill>
+                  <Text Content="Settings" Color="White" Font="Segoe Media Center Light, 32" Margins="0,0,0,25" />
+
+                  <me:buttonImage Command="[CmdSetScopeToSystem]" Name="btnSystem" Text="System" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+                  <me:buttonImage Command="[CmdSetScopeToDisplay]" Name="btnDisplay" Text="Display" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+                  <me:buttonImage Command="[CmdSetScopeToCache]" Name="btnCache" Text="Cache" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
                 </Children>
-              </Panel>
+              </Graphic>
+
+              <ColorFill Content="Black" Alpha="1" MinimumSize="1,1000">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Center" Position="Right" />
+                </LayoutInput>
+              </ColorFill>
+
+              <ColorFill Content="Transparent">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Near" Position="Right" />
+                </LayoutInput>
+                <Layout>
+                  <FlowLayout Orientation="Vertical"/>
+                </Layout>
+                <Children>
+                  <Panel Padding="50,25,25,25" Layout="Fill">
+                    <Children>
+                      <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" Content="System Settings"/>
+                      <ColorFill Content="Transparent" Margins="25,100,25,0">
+                        <Children>
+                          <me:SystemSettings Name="viewSystemSetings" Visible="true" Model="[Model]" />
+                          <me:DisplaySettings Name="viewDisplaySetings" Visible="false" Model="[Model]" />
+                          <me:CacheSettings Name="viewCacheSetings" Visible="false" Model="[Model]" />
+                        </Children>
+                      </ColorFill>
+                    </Children>
+                  </Panel>
+                </Children>
+              </ColorFill>
             </Children>
-          </ColorFill>
-        
-      </Children>
-      </Panel>
+          </Panel>
+        </Children>
+      </ColorFill>
     </Content>
   </UI>
-  
+
 </Mcml>

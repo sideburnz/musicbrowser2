@@ -97,7 +97,7 @@ namespace MusicBrowser.Providers.Background
                             _queue.RemoveAt(0);
                         }
 #if DEBUG
-                        Logging.Logger.Verbose("Thread " + id.ToString() + " " + task.Title, "thread start");
+                        Engines.Logging.LoggerEngineFactory.Verbose("Thread " + id.ToString() + " " + task.Title, "thread start");
 #endif
                         System.Threading.Thread.Sleep(10);
                         task.Execute();
@@ -107,7 +107,7 @@ namespace MusicBrowser.Providers.Background
                         LoggerEngineFactory.Error(new Exception(string.Format("Thread {0} failed whilst running {1}\r", id, task.Title), e));
                     }
 #if DEBUG
-                    Logging.Logger.Verbose(String.Format("Thread {0} finished {1}. {2} jobs pending", id, task.Title, _queue.Count), "thread finish");
+                    Engines.Logging.LoggerEngineFactory.Verbose(String.Format("Thread {0} finished {1}. {2} jobs pending", id, task.Title, _queue.Count), "thread finish");
 #endif
                 }
                 else
@@ -115,7 +115,7 @@ namespace MusicBrowser.Providers.Background
                     try
                     {
 #if DEBUG
-                        Logging.Logger.Verbose(String.Format("Thread {0} is being suspended, {1} jobs pending", id, _queue.Count), "thread asleep");
+                        Engines.Logging.LoggerEngineFactory.Verbose(String.Format("Thread {0} is being suspended, {1} jobs pending", id, _queue.Count), "thread asleep");
 #endif
                         _threadStates[id] = false;
                         if (AllAsleep() && !(OnStateChanged == null)) { OnStateChanged(false); }
@@ -124,7 +124,7 @@ namespace MusicBrowser.Providers.Background
                     catch (ThreadInterruptedException e)
                     {
 #if DEBUG
-                        Logging.Logger.Verbose("Thread " + id.ToString() + " awakened", "thread awake");
+                        Engines.Logging.LoggerEngineFactory.Verbose("Thread " + id.ToString() + " awakened", "thread awake");
 #endif
                     }
                 }

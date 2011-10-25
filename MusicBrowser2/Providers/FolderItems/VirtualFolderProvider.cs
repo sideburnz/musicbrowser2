@@ -26,7 +26,7 @@ namespace MusicBrowser.Providers.FolderItems
         public IEnumerable<string> GetItems(string uri)
         {
 #if DEBUG
-            Logging.Logger.Verbose(this.GetType().ToString(), "start");
+            Engines.Logging.LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
 #endif
             foreach (string line in GetFileContents(uri))
             {

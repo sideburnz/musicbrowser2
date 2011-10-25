@@ -21,6 +21,11 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
+        public override baseActionCommand NewInstance(Entity entity)
+        {
+            return new ActionCloseMenu(entity);
+        }
+
         public override void DoAction(Entity entity)
         {
             // do nothing

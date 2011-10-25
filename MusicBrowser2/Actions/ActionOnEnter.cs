@@ -3,32 +3,35 @@ using MusicBrowser.Entities;
 
 namespace MusicBrowser.Actions
 {
-    public class ActionPreviousPage : baseActionCommand
+    public class ActionOnEnter : baseActionCommand
     {
-        private const string LABEL = "Back";
+        private const string LABEL = "Enter";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconAction";
 
-        public ActionPreviousPage(Entity entity)
+        public ActionOnEnter(Entity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
+            KeepMenuShowingAfterExecution = true;
         }
 
-        public ActionPreviousPage()
+        public ActionOnEnter()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
+            KeepMenuShowingAfterExecution = true;
         }
 
         public override baseActionCommand NewInstance(Entity entity)
         {
-            return new ActionPreviousPage(entity);
+            return new ActionOnEnter(entity);
         }
 
         public override void DoAction(Entity entity)
         {
-            Application.GetReference().Session().BackPage();
+            baseActionCommand action = Helper.GetEnterAction(entity);
+            action.Invoke();
         }
     }
 }

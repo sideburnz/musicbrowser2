@@ -25,6 +25,11 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
+        public override baseActionCommand NewInstance(Entity entity)
+        {
+            return new ActionShowSearch(entity);
+        }
+
         public string SearchString { get; set; }
 
         public override void DoAction(Entity entity)

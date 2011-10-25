@@ -26,7 +26,7 @@ namespace MusicBrowser
             {
                 Statistics.Send();
 #if DEBUG
-                Logging.Logger.Verbose(Util.Helper.outputTypes(), "stats");
+                Engines.Logging.LoggerEngineFactory.Verbose(Util.Helper.outputTypes(), "stats");
 #endif
             }
             InMemoryCache.GetInstance().Save();

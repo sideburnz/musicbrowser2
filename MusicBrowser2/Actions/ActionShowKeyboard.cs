@@ -26,6 +26,11 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
+        public override baseActionCommand NewInstance(Entity entity)
+        {
+            return new ActionShowKeyboard(entity);
+        }
+
         public EditableText editableText { get; set; }
 
         public int MaxLength { get; set; }

@@ -13,7 +13,7 @@
 
     <Properties>
       <entities:Entity Name="Entity" Entity="$Required" />
-      <a:Application Name="Application" Application="$Required"/>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
       <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
     </Properties>
 
@@ -27,6 +27,7 @@
     <Rules>
       <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
+      <Binding Source="[FolderModel.View]" Target="[ViewMenu.Text]" />
 
       <Changed Source="[Entity.Index]" InitialEvaluate="true">
         <Conditions>

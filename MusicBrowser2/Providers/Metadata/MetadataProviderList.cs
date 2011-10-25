@@ -48,7 +48,7 @@ namespace MusicBrowser.Providers.Metadata
         public static void ProcessEntity(Entity entity, bool Forced)
         {
 #if DEBUG
-            Logging.Logger.Verbose("ProcessEntity(" + entity.Path + ", <providers>, " + Forced + ")", "start");
+            Engines.Logging.LoggerEngineFactory.Verbose("ProcessEntity(" + entity.Path + ", <providers>, " + Forced + ")", "start");
 #endif
             // only waste time triggering cache updates if the content has changed
             bool requiresUpdate = false;
@@ -85,7 +85,7 @@ namespace MusicBrowser.Providers.Metadata
                 catch (Exception e)
                 {
 #if DEBUG
-                    Logging.Logger.Error(new Exception(string.Format("MetadataProviderList failed whilst running {0} for {1}\r", provider.GetType().ToString(), entity.Path), e));
+                    Engines.Logging.LoggerEngineFactory.Error(new Exception(string.Format("MetadataProviderList failed whilst running {0} for {1}\r", provider.GetType().ToString(), entity.Path), e));
 #endif
                 }
             }

@@ -29,7 +29,7 @@
 
       <Changed Source="[FolderModel.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="list" />
+          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="List" />
         </Conditions>
         <Actions>
           <Set Target="[div_ListText.Visible]" Value="true" />
@@ -38,7 +38,7 @@
       </Changed>
       <Changed Source="[FolderModel.View]">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="list" />
+          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="List" />
         </Conditions>
         <Actions>
           <Set Target="[div_ListText.Visible]" Value="false" />
@@ -100,20 +100,19 @@
     </Properties>
 
     <Locals>
-      <Command Name="enterCommand"/>
       <ClickHandler Name="Clicker" />
 
-      <actions:ActionShowActions Name="ActionActions" Source="Context" Entity="[Entity]" />
-      <actions:ActionDefaultAction Name="DefaultAction" Source="Context" Entity="[Entity]" />
+      <actions:ActionOnPlay Name="PlayAction" Entity="[Entity]" />
+      <actions:ActionOnEnter Name="EnterAction" Entity="[Entity]" />
 
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" />
       <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" />
     </Locals>
 
     <Rules>
-      <Binding Target="[PlayHandler.Command]" Source="[ActionActions]" />
-      <Binding Target="[PlayPauseHandler.Command]" Source="[ActionActions]" />
-      <Binding Source="[DefaultAction]" Target="[Clicker.Command]" />
+      <Binding Target="[PlayHandler.Command]" Source="[PlayAction]" />
+      <Binding Target="[PlayPauseHandler.Command]" Source="[PlayAction]" />
+      <Binding Target="[Clicker.Command]" Source="[EnterAction]" />
       
       <Binding Source="[Entity.Icon]" Target="[graphicBullet.Content]" />
       <Binding Source="[Entity.Description]" Target="[Label.Content]" />

@@ -49,62 +49,6 @@ namespace MusicBrowser.Models
             }
         }
 
-        //TODO: move the logic for determining which acitions apply to which entities to this
-        //TODO: workout how to remove [Open] if the entity is already open
-        //TODO : somehow execute a default action [usually open or play]
-        //TODO : make this configurable
-        public static VirtualList GetActionList(Entity entity)
-        {
-            VirtualList actions = new VirtualList();
-
-            switch (entity.Kind)
-            {
-                case EntityKind.Track:
-                    actions.Add(new ActionPlayEntity(entity));
-                    actions.Add(new ActionQueueEntity(entity));
-                    actions.Add(new ActionRefreshMetadata(entity));
-                    actions.Add(new ActionCloseMenu(null));
-                    break;
-                case EntityKind.Genre:
-                    actions.Add(new ActionOpenEntity(entity));
-                    actions.Add(new ActionPlayEntity(entity));
-                    actions.Add(new ActionQueueEntity(entity));
-                    actions.Add(new ActionRefreshMetadata(entity));
-                    actions.Add(new ActionCloseMenu(null));
-                    break;
-                case EntityKind.Album:
-                    actions.Add(new ActionOpenEntity(entity));
-                    actions.Add(new ActionPlayEntity(entity));
-                    actions.Add(new ActionQueueEntity(entity));
-                    actions.Add(new ActionRefreshMetadata(entity));
-                    actions.Add(new ActionCloseMenu(null));
-                    break;
-                case EntityKind.Artist:
-                    actions.Add(new ActionOpenEntity(entity));
-                    actions.Add(new ActionPlayEntity(entity));
-                    actions.Add(new ActionQueueEntity(entity));
-                    actions.Add(new ActionRefreshMetadata(entity));
-                    actions.Add(new ActionCloseMenu(null));
-                    break;
-                case EntityKind.Home:
-                    actions.Add(new ActionPlayEntireLibrary(entity));
-                    actions.Add(new ActionPlayFavourites(entity));
-                    actions.Add(new ActionPlayNewlyAdded(entity));
-                    actions.Add(new ActionPlayRandomPopular(entity));
-                    actions.Add(new ActionCloseMenu(null));
-                    break;
-                case EntityKind.Playlist:
-                    actions.Add(new ActionPlayEntity(entity));
-                    actions.Add(new ActionQueueEntity(entity));
-                    actions.Add(new ActionCloseMenu(null));
-                    break;
-                case EntityKind.Folder:
-                    actions.Add(new ActionOpenEntity(entity));
-                    actions.Add(new ActionCloseMenu(null));
-                    break;
-            }
-
-            return actions;
-        }
+        public Entity Context { get; set; }
     }
 }

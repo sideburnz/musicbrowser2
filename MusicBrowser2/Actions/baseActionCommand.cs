@@ -107,5 +107,7 @@ namespace MusicBrowser.Actions
         /// </summary>
         public bool Available { get; set; }
 
+        public abstract baseActionCommand NewInstance(Entity entity);
+
     }
 }

@@ -28,6 +28,11 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
+        public override baseActionCommand NewInstance(Entity entity)
+        {
+            return new ActionRefreshMetadata(entity);
+        }
+
         public override void DoAction(Entity entity)
         {
             UINotifier.GetInstance().Message = "refreshing metadata for " + entity.Title;
