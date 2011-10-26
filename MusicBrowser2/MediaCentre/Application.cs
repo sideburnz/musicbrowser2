@@ -61,7 +61,6 @@ namespace MusicBrowser
         public void NavigateToSettings()
         {
             Dictionary<string, object> props = new Dictionary<string, object>();
-            props.Add("Model", new ConfigModel());
             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSettings", props);
         }
 

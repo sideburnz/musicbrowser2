@@ -271,7 +271,7 @@ namespace MusicBrowser.Entities
 
         public void UpdateValues()
         {
-            if (Kind == EntityKind.Home) { Title = MacroSubstitution(Config.GetInstance().GetStringSetting("Home.Format")); }
+            if (Kind == EntityKind.Home) { Title = MacroSubstitution(Config.GetInstance().GetStringSetting("Entity.Home.Format")); }
 //            if (Label.ToLower() == "genre") { Label = "MusicGenre"; }
 
             FirePropertyChanged("ShortSummaryLine1");
@@ -287,7 +287,7 @@ namespace MusicBrowser.Entities
         public void CacheSortName()
         {
             // cache the sortname, we don't want to do this complex calc every time its accessed
-            string sortName = MacroSubstitution(Config.GetInstance().GetStringSetting(KindName + ".SortOrder")).ToLower();
+            string sortName = MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".SortOrder")).ToLower();
             sortName = Config.HandleIgnoreWords(sortName);
             Regex rgx = new Regex(@"[^#a-z0-9]+");
             SortName = rgx.Replace(sortName, " ").Trim();
@@ -387,17 +387,17 @@ namespace MusicBrowser.Entities
 
         public string ShortSummaryLine2
         {
-            get { return MacroSubstitution(Config.GetInstance().GetStringSetting(KindName + ".Summary")); }
+            get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".Summary")); }
         }
 
         public new string Description
         {
-            get { return MacroSubstitution(Config.GetInstance().GetStringSetting(KindName + ".Format")); }
+            get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".Format")); }
         }
 
         public string SearchSummary
         {
-            get { return MacroSubstitution(Config.GetInstance().GetStringSetting(KindName + ".SearchSummary")); }
+            get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".SearchSummary")); }
         }
 
         public string OptionalArtistLine
@@ -468,7 +468,7 @@ namespace MusicBrowser.Entities
                         output = output.Replace("[label]", Label); break;
                     case "playcount":
                         {
-                            if (PlayCount > 0 && Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+                            if (PlayCount > 0 && Config.GetInstance().GetBooleanSetting("Internet.UseProviders"))
                             {
                                 output = output.Replace("[playcount]", "Plays: " + PlayCount.ToString("N0"));
                                 break;
@@ -478,7 +478,7 @@ namespace MusicBrowser.Entities
                         }
                     case "listeners":
                         {
-                            if (Listeners > 0 && Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+                            if (Listeners > 0 && Config.GetInstance().GetBooleanSetting("Internet.UseProviders"))
                             {
                                 output = output.Replace("[listeners]", "Listeners: " + Listeners.ToString("N0"));
                                 break;
@@ -488,7 +488,7 @@ namespace MusicBrowser.Entities
                         }
                     case "allplays":
                         {
-                            if (TotalPlays > 0 && Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+                            if (TotalPlays > 0 && Config.GetInstance().GetBooleanSetting("Internet.UseProviders"))
                             {
                                 output = output.Replace("[allplays]", "Total Plays: " + TotalPlays.ToString("N0"));
                                 break;

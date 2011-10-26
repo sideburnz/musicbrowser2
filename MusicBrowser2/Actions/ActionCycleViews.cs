@@ -27,7 +27,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
-            string view = Util.Config.GetInstance().GetStringSetting(entity.KindName + ".View");
+            string view = Util.Config.GetInstance().GetStringSetting("Entity." + entity.KindName + ".View");
 
             switch (view.ToLower())
             {
@@ -37,7 +37,7 @@ namespace MusicBrowser.Actions
                 default: view = "List"; break;
             }
 
-            Util.Config.GetInstance().SetSetting(entity.KindName + ".View", view);
+            Util.Config.GetInstance().SetSetting("Entity." + entity.KindName + ".View", view);
         }
     }
 }

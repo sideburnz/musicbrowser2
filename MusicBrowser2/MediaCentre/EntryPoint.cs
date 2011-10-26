@@ -22,7 +22,7 @@ namespace MusicBrowser
         public void Uninitialize()         
         {
             TransportEngineFactory.GetEngine().Close();
-            if (Util.Config.GetInstance().GetBooleanSetting("LogStatsOnClose"))
+            if (Util.Config.GetInstance().GetBooleanSetting("Telemetry.Participate"))
             {
                 Statistics.Send();
 #if DEBUG

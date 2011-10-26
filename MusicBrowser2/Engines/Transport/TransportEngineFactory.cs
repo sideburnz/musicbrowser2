@@ -10,7 +10,7 @@ namespace MusicBrowser.Engines.Transport
         {
             if (_transport == null)
             {
-                switch (Util.Config.GetInstance().GetStringSetting("Engine").ToLower())
+                switch (Util.Config.GetInstance().GetStringSetting("Player.Engine").ToLower())
                 {
                     case "foobar2000":
                         {

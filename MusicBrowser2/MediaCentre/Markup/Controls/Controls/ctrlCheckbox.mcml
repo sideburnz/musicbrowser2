@@ -1,15 +1,13 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
       xmlns:cor="assembly://MSCorLib/System"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:me="Me">
 
   <UI Name="ctrlCheckbox">
 
     <Properties>
       <cor:String Name="Label" String="" />
-      <cor:Boolean Name="Value" Boolean="false" />
-
-      <Command Name="CmdOnTrue" Command="$Required"/>
-      <Command Name="CmdOnFalse" Command="$Required"/>
+      <actions:ActionSetBooleanSetting Name="Action" ActionSetBooleanSetting="$Required" />
     </Properties>
 
     <Locals>
@@ -35,18 +33,18 @@
 
       <Binding Source="[CmdChange]" Target="[Clicker.Command]" />
 
-      <Changed Source="[Value]" InitialEvaluate="true">
+      <Changed Source="[Action.Value]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[Value]" ConditionOp="Equals" Value="true" />
+          <Equality Source="[Action.Value]" ConditionOp="Equals" Value="true" />
         </Conditions>
         <Actions>
           <Set Target="[grpIndicator.Content]" Value="image://me:Checked" />
         </Actions>
       </Changed>
 
-      <Changed Source="[Value]" InitialEvaluate="true">
+      <Changed Source="[Action.Value]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[Value]" ConditionOp="Equals" Value="false" />
+          <Equality Source="[Action.Value]" ConditionOp="Equals" Value="false" />
         </Conditions>
         <Actions>
           <Set Target="[grpIndicator.Content]" Value="image://me:Unchecked" />
@@ -55,21 +53,21 @@
 
       <Changed Source="[CmdChange.Invoked]">
         <Conditions>
-          <Equality Source="[Value]" ConditionOp="Equals" Value="false" />
+          <Equality Source="[Action.Value]" ConditionOp="Equals" Value="false" />
         </Conditions>
         <Actions>
-          <Set Target="[Value]" Value="true" />
-          <Invoke Target="[CmdOnTrue.Invoke]" />
+          <Set Target="[Action.Value]" Value="true" />
+          <Invoke Target="[Action.Invoke]" />
         </Actions>
       </Changed>
 
       <Changed Source="[CmdChange.Invoked]">
         <Conditions>
-          <Equality Source="[Value]" ConditionOp="Equals" Value="true" />
+          <Equality Source="[Action.Value]" ConditionOp="Equals" Value="true" />
         </Conditions>
         <Actions>
-          <Set Target="[Value]" Value="false" />
-          <Invoke Target="[CmdOnFalse.Invoke]" />
+          <Set Target="[Action.Value]" Value="false" />
+          <Invoke Target="[Action.Invoke]" />
         </Actions>
       </Changed>
       

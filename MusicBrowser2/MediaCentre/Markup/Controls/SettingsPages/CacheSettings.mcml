@@ -7,34 +7,15 @@
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlCheckbox"/>
 
   <UI Name="CacheSettings">
-
-    <Properties>
-      <models:ConfigModel Name="Model" ConfigModel="$Required" />
-    </Properties>
-
+    
     <Locals>
-      <Command Name="CmdTurnCacheOff" />
-      <Command Name="CmdTurnCacheOn" />
       <Command Name="CmdClearCache" />
     </Locals>
-
-    <Rules>
-      <Changed Source="[CmdTurnCacheOff.Invoked]">
-        <Actions>
-          <Set Target="[Model.UseCache]" Value="false" />
-        </Actions>
-      </Changed>
-      <Changed Source="[CmdTurnCacheOn.Invoked]">
-        <Actions>
-          <Set Target="[Model.UseCache]" Value="true" />
-        </Actions>
-      </Changed>
-    </Rules>
     
     <Content>
       <ColorFill Content="Transparent" Layout="VerticalFlow">
         <Children>
-          <me:ctrlCheckbox Label="Use caching" Margins="0,0,0,2" Value="[Model.UseCache]" CmdOnTrue="[CmdTurnCacheOn]" CmdOnFalse="[CmdTurnCacheOff]"/>
+          <!--<me:ctrlCheckbox Label="Use caching" Margins="0,0,0,2" Value="[Model.UseCache]" CmdOnTrue="[CmdTurnCacheOn]" CmdOnFalse="[CmdTurnCacheOff]"/>-->
           <me:buttonImage Command="[CmdClearCache]" Text="Clear Cache" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
         </Children>
       </ColorFill>

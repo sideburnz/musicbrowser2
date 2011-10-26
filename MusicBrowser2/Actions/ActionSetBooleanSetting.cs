@@ -2,22 +2,22 @@
 
 namespace MusicBrowser.Actions
 {
-    public class ActionSetSetting : baseActionCommand
+    public class ActionSetBooleanSetting : baseActionCommand
     {
-        private const string LABEL = "Set Setting";
+        private const string LABEL = "Set Boolean Setting";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconConfig";
 
         private string _key;
-        private string _value;
+        private bool _value;
 
-        public ActionSetSetting(Entity entity)
+        public ActionSetBooleanSetting(Entity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionSetSetting()
+        public ActionSetBooleanSetting()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -34,12 +34,12 @@ namespace MusicBrowser.Actions
             set
             {
                 _key = value;
-                Value = Util.Config.GetInstance().GetSetting(_key);
+                Value = Util.Config.GetInstance().GetBooleanSetting(_key);
                 FirePropertyChanged("Value");
             }
         }
 
-        public string Value 
+        public bool Value 
         { 
             get { return _value; } 
             set
@@ -51,7 +51,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
-            Util.Config.GetInstance().SetSetting(Key, Value);
+            Util.Config.GetInstance().SetSetting(Key, Value.ToString());
         }
     }
 }

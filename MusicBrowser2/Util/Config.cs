@@ -14,96 +14,93 @@ namespace MusicBrowser.Util
                 { "EnableFanArt", true.ToString() },
                 { "UseFolderImageForTracks", true.ToString() },
                 { "ShowVersion", false.ToString() },
-
                 { "ShowClock", true.ToString() },
                 { "WindowsLibrarySupport", true.ToString() },
-                { "LogLevel", "error" },
-                { "LogDestination", "file" },
-                { "LogFile", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
                 { "ManualLibraryFile", Path.Combine(Helper.AppFolder, "MusicLibrary.vf") },
-                { "CacheEngine", "FileSystem" },
                 { "AutoLoadNowPlaying", false.ToString() },
-
                 { "AutoPlaylistSize", "50" },
-
-                { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
-                { "UseInternetProviders", true.ToString() } ,
-                { "LastFMUserName", String.Empty },
-
                 { "SortReplaceWords", "the|a|an" },
                 { "PutDiscInTrackNo", true.ToString() },
+                { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
+
+                { "Log.Level", "error" },
+                { "Log.Destination", "file" },
+                { "Log.File", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
+
+                { "Internet.UseProviders", true.ToString() } ,
+                { "Internet.LastFMUserName", String.Empty },
+
+                { "Cache.Path", Helper.CachePath },
+                { "Cache.Engine", "FileSystem" },
                                         
-                { "Home.View", "Thumb" },
-                { "Home.Format", "MusicBrowser 2" },
-                { "Home.SortOrder", "[title]" },
-                { "Home.SearchSummary", "[kind]" },
-                { "Home.Summary", "" },
+                { "Entity.Home.View", "Thumb" },
+                { "Entity.Home.Format", "MusicBrowser 2" },
+                { "Entity.Home.SortOrder", "[title]" },
+                { "Entity.Home.SearchSummary", "[kind]" },
+                { "Entity.Home.Summary", "" },
 
-                { "Artist.View", "List" },
-                { "Artist.Format", "[title]" },
-                { "Artist.SortOrder", "[title]" },
-                { "Artist.SearchSummary", "[kind]" },
-                { "Artist.Summary", "[playcount]  [listeners]  [allplays]" },
+                { "Entity.Artist.View", "List" },
+                { "Entity.Artist.Format", "[title]" },
+                { "Entity.Artist.SortOrder", "[title]" },
+                { "Entity.Artist.SearchSummary", "[kind]" },
+                { "Entity.Artist.Summary", "[playcount]  [listeners]  [allplays]" },
 
-                { "Album.View", "List" },
-                { "Album.Format", "([release]) [title]" },
-                { "Album.SortOrder", "[release][title]" },
-                { "Album.SearchSummary", "[kind],  [albumartist]" },
-                { "Album.Summary", "[playcount]  [listeners]  [allplays]" },
+                { "Entity.Album.View", "List" },
+                { "Entity.Album.Format", "([release]) [title]" },
+                { "Entity.Album.SortOrder", "[release][title]" },
+                { "Entity.Album.SearchSummary", "[kind],  [albumartist]" },
+                { "Entity.Album.Summary", "[playcount]  [listeners]  [allplays]" },
 
-                { "Genre.View", "List" },
-                { "Genre.Format", "[title]" },
-                { "Genre.SortOrder", "[title]" },
-                { "Genre.SearchSummary", "[kind] [title]" },
-                { "Genre.Summary", "" },
+                { "Entity.Genre.View", "List" },
+                { "Entity.Genre.Format", "[title]" },
+                { "Entity.Genre.SortOrder", "[title]" },
+                { "Entity.Genre.SearchSummary", "[kind] [title]" },
+                { "Entity.Genre.Summary", "" },
 
-                { "Track.View", "List" },
-                { "Track.Format", "[track] - [title]" },
-                { "Track.SortOrder", "[track][title]" },
-                { "Track.SearchSummary", "[kind],  [artist],  [album]  ([codec])" },
-                { "Track.Summary", "[playcount]  [listeners]  [allplays]" },
+                { "Entity.Track.View", "List" },
+                { "Entity.Track.Format", "[track] - [title]" },
+                { "Entity.Track.SortOrder", "[track][title]" },
+                { "Entity.Track.SearchSummary", "[kind],  [artist],  [album]  ([codec])" },
+                { "Entity.Track.Summary", "[playcount]  [listeners]  [allplays]" },
 
-                { "Playlist.View", "" },
-                { "Playlist.Format", "[title]" },
-                { "Playlist.SortOrder", "" },
-                { "Playlist.SearchSummary", "[kind]" },
-                { "Playlist.Summary", "" },
+                { "Entity.Playlist.View", "" },
+                { "Entity.Playlist.Format", "[title]" },
+                { "Entity.Playlist.SortOrder", "" },
+                { "Entity.Playlist.SearchSummary", "[kind]" },
+                { "Entity.Playlist.Summary", "" },
 
-                { "Folder.View", "List" },
-                { "Folder.Format", "[title]" },
-                { "Folder.SortOrder", "[title]" },
-                { "Folder.SearchSummary", "[kind]" },
-                { "Folder.Summary", "" },
+                { "Entity.Folder.View", "List" },
+                { "Entity.Folder.Format", "[title]" },
+                { "Entity.Folder.SortOrder", "[title]" },
+                { "Entity.Folder.SearchSummary", "[kind]" },
+                { "Entity.Folder.Summary", "" },
 
-                { "Group.View", "List" },
-                { "Group.Format", "[title]" },
-                { "Group.SortOrder", "[title]" },
-                { "Group.SearchSummary", "[kind]" },
-                { "Group.Summary", "" },
+                { "Entity.Group.View", "List" },
+                { "Entity.Group.Format", "[title]" },
+                { "Entity.Group.SortOrder", "[title]" },
+                { "Entity.Group.SearchSummary", "[kind]" },
+                { "Entity.Group.Summary", "" },
 
-                { "Virtual.View", "List" },
-                { "Virtual.Format", "[title]" },
-                { "Virtual.SortOrder", "[title]" },
-                { "Virtual.SearchSummary", "[kind]" },
-                { "Virtual.Summary", "" },
+                { "Entity.Virtual.View", "List" },
+                { "Entity.Virtual.Format", "[title]" },
+                { "Entity.Virtual.SortOrder", "[title]" },
+                { "Entity.Virtual.SearchSummary", "[kind]" },
+                { "Entity.Virtual.Summary", "" },
                                         
                 { "Telemetry.Participate", false.ToString() },
                 { "Telemetry.ID", Guid.NewGuid().ToString() },
 
-                { "Engine", "MediaCentre" },
-                { "Player.foobar2000", (Is64Bit ? "C:\\Program Files (x86)" : "C:\\Program Files") + "\\foobar2000\\foobar2000.exe" },
-                { "Player.VLC", (Is64Bit ? "C:\\Program Files (x86)" : "C:\\Program Files") + "\\VideoLAN\\VLC\\vlc.exe" },
-
-                { "CachePath", Helper.CachePath },
+                { "Player.Engine", "MediaCentre" },
+                { "Player.Paths.foobar2000", (Is64Bit ? "C:\\Program Files (x86)" : "C:\\Program Files") + "\\foobar2000\\foobar2000.exe" },
+                { "Player.Paths.VLC", (Is64Bit ? "C:\\Program Files (x86)" : "C:\\Program Files") + "\\VideoLAN\\VLC\\vlc.exe" },
 
                 { "Extensions.Playlist", ".wpl|.m3u|.asx" },
                 { "Extensions.Image", ".png|.jpg|.jpeg" },
                 { "Extensions.Ignore", ".xml|.cue|.txt|.nfo" },
  
-                { "ThumbViewIsHorizontal", true.ToString() },
-                { "ShowSummary.List", true.ToString() },
-                { "ShowSummary.Thumb", true.ToString() },
-                { "ShowSummary.Strip", true.ToString() }
+                { "Views.Thumbs.IsHorizontal", true.ToString() },
+                { "Views.List.ShowSummary", true.ToString() },
+                { "Views.Strip.ShowSummary", true.ToString() }
 
 //                                        { "ShowCDs", true.ToString() }
                                                };
@@ -159,7 +156,7 @@ namespace MusicBrowser.Util
             }
         }
 
-        private string GetSetting(string key)
+        public string GetSetting(string key)
         {
             // see if we've already cached the setting
             if (_settingCache.ContainsKey(key))
@@ -227,8 +224,6 @@ namespace MusicBrowser.Util
 
         public void SetSetting(string key, string value)
         {
-            LoggerEngineFactory.Debug(String.Format("Updating setting '{0}' to '{1}'", key, value));
-
             string configFile = Helper.AppConfigFile;
             string xpathString = string.Format("Settings/{0}", key.Replace('.', '/'));
 
@@ -240,18 +235,24 @@ namespace MusicBrowser.Util
                 if (key.Contains("."))
                 {
                     string[] parts = key.Split('.');
-                    if (_xml.SelectSingleNode(string.Format("Settings/{0}", parts[0])) == null)
-                    {
-                        XmlNode pNode = _xml.CreateNode(XmlNodeType.Element, parts[0], string.Empty);
-                        _xml.FirstChild.AppendChild(pNode);
-                    }
-                    else
-                    {
-                        XmlNode pNode = _xml.SelectSingleNode(string.Format("Settings/{0}", parts[0]));
+                    string path = "Settings";
 
-                        node = _xml.CreateNode(XmlNodeType.Element, parts[1], string.Empty);
-                        node.InnerText = value;
-                        pNode.AppendChild(node);
+                    for (int i = 0; i < parts.Length; i++)
+                    {
+                        string parent = path;
+                        // we build the path as we go
+                        path = path + "/" + parts[i];
+                        // if the part of the path we're looking at doesn't exist, create it
+                        if (_xml.SelectSingleNode(path) == null)
+                        {
+                            XmlNode newNode = _xml.CreateNode(XmlNodeType.Element, parts[i], string.Empty);
+                            // if this is the last item, save the "value"
+                            if (i == (parts.Length - 1))
+                            {
+                                newNode.InnerText = value;
+                            }
+                            _xml.SelectSingleNode(parent).AppendChild(newNode);
+                        }
                     }
                 }
                 else
@@ -269,14 +270,7 @@ namespace MusicBrowser.Util
 
             if (!(OnSettingUpdate == null))
             {
-                if (key.Contains("."))
-                {
-                    OnSettingUpdate(key.Substring(key.IndexOf('.') + 1));
-                }
-                else
-                {
-                    OnSettingUpdate(key);
-                }
+                OnSettingUpdate(key);
             }
         }
 

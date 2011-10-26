@@ -21,6 +21,8 @@
 
       <KeyHandler Name="HomeHandler" Handle="true" Key="PageUp" HandlerStage="Bubbled" Command="[CmdHome]"/>
       <KeyHandler Name="EndHandler" Handle="true" Key="PageDown" HandlerStage="Bubbled" Command="[CmdEnd]"/>
+
+      <cor:Int32 Name="ListSize" />
     </Locals>
 
     <Rules>
@@ -28,6 +30,11 @@
       <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
 
       <Binding Target="[viewListRepeater.Source]" Source="[Model.Context.Actions]" />
+      <Binding Target="[ListSize]" Source="[Model.Context.Actions.Count]">
+        <Transformer>
+          <MathTransformer Add="-1" />
+        </Transformer>
+      </Binding>
 
       <Changed Source="[CmdClose.Invoked]">
         <Actions>
@@ -40,10 +47,10 @@
           <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="0" />
         </Actions>
       </Changed>
-      <!-- fix these -->
+      <!-- TODO: fix this, it jumps one past the end of the list -->
       <Changed Source="[CmdEnd.Invoked]">
         <Actions>
-          <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[viewListRepeater.Source.Count]" />
+          <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[ListSize]" />
         </Actions>
       </Changed>
     </Rules>

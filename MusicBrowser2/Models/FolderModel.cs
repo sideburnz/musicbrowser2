@@ -145,7 +145,20 @@ namespace MusicBrowser.Models
 
         private void SettingsChanged(string key)
         {
-            if (key.ToLower() == "view") 
+            string myKey;
+
+            if (key.Contains('.'))
+            {
+                // get the last part of the string
+                string[] parts = key.Split('.');
+                myKey = parts[parts.Length - 1];
+            }
+            else 
+            {
+                myKey = key;
+            }
+
+            if (myKey.ToLower() == "view") 
             { 
                 FirePropertyChanged("View");
                 FirePropertyChanged("ShowSummary");
@@ -156,8 +169,8 @@ namespace MusicBrowser.Models
         {
             get
             {
-                string view = Config.GetInstance().GetStringSetting(ParentEntity.KindName + ".View");
-                if (String.Compare(view, "thumb", true) == 0 && !Config.GetInstance().GetBooleanSetting("ThumbViewIsHorizontal"))
+                string view = Config.GetInstance().GetStringSetting("Entity." + ParentEntity.KindName + ".View");
+                if (String.Compare(view, "thumb", true) == 0 && !Config.GetInstance().GetBooleanSetting("Views.Thumbs.IsHorizontal"))
                 {
                     return "ThumbsDown";
                 }
@@ -172,14 +185,11 @@ namespace MusicBrowser.Models
                 switch (View.ToLower())
                 {
                     case "list":
-                        return Config.GetInstance().GetBooleanSetting("ShowSummary.List");
-                    case "thumb":
-                    case "thumbsdown":
-                        return Config.GetInstance().GetBooleanSetting("ShowSummary.Thumb");
+                        return Config.GetInstance().GetBooleanSetting("Views.List.ShowSummary");
                     case "strip":
-                        return Config.GetInstance().GetBooleanSetting("ShowSummary.Strip");
+                        return Config.GetInstance().GetBooleanSetting("Views.Strip.ShowSummary");
                 }
-                return false;
+                return true;
             }
         }
 

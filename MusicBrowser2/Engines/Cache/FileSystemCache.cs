@@ -8,12 +8,12 @@ namespace MusicBrowser.Engines.Cache
 {
     class FileSystemCache : ICacheEngine
     {
-        private readonly string _cacheLocation = Config.GetInstance().GetStringSetting("CachePath") + "\\Entities\\";
+        private readonly string _cacheLocation = Config.GetInstance().GetStringSetting("Cache.Path") + "\\Entities\\";
         private readonly object _obj = new object();
 
         public FileSystemCache()
         {
-            Helper.BuildCachePath(Config.GetInstance().GetStringSetting("CachePath"));
+            Helper.BuildCachePath(Config.GetInstance().GetStringSetting("Cache.Path"));
         }
 
         public void Delete(string key)
