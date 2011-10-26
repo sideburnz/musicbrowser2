@@ -270,7 +270,7 @@ namespace MusicBrowser.Util
 
         static public string ImageCacheFullName(string key, string imageType)
         {
-            string path = Config.GetInstance().GetStringSetting("CachePath") + "\\Images\\" + imageType + "\\" + key.Substring(0, 2);
+            string path = Config.GetInstance().GetStringSetting("Cache.Path") + "\\Images\\" + imageType + "\\" + key.Substring(0, 2);
             Directory.CreateDirectory(path);
             return path + "\\" + key + ".jpg";
         }

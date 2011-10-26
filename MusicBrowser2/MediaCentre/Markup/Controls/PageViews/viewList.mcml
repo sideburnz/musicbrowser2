@@ -26,6 +26,7 @@
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewListRepeater]"/>
       <Binding Target="[Summary.Summary]" Source="[FolderModel.ParentEntity.Summary]" />
+      <Binding Target="[Summary.Visible]" Source="[FolderModel.ShowSummary]" />
 
       <Changed Source="[FolderModel.View]" InitialEvaluate="true">
         <Conditions>

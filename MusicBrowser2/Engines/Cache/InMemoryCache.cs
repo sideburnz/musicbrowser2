@@ -17,7 +17,7 @@ namespace MusicBrowser.Engines.Cache
     {
         private Dictionary<string, Entity> _cache;
         private static readonly object _obj = new object();
-        private readonly string _cacheFile = System.IO.Path.Combine(Util.Config.GetInstance().GetStringSetting("CachePath"), "cache.xml");
+        private readonly string _cacheFile = System.IO.Path.Combine(Util.Config.GetInstance().GetStringSetting("Cache.Path"), "cache.xml");
 
         #region singleton
         static InMemoryCache _instance;

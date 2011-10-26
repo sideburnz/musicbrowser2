@@ -26,7 +26,7 @@ namespace MusicBrowser.Providers.Metadata
 
             #region killer questions
 
-            if (!Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+            if (!Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders"))
             {
                 dto.Outcome = DataProviderOutcome.NoData;
                 dto.Errors = new System.Collections.Generic.List<string> { "Internet Providers Disabled" };
@@ -65,7 +65,7 @@ namespace MusicBrowser.Providers.Metadata
                         albumDTO.Album = dto.AlbumName;
                         albumDTO.MusicBrainzID = dto.MusicBrainzId;
                         albumDTO.Artist = dto.AlbumArtist;
-                        albumDTO.Username = (Util.Config.GetInstance().GetStringSetting("LastFMUserName"));
+                        albumDTO.Username = (Util.Config.GetInstance().GetStringSetting("Internet.LastFMUserName"));
                         if (dto.ProviderTimeStamps.ContainsKey(FriendlyName()))
                         {
                             albumDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
@@ -123,7 +123,7 @@ namespace MusicBrowser.Providers.Metadata
                         ArtistInfoServiceDTO artistDTO = new ArtistInfoServiceDTO();
                         artistDTO.Artist = dto.ArtistName;
                         artistDTO.MusicBrainzID = dto.MusicBrainzId;
-                        artistDTO.Username = (Util.Config.GetInstance().GetStringSetting("LastFMUserName"));
+                        artistDTO.Username = (Util.Config.GetInstance().GetStringSetting("Internet.LastFMUserName"));
                         if (dto.ProviderTimeStamps.ContainsKey(FriendlyName()))
                         {
                             artistDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];
@@ -180,7 +180,7 @@ namespace MusicBrowser.Providers.Metadata
                         trackDTO.Track = dto.TrackName;
                         trackDTO.Artist = dto.ArtistName;
                         trackDTO.MusicBrainzID = dto.MusicBrainzId;
-                        trackDTO.Username = (Util.Config.GetInstance().GetStringSetting("LastFMUserName"));
+                        trackDTO.Username = (Util.Config.GetInstance().GetStringSetting("Internet.LastFMUserName"));
                         if (dto.ProviderTimeStamps.ContainsKey(FriendlyName()))
                         {
                             trackDTO.lastAccessed = dto.ProviderTimeStamps[FriendlyName()];

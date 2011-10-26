@@ -1,6 +1,7 @@
 ﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:me="Me"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:cor="assembly://MSCorLib/System">
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
@@ -8,21 +9,24 @@
 
   <UI Name="SystemSettings">
 
-    <Properties>
-      <models:ConfigModel Name="Model" ConfigModel="$Required" />
-    </Properties>
-
     <Locals>
-      <Command Name="CmdTurnCacheOnOff" />
+      <actions:ActionSetBooleanSetting Name="CmdShowFanArt" Key="EnableFanArt" />
+      <actions:ActionSetBooleanSetting Name="CmdUpdateShowClock" Key="ShowClock" />
+      <actions:ActionSetBooleanSetting Name="CmdUseInternetProviders" Key="Internet.UseProviders" />
+      <actions:ActionSetBooleanSetting Name="CmdAutoLoadNowPlaying" Key="AutoLoadNowPlaying" />
+      <actions:ActionSetBooleanSetting Name="CmdAnonymousUsage" Key="Telemetry.Participate" />
     </Locals>
-
+    
     <Content>
       <ColorFill Content="Transparent" Layout="VerticalFlow">
         <Children>
-          <!--<me:ctrlCheckbox Label="Enable Fan Art" />
-          <me:ctrlCheckbox Label="Show Clock" />
-          <me:ctrlCheckbox Label="Use Internet Providers" />-->
-          <me:buttonImage Command="[CmdTurnCacheOnOff]" Text="LastFMUserName" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+          <me:ctrlCheckbox Label="Enable Fan Art" Action="[CmdShowFanArt]" />
+          <me:ctrlCheckbox Label="Show Clock" Action="[CmdUpdateShowClock]" />
+          <me:ctrlCheckbox Label="Use Internet Providers" Action="[CmdUseInternetProviders]" />
+          <me:ctrlCheckbox Label="Show 'Now Playing' page automatically" Action="[CmdAutoLoadNowPlaying]" />
+          <me:ctrlCheckbox Label="Send anonymous usage statistics" Action="[CmdAnonymousUsage]" />
+          <!--<me:buttonImage Command="[CmdTurnCacheOnOff]" Text="LastFMUserName" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />-->
+          <Text />
         </Children>
       </ColorFill>
     </Content>

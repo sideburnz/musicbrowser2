@@ -19,7 +19,7 @@ namespace MusicBrowser.Engines.Logging
         public EventLogLogger()
         {
             // cache the logging level information
-            string logLevel = Config.GetInstance().GetStringSetting("LogLevel").ToLower();
+            string logLevel = Config.GetInstance().GetStringSetting("Log.Level").ToLower();
             // error is the default
             if (logLevel == "error")
             {

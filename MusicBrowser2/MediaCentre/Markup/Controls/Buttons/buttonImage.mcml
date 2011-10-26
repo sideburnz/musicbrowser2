@@ -108,7 +108,7 @@
             <Children>
               <Graphic Name="graphicBullet" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="[ImageMargins]" Visible="true" />
               <!-- The label to display. -->
-              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="[TextMargins]" Visible="[DisplayText]" FadeSize="5" Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]" />
+              <Text Name="Label" Color="White" MinimumSize="[Size]" Margins="[TextMargins]" Visible="[DisplayText]" FadeSize="-5" Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]" />
             </Children>
           </Graphic>
         </Children>

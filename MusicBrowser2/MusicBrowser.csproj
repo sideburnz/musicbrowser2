@@ -133,12 +133,12 @@
     <Compile Include="Actions\ActionOnEnter.cs" />
     <Compile Include="Actions\ActionOnPlay.cs" />
     <Compile Include="Actions\ActionNoOperation.cs" />
+    <Compile Include="Actions\ActionSetBooleanSetting.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
     <Compile Include="Engines\Cache\FileSystemCache.cs" />
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
-    <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\ActionsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />

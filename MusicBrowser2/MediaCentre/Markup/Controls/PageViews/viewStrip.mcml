@@ -58,6 +58,7 @@
       <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
       <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
       <Binding Target="[Summary.Summary]" Source="[FolderModel.SelectedItem.Summary]" />
+      <Binding Target="[Summary.Visible]" Source="[FolderModel.ShowSummary]" />
 
       <Changed Source="[FolderModel.View]" InitialEvaluate="true">
         <Conditions>

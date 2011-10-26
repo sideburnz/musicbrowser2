@@ -28,7 +28,7 @@ namespace MusicBrowser.Providers.Metadata
 
             #region killer questions
 
-            if (!Util.Config.GetInstance().GetBooleanSetting("UseInternetProviders"))
+            if (!Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders"))
             {
                 dto.Outcome = DataProviderOutcome.NoData;
                 dto.Errors = new System.Collections.Generic.List<string> { "Internet Providers Disabled" };
