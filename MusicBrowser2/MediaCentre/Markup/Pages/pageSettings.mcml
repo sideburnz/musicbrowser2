@@ -90,7 +90,7 @@
           <!-- MAIN BODY -->
           <Panel Layout="Dock">
             <Children>
-              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="25,25,25,25">
+              <Graphic Name="NavMenu" Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="25,25,25,25">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
