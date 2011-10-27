@@ -30,7 +30,6 @@
       <addin:AddInHost Name="AddInHost"/>
 
       <Command Name="CmdSetScopeToContext" />
-      <Command Name="CmdSetScopeToEverything" />
       <Command Name="CmdSetScopeToAlbums" />
       <Command Name="CmdSetScopeToArtists" />
       <Command Name="CmdSetScopeToTracks" />
@@ -66,6 +65,7 @@
         <Actions>
           <Set Target="[btnCurrentFolder.Visible]" Value="true"/>
           <Set Target="[btnCurrentFolder.Text]" Value="[Model.ContextName]" />
+          <Set Target="[txtDetail.Content]" Value="[Model.ContextName]" />
           <Invoke Target="[CmdSetScopeToContext.Invoke]"/>
         </Actions>
       </Condition>
@@ -73,19 +73,8 @@
       <Changed Source="[CmdSetScopeToContext.Invoked]">
         <Actions>
           <Invoke Target="[Model.SetSetSearchScope]" scope="Folder" />
+          <Set Target="[txtDetail.Visible]" Value="true" />
           <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
-          <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[CmdSetScopeToEverything.Invoked]">
-        <Actions>
-          <Invoke Target="[Model.SetSetSearchScope]" scope="Everything" />
-          <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
           <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
@@ -95,8 +84,8 @@
       <Changed Source="[CmdSetScopeToAlbums.Invoked]">
         <Actions>
           <Invoke Target="[Model.SetSetSearchScope]" scope="Albums" />
+          <Set Target="[txtDetail.Visible]" Value="false" />
           <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
           <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
@@ -106,8 +95,8 @@
       <Changed Source="[CmdSetScopeToArtists.Invoked]">
         <Actions>
           <Invoke Target="[Model.SetSetSearchScope]" scope="Artists" />
+          <Set Target="[txtDetail.Visible]" Value="false" />
           <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
           <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
@@ -117,8 +106,8 @@
       <Changed Source="[CmdSetScopeToTracks.Invoked]">
         <Actions>
           <Invoke Target="[Model.SetSetSearchScope]" scope="Tracks" />
+          <Set Target="[txtDetail.Visible]" Value="false" />
           <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnEverything.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
@@ -222,7 +211,6 @@
                   <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
                   
                   <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" Visible="false" />
-                  <me:buttonImage Visible="false" Command="[CmdSetScopeToEverything]" Name="btnEverything" Text="Everything" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
                   <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
                   <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
                   <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
@@ -249,7 +237,12 @@
                 <Children>
                   <Panel Padding="50,25,25,25" Layout="Fill">
                     <Children>
-                      <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" />
+                      <Panel Layout="HorizontalFlow">
+                        <Children>
+                          <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" />
+                          <Text Name="txtDetail" Content="this is the" Color="White" Font="Segoe Media Center Light, 20" Margins="7,18,0,0" Alpha="0.5" />
+                        </Children>
+                      </Panel>
                       <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow">
                         <Children>
                           <Text Name="labelNoResultsError" Content="No items found" Color="White" Font="Segoe Media Center Light, 22" />
@@ -335,17 +328,15 @@
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
-          <Set Target="[TextLabels.Alpha]" Value="1"/>
-          <Set Target="[lblSummary.Visible]" Value="true" />
-          <Set Target="[imgButton.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"/>
+          <Set Target="[isNotSelected.Visible]" Value="false"/>
+          <Set Target="[isSelected.Visible]" Value="true"/>
         </Actions>
       </Condition>
 
       <Condition Source="[Input.KeyFocus]" SourceValue="false">
         <Actions>
-          <Set Target="[TextLabels.Alpha]" Value="0.8"/>
-          <Set Target="[lblSummary.Visible]" Value="false" />
-          <Set Target="[imgButton.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[isNotSelected.Visible]" Value="true"/>
+          <Set Target="[isSelected.Visible]" Value="false"/>
         </Actions>
       </Condition>
 
@@ -371,19 +362,39 @@
     <Content>
       <Panel Name="EntityButtonFace">
         <Children>
-          <Graphic Name="imgButton" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" MinimumSize="650,57" MaximumSize="650,57">
+          <ColorFill Name="isNotSelected" Content="Transparent" MinimumSize="650,57" MaximumSize="650,57">
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
               <Graphic Name="graphicBullet" Content="[Entity.Icon]" Margins="5,5,0,5" MaximumSize="47,47" MinimumSize="47,47" MaintainAspectRatio="false" Visible="true" />
-              <Panel Name="TextLabels" >
+              <Text Name="lblTitle" Content="[Entity.Title]" Color="White" Margins="12,5,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" Alpha="0.6"/>
+            </Children>
+          </ColorFill>
+
+          <Graphic Name="isSelected" Content="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus" MinimumSize="850,100" MaximumSize="850,100" Visible="false" Margins="-25,0,0,0">
+            <Layout>
+              <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+            </Layout>
+            <Children>
+              <Graphic Content="[Entity.Icon]" Margins="5,5,0,5" MaximumSize="90,90" MinimumSize="90,90" MaintainAspectRatio="false" Visible="true" />
+              <Panel Name="TextLabels" Margins="10,0,0,0">
                 <Layout>
                   <FlowLayout Orientation="Vertical" ItemAlignment="Near" />
                 </Layout>
                 <Children>
-                  <Text Name="lblTitle" Content="[Entity.Title]" Color="White" Margins="10,-2,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" />
-                  <Text Name="lblSummary" Content="[Entity.SearchSummary]" Color="White" Margins="10,-6,0,0" Visible="false" FadeSize="5" Alpha="0.8" Font="Segoe Media Center Light, 12" HorizontalAlignment="Near" />
+                  <Panel Layout="HorizontalFlow">
+                    <Children>
+                      <Text Content="[Entity.Title]" Color="White" Font="Segoe Media Center Light, 24" Margins="0,-5,0,-2"/>
+                      <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="20,7,0,0" Visible="true"/>
+                      <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="true"/>
+                      <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="true"/>
+                      <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="true"/>
+                      <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="true"/>
+                      <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="10,10,0,0" Visible="true"/>
+                    </Children>
+                  </Panel>
+                  <Text Content="[Entity.ShortSummaryLine1]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-5,0,0"/>
                 </Children>
               </Panel>
             </Children>
