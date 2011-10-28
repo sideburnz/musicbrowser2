@@ -40,7 +40,7 @@
           <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="100" />
         </Conditions>
         <Actions>
-          <Set Target="[Star5.Visible]" Value="true" />
+          <Set Target="[Star5.Alpha]" Value="1" />
         </Actions>
       </Changed>
       <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
@@ -48,7 +48,7 @@
           <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="80" />
         </Conditions>
         <Actions>
-          <Set Target="[Star4.Visible]" Value="true" />
+          <Set Target="[Star4.Alpha]" Value="1" />
         </Actions>
       </Changed>
       <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
@@ -56,7 +56,7 @@
           <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="60" />
         </Conditions>
         <Actions>
-          <Set Target="[Star3.Visible]" Value="true" />
+          <Set Target="[Star3.Alpha]" Value="1" />
         </Actions>
       </Changed>
       <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
@@ -64,7 +64,7 @@
           <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="40" />
         </Conditions>
         <Actions>
-          <Set Target="[Star2.Visible]" Value="true" />
+          <Set Target="[Star2.Alpha]" Value="1" />
         </Actions>
       </Changed>
       <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
@@ -72,7 +72,7 @@
           <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="20" />
         </Conditions>
         <Actions>
-          <Set Target="[Star1.Visible]" Value="true" />
+          <Set Target="[Star1.Alpha]" Value="1" />
         </Actions>
       </Changed>
     </Rules>
@@ -90,12 +90,12 @@
             </Layout>
             <Children>
               <Text Name="Desc" Color="White" Font="Segoe Media Center Light, 26" Content="" Margins="0,-5,0,-2"/>
-              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="20,7,0,0" Visible="false"/>
-              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="false"/>
-              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="false"/>
-              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="false"/>
-              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Visible="false"/>
-              <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="10,10,0,0" Visible="false"/>
+              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="20,7,0,0" Alpha="0.1"/>
+              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
+              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
+              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
+              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
+              <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="10,8,0,0" Visible="false"/>
             </Children>
           </Panel>
           <Text Name="ArtistLine" Color="White" Font="Segoe Media Center Light, 16" Content="" Alpha="0.6" Margins="0,-3,0,0"/>

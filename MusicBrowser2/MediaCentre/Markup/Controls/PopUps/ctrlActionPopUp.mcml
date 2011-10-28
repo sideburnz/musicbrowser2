@@ -47,12 +47,13 @@
           <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="0" />
         </Actions>
       </Changed>
-      <!-- TODO: fix this, it jumps one past the end of the list -->
       <Changed Source="[CmdEnd.Invoked]">
         <Actions>
           <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[ListSize]" />
         </Actions>
       </Changed>
+
+      <Binding Target="[Context.Content]" Source="[Model.Context.Title]" />
     </Rules>
 
     <Content>
@@ -61,6 +62,8 @@
           <FlowLayout Orientation="Vertical"/>
         </Layout>
         <Children>
+          <Text Name="Context" Color="White" FadeSize="5" Font="Segoe Media Center Light,26" MinimumSize="360,57" MaximumSize="360,57" Margins="0,0,0,-6" />
+          <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="360,1" Alpha="0.5" Margins="0,-6,0,7"/>
           <Repeater Layout="Fill" Name="viewListRepeater" Navigation="ContainAll">
             <Layout>
               <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>

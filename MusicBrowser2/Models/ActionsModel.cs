@@ -32,6 +32,7 @@ namespace MusicBrowser.Models
         #endregion
 
         public bool _visible = false;
+        public Entity _context;
 
         public bool Visible
         {
@@ -49,6 +50,17 @@ namespace MusicBrowser.Models
             }
         }
 
-        public Entity Context { get; set; }
+        public Entity Context 
+        {
+            get
+            {
+                return _context;
+            }
+            set
+            {
+                _context = value;
+                FirePropertyChanged("Context");
+            }
+        }
     }
 }

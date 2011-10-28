@@ -128,7 +128,7 @@ namespace MusicBrowser.Engines.Transport
 
         private string VLCPath
         {
-            get { return Util.Config.GetInstance().GetStringSetting("Player.Path.VLC"); }
+            get { return Util.Config.GetInstance().GetStringSetting("Player.Paths.VLC"); }
         }
 
         private void ExecuteCommand(string command)

@@ -36,19 +36,16 @@ namespace MusicBrowser.Util
                 { "Entity.Home.View", "Thumb" },
                 { "Entity.Home.Format", "MusicBrowser 2" },
                 { "Entity.Home.SortOrder", "[title]" },
-                { "Entity.Home.SearchSummary", "[kind]" },
                 { "Entity.Home.Summary", "" },
 
                 { "Entity.Artist.View", "List" },
                 { "Entity.Artist.Format", "[title]" },
                 { "Entity.Artist.SortOrder", "[title]" },
-                { "Entity.Artist.SearchSummary", "[kind]" },
                 { "Entity.Artist.Summary", "[playcount]  [listeners]  [allplays]" },
 
                 { "Entity.Album.View", "List" },
                 { "Entity.Album.Format", "([release]) [title]" },
                 { "Entity.Album.SortOrder", "[release][title]" },
-                { "Entity.Album.SearchSummary", "[kind],  [albumartist]" },
                 { "Entity.Album.Summary", "[playcount]  [listeners]  [allplays]" },
 
                 { "Entity.Genre.View", "List" },
@@ -60,31 +57,26 @@ namespace MusicBrowser.Util
                 { "Entity.Track.View", "List" },
                 { "Entity.Track.Format", "[track] - [title]" },
                 { "Entity.Track.SortOrder", "[track][title]" },
-                { "Entity.Track.SearchSummary", "[kind],  [artist],  [album]  ([codec])" },
                 { "Entity.Track.Summary", "[playcount]  [listeners]  [allplays]" },
 
                 { "Entity.Playlist.View", "" },
                 { "Entity.Playlist.Format", "[title]" },
                 { "Entity.Playlist.SortOrder", "" },
-                { "Entity.Playlist.SearchSummary", "[kind]" },
                 { "Entity.Playlist.Summary", "" },
 
                 { "Entity.Folder.View", "List" },
                 { "Entity.Folder.Format", "[title]" },
                 { "Entity.Folder.SortOrder", "[title]" },
-                { "Entity.Folder.SearchSummary", "[kind]" },
                 { "Entity.Folder.Summary", "" },
 
                 { "Entity.Group.View", "List" },
                 { "Entity.Group.Format", "[title]" },
                 { "Entity.Group.SortOrder", "[title]" },
-                { "Entity.Group.SearchSummary", "[kind]" },
                 { "Entity.Group.Summary", "" },
 
                 { "Entity.Virtual.View", "List" },
                 { "Entity.Virtual.Format", "[title]" },
                 { "Entity.Virtual.SortOrder", "[title]" },
-                { "Entity.Virtual.SearchSummary", "[kind]" },
                 { "Entity.Virtual.Summary", "" },
                                         
                 { "Telemetry.Participate", false.ToString() },
