@@ -395,11 +395,6 @@ namespace MusicBrowser.Entities
             get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".Format")); }
         }
 
-        public string SearchSummary
-        {
-            get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".SearchSummary")); }
-        }
-
         public string OptionalArtistLine
         {
             get
