@@ -15,6 +15,11 @@ namespace MusicBrowser.Actions
     {
         private struct ActionConfigEntry
         {
+            //TODO: implement additional shortcuts
+            public baseActionCommand OnRecord;  // default to refresh metadata
+            public baseActionCommand OnHash; // default to cycle through starts (0,1,2,3,4,5)
+            public baseActionCommand OnStar; // default to mark as favorite
+
             public baseActionCommand OnEnter;
             public baseActionCommand OnPlay;
             public IList<baseActionCommand> MenuOptions;
@@ -75,6 +80,7 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionPlayEntireLibrary());
             ret.Add(new ActionPlayFavourites());
             ret.Add(new ActionPlayNewlyAdded());
+            ret.Add(new ActionPlayPopularLastFM());
             ret.Add(new ActionPlayRandomPopular());
             ret.Add(new ActionPreviousPage());
             ret.Add(new ActionQueue());

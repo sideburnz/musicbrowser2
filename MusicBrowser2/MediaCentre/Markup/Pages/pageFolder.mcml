@@ -156,7 +156,7 @@
               <FormLayoutInput Left="Parent,0" Top="Parent,.0" Right="Parent,1" Bottom="Parent,1"/>
             </LayoutInput>
             <Children>
-              <ColorFill Name="pageFader" Visible="false" Content="Black" Alpha="0.8" Navigation="ContainAll" MouseInteractive="true"/>
+              <ColorFill Name="pageFader" Visible="false" Content="Black" Alpha="0.9" Navigation="ContainAll" MouseInteractive="true"/>
             </Children>
           </Panel>
 

@@ -208,19 +208,23 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                // backgrounds are disabled when fan art is disabled
-                if (!Config.GetInstance().GetBooleanSetting("EnableFanArt"))
+                try
                 {
-                    return GetImage(String.Empty);
+                    // backgrounds are disabled when fan art is disabled
+                    if (!Config.GetInstance().GetBooleanSetting("EnableFanArt"))
+                    {
+                        return GetImage(String.Empty);
+                    }
+                    else if (BackgroundPaths.FirstOrDefault() != null)
+                    {
+                        return GetImage(BackgroundPaths[_backgroundID]);
+                    }
+                    else if (!String.IsNullOrEmpty(DefaultBackgroundPath))
+                    {
+                        return GetImage(DefaultBackgroundPath);
+                    }
                 }
-                else if (BackgroundPaths.FirstOrDefault() != null)
-                {
-                    return GetImage(BackgroundPaths[_backgroundID]);
-                }
-                else if (!String.IsNullOrEmpty(DefaultBackgroundPath))
-                {
-                    return GetImage(DefaultBackgroundPath);
-                }
+                catch { }
                 return GetImage(String.Empty);
             }
         }

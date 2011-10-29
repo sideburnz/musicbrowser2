@@ -189,7 +189,7 @@
               <FormLayoutInput Left="Parent,0" Top="Parent,.0" Right="Parent,1" Bottom="Parent,1"/>
             </LayoutInput>
             <Children>
-              <ColorFill Name="pageFader" Visible="false" Content="Black" Alpha="0.8"  Navigation="ContainAll" MouseInteractive="true"/>
+              <ColorFill Name="pageFader" Visible="false" Content="Black" Alpha="0.9"  Navigation="ContainAll" MouseInteractive="true"/>
             </Children>
           </Panel>
 
@@ -408,7 +408,7 @@
     <Content>
       <Panel Name="EntityButtonFace">
         <Children>
-          <ColorFill Name="isNotSelected" Content="Transparent" MinimumSize="650,57" MaximumSize="650,57">
+          <ColorFill Name="isNotSelected" Content="Transparent" MinimumSize="840,57" MaximumSize="840,57">
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
@@ -418,13 +418,13 @@
             </Children>
           </ColorFill>
 
-          <Graphic Name="isSelected" Content="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus" MinimumSize="850,110" MaximumSize="850,110" Visible="false" Margins="-30,0,0,0">
+          <Graphic Name="isSelected" Content="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus" MinimumSize="875,120" MaximumSize="875,120" Visible="false" Margins="-30,0,0,0">
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
-              <Graphic Content="[Entity.Icon]" Margins="5,5,0,5" MaximumSize="100,100" MinimumSize="100,100" MaintainAspectRatio="false" Visible="true" />
-              <Panel Name="TextLabels" Margins="10,0,0,0">
+              <Graphic Content="[Entity.Icon]" Margins="5,5,0,5" MaximumSize="110,110" MinimumSize="110,110" MaintainAspectRatio="false" Visible="true" />
+              <Panel Name="TextLabels" Margins="10,5,0,0">
                 <Layout>
                   <FlowLayout Orientation="Vertical" />
                 </Layout>
@@ -432,7 +432,7 @@
                   <Panel Layout="HorizontalFlow">
                     <Children>
                       <Text Content="[Entity.Title]" Color="White" Font="Segoe Media Center Light, 24" Margins="0,-5,0,-2"/>
-                      <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="20,7,0,0" Alpha="0.1"/>
+                      <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,7,0,0" Alpha="0.1"/>
                       <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
                       <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
                       <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
@@ -440,8 +440,8 @@
                       <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="10,8,0,0" Visible="[Entity.Favorite]"/>
                     </Children>
                   </Panel>
-                  <Text Content="[Entity.ShortSummaryLine1]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-5,0,0"/>
-                  <Text Content="[Entity.ShortSummaryLine2]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-5,0,0"/>
+                  <Text Content="[Entity.ShortSummaryLine1]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-3,0,0"/>
+                  <Text Content="[Entity.ShortSummaryLine2]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-3,0,0"/>
                 </Children>
               </Panel>
             </Children>
