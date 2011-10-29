@@ -12,7 +12,6 @@
       <cor:Boolean Name="LeftAlign" Boolean="true" />
       <cor:Boolean Name="DisplayText" Boolean="true" />
       <cor:String Name="Text" String="" />
-      <Size Name="Size" Size="0,0" />
       <Size Name="MinSize" Size="57,57" />
       <Image Name="Icon" Image="$Required" />
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
@@ -55,16 +54,6 @@
         </Actions>
       </Changed>
 
-      <Rule>
-        <Conditions>
-          <Equality Source="[Size]" Value="0,0"/>
-        </Conditions>
-        <Actions>
-          <Set Target="[imgButton.MaximumSize]" Value="1000,1000"/>
-          <Set Target="[imgButton.SizingPolicy]"  Value="SizeToConstraint"/>
-        </Actions>
-      </Rule>
-
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
           <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
@@ -101,14 +90,14 @@
     <Content>
       <Panel>
         <Children>
-          <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[MinSize]" MaximumSize="[MinSize]">
+          <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[MinSize]" MaximumSize="[MinSize]" >
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
               <Graphic Name="graphicBullet" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="[ImageMargins]" Visible="true" />
               <!-- The label to display. -->
-              <Text Name="Label" Color="White" MinimumSize="[Size]" Margins="[TextMargins]" Visible="[DisplayText]" FadeSize="-5" Font="[Font]" HorizontalAlignment="Center" MaximumSize="[Size]" />
+              <Text Name="Label" Color="White" Margins="[TextMargins]" Visible="[DisplayText]" FadeSize="5" Font="[Font]" HorizontalAlignment="Center" />
             </Children>
           </Graphic>
         </Children>

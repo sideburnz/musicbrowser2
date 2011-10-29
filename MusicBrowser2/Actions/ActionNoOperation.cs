@@ -6,7 +6,7 @@ namespace MusicBrowser.Actions
     public class ActionNoOperation : baseActionCommand
     {
         private const string LABEL = "No Operation";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconCancel";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconClose";
 
         public ActionNoOperation(Entity entity)
         {

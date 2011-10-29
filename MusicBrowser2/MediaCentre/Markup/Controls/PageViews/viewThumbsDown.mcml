@@ -59,7 +59,7 @@
     <Content>
       <ColorFill Content="Transparent" Layout="Form" Name="div_ListThumb" Visible="false">
         <Children>
-          <Scroller Orientation="Vertical" Name="Scroller" ScrollingData="[scrollData]" FadeSize="20" Margins="1,-20,1,-22">
+          <Scroller Orientation="Vertical" Name="Scroller" ScrollingData="[scrollData]" FadeSize="20" Margins="27,-20,27,-22">
             <Children>
               <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true">
                 <Layout>

@@ -19,8 +19,10 @@
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[CmdClose]"/>
 
-      <KeyHandler Name="HomeHandler" Handle="true" Key="PageUp" HandlerStage="Bubbled" Command="[CmdHome]"/>
-      <KeyHandler Name="EndHandler" Handle="true" Key="PageDown" HandlerStage="Bubbled" Command="[CmdEnd]"/>
+      <KeyHandler Name="PageUp" Handle="true" Key="PageUp" HandlerStage="Bubbled" Command="[CmdHome]"/>
+      <KeyHandler Name="PageDown" Handle="true" Key="PageDown" HandlerStage="Bubbled" Command="[CmdEnd]"/>
+      <ShortcutHandler Name="ChannelUp" Handle="true" Shortcut="ChannelUp" HandlerStage="Bubbled" Command="[CmdHome]"/>
+      <ShortcutHandler Name="ChannelDown" Handle="true" Shortcut="ChannelDown" HandlerStage="Bubbled" Command="[CmdEnd]"/>
 
       <cor:Int32 Name="ListSize" />
     </Locals>
@@ -42,7 +44,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[HomeHandler.Invoked]">
+      <Changed Source="[CmdHome.Invoked]">
         <Actions>
           <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="0" />
         </Actions>
@@ -116,13 +118,13 @@
     </Rules>
 
     <Content>
-      <Graphic Name="Frame" MinimumSize="360,57" MaximumSize="360,57" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage">
+      <Graphic Name="Frame" MinimumSize="360,52" MaximumSize="360,52" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage">
         <Layout>
           <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
         </Layout>
         <Children>
-          <Graphic Name="grpIcon" Content="[Action.Icon]" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="12,16,3,0" Visible="true" />
-          <Text Name="txtLabel" Content="[Action.Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="4,10,0,0" />
+          <Graphic Name="grpIcon" Content="[Action.Icon]" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="10,14,3,0" Visible="true" />
+          <Text Name="txtLabel" Content="[Action.Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="4,7,0,0" />
         </Children>
       </Graphic>
     </Content>

@@ -134,6 +134,7 @@
     <Compile Include="Actions\ActionOnPlay.cs" />
     <Compile Include="Actions\ActionNoOperation.cs" />
     <Compile Include="Actions\ActionSetBooleanSetting.cs" />
+    <Compile Include="Actions\ActionPlayPopularLastFM.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
@@ -154,7 +155,6 @@
     <Content Include="MediaCentre\Images\buttonicons\IconFavorite.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
-    <Content Include="MediaCentre\Images\buttonicons\IconKeyboard.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlaylist.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconRefresh.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconSearch.png" />

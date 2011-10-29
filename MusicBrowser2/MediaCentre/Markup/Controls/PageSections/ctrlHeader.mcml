@@ -27,14 +27,32 @@
     <Rules>
       <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
-      <Binding Source="[FolderModel.View]" Target="[ViewMenu.Text]" />
 
+      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.View]" Value="ThumbsDown" />
+        </Conditions>
+        <Actions>
+          <Set Target="[ViewMenu.Text]" Value="Thumb" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FolderModel.View]">
+        <Conditions>
+          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="ThumbsDown" />
+        </Conditions>
+        <Actions>
+          <Set Target="[ViewMenu.Text]" Value="[FolderModel.View]" />
+        </Actions>
+      </Changed>
+      
       <Changed Source="[Entity.Index]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Home" />
         </Conditions>
         <Actions>
           <Set Target="[SettingsMenu.Visible]" Value="true" />
+          <Set Target="[GroupMenu.Visible]" Value="true" />
           <Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
       </Changed>
@@ -59,9 +77,10 @@
                       <FormLayoutInput Bottom="Parent,1" Left="Parent,0"/>
                     </LayoutInput>
                     <Children>
-                      <me:buttonIcon Command="[SettingsAction]" Name="SettingsMenu" Text="Settings" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" Margins="0,0,5,0" Visible="false" />
+                      <me:buttonIcon Command="[SettingsAction]" Name="SettingsMenu" Text="" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" Margins="0,0,5,0" Visible="false" />
                       <me:buttonIcon Command="[ActionActions]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconAction" Margins="0,0,5,0" />
-                      <me:buttonIcon Command="[CycleViewsAction]" Name="ViewMenu" Text="View" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconView" Margins="0,0,5,0" />
+                      <me:buttonIcon Command="[CycleViewsAction]" Name="GroupMenu" Text="Group By" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconGroup" Margins="0,0,5,0" Visible="false" />
+                      <me:buttonIcon Command="[CycleViewsAction]" Name="ViewMenu" Text="[FolderModel.View]" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconView" Margins="0,0,5,0" />
                     </Children>
                   </ColorFill>
 
