@@ -107,9 +107,13 @@ namespace MusicBrowser.Engines.Cache
                 }
                 catch (Exception ex)
                 {
-                    System.IO.File.Delete(_cacheFile);
                     _cache = new Dictionary<string, Entity>(1000);
                     Engines.Logging.LoggerEngineFactory.Error(ex);
+                    try
+                    {
+                        System.IO.File.Delete(_cacheFile);
+                    }
+                    catch { }
                 }
             }
             else

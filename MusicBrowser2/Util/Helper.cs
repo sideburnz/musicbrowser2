@@ -147,33 +147,41 @@ namespace MusicBrowser.Util
 
         private static knownType determineType(string extension)
         {
-            string pt = null;
-            RegistryKey key = Registry.ClassesRoot;
-            key = key.OpenSubKey(extension);
-            if (key != null)
+            try
             {
-                pt = key.GetValue("PerceivedType") as string;
-            }
-            if (String.IsNullOrEmpty(pt))
-            {
-                pt = key.GetValue("MediaCenter.16.PerceivedType.BAK") as string; // J. River fix
-            }
-            if (pt == null)
-            {
-                pt = String.Empty;
-            }
-            pt = pt.ToLower();
+                string pt = null;
+                RegistryKey key = Registry.ClassesRoot;
+                key = key.OpenSubKey(extension);
+                if (key != null)
+                {
+                    pt = key.GetValue("PerceivedType") as string;
+                }
+                if (String.IsNullOrEmpty(pt))
+                {
+                    pt = key.GetValue("MediaCenter.16.PerceivedType.BAK") as string; // J. River fix
+                }
+                if (pt == null)
+                {
+                    pt = String.Empty;
+                }
+                pt = pt.ToLower();
 
-            lock (perceivedTypeCache)
+                lock (perceivedTypeCache)
+                {
+                    if (pt == "audio")
+                    {
+                        perceivedTypeCache.Add(extension, knownType.Track);
+                    }
+                    else
+                    {
+                        perceivedTypeCache.Add(extension, knownType.Other);
+                    }
+                }
+            }
+            catch
             {
-                if (pt == "audio")
-                {
-                    perceivedTypeCache.Add(extension, knownType.Track);
-                }
-                else
-                {
-                    perceivedTypeCache.Add(extension, knownType.Other);
-                }
+                // if there's a problem, return an unknown type
+                perceivedTypeCache.Add(extension, knownType.Other);
             }
             return perceivedTypeCache[extension];
         }

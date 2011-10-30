@@ -30,9 +30,9 @@ namespace MusicBrowser.Actions
 
         public static baseActionCommand ActionFactory(String name)
         {
-            foreach (baseActionCommand action in GetAvailableActions())
+            foreach (baseActionCommand action in _availableActions)
             {
-                if (action.ToString().Equals("musicbrowser.actions.action" + name, StringComparison.CurrentCultureIgnoreCase))
+                if (action.ToString().EndsWith(".action" + name, StringComparison.OrdinalIgnoreCase))
                 {
                     return action;
                 }

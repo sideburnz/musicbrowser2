@@ -53,7 +53,7 @@ namespace MusicBrowser.Providers.Metadata
             // only waste time triggering cache updates if the content has changed
             bool requiresUpdate = false;
             // only do the slow providers if we've not done the fast Provider marker
-            bool onlyFastProviders = !entity.ProviderTimeStamps.ContainsKey("FastProviderMarker");
+            bool onlyFastProviders = !entity.ProviderTimeStamps.ContainsKey("CoreMetadataProvider");
 
             // put the data into the DTO for the providers to read
             DataProviderDTO dto = PopulateDTO(entity);

@@ -159,12 +159,15 @@
     <Content Include="MediaCentre\Images\buttonicons\IconRefresh.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconSearch.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconStar.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconStop.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconUnknown.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconView.png" />
     <Content Include="MediaCentre\Images\buttons\checkSelected.png" />
     <Content Include="MediaCentre\Images\buttons\checkUnselected.png" />
     <Content Include="MediaCentre\Images\buttons\Keyboard.png" />
     <Content Include="MediaCentre\Images\buttons\radioSelected.png" />
     <Content Include="MediaCentre\Images\buttons\radioUnselected.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconLastFM.png" />
     <Content Include="MediaCentre\Images\icons\imageGenre.png" />
     <Content Include="MediaCentre\Images\icons\imageSpinner.png" />
     <Content Include="MediaCentre\Images\backgrounds\NavPanel.png" />
