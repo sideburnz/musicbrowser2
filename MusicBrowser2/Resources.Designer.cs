@@ -230,6 +230,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconLastFM {
+            get {
+                object obj = ResourceManager.GetObject("IconLastFM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconPause {
             get {
                 object obj = ResourceManager.GetObject("IconPause", resourceCulture);
@@ -289,6 +296,20 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap IconStar {
             get {
                 object obj = ResourceManager.GetObject("IconStar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconStop {
+            get {
+                object obj = ResourceManager.GetObject("IconStop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconUnknown {
+            get {
+                object obj = ResourceManager.GetObject("IconUnknown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -5,8 +5,8 @@ namespace MusicBrowser.Actions
 {
     public class ActionNoOperation : baseActionCommand
     {
-        private const string LABEL = "No Operation";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconClose";
+        private const string LABEL = "Unknown";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconUnknown";
 
         public ActionNoOperation(Entity entity)
         {

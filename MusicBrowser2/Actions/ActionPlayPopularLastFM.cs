@@ -10,8 +10,8 @@ namespace MusicBrowser.Actions
 {
     public class ActionPlayPopularLastFM : baseActionCommand
     {
-        private const string LABEL = "XXXX";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
+        private const string LABEL = "Play popular on Last.fm";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconLastFM";
 
         public ActionPlayPopularLastFM(Entity entity)
         {
@@ -28,7 +28,7 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(Entity entity)
         {
-            return new ActionPlayRandomPopular(entity);
+            return new ActionPlayPopularLastFM(entity);
         }
 
         public override void DoAction(Entity entity)
