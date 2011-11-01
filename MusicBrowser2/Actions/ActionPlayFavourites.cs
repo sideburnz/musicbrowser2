@@ -33,6 +33,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
+            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "tracks with 5 stars or marked as favourite");
             CommonTaskQueue.Enqueue(new PlaylistProvider("cmdfavourited", entity), true);   
         }
     }

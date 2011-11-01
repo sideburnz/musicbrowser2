@@ -4,28 +4,33 @@
       xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:cor="assembly://MSCorLib/System">
 
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlCheckbox"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonAction"/>
 
   <UI Name="SystemSettings">
 
     <Locals>
-      <actions:ActionSetBooleanSetting Name="CmdShowFanArt" Key="EnableFanArt" />
-      <actions:ActionSetBooleanSetting Name="CmdUpdateShowClock" Key="ShowClock" />
       <actions:ActionSetBooleanSetting Name="CmdUseInternetProviders" Key="Internet.UseProviders" />
       <actions:ActionSetBooleanSetting Name="CmdAutoLoadNowPlaying" Key="AutoLoadNowPlaying" />
       <actions:ActionSetBooleanSetting Name="CmdAnonymousUsage" Key="Telemetry.Participate" />
+
+      <actions:ActionSetBooleanSetting Name="CmdCacheEnable" Key="Cache.Enable" />
+      <actions:ActionDeleteCache Name="CmdDeleteCache" />
     </Locals>
     
     <Content>
       <ColorFill Content="Transparent" Layout="VerticalFlow">
         <Children>
-          <me:ctrlCheckbox Label="Enable Fan Art" Action="[CmdShowFanArt]" />
-          <me:ctrlCheckbox Label="Show Clock" Action="[CmdUpdateShowClock]" />
-          <me:ctrlCheckbox Label="Use Internet Providers" Action="[CmdUseInternetProviders]" />
+
+          <Text Content="Internet Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
+          <me:ctrlCheckbox Label="Use internet providers" Action="[CmdUseInternetProviders]" />
           <me:ctrlCheckbox Label="Show 'Now Playing' page automatically" Action="[CmdAutoLoadNowPlaying]" />
           <me:ctrlCheckbox Label="Send anonymous usage statistics" Action="[CmdAnonymousUsage]" />
           <!--<me:buttonImage Command="[CmdTurnCacheOnOff]" Text="LastFMUserName" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />-->
+
+          <Text Content="Cache Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
+          <me:ctrlCheckbox Label="Enable caching" Action="[CmdCacheEnable]" />
+          <me:buttonAction Action="[CmdDeleteCache]" />
           <Text />
         </Children>
       </ColorFill>

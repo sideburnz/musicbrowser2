@@ -33,6 +33,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
+            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "a random selection of tracks from your library");
             CommonTaskQueue.Enqueue(new PlaylistProvider("cmdrandom", entity), true);   
         }
     }

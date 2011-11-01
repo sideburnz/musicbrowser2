@@ -95,7 +95,22 @@
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
-              <Graphic Name="graphicBullet" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="[ImageMargins]" Visible="true" />
+              <Graphic Name="graphicBullet" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="[ImageMargins]" Visible="true">
+                <Animations>
+                  <Animation Type="ContentChangeHide">
+                    <Keyframes>
+                      <AlphaKeyframe Time="0.0" Value="1" />
+                      <AlphaKeyframe Time="0.25" Value="0" Interpolation="SCurve" />
+                    </Keyframes>
+                  </Animation>
+                  <Animation Type="ContentChangeShow">
+                    <Keyframes>
+                      <AlphaKeyframe Time="0.0" Value="0" />
+                      <AlphaKeyframe Time="0.25" Value="1" Interpolation="SCurve" />
+                    </Keyframes>
+                  </Animation>
+                </Animations>
+              </Graphic>
               <!-- The label to display. -->
               <Text Name="Label" Color="White" Margins="[TextMargins]" Visible="[DisplayText]" FadeSize="5" Font="[Font]" HorizontalAlignment="Center" />
             </Children>

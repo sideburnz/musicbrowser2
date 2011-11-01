@@ -72,7 +72,7 @@
                 </Children>
               </Graphic>
 
-                  <ColorFill Content="Transparent" Layout="HorizontalFlow" Margins="70,70,0,0">
+                  <ColorFill Content="Transparent" Layout="HorizontalFlow" Navigation="ContainHorizontal" Margins="70,70,0,0">
                     <LayoutInput>
                       <FormLayoutInput Bottom="Parent,1" Left="Parent,0"/>
                     </LayoutInput>

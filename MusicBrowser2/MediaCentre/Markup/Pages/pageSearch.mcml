@@ -11,6 +11,7 @@
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonIcon"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonAction"/>
 
   <UI Name="pageSearch">
 
@@ -22,8 +23,9 @@
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" HandlerStage="Bubbled"/>
       <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" HandlerStage="Bubbled"/>
 
-      <Command Name="CmdBack" />
       <Command Name="CmdNoOp" />
+
+      <actions:ActionPreviousPage Name="BackAction" />
     </Properties>
 
     <Locals>
@@ -41,9 +43,8 @@
       <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" MaxLength="20" />
 
       <KeyHandler Name="BackHandler" Handle="true" Key="Backspace" HandlerStage="Bubbled" Command="[CmdNoOp]"/>
-      <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Routed" Command="[CmdBack]"/>
+      <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Routed" Command="[BackAction]"/>
       
-      <actions:ActionPreviousPage Name="BackAction" />
     </Locals>
 
     <Rules>
@@ -54,12 +55,6 @@
           <Invoke Target="[SearchBox.NavigateInto]" />
         </Actions>
       </Rule>
-
-      <Changed Source="[CmdBack.Invoked]">
-        <Actions>
-          <Invoke Target="[BackAction.Invoke]" />
-        </Actions>
-      </Changed>
 
       <Condition Source="[Model.HasContext]" SourceValue="true">
         <Actions>
@@ -215,13 +210,14 @@
                   <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
                   
                   <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" Visible="false" />
-                  <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-                  <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-                  <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+                  <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="All Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+                  <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="All Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+                  <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="All Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
 
                   <Graphic Name="Underline2" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
 
-                  <me:buttonImage Command="[CmdBack]" Text="Close" MinSize="320,52"  Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />
+                  <me:buttonAction Action="[BackAction]" Size="320,52"/>
+                  <!--<me:buttonImage Command="[BackAction]" Text="Close" MinSize="320,52"  Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />-->
                 </Children>
               </Graphic>
 
@@ -247,12 +243,12 @@
                           <Text Name="txtDetail" Color="White" Font="Segoe Media Center Light, 32" />
                         </Children>
                       </Panel>
-                      <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow">
+                      <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow"  Navigation="ContainVertical">
                         <Children>
                           <Text Name="labelNoResultsError" Content="No items found" Color="White" Font="Segoe Media Center Light, 22" />
                           <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="-10" Margins="0,0,0,0" Name="viewListScroller" ScrollingData="[SearchResultData]" >
                             <Children>
-                              <Repeater Name="SearchResultRepeater" Navigation="ContainVertical">
+                              <Repeater Name="SearchResultRepeater">
                                 <Layout>
                                   <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
                                 </Layout>
@@ -314,21 +310,36 @@
   <UI Name="buttonSearchResult">
     <Properties>
       <entities:Entity Name="Entity" Entity="$Required" />
+      <!-- TODO: populate this to be 'true' when the scope is the folder -->
+      <cor:Boolean Name="ShowTypeHint" Boolean="false" />
     </Properties>
 
     <Locals>
       <Command Name="CmdEnter"/>
       <ClickHandler Name="Clicker" />
+      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" HandlerStage="Bubbled"/>
+      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" HandlerStage="Bubbled"/>
+      <ShortcutHandler Name="RecHandler" Shortcut="Record" Handle="true" HandlerStage="Bubbled"/>
 
-      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" HandlerStage="Direct"/>
-      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" HandlerStage="Direct"/>
+      <KeyHandler Name="StarHandler" Handle="true" HandlerStage="Bubbled" Key="Multiply" />
+      <KeyHandler Name="MinusHandler" Handle="true" HandlerStage="Bubbled" Key="Subtract" />
+      <KeyHandler Name="AddHandler" Handle="true" HandlerStage="Bubbled" Key="Add" />
 
       <actions:ActionOnPlay Name="PlayAction" Entity="[Entity]" />
       <actions:ActionOnEnter Name="EnterAction" Entity="[Entity]" />
+      <actions:ActionOnRecord Name="RecordAction" Entity="[Entity]" />
+      <actions:ActionOnStar Name="StarAction" Entity="[Entity]" />
+      <actions:ActionOnPlus Name="PlusAction" Entity="[Entity]" />
+      <actions:ActionOnMinus Name="MinusAction" Entity="[Entity]" />
     </Locals>
 
     <Rules>
-      <Binding Source="[CmdEnter]" Target="[Clicker.Command]" />
+      <Binding Target="[RecHandler.Command]" Source="[RecordAction]" />
+      <Binding Target="[StarHandler.Command]" Source="[StarAction]" />
+      <Binding Target="[MinusHandler.Command]" Source="[MinusAction]" />
+      <Binding Target="[AddHandler.Command]" Source="[PlusAction]" />
+      <Binding Target="[Clicker.Command]" Source="[EnterAction]" />
+      
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
@@ -344,14 +355,6 @@
         </Actions>
       </Condition>
 
-      <Rule>
-        <Conditions>
-          <Modified Source="[CmdEnter.Invoked]"/>
-        </Conditions>
-        <Actions>
-          <Invoke Target="[EnterAction.Invoke]" />
-        </Actions>
-      </Rule>
       <Rule ConditionLogicalOp="Or">
         <Conditions>
           <Modified Source="[PlayPauseHandler.Invoked]"/>
@@ -367,7 +370,7 @@
           <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="100" />
         </Conditions>
         <Actions>
-          <Set Target="[Star5.Alpha]" Value="1" />
+          <Set Target="[Star5.Alpha]" Value="0.6" />
         </Actions>
       </Changed>
       <Changed Source="[Entity.Rating]" InitialEvaluate="true">
@@ -375,7 +378,7 @@
           <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="80" />
         </Conditions>
         <Actions>
-          <Set Target="[Star4.Alpha]" Value="1" />
+          <Set Target="[Star4.Alpha]" Value="0.6" />
         </Actions>
       </Changed>
       <Changed Source="[Entity.Rating]" InitialEvaluate="true">
@@ -383,7 +386,7 @@
           <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="60" />
         </Conditions>
         <Actions>
-          <Set Target="[Star3.Alpha]" Value="1" />
+          <Set Target="[Star3.Alpha]" Value="0.6" />
         </Actions>
       </Changed>
       <Changed Source="[Entity.Rating]" InitialEvaluate="true">
@@ -391,7 +394,7 @@
           <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="40" />
         </Conditions>
         <Actions>
-          <Set Target="[Star2.Alpha]" Value="1" />
+          <Set Target="[Star2.Alpha]" Value="0.6" />
         </Actions>
       </Changed>
       <Changed Source="[Entity.Rating]" InitialEvaluate="true">
@@ -399,7 +402,7 @@
           <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="20" />
         </Conditions>
         <Actions>
-          <Set Target="[Star1.Alpha]" Value="1" />
+          <Set Target="[Star1.Alpha]" Value="0.6" />
         </Actions>
       </Changed>
 
@@ -423,7 +426,13 @@
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
-              <Graphic Content="[Entity.Icon]" Margins="5,5,0,5" MaximumSize="110,110" MinimumSize="110,110" MaintainAspectRatio="false" Visible="true" />
+              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" MaximumSize="110,110" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="5,5,0,5">
+                <Children>
+                  <Graphic Content="[Entity.TypeThumb]" Margins="81,81,0,0" MinimumSize="26,26" MaximumSize="26,26" Visible="[ShowTypeHint]"/>
+                  <ColorFill Content="Black" Alpha="0.5" Margins="0,80,0,0" MinimumSize="108,28" MaximumSize="108,28" Visible="[ShowTypeHint]" />
+                  <Graphic Content="[Entity.Icon]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
+                </Children>
+              </Graphic>
               <Panel Name="TextLabels" Margins="10,5,0,0">
                 <Layout>
                   <FlowLayout Orientation="Vertical" />
@@ -431,17 +440,17 @@
                 <Children>
                   <Panel Layout="HorizontalFlow">
                     <Children>
-                      <Text Content="[Entity.Title]" Color="White" Font="Segoe Media Center Light, 24" Margins="0,-5,0,-2"/>
-                      <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,7,0,0" Alpha="0.1"/>
-                      <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
-                      <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
-                      <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
-                      <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,7,0,0" Alpha="0.1"/>
-                      <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="10,8,0,0" Visible="[Entity.Favorite]"/>
+                      <Text Content="[Entity.Title]" Color="White" Font="Segoe Media Center Light, 26" Margins="0,-5,0,-2"/>
+                      <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,11,0,0" Alpha="0.1"/>
+                      <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
+                      <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
+                      <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
+                      <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
+                      <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="10,9,0,0" Alpha="0.6" Visible="[Entity.Favorite]"/>
                     </Children>
                   </Panel>
-                  <Text Content="[Entity.ShortSummaryLine1]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-3,0,0"/>
-                  <Text Content="[Entity.ShortSummaryLine2]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-3,0,0"/>
+                  <Text Content="[Entity.ShortSummaryLine1]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-6,0,0"/>
+                  <Text Content="[Entity.ShortSummaryLine2]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-5,0,0"/>
                 </Children>
               </Panel>
             </Children>

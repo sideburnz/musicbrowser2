@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MusicBrowser.Providers;
+using MusicBrowser.Engines.Cache;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Actions
 {
-    class ActionQueue : baseActionCommand
+    public class ActionDeleteCache : baseActionCommand
     {
-        private const string LABEL = "Queue";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconQueue";
+        private const string LABEL = "Reset cache";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconDeleteCache";
 
-        public ActionQueue(Entity entity)
+        public ActionDeleteCache(Entity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionQueue()
+        public ActionDeleteCache()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -29,13 +30,16 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(Entity entity)
         {
-            return new ActionQueue(entity);
+            return new ActionDeleteCache(entity);
         }
 
         public override void DoAction(Entity entity)
         {
-            Models.UINotifier.GetInstance().Message = String.Format("queuing {0}", entity.Title);
-            TransportEngineFactory.GetEngine().Play(true, entity.Path);
+            //TODO: prompt the user
+
+            Models.UINotifier.GetInstance().Message = "resetting cache";
+            CacheEngineFactory.GetEngine().Clear();
+            InMemoryCache.GetInstance().Clear();
         }
     }
 }

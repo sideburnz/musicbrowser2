@@ -11,6 +11,7 @@ namespace MusicBrowser.Engines.Transport
     class VLCTransport : ITransportEngine
     {
         private const int BATCH_SIZE = 10;
+        public double playRate = 1;
 
         public void Play(bool queue, string file)
         {
@@ -27,7 +28,7 @@ namespace MusicBrowser.Engines.Transport
                 Close();
                 System.Threading.Thread.Sleep(500);
             }
-            sb.Append("--one-instance ");
+
             sb.Append("--rate=1.0 ");
             sb.Append("--qt-start-minimized ");
             sb.Append("\"" + file + "\"  ");
@@ -61,7 +62,6 @@ namespace MusicBrowser.Engines.Transport
                 Close();
                 System.Threading.Thread.Sleep(500);
             }
-            sb.Append("--one-instance ");
             sb.Append("--rate=1.0 ");
             sb.Append("--qt-start-minimized ");
 
@@ -85,12 +85,12 @@ namespace MusicBrowser.Engines.Transport
             if (paused)
             {
                 paused = false;
-                ExecuteCommand("--one-instance vlc://pause:0");
+                ExecuteCommand("vlc://pause:0");
             }
             else
             {
                 paused = true;
-                ExecuteCommand("--one-instance vlc://pause:86400");
+                ExecuteCommand("vlc://pause:86400");
             }
         }
 
@@ -99,32 +99,25 @@ namespace MusicBrowser.Engines.Transport
             Close();
         }
 
-        public double playRate = 1;
-
         public void Next()
         {
-            playRate = playRate * 1.5;
-            if (playRate > 4) { playRate = 4; }
-            ExecuteCommand(String.Format("--one-instance --rate={0:0.00}", playRate));
+
         }
 
         public void Previous()
         {
-            playRate = playRate * 0.666666666;
-            if (playRate < 0.25) { playRate = 0.25; }
-            ExecuteCommand(String.Format("--one-instance --rate={0:0.00}", playRate));
+
         }
 
         public void Close()
         {
-            ExecuteCommand("--one-instance vlc://quit");
+            ExecuteCommand("vlc://quit");
         }
 
         public PlayState State
         {
             get { return PlayState.Undefined; }
         }
-
 
         private string VLCPath
         {
@@ -137,13 +130,28 @@ namespace MusicBrowser.Engines.Transport
 
             ProcessStartInfo externalProc = new ProcessStartInfo();
             externalProc.FileName = VLCPath;
-            externalProc.Arguments = command;
+            externalProc.Arguments = "--one-instance " + command;
             externalProc.UseShellExecute = false;
             externalProc.LoadUserProfile = false;
             externalProc.CreateNoWindow = true;
             externalProc.RedirectStandardInput = true;
             externalProc.WindowStyle = ProcessWindowStyle.Hidden;
             Process.Start(externalProc);
+        }
+
+
+        public void FastForward()
+        {
+            playRate = playRate * 1.5;
+            if (playRate > 4) { playRate = 4; }
+            ExecuteCommand(String.Format("--rate={0:0.00}", playRate));
+        }
+
+        public void FastReverse()
+        {
+            playRate = playRate * 0.666666666;
+            if (playRate < 0.25) { playRate = 0.25; }
+            ExecuteCommand(String.Format("--rate={0:0.00}", playRate));
         }
     }
 }

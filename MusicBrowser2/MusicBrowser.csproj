@@ -135,6 +135,18 @@
     <Compile Include="Actions\ActionNoOperation.cs" />
     <Compile Include="Actions\ActionSetBooleanSetting.cs" />
     <Compile Include="Actions\ActionPlayPopularLastFM.cs" />
+    <Compile Include="Actions\ActionOnStar.cs" />
+    <Compile Include="Actions\ActionOnRecord.cs" />
+    <Compile Include="Actions\ActionRate.cs" />
+    <Compile Include="Actions\ActionRateMore.cs" />
+    <Compile Include="Actions\ActionRateLess.cs" />
+    <Compile Include="Actions\ActionOnPlus.cs" />
+    <Compile Include="Actions\ActionOnMinus.cs" />
+    <Compile Include="Actions\ActionPause.cs" />
+    <Compile Include="Actions\ActionStop.cs" />
+    <Compile Include="Actions\ActionSkipForward.cs" />
+    <Compile Include="Actions\ActionSkipBack.cs" />
+    <Compile Include="Actions\ActionDeleteCache.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
@@ -152,15 +164,22 @@
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
     <Content Include="MediaCentre\Images\buttonicons\IconAction.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconConfig.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconDeleteCache.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconDown.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconFastForward.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconFavorite.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlaylist.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconRefresh.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconRewind.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconSearch.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconSkipBack.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconSkipForward.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconStar.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconStop.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconUnknown.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconUp.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconView.png" />
     <Content Include="MediaCentre\Images\buttons\checkSelected.png" />
     <Content Include="MediaCentre\Images\buttons\checkUnselected.png" />
@@ -248,15 +267,13 @@
     <Content Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MediaCentre\Markup\Controls\SettingsPages\CacheSettings.mcml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="MediaCentre\Markup\Controls\Controls\ctrlCheckbox.mcml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlActionPopUp.mcml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonAction.mcml" />
     <None Include="MediaCentre\Markup\Controls\PageViews\viewThumbsDown.mcml">
       <SubType>Designer</SubType>
     </None>

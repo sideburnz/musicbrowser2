@@ -9,19 +9,19 @@ using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Actions
 {
-    class ActionQueue : baseActionCommand
+    class ActionRate : baseActionCommand
     {
-        private const string LABEL = "Queue";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconQueue";
+        private const string LABEL = "Rate";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconAction";
 
-        public ActionQueue(Entity entity)
+        public ActionRate(Entity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionQueue()
+        public ActionRate()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -29,13 +29,15 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(Entity entity)
         {
-            return new ActionQueue(entity);
+            return new ActionRate(entity);
         }
+
+        public int Rating { get; set; }
 
         public override void DoAction(Entity entity)
         {
-            Models.UINotifier.GetInstance().Message = String.Format("queuing {0}", entity.Title);
-            TransportEngineFactory.GetEngine().Play(true, entity.Path);
+            entity.Rating = Rating;
+            entity.UpdateValues();
         }
     }
 }

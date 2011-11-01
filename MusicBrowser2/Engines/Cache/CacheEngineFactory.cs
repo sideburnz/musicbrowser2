@@ -14,28 +14,23 @@ namespace MusicBrowser.Engines.Cache
         {
             if (_cacheEngine == null)
             {
-                string libraryName = Util.Config.GetInstance().GetStringSetting("Cache.Engine");
+                bool enable = Util.Config.GetInstance().GetBooleanSetting("Cache.Enable");
                 lock (Obj)
                 {
-                    switch (libraryName.ToLower())
+                    if (enable)
                     {
-                        case "none":
-                            {
-                                _cacheEngine = new NoCache();
-                                break;
-                            }
-                        case "filesystem":
-                            {
-                                _cacheEngine = new FileSystemCache();
-                                break;
-                            }
-                        default:
-                            {
-                                _cacheEngine = LoadExternalEngine(libraryName);
-                                break;
-                            }
+                        string engine = Util.Config.GetInstance().GetStringSetting("Cache.Engine");
+
+                        if (engine.ToLower() == "filesystem")
+                        {
+                            _cacheEngine = new FileSystemCache();
+                        }
+                        else
+                        {
+                            _cacheEngine = LoadExternalEngine(engine);
+                        }
                     }
-                    if (_cacheEngine == null)
+                    if (!enable)
                     {
                         _cacheEngine = new NoCache();
                     }

@@ -56,6 +56,19 @@ namespace MusicBrowser.Engines.Cache
             }
         }
 
+        public void Clear()
+        {
+            lock (_obj)
+            {
+                _cache = new Dictionary<string, Entity>();
+                try
+                {
+                    File.Delete(_cacheFile);
+                }
+                catch { }
+            }
+        }
+
         public void Update(Entity entity)
         {
             lock (_obj)
@@ -134,7 +147,11 @@ namespace MusicBrowser.Engines.Cache
             }
             catch
             {
-                File.Delete(_cacheFile);
+                try
+                {
+                    File.Delete(_cacheFile);
+                }
+                catch { }
             }
         }
     }

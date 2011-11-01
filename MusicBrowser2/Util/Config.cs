@@ -31,6 +31,7 @@ namespace MusicBrowser.Util
                 { "Internet.LastFMUserName", String.Empty },
 
                 { "Cache.Path", Helper.CachePath },
+                { "Cache.Enable", true.ToString() },
                 { "Cache.Engine", "FileSystem" },
                                         
                 { "Entity.Home.View", "Thumb" },

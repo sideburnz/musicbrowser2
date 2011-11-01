@@ -147,7 +147,6 @@ namespace MusicBrowser.Providers
                 case "cmdaddtoqueue":
                     if (_entity.Kind.Equals(EntityKind.Track) || _entity.Kind.Equals(EntityKind.Playlist))
                     {
-                        Models.UINotifier.GetInstance().Message = "adding \"" + _entity.Title + "\" to playlist";
                         MediaCentre.Playlist.PlayTrack(_entity, true);
                     }
                     else
@@ -186,7 +185,6 @@ namespace MusicBrowser.Providers
                             case "cmdlastfm":
                                 tracks.AddRange(FindPopularOnLastFM(size)); break;
                         }
-                        //dedupe the list
                         MediaCentre.Playlist.PlayTrackList(tracks, false);
                         break;
                     }

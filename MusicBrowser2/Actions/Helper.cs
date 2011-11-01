@@ -16,9 +16,11 @@ namespace MusicBrowser.Actions
         private struct ActionConfigEntry
         {
             //TODO: implement additional shortcuts
-            public baseActionCommand OnRecord;  // default to refresh metadata
-            public baseActionCommand OnHash; // default to cycle through starts (0,1,2,3,4,5)
-            public baseActionCommand OnStar; // default to mark as favorite
+            public baseActionCommand OnRecord;
+            public baseActionCommand OnStar;
+
+            public baseActionCommand OnPlus;
+            public baseActionCommand OnMinus;
 
             public baseActionCommand OnEnter;
             public baseActionCommand OnPlay;
@@ -41,6 +43,15 @@ namespace MusicBrowser.Actions
             return new ActionNoOperation();
         }
 
+        public static baseActionCommand ActionFactory(XmlNode node)
+        {
+            if (node != null)
+            {
+                return ActionFactory(node.InnerText);
+            }
+            return new ActionNoOperation();
+        }
+
         public static baseActionCommand GetEnterAction(Entity entity)
         {
             return _actionConfig[entity.KindName].OnEnter.NewInstance(entity);
@@ -49,6 +60,26 @@ namespace MusicBrowser.Actions
         public static baseActionCommand GetPlayAction(Entity entity)
         {
             return _actionConfig[entity.KindName].OnPlay.NewInstance(entity);
+        }
+
+        public static baseActionCommand GetPlusAction(Entity entity)
+        {
+            return _actionConfig[entity.KindName].OnPlus.NewInstance(entity);
+        }
+
+        public static baseActionCommand GetMinusAction(Entity entity)
+        {
+            return _actionConfig[entity.KindName].OnMinus.NewInstance(entity);
+        }
+
+        public static baseActionCommand GetRecordAction(Entity entity)
+        {
+            return _actionConfig[entity.KindName].OnRecord.NewInstance(entity);
+        }
+
+        public static baseActionCommand GetStarAction(Entity entity)
+        {
+            return _actionConfig[entity.KindName].OnStar.NewInstance(entity);
         }
 
         public static IList<baseActionCommand> GetActionList(Entity entity)
@@ -67,15 +98,12 @@ namespace MusicBrowser.Actions
         {
             List<baseActionCommand> ret = new List<baseActionCommand>();
 
-            // commented actions are internal use only
-
             ret.Add(new ActionCloseMenu());
             ret.Add(new ActionCycleViews());
-//            ret.Add(new ActionDefaultAction());
-            ret.Add(new ActionNoOperation());
-//            ret.Add(new ActionOnEnter());
-//            ret.Add(new ActionOnPlay());
+            ret.Add(new ActionNoOperation()); // AKA Do Nothing
+            //the ActionOn____ actions should never be factored
             ret.Add(new ActionOpen());
+            ret.Add(new ActionPause());
             ret.Add(new ActionPlay());
             ret.Add(new ActionPlayEntireLibrary());
             ret.Add(new ActionPlayFavourites());
@@ -84,12 +112,19 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionPlayRandomPopular());
             ret.Add(new ActionPreviousPage());
             ret.Add(new ActionQueue());
+//          ret.Add(new ActionRate());
+            ret.Add(new ActionRateLess());
+            ret.Add(new ActionRateMore());
             ret.Add(new ActionRefreshMetadata());
-//            ret.Add(new ActionSetSetting());
+//          ret.Add(new ActionSetBooleanSetting());
+//          ret.Add(new ActionSetSetting());
             ret.Add(new ActionShowActions());
             ret.Add(new ActionShowKeyboard());
             ret.Add(new ActionShowSearch());
             ret.Add(new ActionShowSettings());
+            ret.Add(new ActionSkipBack());
+            ret.Add(new ActionSkipForward());
+            ret.Add(new ActionStop());
 
             return ret;
         }
@@ -118,8 +153,13 @@ namespace MusicBrowser.Actions
                     ActionConfigEntry entry = new ActionConfigEntry();
                     entry.MenuOptions = new List<baseActionCommand>();
 
-                    entry.OnEnter = ActionFactory(node.SelectSingleNode("OnEnter").InnerText);
-                    entry.OnPlay = ActionFactory(node.SelectSingleNode("OnPlay").InnerText);
+                    //todo: this needs to be able deal with non-existant nodes
+                    entry.OnEnter = ActionFactory(node.SelectSingleNode("OnEnter"));
+                    entry.OnPlay = ActionFactory(node.SelectSingleNode("OnPlay"));
+                    entry.OnRecord = ActionFactory(node.SelectSingleNode("OnRecord"));
+                    entry.OnStar = ActionFactory(node.SelectSingleNode("OnStar"));
+                    entry.OnPlus = ActionFactory(node.SelectSingleNode("OnPlus"));
+                    entry.OnMinus = ActionFactory(node.SelectSingleNode("OnMinus"));
 
                     foreach (XmlNode item in node.SelectNodes("MenuItems/Item"))
                     {

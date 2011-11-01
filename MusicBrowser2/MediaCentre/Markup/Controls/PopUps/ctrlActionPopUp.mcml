@@ -5,6 +5,8 @@
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:cor="assembly://MSCorLib/System">
 
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonAction"/>
+
   <UI Name="ctrlActionPopup">
     
     <Properties>
@@ -77,58 +79,6 @@
         </Children>
       </ColorFill>
     </Content>
-  </UI>
-
-
-  <UI Name="buttonAction">
-    
-    <Properties>
-      <actions:baseActionCommand Name="Action" baseActionCommand="$Required" />
-    </Properties>
-
-    <Locals>
-      <ClickHandler Name="Clicker" />
-      <Command Name="CmdChange" />
-    </Locals>
-
-    <Rules>
-      <Condition Source="[Input.KeyFocus]" SourceValue="true">
-        <Actions>
-          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"/>
-          <Set Target="[txtLabel.Alpha]" Value="1" />
-        </Actions>
-      </Condition>
-
-      <Condition Source="[Input.KeyFocus]" SourceValue="false">
-        <Actions>
-          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
-          <Set Target="[txtLabel.Alpha]" Value="0.5" />
-        </Actions>
-      </Condition>
-
-      <Default Target="[Input.KeyInteractive]" Value="true" />
-      <Binding Source="[CmdChange]" Target="[Clicker.Command]" />
-
-      <Changed Source="[CmdChange.Invoked]">
-        <Actions>
-          <Invoke Target="[Action.Invoke]" />
-        </Actions>
-      </Changed>
-
-    </Rules>
-
-    <Content>
-      <Graphic Name="Frame" MinimumSize="360,52" MaximumSize="360,52" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage">
-        <Layout>
-          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
-        </Layout>
-        <Children>
-          <Graphic Name="grpIcon" Content="[Action.Icon]" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="10,14,3,0" Visible="true" />
-          <Text Name="txtLabel" Content="[Action.Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="4,7,0,0" />
-        </Children>
-      </Graphic>
-    </Content>
-    
   </UI>
 
 </Mcml>

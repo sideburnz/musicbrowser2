@@ -91,14 +91,29 @@
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
     </Properties>
     <Locals>
+      <Command Name="CmdEnter"/>
+      <ClickHandler Name="Clicker" />
+      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" HandlerStage="Direct"/>
+      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" HandlerStage="Direct"/>
+      <ShortcutHandler Name="RecHandler" Shortcut="Record" Handle="true" HandlerStage="Direct"/>
+
+      <KeyHandler Name="StarHandler" Handle="true" HandlerStage="Direct" Key="Multiply" />
+      <KeyHandler Name="MinusHandler" Handle="true" HandlerStage="Direct" Key="Subtract" />
+      <KeyHandler Name="AddHandler" Handle="true" HandlerStage="Direct" Key="Add" />
+
       <actions:ActionOnPlay Name="PlayAction" Entity="[Entity]" />
       <actions:ActionOnEnter Name="EnterAction" Entity="[Entity]" />
-      
-      <ClickHandler Name="Clicker" />
-      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true"/>
-      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true"/>
+      <actions:ActionOnRecord Name="RecordAction" Entity="[Entity]" />
+      <actions:ActionOnStar Name="StarAction" Entity="[Entity]" />
+      <actions:ActionOnPlus Name="PlusAction" Entity="[Entity]" />
+      <actions:ActionOnMinus Name="MinusAction" Entity="[Entity]" />
     </Locals>
+
     <Rules>
+      <Binding Target="[RecHandler.Command]" Source="[RecordAction]" />
+      <Binding Target="[StarHandler.Command]" Source="[StarAction]" />
+      <Binding Target="[MinusHandler.Command]" Source="[MinusAction]" />
+      <Binding Target="[AddHandler.Command]" Source="[PlusAction]" />
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>

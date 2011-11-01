@@ -76,6 +76,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static byte[] buttonAction {
+            get {
+                object obj = ResourceManager.GetObject("buttonAction", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] buttonBasic {
             get {
                 object obj = ResourceManager.GetObject("buttonBasic", resourceCulture);
@@ -101,13 +108,6 @@ namespace MusicBrowser {
             get {
                 object obj = ResourceManager.GetObject("ButtonLeftFocus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static byte[] CacheSettings {
-            get {
-                object obj = ResourceManager.GetObject("CacheSettings", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
@@ -202,6 +202,27 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconDeleteCache {
+            get {
+                object obj = ResourceManager.GetObject("IconDeleteCache", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconDown {
+            get {
+                object obj = ResourceManager.GetObject("IconDown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconFastForward {
+            get {
+                object obj = ResourceManager.GetObject("IconFastForward", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconFavorite {
             get {
                 object obj = ResourceManager.GetObject("IconFavorite", resourceCulture);
@@ -279,6 +300,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconRewind {
+            get {
+                object obj = ResourceManager.GetObject("IconRewind", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconSearch {
             get {
                 object obj = ResourceManager.GetObject("IconSearch", resourceCulture);
@@ -289,6 +317,20 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap IconShuffle {
             get {
                 object obj = ResourceManager.GetObject("IconShuffle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconSkipBack {
+            get {
+                object obj = ResourceManager.GetObject("IconSkipBack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconSkipForward {
+            get {
+                object obj = ResourceManager.GetObject("IconSkipForward", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -310,6 +352,13 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap IconUnknown {
             get {
                 object obj = ResourceManager.GetObject("IconUnknown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconUp {
+            get {
+                object obj = ResourceManager.GetObject("IconUp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
