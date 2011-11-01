@@ -15,8 +15,11 @@ namespace MusicBrowser
     {         
         private static HistoryOrientedPageSession _sSession; 
          
-        public void Initialize(Dictionary<string, object> appInfo, Dictionary<string, object> entryPointInfo)         
-        { 
+        public void Initialize(Dictionary<string, object> appInfo, Dictionary<string, object> entryPointInfo)
+        {
+#if DEBUG
+            host.MediaCenterEnvironment.Dialog("Attach debugger and hit ok", "debug", DialogButtons.Ok, 100, true); 
+#endif
         }          
         
         public void Uninitialize()         

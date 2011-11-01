@@ -35,7 +35,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
-            UINotifier.GetInstance().Message = "refreshing metadata for " + entity.Title;
+            Models.UINotifier.GetInstance().Message = String.Format("refreshing metadata for {0}", entity.Title);
             CommonTaskQueue.Enqueue(new ForceMetadataRefreshProvider(entity), true);
         }
     }

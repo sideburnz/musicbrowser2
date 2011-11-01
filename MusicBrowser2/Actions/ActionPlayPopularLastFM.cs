@@ -17,6 +17,7 @@ namespace MusicBrowser.Actions
         {
             Label = LABEL;
             IconPath = ICON_PATH;
+            Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
             Entity = entity;
         }
 
@@ -24,6 +25,7 @@ namespace MusicBrowser.Actions
         {
             Label = LABEL;
             IconPath = ICON_PATH;
+            Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
         }
 
         public override baseActionCommand NewInstance(Entity entity)
@@ -33,6 +35,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
+            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "tracks with the highest playcounts on Last.fm");
             CommonTaskQueue.Enqueue(new PlaylistProvider("cmdlastfm", entity), true);   
         }
     }

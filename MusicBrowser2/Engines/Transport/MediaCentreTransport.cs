@@ -98,5 +98,16 @@ namespace MusicBrowser.Engines.Transport
         }
 
         #endregion
+
+
+        public void FastForward()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FastReverse()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

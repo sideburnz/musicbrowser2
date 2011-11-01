@@ -27,20 +27,23 @@
       <models:UINotifier Name="UINotifier" UINotifier="$Required" />
       <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
 
-      <actions:ActionRefreshMetadata Name="RefreshAction" />
       <actions:ActionShowSearch Name="SearchAction" />
+      
+      <actions:ActionStop Name="ActionStop" />
+      <actions:ActionPause Name="ActionPause" />
+      <actions:ActionSkipForward Name="ActionSkipForward" />
+      <actions:ActionSkipBack Name="ActionSkipBack" />
     </Properties>
 
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
       <models:Clock Name="Clock"/>
       
-      <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Direct"/>
-      <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Direct"/>
-      <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Direct"/>
-      <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Direct" />
-      <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Direct" />
-      <ShortcutHandler Name="hRec" Shortcut="Record" HandlerStage="Direct" Command="[RefreshAction]" />
+      <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" Command="[ActionSkipForward]"/>
+      <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true" Command="[ActionSkipBack]" />
+      <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Bubbled" Handle="true" Command="[ActionStop]" />
+      <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Bubbled"  Handle="true" Command="[ActionPause]"/>
+      <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Bubbled" Handle="true" Command="[ActionPause]"/>
 
       <Timer Name="BackgroundTimer" AutoRepeat="True" Interval="10000" Enabled="True" />
 
@@ -49,8 +52,6 @@
     </Locals>
 
     <Rules>
-
-      <Binding Source="[FolderModel.ParentEntity]" Target="[RefreshAction.Entity]" />
       <Binding Source="[FolderModel.ParentEntity]" Target="[SearchAction.Entity]" />
 
       <Binding Source="[editableText]" Target="[typingHandler.EditableText]" />
@@ -70,32 +71,6 @@
           <Invoke Target="[FolderModel.ParentEntity.GetNextBackground]"/>
         </Actions>
       </Changed>
-      
-      <!--<Changed Source="[hNext.Invoked]">
-        <Actions>
-          <Invoke Target="[FolderModel.TransportCommand]" command="next" />
-        </Actions>
-      </Changed>
-      <Changed Source="[hPrev.Invoked]">
-        <Actions>
-          <Invoke Target="[FolderModel.TransportCommand]" command="prev" />
-        </Actions>
-      </Changed>
-      <Changed Source="[hStop.Invoked]">
-        <Actions>
-          <Invoke Target="[FolderModel.TransportCommand]" command="stop" />
-        </Actions>
-      </Changed>
-      <Changed Source="[hPlayPause.Invoked]">
-        <Actions>
-          <Invoke Target="[FolderModel.TransportCommand]" command="playpause" />
-        </Actions>
-      </Changed>
-      <Changed Source="[hPause.Invoked]">
-        <Actions>
-          <Invoke Target="[FolderModel.TransportCommand]" command="playpause" />
-        </Actions>
-      </Changed>-->
 
       <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
       <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />

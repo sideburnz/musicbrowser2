@@ -286,6 +286,7 @@ namespace MusicBrowser.Entities
             FirePropertyChanged("Icon");
             FirePropertyChanged("Title");
             FirePropertyChanged("Summary");
+            FirePropertyChanged("Rating");
         }
 
         public void CacheSortName()
@@ -333,7 +334,7 @@ namespace MusicBrowser.Entities
                             if (!String.IsNullOrEmpty(SampleRate)) { sb.Append(SampleRate + "  "); }
                             if (!String.IsNullOrEmpty(Codec)) { sb.Append(Codec + "  "); }
 
-                            if (sb.Length > 0) { return "Track  (" + sb.ToString().Trim() + ")"; }
+                            if (sb.Length > 0) { return ArtistName + "  (" + sb.ToString().Trim() + ")"; }
                             break;
                         }
                     case EntityKind.Genre:
@@ -373,13 +374,14 @@ namespace MusicBrowser.Entities
 
                             if (sb.Length > 0)
                             {
-                                if (Kind == EntityKind.Virtual)
+                                switch (Kind)
                                 {
-                                    return Path + "  (" + sb.ToString().Trim() + ")";
-                                }
-                                else
-                                {
-                                    return KindName + "  (" + sb.ToString().Trim() + ")";
+                                    case EntityKind.Virtual:
+                                        return (Path + "  (" + sb.ToString().Trim() + ")").Trim();
+                                    case EntityKind.Album:
+                                        return (AlbumArtist + "  (" + sb.ToString().Trim() + ")").Trim();
+                                    default:
+                                        return sb.ToString().Trim();
                                 }
                             }
                             break;
@@ -397,22 +399,6 @@ namespace MusicBrowser.Entities
         public new string Description
         {
             get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".Format")); }
-        }
-
-        public string OptionalArtistLine
-        {
-            get
-            {
-                if (ArtistName != AlbumArtist && !String.IsNullOrEmpty(ArtistName) && !String.IsNullOrEmpty(AlbumArtist))
-                {
-                    return ArtistName;
-                }
-                if (Kind == EntityKind.Virtual)
-                {
-                    return AlbumArtist;
-                }
-                return string.Empty;
-            }
         }
 
         public string MacroSubstitution(string input)

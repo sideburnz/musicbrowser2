@@ -9,7 +9,7 @@ using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Actions
 {
-    class ActionPlay : baseActionCommand
+    public class ActionPlay : baseActionCommand
     {
         private const string LABEL = "Play";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
@@ -34,6 +34,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
+            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", entity.Title);
             TransportEngineFactory.GetEngine().Play(false, entity.Path);
         }
     }

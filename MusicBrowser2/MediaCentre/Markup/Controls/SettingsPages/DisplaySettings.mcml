@@ -10,6 +10,9 @@
   <UI Name="DisplaySettings">
 
     <Locals>
+      <actions:ActionSetBooleanSetting Name="CmdShowFanArt" Key="EnableFanArt" />
+      <actions:ActionSetBooleanSetting Name="CmdUpdateShowClock" Key="ShowClock" />
+
       <actions:ActionSetBooleanSetting Name="CmdUseFolderImageForTracks" Key="UseFolderImageForTracks" />
       <actions:ActionSetBooleanSetting Name="CmdPutDiscInTrackNo" Key="PutDiscInTrackNo" />
     </Locals>
@@ -17,7 +20,11 @@
     <Content>
       <ColorFill Content="Transparent" Layout="VerticalFlow">
         <Children>
-          <Text Content="Tracks" Color="White" Font="Segoe Media Center Light, 22" />
+          <Text Content="General Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
+          <me:ctrlCheckbox Label="Enable background images" Action="[CmdShowFanArt]" />
+          <me:ctrlCheckbox Label="Show clock" Action="[CmdUpdateShowClock]" />
+
+          <Text Content="Track Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Use folder image as track thumbs" Action="[CmdUseFolderImageForTracks]" />
           <me:ctrlCheckbox Label="Put the disc number in the track number" Action="[CmdPutDiscInTrackNo]" />
         </Children>

@@ -25,7 +25,7 @@ namespace MusicBrowser.Engines.Transport
             StringBuilder sb = new StringBuilder();
             if (queue)
             {
-                sb.Append(" /add");
+                sb.Append(" /add /immediate");
             }
             else
             {
@@ -55,7 +55,7 @@ namespace MusicBrowser.Engines.Transport
             StringBuilder sb = new StringBuilder();
             if (queue)
             {
-                sb.Append(" /add");
+                sb.Append(" /add /immediate");
             }
             else
             {
@@ -135,5 +135,16 @@ namespace MusicBrowser.Engines.Transport
             Process.Start(externalProc);
         }
 
+
+
+        public void FastForward()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void FastReverse()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

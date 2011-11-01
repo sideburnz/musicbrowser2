@@ -104,14 +104,16 @@ namespace MusicBrowser.Providers.Metadata
                 TagLib.File fileTag = TagLib.File.Create(entity.Path);
                 if (!String.IsNullOrEmpty(fileTag.Tag.Title))
                 {
-                    entity.Title = fileTag.Tag.Title;
-                    entity.TrackName = entity.Title;
+                    entity.TrackName = fileTag.Tag.Title;
+                    entity.AlbumName = fileTag.Tag.Album;
+                    entity.ArtistName = fileTag.Tag.FirstPerformer;
+                    entity.AlbumArtist = fileTag.Tag.FirstAlbumArtist;
+                    entity.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
                     entity.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);
                     entity.TrackNumber = Convert.ToInt32(fileTag.Tag.Track);
+                    entity.Codec = fileTag.MimeType.Substring(7).ToLower();
                     entity.Duration = Convert.ToInt32(fileTag.Properties.Duration.TotalSeconds);
-                    entity.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year);
-                    entity.AlbumArtist = fileTag.Tag.FirstAlbumArtist;
-                    entity.ArtistName = fileTag.Tag.FirstPerformer;
+                    entity.MusicBrainzID = fileTag.Tag.MusicBrainzTrackId;
 
                     if (string.IsNullOrEmpty(entity.AlbumArtist)) { entity.AlbumArtist = entity.ArtistName; }
                 }

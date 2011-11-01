@@ -5,8 +5,8 @@ namespace MusicBrowser.Actions
 {
     public class ActionPreviousPage : baseActionCommand
     {
-        private const string LABEL = "Back";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconAction";
+        private const string LABEL = "Close Page";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconClose";
 
         public ActionPreviousPage(Entity entity)
         {

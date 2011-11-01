@@ -11,5 +11,6 @@ namespace MusicBrowser.Interfaces
         bool Exists(string key);
 
         void Scavenge();
+        void Clear();
     }
 }

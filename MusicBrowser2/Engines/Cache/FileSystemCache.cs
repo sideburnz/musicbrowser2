@@ -13,7 +13,10 @@ namespace MusicBrowser.Engines.Cache
 
         public FileSystemCache()
         {
-            Helper.BuildCachePath(Config.GetInstance().GetStringSetting("Cache.Path"));
+            lock (_obj)
+            {
+                Helper.BuildCachePath(Config.GetInstance().GetStringSetting("Cache.Path"));
+            }
         }
 
         public void Delete(string key)
@@ -64,7 +67,10 @@ namespace MusicBrowser.Engines.Cache
         public bool Exists(string key)
         {
             string fileName = CalculateCacheFileFromKey(key);
-            return File.Exists(fileName);
+            lock (_obj)
+            {
+                return File.Exists(fileName);
+            }
         }
 
         private string CalculateCacheFileFromKey(string key)
@@ -74,10 +80,21 @@ namespace MusicBrowser.Engines.Cache
             return temp + key + ".cache.xml";
         }
 
-
         public void Scavenge()
         {
             throw new NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            lock (_obj)
+            {
+                try
+                {
+                    Directory.Delete(_cacheLocation, true);
+                }
+                catch { }
+            }
         }
     }
 }

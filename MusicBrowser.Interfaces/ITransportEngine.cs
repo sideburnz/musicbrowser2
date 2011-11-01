@@ -22,6 +22,8 @@ namespace MusicBrowser.Interfaces
         void PlayPause();
         void Stop();
         void Next();
+        void FastForward();
+        void FastReverse();
         void Previous();
 
         void Close();

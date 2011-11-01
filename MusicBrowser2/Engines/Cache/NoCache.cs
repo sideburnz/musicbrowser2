@@ -29,5 +29,7 @@ namespace MusicBrowser.Engines.Cache
         }
 
         public void Scavenge() { }
+
+        public void Clear() { }
     }
 }
