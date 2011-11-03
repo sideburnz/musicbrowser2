@@ -137,7 +137,14 @@ namespace MusicBrowser.Actions
             XmlDocument xml = new XmlDocument();
             try
             {
-                xml.Load(configFile);
+                if (File.Exists(configFile))
+                {
+                    xml.Load(configFile);
+                }
+                else
+                {
+                    xml.LoadXml(Resources.ActionConfig);
+                }
             }
             catch (Exception e)
             {

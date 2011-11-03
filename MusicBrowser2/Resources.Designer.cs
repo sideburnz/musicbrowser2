@@ -61,6 +61,36 @@ namespace MusicBrowser {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;ActionConfig&gt;
+        ///	&lt;Entity name=&quot;Album&quot;&gt;
+        ///		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
+        ///		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+        ///		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+        ///		&lt;MenuItems&gt;
+        ///			&lt;Item&gt;Play&lt;/Item&gt;
+        ///			&lt;Item&gt;Queue&lt;/Item&gt;
+        ///			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
+        ///		&lt;/MenuItems&gt;
+        ///	&lt;/Entity&gt;
+        ///	&lt;Entity name=&quot;Artist&quot;&gt;
+        ///		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
+        ///		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+        ///		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+        ///		&lt;MenuItems&gt;
+        ///			&lt;Item&gt;Play&lt;/Item&gt;
+        ///			&lt;Item&gt;Queue&lt;/Item&gt;
+        ///			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
+        ///		&lt;/MenuItems&gt;
+        ///	&lt;/Entity&gt;
+        ///	&lt;Entit [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ActionConfig {
+            get {
+                return ResourceManager.GetString("ActionConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Settings&gt;&lt;/Settings&gt;.
         /// </summary>
         internal static string BlankSettings {
@@ -258,6 +288,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconMinus {
+            get {
+                object obj = ResourceManager.GetObject("IconMinus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconPause {
             get {
                 object obj = ResourceManager.GetObject("IconPause", resourceCulture);
@@ -275,6 +312,13 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap IconPlaylist {
             get {
                 object obj = ResourceManager.GetObject("IconPlaylist", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap IconPlus {
+            get {
+                object obj = ResourceManager.GetObject("IconPlus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -500,55 +544,6 @@ namespace MusicBrowser {
             get {
                 object obj = ResourceManager.GetObject("SystemSettings", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap thumbAlbum {
-            get {
-                object obj = ResourceManager.GetObject("thumbAlbum", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap thumbArtist {
-            get {
-                object obj = ResourceManager.GetObject("thumbArtist", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap thumbFolder {
-            get {
-                object obj = ResourceManager.GetObject("thumbFolder", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap thumbGenre {
-            get {
-                object obj = ResourceManager.GetObject("thumbGenre", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap thumbPlaylist {
-            get {
-                object obj = ResourceManager.GetObject("thumbPlaylist", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap thumbTrack {
-            get {
-                object obj = ResourceManager.GetObject("thumbTrack", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap thumbVirtual {
-            get {
-                object obj = ResourceManager.GetObject("thumbVirtual", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

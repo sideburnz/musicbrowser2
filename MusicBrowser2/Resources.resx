@@ -223,27 +223,6 @@
   <data name="viewStrip" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\markup\controls\pageviews\viewstrip.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="thumbAlbum" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\thumbs\thumbalbum.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="thumbArtist" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\thumbs\thumbartist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="thumbFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\thumbs\thumbfolder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="thumbGenre" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\thumbs\thumbgenre.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="thumbPlaylist" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\thumbs\thumbplaylist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="thumbTrack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\thumbs\thumbtrack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="thumbVirtual" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\thumbs\thumbvirtual.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="IconPlaylist" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\images\buttonicons\iconplaylist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -342,5 +321,99 @@
   </data>
   <data name="IconDeleteCache" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\images\buttonicons\icondeletecache.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ActionConfig" xml:space="preserve">
+    <value>&lt;ActionConfig&gt;
+	&lt;Entity name="Album"&gt;
+		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+		&lt;MenuItems&gt;
+			&lt;Item&gt;Play&lt;/Item&gt;
+			&lt;Item&gt;Queue&lt;/Item&gt;
+			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
+		&lt;/MenuItems&gt;
+	&lt;/Entity&gt;
+	&lt;Entity name="Artist"&gt;
+		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+		&lt;MenuItems&gt;
+			&lt;Item&gt;Play&lt;/Item&gt;
+			&lt;Item&gt;Queue&lt;/Item&gt;
+			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
+		&lt;/MenuItems&gt;
+	&lt;/Entity&gt;
+	&lt;Entity name="Folder"&gt;
+		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+	&lt;/Entity&gt;
+	&lt;Entity name="Home"&gt;
+		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+		&lt;MenuItems&gt;
+			&lt;Item&gt;PlayEntireLibrary&lt;/Item&gt;
+			&lt;Item&gt;PlayFavourites&lt;/Item&gt;
+			&lt;Item&gt;PlayNewlyAdded&lt;/Item&gt;
+			&lt;Item&gt;PlayPopularLastFM&lt;/Item&gt;
+			&lt;Item&gt;PlayRandomPopular&lt;/Item&gt;
+		&lt;/MenuItems&gt;
+	&lt;/Entity&gt;
+	&lt;Entity name="Playlist"&gt;
+		&lt;OnEnter&gt;Play&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+		&lt;MenuItems&gt;
+			&lt;Item&gt;Play&lt;/Item&gt;
+		&lt;/MenuItems&gt;
+	&lt;/Entity&gt;
+	&lt;Entity name="Track"&gt;
+		&lt;OnEnter&gt;Play&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+		&lt;OnStar&gt;RefreshMetadata&lt;/OnStar&gt;
+		&lt;OnPlus&gt;RefreshMetadata&lt;/OnPlus&gt;
+		&lt;OnMinus&gt;RefreshMetadata&lt;/OnMinus&gt;
+		&lt;MenuItems&gt;
+			&lt;Item&gt;Play&lt;/Item&gt;
+			&lt;Item&gt;Queue&lt;/Item&gt;
+			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
+		&lt;/MenuItems&gt;
+	&lt;/Entity&gt;
+	&lt;Entity name="Genre"&gt;
+		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+		&lt;MenuItems&gt;
+			&lt;Item&gt;Play&lt;/Item&gt;
+			&lt;Item&gt;Queue&lt;/Item&gt;
+			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
+		&lt;/MenuItems&gt;
+	&lt;/Entity&gt;
+	&lt;Entity name="Group"&gt;
+		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+		&lt;MenuItems&gt;
+			&lt;Item&gt;Play&lt;/Item&gt;
+			&lt;Item&gt;Queue&lt;/Item&gt;
+		&lt;/MenuItems&gt;
+	&lt;/Entity&gt;
+	&lt;Entity name="Virtual"&gt;
+		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+		&lt;MenuItems&gt;
+			&lt;Item&gt;Play&lt;/Item&gt;
+			&lt;Item&gt;Queue&lt;/Item&gt;
+		&lt;/MenuItems&gt;
+	&lt;/Entity&gt;
+&lt;/ActionConfig&gt;</value>
+  </data>
+  <data name="IconMinus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>MediaCentre\Images\buttonicons\IconMinus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconPlus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>MediaCentre\Images\buttonicons\IconPlus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

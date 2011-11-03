@@ -1,23 +1,24 @@
 ﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:cor="assembly://MSCorLib/System">
 
   <UI Name="ctrlFooter">
 
     <Properties>
-      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+      <entities:Entity Name="Entity" Entity="$Required" />
       <Command Name="CmdRefresh"/>
       <Timer Name="RefreshTimer" AutoRepeat="True" Interval="5000" Enabled="True" />
     </Properties>
 
     <Rules>
 
-      <Changed Source="[CmdRefresh.Invoked]">
+      <Changed Source="[CmdRefresh.Invoked]" InitialEvaluate="true">
         <Actions>
-          <Set Target="[Desc.Content]" Value="[FolderModel.SelectedItem.Title]" />
-          <Set Target="[Summary1.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine1]" />
-          <Set Target="[Summary2.Content]" Value="[FolderModel.SelectedItem.ShortSummaryLine2]" />
-          <Set Target="[Favorite.Visible]" Value="[FolderModel.SelectedItem.Favorite]" />
+          <Set Target="[Desc.Content]" Value="[Entity.Title]" />
+          <Set Target="[Summary1.Content]" Value="[Entity.ShortSummaryLine1]" />
+          <Set Target="[Summary2.Content]" Value="[Entity.ShortSummaryLine2]" />
+          <Set Target="[Favorite.Visible]" Value="[Entity.Favorite]" />
         </Actions>
       </Changed>
 
@@ -27,47 +28,47 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+      <Changed Source="[Entity]">
         <Actions>
           <Invoke Target="[CmdRefresh.Invoke]" />
         </Actions>
       </Changed>
 
-      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+      <Changed Source="[Entity]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="100" />
+          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="100" />
         </Conditions>
         <Actions>
           <Set Target="[Star5.Alpha]" Value="0.6" />
         </Actions>
       </Changed>
-      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+      <Changed Source="[Entity]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="80" />
+          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="80" />
         </Conditions>
         <Actions>
           <Set Target="[Star4.Alpha]" Value="0.6" />
         </Actions>
       </Changed>
-      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+      <Changed Source="[Entity]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="60" />
+          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="60" />
         </Conditions>
         <Actions>
           <Set Target="[Star3.Alpha]" Value="0.6" />
         </Actions>
       </Changed>
-      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+      <Changed Source="[Entity]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="40" />
+          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="40" />
         </Conditions>
         <Actions>
           <Set Target="[Star2.Alpha]" Value="0.6" />
         </Actions>
       </Changed>
-      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+      <Changed Source="[Entity]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.SelectedItem.Rating]" ConditionOp="GreaterThanOrEquals" Value="20" />
+          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="20" />
         </Conditions>
         <Actions>
           <Set Target="[Star1.Alpha]" Value="0.6" />

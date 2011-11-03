@@ -147,6 +147,7 @@
     <Compile Include="Actions\ActionSkipForward.cs" />
     <Compile Include="Actions\ActionSkipBack.cs" />
     <Compile Include="Actions\ActionDeleteCache.cs" />
+    <Compile Include="Actions\ActionSetNumericSetting.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
@@ -170,7 +171,9 @@
     <Content Include="MediaCentre\Images\buttonicons\IconFavorite.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
+    <None Include="MediaCentre\Images\buttonicons\IconMinus.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlaylist.png" />
+    <None Include="MediaCentre\Images\buttonicons\IconPlus.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconRefresh.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconRewind.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconSearch.png" />
@@ -190,13 +193,6 @@
     <Content Include="MediaCentre\Images\icons\imageGenre.png" />
     <Content Include="MediaCentre\Images\icons\imageSpinner.png" />
     <Content Include="MediaCentre\Images\backgrounds\NavPanel.png" />
-    <Content Include="MediaCentre\Images\thumbs\thumbAlbum.png" />
-    <Content Include="MediaCentre\Images\thumbs\thumbArtist.png" />
-    <Content Include="MediaCentre\Images\thumbs\thumbFolder.png" />
-    <Content Include="MediaCentre\Images\thumbs\thumbGenre.png" />
-    <Content Include="MediaCentre\Images\thumbs\thumbPlaylist.png" />
-    <Content Include="MediaCentre\Images\thumbs\thumbTrack.png" />
-    <Content Include="MediaCentre\Images\thumbs\thumbVirtual.png" />
     <Compile Include="Engines\Cache\EntityPersistance.cs" />
     <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
     <Compile Include="Providers\ForceMetadataRefreshProvider.cs" />
@@ -263,7 +259,9 @@
     <Content Include="MediaCentre\Markup\Pages\pageSettings.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MediaCentre\Markup\Controls\SettingsPages\SystemSettings.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\SettingsPages\SystemSettings.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml">
       <SubType>Designer</SubType>
     </Content>

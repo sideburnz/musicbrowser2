@@ -86,19 +86,6 @@ namespace MusicBrowser.Models
             }
         }
 
-        [MarkupVisible]
-        public string Version
-        {
-            get
-            {
-                if (Config.GetInstance().GetBooleanSetting("ShowVersion"))
-                {
-                    return "Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                }
-                return string.Empty;
-            }
-        }
-
         public static bool ShowClock
         {
             get { return Config.GetInstance().GetBooleanSetting("ShowClock"); }

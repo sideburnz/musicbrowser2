@@ -25,7 +25,7 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(Entity entity)
         {
-            return new ActionSetSetting(entity);
+            return new ActionSetBooleanSetting(entity);
         }
 
         public string Key 
