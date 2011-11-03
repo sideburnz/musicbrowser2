@@ -52,7 +52,7 @@
           <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
         </Layout>
         <Children>
-          <Graphic Name="grpIcon" Content="[Action.Icon]" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="10,14,3,0" Visible="true" />
+          <Graphic Name="grpIcon" Content="[Action.Icon]" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="10,12,3,0" Visible="true" />
           <Text Name="txtLabel" Content="[Action.Label]" Color="White" FadeSize="5" Font="[Font]" Margins="4,7,0,0" />
         </Children>
       </Graphic>

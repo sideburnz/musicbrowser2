@@ -14,14 +14,15 @@
 
   <UI Name="pageSettings">
 
+    <Properties>
+      <cor:String Name="VersionString" String="" />
+    </Properties>
+    
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
-
       <Command Name="CmdSetScopeToSystem" />
       <Command Name="CmdSetScopeToDisplay" />
-
       <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
-
       <actions:ActionPreviousPage Name="BackAction" />
     </Locals>
 
@@ -73,7 +74,8 @@
                   <FlowLayout FillStrip="true" Orientation="Vertical" Repeat="Never" StripAlignment="Near" ItemAlignment="Near" />
                 </Layout>
                 <Children>
-                  <Text Content="Settings" Color="White" Font="Segoe Media Center Light, 32" Margins="0,0,0,25" />
+                  <Text Content="Settings" Color="White" Font="Segoe Media Center Light, 32" />
+                  <Text Content="[VersionString]" Color="White" Font="Segoe Media Center Light, 12"  Margins="0,0,0,25" />
 
                   <me:buttonImage Command="[CmdSetScopeToSystem]" Name="btnSystem" Text="System" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
                   <me:buttonImage Command="[CmdSetScopeToDisplay]" Name="btnDisplay" Text="Display" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />

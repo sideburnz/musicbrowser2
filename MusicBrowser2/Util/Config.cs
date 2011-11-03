@@ -13,7 +13,6 @@ namespace MusicBrowser.Util
 
                 { "EnableFanArt", true.ToString() },
                 { "UseFolderImageForTracks", true.ToString() },
-                { "ShowVersion", false.ToString() },
                 { "ShowClock", true.ToString() },
                 { "WindowsLibrarySupport", true.ToString() },
                 { "ManualLibraryFile", Path.Combine(Helper.AppFolder, "MusicLibrary.vf") },

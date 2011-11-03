@@ -89,6 +89,12 @@
           <MathTransformer Add="1" />
         </Transformer>
       </Binding>
+
+      <Changed Source="[FolderModel.SelectedIndex]">
+        <Actions>
+          <Set Target="[Footer.Entity]" Value="[FolderModel.SelectedItem]" />
+        </Actions>
+      </Changed>
      
       <Binding Source="[FolderModel.ParentEntity.Background]" Target="[EntityBackground.Content]"/>
       <Binding Source="[FolderModel.Busy]" Target="[imageSpinner.Visible]" />
@@ -189,7 +195,6 @@
                   <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
                 </Children>
               </Panel>
-              <Text Content="[FolderModel.Version]" Font="Segoe Media Center Light, 16" Color="White" Alpha="0.6" />
             </Children>
           </Panel>
 
@@ -209,7 +214,7 @@
               <FormLayoutInput Top="Parent,0.79" Left="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
             </LayoutInput>
             <Children>
-              <me:ctrlFooter Name="Footer" FolderModel="[FolderModel]">
+              <me:ctrlFooter Name="Footer" Entity="[FolderModel.SelectedItem]">
                   <LayoutInput>
                     <FormLayoutInput Top="Parent,0.05" Left="Parent,0.165"/>
                   </LayoutInput>

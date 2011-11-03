@@ -13,6 +13,8 @@
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonIcon"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonAction"/>
 
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlFooter"/>
+
   <UI Name="pageSearch">
 
     <Properties>
@@ -310,8 +312,6 @@
   <UI Name="buttonSearchResult">
     <Properties>
       <entities:Entity Name="Entity" Entity="$Required" />
-      <!-- TODO: populate this to be 'true' when the scope is the folder -->
-      <cor:Boolean Name="ShowTypeHint" Boolean="false" />
     </Properties>
 
     <Locals>
@@ -365,47 +365,6 @@
         </Actions>
       </Rule>
 
-      <Changed Source="[Entity.Rating]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="100" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Star5.Alpha]" Value="0.6" />
-        </Actions>
-      </Changed>
-      <Changed Source="[Entity.Rating]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="80" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Star4.Alpha]" Value="0.6" />
-        </Actions>
-      </Changed>
-      <Changed Source="[Entity.Rating]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="60" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Star3.Alpha]" Value="0.6" />
-        </Actions>
-      </Changed>
-      <Changed Source="[Entity.Rating]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="40" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Star2.Alpha]" Value="0.6" />
-        </Actions>
-      </Changed>
-      <Changed Source="[Entity.Rating]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="20" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Star1.Alpha]" Value="0.6" />
-        </Actions>
-      </Changed>
-
     </Rules>
 
     <Content>
@@ -420,7 +379,7 @@
               <Text Name="lblTitle" Content="[Entity.Title]" Color="White" Margins="12,5,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" Alpha="0.6"/>
             </Children>
           </ColorFill>
-
+          
           <Graphic Name="isSelected" Content="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus" MinimumSize="875,120" MaximumSize="875,120" Visible="false" Margins="-30,0,0,0">
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
@@ -428,31 +387,10 @@
             <Children>
               <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" MaximumSize="110,110" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="5,5,0,5">
                 <Children>
-                  <Graphic Content="[Entity.TypeThumb]" Margins="81,81,0,0" MinimumSize="26,26" MaximumSize="26,26" Visible="[ShowTypeHint]"/>
-                  <ColorFill Content="Black" Alpha="0.5" Margins="0,80,0,0" MinimumSize="108,28" MaximumSize="108,28" Visible="[ShowTypeHint]" />
                   <Graphic Content="[Entity.Icon]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
                 </Children>
               </Graphic>
-              <Panel Name="TextLabels" Margins="10,5,0,0">
-                <Layout>
-                  <FlowLayout Orientation="Vertical" />
-                </Layout>
-                <Children>
-                  <Panel Layout="HorizontalFlow">
-                    <Children>
-                      <Text Content="[Entity.Title]" Color="White" Font="Segoe Media Center Light, 26" Margins="0,-5,0,-2"/>
-                      <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,11,0,0" Alpha="0.1"/>
-                      <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
-                      <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
-                      <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
-                      <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
-                      <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="10,9,0,0" Alpha="0.6" Visible="[Entity.Favorite]"/>
-                    </Children>
-                  </Panel>
-                  <Text Content="[Entity.ShortSummaryLine1]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-6,0,0"/>
-                  <Text Content="[Entity.ShortSummaryLine2]" Color="White" Font="Segoe Media Center Light, 20" Alpha="0.6" Margins="0,-5,0,0"/>
-                </Children>
-              </Panel>
+              <me:ctrlFooter Entity="[Entity]" Margins="10,5,0,0" />
             </Children>
           </Graphic>
         </Children>
