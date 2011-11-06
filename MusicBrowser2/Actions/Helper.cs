@@ -15,13 +15,7 @@ namespace MusicBrowser.Actions
     {
         private struct ActionConfigEntry
         {
-            //TODO: implement additional shortcuts
             public baseActionCommand OnRecord;
-            public baseActionCommand OnStar;
-
-            public baseActionCommand OnPlus;
-            public baseActionCommand OnMinus;
-
             public baseActionCommand OnEnter;
             public baseActionCommand OnPlay;
             public IList<baseActionCommand> MenuOptions;
@@ -62,24 +56,9 @@ namespace MusicBrowser.Actions
             return _actionConfig[entity.KindName].OnPlay.NewInstance(entity);
         }
 
-        public static baseActionCommand GetPlusAction(Entity entity)
-        {
-            return _actionConfig[entity.KindName].OnPlus.NewInstance(entity);
-        }
-
-        public static baseActionCommand GetMinusAction(Entity entity)
-        {
-            return _actionConfig[entity.KindName].OnMinus.NewInstance(entity);
-        }
-
         public static baseActionCommand GetRecordAction(Entity entity)
         {
             return _actionConfig[entity.KindName].OnRecord.NewInstance(entity);
-        }
-
-        public static baseActionCommand GetStarAction(Entity entity)
-        {
-            return _actionConfig[entity.KindName].OnStar.NewInstance(entity);
         }
 
         public static IList<baseActionCommand> GetActionList(Entity entity)
@@ -110,15 +89,15 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionPlayNewlyAdded());
             ret.Add(new ActionPlayPopularLastFM());
             ret.Add(new ActionPlayRandomPopular());
+            ret.Add(new ActionPlayRandomPopularLastFM());
             ret.Add(new ActionPreviousPage());
             ret.Add(new ActionQueue());
-//          ret.Add(new ActionRate());
-            ret.Add(new ActionRateLess());
-            ret.Add(new ActionRateMore());
             ret.Add(new ActionRefreshMetadata());
 //          ret.Add(new ActionSetBooleanSetting());
 //          ret.Add(new ActionSetSetting());
             ret.Add(new ActionShowActions());
+            ret.Add(new ActionShowGroupAlbumsByYear());
+            ret.Add(new ActionShowGroupTracksByGenre());
             ret.Add(new ActionShowKeyboard());
             ret.Add(new ActionShowSearch());
             ret.Add(new ActionShowSettings());
@@ -160,13 +139,9 @@ namespace MusicBrowser.Actions
                     ActionConfigEntry entry = new ActionConfigEntry();
                     entry.MenuOptions = new List<baseActionCommand>();
 
-                    //todo: this needs to be able deal with non-existant nodes
                     entry.OnEnter = ActionFactory(node.SelectSingleNode("OnEnter"));
                     entry.OnPlay = ActionFactory(node.SelectSingleNode("OnPlay"));
                     entry.OnRecord = ActionFactory(node.SelectSingleNode("OnRecord"));
-                    entry.OnStar = ActionFactory(node.SelectSingleNode("OnStar"));
-                    entry.OnPlus = ActionFactory(node.SelectSingleNode("OnPlus"));
-                    entry.OnMinus = ActionFactory(node.SelectSingleNode("OnMinus"));
 
                     foreach (XmlNode item in node.SelectNodes("MenuItems/Item"))
                     {

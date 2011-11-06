@@ -150,23 +150,17 @@
       <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" HandlerStage="Direct"/>
       <ShortcutHandler Name="RecHandler" Shortcut="Record" Handle="true" HandlerStage="Direct"/>
 
-      <KeyHandler Name="StarHandler" Handle="true" HandlerStage="Direct" Key="Multiply" />
-      <KeyHandler Name="MinusHandler" Handle="true" HandlerStage="Direct" Key="Subtract" />
-      <KeyHandler Name="AddHandler" Handle="true" HandlerStage="Direct" Key="Add" />
-
       <actions:ActionOnPlay Name="PlayAction" Entity="[Entity]" />
       <actions:ActionOnEnter Name="EnterAction" Entity="[Entity]" />
       <actions:ActionOnRecord Name="RecordAction" Entity="[Entity]" />
-      <actions:ActionOnStar Name="StarAction" Entity="[Entity]" />
-      <actions:ActionOnPlus Name="PlusAction" Entity="[Entity]" />
-      <actions:ActionOnMinus Name="MinusAction" Entity="[Entity]" />
     </Locals>
 
     <Rules>
       <Binding Target="[RecHandler.Command]" Source="[RecordAction]" />
-      <Binding Target="[StarHandler.Command]" Source="[StarAction]" />
-      <Binding Target="[MinusHandler.Command]" Source="[MinusAction]" />
-      <Binding Target="[AddHandler.Command]" Source="[PlusAction]" />
+      <Binding Target="[PlayHandler.Command]" Source="[PlayAction]" />
+      <Binding Target="[PlayPauseHandler.Command]" Source="[PlayAction]" />
+      <Binding Target="[Clicker.Command]" Source="[EnterAction]" />
+      
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
@@ -188,12 +182,7 @@
         </Actions>
       </Condition>
 
-      <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
-
-      <Binding Target="[PlayHandler.Command]" Source="[PlayAction]" />
-      <Binding Target="[PlayPauseHandler.Command]" Source="[PlayAction]" />
-      <Binding Target="[Clicker.Command]" Source="[EnterAction]" />
-            
+      <Binding Source="[Entity.Icon]" Target="[Background.Content]" />            
     </Rules>
     <Content>
       <Graphic Content="null" Layout="Fill" Name="Wrapper" CenterPointPercent=".5,.5,.5" SizingPolicy="SizeToChildren">

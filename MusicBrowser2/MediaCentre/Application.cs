@@ -113,6 +113,7 @@ namespace MusicBrowser
                         {
                             switch (entity.Path.ToLower())
                             {
+                                //TODO: redo this group by logic 
                                 case "tracks by genre":
                                     {
                                         entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track, "Genre", entity.Title);

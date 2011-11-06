@@ -104,18 +104,6 @@ namespace MusicBrowser.Models
         //    application.Navigate(virt);
         //}
 
-        //public void NavigateToGroup(string name)
-        //{
-        //    Entity group = new Entity() 
-        //    { 
-        //        Kind = EntityKind.Group, 
-        //        Title = name,
-        //        Label = name,
-        //        Path = name
-        //    };
-        //    application.Navigate(group);
-        //}
-
         public bool Busy { get; set; }
 
         private void BusyStateChanged(bool busy)
