@@ -23,7 +23,8 @@ namespace MusicBrowser.Entities
         Genre = 7,
         Group = 8,
         Virtual = 9,
-        None = 0
+        None = 0,
+        GroupBy = 100
     }
 
     [DataContract]

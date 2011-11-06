@@ -46,6 +46,17 @@ namespace MusicBrowser.Providers
                 .Select(item => item.Path);
         }
 
+        public IEnumerable<string> FindRandomPopularOnLastFM(int records, int sample)
+        {
+            return InMemoryCache.GetInstance().DataSet
+                .Where(item => item.Kind == EntityKind.Track)
+                .OrderByDescending(item => item.TotalPlays)
+                .Take(sample)
+                .OrderBy(item => Guid.NewGuid())
+                .Take(records)
+                .Select(item => item.Path);
+        }
+
         public IEnumerable<string> FindRecentlyAdded(int records)
         {
             return InMemoryCache.GetInstance().DataSet
@@ -169,6 +180,7 @@ namespace MusicBrowser.Providers
                 case "cmdnew":
                 case "cmdlastfm":
                 case "cmdrandom":
+                case "cmdlastfmpopular":
                     {
                         int size = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
                         List<string> tracks = new List<string>();
@@ -184,6 +196,8 @@ namespace MusicBrowser.Providers
                                 tracks.AddRange(FindRandomPlayed(size, size * 5)); break;
                             case "cmdlastfm":
                                 tracks.AddRange(FindPopularOnLastFM(size)); break;
+                            case "cmdlastfmpopular":
+                                tracks.AddRange(FindRandomPopularOnLastFM(size, size * 10)); break;
                         }
                         MediaCentre.Playlist.PlayTrackList(tracks, false);
                         break;

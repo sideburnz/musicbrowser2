@@ -6,6 +6,7 @@ using MusicBrowser.Providers;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Engines.Transport;
+using MusicBrowser.Engines.Cache;
 
 namespace MusicBrowser.Actions
 {
@@ -35,7 +36,42 @@ namespace MusicBrowser.Actions
         public override void DoAction(Entity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("playing {0}", entity.Title);
-            TransportEngineFactory.GetEngine().Play(false, entity.Path);
+            if (entity.Kind == EntityKind.Virtual)
+            {
+                EntityCollection entities = null;
+                switch (entity.Path.ToLower())
+                {
+                    //TODO: redo this group by logic 
+                    case "tracks by genre":
+                        {
+                            entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track, "Genre", entity.Title);
+                            break;
+                        }
+                    case "albums by year":
+                        {
+                            entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "Year", entity.Title);
+                            break;
+                        }
+                    case "albums":
+                        {
+                            entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "", entity.Title);
+                            break;
+                        }
+                }
+                if (entities.Count > 0)
+                {
+                    TransportEngineFactory.GetEngine().Play(false, entities.FirstOrDefault<Entity>().Path);
+                    entities.RemoveAt(0);
+                }
+                foreach (Entity e in entities)
+                {
+                    TransportEngineFactory.GetEngine().Play(true, e.Path);
+                }
+            }
+            else
+            {
+                TransportEngineFactory.GetEngine().Play(false, entity.Path);
+            }
         }
     }
 }
