@@ -90,6 +90,7 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionPlayPopularLastFM());
             ret.Add(new ActionPlayRandomPopular());
             ret.Add(new ActionPlayRandomPopularLastFM());
+            ret.Add(new ActionPlaySimilarTracks());
             ret.Add(new ActionPreviousPage());
             ret.Add(new ActionQueue());
             ret.Add(new ActionRefreshMetadata());

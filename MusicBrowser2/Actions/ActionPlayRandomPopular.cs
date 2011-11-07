@@ -18,12 +18,16 @@ namespace MusicBrowser.Actions
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
+            Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders") &&
+                !String.IsNullOrEmpty(Util.Config.GetInstance().GetStringSetting("Internet.LastFMUserName"));
         }
 
         public ActionPlayRandomPopular()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
+            Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders") &&
+                !String.IsNullOrEmpty(Util.Config.GetInstance().GetStringSetting("Internet.LastFMUserName"));
         }
 
         public override baseActionCommand NewInstance(Entity entity)

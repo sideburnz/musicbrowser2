@@ -146,6 +146,7 @@
     <Compile Include="Actions\ActionShowGroupBy.cs" />
     <Compile Include="Actions\ActionShowGroupAlbumsByYear.cs" />
     <Compile Include="Actions\ActionShowGroupTracksByGenre.cs" />
+    <Compile Include="Actions\ActionPlaySimilarTracks.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
@@ -234,6 +235,7 @@
     </Compile>
     <Compile Include="Util\Helper.cs" />
     <Compile Include="WebServices\Helper\Externals.cs" />
+    <Compile Include="WebServices\Services\LastFM\TrackSimilarService.cs" />
     <Compile Include="WebServices\WebServiceProviders\HTBackdropWebProvider.cs" />
     <Compile Include="WebServices\Helper\HTTPProvider.cs" />
     <Compile Include="WebServices\Helper\Logging.cs" />
