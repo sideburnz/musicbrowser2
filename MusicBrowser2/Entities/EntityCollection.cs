@@ -56,6 +56,17 @@ namespace MusicBrowser.Entities
             return ret;
         }
 
+        public EntityCollection Filter(EntityKind kind)
+        {
+            EntityCollection ret = new EntityCollection();
+
+            ret.Add(this
+                .Where(item => item.Kind == kind)
+            );
+
+            return ret;
+        }
+
         public EntityCollection Filter(EntityKind kind, string value)
         {
             EntityCollection ret = new EntityCollection();

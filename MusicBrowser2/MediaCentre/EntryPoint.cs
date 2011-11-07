@@ -17,9 +17,7 @@ namespace MusicBrowser
          
         public void Initialize(Dictionary<string, object> appInfo, Dictionary<string, object> entryPointInfo)
         {
-#if DEBUG
-            host.MediaCenterEnvironment.Dialog("Attach debugger and hit ok", "debug", DialogButtons.Ok, 100, true); 
-#endif
+
         }          
         
         public void Uninitialize()         
@@ -37,6 +35,10 @@ namespace MusicBrowser
         
         public void Launch(AddInHost host)         
         {
+#if DEBUG
+            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog("Attach debugger and hit ok", "debug", Microsoft.MediaCenter.DialogButtons.Ok, 100, true);
+#endif
+
             // load the fast memory cache
             InMemoryCache.GetInstance();
 
