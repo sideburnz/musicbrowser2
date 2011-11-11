@@ -70,41 +70,41 @@
           <Invoke Target="[Action.Invoke]" />
         </Actions>
       </Changed>
-      
+
     </Rules>
 
     <Content>
-      <Panel Layout="Anchor">
+      <Panel Name="CheckBox">
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+        </Layout>
         <Children>
-          <Panel Name="CheckBox">
-            <Layout>
-              <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
-            </Layout>
-            <Children>
-              <Graphic Name="grpIndicator" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="10,9,0,0" Visible="true">
-                <Animations>
-                  <Animation Type="ContentChangeHide">
-                    <Keyframes>
-                      <AlphaKeyframe Time="0.0" Value="1" />
-                      <AlphaKeyframe Time="0.25" Value="0" Interpolation="SCurve" />
-                    </Keyframes>
-                  </Animation>
-                  <Animation Type="ContentChangeShow">
-                    <Keyframes>
-                      <AlphaKeyframe Time="0.0" Value="0" />
-                      <AlphaKeyframe Time="0.25" Value="1" Interpolation="SCurve" />
-                    </Keyframes>
-                  </Animation>
-                </Animations>
-              </Graphic>
-              <Text Name="txtLabel" Content="[Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,3,10" />
-            </Children>
-          </Panel>
-          <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" Alpha="0" Margins="5,0,0,0">
-            <LayoutInput>
-              <AnchorLayoutInput Left="CheckBox,0" Right="CheckBox,1" Bottom="CheckBox,1,-8"/>
-            </LayoutInput>   
+          <Graphic Name="grpIndicator" MaximumSize="25,25" MinimumSize="25,25" MaintainAspectRatio="true" Margins="10,9,0,0" Visible="true">
+            <Animations>
+              <Animation Type="ContentChangeHide">
+                <Keyframes>
+                  <AlphaKeyframe Time="0.0" Value="1" />
+                  <AlphaKeyframe Time="0.25" Value="0" Interpolation="SCurve" />
+                </Keyframes>
+              </Animation>
+              <Animation Type="ContentChangeShow">
+                <Keyframes>
+                  <AlphaKeyframe Time="0.0" Value="0" />
+                  <AlphaKeyframe Time="0.25" Value="1" Interpolation="SCurve" />
+                </Keyframes>
+              </Animation>
+            </Animations>
           </Graphic>
+          <ColorFill Content="Transparent" Layout="Anchor">
+            <Children>
+              <Text Name="txtLabel" Content="[Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,15,10" />
+              <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" Alpha="0" Margins="5,0,0,0">
+                <LayoutInput>
+                  <AnchorLayoutInput Left="txtLabel,0,2" Right="txtLabel,1,-8" Bottom="txtLabel,1,-8"/>
+                </LayoutInput>
+              </Graphic>
+            </Children>
+          </ColorFill>
         </Children>
       </Panel>
     </Content>

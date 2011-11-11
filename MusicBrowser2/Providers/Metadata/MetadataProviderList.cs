@@ -31,6 +31,7 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         _providers = new List<IDataProvider>();
 
+                        _providers.Add(new MetadataFileProvider());
                         _providers.Add(new TagSharpMetadataProvider());
                         _providers.Add(new MediaInfoMatadataProvider());
                         _providers.Add(new InheritanceMatadataProvider());
@@ -239,6 +240,7 @@ namespace MusicBrowser.Providers.Metadata
             {
                 case DataTypes.Album:
                     {
+                        entity.Kind = EntityKind.Album;
                         if (!String.IsNullOrEmpty(dto.AlbumName)) 
                         {
                             entity.Title = dto.AlbumName;  
@@ -247,6 +249,7 @@ namespace MusicBrowser.Providers.Metadata
                     }
                 case DataTypes.Artist:
                     {
+                        entity.Kind = EntityKind.Artist;
                         if (!String.IsNullOrEmpty(dto.ArtistName))
                         {
                             entity.Title = dto.ArtistName;
@@ -255,10 +258,16 @@ namespace MusicBrowser.Providers.Metadata
                     }
                 case DataTypes.Track:
                     {
+                        entity.Kind = EntityKind.Track;
                         if (!String.IsNullOrEmpty(dto.TrackName))
                         {
                             entity.Title = dto.TrackName;
                         }
+                        break;
+                    }
+                case DataTypes.Genre:
+                    {
+                        entity.Kind = EntityKind.Genre;
                         break;
                     }
             }

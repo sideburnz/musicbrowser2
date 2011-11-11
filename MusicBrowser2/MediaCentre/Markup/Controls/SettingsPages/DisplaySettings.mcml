@@ -15,6 +15,10 @@
 
       <actions:ActionSetBooleanSetting Name="CmdUseFolderImageForTracks" Key="UseFolderImageForTracks" />
       <actions:ActionSetBooleanSetting Name="CmdPutDiscInTrackNo" Key="PutDiscInTrackNo" />
+
+      <actions:ActionSetBooleanSetting Name="CmdStripShowSummary" Key="Views.Strip.ShowSummary" />
+      <actions:ActionSetBooleanSetting Name="CmdListShowSummary" Key="Views.List.ShowSummary" />
+      <actions:ActionSetBooleanSetting Name="CmdHorizontalThumbs" Key="Views.Thumbs.IsHorizontal" />
     </Locals>
 
     <Content>
@@ -27,6 +31,11 @@
           <Text Content="Track Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Use folder image as track thumbs" Action="[CmdUseFolderImageForTracks]" />
           <me:ctrlCheckbox Label="Put the disc number in the track number" Action="[CmdPutDiscInTrackNo]" />
+
+          <Text Content="View Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
+          <me:ctrlCheckbox Label="Show summary on the List view" Action="[CmdListShowSummary]" />
+          <me:ctrlCheckbox Label="Show summary on the Strip view" Action="[CmdStripShowSummary]" />
+          <me:ctrlCheckbox Label="Scroll Thumb view across the page" Action="[CmdHorizontalThumbs]" />
         </Children>
       </ColorFill>
     </Content>

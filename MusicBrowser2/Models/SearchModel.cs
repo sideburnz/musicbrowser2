@@ -20,8 +20,6 @@ namespace MusicBrowser.Models
         private readonly EntityCollection _contextCollection;
         private readonly EditableText _remoteFilter = new EditableText();
 
-
-
         public SearchModel(string initialSearchString, Entity context)
         {
             _fullCollection = InMemoryCache.GetInstance();
@@ -44,6 +42,11 @@ namespace MusicBrowser.Models
         }
 
         public bool HasContext { get; set; }
+
+        public void TypeSpace()
+        {
+            _remoteFilter.Value += " ";
+        }
 
         public void SetSetSearchScope(string scope)
         {

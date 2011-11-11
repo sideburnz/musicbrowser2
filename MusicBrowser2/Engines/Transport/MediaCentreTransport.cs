@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.MediaCenter;
 using MusicBrowser.Interfaces;
+using MusicBrowser.Providers;
 
 namespace MusicBrowser.Engines.Transport
 {
@@ -14,11 +15,14 @@ namespace MusicBrowser.Engines.Transport
         {
         }
 
+        // unlike other transport providers, Media Center needs to be passed individual files
+        // rather than the folder that contains them. So we get all of the contents of a folder
+        // and use the overloaded play method for lists. This also works for lists of one item
+        // if we've been passed a single track.
         public void Play(bool queue, string file)
         {
-            MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-            if (mce.MediaExperience == null && queue) queue = false;
-            mce.PlayMedia(MediaType.Audio, file, queue);
+            IEnumerable<string> paths = GetTracks(file);
+            Play(queue, paths);
         }
 
         public void Play(bool queue, IEnumerable<string> files)
@@ -108,6 +112,27 @@ namespace MusicBrowser.Engines.Transport
         public void FastReverse()
         {
             throw new NotImplementedException();
+        }
+
+        private IEnumerable<string> GetTracks(string path)
+        {
+            List<string> ret = new List<string>();
+            if (System.IO.Directory.Exists(path))
+            {
+                IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(path);
+                foreach (FileSystemItem item in items)
+                {
+                    if (Util.Helper.getKnownType(item) == Util.Helper.knownType.Track)
+                    {
+                        ret.Add(item.FullPath);
+                    }
+                }
+            }
+            else
+            {
+                ret.Add(path);
+            }
+            return ret;
         }
     }
 }

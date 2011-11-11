@@ -41,22 +41,14 @@ namespace MusicBrowser.MediaCentre
         public static void PlayTrackList(IEnumerable<string> tracks, bool queue)
         {
             TransportEngineFactory.GetEngine().Play(queue, tracks);
-            AutoShowNowPlaying();
         }
 
         public static void PlayTrack(Entity entity, Boolean add)
         {
             TransportEngineFactory.GetEngine().Play(add, entity.Path);
-            AutoShowNowPlaying();
         }
 
-        public static void PlayDisc(Entity entity)
-        {
-            TransportEngineFactory.GetEngine().PlayDisc(entity.Path);
-            AutoShowNowPlaying();
-        }
-
-        private static void AutoShowNowPlaying()
+        public static void AutoShowNowPlaying()
         {
             if (Config.GetInstance().GetBooleanSetting("AutoLoadNowPlaying"))
             {

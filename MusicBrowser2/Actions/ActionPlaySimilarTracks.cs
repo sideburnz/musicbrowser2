@@ -13,10 +13,14 @@ using MusicBrowser.WebServices.WebServiceProviders;
 
 namespace MusicBrowser.Actions
 {
+
+    /// <summary>
+    /// This is a first cut as a iTunes-Genius style playlist creator based on the Last.fm Track.getSimilar API
+    /// </summary>
     public class ActionPlaySimilarTracks : baseActionCommand
     {
         private const string LABEL = "Play Similar Tracks";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconLastFM";
 
         public ActionPlaySimilarTracks(Entity entity)
         {
@@ -60,7 +64,9 @@ namespace MusicBrowser.Actions
                 return;
             }
 
-            bool isFirst = true;
+            int maxTracks = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
+            int trackCount = 0;
+
             EntityCollection lib = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track);
             foreach (LfmTrack track in dto.Tracks)
             {
@@ -70,22 +76,27 @@ namespace MusicBrowser.Actions
                     continue;
                 }
 
-                if (isFirst)
+                if (trackCount == 0)
                 {
                     TransportEngineFactory.GetEngine().Play(false, e.Path);
-                    isFirst = false;
                 }
                 else
                 {
                     TransportEngineFactory.GetEngine().Play(true, e.Path);
                 }
+                trackCount++;
+                if (trackCount > maxTracks)
+                {
+                    break;
+                }
             }
 
-            if (isFirst)
+            if (trackCount == 0)
             {
                 Models.UINotifier.GetInstance().Message = String.Format("no tracks in your library are similar to {0}", entity.Title);
                 return;
             }
+            MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
 
         private Entity LocateTrack(EntityCollection lib, LfmTrack info)

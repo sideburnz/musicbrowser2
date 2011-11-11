@@ -8,6 +8,8 @@ using Microsoft.Win32;
  * This is a library that takes care of accessing the windows Music library.
  * The implementation is not the best, it relies of the user not changing the
  * default music library definition file.
+ * 
+ * It should also be noted that it only supports the Music library.
  *
  *****************************************************************************/ 
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.MediaCenter;
 using MusicBrowser.Providers;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.Entities;
@@ -12,7 +13,7 @@ namespace MusicBrowser.Actions
 {
     public class ActionDeleteCache : baseActionCommand
     {
-        private const string LABEL = "Reset cache";
+        private const string LABEL = "Rebuild cache";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconDeleteCache";
 
         public ActionDeleteCache(Entity entity)
@@ -35,11 +36,36 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
-            //TODO: prompt the user
+            bool confirmation = false;
 
-            Models.UINotifier.GetInstance().Message = "resetting cache";
-            CacheEngineFactory.GetEngine().Clear();
-            InMemoryCache.GetInstance().Clear();
+            try
+            {
+                IList<DialogButtons> buttons = new List<DialogButtons>();
+                buttons.Add(DialogButtons.Yes);
+                buttons.Add(DialogButtons.No);
+
+                DialogResult response =
+                   Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog
+                        ("Are you sure you want to rebuild the cache?",
+                        "Confirm",
+                        buttons,
+                        30,
+                        true,
+                        "");
+
+                confirmation = (response == DialogResult.Yes);
+            }
+            catch
+            {
+                confirmation = true;
+            }
+
+            if (confirmation)
+            {
+                Models.UINotifier.GetInstance().Message = "removing cached data";
+                CacheEngineFactory.GetEngine().Clear();
+                InMemoryCache.GetInstance().Clear();
+            }
         }
     }
 }

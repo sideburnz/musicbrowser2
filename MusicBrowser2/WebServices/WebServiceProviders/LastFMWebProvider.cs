@@ -113,24 +113,30 @@ namespace MusicBrowser.WebServices.WebServiceProviders
     /// Last.fm has rules about how much you can hammer their servers,
     /// this little class is meant to ensure that no more than five 
     /// requests per second are sent.
+    /// 
+    /// this updated version will allow refreshes of data (upto about 1500 requests)
+    /// to happen faster by allowing requests to be loaded to earlier in the 5 minute window
+    /// for refreshes
     /// </summary>
     static class LFMThrottler
     {
-        private const int MaxHitsPerSecond = 5;
-        private const int MsBetweenHits = 1000 / MaxHitsPerSecond;
-
-        static DateTime _nextHit;
+        // actual limit is 5
+        private const int MaxHitsPerSecond = 4;
+        private readonly static DateTime _start = DateTime.Now;
+        private static long hits = 0;
 
         public static bool Hit()
         {
             try
             {
-                if (DateTime.Now <= _nextHit)
+                TimeSpan elapsed = DateTime.Now.Subtract(_start);
+                if (elapsed.TotalMinutes < 5 && hits < 1000) { return true; }
+                while((elapsed.TotalSeconds * MaxHitsPerSecond) > hits)
                 {
-                    System.Threading.Thread.Sleep(MsBetweenHits);
+                    System.Threading.Thread.Sleep(1000);
                     return false;
                 }
-                _nextHit = DateTime.Now.AddMilliseconds(MsBetweenHits);
+                hits++;
                 return true;
             }
             catch 

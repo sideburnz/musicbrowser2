@@ -34,7 +34,8 @@ namespace MusicBrowser.Actions
         public override void DoAction(Entity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "your entire library");
-            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdplayall", entity), true);   
+            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdplayall", entity), true);
+            MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
     }
 }

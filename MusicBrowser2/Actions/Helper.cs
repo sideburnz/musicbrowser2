@@ -87,6 +87,7 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionPlayEntireLibrary());
             ret.Add(new ActionPlayFavourites());
             ret.Add(new ActionPlayNewlyAdded());
+            ret.Add(new ActionPlayMostPopular());
             ret.Add(new ActionPlayPopularLastFM());
             ret.Add(new ActionPlayRandomPopular());
             ret.Add(new ActionPlayRandomPopularLastFM());
