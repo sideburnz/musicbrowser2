@@ -36,7 +36,8 @@ namespace MusicBrowser.Actions
         public override void DoAction(Entity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "tracks with the highest playcounts on Last.fm");
-            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdlastfm", entity), true);   
+            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdlastfm", entity), true);
+            MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
     }
 }

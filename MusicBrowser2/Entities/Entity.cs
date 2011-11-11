@@ -28,7 +28,7 @@ namespace MusicBrowser.Entities
     }
 
     [DataContract]
-    public class Entity : BaseModel
+    public sealed class Entity : BaseModel
     {
         private static readonly Random _rnd = new Random(DateTime.Now.Millisecond);
         private string _cacheKey;
@@ -195,7 +195,7 @@ namespace MusicBrowser.Entities
                 // randomize the backdrop order - make a good effort at making sure we don't get the same one twice
                 int next = _rnd.Next(BackgroundPaths.Count);
                 int limit = 0;
-                while (next == _backgroundID && limit < 5)
+                while (next == _backgroundID && limit < 10)
                 {
                     next = _rnd.Next(BackgroundPaths.Count);
                     limit++;
@@ -246,19 +246,6 @@ namespace MusicBrowser.Entities
                     return GetImage(DefaultIconPath); 
                 }
                 return GetImage(IconPath);
-            }
-        }
-
-        public Image TypeThumb
-        {
-            get
-            {
-                try
-                {
-                    return GetImage("resx://MusicBrowser/MusicBrowser.Resources/thumb" + KindName);
-                }
-                catch { }
-                return GetImage(String.Empty);
             }
         }
 
@@ -402,7 +389,7 @@ namespace MusicBrowser.Entities
             get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".Format")); }
         }
 
-        public string MacroSubstitution(string input)
+        private string MacroSubstitution(string input)
         {
             string output = input;
 
@@ -504,6 +491,18 @@ namespace MusicBrowser.Entities
                     case "favorite":
                         if (Favorite) { output = output.Replace("[favorite]", "favorite"); break; }
                         output = output.Replace("[favorite]", ""); break;
+                    case "filename":
+                        string filename = string.Empty;
+                        if (System.IO.File.Exists(Path))
+                        {
+                            filename = System.IO.Path.GetFileNameWithoutExtension(Path);
+                        }
+                        else if(System.IO.Directory.Exists(Path))
+                        {
+                            filename = System.IO.Path.GetFileName(Path);
+                        }
+                        output = output.Replace("[filename]", filename);
+                        break;
                 }
 
             }

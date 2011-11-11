@@ -8,12 +8,12 @@ using MusicBrowser.Providers.Background;
 
 namespace MusicBrowser.Actions
 {
-    class ActionPlayRandomPopular : baseActionCommand
+    public class ActionPlayMostPopular : baseActionCommand
     {
-        private const string LABEL = "Play Random Popular";
+        private const string LABEL = "Play Most Popular";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
 
-        public ActionPlayRandomPopular(Entity entity)
+        public ActionPlayMostPopular(Entity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -22,7 +22,7 @@ namespace MusicBrowser.Actions
                 !String.IsNullOrEmpty(Util.Config.GetInstance().GetStringSetting("Internet.LastFMUserName"));
         }
 
-        public ActionPlayRandomPopular()
+        public ActionPlayMostPopular()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -32,13 +32,13 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(Entity entity)
         {
-            return new ActionPlayRandomPopular(entity);
+            return new ActionPlayMostPopular(entity);
         }
 
         public override void DoAction(Entity entity)
         {
-            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "a random selection of tracks from your library");
-            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdrandom", entity), true);
+            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "your most played tracks");
+            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdmostplayed", entity), true);
             MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
     }

@@ -25,8 +25,6 @@
       <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" HandlerStage="Bubbled"/>
       <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" HandlerStage="Bubbled"/>
 
-      <Command Name="CmdNoOp" />
-
       <actions:ActionPreviousPage Name="BackAction" />
     </Properties>
 
@@ -44,7 +42,6 @@
 
       <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" MaxLength="20" />
 
-      <KeyHandler Name="BackHandler" Handle="true" Key="Backspace" HandlerStage="Bubbled" Command="[CmdNoOp]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Routed" Command="[BackAction]"/>
       
     </Locals>
@@ -126,7 +123,6 @@
       <Changed Source="[typingHandler.EditableText.Value]">
         <Actions>
           <Invoke Target="[SearchBox.NavigateInto]" />
-          <Set Target="[SearchBox.Text]" Value="[typingHandler.EditableText.Value]" />
           <Invoke Target="[SearchResultData.Home]" />
         </Actions>
       </Changed>
@@ -204,8 +200,7 @@
                   <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" />
                   <Panel Layout="HorizontalFlow" Margins="0,40,0,0">
                     <Children>
-                      <me:searchBox Name="SearchBox" Text=""/>
-                      <me:KeyboardButton Length="20" EditableText="[Model.KeyboardHandler]" Margins="3,10,3,7" />
+                      <me:searchBox Name="SearchBox" Model="[Model]" />
                     </Children>
                   </Panel>
                   
@@ -219,7 +214,6 @@
                   <Graphic Name="Underline2" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
 
                   <me:buttonAction Action="[BackAction]" Size="320,52"/>
-                  <!--<me:buttonImage Command="[BackAction]" Text="Close" MinSize="320,52"  Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconClose" />-->
                 </Children>
               </Graphic>
 
@@ -276,10 +270,20 @@
   <UI Name="searchBox">
 
     <Properties>
-      <cor:String Name="Text" String="" />
+      <models:SearchModel Name="Model" SearchModel="$Required" />
+      <Command Name="CmdNoOp" />
+      <Command Name="CmdTypeSpace" />
     </Properties>
+
+    <Locals>
+      <KeyHandler Name="BackHandler" Handle="true" Key="Backspace" HandlerStage="Bubbled" Command="[CmdNoOp]"/>
+      <KeyHandler Name="SpaceHandler" Handle="true" Key="Space" HandlerStage="Routed" Command="[CmdTypeSpace]" />
+      <ClickHandler Name="Clicker" />
+      <actions:ActionShowKeyboard Name="KeyboardAction" MaxLength="20" editableText="[Model.KeyboardHandler]" />
+    </Locals>
     
     <Rules>
+      <Binding Target="[Clicker.Command]" Source="[KeyboardAction]" />
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
@@ -293,11 +297,16 @@
           <Set Target="[SelectBox.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
       </Condition>
-      <Binding Source="[Text]" Target="[txtSearchString.Content]" />
+      <Changed Source="[CmdTypeSpace.Invoked]">
+        <Actions>
+          <Invoke Target="[Model.TypeSpace]" />
+        </Actions>
+      </Changed>
+      <Binding Target="[txtSearchString.Content]" Source="[Model.KeyboardHandler.Value]" />
     </Rules>
     
     <Content>
-      <Graphic Name="SelectBox" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" MaintainAspectRatio="false" MinimumSize="280,50" MaximumSize="280,50">
+      <Graphic Name="SelectBox" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" MaintainAspectRatio="false" MinimumSize="320,50" MaximumSize="320,50">
         <Children>
           <ColorFill Content="White" Name="SearchBox" Margins="2,2,2,2" Layout="Fill">
             <Children>
@@ -383,48 +392,6 @@
                 </Children>
               </Graphic>
               <me:ctrlFooter Entity="[Entity]" Margins="10,5,0,0" />
-            </Children>
-          </Graphic>
-        </Children>
-      </Panel>
-    </Content>
-  </UI>
-
-  <UI Name="KeyboardButton">
-    <Properties>
-      <Image Name="Icon" Image="resx://MusicBrowser/MusicBrowser.Resources/Keyboard"/>
-      <Command Name="Command" />
-      <EditableText Name="EditableText" />
-      <cor:Int32 Name="Length" Int32="20" />
-    </Properties>
-    <Locals>
-      <ClickHandler Name="Clicker" Command="[Command]"/>
-      <actions:ActionShowKeyboard Name="KeyboardAction" MaxLength="[Length]" editableText="[EditableText]" />
-    </Locals>
-    <Rules>
-      <Default Target="[Input.KeyInteractive]" Value="true" />
-      <Condition Source="[Input.KeyFocus]"  SourceValue="true">
-        <Actions>
-          <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/imgButtonIcon"/>
-        </Actions>
-      </Condition>
-      <Condition Source="[Input.KeyFocus]"  SourceValue="false">
-        <Actions>
-          <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
-        </Actions>
-      </Condition>
-      <Changed Source="[Command.Invoked]">
-        <Actions>
-          <Invoke Target="[KeyboardAction.Invoke]" />
-        </Actions>
-      </Changed>
-    </Rules>
-    <Content>
-      <Panel>
-        <Children>
-          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/imgButtonIcon" MinimumSize="42,28" MaximumSize="42,28" Name="ButtonBack" Margins="0,0,0,0">
-            <Children>
-              <Graphic Content="[Icon]" Name="ButtonFace" Margins="5,5,5,5" MaintainAspectRatio="true" />
             </Children>
           </Graphic>
         </Children>

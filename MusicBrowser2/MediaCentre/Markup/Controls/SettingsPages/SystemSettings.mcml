@@ -5,6 +5,7 @@
       xmlns:cor="assembly://MSCorLib/System">
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlCheckbox"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlTextBox"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonAction"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonIcon"/>
 
@@ -12,6 +13,8 @@
 
     <Locals>
       <actions:ActionSetBooleanSetting Name="CmdUseInternetProviders" Key="Internet.UseProviders" />
+      <actions:ActionSetTextSetting Name="CmdLastfmUserName" Key="Internet.LastFMUserName" />
+
       <actions:ActionSetBooleanSetting Name="CmdAutoLoadNowPlaying" Key="AutoLoadNowPlaying" />
       <actions:ActionSetBooleanSetting Name="CmdAnonymousUsage" Key="Telemetry.Participate" />
 
@@ -27,12 +30,12 @@
 
           <Text Content="Internet Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Allow internet providers" Action="[CmdUseInternetProviders]" />
+          <me:ctrlTextBox Label="Last.fm username" Action="[CmdLastfmUserName]" />
           <me:ctrlCheckbox Label="Send anonymous usage statistics" Action="[CmdAnonymousUsage]" />
-          <!--<me:buttonImage Command="[CmdTurnCacheOnOff]" Text="LastFMUserName" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />-->
-
+ 
           <Text Content="Cache Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Enable caching" Action="[CmdCacheEnable]" />
-          <me:buttonAction Action="[CmdDeleteCache]" />
+          <me:buttonAction Action="[CmdDeleteCache]" Size="0,52" />
 
           <Text Content="Play Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Show 'Now Playing' page automatically" Action="[CmdAutoLoadNowPlaying]" />
@@ -74,39 +77,40 @@
 
       <Changed Source="[OnFocus.Invoked]">
         <Actions>
-          <Set Target="[txtLabel.Alpha]" Value="1"/>
+          <Set Target="[thisControl.Alpha]" Value="1"/>
           <Set Target="[Underline.Alpha]" Value="0.5" />
         </Actions>
       </Changed>
       <Changed Source="[LostFocus.Invoked]">
         <Actions>
-          <Set Target="[txtLabel.Alpha]" Value="0.5"/>
+          <Set Target="[thisControl.Alpha]" Value="0.5"/>
           <Set Target="[Underline.Alpha]" Value="0" />
         </Actions>
       </Changed>
     </Rules>
 
     <Content>
-      <ColorFill Content="Transparent" Layout="Anchor">
+
+      <Panel Name="thisControl">
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+        </Layout>
         <Children>
-          <Panel Name="Body">
-            <Layout>
-              <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
-            </Layout>
+          <ColorFill Content="Transparent" Layout="Anchor">
             <Children>
-              <Text Name="txtLabel" Content="[Desc]" Color="White" Font="Segoe Media Center, 22" Margins="10,3,3,10" />
-              <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconMinus" Command="[CmdDecrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
-              <Text Name="txtValue" Content="[Action.Value!cor:String]" Color="White" Font="Segoe Media Center, 22" Margins="5,3,5,10" />
-              <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlus" Command="[CmdIncrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
+              <Text Name="txtLabel" Content="[Desc]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,15,10" />
+              <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" Alpha="0" Margins="5,0,0,0">
+                <LayoutInput>
+                  <AnchorLayoutInput Left="txtLabel,0" Right="txtLabel,1,-12" Bottom="txtLabel,1,-8"/>
+                </LayoutInput>
+              </Graphic>
             </Children>
-          </Panel>
-          <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" Alpha="0" Margins="5,0,0,0">
-            <LayoutInput>
-              <AnchorLayoutInput Left="Body,0" Right="Body,1" Bottom="Body,1,-8"/>
-            </LayoutInput>
-          </Graphic>
+          </ColorFill>
+          <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconMinus" Command="[CmdDecrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
+          <Text Name="txtValue" Content="[Action.Value!cor:String]" Color="White" Font="Segoe Media Center, 22" Margins="5,3,5,10" />
+          <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlus" Command="[CmdIncrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
         </Children>
-      </ColorFill>
+      </Panel>
     </Content>
   </UI>
 

@@ -34,7 +34,8 @@ namespace MusicBrowser.Actions
         public override void DoAction(Entity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "tracks recently added to your library");
-            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdnew", entity), true);   
+            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdnew", entity), true);
+            MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
     }
 }

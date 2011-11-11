@@ -28,15 +28,40 @@ namespace MusicBrowser.Providers.FolderItems
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
 #endif
+            List<string> res = new List<string>();
+
             foreach (string line in GetFileContents(uri))
             {
-                if (!line.StartsWith("folder: ")) continue;
-                string thisPath = line.Substring(8).Trim();
-                if (Directory.Exists(thisPath))
+                if (line.Length < 9) { continue; }
+
+                if (line.StartsWith("folder:"))
                 {
-                    yield return thisPath;
+                    string thisPath = line.Substring(8).Trim();
+                    if (Directory.Exists(thisPath))
+                    {
+                        res.Add(thisPath);
+                    }
+                }
+                if (line.StartsWith("library:"))
+                {
+                    try
+                    {
+                        string library = line.Substring(8).Trim();
+                        WindowsLibraryProvider libProvider = new WindowsLibraryProvider();
+                        IEnumerable<string> libLines = libProvider.GetItems(library);
+                        foreach (string libLine in libLines)
+                        {
+                            if (Directory.Exists(libLine))
+                            {
+                                res.Add(libLine);
+                            }
+                        }
+                    }
+                    catch { }
                 }
             }
+
+            return res;
         }
 
         #endregion

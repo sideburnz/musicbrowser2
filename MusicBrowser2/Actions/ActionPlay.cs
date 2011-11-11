@@ -72,6 +72,8 @@ namespace MusicBrowser.Actions
             {
                 TransportEngineFactory.GetEngine().Play(false, entity.Path);
             }
+
+            MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
     }
 }

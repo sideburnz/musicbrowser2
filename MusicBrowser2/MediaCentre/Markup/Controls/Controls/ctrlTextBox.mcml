@@ -1,0 +1,88 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <UI Name="ctrlTextBox">
+
+    <Properties>
+      <actions:ActionSetTextSetting Name="Action" />
+      <cor:String Name="Label" String="" />
+      <Command Name="CmdNoOp" />
+      <Command Name="CmdSpace" />
+    </Properties>
+
+    <Locals>
+      <KeyHandler Name="BackHandler" Handle="true" Key="Backspace" HandlerStage="Bubbled" Command="[CmdNoOp]"/>
+      <KeyHandler Name="SpaceHandler" Handle="true" Key="Space" HandlerStage="Routed" Command="[CmdSpace]" />
+      <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" MaxLength="20" />
+      <ClickHandler Name="Clicker" />
+      <actions:ActionShowKeyboard Name="KeyboardAction" MaxLength="20" editableText="[Action.TypingHandler]" />
+    </Locals>
+
+    <Rules>
+      <Binding Target="[Clicker.Command]" Source="[KeyboardAction]" />
+      <Binding Target="[typingHandler.EditableText]" Source="[Action.TypingHandler]" />
+      <Binding Target="[txtString.Content]" Source="[Action.Value]" />
+
+      <Changed Source="[CmdSpace.Invoked]">
+        <Actions>
+          <Invoke Target="[Action.InsertChar]" character=" " />
+        </Actions>
+      </Changed>
+      
+      <Changed Source="[typingHandler.EditableText.Value]">
+        <Actions>
+          <Invoke Target="[TextBox.NavigateInto]" />
+          <Set Target="[txtString.Content]" Value="[typingHandler.EditableText.Value]" />
+        </Actions>
+      </Changed>
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[thisControl.Alpha]" Value="1" />
+          <Set Target="[Underline.Alpha]" Value="0.5" />
+          <Set Target="[FocusBox.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus" />
+        </Actions>
+      </Condition>
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[thisControl.Alpha]" Value="0.5"/>
+          <Set Target="[Underline.Alpha]" Value="0" />
+          <Set Target="[FocusBox.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+        </Actions>
+      </Condition>
+    </Rules>
+
+    <Content>
+      <ColorFill Content="Transparent" Name="thisControl">
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+        </Layout>
+        <Children>
+          <ColorFill Content="Transparent" Layout="Anchor">
+            <Children>
+              <Text Name="txtLabel" Content="[Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,15,10" />
+              <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" Alpha="0" Margins="5,0,0,0">
+                <LayoutInput>
+                  <AnchorLayoutInput Left="txtLabel,0" Right="txtLabel,1,-12" Bottom="txtLabel,1,-8"/>
+                </LayoutInput>
+              </Graphic>
+            </Children>
+          </ColorFill>
+          <Graphic Name="FocusBox" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" MaintainAspectRatio="false" MinimumSize="280,42" MaximumSize="280,42">
+            <Children>
+              <ColorFill Content="White" Name="TextBox" Margins="2,2,2,2" Layout="Fill">
+                <Children>
+                  <Text Name="txtString" Content="search for" Color="Black" Font="Segoe Media Center Light, 18" Margins="5,0,5,0" />
+                </Children>
+              </ColorFill>
+            </Children>
+          </Graphic>
+        </Children>
+      </ColorFill>
+    </Content>
+  </UI>
+
+
+</Mcml>

@@ -31,10 +31,12 @@ namespace MusicBrowser.Providers
                 Entity e = EntityFactory.GetItem(item);
                 if (e == null) { continue; }
                 EntityFactory.Refactor(e);
+                Engines.Cache.InMemoryCache.GetInstance().Remove(e.CacheKey);
                 new Metadata.MetadataProviderList(e, true).Execute();
             }
             // refresh the current item last
             EntityFactory.Refactor(_parent);
+            Engines.Cache.InMemoryCache.GetInstance().Remove(_parent.CacheKey);
             new Metadata.MetadataProviderList(_parent, true).Execute();
         }
     }

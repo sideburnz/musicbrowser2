@@ -147,6 +147,8 @@
     <Compile Include="Actions\ActionShowGroupAlbumsByYear.cs" />
     <Compile Include="Actions\ActionShowGroupTracksByGenre.cs" />
     <Compile Include="Actions\ActionPlaySimilarTracks.cs" />
+    <Compile Include="Actions\ActionPlayMostPopular.cs" />
+    <Compile Include="Actions\ActionSetTextSetting.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="Providers\Metadata\HTBackdropMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\LastFMMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\MediaInfoMatadataProvider.cs" />
+    <Compile Include="Providers\Metadata\MetadataFileProvider.cs" />
     <Compile Include="Providers\Metadata\MetadataProviderList.cs" />
     <Compile Include="Providers\Metadata\TagSharpMetadataProvider.cs" />
     <Compile Include="Engines\Logging\EventLogLogger.cs" />
@@ -272,6 +275,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="MediaCentre\Markup\Controls\Buttons\buttonAction.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\Controls\ctrlTextBox.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MediaCentre\Markup\Controls\PageViews\viewThumbsDown.mcml">
       <SubType>Designer</SubType>
     </None>
