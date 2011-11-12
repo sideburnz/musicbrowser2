@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System;
 using System.Text;
 using System.Xml;
 using MusicBrowser.Util;
 using System.Net;
+using MusicBrowser.WebServices.Helper;
 
 namespace MusicBrowser.Providers
 {
@@ -12,6 +14,7 @@ namespace MusicBrowser.Providers
     public static class Statistics
     {
         private static readonly Dictionary<string, int> _stats = new Dictionary<string, int>();
+        private static readonly DateTime _starttime = DateTime.Now;
 
         public static void Hit(string key)
         {
@@ -39,10 +42,14 @@ namespace MusicBrowser.Providers
             writer.WriteStartElement("Statistics");
             writer.WriteAttributeString("ID", Config.GetInstance().GetStringSetting("Telemetry.ID"));
             writer.WriteAttributeString("Version", Application.Version);
+            writer.WriteAttributeString("ExecutionTime", Math.Truncate(DateTime.Now.Subtract(_starttime).TotalSeconds).ToString());
 
             foreach (string item in _stats.Keys)
             {
-                writer.WriteElementString(item.Replace(" ", ""), _stats[item].ToString());
+                writer.WriteStartElement("Action");
+                writer.WriteAttributeString("key", item);
+                writer.WriteAttributeString("value", _stats[item].ToString());
+                writer.WriteEndElement();
             }
             writer.WriteEndElement();
             writer.Close();
@@ -61,8 +68,16 @@ namespace MusicBrowser.Providers
                 fs.Flush();
                 fs.Close();
 
-                WebClient client = new WebClient();
-                client.UploadString("http://stats.musicbrowser2.com/submit.asp", data);
+                WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider();
+                h.Body = "data=" + WebServices.Helper.Externals.EncodeURL(data);
+                h.Method = WebServices.Helper.HttpProvider.HttpMethod.Post;
+                h.Url = "http://stats.musicbrowser2.com/submit.asp";
+                h.DoService();
+
+                if (h.Status != "200")
+                {
+                    Engines.Logging.LoggerEngineFactory.Error(new Exception("Telemetry failed: " + h.Response));
+                }
             }
         }
 

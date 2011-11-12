@@ -44,6 +44,7 @@ namespace MusicBrowser.WebServices.Helper
 
                 if (!String.IsNullOrEmpty(_body))
                 {
+                    request.ContentType = "application/x-www-form-urlencoded";
                     byte[] byte1 = new ASCIIEncoding().GetBytes(_body);
                     request.ContentLength = byte1.Length;
                     request.GetRequestStream().Write(byte1, 0, byte1.Length);
