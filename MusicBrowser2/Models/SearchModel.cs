@@ -24,12 +24,37 @@ namespace MusicBrowser.Models
         {
             _fullCollection = InMemoryCache.GetInstance();
 
-            if (context == null || context.Kind == EntityKind.Home)
+            if (context == null || context.Kind == EntityKind.Home || context.Kind == EntityKind.Group)
             {
                 _searchScope = EntityKind.None;
                 HasContext = false;
             }
-            else //TODO: support for genres etc
+            else if (context.Kind == EntityKind.Virtual)
+            {
+                switch (context.Path.ToLower())
+                {
+                    //TODO: redo this group by logic 
+                    case "tracks by genre":
+                        {
+                            _contextCollection = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track, "Genre", context.Title);
+                            break;
+                        }
+                    case "albums by year":
+                        {
+                            _contextCollection = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "Year", context.Title);
+                            break;
+                        }
+                    case "albums":
+                        {
+                            _contextCollection = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "", context.Title);
+                            break;
+                        }
+                }
+                _searchScope = EntityKind.Folder;
+                HasContext = true;
+                ContextName = context.Title;
+            }
+            else 
             {
                 _searchScope = EntityKind.Folder;
                 _contextCollection = new EntityCollection();

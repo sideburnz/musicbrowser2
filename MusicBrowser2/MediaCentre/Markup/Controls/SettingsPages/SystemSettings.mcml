@@ -20,6 +20,7 @@
 
       <actions:ActionSetBooleanSetting Name="CmdCacheEnable" Key="Cache.Enable" />
       <actions:ActionDeleteCache Name="CmdDeleteCache" />
+      <actions:ActionCheckForNewVersion Name="CmdNewVersion" />
 
       <actions:ActionSetNumericSetting Name="CmdSetNumericSetting" Key="AutoPlaylistSize" />
     </Locals>
@@ -40,6 +41,9 @@
           <Text Content="Play Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Show 'Now Playing' page automatically" Action="[CmdAutoLoadNowPlaying]" />
           <me:ctrlSpinner Action="[CmdSetNumericSetting]" Desc="Auto-generated playlist size" />
+
+          <Text Content="New Version" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
+          <me:buttonAction Action="[CmdNewVersion]" Size="0,52" />
           <Text />
         </Children>
       </ColorFill>
