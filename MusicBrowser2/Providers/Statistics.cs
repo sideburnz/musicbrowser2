@@ -9,8 +9,6 @@ using MusicBrowser.WebServices.Helper;
 
 namespace MusicBrowser.Providers
 {
-    //TODO: extend to provider telemetry
-
     public static class Statistics
     {
         private static readonly Dictionary<string, int> _stats = new Dictionary<string, int>();

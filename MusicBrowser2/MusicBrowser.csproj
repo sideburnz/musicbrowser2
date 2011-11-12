@@ -149,6 +149,7 @@
     <Compile Include="Actions\ActionPlaySimilarTracks.cs" />
     <Compile Include="Actions\ActionPlayMostPopular.cs" />
     <Compile Include="Actions\ActionSetTextSetting.cs" />
+    <Compile Include="Actions\ActionCheckForNewVersion.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
@@ -173,6 +174,7 @@
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
     <None Include="MediaCentre\Images\buttonicons\IconMinus.png" />
+    <None Include="MediaCentre\Images\buttonicons\IconNew.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlaylist.png" />
     <None Include="MediaCentre\Images\buttonicons\IconPlus.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconRefresh.png" />

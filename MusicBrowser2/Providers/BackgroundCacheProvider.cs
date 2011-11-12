@@ -29,6 +29,8 @@ namespace MusicBrowser.Providers
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
 #endif
+            CommonTaskQueue.Enqueue(Engines.Cache.InMemoryCache.GetInstance(), true);
+
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path);
             IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
 

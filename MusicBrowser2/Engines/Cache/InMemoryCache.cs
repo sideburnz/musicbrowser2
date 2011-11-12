@@ -13,7 +13,7 @@ using ServiceStack.Text;
 // in memory caching, intended to allow faster searches
 namespace MusicBrowser.Engines.Cache
 {
-    public sealed class InMemoryCache //: IBackgroundTaskable
+    public sealed class InMemoryCache : IBackgroundTaskable
     {
         private Dictionary<string, Entity> _cache;
         private static readonly object _obj = new object();
@@ -152,6 +152,31 @@ namespace MusicBrowser.Engines.Cache
                     File.Delete(_cacheFile);
                 }
                 catch { }
+            }
+        }
+
+        public string Title
+        {
+            get { return "InMemoryCache scavenger"; }
+        }
+
+        public void Execute()
+        {
+            try
+            {
+                foreach (Entity e in _cache.Values)
+                {
+                    FileSystemItem i = FileSystemProvider.GetItemDetails(e.Path);
+                    if ((i.Attributes == 0) || (i.LastUpdated > e.CacheDate))
+                    {
+                        Remove(e.CacheKey);
+                        Statistics.Hit("InMemoryCache.Scavenged");
+                    }
+                }
+            }
+            catch
+            {
+                // errors can occur if the cache changes shape whilst the scavenger is running
             }
         }
     }
