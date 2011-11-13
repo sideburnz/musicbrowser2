@@ -5,6 +5,10 @@ using System.Linq;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.WebServices.Services.LastFM;
+using MusicBrowser.WebServices.Interfaces;
+using MusicBrowser.WebServices.WebServiceProviders;
+using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Providers
 {
@@ -35,7 +39,6 @@ namespace MusicBrowser.Providers
                 .Take(records)
                 .Select(item => item.Path);
         }
-
 
         public IEnumerable<string> FindPopularOnLastFM(int records)
         {
@@ -123,6 +126,72 @@ namespace MusicBrowser.Providers
             MediaCentre.Playlist.PlayTrackList(tracks, queue);
         }
 
+
+        public void PlaySimilarTracks(Entity entity)
+        {
+            List<String> tracks = new List<string>();
+
+            TrackSimilarDTO dto = new TrackSimilarDTO();
+            dto.Artist = entity.ArtistName;
+            dto.Track = entity.TrackName;
+
+            TrackSimilarService service = new TrackSimilarService();
+            WebServiceProvider webProvider = new LastFMWebProvider();
+            service.SetProvider(webProvider);
+            service.Fetch(dto);
+
+            if (dto.Status == WebServiceStatus.Error)
+            {
+                Models.UINotifier.GetInstance().Message = String.Format("error finding tracks similar to {0}", entity.Title);
+                return;
+            }
+            if (dto.Tracks == null || dto.Tracks.Count() == 0)
+            {
+                Models.UINotifier.GetInstance().Message = String.Format("no tracks are similar to {0}", entity.Title);
+                return;
+            }
+
+            int maxTracks = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
+            
+            EntityCollection lib = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track);
+            // these cause problems for the locator, the fewer tracks we're dealing with the better
+            lib.RemoveAll(item => String.IsNullOrEmpty(item.ArtistName) || String.IsNullOrEmpty(item.TrackName));
+
+            foreach (LfmTrack track in dto.Tracks)
+            {
+                Entity e = LocateTrack(lib, track);
+                if (e == null)
+                {
+                    continue;
+                }
+                tracks.Add(e.Path);
+                if (tracks.Count > maxTracks)
+                {
+                    break;
+                }
+            }
+
+            if (tracks.Count == 0)
+            {
+                Models.UINotifier.GetInstance().Message = String.Format("no tracks in your library are similar to {0}", entity.Title);
+                return;
+            }
+
+            // dedupe the list
+            tracks = tracks.Distinct().ToList();
+
+            // play the tracks
+            MediaCentre.Playlist.PlayTrackList(tracks, false);
+        }
+
+        private Entity LocateTrack(EntityCollection lib, LfmTrack info)
+        {
+            return lib
+                .Where(item => item.ArtistName.Equals(info.artist, StringComparison.CurrentCultureIgnoreCase) ||
+                    item.TrackName.Equals(info.track, StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault();
+        }
+
         #region IBackgroundTaskable Members
         public string Title
         {
@@ -145,6 +214,11 @@ namespace MusicBrowser.Providers
 
             switch (_action)
             {
+                case "cmdsimilar":
+                    {
+                        PlaySimilarTracks(_entity);
+                        break;
+                    }
                 case "cmdplayall":
                     if (_entity.Kind.Equals(EntityKind.Track) || _entity.Kind.Equals(EntityKind.Playlist))
                     {
