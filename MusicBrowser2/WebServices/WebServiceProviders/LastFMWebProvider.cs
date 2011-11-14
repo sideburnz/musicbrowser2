@@ -122,21 +122,29 @@ namespace MusicBrowser.WebServices.WebServiceProviders
     {
         // actual limit is 5
         private const int MaxHitsPerSecond = 4;
-        private readonly static DateTime _start = DateTime.Now;
         private static long hits = 0;
+        private const int MsBetweenHits = 1000 / MaxHitsPerSecond;
+
+        static DateTime _nextHit = DateTime.Now;
+        private readonly static DateTime _start = DateTime.Now;
 
         public static bool Hit()
         {
             try
             {
+                // allow the first few minutes to pump through requests quickly in order
+                // for regular refreshes to happen quickly
                 TimeSpan elapsed = DateTime.Now.Subtract(_start);
-                if (elapsed.TotalMinutes < 5 && hits < 1000) { return true; }
-                while((elapsed.TotalSeconds * MaxHitsPerSecond) > hits)
+                if (elapsed.TotalMinutes < 3 && hits < 900) { hits++; return true; }
+
+                // throttle longer sets of requests (longer than 3 mins or 900 requests)
+                if (DateTime.Now <= _nextHit)
                 {
-                    System.Threading.Thread.Sleep(1000);
+                    System.Threading.Thread.Sleep(MsBetweenHits);
                     return false;
                 }
-                hits++;
+                _nextHit = DateTime.Now.AddMilliseconds(MsBetweenHits);
+
                 return true;
             }
             catch 
