@@ -69,7 +69,7 @@ namespace MusicBrowser.Providers
                 WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider();
                 h.Body = "data=" + WebServices.Helper.Externals.EncodeURL(data);
                 h.Method = WebServices.Helper.HttpProvider.HttpMethod.Post;
-                h.Url = "http://stats.musicbrowser2.com/submit.asp";
+                h.Url = "http://stats.musicbrowser2.com:8080/submit.asp";
                 h.DoService();
 
                 if (h.Status != "200")

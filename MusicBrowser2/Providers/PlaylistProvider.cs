@@ -177,6 +177,8 @@ namespace MusicBrowser.Providers
                 return;
             }
 
+            // put the focus track in the list
+            tracks.Add(entity.Path);
             // dedupe the list
             tracks = tracks.Distinct().ToList();
 

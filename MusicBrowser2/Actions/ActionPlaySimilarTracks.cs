@@ -40,7 +40,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
-            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdsimilar", entity));
+            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdsimilar", entity), true);
             MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
 
