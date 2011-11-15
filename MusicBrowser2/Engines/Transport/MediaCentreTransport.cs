@@ -13,6 +13,14 @@ namespace MusicBrowser.Engines.Transport
 
         public void PlayPause()
         {
+            if (State == Interfaces.PlayState.Playing)
+            {
+                Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 0;
+            }
+            else
+            {
+                Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 1;
+            }
         }
 
         // unlike other transport providers, Media Center needs to be passed individual files
@@ -47,17 +55,17 @@ namespace MusicBrowser.Engines.Transport
 
         public void Stop()
         {
- //           Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 0;
+            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 0;
         }
 
         public void Next()
         {
-//            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipForward();
+            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipForward();
         }
 
         public void Previous()
         {
-//            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipBack();
+            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipBack();
         }
 
         public void Close()
