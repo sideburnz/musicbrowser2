@@ -28,6 +28,7 @@
       <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
 
       <actions:ActionShowSearch Name="SearchAction" />
+      <actions:ActionShowNowPlaying Name="ActionShowNowPlaying" />
       
       <actions:ActionStop Name="ActionStop" />
       <actions:ActionPause Name="ActionPause" />
@@ -49,6 +50,9 @@
 
       <EditableText Name="editableText" />
       <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
+
+      <KeyHandler Name="HandleStarNum" Command="[ActionShowNowPlaying]" Handle="true" HandlerStage="Bubbled" Key="D8" Modifiers="Shift" />
+      <KeyHandler Name="HandleStarKey" Command="[ActionShowNowPlaying]" Handle="true" HandlerStage="Bubbled" Key="NumPad8" Modifiers="Shift" />
     </Locals>
 
     <Rules>

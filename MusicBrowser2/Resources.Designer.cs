@@ -393,6 +393,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconSort {
+            get {
+                object obj = ResourceManager.GetObject("IconSort", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconStar {
             get {
                 object obj = ResourceManager.GetObject("IconStar", resourceCulture);

@@ -22,6 +22,7 @@
       <actions:ActionShowActions Name="ActionActions" Source="Menu" Entity="[Entity]" />
       <actions:ActionShowSettings Name="SettingsAction" />
       <actions:ActionCycleViews Name="CycleViewsAction" Entity="[Entity]" />
+      <actions:ActionCycleSorts Name="CycleSortOrder" Entity="[Entity]" />
       <actions:ActionShowGroupBy Name="ShowGroupBy" />
     </Locals>
     
@@ -78,10 +79,11 @@
                       <FormLayoutInput Bottom="Parent,1" Left="Parent,0"/>
                     </LayoutInput>
                     <Children>
-                      <me:buttonIcon Command="[SettingsAction]" Name="SettingsMenu" Text="" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconConfig" Margins="0,0,5,0" Visible="false" />
-                      <me:buttonIcon Command="[ActionActions]" Name="ActionsMenu" Text="Actions" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconAction" Margins="0,0,5,0" />
-                      <me:buttonIcon Command="[ShowGroupBy]" Name="GroupMenu" Text="Group By" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconGroup" Margins="0,0,5,0" Visible="false" />
-                      <me:buttonIcon Command="[CycleViewsAction]" Name="ViewMenu" Text="[FolderModel.View]" Icon="resx://MusicBrowser/MusicBrowser.Resources/IconView" Margins="0,0,5,0" />
+                      <me:buttonIcon Command="[SettingsAction]" Name="SettingsMenu" Text="" Icon="[SettingsAction.Icon]" Margins="0,0,5,0" Visible="false" />
+                      <me:buttonIcon Command="[ActionActions]" Name="ActionsMenu" Text="Actions" Icon="[ActionActions.Icon]" Margins="0,0,5,0" />
+                      <me:buttonIcon Command="[ShowGroupBy]" Name="GroupMenu" Text="Group By" Icon="[ShowGroupBy.Icon]" Margins="0,0,5,0" Visible="false" />
+                      <me:buttonIcon Command="[CycleViewsAction]" Name="ViewMenu" Text="[FolderModel.View]" Icon="[CycleViewsAction.Icon]" Margins="0,0,5,0" />
+                      <me:buttonIcon Command="[CycleSortOrder]" Name="SortMenu" Text="[FolderModel.View]" Icon="[CycleSortOrder.Icon]" Margins="0,0,5,0" Visible="false"/>
                     </Children>
                   </ColorFill>
 
