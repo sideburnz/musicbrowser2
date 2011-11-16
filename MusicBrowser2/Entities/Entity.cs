@@ -427,7 +427,7 @@ namespace MusicBrowser.Entities
                         if (ReleaseDate > DateTime.Parse("01-JAN-1000")) { output = output.Replace("[release]", ReleaseDate.ToString("yyyy")); break; }
                         output = output.Replace("[release]", ""); break;
                     case "added":
-                        if (Added > DateTime.Parse("01-JAN-1000")) { output = output.Replace("[added]", Added.ToString("yyyy-mm-dd")); break; }
+                        if (Added > DateTime.Parse("01-JAN-1000")) { output = output.Replace("[added]", Added.ToString("yyyy-mm-dd hh:MM:ss")); break; }
                         output = output.Replace("[added]", ""); break;
                     case "channels":
                         output = output.Replace("[channels]", Channels); break;
