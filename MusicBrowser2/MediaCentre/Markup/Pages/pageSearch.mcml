@@ -43,7 +43,6 @@
       <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" MaxLength="20" />
 
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Routed" Command="[BackAction]"/>
-      
     </Locals>
 
     <Rules>
@@ -52,6 +51,7 @@
           <Invoke Target="[CmdSetScopeToArtists.Invoke]" />
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
           <Invoke Target="[SearchBox.NavigateInto]" />
+          <Invoke Target="[SearchResultData.Home]" />
         </Actions>
       </Rule>
 
@@ -123,10 +123,17 @@
       <Changed Source="[typingHandler.EditableText.Value]">
         <Actions>
           <Invoke Target="[SearchBox.NavigateInto]" />
-          <Invoke Target="[SearchResultData.Home]" />
         </Actions>
       </Changed>
 
+      <Changed Source="[Model.ResultSet]">
+        <Actions>
+          <Invoke Target="[SearchResultData.ScrollUp]" />
+          <Invoke Target="[SearchResultData.Home]" />
+          <Invoke Target="[SearchResultData.ScrollUp]" />
+        </Actions>
+      </Changed>
+      
       <Changed Source="[SearchResultData.TotalPages]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[SearchResultData.TotalPages]" ConditionOp="Equals" Value="0" />
@@ -241,13 +248,10 @@
                       </Panel>
                       <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow"  Navigation="ContainVertical">
                         <Children>
-                          <Text Name="labelNoResultsError" Content="No items found" Color="White" Font="Segoe Media Center Light, 22" />
-                          <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="-10" Margins="0,0,0,0" Name="viewListScroller" ScrollingData="[SearchResultData]" >
+                          <Text Name="labelNoResultsError" Content="No items found" Color="White" Font="Segoe Media Center Light, 22" Visible="false"/>
+                          <Scroller Orientation="Vertical" FadeSize="-10" Margins="0,0,0,0" Name="viewListScroller" ScrollingData="[SearchResultData]" >
                             <Children>
-                              <Repeater Name="SearchResultRepeater">
-                                <Layout>
-                                  <FlowLayout Orientation="Vertical" ItemAlignment="Near"/>
-                                </Layout>
+                              <Repeater Name="SearchResultRepeater" Layout="VerticalFlow">
                                 <Content>
                                   <me:buttonSearchResult Entity="[RepeatedItem!entities:Entity]" />
                                 </Content>
@@ -342,6 +346,7 @@
       <Binding Target="[Clicker.Command]" Source="[EnterAction]" />
       
       <Default Target="[Input.KeyInteractive]" Value="true" />
+      
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
           <Set Target="[isNotSelected.Visible]" Value="false"/>
