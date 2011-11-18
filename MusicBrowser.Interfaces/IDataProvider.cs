@@ -28,7 +28,9 @@ namespace MusicBrowser.Interfaces
         Artist,
         Genre,
         Playlist,
-        Disc
+        Disc,
+        Folder,
+        Other
     }
 
     public enum ProviderType

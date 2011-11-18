@@ -175,6 +175,16 @@ namespace MusicBrowser.Providers.Metadata
                         dto.DataType = DataTypes.Genre;
                         break;
                     }
+                    case EntityKind.Folder:
+                    {
+                        dto.DataType = DataTypes.Folder;
+                        break;
+                    }
+                    default:
+                    {
+                        dto.DataType = DataTypes.Other;
+                        break;
+                    }
             }
 
             return dto;
@@ -268,6 +278,15 @@ namespace MusicBrowser.Providers.Metadata
                 case DataTypes.Genre:
                     {
                         entity.Kind = EntityKind.Genre;
+                        break;
+                    }
+                case DataTypes.Folder:
+                    {
+                        entity.Kind = EntityKind.Folder;
+                        break;
+                    }
+                case DataTypes.Other:
+                    {
                         break;
                     }
             }
