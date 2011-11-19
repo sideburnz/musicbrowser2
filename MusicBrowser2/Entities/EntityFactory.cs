@@ -159,6 +159,10 @@ namespace MusicBrowser.Entities
                         IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
                         foreach (FileSystemItem item in items)
                         {
+                            if (item.Name.ToLower() == "video_ts")
+                            {
+                                return EntityKind.DVD;
+                            }
                             EntityKind? e = DetermineKind(item);
                             switch (e)
                             {
@@ -179,6 +183,10 @@ namespace MusicBrowser.Entities
                 case Helper.knownType.Playlist:
                     {
                         return EntityKind.Playlist;
+                    }
+                case Helper.knownType.Video:
+                    {
+                        return EntityKind.Video;
                     }
             }
             return null;

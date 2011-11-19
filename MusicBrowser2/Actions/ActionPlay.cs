@@ -7,6 +7,7 @@ using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Engines.Transport;
 using MusicBrowser.Engines.Cache;
+using Microsoft.MediaCenter;
 
 namespace MusicBrowser.Actions
 {
@@ -67,6 +68,20 @@ namespace MusicBrowser.Actions
                 {
                     TransportEngineFactory.GetEngine().Play(true, e.Path);
                 }
+            }
+            // TODO: temp
+            else if (entity.Kind == EntityKind.Video)
+            {
+                // set up
+                MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+                mce.PlayMedia(MediaType.Video, entity.Path, false);
+            }
+            // TODO: temp
+            else if (entity.Kind == EntityKind.DVD)
+            {
+                // set up
+                MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+                mce.PlayMedia(MediaType.Dvd, entity.Path, false);
             }
             else
             {

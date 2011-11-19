@@ -32,7 +32,7 @@ namespace MusicBrowser.Actions
             string message = "No new version available";
             WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider();
             h.Method = WebServices.Helper.HttpProvider.HttpMethod.Get;
-            h.Url = "http://stats.musicbrowser2.com/version.asp?version=" + Application.Version;
+            h.Url = "http://stats.musicbrowser2.com:8080/version.asp?version=" + Application.Version;
             h.DoService();
             if (h.Status != "200")
             {

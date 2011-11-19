@@ -383,6 +383,24 @@
 			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
 		&lt;/MenuItems&gt;
 	&lt;/Entity&gt;
+	&lt;Entity name="Video"&gt;
+		&lt;OnEnter&gt;Play&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;Play&lt;/OnPlay&gt;
+		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+		&lt;MenuItems&gt;
+			&lt;Item&gt;Play&lt;/Item&gt;
+			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
+		&lt;/MenuItems&gt;
+	&lt;/Entity&gt;
+	&lt;Entity name="DVD"&gt;
+		&lt;OnEnter&gt;Play&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;Play&lt;/OnPlay&gt;
+		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+		&lt;MenuItems&gt;
+			&lt;Item&gt;Play&lt;/Item&gt;
+			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
+		&lt;/MenuItems&gt;
+	&lt;/Entity&gt;
 	&lt;Entity name="Genre"&gt;
 		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
 		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
@@ -425,8 +443,13 @@
   <data name="IconNew" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>MediaCentre\Images\buttonicons\IconNew.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="IconSort" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\IconSort.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>MediaCentre\Images\buttonicons\IconSort.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imageDVD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>MediaCentre\Images\icons\imageDVD.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imageVideo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagevideo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
