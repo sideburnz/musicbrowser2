@@ -175,7 +175,6 @@
     <Content Include="MediaCentre\Images\buttonicons\IconFavorite.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
-    <None Include="Resources\IconSort.png" />
     <None Include="MediaCentre\Images\buttonicons\IconMinus.png" />
     <None Include="MediaCentre\Images\buttonicons\IconNew.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlaylist.png" />
@@ -185,6 +184,7 @@
     <Content Include="MediaCentre\Images\buttonicons\IconSearch.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconSkipBack.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconSkipForward.png" />
+    <None Include="MediaCentre\Images\buttonicons\IconSort.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconStar.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconStop.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconUnknown.png" />
@@ -196,6 +196,8 @@
     <Content Include="MediaCentre\Images\buttons\radioSelected.png" />
     <Content Include="MediaCentre\Images\buttons\radioUnselected.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconLastFM.png" />
+    <None Include="MediaCentre\Images\icons\imageDVD.png" />
+    <Content Include="MediaCentre\Images\icons\imageVideo.png" />
     <Content Include="MediaCentre\Images\icons\imageGenre.png" />
     <Content Include="MediaCentre\Images\icons\imageSpinner.png" />
     <Content Include="MediaCentre\Images\backgrounds\NavPanel.png" />

@@ -141,6 +141,7 @@ namespace MusicBrowser.Util
             Track,
             Playlist,
             Folder,
+            Video,
             Other
         }
         public static Dictionary<string, knownType> perceivedTypeCache = getKnownTypes();
@@ -168,6 +169,10 @@ namespace MusicBrowser.Util
 
                 lock (perceivedTypeCache)
                 {
+                    if (pt == "video")
+                    {
+                        perceivedTypeCache.Add(extension, knownType.Video);
+                    }
                     if (pt == "audio")
                     {
                         perceivedTypeCache.Add(extension, knownType.Track);
@@ -181,7 +186,7 @@ namespace MusicBrowser.Util
             catch
             {
                 // if there's a problem, return an unknown type
-                perceivedTypeCache.Add(extension, knownType.Other);
+                return knownType.Other;
             }
             return perceivedTypeCache[extension];
         }
@@ -309,46 +314,6 @@ namespace MusicBrowser.Util
                 strippedString = string.Empty;
             }
             return strippedString.Replace("&quot;", "'").Replace("&amp;", "&");
-        }
-
-        public static long ParseVersion(string version)
-        {
-            long ret = 0;
-            try
-            {
-                string[] parts;
-                if (String.IsNullOrEmpty(version)) 
-                { 
-                    parts = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.'); 
-                }
-                else 
-                { 
-                    parts = version.Split('.'); 
-                }
-                ret = int.Parse(parts[3]) +
-                    (int.Parse(parts[2]) * 1000) +
-                    (int.Parse(parts[1]) * 1000 * 100) +
-                    (int.Parse(parts[0]) * 1000 * 100 * 100);
-            }
-            catch { }
-            return ret;
-        }
-
-        // this measures the similarity of two strings
-        // it's fairly rough and ready
-        public static int Similarity(string string1, string string2)
-        {
-            string[] pairs1 = new string[string1.Length - 1];
-            for (int i = 0; i < string1.Length - 1; i++) { pairs1[i] = string1.Substring(i, 2); }
-
-            if (pairs1.Count() == 0) { return 0; }
-
-            string[] pairs2 = new string[string2.Length - 1];
-            for (int i = 0; i < string2.Length - 1; i++) { pairs2[i] = string2.Substring(i, 2); }
-
-            int hits = pairs1.Count(s1 => pairs2.Any(s2 => s1 == s2));
-
-            return (100 * (hits / pairs1.Count()));
         }
 
         /// <summary>

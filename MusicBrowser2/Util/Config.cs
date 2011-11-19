@@ -69,6 +69,16 @@ namespace MusicBrowser.Util
                 { "Entity.Folder.SortOrder", "[title]" },
                 { "Entity.Folder.Summary", "" },
 
+                { "Entity.Video.View", "List" },
+                { "Entity.Video.Format", "[title]" },
+                { "Entity.Video.SortOrder", "[title]" },
+                { "Entity.Video.Summary", "" },
+
+                { "Entity.DVD.View", "List" },
+                { "Entity.DVD.Format", "[title]" },
+                { "Entity.DVD.SortOrder", "[title]" },
+                { "Entity.DVD.Summary", "" },
+
                 { "Entity.Group.View", "List" },
                 { "Entity.Group.Format", "[title]" },
                 { "Entity.Group.SortOrder", "[title]" },
