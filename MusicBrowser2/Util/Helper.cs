@@ -142,6 +142,7 @@ namespace MusicBrowser.Util
             Playlist,
             Folder,
             Video,
+            Image,
             Other
         }
         public static Dictionary<string, knownType> perceivedTypeCache = getKnownTypes();
@@ -169,17 +170,34 @@ namespace MusicBrowser.Util
 
                 lock (perceivedTypeCache)
                 {
-                    if (pt == "video")
+                    switch (pt)
                     {
-                        perceivedTypeCache.Add(extension, knownType.Video);
-                    }
-                    if (pt == "audio")
-                    {
-                        perceivedTypeCache.Add(extension, knownType.Track);
-                    }
-                    else
-                    {
-                        perceivedTypeCache.Add(extension, knownType.Other);
+                        case "video":
+                            if (Config.GetInstance().GetBooleanSetting("EnableExperimentalVideoSupport"))
+                            {
+                                perceivedTypeCache.Add(extension, knownType.Video);
+                            }
+                            else
+                            {
+                                perceivedTypeCache.Add(extension, knownType.Other);
+                            }
+                            break;
+                        case "image":
+                            if (Config.GetInstance().GetBooleanSetting("EnableExperimentalPhotoSupport"))
+                            {
+                                perceivedTypeCache.Add(extension, knownType.Image);
+                            }
+                            else
+                            {
+                                perceivedTypeCache.Add(extension, knownType.Other);
+                            }
+                            break;
+                        case "audio":
+                            perceivedTypeCache.Add(extension, knownType.Track);
+                            break;
+                        default:
+                            perceivedTypeCache.Add(extension, knownType.Other);
+                            break;
                     }
                 }
             }
@@ -227,12 +245,6 @@ namespace MusicBrowser.Util
             }
             // special circumstance
             retVal.Add(String.Empty, knownType.Other);
-
-            extentions = Config.GetInstance().GetListSetting("Extensions.Image");
-            foreach (string extention in extentions)
-            {
-                retVal.Add(extention, knownType.Other);
-            }
 
             return retVal;
         }
