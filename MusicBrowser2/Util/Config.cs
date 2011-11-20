@@ -22,6 +22,9 @@ namespace MusicBrowser.Util
                 { "PutDiscInTrackNo", true.ToString() },
                 { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
 
+                { "EnableExperimentalVideoSupport", false.ToString() },
+                { "EnableExperimentalPhotoSupport", false.ToString() },
+
                 { "Log.Level", "error" },
                 { "Log.Destination", "file" },
                 { "Log.File", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
@@ -79,6 +82,16 @@ namespace MusicBrowser.Util
                 { "Entity.DVD.SortOrder", "[title]" },
                 { "Entity.DVD.Summary", "" },
 
+                { "Entity.Photo.View", "List" },
+                { "Entity.Photo.Format", "[title]" },
+                { "Entity.Photo.SortOrder", "[title]" },
+                { "Entity.Photo.Summary", "" },
+
+                { "Entity.PhotoAlbum.View", "List" },
+                { "Entity.PhotoAlbum.Format", "[title]" },
+                { "Entity.PhotoAlbum.SortOrder", "[title]" },
+                { "Entity.PhotoAlbum.Summary", "" },
+
                 { "Entity.Group.View", "List" },
                 { "Entity.Group.Format", "[title]" },
                 { "Entity.Group.SortOrder", "[title]" },
@@ -97,15 +110,14 @@ namespace MusicBrowser.Util
                 { "Player.Paths.VLC", (Is64Bit ? "C:\\Program Files (x86)" : "C:\\Program Files") + "\\VideoLAN\\VLC\\vlc.exe" },
 
                 { "Extensions.Playlist", ".wpl|.m3u|.asx" },
-                { "Extensions.Image", ".png|.jpg|.jpeg" },
                 { "Extensions.Ignore", ".xml|.cue|.txt|.nfo" },
+                { "Extensions.Image", ".png|.jpg|.jpeg" },
  
                 { "Views.Thumbs.IsHorizontal", true.ToString() },
                 { "Views.List.ShowSummary", true.ToString() },
                 { "Views.Strip.ShowSummary", true.ToString() }
 
-//                                        { "ShowCDs", true.ToString() }
-                                               };
+        };
 
         #region singleton
         static Config _instance;

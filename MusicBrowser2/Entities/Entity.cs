@@ -24,8 +24,13 @@ namespace MusicBrowser.Entities
         Group = 8,
         Virtual = 9,
         None = 0,
+        
         Video = 10,
         DVD = 11,
+
+        Photo = 20,
+        PhotoAlbum = 21,
+
         GroupBy = 100
     }
 
@@ -183,6 +188,14 @@ namespace MusicBrowser.Entities
                     case EntityKind.DVD:
                         {
                             return "resx://MusicBrowser/MusicBrowser.Resources/imageDVD";
+                        }
+                    case EntityKind.Photo:
+                        {
+                            return "resx://MusicBrowser/MusicBrowser.Resources/imagePhoto";
+                        }
+                    case EntityKind.PhotoAlbum:
+                        {
+                            return "resx://MusicBrowser/MusicBrowser.Resources/imagePhotoAlbum";
                         }
                 }
                 return string.Empty; 

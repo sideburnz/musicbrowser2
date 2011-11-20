@@ -172,6 +172,8 @@ namespace MusicBrowser.Entities
                                     return EntityKind.Artist;
                                 case EntityKind.Artist:
                                     return EntityKind.Genre;
+                                case EntityKind.Photo:
+                                    return EntityKind.PhotoAlbum;
                             }
                         }
                         return EntityKind.Folder;
@@ -187,6 +189,16 @@ namespace MusicBrowser.Entities
                 case Helper.knownType.Video:
                     {
                         return EntityKind.Video;
+                    }
+                case Helper.knownType.Image:
+                    {
+                        // images have exception
+                        string[] nonphotoimages = new string[] { "folder", "backdrop", "banner" };
+                        if (!nonphotoimages.Contains(System.IO.Path.GetFileNameWithoutExtension(entity.Name)))
+                        {
+                            return EntityKind.Photo;
+                        }
+                        break;
                     }
             }
             return null;

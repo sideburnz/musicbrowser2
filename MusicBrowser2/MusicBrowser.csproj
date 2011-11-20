@@ -197,6 +197,10 @@
     <Content Include="MediaCentre\Images\buttons\radioUnselected.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconLastFM.png" />
     <None Include="MediaCentre\Images\icons\imageDVD.png" />
+    <None Include="MediaCentre\Images\icons\IconPhoto.png" />
+    <None Include="MediaCentre\Images\icons\IconPhotoAlbum.png" />
+    <None Include="MediaCentre\Images\icons\imagePhoto.png" />
+    <None Include="MediaCentre\Images\icons\imagePhotoAlbum.png" />
     <Content Include="MediaCentre\Images\icons\imageVideo.png" />
     <Content Include="MediaCentre\Images\icons\imageGenre.png" />
     <Content Include="MediaCentre\Images\icons\imageSpinner.png" />
