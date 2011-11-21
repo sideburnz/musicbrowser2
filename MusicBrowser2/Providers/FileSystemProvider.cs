@@ -75,7 +75,7 @@ namespace MusicBrowser.Providers
                         if ((findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden) continue;
 
                         string fullpath = directory + findData.cFileName;
-                        FileSystemItem fsi = new FileSystemItem(fullpath.ToLower(),
+                        FileSystemItem fsi = new FileSystemItem(fullpath,
                                                                 findData.cFileName,
                                                                 findData.dwFileAttributes,
                                                                 ToDateTime(findData.ftLastWriteTime),

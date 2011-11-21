@@ -42,7 +42,7 @@ namespace MusicBrowser.Providers.Metadata
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
 #if DEBUG
-            Logging.Logger.Verbose(Name + ": " + dto.Path, "start");
+            MusicBrowser.Engines.Logging.LoggerEngineFactory.Verbose(Name + ": " + dto.Path, "start");
 #endif
             DataProviderDTO ret = dto;
             dto.Outcome = DataProviderOutcome.Success;

@@ -1,4 +1,7 @@
 ﻿using MusicBrowser.Entities;
+using System.IO;
+using MusicBrowser.Providers;
+using MusicBrowser.Providers.Background;
 
 namespace MusicBrowser.Actions
 {
@@ -27,7 +30,11 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
-            MusicBrowser.Application.GetReference().Navigate(entity);
+            if (Directory.Exists(entity.Path))
+            {
+                MusicBrowser.Application.GetReference().Navigate(entity);
+                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(Entity.Path), true);
+            }
         }
     }
 }

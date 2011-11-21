@@ -70,6 +70,19 @@ namespace MusicBrowser.Entities
             TagSharpMetadataProvider.FetchLite(entity);
         }
 
+        //public static Entity HandleExperimentalFeatures(Entity entity)
+        //{
+        //    if ((entity.Kind == EntityKind.Photo || entity.Kind == EntityKind.PhotoAlbum) && !Config.GetInstance().GetBooleanSetting("EnableExperimentalPhotoSupport"))
+        //    {
+        //        return null;
+        //    }
+        //    if ((entity.Kind == EntityKind.DVD || entity.Kind == EntityKind.Episode || entity.Kind == EntityKind.Movie || entity.Kind == EntityKind.Video) && !Config.GetInstance().GetBooleanSetting("EnableExperimentalVideoSupport"))
+        //    {
+        //        return null;
+        //    }
+        //    return entity;
+        //}
+
         public static Entity GetItem(string item)
         {
             return GetItem(FileSystemProvider.GetItemDetails(item));

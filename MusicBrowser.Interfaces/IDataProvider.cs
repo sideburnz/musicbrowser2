@@ -30,6 +30,11 @@ namespace MusicBrowser.Interfaces
         Playlist,
         Disc,
         Folder,
+        Video,
+        Movie,
+        Episode,
+        Photo,
+        PhotoGallery,
         Other
     }
 
@@ -97,6 +102,9 @@ namespace MusicBrowser.Interfaces
         public string Lyrics;
 
         public string Summary;
+
+        public int Episode;
+        public int Season;
     }
 
     /// <summary>

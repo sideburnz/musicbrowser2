@@ -27,6 +27,8 @@ namespace MusicBrowser.Entities
         
         Video = 10,
         DVD = 11,
+        Episode = 12,
+        Movie = 13,
 
         Photo = 20,
         PhotoAlbum = 21,
@@ -115,6 +117,11 @@ namespace MusicBrowser.Entities
         [DataMember]
         public int TrackCount { get; set; }
 
+        [DataMember]
+        public int Episode { get; set; }
+        [DataMember]
+        public int Season { get; set; }
+
         // read only and have default values
         public string KindName { get { return Kind.ToString(); } }
         public string DefaultBackgroundPath{ get { return string.Empty; } }
@@ -182,6 +189,8 @@ namespace MusicBrowser.Entities
                             return "resx://MusicBrowser/MusicBrowser.Resources/imageFolder";
                         }
                     case EntityKind.Video:
+                    case EntityKind.Movie:
+                    case EntityKind.Episode:
                         {
                             return "resx://MusicBrowser/MusicBrowser.Resources/imageVideo";
                         }
@@ -213,19 +222,21 @@ namespace MusicBrowser.Entities
         private int _backgroundID = 0;
         public void GetNextBackground()
         {
-            if (BackgroundPaths.Count > 1)
-            {
-                // randomize the backdrop order - make a good effort at making sure we don't get the same one twice
-                int next = _rnd.Next(BackgroundPaths.Count);
-                int limit = 0;
-                while (next == _backgroundID && limit < 10)
-                {
-                    next = _rnd.Next(BackgroundPaths.Count);
-                    limit++;
-                }
-                _backgroundID = next;
-                FirePropertyChanged("Background");
-            }
+            //TODO: removed
+
+            //if (BackgroundPaths.Count > 1)
+            //{
+            //    // randomize the backdrop order - make a good effort at making sure we don't get the same one twice
+            //    int next = _rnd.Next(BackgroundPaths.Count);
+            //    int limit = 0;
+            //    while (next == _backgroundID && limit < 10)
+            //    {
+            //        next = _rnd.Next(BackgroundPaths.Count);
+            //        limit++;
+            //    }
+            //    _backgroundID = next;
+            //    FirePropertyChanged("Background");
+            //}
         }
 
         public Image Background
@@ -526,6 +537,10 @@ namespace MusicBrowser.Entities
                         }
                         output = output.Replace("[filename]", filename);
                         break;
+                    case "episode":
+                        output = output.Replace("[episode]", Episode.ToString("D2")); break;
+                    case "season":
+                        output = output.Replace("[season]", Season.ToString()); break;
                 }
 
             }

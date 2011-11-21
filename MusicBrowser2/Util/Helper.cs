@@ -372,5 +372,12 @@ namespace MusicBrowser.Util
             if (a.StartsWith("the ")) { return a.Substring(4).Trim(); }
             return a;
         }
+
+
+
+
+
+
+
     }
 }
