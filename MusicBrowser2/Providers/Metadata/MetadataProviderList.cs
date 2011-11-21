@@ -33,12 +33,13 @@ namespace MusicBrowser.Providers.Metadata
 
                         _providers.Add(new MetadataFileProvider());
                         _providers.Add(new TagSharpMetadataProvider());
-                        _providers.Add(new MediaInfoMatadataProvider());
-                        _providers.Add(new InheritanceMatadataProvider());
+                        _providers.Add(new MediaInfoMetadataProvider());
+                        _providers.Add(new InheritanceMetadataProvider());
                         _providers.Add(new HTBackdropMetadataProvider());
                         _providers.Add(new LastFMMetadataProvider());
                         _providers.Add(new FileSystemMetadataProvider());
                         _providers.Add(new IconMetadataProvider());
+                        _providers.Add(new VideoFilenameMetadataProvider());
                         _providers.Add(new CoreMetadataProvider());
                     }
                 }
@@ -142,6 +143,9 @@ namespace MusicBrowser.Providers.Metadata
             dto.hasBackImage = !(entity.BackgroundPaths.FirstOrDefault() == null);
             dto.BackImages = new List<Bitmap>();
 
+            dto.Episode = entity.Episode;
+            dto.Season = entity.Season;
+
             dto.ProviderTimeStamps = entity.ProviderTimeStamps;
 
             switch (entity.Kind)
@@ -178,6 +182,36 @@ namespace MusicBrowser.Providers.Metadata
                     case EntityKind.Folder:
                     {
                         dto.DataType = DataTypes.Folder;
+                        break;
+                    }
+                    case EntityKind.DVD:
+                    {
+                        dto.DataType = DataTypes.Video;
+                        break;
+                    }
+                    case EntityKind.Episode:
+                    {
+                        dto.DataType = DataTypes.Episode;
+                        break;
+                    }
+                    case EntityKind.Movie:
+                    {
+                        dto.DataType = DataTypes.Movie;
+                        break;
+                    }
+                    case EntityKind.Photo:
+                    {
+                        dto.DataType = DataTypes.Photo;
+                        break;
+                    }
+                    case EntityKind.PhotoAlbum:
+                    {
+                        dto.DataType = DataTypes.PhotoGallery;
+                        break;
+                    }
+                    case EntityKind.Video:
+                    {
+                        dto.DataType = DataTypes.Video;
                         break;
                     }
                     default:
@@ -224,6 +258,9 @@ namespace MusicBrowser.Providers.Metadata
             if (dto.TrackCount > 0) { entity.TrackCount = dto.TrackCount; }
             if (dto.Listeners > 0) { entity.Listeners = dto.Listeners; }
             if (dto.PlayCount > entity.PlayCount) { entity.PlayCount = dto.PlayCount; }
+
+            if (dto.Episode > 0) { entity.Episode = dto.Episode; }
+            if (dto.Season > 0) { entity.Season = dto.Season; }
 
             if (dto.ThumbImage != null)
             {
@@ -283,6 +320,31 @@ namespace MusicBrowser.Providers.Metadata
                 case DataTypes.Folder:
                     {
                         entity.Kind = EntityKind.Folder;
+                        break;
+                    }
+                case DataTypes.Episode:
+                    {
+                        entity.Kind = EntityKind.Episode;
+                        break;
+                    }
+                case DataTypes.Movie:
+                    {
+                        entity.Kind = EntityKind.Movie;
+                        break;
+                    }
+                case DataTypes.Video:
+                    {
+                        entity.Kind = EntityKind.Video;
+                        break;
+                    }
+                case DataTypes.Photo:
+                    {
+                        entity.Kind = EntityKind.Photo;
+                        break;
+                    }
+                case DataTypes.PhotoGallery:
+                    {
+                        entity.Kind = EntityKind.PhotoAlbum;
                         break;
                     }
                 case DataTypes.Other:

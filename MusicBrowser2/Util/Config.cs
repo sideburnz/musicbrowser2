@@ -101,6 +101,11 @@ namespace MusicBrowser.Util
                 { "Entity.Virtual.Format", "[title]" },
                 { "Entity.Virtual.SortOrder", "[title]" },
                 { "Entity.Virtual.Summary", "" },
+
+                { "Entity.Episode.View", "List" },
+                { "Entity.Episode.Format", "[episode] - [title]" },
+                { "Entity.Episode.SortOrder", "[episode]" },
+                { "Entity.Episode.Summary", "[season] [episode]" },
                                         
                 { "Telemetry.Participate", false.ToString() },
                 { "Telemetry.ID", Guid.NewGuid().ToString() },

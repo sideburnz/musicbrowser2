@@ -48,24 +48,24 @@ namespace MusicBrowser.Actions
 
         public static baseActionCommand GetEnterAction(Entity entity)
         {
-            return _actionConfig[entity.KindName].OnEnter.NewInstance(entity);
+            return _actionConfig[SimplifyOptions(entity.Kind)].OnEnter.NewInstance(entity);
         }
 
         public static baseActionCommand GetPlayAction(Entity entity)
         {
-            return _actionConfig[entity.KindName].OnPlay.NewInstance(entity);
+            return _actionConfig[SimplifyOptions(entity.Kind)].OnPlay.NewInstance(entity);
         }
 
         public static baseActionCommand GetRecordAction(Entity entity)
         {
-            return _actionConfig[entity.KindName].OnRecord.NewInstance(entity);
+            return _actionConfig[SimplifyOptions(entity.Kind)].OnRecord.NewInstance(entity);
         }
 
         public static IList<baseActionCommand> GetActionList(Entity entity)
         {
             List<baseActionCommand> ret = new List<baseActionCommand>();
 
-            foreach (baseActionCommand action in _actionConfig[entity.KindName].MenuOptions)
+            foreach (baseActionCommand action in _actionConfig[SimplifyOptions(entity.Kind)].MenuOptions)
             {
                 ret.Add(action.NewInstance(entity));
             }
@@ -108,6 +108,20 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionStop());
 
             return ret;
+        }
+
+        private static string SimplifyOptions(EntityKind native)
+        {
+            switch (native)
+            {
+                case EntityKind.Video:
+                case EntityKind.Movie:
+                case EntityKind.Episode:
+                case EntityKind.DVD:
+                    return EntityKind.Video.ToString();
+                default:
+                    return native.ToString();
+            }
         }
 
         private static IDictionary<String, ActionConfigEntry> GetActionConfig()

@@ -11,7 +11,7 @@ namespace MusicBrowser.Providers.Metadata
 {
     class InheritanceMetadataProvider : IDataProvider
     {
-        private const string Name = "InheritanceMetadataProvider";
+        private const string Name = "InheritanceMatadataProvider";
 
         private const int MinDaysBetweenHits = 1;
         private const int MaxDaysBetweenHits = 5;
@@ -22,7 +22,7 @@ namespace MusicBrowser.Providers.Metadata
         public DataProviderDTO Fetch(DataProviderDTO dto)
         {
 #if DEBUG
-            Logging.Logger.Verbose(Name + ": " + dto.Path, "start");
+            Engines.Logging.LoggerEngineFactory.Verbose(Name + ": " + dto.Path, "start");
 #endif
             dto.Outcome = DataProviderOutcome.Success;
 
