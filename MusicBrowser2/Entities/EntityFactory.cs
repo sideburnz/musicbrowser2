@@ -174,7 +174,7 @@ namespace MusicBrowser.Entities
                         {
                             if (item.Name.ToLower() == "video_ts")
                             {
-                                return EntityKind.DVD;
+                                return EntityKind.Video;
                             }
                             EntityKind? e = DetermineKind(item);
                             switch (e)

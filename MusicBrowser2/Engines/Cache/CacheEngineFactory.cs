@@ -25,6 +25,10 @@ namespace MusicBrowser.Engines.Cache
                         {
                             _cacheEngine = new FileSystemCache();
                         }
+                        else if (engine.ToLower() == "sqlite")
+                        {
+                            _cacheEngine = new SQLLiteCache();
+                        }
                         else
                         {
                             _cacheEngine = LoadExternalEngine(engine);

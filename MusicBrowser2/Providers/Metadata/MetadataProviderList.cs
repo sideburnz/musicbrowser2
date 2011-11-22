@@ -184,11 +184,6 @@ namespace MusicBrowser.Providers.Metadata
                         dto.DataType = DataTypes.Folder;
                         break;
                     }
-                    case EntityKind.DVD:
-                    {
-                        dto.DataType = DataTypes.Video;
-                        break;
-                    }
                     case EntityKind.Episode:
                     {
                         dto.DataType = DataTypes.Episode;

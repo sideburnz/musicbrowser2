@@ -456,13 +456,6 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap imageDVD {
-            get {
-                object obj = ResourceManager.GetObject("imageDVD", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap imageFolder {
             get {
                 object obj = ResourceManager.GetObject("imageFolder", resourceCulture);

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using Microsoft.Win32;
 using MusicBrowser.Providers;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Util
 {
@@ -373,11 +374,23 @@ namespace MusicBrowser.Util
             return a;
         }
 
-
-
-
-
-
+        public static bool IsDVD (string path)
+        {
+            IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(path);
+            if (items.Count() > 5) 
+            { 
+                // don't cycle through a long list of files
+                return false; 
+            }
+            foreach (FileSystemItem item in items)
+            {
+                if (item.Name.ToLower() == "video_ts")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
     }
 }

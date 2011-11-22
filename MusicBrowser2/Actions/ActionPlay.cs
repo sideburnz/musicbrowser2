@@ -69,19 +69,19 @@ namespace MusicBrowser.Actions
                     TransportEngineFactory.GetEngine().Play(true, e.Path);
                 }
             }
-            // TODO: temp
-            else if (entity.Kind == EntityKind.Video)
+            else if (entity.Kind == EntityKind.Video || entity.Kind == EntityKind.Movie || entity.Kind == EntityKind.Episode)
             {
-                // set up
                 MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+                if (Util.Helper.IsDVD(entity.Path))
+                {
+                    mce.PlayMedia(MediaType.Dvd, entity.Path, false);
+                }
                 mce.PlayMedia(MediaType.Video, entity.Path, false);
             }
-            // TODO: temp
-            else if (entity.Kind == EntityKind.DVD)
+            else if (entity.Kind == EntityKind.Photo)
             {
-                // set up
                 MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                mce.PlayMedia(MediaType.Dvd, entity.Path, false);
+                mce.PlayMedia(MediaType.Unknown, entity.Path, false);
             }
             else
             {
