@@ -42,9 +42,23 @@ namespace MusicBrowser
             // load the fast memory cache
             InMemoryCache.GetInstance();
 
-            // Set up a reference to "home"
-            Entity home = new Entity() { Kind = EntityKind.Home };
-            home.UpdateValues();
+            // Set up a reference to the first screen, if you only have one library enabled, don't show the list of libraries
+            Entity firstScreen = new Entity();
+            Util.Config config = Util.Config.GetInstance();
+            firstScreen.Kind = EntityKind.Home;
+            if (config.GetBooleanSetting("Library.Music.Enable") && !config.GetBooleanSetting("Library.Video.Enable") && !config.GetBooleanSetting("Library.Picture.Enable"))
+            {
+            //    firstScreen.Kind = EntityKind.MusicCollection;
+            }
+            if (!config.GetBooleanSetting("Library.Music.Enable") && config.GetBooleanSetting("Library.Video.Enable") && !config.GetBooleanSetting("Library.Picture.Enable"))
+            {
+            //    firstScreen.Kind = EntityKind.VideoCollection;
+            }
+            if (!config.GetBooleanSetting("Library.Music.Enable") && !config.GetBooleanSetting("Library.Video.Enable") && config.GetBooleanSetting("Library.Picture.Enable"))
+            {
+            //    firstScreen.Kind = EntityKind.PictureCollection;
+            }
+            firstScreen.UpdateValues();
 
             if (host != null && host.ApplicationContext != null)
             {
@@ -54,7 +68,7 @@ namespace MusicBrowser
             Application app = new Application(_sSession, host);
 
             // Go to the initial screen
-            app.Navigate(home);
+            app.Navigate(firstScreen);
 
             // Trigger the background caching tasks
             foreach (string path in Providers.FolderItems.HomePathProvider.Paths)

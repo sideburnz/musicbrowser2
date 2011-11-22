@@ -14,26 +14,30 @@ namespace MusicBrowser.Entities
     [DataContract]
     public enum EntityKind
     {
-        Album = 1,
-        Artist = 2,
-        Folder = 3,
-        Home = 4,
-        Playlist = 5,
-        Track = 6,
-        Genre = 7,
-        Group = 8,
-        Virtual = 9,
-        None = 0,
-        
-        Video = 10,
-        DVD = 11,
-        Episode = 12,
-        Movie = 13,
+        None = 000,
+        Home = 001,
 
-        Photo = 20,
-        PhotoAlbum = 21,
+        Group = 050,
+        Virtual = 051,
+        GroupBy = 052,
+        Collection = 053,
 
-        GroupBy = 100
+        MusicCollection = 100,
+        Album = 101,
+        Artist = 102,
+        Folder = 103,
+        Playlist = 105,
+        Track = 106,
+        Genre = 107,
+
+        VideoCollection = 200,
+        Video = 201,
+        Episode = 202,
+        Movie = 203,
+
+        PictureCollection = 300,
+        Photo = 301,
+        PhotoAlbum = 302
     }
 
     [DataContract]
@@ -153,7 +157,7 @@ namespace MusicBrowser.Entities
                 }
 
                 // use internal defaults
-                switch (Kind)
+                switch (SimpleKind())
                 {
                     case EntityKind.Track:
                         {
@@ -194,10 +198,6 @@ namespace MusicBrowser.Entities
                         {
                             return "resx://MusicBrowser/MusicBrowser.Resources/imageVideo";
                         }
-                    case EntityKind.DVD:
-                        {
-                            return "resx://MusicBrowser/MusicBrowser.Resources/imageDVD";
-                        }
                     case EntityKind.Photo:
                         {
                             return "resx://MusicBrowser/MusicBrowser.Resources/imagePhoto";
@@ -205,6 +205,10 @@ namespace MusicBrowser.Entities
                     case EntityKind.PhotoAlbum:
                         {
                             return "resx://MusicBrowser/MusicBrowser.Resources/imagePhotoAlbum";
+                        }
+                    case EntityKind.Collection:
+                        {
+                            return "resx://MusicBrowser/MusicBrowser.Resources/imageFolder";
                         }
                 }
                 return string.Empty; 
@@ -222,21 +226,19 @@ namespace MusicBrowser.Entities
         private int _backgroundID = 0;
         public void GetNextBackground()
         {
-            //TODO: removed
-
-            //if (BackgroundPaths.Count > 1)
-            //{
-            //    // randomize the backdrop order - make a good effort at making sure we don't get the same one twice
-            //    int next = _rnd.Next(BackgroundPaths.Count);
-            //    int limit = 0;
-            //    while (next == _backgroundID && limit < 10)
-            //    {
-            //        next = _rnd.Next(BackgroundPaths.Count);
-            //        limit++;
-            //    }
-            //    _backgroundID = next;
-            //    FirePropertyChanged("Background");
-            //}
+            if (BackgroundPaths.Count > 1)
+            {
+                // randomize the backdrop order - make a good effort at making sure we don't get the same one twice
+                int next = _rnd.Next(BackgroundPaths.Count);
+                int limit = 0;
+                while (next == _backgroundID && limit < 10)
+                {
+                    next = _rnd.Next(BackgroundPaths.Count);
+                    limit++;
+                }
+                _backgroundID = next;
+                FirePropertyChanged("Background");
+            }
         }
 
         public Image Background
@@ -314,7 +316,7 @@ namespace MusicBrowser.Entities
         public void CacheSortName()
         {
             // cache the sortname, we don't want to do this complex calc every time its accessed
-            string sortName = MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".SortOrder")).ToLower();
+            string sortName = MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + SimpleKind() + ".SortOrder")).ToLower();
             sortName = Config.HandleIgnoreWords(sortName);
             Regex rgx = new Regex(@"[^#a-z0-9]+");
             SortName = rgx.Replace(sortName, " ").Trim();
@@ -415,12 +417,12 @@ namespace MusicBrowser.Entities
 
         public string ShortSummaryLine2
         {
-            get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".Summary")); }
+            get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + SimpleKind() + ".Summary")); }
         }
 
         public new string Description
         {
-            get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + KindName + ".Format")); }
+            get { return MacroSubstitution(Config.GetInstance().GetStringSetting("Entity." + SimpleKind() + ".Format")); }
         }
 
         private string MacroSubstitution(string input)
@@ -593,6 +595,23 @@ namespace MusicBrowser.Entities
                     ret.Add(o);
                 }
                 return ret;
+            }
+        }
+
+        public EntityKind SimpleKind()
+        {
+            switch (Kind)
+            {
+                case EntityKind.Video:
+                case EntityKind.Movie:
+                case EntityKind.Episode:
+                    return EntityKind.Video;
+                case EntityKind.MusicCollection:
+                case EntityKind.VideoCollection:
+                case EntityKind.PictureCollection:
+                    case EntityKind.Collection:
+                default:
+                    return Kind;
             }
         }
     }
