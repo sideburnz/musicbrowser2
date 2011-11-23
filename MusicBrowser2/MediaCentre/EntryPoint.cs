@@ -30,7 +30,7 @@ namespace MusicBrowser
                 Engines.Logging.LoggerEngineFactory.Verbose(Util.Helper.outputTypes(), "stats");
 #endif
             }
-            InMemoryCache.GetInstance().Save();
+            //InMemoryCache.GetInstance().Save();
         }
         
         public void Launch(AddInHost host)         
@@ -38,9 +38,6 @@ namespace MusicBrowser
 #if DEBUG
             Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog("Attach debugger and hit ok", "debug", Microsoft.MediaCenter.DialogButtons.Ok, 100, true);
 #endif
-
-            // load the fast memory cache
-            InMemoryCache.GetInstance();
 
             // Set up a reference to the first screen, if you only have one library enabled, don't show the list of libraries
             Entity firstScreen = new Entity();

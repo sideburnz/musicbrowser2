@@ -13,9 +13,9 @@ using ServiceStack.Text;
 // in memory caching, intended to allow faster searches
 namespace MusicBrowser.Engines.Cache
 {
-    public sealed class InMemoryCache : IBackgroundTaskable
+    public sealed class InMemoryCache
     {
-        private Dictionary<string, Entity> _cache;
+        private Dictionary<string, Entity> _cache = new Dictionary<string,Entity>(1000);
         private static readonly object _obj = new object();
         private readonly string _cacheFile = System.IO.Path.Combine(Util.Config.GetInstance().GetStringSetting("Cache.Path"), "cache.xml");
 
@@ -36,11 +36,6 @@ namespace MusicBrowser.Engines.Cache
                 }
                 return _instance;
             }
-        }
-
-        private InMemoryCache()
-        {
-            Load();
         }
 
         #endregion
@@ -107,77 +102,9 @@ namespace MusicBrowser.Engines.Cache
             }
         }
 
-        private void Load()
-        {
-            if (System.IO.File.Exists(_cacheFile))
-            {
-                try
-                {
-                    FileStream file = new FileStream(_cacheFile, FileMode.OpenOrCreate);
-                    _cache = XmlSerializer.DeserializeFromStream<Dictionary<String, Entity>>(file);
-                    //_cache = JsonSerializer.DeserializeFromStream<Dictionary<string, Entity>>(file);
-                    Statistics.Hit("InMemoryCache.Loaded", _cache.Count);
-                }
-                catch (Exception ex)
-                {
-                    _cache = new Dictionary<string, Entity>(1000);
-                    Engines.Logging.LoggerEngineFactory.Error(ex);
-                    try
-                    {
-                        System.IO.File.Delete(_cacheFile);
-                    }
-                    catch { }
-                }
-            }
-            else
-            {
-                _cache = new Dictionary<string, Entity>(1000);
-            }
-        }
-
-        public void Save()
-        {
-            try
-            {
-                FileStream file = new FileStream(_cacheFile, FileMode.Create);
-                XmlSerializer.SerializeToStream(_cache, file);
-                    //.SerializeToStream<Dictionary<string, Entity>>(_cache, file);
-                file.Close();
-                Statistics.Hit("InMemoryCache.Saved", _cache.Count);
-            }
-            catch
-            {
-                try
-                {
-                    File.Delete(_cacheFile);
-                }
-                catch { }
-            }
-        }
-
         public string Title
         {
             get { return "InMemoryCache scavenger"; }
-        }
-
-        public void Execute()
-        {
-            try
-            {
-                foreach (Entity e in _cache.Values)
-                {
-                    FileSystemItem i = FileSystemProvider.GetItemDetails(e.Path);
-                    if ((i.Attributes == 0) || (i.LastUpdated > e.CacheDate))
-                    {
-                        Remove(e.CacheKey);
-                        Statistics.Hit("InMemoryCache.Scavenged");
-                    }
-                }
-            }
-            catch
-            {
-                // errors can occur if the cache changes shape whilst the scavenger is running
-            }
         }
     }
 }

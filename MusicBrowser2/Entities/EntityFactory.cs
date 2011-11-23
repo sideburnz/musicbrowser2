@@ -205,7 +205,7 @@ namespace MusicBrowser.Entities
                     }
                 case Helper.knownType.Image:
                     {
-                        // images have exception
+                        // images have exceptions
                         string[] nonphotoimages = new string[] { "folder", "backdrop", "banner" };
                         if (!nonphotoimages.Contains(System.IO.Path.GetFileNameWithoutExtension(entity.Name)))
                         {
