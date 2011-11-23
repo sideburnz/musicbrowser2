@@ -11,23 +11,20 @@ using MusicBrowser.Util;
 
 namespace MusicBrowser.Engines.Cache
 {
-    public class SQLLiteCache : ICacheEngine
+    public class SQLiteCache : ICacheEngine
     {
         private readonly string _file;
-        private const string KEY = "[%key%]";
-        private const string VALUE = "[%value%]";
-        private const string SQL_CREATE_TABLE = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL NOCASE, [value] TEXT NULL)";
-        private const string SQL_INSERT = "INSERT INTO [t_Cache] ([key], [value]) VALUES('[%key%]', '[%value%]')";
-        private const string SQL_UPDATE = "UPDATE [t_Cache] SET [value] = '[%value%]' WHERE WHERE [key]='[%key%]'";
-        private const string SQL_DELETE = "DELETE FROM [t_Cache] WHERE [key]='[%key%]'";
-        private const string SQL_SELECT = "SELECT [value] FROM [t_Cache] WHERE [key]='[%key%]'";
-        private const string SQL_EXISTS = "SELECT [key] [t_Cache] WHERE [key]='[%key%]'";
+        private const string SQL_CREATE_TABLE = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [value] TEXT NULL)";
+        private const string SQL_INSERT = "INSERT INTO [t_Cache] ([key], [value]) VALUES(@1, @2)";
+        private const string SQL_UPDATE = "UPDATE [t_Cache] SET [value] = @1 WHERE [key]=@2";
+        private const string SQL_DELETE = "DELETE FROM [t_Cache] WHERE [key]=@1";
+        private const string SQL_SELECT = "SELECT [value] FROM [t_Cache] WHERE [key]=@1";
+        private const string SQL_EXISTS = "SELECT COUNT([key]) FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_CLEAR = "DELETE FROM [t_Cache]";
 
         private object _lock = new object();
-        protected static System.Reflection.Assembly _assembly;
 
-        public SQLLiteCache()
+        public SQLiteCache()
         {
             _file = Path.Combine(Config.GetInstance().GetStringSetting("Cache.Path"), "cache.db");
 
@@ -40,26 +37,52 @@ namespace MusicBrowser.Engines.Cache
 
         public void Delete(string key)
         {
-            string SQL = SQL_DELETE.Replace(KEY, key);
+            string SQL = SQL_DELETE.Replace("@1", "'" + key + "'"); ;
             ExecuteNonQuery(SQL);
         }
 
         public string Fetch(string key)
         {
-            string SQL = SQL_SELECT.Replace(KEY, key);
-            return ExecuteScalar<string>(SQL);
+            if (Exists(key))
+            {
+                Providers.Statistics.Hit("SQLite.Hit");
+                string SQL = SQL_SELECT.Replace("@1", "'" + key + "'");
+                return ExecuteScalar<string>(SQL);
+            }
+            Providers.Statistics.Hit("SQLite.Miss");
+            return String.Empty;
         }
 
         public void Update(string key, string value)
         {
-            string SQL = SQL_UPDATE.Replace(KEY, key).Replace(VALUE, value);
-            ExecuteNonQuery(SQL);
+            if (Exists(key))
+            {
+                SQLiteConnection cnn = GetConnection();
+                cnn.Open();
+                SQLiteCommand cmdU = cnn.CreateCommand();
+                cmdU.CommandText = SQL_UPDATE;
+                cmdU.Parameters.AddWithValue("@1", key);
+                cmdU.Parameters.AddWithValue("@2", value);
+                cmdU.ExecuteNonQuery();
+                cnn.Close();
+            }
+            else
+            {
+                SQLiteConnection cnn = GetConnection();
+                cnn.Open();
+                SQLiteCommand cmdI = cnn.CreateCommand();
+                cmdI.CommandText = SQL_INSERT;
+                cmdI.Parameters.AddWithValue("@1", key);
+                cmdI.Parameters.AddWithValue("@2", value);
+                cmdI.ExecuteNonQuery();
+                cnn.Close();
+            }
         }
 
         public bool Exists(string key)
         {
-            string SQL = SQL_EXISTS.Replace(KEY, key);
-            return ExecuteScalar<string>(SQL) == key;
+            string SQL = SQL_EXISTS.Replace("@1", "'" + key + "'");
+            return ExecuteScalar<Int64>(SQL) != 0;
         }
 
         public void Scavenge()
@@ -72,9 +95,6 @@ namespace MusicBrowser.Engines.Cache
             string SQL = SQL_CLEAR;
             ExecuteNonQuery(SQL);
         }
-
-
-
 
         private int ExecuteNonQuery(string sql)
         {
@@ -104,13 +124,8 @@ namespace MusicBrowser.Engines.Cache
 
         private SQLiteConnection GetConnection()
         {
-            return new SQLiteConnection("Data Source=" + _file);
-        }
-
-        protected static void SqliteResolver()
-        {
-            string libraryPath = Path.Combine(Util.Helper.PlugInFolder, "System.Data.SQLite.dll");
-            _assembly = System.Reflection.Assembly.LoadFile(libraryPath);
+            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + _file);
+            return cnn;
         }
     }
 }

@@ -25,7 +25,6 @@ namespace MusicBrowser
             _session = session; 
             _host = host;
 
-            Util.Config.GetInstance().SetDefaultSettings();
             LoggerEngineFactory.Info("Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
 
             _application = this;

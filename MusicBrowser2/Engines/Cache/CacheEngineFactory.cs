@@ -20,18 +20,23 @@ namespace MusicBrowser.Engines.Cache
                     if (enable)
                     {
                         string engine = Util.Config.GetInstance().GetStringSetting("Cache.Engine");
-
-                        if (engine.ToLower() == "filesystem")
+                        switch (engine.ToLower())
                         {
-                            _cacheEngine = new FileSystemCache();
-                        }
-                        else if (engine.ToLower() == "sqlite")
-                        {
-                            _cacheEngine = new SQLLiteCache();
-                        }
-                        else
-                        {
-                            _cacheEngine = LoadExternalEngine(engine);
+                            case "filesystem":
+                                {
+                                    _cacheEngine = new FileSystemCache();
+                                    break;
+                                }
+                            case "none":
+                                {
+                                    _cacheEngine = new NoCache();
+                                    break;
+                                }
+                            default:
+                                {
+                                    _cacheEngine = new SQLiteCache();
+                                    break;
+                                }
                         }
                     }
                     if (!enable)
@@ -43,23 +48,23 @@ namespace MusicBrowser.Engines.Cache
             return _cacheEngine;
         }
 
-        public static ICacheEngine LoadExternalEngine(string typeName)
-        {
-            string libraryPath = Path.Combine(Util.Helper.PlugInFolder, typeName) + ".dll";
+        //public static ICacheEngine LoadExternalEngine(string typeName)
+        //{
+        //    string libraryPath = Path.Combine(Util.Helper.PlugInFolder, typeName) + ".dll";
 
-            if (File.Exists(libraryPath))
-            {
-                try
-                {
-                    Assembly pluginAssembly = Assembly.LoadFrom(libraryPath);
-                    return (ICacheEngine)Activator.CreateInstance(pluginAssembly.GetType("MusicBrowser.CacheEngine." + typeName));
-                }
-                catch(Exception e)
-                {
-                    Engines.Logging.LoggerEngineFactory.Error(e);
-                }
-            }
-            return null;
-        }
+        //    if (File.Exists(libraryPath))
+        //    {
+        //        try
+        //        {
+        //            Assembly pluginAssembly = Assembly.LoadFrom(libraryPath);
+        //            return (ICacheEngine)Activator.CreateInstance(pluginAssembly.GetType("MusicBrowser.CacheEngine." + typeName));
+        //        }
+        //        catch(Exception e)
+        //        {
+        //            Engines.Logging.LoggerEngineFactory.Error(e);
+        //        }
+        //    }
+        //    return null;
+        //}
     }
 }

@@ -18,7 +18,7 @@ namespace MusicBrowser.Providers.FolderItems
                     _paths = new List<string>();
                     bool runningOnExtender = Environment.UserName.ToLower().StartsWith("mcx");
 
-                    if ((Util.Config.GetInstance().GetBooleanSetting("WindowsLibrarySupport")) && !runningOnExtender)
+                    if ((Util.Config.GetInstance().GetBooleanSetting("Library.Music.UseWindowsLibrary")) && !runningOnExtender)
                     {
                         IFolderItemsProvider folderItemsProvider = new WindowsLibraryProvider();
                         _paths = folderItemsProvider.GetItems("music");
@@ -33,7 +33,7 @@ namespace MusicBrowser.Providers.FolderItems
                     }
                     else
                     {
-                        vfFile = Util.Config.GetInstance().GetStringSetting("ManualLibraryFile");
+                        vfFile = Util.Config.GetInstance().GetStringSetting("Library.Music.LibraryFile");
                     }
 
                     if (File.Exists(vfFile))

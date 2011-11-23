@@ -49,7 +49,22 @@ namespace MusicBrowser.Util
 
         public static string CachePath
         {
-            get { return Path.Combine(AppFolder, "Cache"); }
+            get 
+            {
+                string e = Path.Combine(AppFolder, "Cache");
+                if (!Directory.Exists(e))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(e);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Cache folder for MusicBrowser is missing: " + e, ex);
+                    }
+                }
+                return e; 
+            }
         }
 
         public static void BuildCachePath(string path)

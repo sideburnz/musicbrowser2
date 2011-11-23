@@ -172,14 +172,6 @@ namespace MusicBrowser.Util
 
         readonly Dictionary<string, string> _settingCache = new Dictionary<string, string>();
 
-        public void SetDefaultSettings()
-        {
-            for (int i = 0; i <= _defaults.GetUpperBound(1); i++)
-            {
-                GetSetting(_defaults[i,0]);
-            }
-        }
-
         public string GetSetting(string key)
         {
             // see if we've already cached the setting
