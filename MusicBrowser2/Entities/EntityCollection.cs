@@ -17,6 +17,15 @@ namespace MusicBrowser.Entities
             }
         }
 
+        public void AddRange(IEnumerable<string> items)
+        {
+            foreach (string item in items)
+            {
+                Entity entity = EntityFactory.GetItem(item);
+                Add(entity);
+            }
+        }
+
         public new void Add(Entity e)
         {
             if (e != null)

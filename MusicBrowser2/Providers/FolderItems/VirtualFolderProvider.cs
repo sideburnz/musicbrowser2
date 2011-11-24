@@ -9,6 +9,11 @@ using System.IO;
  * 
  * ***************************************************************************/
 
+//image: C:\Program Files (x86)\MediaBrowser\MediaBrowser\Application.png
+//folder: \\192.168.1.10\Media\Videos\TV
+//folder: G:\RIPPED
+//sortorder: 000
+
 namespace MusicBrowser.Providers.FolderItems
 {
     /// <summary>
@@ -29,6 +34,11 @@ namespace MusicBrowser.Providers.FolderItems
             Engines.Logging.LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
 #endif
             List<string> res = new List<string>();
+
+            if (Path.GetExtension(uri) != ".vf")
+            {
+                uri += ".vf";
+            }
 
             foreach (string line in GetFileContents(uri))
             {
@@ -73,7 +83,7 @@ namespace MusicBrowser.Providers.FolderItems
             StreamReader file = new StreamReader(path);
             while ((line = file.ReadLine()) != null)
             {
-                rval.Add(line);
+                rval.Add(line.ToLower());
             }
             file.Close();
             return rval;

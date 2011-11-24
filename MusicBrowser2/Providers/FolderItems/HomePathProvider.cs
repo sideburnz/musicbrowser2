@@ -2,53 +2,37 @@
 using System.Collections.Generic;
 using System.IO;
 using MusicBrowser.Engines.Logging;
+using MusicBrowser.Util;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Providers.FolderItems
 {
-    class HomePathProvider
+    class HomeScreen
     {
-        static IEnumerable<string> _paths = null;
-
-        public static IEnumerable<string> Paths
+        public static EntityCollection Entities
         {
             get
             {
-                if (_paths == null)
+                EntityCollection ret = new EntityCollection();
+                string path = Config.GetInstance().GetStringSetting("Collections.Folder");
+                IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(path);
+                
+                foreach (FileSystemItem item in items)
                 {
-                    _paths = new List<string>();
-                    bool runningOnExtender = Environment.UserName.ToLower().StartsWith("mcx");
-
-                    if ((Util.Config.GetInstance().GetBooleanSetting("Library.Music.UseWindowsLibrary")) && !runningOnExtender)
+                    if (Path.GetExtension(item.Name).ToLower() == ".vf")
                     {
-                        IFolderItemsProvider folderItemsProvider = new WindowsLibraryProvider();
-                        _paths = folderItemsProvider.GetItems("music");
-                        VirtualFolderProvider.WriteVF(Path.Combine(Util.Helper.AppFolder, "Extender.vf"), _paths);
-                        return _paths;
-                    }
-
-                    string vfFile;
-                    if (runningOnExtender)
-                    {
-                        vfFile = Path.Combine(Util.Helper.AppFolder, "Extender.vf");
-                    }
-                    else
-                    {
-                        vfFile = Util.Config.GetInstance().GetStringSetting("Library.Music.LibraryFile");
-                    }
-
-                    if (File.Exists(vfFile))
-                    {
-                        IFolderItemsProvider folderItemsProvider = new VirtualFolderProvider();
-                        _paths = folderItemsProvider.GetItems(vfFile);
-                    }
-                    else
-                    {
-                        Exception ex = new Exception("Virtual Folder " + vfFile + " not found");
-                        LoggerEngineFactory.Error(ex);
-                        throw ex;
+                        Entity e = new Entity();
+                        e.Kind = EntityKind.Collection;
+                        e.Path = item.FullPath;
+                        e.Title = Path.GetFileNameWithoutExtension(item.FullPath);
+                        //e.SortName = "";
+                        //e.IconPath = "";
+                        //TODO: get image path from the .vf
+                        //TODO: get the sortorder from the .vf
+                        ret.Add(e);
                     }
                 }
-                return _paths;
+                return ret;
             }
         }
     }

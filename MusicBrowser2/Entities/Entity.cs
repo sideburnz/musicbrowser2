@@ -22,7 +22,6 @@ namespace MusicBrowser.Entities
         GroupBy = 052,
         Collection = 053,
 
-        MusicCollection = 100,
         Album = 101,
         Artist = 102,
         Folder = 103,
@@ -30,12 +29,10 @@ namespace MusicBrowser.Entities
         Track = 106,
         Genre = 107,
 
-        VideoCollection = 200,
         Video = 201,
         Episode = 202,
         Movie = 203,
 
-        PictureCollection = 300,
         Photo = 301,
         PhotoAlbum = 302
     }
@@ -606,10 +603,6 @@ namespace MusicBrowser.Entities
                 case EntityKind.Movie:
                 case EntityKind.Episode:
                     return EntityKind.Video;
-                case EntityKind.MusicCollection:
-                case EntityKind.VideoCollection:
-                case EntityKind.PictureCollection:
-                    case EntityKind.Collection:
                 default:
                     return Kind;
             }

@@ -212,7 +212,10 @@
     <Content Include="MediaCentre\Images\icons\imageSpinner.png" />
     <Content Include="MediaCentre\Images\backgrounds\NavPanel.png" />
     <Compile Include="Engines\Cache\EntityPersistance.cs" />
+    <Compile Include="Providers\FolderItems\CollectionProvider.cs" />
     <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
+    <Compile Include="Providers\FolderItems\FolderProvider.cs" />
+    <Compile Include="Providers\IconProvider.cs" />
     <Compile Include="Providers\ForceMetadataRefreshProvider.cs" />
     <Compile Include="Providers\Metadata\baseMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\InheritanceMetadataProvider.cs" />

@@ -392,13 +392,11 @@
 			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
 		&lt;/MenuItems&gt;
 	&lt;/Entity&gt;
-	&lt;Entity name="DVD"&gt;
-		&lt;OnEnter&gt;Play&lt;/OnEnter&gt;
-		&lt;OnPlay&gt;Play&lt;/OnPlay&gt;
-		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+	&lt;Entity name="Collection"&gt;
+		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
+		&lt;OnPlay&gt;Open&lt;/OnPlay&gt;
 		&lt;MenuItems&gt;
-			&lt;Item&gt;Play&lt;/Item&gt;
-			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
+			&lt;Item&gt;Open&lt;/Item&gt;
 		&lt;/MenuItems&gt;
 	&lt;/Entity&gt;
 	&lt;Entity name="PhotoAlbum"&gt;

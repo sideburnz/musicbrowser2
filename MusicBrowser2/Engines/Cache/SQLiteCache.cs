@@ -61,8 +61,8 @@ namespace MusicBrowser.Engines.Cache
                 cnn.Open();
                 SQLiteCommand cmdU = cnn.CreateCommand();
                 cmdU.CommandText = SQL_UPDATE;
-                cmdU.Parameters.AddWithValue("@1", key);
-                cmdU.Parameters.AddWithValue("@2", value);
+                cmdU.Parameters.AddWithValue("@2", key);
+                cmdU.Parameters.AddWithValue("@1", value);
                 cmdU.ExecuteNonQuery();
                 cnn.Close();
             }
