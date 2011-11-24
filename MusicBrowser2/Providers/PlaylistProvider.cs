@@ -205,7 +205,8 @@ namespace MusicBrowser.Providers
             IEnumerable<string> paths;
             if (_entity.Kind.Equals(EntityKind.Home)) 
             { 
-                paths = Providers.FolderItems.HomePathProvider.Paths; 
+                //TODO: fix
+                paths = null; // Providers.FolderItems.HomePathProvider.Paths; 
             }
             else
             {

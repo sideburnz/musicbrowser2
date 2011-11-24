@@ -67,11 +67,11 @@ namespace MusicBrowser
             // Go to the initial screen
             app.Navigate(firstScreen);
 
-            // Trigger the background caching tasks
-            foreach (string path in Providers.FolderItems.HomePathProvider.Paths)
-            {
-                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path));
-            }
+            // TODO: rethink this Trigger the background caching tasks
+            //foreach (string path in Providers.FolderItems.HomePathProvider.Paths)
+            //{
+            //    CommonTaskQueue.Enqueue(new BackgroundCacheProvider(path));
+            //}
         }     
     } 
 } 

@@ -7,6 +7,7 @@ using MusicBrowser.Engines.Logging;
 using MusicBrowser.Entities;
 using MusicBrowser.Models;
 using MusicBrowser.Providers;
+using MusicBrowser.Providers.FolderItems;
 
 // ReSharper disable CheckNamespace
 namespace MusicBrowser
@@ -85,10 +86,19 @@ namespace MusicBrowser
                 {
                     case EntityKind.Home:
                         {
-                            foreach (string item in Providers.FolderItems.HomePathProvider.Paths)
+                            entities = HomeScreen.Entities;
+                            // if there's only one item, go straight to it
+                            if (entities.Count == 1)
                             {
-                                entities.AddRange(FileSystemProvider.GetFolderContents(item));
+                                Navigate(entities[0]);
+                                return;
                             }
+                            break;
+                        }
+                    case EntityKind.Collection:
+                        {
+                            IFolderItemsProvider fip = new CollectionProvider();
+                            entities.AddRange(fip.GetItems(entity.Path));
                             break;
                         }
                     case EntityKind.Group:

@@ -56,6 +56,36 @@ namespace MusicBrowser.Providers
             return b;
         }
 
+        public static bool Save(Icon bitmap, string filename)
+        {
+            if (bitmap == null) { return false; }
+
+            EncoderParameters parms = new EncoderParameters(1);
+            parms.Param[0] = new EncoderParameter(Encoder.Quality, Int64.Parse("90"));
+
+            ImageCodecInfo codec = null;
+            foreach (ImageCodecInfo codectemp in ImageCodecInfo.GetImageDecoders())
+            {
+                if (codectemp.MimeType == "image/jpeg")
+                {
+                    codec = codectemp;
+                    break;
+                }
+            }
+
+            try
+            {
+                // this fails on rare occassions for reasons I don't know
+                // if that happens just don't save and let the item refresh in due course
+                bitmap.ToBitmap().Save(filename, codec, parms);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static bool Save(Image bitmap, string filename)
         {
             if (bitmap == null) { return false; }

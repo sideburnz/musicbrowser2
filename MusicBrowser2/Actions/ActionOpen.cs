@@ -30,10 +30,11 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
-            if (Directory.Exists(entity.Path))
+            if (Directory.Exists(entity.Path) || entity.Kind == EntityKind.Collection)
             {
                 MusicBrowser.Application.GetReference().Navigate(entity);
-                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(Entity.Path), true);
+                //TODO: assess if this is needed
+                //CommonTaskQueue.Enqueue(new BackgroundCacheProvider(Entity.Path), true);
             }
         }
     }

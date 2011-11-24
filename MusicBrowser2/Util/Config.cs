@@ -20,22 +20,14 @@ namespace MusicBrowser.Util
                 { "PutDiscInTrackNo", true.ToString() },
                 { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
 
-                { "Library.Music.UseWindowsLibrary", true.ToString() },
-                { "Library.Music.LibraryFile", Path.Combine(Helper.AppFolder, "MusicLibrary.vf") },
-                { "Library.Music.Enable", true.ToString() },
-                { "Library.Video.UseWindowsLibrary", true.ToString() },
-                { "Library.Video.LibraryFile", Path.Combine(Helper.AppFolder, "VideoLibrary.vf") },
-                { "Library.Video.Enable", false.ToString() },
-                { "Library.Picture.UseWindowsLibrary", true.ToString() },
-                { "Library.Picture.LibraryFile", Path.Combine(Helper.AppFolder, "PictureLibrary.vf") },
-                { "Library.Picture.Enable", false.ToString() },
-
                 { "Log.Level", "error" },
                 { "Log.Destination", "file" },
                 { "Log.File", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
 
                 { "Internet.UseProviders", true.ToString() } ,
                 { "Internet.LastFMUserName", String.Empty },
+
+                { "Collections.Folder",  Path.Combine(Helper.AppFolder, "Collections") },
 
                 { "Cache.Path", Helper.CachePath },
                 { "Cache.Enable", true.ToString() },
