@@ -76,6 +76,46 @@ namespace MusicBrowser.Providers.FolderItems
 
         #endregion
 
+        public static string GetImage(string uri)
+        {
+            if (Path.GetExtension(uri) != ".vf")
+            {
+                uri += ".vf";
+            }
+            foreach (string line in GetFileContents(uri))
+            {
+                if (line.Length < 9) { continue; }
+                if (line.StartsWith("image:"))
+                {
+                    string thisPath = line.Substring(6).Trim();
+                    thisPath = Path.Combine(Util.Config.GetInstance().GetStringSetting("Collections.Folder"), thisPath);
+                    if (File.Exists(thisPath))
+                    {
+                        return thisPath;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public static string GetSortOrder(string uri)
+        {
+            if (Path.GetExtension(uri) != ".vf")
+            {
+                uri += ".vf";
+            }
+            foreach (string line in GetFileContents(uri))
+            {
+                if (line.Length < 9) { continue; }
+
+                if (line.StartsWith("sortorder:"))
+                {
+                    return line.Substring(8).Trim();
+                }
+            }
+            return string.Empty;
+        }
+
         private static IEnumerable<string> GetFileContents(string path)
         {
             string line;

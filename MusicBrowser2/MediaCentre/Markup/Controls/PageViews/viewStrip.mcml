@@ -8,6 +8,7 @@
       >
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlScrollingText"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlThumb"/>
 
   <UI Name="viewStrip">
 
@@ -132,67 +133,9 @@
    </Content>
 
     <Content Name="Thumb">
-      <me:ThumbItem Entity="[RepeatedItem!entities:Entity]" Application="[Application]" FolderModel="[FolderModel]" />
+      <me:ctrlThumb Entity="[RepeatedItem!entities:Entity]" Application="[Application]" FolderModel="[FolderModel]" />
     </Content>
 
-  </UI>
-
-  <UI Name="ThumbItem">
-    <Properties>
-      <entities:Entity Name="Entity" Entity="$Required" />
-      <a:Application Name="Application" Application="$Required"/>
-      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
-    </Properties>
-    <Locals>
-      <Command Name="CmdEnter"/>
-      <ClickHandler Name="Clicker" />
-      <ShortcutHandler Name="PlayHandler" Shortcut="Play" Handle="true" HandlerStage="Direct"/>
-      <ShortcutHandler Name="PlayPauseHandler" Shortcut="PlayPause" Handle="true" HandlerStage="Direct"/>
-      <ShortcutHandler Name="RecHandler" Shortcut="Record" Handle="true" HandlerStage="Direct"/>
-
-      <actions:ActionOnPlay Name="PlayAction" Entity="[Entity]" />
-      <actions:ActionOnEnter Name="EnterAction" Entity="[Entity]" />
-      <actions:ActionOnRecord Name="RecordAction" Entity="[Entity]" />
-    </Locals>
-
-    <Rules>
-      <Binding Target="[RecHandler.Command]" Source="[RecordAction]" />
-      <Binding Target="[PlayHandler.Command]" Source="[PlayAction]" />
-      <Binding Target="[PlayPauseHandler.Command]" Source="[PlayAction]" />
-      <Binding Target="[Clicker.Command]" Source="[EnterAction]" />
-      
-      <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
-      <Condition Source="[Input.KeyFocus]" SourceValue="true">
-        <Actions>
-          <Set Target="[Wrapper.Scale]" Value="1.33,1.33,0.5"/>
-          <Set Target="[Fader.Alpha]" Value="0" />
-          <Set Target="[FolderModel.SelectedIndex]" Value="[Entity.Index]"/>
-          <Set Target="[Wrapper.Padding]" Value="1,1,1,1" />
-          <Set Target="[Blocker.Content]" Value="Black"/>
-          <Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/border" />
-        </Actions>
-      </Condition>
-      <Condition Source="[Input.KeyFocus]" SourceValue="false">
-        <Actions>
-          <Set Target="[Wrapper.Content]" Value="null" />
-          <Set Target="[Wrapper.Scale]" Value="1.0,1.0,1.0"/>
-          <Set Target="[Fader.Alpha]" Value="0.6" />
-          <Set Target="[Wrapper.Padding]" Value="0,0,0,0" />
-          <Set Target="[Blocker.Content]" Value="Transparent"/>
-        </Actions>
-      </Condition>
-
-      <Binding Source="[Entity.Icon]" Target="[Background.Content]" />            
-    </Rules>
-    <Content>
-      <Graphic Content="null" Layout="Fill" Name="Wrapper" CenterPointPercent=".5,.5,.5" SizingPolicy="SizeToChildren">
-        <Children>
-          <ColorFill Content="Black" Alpha="0.6" Name="Fader" Layout="Fill"/>
-          <Graphic Content="[Entity.Icon]" Name="Background" Layout="Fill" MaintainAspectRatio="true" />
-          <ColorFill Content="Transparent" Name="Blocker" Layout="Fill"/>
-        </Children>
-      </Graphic>
-  </Content>
   </UI>
 
 </Mcml>

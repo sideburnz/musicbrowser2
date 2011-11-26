@@ -14,7 +14,7 @@ namespace MusicBrowser.Engines.Cache
     public class SQLiteCache : ICacheEngine
     {
         private readonly string _file;
-        private const string SQL_CREATE_TABLE = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [value] TEXT NULL)";
+        private const string SQL_CREATE_TABLE = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [value] TEXT NULL, [kind] INT)";
         private const string SQL_INSERT = "INSERT INTO [t_Cache] ([key], [value]) VALUES(@1, @2)";
         private const string SQL_UPDATE = "UPDATE [t_Cache] SET [value] = @1 WHERE [key]=@2";
         private const string SQL_DELETE = "DELETE FROM [t_Cache] WHERE [key]=@1";

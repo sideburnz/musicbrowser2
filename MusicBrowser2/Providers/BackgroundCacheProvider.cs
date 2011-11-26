@@ -17,6 +17,11 @@ namespace MusicBrowser.Providers
             _path = path;
         }
 
+        public BackgroundCacheProvider(Entity e)
+        {
+//todo: WRITE
+        }
+
         #region IBackgroundTaskable Members
 
         public string Title

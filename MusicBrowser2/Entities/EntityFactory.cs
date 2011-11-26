@@ -7,6 +7,7 @@ using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Util;
+using System.Text.RegularExpressions;
 
 namespace MusicBrowser.Entities
 {
@@ -69,19 +70,6 @@ namespace MusicBrowser.Entities
             // do this here because some of the providers need basic data about the tracks
             TagSharpMetadataProvider.FetchLite(entity);
         }
-
-        //public static Entity HandleExperimentalFeatures(Entity entity)
-        //{
-        //    if ((entity.Kind == EntityKind.Photo || entity.Kind == EntityKind.PhotoAlbum) && !Config.GetInstance().GetBooleanSetting("EnableExperimentalPhotoSupport"))
-        //    {
-        //        return null;
-        //    }
-        //    if ((entity.Kind == EntityKind.DVD || entity.Kind == EntityKind.Episode || entity.Kind == EntityKind.Movie || entity.Kind == EntityKind.Video) && !Config.GetInstance().GetBooleanSetting("EnableExperimentalVideoSupport"))
-        //    {
-        //        return null;
-        //    }
-        //    return entity;
-        //}
 
         public static Entity GetItem(string item)
         {
@@ -172,10 +160,16 @@ namespace MusicBrowser.Entities
                         IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
                         foreach (FileSystemItem item in items)
                         {
-                            if (item.Name.ToLower() == "video_ts")
+                            switch (item.Name.ToLower())
                             {
-                                return EntityKind.Video;
+                                case "series.xml":
+                                    return EntityKind.Show;
+                                case "video_ts":
+                                    return EntityKind.Video;
+                                case "mymovies.xml":
+                                    return EntityKind.Movie;
                             }
+
                             EntityKind? e = DetermineKind(item);
                             switch (e)
                             {
@@ -187,6 +181,10 @@ namespace MusicBrowser.Entities
                                     return EntityKind.Genre;
                                 case EntityKind.Photo:
                                     return EntityKind.PhotoAlbum;
+                                case EntityKind.Episode:
+                                    return EntityKind.Series;
+                                case EntityKind.Series:
+                                    return EntityKind.Show;
                             }
                         }
                         return EntityKind.Folder;
@@ -201,7 +199,13 @@ namespace MusicBrowser.Entities
                     }
                 case Helper.knownType.Video:
                     {
-                        return EntityKind.Video;
+                        Regex r = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
+                        Match m = r.Match(entity.Name);
+                        if (m.Success)
+                        {
+                            return EntityKind.Episode;
+                        }
+                        return EntityKind.Movie;
                     }
                 case Helper.knownType.Image:
                     {

@@ -163,6 +163,7 @@
     <Compile Include="Engines\Cache\NoCache.cs" />
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
+    <Compile Include="MediaCentre\FirstRun.cs" />
     <Compile Include="Models\ActionsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -213,13 +214,13 @@
     <Content Include="MediaCentre\Images\backgrounds\NavPanel.png" />
     <Compile Include="Engines\Cache\EntityPersistance.cs" />
     <Compile Include="Providers\FolderItems\CollectionProvider.cs" />
-    <Compile Include="Providers\FolderItems\HomePathProvider.cs" />
+    <Compile Include="Providers\FolderItems\HomeScreen.cs" />
     <Compile Include="Providers\FolderItems\FolderProvider.cs" />
-    <Compile Include="Providers\IconProvider.cs" />
     <Compile Include="Providers\ForceMetadataRefreshProvider.cs" />
     <Compile Include="Providers\Metadata\baseMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\InheritanceMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\MarkerMetadataProvider.cs" />
+    <Compile Include="Providers\Metadata\MediaBrowserXMLProvider.cs" />
     <Compile Include="Providers\Metadata\MediaInfoMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\VideoFilenameMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\CoreMetadataProvider.cs" />
@@ -301,6 +302,7 @@
     <Content Include="MediaCentre\Markup\Controls\Controls\ctrlTextBox.mcml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="MediaCentre\Markup\Controls\Controls\ctrlThumb.mcml" />
     <None Include="MediaCentre\Markup\Controls\PageViews\viewThumbsDown.mcml">
       <SubType>Designer</SubType>
     </None>

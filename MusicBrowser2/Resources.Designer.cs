@@ -204,6 +204,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static byte[] ctrlThumb {
+            get {
+                object obj = ResourceManager.GetObject("ctrlThumb", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap defaultBackground {
             get {
                 object obj = ResourceManager.GetObject("defaultBackground", resourceCulture);

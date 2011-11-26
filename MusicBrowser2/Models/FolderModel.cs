@@ -91,19 +91,6 @@ namespace MusicBrowser.Models
             get { return Config.GetInstance().GetBooleanSetting("ShowClock"); }
         }
 
-        //TODO: these should be Actions?
-        //public void NavigateToVirtual(string name)
-        //{
-        //    Entity virt = new Entity() 
-        //    { 
-        //        Kind = EntityKind.Virtual, 
-        //        Path = name,
-        //        Label = name,
-        //        Title = name 
-        //    };
-        //    application.Navigate(virt);
-        //}
-
         public bool Busy { get; set; }
 
         private void BusyStateChanged(bool busy)
@@ -138,7 +125,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                string view = Config.GetInstance().GetStringSetting("Entity." + ParentEntity.KindName + ".View");
+                string view = Config.GetInstance().GetStringSetting("Entity." + ParentEntity.SimpleKind().ToString() + ".View");
                 if (String.Compare(view, "thumb", true) == 0 && !Config.GetInstance().GetBooleanSetting("Views.Thumbs.IsHorizontal"))
                 {
                     return "ThumbsDown";
