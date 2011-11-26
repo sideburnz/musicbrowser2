@@ -8,6 +8,7 @@ using MusicBrowser.Entities;
 using MusicBrowser.Models;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.FolderItems;
+using MusicBrowser.Providers.Background;
 
 // ReSharper disable CheckNamespace
 namespace MusicBrowser
@@ -87,6 +88,12 @@ namespace MusicBrowser
                     case EntityKind.Home:
                         {
                             entities = HomeScreen.Entities;
+
+                            foreach (Entity e in entities)
+                            {
+                                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(e));
+                            }
+
                             // if there's only one item, go straight to it
                             if (entities.Count == 1)
                             {

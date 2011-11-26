@@ -189,7 +189,7 @@ namespace MusicBrowser.Util
                     switch (pt)
                     {
                         case "video":
-                            if (Config.GetInstance().GetBooleanSetting("EnableExperimentalVideoSupport"))
+                            if (Config.GetInstance().GetBooleanSetting("Experimental.VideoSupport"))
                             {
                                 perceivedTypeCache.Add(extension, knownType.Video);
                             }
@@ -199,7 +199,7 @@ namespace MusicBrowser.Util
                             }
                             break;
                         case "image":
-                            if (Config.GetInstance().GetBooleanSetting("EnableExperimentalPhotoSupport"))
+                            if (Config.GetInstance().GetBooleanSetting("Experimental.PhotoSupport"))
                             {
                                 perceivedTypeCache.Add(extension, knownType.Image);
                             }

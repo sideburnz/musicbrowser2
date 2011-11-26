@@ -61,7 +61,6 @@ namespace MusicBrowser.Providers.Metadata
                     {
                         dto.Title = System.IO.Path.GetFileNameWithoutExtension(dto.Path);
                     }
-                    dto.DataType = DataTypes.Episode;
                 }
             }
 
@@ -75,7 +74,7 @@ namespace MusicBrowser.Providers.Metadata
 
         public bool CompatibleWith(string type)
         {
-            return (type.ToLower() == "video" || type.ToLower() == "episode" || type.ToLower() == "movie" || type.ToLower() == "dvd");
+            return (type.ToLower() == "episode");
         }
 
         /// <summary>

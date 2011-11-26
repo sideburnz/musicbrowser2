@@ -27,6 +27,9 @@ namespace MusicBrowser.Util
                 { "Internet.UseProviders", true.ToString() } ,
                 { "Internet.LastFMUserName", String.Empty },
 
+                { "Experimental.VideoSupport", false.ToString() },
+                { "Experimental.PhotoSupport", false.ToString() },
+
                 { "Collections.Folder",  Path.Combine(Helper.AppFolder, "Collections") },
 
                 { "Cache.Path", Helper.CachePath },

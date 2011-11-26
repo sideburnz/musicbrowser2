@@ -32,6 +32,8 @@ namespace MusicBrowser.Entities
         Video = 201,
         Episode = 202,
         Movie = 203,
+        Series = 204,
+        Show = 205,
 
         Photo = 301,
         PhotoAlbum = 302
@@ -603,6 +605,10 @@ namespace MusicBrowser.Entities
                 case EntityKind.Movie:
                 case EntityKind.Episode:
                     return EntityKind.Video;
+                case EntityKind.PhotoAlbum:
+                case EntityKind.Series:
+                case EntityKind.Show:
+                    return EntityKind.Folder;
                 default:
                     return Kind;
             }

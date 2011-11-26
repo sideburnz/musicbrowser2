@@ -54,36 +54,6 @@ namespace MusicBrowser.Providers.FolderItems
             }
         }
 
-        public static Icon GetIcon(string lib)
-        {
-        
-            XmlDocument libraryDfn;
-            XmlNamespaceManager nsMgr;
-
-            try
-            {
-                libraryDfn = GetLibraryDfn(lib);
-                nsMgr = new XmlNamespaceManager(libraryDfn.NameTable);
-                nsMgr.AddNamespace("lib", "http://schemas.microsoft.com/windows/2009/library");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Windows Library not found", ex);
-            }
-
-            XmlNodeList nodes = libraryDfn.SelectNodes("lib:libraryDescription/lib:iconReference", nsMgr);
-            if (nodes.Count != 1)
-            {
-                return null;
-            }
-
-            string[] parts = nodes[0].InnerText.Split(',');
-
-            IconProvider i = new IconProvider(parts[0]);
-            return i.GetIcon(Math.Abs(int.Parse(parts[1])));
-
-        }
-
         private static string GetLibraryLocation(string lib)
         {
             //HKEY_USERS\[user]\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders\{1B3EA5DC-B587-4786-B4EF-BD1DC332AEAE}

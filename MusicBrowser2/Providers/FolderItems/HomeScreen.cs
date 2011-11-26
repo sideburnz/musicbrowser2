@@ -25,10 +25,8 @@ namespace MusicBrowser.Providers.FolderItems
                         e.Kind = EntityKind.Collection;
                         e.Path = item.FullPath;
                         e.Title = Path.GetFileNameWithoutExtension(item.FullPath);
-                        //e.SortName = "";
-                        //e.IconPath = "";
-                        //TODO: get image path from the .vf
-                        //TODO: get the sortorder from the .vf
+                        e.SortName = VirtualFolderProvider.GetSortOrder(item.FullPath);
+                        e.IconPath = VirtualFolderProvider.GetImage(item.FullPath);
                         ret.Add(e);
                     }
                 }
