@@ -5,7 +5,7 @@ namespace MusicBrowser.Actions
 {
     public class ActionOnRecord : baseActionCommand
     {
-        private const string LABEL = "Record";
+        private const string LABEL = "On Record";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconAction";
 
         public ActionOnRecord(Entity entity)

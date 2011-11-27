@@ -5,7 +5,7 @@ namespace MusicBrowser.Actions
 {
     public class ActionOnEnter : baseActionCommand
     {
-        private const string LABEL = "Enter";
+        private const string LABEL = "On Enter";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconAction";
 
         public ActionOnEnter(Entity entity)

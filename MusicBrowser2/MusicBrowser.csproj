@@ -157,6 +157,11 @@
     <Compile Include="Actions\ActionCheckForNewVersion.cs" />
     <Compile Include="Actions\ActionCycleSorts.cs" />
     <Compile Include="Actions\ActionShowNowPlaying.cs" />
+    <Compile Include="Actions\ActionPlayVideo.cs" />
+    <Compile Include="Actions\ActionPlayImage.cs" />
+    <Compile Include="Actions\ActionPlayFolder.cs" />
+    <Compile Include="Actions\ActionPlayMusic.cs" />
+    <Compile Include="Actions\ActionPlayVirtual.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\FileSystemCache.cs" />
