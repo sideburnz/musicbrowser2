@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Providers;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
-using MusicBrowser.Engines.Transport;
-using MusicBrowser.Engines.Cache;
-using Microsoft.MediaCenter;
+﻿using MusicBrowser.Entities;
+
+// this is a wrapper action around the specific Play actions, this allows config to just say Play
+// and for the code for the play actions to be simple
 
 namespace MusicBrowser.Actions
 {
@@ -36,59 +30,41 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(Entity entity)
         {
-            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", entity.Title);
-            if (entity.Kind == EntityKind.Virtual)
+            baseActionCommand action;
+
+            switch (entity.Kind)
             {
-                EntityCollection entities = null;
-                switch (entity.Path.ToLower())
-                {
-                    //TODO: redo this group by logic 
-                    case "tracks by genre":
-                        {
-                            entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track, "Genre", entity.Title);
-                            break;
-                        }
-                    case "albums by year":
-                        {
-                            entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "Year", entity.Title);
-                            break;
-                        }
-                    case "albums":
-                        {
-                            entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "", entity.Title);
-                            break;
-                        }
-                }
-                if (entities.Count > 0)
-                {
-                    TransportEngineFactory.GetEngine().Play(false, entities.FirstOrDefault<Entity>().Path);
-                    entities.RemoveAt(0);
-                }
-                foreach (Entity e in entities)
-                {
-                    TransportEngineFactory.GetEngine().Play(true, e.Path);
-                }
-            }
-            else if (entity.Kind == EntityKind.Video || entity.Kind == EntityKind.Movie || entity.Kind == EntityKind.Episode)
-            {
-                MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                if (Util.Helper.IsDVD(entity.Path))
-                {
-                    mce.PlayMedia(MediaType.Dvd, entity.Path, false);
-                }
-                mce.PlayMedia(MediaType.Video, entity.Path, false);
-            }
-            else if (entity.Kind == EntityKind.Photo)
-            {
-                MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                mce.PlayMedia(MediaType.Unknown, entity.Path, false);
-            }
-            else
-            {
-                TransportEngineFactory.GetEngine().Play(false, entity.Path);
+                case EntityKind.Album:
+                case EntityKind.Artist:
+                case EntityKind.Folder:
+                case EntityKind.Genre:
+                case EntityKind.PhotoAlbum:
+                case EntityKind.Series:
+                case EntityKind.Show:
+                    action = new ActionPlayFolder(entity);
+                    break;
+                case EntityKind.Episode:
+                case EntityKind.Movie:
+                    action = new ActionPlayVideo(entity);
+                    break;
+                case EntityKind.Photo:
+                    action = new ActionPlayImage(entity);
+                    break;
+                case EntityKind.Playlist:
+                case EntityKind.Track:
+                    action = new ActionPlayMusic(entity);
+                    break;
+                case EntityKind.Group:
+                case EntityKind.GroupBy:
+                case EntityKind.Virtual:
+                    action = new ActionPlayVirtual(entity);
+                    break;
+                default:
+                    action = new ActionNoOperation();
+                    break;
             }
 
-            MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
+            action.Invoke();
         }
     }
 }

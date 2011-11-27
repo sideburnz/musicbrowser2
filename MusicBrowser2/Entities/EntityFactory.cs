@@ -88,7 +88,7 @@ namespace MusicBrowser.Entities
             #region InMemoryCache
             // get from the Mem cache if it's cached there, this is the fastest cache
             entity = _MemCache.Fetch(key);
-            if (entity != null && entity.CacheDate > item.LastUpdated)
+            if (entity != null)
             {
                 return entity;
             }
@@ -165,7 +165,11 @@ namespace MusicBrowser.Entities
                                 case "series.xml":
                                     return EntityKind.Show;
                                 case "video_ts":
-                                    return EntityKind.Video;
+                                    if (IsEpisode(entity.Name))
+                                    {
+                                        return EntityKind.Episode;
+                                    }
+                                    return EntityKind.Movie;
                                 case "mymovies.xml":
                                     return EntityKind.Movie;
                             }
@@ -199,9 +203,7 @@ namespace MusicBrowser.Entities
                     }
                 case Helper.knownType.Video:
                     {
-                        Regex r = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
-                        Match m = r.Match(entity.Name);
-                        if (m.Success)
+                        if (IsEpisode(entity.Name))
                         {
                             return EntityKind.Episode;
                         }
@@ -221,5 +223,11 @@ namespace MusicBrowser.Entities
             return null;
         }
 
+        private static bool IsEpisode(string path)
+        {
+            Regex r = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
+            Match m = r.Match(path);
+            return m.Success;
+        }
     }
 }
