@@ -34,7 +34,7 @@ namespace MusicBrowser.Util
 
                 { "Cache.Path", Helper.CachePath },
                 { "Cache.Enable", true.ToString() },
-                { "Cache.Engine", "FileSystem" },
+                { "Cache.Engine", "SQLite" },
                                         
                 { "Entity.Home.View", "Thumb" },
                 { "Entity.Home.Format", "MusicBrowser 2" },

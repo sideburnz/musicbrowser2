@@ -146,6 +146,21 @@ namespace MusicBrowser.Entities
             return entity;
         }
 
+        private static IEnumerable<string> nonphotoimages = new string[] { 
+            "folder", 
+            "banner", 
+            "backdrop", 
+            "backdrop1", 
+            "backdrop2",
+            "backdrop3",
+            "backdrop4",
+            "backdrop5",
+            "backdrop6",
+            "backdrop7",
+            "backdrop8",
+            "backdrop9",
+        };
+
         private static Nullable<EntityKind> DetermineKind(FileSystemItem entity)
         {
             Helper.knownType type = Helper.getKnownType(entity);
@@ -212,8 +227,7 @@ namespace MusicBrowser.Entities
                 case Helper.knownType.Image:
                     {
                         // images have exceptions
-                        string[] nonphotoimages = new string[] { "folder", "backdrop", "banner" };
-                        if (!nonphotoimages.Contains(System.IO.Path.GetFileNameWithoutExtension(entity.Name)))
+                        if (!nonphotoimages.Contains(Path.GetFileNameWithoutExtension(entity.Name)))
                         {
                             return EntityKind.Photo;
                         }
@@ -223,11 +237,11 @@ namespace MusicBrowser.Entities
             return null;
         }
 
+        private static Regex _EpisodeRegEx = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
+
         private static bool IsEpisode(string path)
         {
-            Regex r = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
-            Match m = r.Match(path);
-            return m.Success;
+            return _EpisodeRegEx.Match(path).Success;
         }
     }
 }

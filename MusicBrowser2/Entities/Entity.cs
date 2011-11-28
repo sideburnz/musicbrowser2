@@ -338,6 +338,11 @@ namespace MusicBrowser.Entities
             return new Image("resx://MusicBrowser/MusicBrowser.Resources/nullImage");
         }
 
+        public Image Photo
+        {
+            get { return GetImage(Path); }
+        }
+
         public string ShortSummaryLine1 
         {
             get
@@ -539,9 +544,13 @@ namespace MusicBrowser.Entities
                         output = output.Replace("[filename]", filename);
                         break;
                     case "episode":
-                        output = output.Replace("[episode]", Episode.ToString("D2")); break;
+                        if (Episode != 0) { output = output.Replace("[episode]", Episode.ToString("D2")); }
+                        else { output = output.Replace("[episode]", string.Empty); }
+                        break;
                     case "season":
-                        output = output.Replace("[season]", Season.ToString()); break;
+                        if (Season != 0) { output = output.Replace("[season]", Season.ToString()); }
+                        else { output = output.Replace("[season]", string.Empty); }
+                        break;
                 }
 
             }
