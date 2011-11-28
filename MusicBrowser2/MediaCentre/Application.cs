@@ -148,6 +148,13 @@ namespace MusicBrowser
                             }
                             break;
                         }
+                    case EntityKind.Photo:
+                        {
+                            //TODO: bad programming here, fix it
+                            properties["Model"] = entity;
+                            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageImage", properties);
+                            return;
+                        }
                     default:
                         {
                             entities.AddRange(FileSystemProvider.GetFolderContents(entity.Path));

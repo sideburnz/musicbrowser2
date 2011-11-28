@@ -1,0 +1,44 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:a="assembly://MusicBrowser/MusicBrowser"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:me="Me"
+      >
+
+  <UI Name="pageImage">
+
+    <Properties>
+      <entities:Entity Name="Model" Entity="$Required" />
+    </Properties>
+    
+    <Content>
+      <ColorFill Content="Transparent">
+        <Children>
+          <Text Content="[Model.Title]" />
+          <Graphic Name="EntityBackground" Content="[Model.Photo]" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true">
+            <Animations>
+              <Animation Type="ContentChangeHide">
+                <Keyframes>
+                  <AlphaKeyframe Time="0.0" Value="1" />
+                  <AlphaKeyframe Time="3" Value="0" Interpolation="SCurve" />
+                </Keyframes>
+              </Animation>
+              <Animation Type="ContentChangeShow">
+                <Keyframes>
+                  <AlphaKeyframe Time="0.0" Value="0" />
+                  <AlphaKeyframe Time="3" Value="1" Interpolation="SCurve" />
+                </Keyframes>
+              </Animation>
+            </Animations>
+          </Graphic>
+        </Children>
+      </ColorFill>
+      
+    </Content>
+
+  </UI>
+  
+</Mcml>
