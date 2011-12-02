@@ -149,6 +149,10 @@ namespace MusicBrowser.Entities
         private static IEnumerable<string> nonphotoimages = new string[] { 
             "folder", 
             "banner", 
+            "disc",
+            "cover",
+            "front",
+            "back",
             "backdrop", 
             "backdrop1", 
             "backdrop2",

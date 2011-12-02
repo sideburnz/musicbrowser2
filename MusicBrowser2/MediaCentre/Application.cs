@@ -93,13 +93,6 @@ namespace MusicBrowser
                             {
                                 CommonTaskQueue.Enqueue(new BackgroundCacheProvider(e));
                             }
-
-                            // if there's only one item, go straight to it
-                            if (entities.Count == 1)
-                            {
-                                Navigate(entities[0]);
-                                return;
-                            }
                             break;
                         }
                     case EntityKind.Collection:

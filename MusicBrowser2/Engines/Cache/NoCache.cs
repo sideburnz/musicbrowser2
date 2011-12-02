@@ -15,12 +15,12 @@ namespace MusicBrowser.Engines.Cache
         public void Delete(string key)
         { }
 
-        public string Fetch(string key)
+        public byte[] Fetch(string key)
         {
-            return String.Empty;
+            return null;
         }
 
-        public void Update(string key, string entity) 
+        public void Update(string key, byte[] entity) 
         { }
 
         public bool Exists(string key) 
