@@ -11,7 +11,7 @@ using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
-    [DataContract]
+    [Serializable]
     public enum EntityKind
     {
         None = 000,
@@ -39,7 +39,7 @@ namespace MusicBrowser.Entities
         PhotoAlbum = 302
     }
 
-    [DataContract]
+    [Serializable]
     public sealed class Entity : BaseModel
     {
         private static readonly Random _rnd = new Random(DateTime.Now.Millisecond);

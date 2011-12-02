@@ -49,7 +49,13 @@ namespace MusicBrowser.Providers.FolderItems
                     string thisPath = line.Substring(8).Trim();
                     if (Directory.Exists(thisPath))
                     {
-                        res.Add(thisPath);
+                        foreach (FileSystemItem p in FileSystemProvider.GetFolderContents(thisPath))
+                        {
+                            if ((p.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
+                            {
+                                res.Add(p.FullPath);
+                            }
+                        }
                     }
                 }
                 if (line.StartsWith("library:"))

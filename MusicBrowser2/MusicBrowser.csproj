@@ -95,9 +95,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Windows\ehome\Microsoft.MediaCenter.UI.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Text">
-      <HintPath>..\Resource\ServiceStack.Text.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -164,7 +161,6 @@
     <Compile Include="Actions\ActionPlayVirtual.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
-    <Compile Include="Engines\Cache\FileSystemCache.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
@@ -179,6 +175,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
+    <Content Include="Entities\Entity Structure.txt" />
     <Content Include="MediaCentre\Images\buttonicons\IconAction.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconConfig.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconDeleteCache.png" />

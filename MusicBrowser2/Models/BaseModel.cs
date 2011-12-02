@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace MusicBrowser.Models
 {
-    [DataContract]
+    [Serializable]
     public class BaseModel : IModelItem
     {
         #region IModelItem Members

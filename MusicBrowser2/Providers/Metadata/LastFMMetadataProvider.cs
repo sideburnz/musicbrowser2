@@ -232,7 +232,7 @@ namespace MusicBrowser.Providers.Metadata
         }
 
         /// <summary>
-        /// refresh requests between the min and max refresh period have 10% chance of refreshing
+        /// refresh requests between the min and max refresh period have 5% chance of refreshing
         /// </summary>
         private static bool RandomlyRefreshData(DateTime stamp)
         {

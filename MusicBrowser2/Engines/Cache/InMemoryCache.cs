@@ -8,7 +8,6 @@ using MusicBrowser.Providers;
 using System.Data;
 using System.IO;
 using MusicBrowser.Providers.Background;
-using ServiceStack.Text;
 
 // in memory caching, intended to allow faster searches
 namespace MusicBrowser.Engines.Cache
