@@ -95,6 +95,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Windows\ehome\Microsoft.MediaCenter.UI.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.Text, Version=2.2.2.30888, Culture=neutral, PublicKeyToken=a0d284a68f39c610, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Resource\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -161,9 +165,11 @@
     <Compile Include="Actions\ActionPlayVirtual.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
+    <Compile Include="Engines\Cache\ICacheEngine.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
+    <Compile Include="Entities\baseEntity.cs" />
     <Compile Include="MediaCentre\FirstRun.cs" />
     <Compile Include="Models\ActionsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
