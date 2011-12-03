@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataProviderException.cs" />
-    <Compile Include="ICacheEngine.cs" />
     <Compile Include="IDataProvider.cs" />
     <Compile Include="ILoggingEngine.cs" />
     <Compile Include="ITransportEngine.cs" />

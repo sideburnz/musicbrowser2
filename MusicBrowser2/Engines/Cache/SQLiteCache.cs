@@ -1,24 +1,20 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Interfaces;
 using System.Data.SQLite;
-using System.Data;
-using System.Data.Sql;
+using System.IO;
 using MusicBrowser.Util;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Engines.Cache
 {
     public class SQLiteCache : ICacheEngine
     {
         private readonly string _file;
-        private const string SQL_CREATE_TABLE = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [value] BLOB NULL)";
-        private const string SQL_INSERT = "INSERT INTO [t_Cache] ([key], [value]) VALUES(@1, @2)";
+        private const string SQL_CREATE_TABLE = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [value] TEXT NULL, [kind] Character(12))";
+        private const string SQL_INSERT = "INSERT INTO [t_Cache] ([key], [value], [kind]) VALUES(@1, @2, @3)";
         private const string SQL_UPDATE = "UPDATE [t_Cache] SET [value] = @1 WHERE [key]=@2";
         private const string SQL_DELETE = "DELETE FROM [t_Cache] WHERE [key]=@1";
-        private const string SQL_SELECT = "SELECT [value] FROM [t_Cache] WHERE [key]=@1";
+        private const string SQL_SELECT = "SELECT [kind], [value] FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_EXISTS = "SELECT COUNT([key]) FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_CLEAR = "DELETE FROM [t_Cache]";
 
@@ -41,20 +37,24 @@ namespace MusicBrowser.Engines.Cache
             ExecuteNonQuery(SQL);
         }
 
-        public byte[] Fetch(string key)
+        public Entity Fetch(string key)
         {
             if (Exists(key))
             {
-                Providers.Statistics.Hit("SQLite.Hit");
                 string SQL = SQL_SELECT.Replace("@1", "'" + key + "'");
-                return ExecuteScalar<byte[]>(SQL);
+                Dictionary<string, object> res = ExecuteRowQuery(SQL);
+                if (res == null) { return null; }
+                return EntityPersistance.Deserialize((string)res["kind"], (string)res["value"]);
             }
-            Providers.Statistics.Hit("SQLite.Miss");
             return null;
         }
 
-        public void Update(string key, byte[] value)
+        public void Update(Entity e)
         {
+            string key = e.CacheKey;
+            string value = EntityPersistance.Serialize(e);
+            string kind = e.GetType().Name;
+
             if (Exists(key))
             {
                 SQLiteConnection cnn = GetConnection();
@@ -63,6 +63,7 @@ namespace MusicBrowser.Engines.Cache
                 cmdU.CommandText = SQL_UPDATE;
                 cmdU.Parameters.AddWithValue("@2", key);
                 cmdU.Parameters.AddWithValue("@1", value);
+                cmdU.Parameters.AddWithValue("@3", kind);
                 cmdU.ExecuteNonQuery();
                 cnn.Close();
             }
@@ -74,6 +75,7 @@ namespace MusicBrowser.Engines.Cache
                 cmdI.CommandText = SQL_INSERT;
                 cmdI.Parameters.AddWithValue("@1", key);
                 cmdI.Parameters.AddWithValue("@2", value);
+                cmdI.Parameters.AddWithValue("@3", kind);
                 cmdI.ExecuteNonQuery();
                 cnn.Close();
             }
@@ -120,6 +122,28 @@ namespace MusicBrowser.Engines.Cache
                 return (t)value;
             }
             return default(t);
+        }
+
+        public Dictionary<string, object> ExecuteRowQuery(string sql)
+        {
+            SQLiteConnection cnn = GetConnection();
+            cnn.Open();
+            SQLiteCommand mycommand = new SQLiteCommand(cnn);
+            mycommand.CommandText = sql;
+            SQLiteDataReader reader = mycommand.ExecuteReader();
+            Dictionary<string, object> ret = null;
+            if (reader.HasRows)
+            {
+                ret = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    ret.Add(reader.GetName(i), reader[i]);
+                }
+            }
+            reader.Close();
+            cnn.Close();
+
+            return ret;
         }
 
         private SQLiteConnection GetConnection()

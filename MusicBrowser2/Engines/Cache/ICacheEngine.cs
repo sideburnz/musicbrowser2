@@ -1,12 +1,13 @@
 ﻿using System;
+using MusicBrowser.Entities;
 
-namespace MusicBrowser.Interfaces
+namespace MusicBrowser.Engines.Cache
 {
     public interface ICacheEngine
     {
         void Delete(string key);
-        byte[] Fetch(string key);
-        void Update(string key, byte[] value);
+        Entity Fetch(string key);
+        void Update(Entity entity);
 
         bool Exists(string key);
 

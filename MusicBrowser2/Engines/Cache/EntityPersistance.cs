@@ -1,31 +1,27 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using MusicBrowser.Entities;
+﻿using MusicBrowser.Entities;
+using ServiceStack.Text;
 
 namespace MusicBrowser.Engines.Cache
 {
     public static class EntityPersistance
     {
-        public static Entity Deserialize(byte[] data)
+        public static Entity Deserialize(string typename, string data)
         {
-            try
-            {
-                MemoryStream stream = new MemoryStream(data);
-                BinaryFormatter formatter = new BinaryFormatter();
-                return (Entity)formatter.Deserialize(stream);
-            }
-            catch
-            {
-                return null;
-            }
+            //switch (typename.ToLower())
+            //{
+            //    case "track":
+            //        return JsonSerializer.DeserializeFromString<Track>(data);
+            //    case "album":
+            //        return JsonSerializer.DeserializeFromString<Album>(data);
+            //}
+            //return null;
+            return XmlSerializer.DeserializeFromString<Entity>(data);
         }
 
-        public static byte[] Serialize(Entity graph)
+        public static string Serialize(Entity graph)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            MemoryStream reader = new MemoryStream();
-            formatter.Serialize(reader, graph);
-            return reader.ToArray();
+            //return graph.ToJson();
+            return graph.ToXml();
         }
     }
 }

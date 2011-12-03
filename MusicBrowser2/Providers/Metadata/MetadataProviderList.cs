@@ -95,7 +95,7 @@ namespace MusicBrowser.Providers.Metadata
             {
                 entity.UpdateValues();
                 InMemoryCache.GetInstance().Update(entity);
-                CacheEngineFactory.GetEngine().Update(entity.CacheKey, EntityPersistance.Serialize(entity));
+                CacheEngineFactory.GetEngine().Update(entity);
             }
 
             // go through the refresh again, this time it'll pick up the slow providers

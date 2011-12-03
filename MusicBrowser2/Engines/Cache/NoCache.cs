@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Engines.Cache
 {
@@ -15,12 +15,12 @@ namespace MusicBrowser.Engines.Cache
         public void Delete(string key)
         { }
 
-        public byte[] Fetch(string key)
+        public Entity Fetch(string key)
         {
             return null;
         }
 
-        public void Update(string key, byte[] entity) 
+        public void Update(Entity entity) 
         { }
 
         public bool Exists(string key) 

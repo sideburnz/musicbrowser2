@@ -96,7 +96,7 @@ namespace MusicBrowser.Entities
 
             #region persistent cache
             // get the value from persistent cache
-            entity = EntityPersistance.Deserialize(_cacheEngine.Fetch(key));
+            entity = _cacheEngine.Fetch(key);
             if (entity != null && entity.CacheDate > item.LastUpdated)
             {
                 _MemCache.Update(entity);
@@ -138,7 +138,7 @@ namespace MusicBrowser.Entities
             // do this here because some of the providers need basic data about the tracks
             TagSharpMetadataProvider.FetchLite(entity);
 
-            _cacheEngine.Update(key, EntityPersistance.Serialize(entity));
+            _cacheEngine.Update(entity);
             _MemCache.Update(entity);
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName + " - first principles", "finish");
