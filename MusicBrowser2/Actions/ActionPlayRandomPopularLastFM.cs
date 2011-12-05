@@ -13,7 +13,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Play Random Last.fm";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconLastFM";
 
-        public ActionPlayRandomPopularLastFM(Entity entity)
+        public ActionPlayRandomPopularLastFM(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -28,12 +28,12 @@ namespace MusicBrowser.Actions
             Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionPlayRandomPopularLastFM(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "random tracks with the high playcounts on Last.fm");
             CommonTaskQueue.Enqueue(new PlaylistProvider("cmdlastfmpopular", entity), true);

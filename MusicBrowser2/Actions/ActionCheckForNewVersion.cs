@@ -9,7 +9,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Check for new Version";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconNew";
 
-        public ActionCheckForNewVersion(Entity entity)
+        public ActionCheckForNewVersion(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -22,12 +22,12 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionNoOperation(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             string message = "No new version available";
             WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider();

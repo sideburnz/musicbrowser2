@@ -11,7 +11,7 @@ namespace MusicBrowser.MediaCentre
 {
     public class Playlist
     {
-        public static void DoAction(string Action, Entity Entity)
+        public static void DoAction(string Action, baseEntity Entity)
         {
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose("Playlist.DoAction(" + Action + ", " + Entity.Kind.ToString() + ": " + Entity.Path + ")", "start");
@@ -43,7 +43,7 @@ namespace MusicBrowser.MediaCentre
             TransportEngineFactory.GetEngine().Play(queue, tracks);
         }
 
-        public static void PlayTrack(Entity entity, Boolean add)
+        public static void PlayTrack(baseEntity entity, Boolean add)
         {
             TransportEngineFactory.GetEngine().Play(add, entity.Path);
         }

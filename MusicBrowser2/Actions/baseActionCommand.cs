@@ -28,7 +28,7 @@ namespace MusicBrowser.Actions
         /// <summary>
         /// Sets the entity the Action is to be performed on, when relevant
         /// </summary>
-        public Entity Entity { get; set; }
+        public baseEntity Entity { get; set; }
 
         /// <summary>
         /// Sets the name that is used for logging, telemetry and the UI
@@ -87,7 +87,7 @@ namespace MusicBrowser.Actions
         /// The payload of the call
         /// </summary>
         /// <param name="entity"></param>
-        public abstract void DoAction(Entity entity);
+        public abstract void DoAction(baseEntity entity);
 
         /// <summary>
         /// The path to the icon that will be used for the UI
@@ -107,7 +107,11 @@ namespace MusicBrowser.Actions
         /// </summary>
         public bool Available { get; set; }
 
-        public abstract baseActionCommand NewInstance(Entity entity);
+        public abstract baseActionCommand NewInstance(baseEntity entity);
 
+        protected static bool InheritsFrom(baseEntity e, string type)
+        {
+            return e.GetType().IsAssignableFrom(Type.GetType(type));
+        }
     }
 }

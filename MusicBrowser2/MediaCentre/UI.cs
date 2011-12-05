@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MusicBrowser.Providers.Metadata
+namespace MusicBrowser
 {
-    class MediaBrowserXMLProvider
+    public enum Views
     {
+        NotSet,
+        List,
+        Thumb,
+        Strip
     }
+
 }

@@ -7,7 +7,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Change View";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconView";
 
-        public ActionCycleViews(Entity entity)
+        public ActionCycleViews(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -20,15 +20,14 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionCycleViews(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
-            string view = Util.Config.GetInstance().GetStringSetting("Entity." + entity.KindName + ".View");
-
+            string view = entity.View;
             switch (view.ToLower())
             {
                 case "list": view = "Thumb"; break;
@@ -36,8 +35,7 @@ namespace MusicBrowser.Actions
                 case "strip": view = "List"; break;
                 default: view = "List"; break;
             }
-
-            Util.Config.GetInstance().SetSetting("Entity." + entity.KindName + ".View", view);
+            entity.View = view;
         }
     }
 }

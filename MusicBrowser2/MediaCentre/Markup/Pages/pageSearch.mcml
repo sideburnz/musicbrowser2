@@ -18,7 +18,7 @@
   <UI Name="pageSearch">
 
     <Properties>
-      <models:SearchModel Name="Model" SearchModel="$Required" />
+      <!--<models:SearchModel Name="Model" SearchModel="$Required" />-->
       <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
       <models:UINotifier Name="UINotifier" UINotifier="$Required" />
       
@@ -274,7 +274,7 @@
   <UI Name="searchBox">
 
     <Properties>
-      <models:SearchModel Name="Model" SearchModel="$Required" />
+      <!--<models:SearchModel Name="Model" SearchModel="$Required" />-->
       <Command Name="CmdNoOp" />
       <Command Name="CmdTypeSpace" />
     </Properties>
@@ -283,7 +283,7 @@
       <KeyHandler Name="BackHandler" Handle="true" Key="Backspace" HandlerStage="Bubbled" Command="[CmdNoOp]"/>
       <KeyHandler Name="SpaceHandler" Handle="true" Key="Space" HandlerStage="Routed" Command="[CmdTypeSpace]" />
       <ClickHandler Name="Clicker" />
-      <actions:ActionShowKeyboard Name="KeyboardAction" MaxLength="20" editableText="[Model.KeyboardHandler]" />
+      <!--<actions:ActionShowKeyboard Name="KeyboardAction" MaxLength="20" editableText="[Model.KeyboardHandler]" />-->
     </Locals>
     
     <Rules>
@@ -324,7 +324,7 @@
 
   <UI Name="buttonSearchResult">
     <Properties>
-      <entities:Entity Name="Entity" Entity="$Required" />
+      <entities:baseEntity Name="Entity" baseEntity="$Required" />
     </Properties>
 
     <Locals>
@@ -381,7 +381,7 @@
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
-              <Graphic Name="graphicBullet" Content="[Entity.Icon]" Margins="5,5,0,5" MaximumSize="47,47" MinimumSize="47,47" MaintainAspectRatio="false" Visible="true" />
+              <Graphic Name="graphicBullet" Content="[Entity.Thumb]" Margins="5,5,0,5" MaximumSize="47,47" MinimumSize="47,47" MaintainAspectRatio="false" Visible="true" />
               <Text Name="lblTitle" Content="[Entity.Title]" Color="White" Margins="12,5,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" Alpha="0.6"/>
             </Children>
           </ColorFill>
@@ -393,7 +393,7 @@
             <Children>
               <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" MaximumSize="110,110" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="5,5,0,5">
                 <Children>
-                  <Graphic Content="[Entity.Icon]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
+                  <Graphic Content="[Entity.Thumb]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
                 </Children>
               </Graphic>
               <me:ctrlFooter Entity="[Entity]" Margins="10,5,0,0" />

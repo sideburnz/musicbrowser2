@@ -7,7 +7,7 @@
 
   <UI Name="ctrlThumb">
     <Properties>
-      <entities:Entity Name="Entity" Entity="$Required" />
+      <entities:baseEntity Name="Entity" baseEntity="$Required" />
       <a:Application Name="Application" Application="$Required"/>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
     </Properties>
@@ -50,13 +50,13 @@
         </Actions>
       </Condition>
 
-      <Binding Source="[Entity.Icon]" Target="[Background.Content]" />
+      <Binding Source="[Entity.Thumb]" Target="[Background.Content]" />
     </Rules>
     <Content>
       <Graphic Content="null" Layout="Fill" Name="Wrapper" CenterPointPercent=".5,.5,.5" SizingPolicy="SizeToChildren">
         <Children>
           <ColorFill Content="Black" Alpha="0.6" Name="Fader" Layout="Fill"/>
-          <Graphic Content="[Entity.Icon]" Name="Background" Layout="Fill" MaintainAspectRatio="true" />
+          <Graphic Content="[Entity.Thumb]" Name="Background" Layout="Fill" MaintainAspectRatio="true" />
           <ColorFill Content="Transparent" Name="Blocker" Layout="Fill"/>
         </Children>
       </Graphic>

@@ -10,7 +10,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Play";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
 
-        public ActionPlay(Entity entity)
+        public ActionPlay(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -23,48 +23,48 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionPlay(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
-            baseActionCommand action;
+            //baseActionCommand action;
 
-            switch (entity.Kind)
-            {
-                case EntityKind.Album:
-                case EntityKind.Artist:
-                case EntityKind.Folder:
-                case EntityKind.Genre:
-                case EntityKind.PhotoAlbum:
-                case EntityKind.Series:
-                case EntityKind.Show:
-                    action = new ActionPlayFolder(entity);
-                    break;
-                case EntityKind.Episode:
-                case EntityKind.Movie:
-                    action = new ActionPlayVideo(entity);
-                    break;
-                case EntityKind.Photo:
-                    action = new ActionPlayImage(entity);
-                    break;
-                case EntityKind.Playlist:
-                case EntityKind.Track:
-                    action = new ActionPlayMusic(entity);
-                    break;
-                case EntityKind.Group:
-                case EntityKind.GroupBy:
-                case EntityKind.Virtual:
-                    action = new ActionPlayVirtual(entity);
-                    break;
-                default:
-                    action = new ActionNoOperation();
-                    break;
-            }
+            //switch (entity.Kind)
+            //{
+            //    case EntityKind.Album:
+            //    case EntityKind.Artist:
+            //    case EntityKind.Folder:
+            //    case EntityKind.Genre:
+            //    case EntityKind.PhotoAlbum:
+            //    case EntityKind.Series:
+            //    case EntityKind.Show:
+            //        action = new ActionPlayFolder(entity);
+            //        break;
+            //    case EntityKind.Episode:
+            //    case EntityKind.Movie:
+            //        action = new ActionPlayVideo(entity);
+            //        break;
+            //    case EntityKind.Photo:
+            //        action = new ActionPlayImage(entity);
+            //        break;
+            //    case EntityKind.Playlist:
+            //    case EntityKind.Track:
+            //        action = new ActionPlayMusic(entity);
+            //        break;
+            //    case EntityKind.Group:
+            //    case EntityKind.GroupBy:
+            //    case EntityKind.Virtual:
+            //        action = new ActionPlayVirtual(entity);
+            //        break;
+            //    default:
+            //        action = new ActionNoOperation();
+            //        break;
+            //}
 
-            action.Invoke();
+            //action.Invoke();
         }
     }
 }

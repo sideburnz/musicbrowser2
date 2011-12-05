@@ -14,7 +14,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Queue";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconQueue";
 
-        public ActionQueue(Entity entity)
+        public ActionQueue(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -27,12 +27,12 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionQueue(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("queuing {0}", entity.Title);
             TransportEngineFactory.GetEngine().Play(true, entity.Path);

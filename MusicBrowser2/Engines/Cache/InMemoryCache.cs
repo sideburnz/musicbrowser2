@@ -14,10 +14,9 @@ namespace MusicBrowser.Engines.Cache
 {
     public sealed class InMemoryCache
     {
-        private Dictionary<string, Entity> _cache = new Dictionary<string,Entity>(1000);
+        private Dictionary<string, baseEntity> _cache = new Dictionary<string, baseEntity>(1000);
         private static readonly object _obj = new object();
-        private readonly string _cacheFile = System.IO.Path.Combine(Util.Config.GetInstance().GetStringSetting("Cache.Path"), "cache.xml");
-
+        
         #region singleton
         static InMemoryCache _instance;
 
@@ -54,16 +53,11 @@ namespace MusicBrowser.Engines.Cache
         {
             lock (_obj)
             {
-                _cache = new Dictionary<string, Entity>();
-                try
-                {
-                    File.Delete(_cacheFile);
-                }
-                catch { }
+                _cache = new Dictionary<string, baseEntity>();
             }
         }
 
-        public void Update(Entity entity)
+        public void Update(baseEntity entity)
         {
             lock (_obj)
             {
@@ -78,14 +72,14 @@ namespace MusicBrowser.Engines.Cache
             }
         }
 
-        public Entity Fetch(string key)
+        public baseEntity Fetch(string key)
         {
             if (!_cache.ContainsKey(key))
             {
                 Statistics.Hit("MemCache.Miss");
                 return null;
             }
-            Entity e = _cache[key];
+            baseEntity e = _cache[key];
             Statistics.Hit("MemCache.Hit");
             return e;
         }
@@ -99,11 +93,6 @@ namespace MusicBrowser.Engines.Cache
                     _cache.Remove(key);
                 }
             }
-        }
-
-        public string Title
-        {
-            get { return "InMemoryCache scavenger"; }
         }
     }
 }

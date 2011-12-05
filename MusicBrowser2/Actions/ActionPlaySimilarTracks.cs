@@ -18,7 +18,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Play Similar Tracks";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconLastFM";
 
-        public ActionPlaySimilarTracks(Entity entity)
+        public ActionPlaySimilarTracks(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -33,12 +33,12 @@ namespace MusicBrowser.Actions
             Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionPlaySimilarTracks(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             CommonTaskQueue.Enqueue(new PlaylistProvider("cmdsimilar", entity), true);
             MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();

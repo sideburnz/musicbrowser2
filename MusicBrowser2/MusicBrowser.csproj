@@ -79,7 +79,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -170,7 +170,15 @@
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
     <Compile Include="Entities\baseEntity.cs" />
+    <Compile Include="Entities\Collection.cs" />
+    <Compile Include="Entities\Container.cs" />
+    <Compile Include="Entities\Home.cs" />
+    <Compile Include="Entities\IPlayable.cs" />
+    <Compile Include="Entities\IPlaylistable.cs" />
+    <Compile Include="Entities\Item.cs" />
+    <Compile Include="Entities\Virtual.cs" />
     <Compile Include="MediaCentre\FirstRun.cs" />
+    <Compile Include="MediaCentre\UI.cs" />
     <Compile Include="Models\ActionsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -225,20 +233,6 @@
     <Compile Include="Providers\FolderItems\HomeScreen.cs" />
     <Compile Include="Providers\FolderItems\FolderProvider.cs" />
     <Compile Include="Providers\ForceMetadataRefreshProvider.cs" />
-    <Compile Include="Providers\Metadata\baseMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\InheritanceMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\MarkerMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\MediaBrowserXMLProvider.cs" />
-    <Compile Include="Providers\Metadata\MediaInfoMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\VideoFilenameMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\CoreMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\IconMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\FileSystemMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\HTBackdropMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\LastFMMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\MetadataFileProvider.cs" />
-    <Compile Include="Providers\Metadata\MetadataProviderList.cs" />
-    <Compile Include="Providers\Metadata\TagSharpMetadataProvider.cs" />
     <Compile Include="Engines\Logging\EventLogLogger.cs" />
     <Compile Include="Engines\Logging\FileLogger.cs" />
     <Compile Include="Engines\Logging\LoggerEngineFactory.cs" />

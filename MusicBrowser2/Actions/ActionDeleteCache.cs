@@ -16,7 +16,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Rebuild cache";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconDeleteCache";
 
-        public ActionDeleteCache(Entity entity)
+        public ActionDeleteCache(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -29,12 +29,12 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionDeleteCache(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             bool confirmation = false;
 

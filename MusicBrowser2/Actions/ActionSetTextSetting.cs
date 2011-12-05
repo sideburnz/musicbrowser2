@@ -12,7 +12,7 @@ namespace MusicBrowser.Actions
         private string _value;
         private readonly EditableText _editableText = new EditableText();
 
-        public ActionSetTextSetting(Entity entity)
+        public ActionSetTextSetting(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -29,7 +29,7 @@ namespace MusicBrowser.Actions
             _editableText.PropertyChanged += TextChanged;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionSetTextSetting(entity);
         }
@@ -76,7 +76,7 @@ namespace MusicBrowser.Actions
             _editableText.Value += character;
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Util.Config.GetInstance().SetSetting(Key, Value);
         }

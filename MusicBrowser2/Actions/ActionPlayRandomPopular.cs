@@ -13,7 +13,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Play Random Popular";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
 
-        public ActionPlayRandomPopular(Entity entity)
+        public ActionPlayRandomPopular(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -30,12 +30,12 @@ namespace MusicBrowser.Actions
                 !String.IsNullOrEmpty(Util.Config.GetInstance().GetStringSetting("Internet.LastFMUserName"));
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionPlayRandomPopular(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "a random selection of tracks from your library");
             CommonTaskQueue.Enqueue(new PlaylistProvider("cmdrandom", entity), true);

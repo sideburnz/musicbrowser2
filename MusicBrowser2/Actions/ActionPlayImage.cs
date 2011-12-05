@@ -16,7 +16,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Play";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
 
-        public ActionPlayImage(Entity entity)
+        public ActionPlayImage(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -29,12 +29,12 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionPlayImage(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Application.GetReference().Navigate(entity);
         }

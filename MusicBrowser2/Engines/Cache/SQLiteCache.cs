@@ -37,7 +37,7 @@ namespace MusicBrowser.Engines.Cache
             ExecuteNonQuery(SQL);
         }
 
-        public Entity Fetch(string key)
+        public baseEntity Fetch(string key)
         {
             if (Exists(key))
             {
@@ -49,7 +49,7 @@ namespace MusicBrowser.Engines.Cache
             return null;
         }
 
-        public void Update(Entity e)
+        public void Update(baseEntity e)
         {
             string key = e.CacheKey;
             string value = EntityPersistance.Serialize(e);

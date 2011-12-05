@@ -40,17 +40,14 @@ namespace MusicBrowser
 #endif
 
             // Set up a reference to the first screen, if you only have one library enabled, don't show the list of libraries
-            Entity firstScreen = new Entity();
+            baseEntity firstScreen = new Home();
             Util.Config config = Util.Config.GetInstance();
-            firstScreen.Kind = EntityKind.Home;
-
             if (host != null && host.ApplicationContext != null)
             {
                 host.ApplicationContext.SingleInstance = true;
             }
             _sSession = new HistoryOrientedPageSession();
             Application app = new Application(_sSession, host);
-
             // Go to the initial screen
             app.Navigate(firstScreen);
         }     

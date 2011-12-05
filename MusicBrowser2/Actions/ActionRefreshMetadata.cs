@@ -15,7 +15,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Refresh Metadata";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconRefresh";
 
-        public ActionRefreshMetadata(Entity entity)
+        public ActionRefreshMetadata(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -28,12 +28,12 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionRefreshMetadata(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("refreshing metadata for {0}", entity.Title);
             CommonTaskQueue.Enqueue(new ForceMetadataRefreshProvider(entity), true);

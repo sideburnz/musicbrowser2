@@ -13,7 +13,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Play Newly Added";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
 
-        public ActionPlayNewlyAdded(Entity entity)
+        public ActionPlayNewlyAdded(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -26,12 +26,12 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionPlayNewlyAdded(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "tracks recently added to your library");
             CommonTaskQueue.Enqueue(new PlaylistProvider("cmdnew", entity), true);

@@ -15,7 +15,7 @@ namespace MusicBrowser.Actions
         private string _key;
         private int _value;
 
-        public ActionSetNumericSetting(Entity entity)
+        public ActionSetNumericSetting(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -34,7 +34,7 @@ namespace MusicBrowser.Actions
             Lower = LOWER_LIMIT;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionSetNumericSetting(entity);
         }
@@ -78,7 +78,7 @@ namespace MusicBrowser.Actions
             Value = Value - Stepping;
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Util.Config.GetInstance().SetSetting(Key, Value.ToString());
         }
