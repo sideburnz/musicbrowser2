@@ -11,14 +11,14 @@
   <UI Name="pageImage">
 
     <Properties>
-      <entities:Entity Name="Model" Entity="$Required" />
+      <entities:baseEntity Name="Model" baseEntity="$Required" />
     </Properties>
     
     <Content>
       <ColorFill Content="Transparent">
         <Children>
           <Text Content="[Model.Title]" />
-          <Graphic Name="EntityBackground" Content="[Model.Photo]" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true">
+          <!--<Graphic Name="EntityBackground" Content="[Model.Photo]" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true">
             <Animations>
               <Animation Type="ContentChangeHide">
                 <Keyframes>
@@ -33,7 +33,7 @@
                 </Keyframes>
               </Animation>
             </Animations>
-          </Graphic>
+          </Graphic>-->
         </Children>
       </ColorFill>
       

@@ -7,7 +7,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Change Sort Order";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconSort";
 
-        public ActionCycleSorts(Entity entity)
+        public ActionCycleSorts(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -20,14 +20,14 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionCycleSorts(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
-            string order = Util.Config.GetInstance().GetStringSetting("Entity." + entity.KindName + ".SortOrder");
+            string order = Util.Config.GetInstance().GetStringSetting("Entity." + entity.Kind + ".SortOrder");
 
             switch (order.ToLower())
             {
@@ -36,7 +36,7 @@ namespace MusicBrowser.Actions
                 default: order = "[title]"; break;
             }
 
-            Util.Config.GetInstance().SetSetting("Entity." + entity.KindName + ".SortOrder", order);
+            Util.Config.GetInstance().SetSetting("Entity." + entity.Kind + ".SortOrder", order);
         }
     }
 }

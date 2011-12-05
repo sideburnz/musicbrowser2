@@ -12,7 +12,7 @@
   <UI Name="ctrlHeader">
 
     <Properties>
-      <entities:Entity Name="Entity" Entity="$Required" />
+      <entities:baseEntity Name="Entity" baseEntity="$Required" />
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
       <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
     </Properties>
@@ -23,11 +23,11 @@
       <actions:ActionShowSettings Name="SettingsAction" />
       <actions:ActionCycleViews Name="CycleViewsAction" Entity="[Entity]" />
       <actions:ActionCycleSorts Name="CycleSortOrder" Entity="[Entity]" />
-      <actions:ActionShowGroupBy Name="ShowGroupBy" />
+      <!--<actions:ActionShowGroupBy Name="ShowGroupBy" />-->
     </Locals>
     
     <Rules>
-      <Binding Source="[Entity.Icon]" Target="[icon.Content]" />
+      <Binding Source="[Entity.Thumb]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
 
       <Changed Source="[FolderModel.View]" InitialEvaluate="true">
@@ -50,11 +50,11 @@
       
       <Changed Source="[Entity.Index]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[Entity.KindName]" ConditionOp="Equals" Value="Home" />
+          <Equality Source="[Entity.Kind]" ConditionOp="Equals" Value="Home" />
         </Conditions>
         <Actions>
           <Set Target="[SettingsMenu.Visible]" Value="true" />
-          <Set Target="[GroupMenu.Visible]" Value="true" />
+          <!--<Set Target="[GroupMenu.Visible]" Value="true" />-->
           <Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
       </Changed>
@@ -70,7 +70,7 @@
                   <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
                 <Children>
-                  <Graphic Content="[Entity.Icon]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
+                  <Graphic Content="[Entity.Thumb]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
                 </Children>
               </Graphic>
 
@@ -81,7 +81,7 @@
                     <Children>
                       <me:buttonIcon Command="[SettingsAction]" Name="SettingsMenu" Text="" Icon="[SettingsAction.Icon]" Margins="0,0,5,0" Visible="false" />
                       <me:buttonIcon Command="[ActionActions]" Name="ActionsMenu" Text="Actions" Icon="[ActionActions.Icon]" Margins="0,0,5,0" />
-                      <me:buttonIcon Command="[ShowGroupBy]" Name="GroupMenu" Text="Group By" Icon="[ShowGroupBy.Icon]" Margins="0,0,5,0" Visible="false" />
+                      <!--<me:buttonIcon Command="[ShowGroupBy]" Name="GroupMenu" Text="Group By" Icon="[ShowGroupBy.Icon]" Margins="0,0,5,0" Visible="false" />-->
                       <me:buttonIcon Command="[CycleViewsAction]" Name="ViewMenu" Text="[FolderModel.View]" Icon="[CycleViewsAction.Icon]" Margins="0,0,5,0" />
                       <me:buttonIcon Command="[CycleSortOrder]" Name="SortMenu" Text="[FolderModel.View]" Icon="[CycleSortOrder.Icon]" Margins="0,0,5,0" Visible="false"/>
                     </Children>

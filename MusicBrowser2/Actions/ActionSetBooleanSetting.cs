@@ -10,7 +10,7 @@ namespace MusicBrowser.Actions
         private string _key;
         private bool _value;
 
-        public ActionSetBooleanSetting(Entity entity)
+        public ActionSetBooleanSetting(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -23,7 +23,7 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionSetBooleanSetting(entity);
         }
@@ -49,7 +49,7 @@ namespace MusicBrowser.Actions
             } 
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Util.Config.GetInstance().SetSetting(Key, Value.ToString());
         }

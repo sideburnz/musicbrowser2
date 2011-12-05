@@ -13,7 +13,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Show Now Playing";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
 
-        public ActionShowNowPlaying(Entity entity)
+        public ActionShowNowPlaying(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -26,12 +26,12 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionShowKeyboard(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.GoToFullScreen();
         }

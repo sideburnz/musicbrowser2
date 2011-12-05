@@ -14,7 +14,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Pause";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPause";
 
-        public ActionPause(Entity entity)
+        public ActionPause(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -27,12 +27,12 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionPause(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             TransportEngineFactory.GetEngine().PlayPause();
         }

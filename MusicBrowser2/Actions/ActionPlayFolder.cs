@@ -17,7 +17,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Play";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
 
-        public ActionPlayFolder(Entity entity)
+        public ActionPlayFolder(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -30,26 +30,26 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionPlayFolder(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
 
             // music folders 
-            switch (entity.Kind)
-            {
-                case EntityKind.Album:
-                case EntityKind.Artist:
-                case EntityKind.Genre:
-                    TransportEngineFactory.GetEngine().Play(false, entity.Path);
-                    return;
-                case EntityKind.PhotoAlbum:
-                    Models.UINotifier.GetInstance().Message = String.Format("playing image folders doesn't work");
-                    return;
-            }
+            //switch (entity.Kind)
+            //{
+            //    case EntityKind.Album:
+            //    case EntityKind.Artist:
+            //    case EntityKind.Genre:
+            //        TransportEngineFactory.GetEngine().Play(false, entity.Path);
+            //        return;
+            //    case EntityKind.PhotoAlbum:
+            //        Models.UINotifier.GetInstance().Message = String.Format("playing image folders doesn't work");
+            //        return;
+            //}
 
             Models.UINotifier.GetInstance().Message = String.Format("playing videos folders doesn't always work");
 

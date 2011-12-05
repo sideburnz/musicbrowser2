@@ -8,7 +8,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "On Enter";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconAction";
 
-        public ActionOnEnter(Entity entity)
+        public ActionOnEnter(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -23,12 +23,12 @@ namespace MusicBrowser.Actions
             KeepMenuShowingAfterExecution = true;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionOnEnter(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             baseActionCommand action = Helper.GetEnterAction(entity);
             action.Invoke();

@@ -8,7 +8,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Close Page";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconClose";
 
-        public ActionPreviousPage(Entity entity)
+        public ActionPreviousPage(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -21,12 +21,12 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionPreviousPage(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Application.GetReference().Session().BackPage();
         }

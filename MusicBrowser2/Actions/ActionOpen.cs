@@ -2,6 +2,7 @@
 using System.IO;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Background;
+using System;
 
 namespace MusicBrowser.Actions
 {
@@ -10,7 +11,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Open";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
 
-        public ActionOpen(Entity entity)
+        public ActionOpen(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -23,14 +24,14 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionOpen(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
-            if (Directory.Exists(entity.Path) || entity.Kind == EntityKind.Collection)
+            if (Directory.Exists(entity.Path) || InheritsFrom(entity, "MusicBrowser.Entity.Collection"))
             {
                 MusicBrowser.Application.GetReference().Navigate(entity);
                 //TODO: assess if this is needed

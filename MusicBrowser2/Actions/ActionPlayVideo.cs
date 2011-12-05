@@ -16,7 +16,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Play";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
 
-        public ActionPlayVideo(Entity entity)
+        public ActionPlayVideo(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -29,12 +29,12 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionPlayVideo(entity);
         }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
             if (System.IO.Directory.Exists(entity.Path))

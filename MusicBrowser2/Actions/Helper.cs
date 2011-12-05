@@ -18,6 +18,9 @@ namespace MusicBrowser.Actions
             public baseActionCommand OnRecord;
             public baseActionCommand OnEnter;
             public baseActionCommand OnPlay;
+
+            //TODO: add an OnStar - default is to show the content menu
+
             public IList<baseActionCommand> MenuOptions;
         }
 
@@ -46,31 +49,61 @@ namespace MusicBrowser.Actions
             return new ActionNoOperation();
         }
 
-        public static baseActionCommand GetEnterAction(Entity entity)
+        public static baseActionCommand GetEnterAction(baseEntity entity)
         {
-            return _actionConfig[entity.SimpleKind().ToString()].OnEnter.NewInstance(entity);
-        }
-
-        public static baseActionCommand GetPlayAction(Entity entity)
-        {
-            return _actionConfig[entity.SimpleKind().ToString()].OnPlay.NewInstance(entity);
-        }
-
-        public static baseActionCommand GetRecordAction(Entity entity)
-        {
-            return _actionConfig[entity.SimpleKind().ToString()].OnRecord.NewInstance(entity);
-        }
-
-        public static IList<baseActionCommand> GetActionList(Entity entity)
-        {
-            List<baseActionCommand> ret = new List<baseActionCommand>();
-
-            foreach (baseActionCommand action in _actionConfig[entity.SimpleKind().ToString()].MenuOptions)
+            IEnumerable<string> tree = entity.InheritanceTree;
+            foreach (string leaf in tree)
             {
-                ret.Add(action.NewInstance(entity));
+                if (_actionConfig.ContainsKey(leaf))
+                {
+                    return _actionConfig[leaf].OnEnter.NewInstance(entity);
+                }
             }
+            return new ActionNoOperation(entity);
+        }
 
-            return ret;
+        public static baseActionCommand GetPlayAction(baseEntity entity)
+        {
+            IEnumerable<string> tree = entity.InheritanceTree;
+            foreach (string leaf in tree)
+            {
+                if (_actionConfig.ContainsKey(leaf))
+                {
+                    return _actionConfig[leaf].OnPlay.NewInstance(entity);
+                }
+            }
+            return new ActionNoOperation(entity);
+        }
+
+        public static baseActionCommand GetRecordAction(baseEntity entity)
+        {
+            IEnumerable<string> tree = entity.InheritanceTree;
+            foreach (string leaf in tree)
+            {
+                if (_actionConfig.ContainsKey(leaf))
+                {
+                    return _actionConfig[leaf].OnRecord.NewInstance(entity);
+                }
+            }
+            return new ActionNoOperation(entity);
+        }
+
+        public static IList<baseActionCommand> GetActionList(baseEntity entity)
+        {
+            IEnumerable<string> tree = entity.InheritanceTree;
+            foreach (string leaf in tree)
+            {
+                if (_actionConfig.ContainsKey(leaf))
+                {
+                    List<baseActionCommand> ret = new List<baseActionCommand>();
+                    foreach (baseActionCommand action in _actionConfig[leaf].MenuOptions)
+                    {
+                        ret.Add(action.NewInstance(entity));
+                    }
+                    return ret;
+                }
+            }
+            return null;
         }
 
         private static IEnumerable<baseActionCommand> GetAvailableActions()
@@ -98,8 +131,8 @@ namespace MusicBrowser.Actions
 //          ret.Add(new ActionSetBooleanSetting());
 //          ret.Add(new ActionSetSetting());
             ret.Add(new ActionShowActions());
-            ret.Add(new ActionShowGroupAlbumsByYear());
-            ret.Add(new ActionShowGroupTracksByGenre());
+            //ret.Add(new ActionShowGroupAlbumsByYear());
+            //ret.Add(new ActionShowGroupTracksByGenre());
             ret.Add(new ActionShowKeyboard());
             ret.Add(new ActionShowSearch());
             ret.Add(new ActionShowSettings());

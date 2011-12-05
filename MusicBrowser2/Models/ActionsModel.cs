@@ -32,7 +32,7 @@ namespace MusicBrowser.Models
         #endregion
 
         public bool _visible = false;
-        public Entity _context;
+        public baseEntity _context;
 
         public bool Visible
         {
@@ -50,7 +50,7 @@ namespace MusicBrowser.Models
             }
         }
 
-        public Entity Context 
+        public baseEntity Context 
         {
             get
             {

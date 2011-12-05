@@ -1,0 +1,36 @@
+﻿classes
+
+base
+	container
+		virtual
+			home
+			collection
+				music collection
+				video collection
+				photo collection
+		folder
+			artist
+			album
+			genre
+			show
+			season
+			gallery
+	playable
+		music
+			track
+			playlist
+		video
+			episode
+			movie
+		photo
+
+IPlayable - Play, Queue
+IPlaylistable - Play, Queue, Shuffle
+
+public static class HaveChildrenExtension {
+    public static List<IChild> GetChildren( this IHaveChildren ) {
+        //logic to get children by parent type and id
+        //shared for all classes implementing IHaveChildren 
+    }
+}
+ 

@@ -6,7 +6,7 @@
   <UI Name="ctrlFooter">
 
     <Properties>
-      <entities:Entity Name="Entity" Entity="$Required" />
+      <entities:baseEntity Name="Entity" baseEntity="$Required" />
       <Command Name="CmdRefresh"/>
       <Timer Name="RefreshTimer" AutoRepeat="True" Interval="5000" Enabled="True" />
     </Properties>
@@ -16,9 +16,9 @@
       <Changed Source="[CmdRefresh.Invoked]" InitialEvaluate="true">
         <Actions>
           <Set Target="[Desc.Content]" Value="[Entity.Title]" />
-          <Set Target="[Summary1.Content]" Value="[Entity.ShortSummaryLine1]" />
+          <!--<Set Target="[Summary1.Content]" Value="[Entity.ShortSummaryLine1]" />
           <Set Target="[Summary2.Content]" Value="[Entity.ShortSummaryLine2]" />
-          <Set Target="[Favorite.Visible]" Value="[Entity.Favorite]" />
+          <Set Target="[Favorite.Visible]" Value="[Entity.Favorite]" />-->
         </Actions>
       </Changed>
 
@@ -34,7 +34,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[Entity]" InitialEvaluate="true">
+      <!--<Changed Source="[Entity]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="100" />
         </Conditions>
@@ -73,7 +73,7 @@
         <Actions>
           <Set Target="[Star1.Alpha]" Value="0.6" />
         </Actions>
-      </Changed>
+      </Changed>-->
     </Rules>
 
     <Content>

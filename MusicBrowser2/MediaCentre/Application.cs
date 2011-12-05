@@ -66,16 +66,16 @@ namespace MusicBrowser
             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSettings", props);
         }
 
-        public void NavigateToSearch(string searchString, Entity entity)
-        {
-            Dictionary<string, object> props = new Dictionary<string, object>();
-            props.Add("Model", new SearchModel(searchString, entity));
-            props.Add("ActionsModel", ActionsModel.GetInstance);
-            props.Add("UINotifier", UINotifier.GetInstance());
-            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props);
-        }
+        //public void NavigateToSearch(string searchString, baseEntity entity)
+        //{
+        //    Dictionary<string, object> props = new Dictionary<string, object>();
+        //    props.Add("Model", new SearchModel(searchString, entity));
+        //    props.Add("ActionsModel", ActionsModel.GetInstance);
+        //    props.Add("UINotifier", UINotifier.GetInstance());
+        //    _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props);
+        //}
 
-        public void Navigate(Entity entity)
+        public void Navigate(baseEntity entity)
         {
             LoggerEngineFactory.Info("Navigating to " + entity.Description);
             try
@@ -85,63 +85,63 @@ namespace MusicBrowser
 
                 switch (entity.Kind)
                 {
-                    case EntityKind.Home:
+                    case "Home":
                         {
                             entities = HomeScreen.Entities;
 
-                            foreach (Entity e in entities)
-                            {
-                                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(e));
-                            }
+                            //foreach (baseEntity e in entities)
+                            //{
+                            //    CommonTaskQueue.Enqueue(new BackgroundCacheProvider(e));
+                            //}
                             break;
                         }
-                    case EntityKind.Collection:
+                    case "Collection":
                         {
                             IFolderItemsProvider fip = new CollectionProvider();
                             entities.AddRange(fip.GetItems(entity.Path));
                             break;
                         }
-                    case EntityKind.Group:
-                        {
-                            switch (entity.Title.ToLower())
-                            {
-                                case "tracks by genre":
-                                    {
-                                        entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Track, "Genre");
-                                        break;
-                                    }
-                                case "albums by year":
-                                    {
-                                        entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Album, "Year");
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case EntityKind.Virtual:
-                        {
-                            switch (entity.Path.ToLower())
-                            {
-                                //TODO: redo this group by logic 
-                                case "tracks by genre":
-                                    {
-                                        entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track, "Genre", entity.Title);
-                                        break;
-                                    }
-                                case "albums by year":
-                                    {
-                                        entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "Year", entity.Title);
-                                        break;
-                                    }
-                                case "albums":
-                                    {
-                                        entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "", entity.Title);
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case EntityKind.Photo:
+                    //case "Group":
+                    //    {
+                    //        switch (entity.Title.ToLower())
+                    //        {
+                    //            case "tracks by genre":
+                    //                {
+                    //                    entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Track, "Genre");
+                    //                    break;
+                    //                }
+                    //            case "albums by year":
+                    //                {
+                    //                    entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Album, "Year");
+                    //                    break;
+                    //                }
+                    //        }
+                    //        break;
+                    //    }
+                    //case "Virtual":
+                    //    {
+                    //        switch (entity.Path.ToLower())
+                    //        {
+                    //            //TODO: redo this group by logic 
+                    //            case "tracks by genre":
+                    //                {
+                    //                    entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track, "Genre", entity.Title);
+                    //                    break;
+                    //                }
+                    //            case "albums by year":
+                    //                {
+                    //                    entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "Year", entity.Title);
+                    //                    break;
+                    //                }
+                    //            case "albums":
+                    //                {
+                    //                    entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "", entity.Title);
+                    //                    break;
+                    //                }
+                    //        }
+                    //        break;
+                    //    }
+                    case "Photo":
                         {
                             //TODO: bad programming here, fix it
                             properties["Model"] = entity;

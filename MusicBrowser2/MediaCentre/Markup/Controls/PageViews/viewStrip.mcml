@@ -94,11 +94,11 @@
               <FormLayoutInput Bottom="Parent,0.65" Top="Parent,0" Left="Parent,0" Right="Parent,1"/>
             </LayoutInput>
             <Children>
-              <Graphic Name="ViewBackground" Content="[FolderModel.SelectedItem.Background]" Alpha="1" MaintainAspectRatio="true" Margins="0,0,0,0" Visible="true">
+              <!--<Graphic Name="ViewBackground" Content="[FolderModel.SelectedItem.Background]" Alpha="1" MaintainAspectRatio="true" Margins="0,0,0,0" Visible="true">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
-              </Graphic>
+              </Graphic>-->
               <Panel Margins="0,0,10,10" Name="SummaryPanel">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Left" />
@@ -133,7 +133,7 @@
    </Content>
 
     <Content Name="Thumb">
-      <me:ctrlThumb Entity="[RepeatedItem!entities:Entity]" Application="[Application]" FolderModel="[FolderModel]" />
+      <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" />
     </Content>
 
   </UI>

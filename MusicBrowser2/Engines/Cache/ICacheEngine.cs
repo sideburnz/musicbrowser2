@@ -6,8 +6,8 @@ namespace MusicBrowser.Engines.Cache
     public interface ICacheEngine
     {
         void Delete(string key);
-        Entity Fetch(string key);
-        void Update(Entity entity);
+        baseEntity Fetch(string key);
+        void Update(baseEntity entity);
 
         bool Exists(string key);
 

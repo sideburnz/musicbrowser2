@@ -4,18 +4,19 @@ using Microsoft.MediaCenter.UI;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Util;
+using MusicBrowser.Actions;
 
 namespace MusicBrowser.Models
 {
     public class FolderModel : ModelItem
     {
 
-        readonly Entity _parentEntity;
+        readonly baseEntity _parentEntity;
         private readonly EntityCollection _entities;
         Int32 _selectedIndex;
         private readonly bool _isHome;
 
-        public FolderModel(Entity parentEntity, EntityCollection entities)
+        public FolderModel(baseEntity parentEntity, EntityCollection entities)
         {
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", size: " + entities.Count + ")", "start");  
@@ -23,7 +24,7 @@ namespace MusicBrowser.Models
 
             _parentEntity = parentEntity;
             _entities = entities;
-            _isHome = (parentEntity.Kind == EntityKind.Home);
+            _isHome = (parentEntity.Kind == "Home");
 
             Config.OnSettingUpdate += SettingsChanged;
             CommonTaskQueue.OnStateChanged += BusyStateChanged;
@@ -33,7 +34,7 @@ namespace MusicBrowser.Models
         /// <summary>
         /// This is used to display the information in the page header
         /// </summary>
-        public Entity ParentEntity
+        public baseEntity ParentEntity
         {
             get 
             {
@@ -71,7 +72,7 @@ namespace MusicBrowser.Models
             }
         }
 
-        public Entity SelectedItem
+        public baseEntity SelectedItem
         {
             get
             {
@@ -80,7 +81,8 @@ namespace MusicBrowser.Models
 
                 if (_entities.Count == 0)
                 {
-                    return new Entity() { Kind = EntityKind.Home };
+                    baseActionCommand goBack = new ActionPreviousPage(null);
+                    goBack.Invoke();
                 }
                 return _entities[SelectedIndex];
             }
@@ -125,7 +127,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                string view = Config.GetInstance().GetStringSetting("Entity." + ParentEntity.SimpleKind().ToString() + ".View");
+                string view = ParentEntity.View;
                 if (String.Compare(view, "thumb", true) == 0 && !Config.GetInstance().GetBooleanSetting("Views.Thumbs.IsHorizontal"))
                 {
                     return "ThumbsDown";

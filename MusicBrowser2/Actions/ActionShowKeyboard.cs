@@ -13,7 +13,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Settings";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/Keyboard";
 
-        public ActionShowKeyboard(Entity entity)
+        public ActionShowKeyboard(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -26,7 +26,7 @@ namespace MusicBrowser.Actions
             IconPath = ICON_PATH;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionShowKeyboard(entity);
         }
@@ -35,7 +35,7 @@ namespace MusicBrowser.Actions
 
         public int MaxLength { get; set; }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             AddInHost.Current.MediaCenterEnvironment.ShowOnscreenKeyboard(editableText, false, MaxLength);
         }

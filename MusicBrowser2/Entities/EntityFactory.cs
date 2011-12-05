@@ -5,7 +5,6 @@ using System.Linq;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
-using MusicBrowser.Providers.Metadata;
 using MusicBrowser.Util;
 using System.Text.RegularExpressions;
 
@@ -16,74 +15,38 @@ namespace MusicBrowser.Entities
         private static ICacheEngine _cacheEngine = CacheEngineFactory.GetEngine();
         private static InMemoryCache _MemCache = InMemoryCache.GetInstance();
 
-        // this resets the entity back to a near-clean slate
-        public static void Refactor(Entity entity)
+        private enum EntityKind
         {
-            entity.BackgroundPaths = new List<string>();
-            entity.IconPath = String.Empty;
+            Album = 101,
+            Artist = 102,
+            Folder = 103,
+            Playlist = 105,
+            Track = 106,
+            Genre = 107,
 
-            entity.AlbumArtist = String.Empty;
-            entity.AlbumName = String.Empty;
-            entity.ArtistName = String.Empty;
-            entity.Channels = String.Empty;
-            entity.Codec = String.Empty;
-            entity.DiscId = String.Empty;
-            entity.DiscNumber = 0;
-            entity.Duration = 0;
-            entity.Favorite = false;
-            entity.Genre = String.Empty;
-            entity.Label = String.Empty;
-            entity.Listeners = 0;
-            entity.Lyrics = String.Empty;
-            entity.MusicBrainzID = String.Empty;
-            entity.Performers = new List<string>();
-            entity.PlayCount = 0;
-            entity.ProviderTimeStamps = new Dictionary<string, DateTime>();
-            entity.Rating = 0;
-            entity.ReleaseDate = DateTime.MinValue;
-            entity.Resolution = String.Empty;
-            entity.SampleRate = String.Empty;
-            entity.Summary = String.Empty;
-            entity.TotalPlays = 0;
-            entity.TrackCount = 0;
-            entity.TrackName = String.Empty;
-            entity.TrackNumber = 0;
+            Video = 201,
+            Episode = 202,
+            Movie = 203,
+            Season = 204,
+            Show = 205,
 
-            //force it to refresh
-            string path = entity.Path;
-            entity.Path = String.Empty;
-            entity.Path = path;
-
-            EntityKind? kind = DetermineKind(FileSystemProvider.GetItemDetails(path));
-            entity.Kind = kind.GetValueOrDefault();
-#if DEBUG
-            Engines.Logging.LoggerEngineFactory.Verbose("Determined " + path + " to be a " + kind.ToString(), "start");
-#endif
-
-            switch (entity.Kind)
-            {
-                case EntityKind.Album: { entity.AlbumCount = 1; break; }
-                case EntityKind.Artist: { entity.ArtistCount = 1; break; }
-                case EntityKind.Track: { entity.TrackCount = 1; break; }
-            }
-
-            // do this here because some of the providers need basic data about the tracks
-            TagSharpMetadataProvider.FetchLite(entity);
+            Photo = 301,
+            PhotoAlbum = 302
         }
 
-        public static Entity GetItem(string item)
+        public static baseEntity GetItem(string item)
         {
             return GetItem(FileSystemProvider.GetItemDetails(item));
         }
 
-        public static Entity GetItem(FileSystemItem item)
+        public static baseEntity GetItem(FileSystemItem item)
         {
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
 #endif
 
             string key = Util.Helper.GetCacheKey(item.FullPath);
-            Entity entity;
+            baseEntity entity;
 
             #region InMemoryCache
             // get from the Mem cache if it's cached there, this is the fastest cache
@@ -97,7 +60,7 @@ namespace MusicBrowser.Entities
             #region persistent cache
             // get the value from persistent cache
             entity = _cacheEngine.Fetch(key);
-            if (entity != null && entity.CacheDate > item.LastUpdated)
+            if (entity != null && entity.CreateDate > item.LastUpdated)
             {
                 _MemCache.Update(entity);
                 return entity;
@@ -118,25 +81,16 @@ namespace MusicBrowser.Entities
             EntityKind? kind = DetermineKind(item);
             if (kind == null) { return null; }
 
-            entity = new Entity()
-            {
-                Kind = kind.GetValueOrDefault(),
-                Title = item.Name,
-                Path = item.FullPath,
-                Added = item.Created,
-                CacheDate = DateTime.Now
-            };
+            //switch (kind)
+            //{
+            //    case EntityKind.Album:
+            //        entity = Factorize<Album>(item); break;
 
-            // these are needed for aggregation calculations
-            switch (kind)
-            {
-                case EntityKind.Album: { entity.AlbumCount = 1; break; }
-                case EntityKind.Artist: { entity.ArtistCount = 1; break; }
-                case EntityKind.Track: { entity.TrackCount = 1; break; }
-            }
-
-            // do this here because some of the providers need basic data about the tracks
-            TagSharpMetadataProvider.FetchLite(entity);
+            //    case EntityKind.Track:
+            //        entity = Factorize<Track>(item);
+            //        TagSharpMetadataProvider.FetchLite(entity);
+            //        break;
+            //}
 
             _cacheEngine.Update(entity);
             _MemCache.Update(entity);
@@ -144,6 +98,16 @@ namespace MusicBrowser.Entities
             Engines.Logging.LoggerEngineFactory.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName + " - first principles", "finish");
 #endif
             return entity;
+        }
+
+        // use some magic to create the entity and set some initial values
+        private static T Factorize<T>(FileSystemItem item) where T : baseEntity, new()
+        {
+            T e = new T();
+            e.Title = item.Name;
+            e.Path = item.FullPath;
+            e.CreateDate = item.Created;
+            return e;
         }
 
         private static IEnumerable<string> nonphotoimages = new string[] { 
@@ -177,6 +141,7 @@ namespace MusicBrowser.Entities
                         if (entity.Name.ToLower() == "metadata") { return null; }
 
                         IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
+                        bool hasImages = false;
                         foreach (FileSystemItem item in items)
                         {
                             switch (item.Name.ToLower())
@@ -203,13 +168,14 @@ namespace MusicBrowser.Entities
                                 case EntityKind.Artist:
                                     return EntityKind.Genre;
                                 case EntityKind.Photo:
-                                    return EntityKind.PhotoAlbum;
+                                    hasImages = true; break;
                                 case EntityKind.Episode:
-                                    return EntityKind.Series;
-                                case EntityKind.Series:
+                                    return EntityKind.Season;
+                                case EntityKind.Season:
                                     return EntityKind.Show;
                             }
                         }
+                        if (hasImages) { return EntityKind.PhotoAlbum; }
                         return EntityKind.Folder;
                     }
                 case Helper.knownType.Track:

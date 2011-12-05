@@ -13,7 +13,7 @@ namespace MusicBrowser.Actions
         private const string LABEL = "Actions";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconAction";
 
-        public ActionShowActions(Entity entity)
+        public ActionShowActions(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -28,14 +28,14 @@ namespace MusicBrowser.Actions
             KeepMenuShowingAfterExecution = true;
         }
 
-        public override baseActionCommand NewInstance(Entity entity)
+        public override baseActionCommand NewInstance(baseEntity entity)
         {
             return new ActionShowActions(entity);
         }
 
         public string Source { get; set; }
 
-        public override void DoAction(Entity entity)
+        public override void DoAction(baseEntity entity)
         {
             Providers.Statistics.Hit("ActionTrigger." + Source);
             ActionsModel.GetInstance.Context = entity;
