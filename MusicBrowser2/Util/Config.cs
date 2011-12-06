@@ -27,9 +27,6 @@ namespace MusicBrowser.Util
                 { "Internet.UseProviders", true.ToString() } ,
                 { "Internet.LastFMUserName", String.Empty },
 
-                { "Experimental.VideoSupport", false.ToString() },
-                { "Experimental.PhotoSupport", false.ToString() },
-
                 { "Collections.Folder",  Path.Combine(Helper.AppFolder, "Collections") },
 
                 { "Cache.Path", Helper.CachePath },
@@ -37,75 +34,6 @@ namespace MusicBrowser.Util
                 { "Cache.Engine", "SQLite" },
                                         
                 { "Entity.Home.View", "Thumb" },
-                { "Entity.Home.Format", "MusicBrowser 2" },
-                { "Entity.Home.SortOrder", "[title]" },
-                { "Entity.Home.Summary", "" },
-
-                { "Entity.Artist.View", "List" },
-                { "Entity.Artist.Format", "[title]" },
-                { "Entity.Artist.SortOrder", "[title]" },
-                { "Entity.Artist.Summary", "[playcount]  [listeners]  [allplays]" },
-
-                { "Entity.Album.View", "List" },
-                { "Entity.Album.Format", "([release]) [title]" },
-                { "Entity.Album.SortOrder", "[release][title]" },
-                { "Entity.Album.Summary", "[playcount]  [listeners]  [allplays]" },
-
-                { "Entity.Genre.View", "List" },
-                { "Entity.Genre.Format", "[title]" },
-                { "Entity.Genre.SortOrder", "[title]" },
-                { "Entity.Genre.SearchSummary", "[kind] [title]" },
-                { "Entity.Genre.Summary", "" },
-
-                { "Entity.Track.View", "List" },
-                { "Entity.Track.Format", "[track] - [title]" },
-                { "Entity.Track.SortOrder", "[track][title]" },
-                { "Entity.Track.Summary", "[playcount]  [listeners]  [allplays]" },
-
-                { "Entity.Playlist.View", "" },
-                { "Entity.Playlist.Format", "[title]" },
-                { "Entity.Playlist.SortOrder", "" },
-                { "Entity.Playlist.Summary", "" },
-
-                { "Entity.Playlist.View", "" },
-                { "Entity.Playlist.Format", "[title]" },
-                { "Entity.Playlist.SortOrder", "" },
-                { "Entity.Playlist.Summary", "" },
-
-                { "Entity.Collection.View", "List" },
-                { "Entity.Collection.Format", "[title]" },
-                { "Entity.Collection.SortOrder", "[title]" },
-                { "Entity.Collection.Summary", "" },
-
-                { "Entity.Video.View", "List" },
-                { "Entity.Video.Format", "[title]" },
-                { "Entity.Video.SortOrder", "[title]" },
-                { "Entity.Video.Summary", "" },
-
-                { "Entity.Photo.View", "List" },
-                { "Entity.Photo.Format", "[title]" },
-                { "Entity.Photo.SortOrder", "[title]" },
-                { "Entity.Photo.Summary", "" },
-
-                { "Entity.PhotoAlbum.View", "List" },
-                { "Entity.PhotoAlbum.Format", "[title]" },
-                { "Entity.PhotoAlbum.SortOrder", "[title]" },
-                { "Entity.PhotoAlbum.Summary", "" },
-
-                { "Entity.Group.View", "List" },
-                { "Entity.Group.Format", "[title]" },
-                { "Entity.Group.SortOrder", "[title]" },
-                { "Entity.Group.Summary", "" },
-
-                { "Entity.Virtual.View", "List" },
-                { "Entity.Virtual.Format", "[title]" },
-                { "Entity.Virtual.SortOrder", "[title]" },
-                { "Entity.Virtual.Summary", "" },
-
-                { "Entity.Episode.View", "List" },
-                { "Entity.Episode.Format", "[episode] - [title]" },
-                { "Entity.Episode.SortOrder", "[episode]" },
-                { "Entity.Episode.Summary", "[season] [episode]" },
                                         
                 { "Telemetry.Participate", false.ToString() },
                 { "Telemetry.ID", Guid.NewGuid().ToString() },

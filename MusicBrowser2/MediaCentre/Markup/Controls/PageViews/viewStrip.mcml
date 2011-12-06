@@ -44,8 +44,8 @@
       <Changed Source="[CmdRefresh.Invoked]">
         <Actions>
           <Set Target="[Title.Content]" Value="[FolderModel.SelectedItem.Title]" />
-          <Set Target="[ViewBackground.Content]" Value="[FolderModel.SelectedItem.Background]" />
-          <Set Target="[Summary.Summary]" Value="[FolderModel.SelectedItem.Summary]" />
+          <!--<Set Target="[ViewBackground.Content]" Value="[FolderModel.SelectedItem.Background]" />-->
+          <!--<Set Target="[Summary.Summary]" Value="[FolderModel.SelectedItem.Summary]" />-->
         </Actions>
       </Changed>
 
@@ -58,24 +58,24 @@
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
       <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
-      <Binding Target="[Summary.Summary]" Source="[FolderModel.SelectedItem.Summary]" />
-      <Binding Target="[Summary.Visible]" Source="[FolderModel.ShowSummary]" />
+      <!--<Binding Target="[Summary.Summary]" Source="[FolderModel.SelectedItem.Summary]" />-->
+      <!--<Binding Target="[Summary.Visible]" Source="[FolderModel.ShowSummary]" />-->
 
-      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
+      <Changed Source="[FolderModel.ParentEntity.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="Strip" />
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="Strip" />
         </Conditions>
         <Actions>
           <Set Target="[div_Strip.Visible]" Value="true"/>
         </Actions>
       </Changed>
-      <Changed Source="[FolderModel.View]">
+      <Changed Source="[FolderModel.ParentEntity.View]">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="Strip" />
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="NotEquals" Value="Strip" />
         </Conditions>
         <Actions>
           <Set Target="[div_Strip.Visible]" Value="false" />
-          <Set Target="[Summary.Visible]" Value="[FolderModel.ShowSummary]" />
+          <!--<Set Target="[Summary.Visible]" Value="[FolderModel.ShowSummary]" />-->
         </Actions>
       </Changed>
 

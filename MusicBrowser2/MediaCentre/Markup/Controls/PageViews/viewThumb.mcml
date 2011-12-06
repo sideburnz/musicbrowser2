@@ -34,17 +34,17 @@
       <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
       <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
 
-      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
+      <Changed Source="[FolderModel.ParentEntity.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="Equals" Value="Thumb" />
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="Thumb" />
         </Conditions>
         <Actions>
           <Set Target="[div_ListThumb.Visible]" Value="true" />
         </Actions>
       </Changed>
-      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
+      <Changed Source="[FolderModel.ParentEntity.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="Thumb" />
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="NotEquals" Value="Thumb" />
         </Conditions>
         <Actions>
           <Set Target="[div_ListThumb.Visible]" Value="false" />

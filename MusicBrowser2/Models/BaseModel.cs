@@ -26,7 +26,6 @@ namespace MusicBrowser.Models
         #region IModelItemOwner Members
 
         readonly List<ModelItem> _items = new List<ModelItem>();
-        public IEnumerable<string> InheritanceTree;
 
         public void RegisterObject(ModelItem modelItem)
         {

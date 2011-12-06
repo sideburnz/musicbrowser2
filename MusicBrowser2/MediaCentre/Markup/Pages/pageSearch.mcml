@@ -50,21 +50,21 @@
         <Actions>
           <Invoke Target="[CmdSetScopeToArtists.Invoke]" />
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
-          <Invoke Target="[SearchBox.NavigateInto]" />
+          <!--<Invoke Target="[SearchBox.NavigateInto]" />-->
           <Invoke Target="[SearchResultData.Home]" />
         </Actions>
       </Rule>
 
-      <Condition Source="[Model.HasContext]" SourceValue="true">
+      <!--<Condition Source="[Model.HasContext]" SourceValue="true">
         <Actions>
           <Set Target="[btnCurrentFolder.Visible]" Value="true"/>
           <Set Target="[btnCurrentFolder.Text]" Value="[Model.ContextName]" />
           <Set Target="[txtDetail.Content]" Value="[Model.ContextName]" />
           <Invoke Target="[CmdSetScopeToContext.Invoke]"/>
         </Actions>
-      </Condition>
+      </Condition>-->
 
-      <Changed Source="[CmdSetScopeToContext.Invoked]">
+      <!--<Changed Source="[CmdSetScopeToContext.Invoked]">
         <Actions>
           <Invoke Target="[Model.SetSetSearchScope]" scope="Folder" />
           <Set Target="[txtDetail.Visible]" Value="true" />
@@ -74,9 +74,9 @@
           <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
         </Actions>
-      </Changed>
+      </Changed>-->
 
-      <Changed Source="[CmdSetScopeToAlbums.Invoked]">
+      <!--<Changed Source="[CmdSetScopeToAlbums.Invoked]">
         <Actions>
           <Invoke Target="[Model.SetSetSearchScope]" scope="Albums" />
           <Set Target="[txtDetail.Visible]" Value="false" />
@@ -86,9 +86,9 @@
           <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
         </Actions>
-      </Changed>
+      </Changed>-->
 
-      <Changed Source="[CmdSetScopeToArtists.Invoked]">
+      <!--<Changed Source="[CmdSetScopeToArtists.Invoked]">
         <Actions>
           <Invoke Target="[Model.SetSetSearchScope]" scope="Artists" />
           <Set Target="[txtDetail.Visible]" Value="false" />
@@ -98,9 +98,9 @@
           <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
           <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
         </Actions>
-      </Changed>
+      </Changed>-->
 
-      <Changed Source="[CmdSetScopeToTracks.Invoked]">
+      <!--<Changed Source="[CmdSetScopeToTracks.Invoked]">
         <Actions>
           <Invoke Target="[Model.SetSetSearchScope]" scope="Tracks" />
           <Set Target="[txtDetail.Visible]" Value="false" />
@@ -110,29 +110,29 @@
           <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
           <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
         </Actions>
-      </Changed>
+      </Changed>-->
 
-      <Binding Target="[txtScope.Content]" Source="[Model.Scope]" />
+      <!--<Binding Target="[txtScope.Content]" Source="[Model.Scope]" />
 
-      <Binding Target="[SearchResultRepeater.Source]" Source="[Model.ResultSet]" />
+      <Binding Target="[SearchResultRepeater.Source]" Source="[Model.ResultSet]" />-->
       <Default Target="[ScrollHander.ScrollingData]" Value="[SearchResultData]"/>
       <Default Target="[SearchResultData.Repeater]" Value="[SearchResultRepeater]"/>
 
-      <Binding Source="[Model.KeyboardHandler]" Target="[typingHandler.EditableText]" />
+      <!--<Binding Source="[Model.KeyboardHandler]" Target="[typingHandler.EditableText]" />-->
 
-      <Changed Source="[typingHandler.EditableText.Value]">
+      <!--<Changed Source="[typingHandler.EditableText.Value]">
         <Actions>
           <Invoke Target="[SearchBox.NavigateInto]" />
         </Actions>
-      </Changed>
+      </Changed>-->
 
-      <Changed Source="[Model.ResultSet]">
+      <!--<Changed Source="[Model.ResultSet]">
         <Actions>
           <Invoke Target="[SearchResultData.ScrollUp]" />
           <Invoke Target="[SearchResultData.Home]" />
           <Invoke Target="[SearchResultData.ScrollUp]" />
         </Actions>
-      </Changed>
+      </Changed>-->
       
       <Changed Source="[SearchResultData.TotalPages]" InitialEvaluate="true">
         <Conditions>
@@ -205,11 +205,11 @@
                 </Layout>
                 <Children>
                   <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" />
-                  <Panel Layout="HorizontalFlow" Margins="0,40,0,0">
+                  <!--<Panel Layout="HorizontalFlow" Margins="0,40,0,0">
                     <Children>
                       <me:searchBox Name="SearchBox" Model="[Model]" />
                     </Children>
-                  </Panel>
+                  </Panel>-->
                   
                   <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
                   
@@ -253,7 +253,7 @@
                             <Children>
                               <Repeater Name="SearchResultRepeater" Layout="VerticalFlow">
                                 <Content>
-                                  <me:buttonSearchResult Entity="[RepeatedItem!entities:Entity]" />
+                                  <me:buttonSearchResult Entity="[RepeatedItem!entities:baseEntity]" />
                                 </Content>
                               </Repeater>
                             </Children>
@@ -287,7 +287,7 @@
     </Locals>
     
     <Rules>
-      <Binding Target="[Clicker.Command]" Source="[KeyboardAction]" />
+      <!--<Binding Target="[Clicker.Command]" Source="[KeyboardAction]" />-->
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
@@ -301,12 +301,12 @@
           <Set Target="[SelectBox.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
       </Condition>
-      <Changed Source="[CmdTypeSpace.Invoked]">
+      <!--<Changed Source="[CmdTypeSpace.Invoked]">
         <Actions>
           <Invoke Target="[Model.TypeSpace]" />
         </Actions>
-      </Changed>
-      <Binding Target="[txtSearchString.Content]" Source="[Model.KeyboardHandler.Value]" />
+      </Changed>-->
+      <!--<Binding Target="[txtSearchString.Content]" Source="[Model.KeyboardHandler.Value]" />-->
     </Rules>
     
     <Content>

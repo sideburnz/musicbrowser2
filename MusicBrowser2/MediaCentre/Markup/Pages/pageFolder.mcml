@@ -70,11 +70,11 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[BackgroundTimer.Tick]">
+      <!--<Changed Source="[BackgroundTimer.Tick]">
         <Actions>
           <Invoke Target="[FolderModel.ParentEntity.GetNextBackground]"/>
         </Actions>
-      </Changed>
+      </Changed>-->
 
       <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
       <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
@@ -100,7 +100,7 @@
         </Actions>
       </Changed>
      
-      <Binding Source="[FolderModel.ParentEntity.Background]" Target="[EntityBackground.Content]"/>
+      <!--<Binding Source="[FolderModel.ParentEntity.Background]" Target="[EntityBackground.Content]"/>-->
       <Binding Source="[FolderModel.Busy]" Target="[imageSpinner.Visible]" />
 
       <Changed Source="[ActionsModel.Visible]">
@@ -237,7 +237,7 @@
               <ColorFill Visible="true" Content="Black" Alpha="0.3"/>
             </Children>
           </Panel>
-          <Graphic Name="EntityBackground" Content="[FolderModel.ParentEntity.Background]" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true">
+          <!--<Graphic Name="EntityBackground" Content="[FolderModel.ParentEntity.Background]" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true">
             <Animations>
               <Animation Type="ContentChangeHide">
                 <Keyframes>
@@ -252,7 +252,7 @@
                 </Keyframes>
               </Animation>
             </Animations>
-          </Graphic>
+          </Graphic>-->
         </Children>
       </ColorFill>
       
