@@ -31,11 +31,9 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            if (Directory.Exists(entity.Path) || InheritsFrom(entity, "MusicBrowser.Entity.Collection"))
+            if (Directory.Exists(entity.Path) || InheritsFrom<Container>(entity))
             {
                 MusicBrowser.Application.GetReference().Navigate(entity);
-                //TODO: assess if this is needed
-                //CommonTaskQueue.Enqueue(new BackgroundCacheProvider(Entity.Path), true);
             }
         }
     }

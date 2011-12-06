@@ -40,7 +40,10 @@ namespace MusicBrowser
 #endif
 
             // Set up a reference to the first screen, if you only have one library enabled, don't show the list of libraries
+
             baseEntity firstScreen = new Home();
+            firstScreen.Path = "home";
+            
             Util.Config config = Util.Config.GetInstance();
             if (host != null && host.ApplicationContext != null)
             {

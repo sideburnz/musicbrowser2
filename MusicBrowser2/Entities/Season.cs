@@ -7,11 +7,7 @@ using System.Runtime.Serialization;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    class Virtual : Container
+    class Season : Folder
     {
-        public override string DefaultThumbPath
-        {
-            get { return "resx://MusicBrowser/MusicBrowser.Resources/MusicBrowser2"; }
-        }
     }
 }

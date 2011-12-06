@@ -30,21 +30,21 @@
       <Binding Source="[Entity.Thumb]" Target="[icon.Content]" />
       <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
 
-      <Changed Source="[FolderModel.View]" InitialEvaluate="true">
+      <Changed Source="[FolderModel.ParentEntity.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.View]" Value="ThumbsDown" />
+          <Equality Source="[FolderModel.ParentEntity.View]" Value="ThumbsDown" />
         </Conditions>
         <Actions>
           <Set Target="[ViewMenu.Text]" Value="Thumb" />
         </Actions>
       </Changed>
 
-      <Changed Source="[FolderModel.View]">
+      <Changed Source="[FolderModel.ParentEntity.View]">
         <Conditions>
-          <Equality Source="[FolderModel.View]" ConditionOp="NotEquals" Value="ThumbsDown" />
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="NotEquals" Value="ThumbsDown" />
         </Conditions>
         <Actions>
-          <Set Target="[ViewMenu.Text]" Value="[FolderModel.View]" />
+          <Set Target="[ViewMenu.Text]" Value="[FolderModel.ParentEntity.View]" />
         </Actions>
       </Changed>
       
@@ -82,8 +82,8 @@
                       <me:buttonIcon Command="[SettingsAction]" Name="SettingsMenu" Text="" Icon="[SettingsAction.Icon]" Margins="0,0,5,0" Visible="false" />
                       <me:buttonIcon Command="[ActionActions]" Name="ActionsMenu" Text="Actions" Icon="[ActionActions.Icon]" Margins="0,0,5,0" />
                       <!--<me:buttonIcon Command="[ShowGroupBy]" Name="GroupMenu" Text="Group By" Icon="[ShowGroupBy.Icon]" Margins="0,0,5,0" Visible="false" />-->
-                      <me:buttonIcon Command="[CycleViewsAction]" Name="ViewMenu" Text="[FolderModel.View]" Icon="[CycleViewsAction.Icon]" Margins="0,0,5,0" />
-                      <me:buttonIcon Command="[CycleSortOrder]" Name="SortMenu" Text="[FolderModel.View]" Icon="[CycleSortOrder.Icon]" Margins="0,0,5,0" Visible="false"/>
+                      <me:buttonIcon Command="[CycleViewsAction]" Name="ViewMenu" Text="[FolderModel.ParentEntity.View]" Icon="[CycleViewsAction.Icon]" Margins="0,0,5,0" />
+                      <me:buttonIcon Command="[CycleSortOrder]" Name="SortMenu" Text="[FolderModel.ParentEntity.View]" Icon="[CycleSortOrder.Icon]" Margins="0,0,5,0" Visible="false"/>
                     </Children>
                   </ColorFill>
 

@@ -189,24 +189,10 @@ namespace MusicBrowser.Util
                     switch (pt)
                     {
                         case "video":
-                            if (Config.GetInstance().GetBooleanSetting("Experimental.VideoSupport"))
-                            {
-                                perceivedTypeCache.Add(extension, knownType.Video);
-                            }
-                            else
-                            {
-                                perceivedTypeCache.Add(extension, knownType.Other);
-                            }
+                            perceivedTypeCache.Add(extension, knownType.Video);
                             break;
                         case "image":
-                            if (Config.GetInstance().GetBooleanSetting("Experimental.PhotoSupport"))
-                            {
-                                perceivedTypeCache.Add(extension, knownType.Image);
-                            }
-                            else
-                            {
-                                perceivedTypeCache.Add(extension, knownType.Other);
-                            }
+                            perceivedTypeCache.Add(extension, knownType.Image);
                             break;
                         case "audio":
                             perceivedTypeCache.Add(extension, knownType.Track);

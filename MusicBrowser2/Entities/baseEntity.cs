@@ -7,6 +7,7 @@ using MusicBrowser.Util;
 using System.Text.RegularExpressions;
 using MusicBrowser.Models;
 using Microsoft.MediaCenter.UI;
+using MusicBrowser.Engines.Cache;
 
 namespace MusicBrowser.Entities
 {
@@ -39,7 +40,7 @@ namespace MusicBrowser.Entities
             }
         }
         [DataMember]
-        public String Title
+        public virtual String Title
         {
             get
             {
@@ -54,7 +55,7 @@ namespace MusicBrowser.Entities
         [DataMember]
         public DateTime CreateDate { get; set; }
         [DataMember]
-        public String View
+        public virtual String View
         {
             get
             {
@@ -74,6 +75,8 @@ namespace MusicBrowser.Entities
             set
             {
                 _view = value;
+                FirePropertyChanged("View");
+                this.UpdateCache();
             }
         }
         #endregion
@@ -94,26 +97,22 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                string setting = String.Format("Entity.{0}.DisplayFormat", Kind);
+                IEnumerable<String> tree = this.Tree();
+                foreach (string leaf in tree)
+                {
+                    string setting = String.Format("Entity.{0}.DisplayFormat", leaf);
 
-                if (Config.GetInstance().Exists(setting))
-                {
-                    return MacroSubstitution(Config.GetInstance().GetStringSetting(setting));
-                }
-                else
-                {
-                    // if was can, call back to the base
-                    if (base.GetType() != typeof(BaseModel))
+                    if (Config.GetInstance().Exists(setting))
                     {
-                        return base.Description;
+                        return MacroSubstitution(Config.GetInstance().GetStringSetting(setting));
                     }
-                    // if we can't, just return a value
-                    return MacroSubstitution("[title]");
                 }
+                // if we can't find anything, just return a fixed result
+                return Title;
             }
         }
 
-        public string CacheKey
+        public virtual string CacheKey
         {
             get
             {
@@ -135,23 +134,16 @@ namespace MusicBrowser.Entities
 
         public int Index { get; set; }
 
-        public IEnumerable<String> InheritanceTree
+        public string Kind
         {
             get
             {
-                List<String> ret = new List<String>();
-                ret.Add(this.GetType().Name);
-                if (base.GetType() != typeof(BaseModel))
-                {
-                    ret.AddRange(base.InheritanceTree);
-                }
-                return ret;
+                return this.GetType().Name;
             }
         }
 
         #region abstract attributes
         public abstract string DefaultThumbPath { get; }
-        public abstract string Kind { get; }
         #endregion
 
         #region private helpers
@@ -165,8 +157,10 @@ namespace MusicBrowser.Entities
                 string token = matches.Value.Substring(1, matches.Value.Length - 2);
                 switch (token)
                 {
-                    case "one":
-                        output = output.Replace("[one]", "one"); break;
+                    case "title":
+                        output = output.Replace("[title]", Title); break;
+                    case "kind":
+                        output = output.Replace("[kind]", Kind); break;
                 }
             }
             return output.Trim();
@@ -193,9 +187,21 @@ namespace MusicBrowser.Entities
         #endregion
     }
 
-    public static class EntityExtenders
+    public static class Extensions
     {
+        // so we can inherit values, we need someway of working out the object
+        // heirarchy, this returns the types back to the baseEntity
+        public static IEnumerable<string> Tree(this baseEntity e)
+        {
+            Type node = e.GetType();
+            List<String> ret = new List<String>();
 
+            while (node != typeof(BaseModel))
+            {
+                ret.Add(node.Name);
+                node = node.BaseType;
+            }
+            return ret;
+        }
     }
-
 }

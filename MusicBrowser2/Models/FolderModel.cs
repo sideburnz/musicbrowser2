@@ -123,34 +123,5 @@ namespace MusicBrowser.Models
             }
         }
 
-        public string View 
-        {
-            get
-            {
-                string view = ParentEntity.View;
-                if (String.Compare(view, "thumb", true) == 0 && !Config.GetInstance().GetBooleanSetting("Views.Thumbs.IsHorizontal"))
-                {
-                    return "ThumbsDown";
-                }
-                return view;
-            }
-        }
-
-        public bool ShowSummary
-        {
-            get
-            {
-                switch (View.ToLower())
-                {
-                    case "list":
-                        return Config.GetInstance().GetBooleanSetting("Views.List.ShowSummary");
-                    case "strip":
-                        return Config.GetInstance().GetBooleanSetting("Views.Strip.ShowSummary");
-                }
-                return true;
-            }
-        }
-
-
     }
 }

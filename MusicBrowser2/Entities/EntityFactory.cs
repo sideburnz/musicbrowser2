@@ -81,21 +81,43 @@ namespace MusicBrowser.Entities
             EntityKind? kind = DetermineKind(item);
             if (kind == null) { return null; }
 
-            //switch (kind)
-            //{
-            //    case EntityKind.Album:
-            //        entity = Factorize<Album>(item); break;
+            switch (kind)
+            {
+                case EntityKind.Album:
+                    entity = Factorize<Album>(item); break;
+                case EntityKind.Artist:
+                    entity = Factorize<Artist>(item); break;
+                case EntityKind.Folder:
+                    entity = Factorize<Folder>(item); break;
+                case EntityKind.Genre:
+                    entity = Factorize<Genre>(item); break;
+                case EntityKind.PhotoAlbum:
+                    entity = Factorize<Gallery>(item); break;
+                case EntityKind.Season:
+                    entity = Factorize<Season>(item); break;
+                case EntityKind.Show:
+                    entity = Factorize<Show>(item); break;
 
-            //    case EntityKind.Track:
-            //        entity = Factorize<Track>(item);
-            //        TagSharpMetadataProvider.FetchLite(entity);
-            //        break;
-            //}
+                case EntityKind.Playlist:
+                    entity = Factorize<Playlist>(item); break;
+                case EntityKind.Track:
+                    entity = Factorize<Track>(item);
+                    //TagSharpMetadataProvider.FetchLite(entity);
+                    break;
 
-            _cacheEngine.Update(entity);
+                case EntityKind.Episode:
+                    entity = Factorize<Episode>(item); break;
+                case EntityKind.Movie:
+                    entity = Factorize<Movie>(item); break;
+
+                case EntityKind.Photo:
+                    entity = Factorize<Photo>(item); break;
+            }
+
+            entity.UpdateCache();
             _MemCache.Update(entity);
 #if DEBUG
-            Engines.Logging.LoggerEngineFactory.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.KindName + " - first principles", "finish");
+            Engines.Logging.LoggerEngineFactory.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.Kind + " - first principles", "finish");
 #endif
             return entity;
         }

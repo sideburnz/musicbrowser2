@@ -77,7 +77,7 @@ namespace MusicBrowser
 
         public void Navigate(baseEntity entity)
         {
-            LoggerEngineFactory.Info("Navigating to " + entity.Description);
+            LoggerEngineFactory.Info(String.Format("Navigating to {0} [{1}]", entity.Title, entity.Kind));
             try
             {
                 Dictionary<string, object> properties = new Dictionary<string, object>();

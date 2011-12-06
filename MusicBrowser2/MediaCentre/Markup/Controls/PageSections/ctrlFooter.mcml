@@ -16,6 +16,8 @@
       <Changed Source="[CmdRefresh.Invoked]" InitialEvaluate="true">
         <Actions>
           <Set Target="[Desc.Content]" Value="[Entity.Title]" />
+
+          <Set Target="[Summary1.Content]" Value="[Entity.Kind]" />
           <!--<Set Target="[Summary1.Content]" Value="[Entity.ShortSummaryLine1]" />
           <Set Target="[Summary2.Content]" Value="[Entity.ShortSummaryLine2]" />
           <Set Target="[Favorite.Visible]" Value="[Entity.Favorite]" />-->

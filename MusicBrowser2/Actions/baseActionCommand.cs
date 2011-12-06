@@ -55,7 +55,7 @@ namespace MusicBrowser.Actions
                 title = Entity.Title;
             }
 
-            LoggerEngineFactory.Debug(String.Format("Action: {0}, Entity: {1}", Label, title));
+            LoggerEngineFactory.Debug(String.Format("Action: {0}, Entity: {1} [{2}]", Label, title, Entity.Kind));
 
             Statistics.Hit("Action." + Label);
 
@@ -109,9 +109,9 @@ namespace MusicBrowser.Actions
 
         public abstract baseActionCommand NewInstance(baseEntity entity);
 
-        protected static bool InheritsFrom(baseEntity e, string type)
+        protected static bool InheritsFrom<T>(baseEntity e)
         {
-            return e.GetType().IsAssignableFrom(Type.GetType(type));
+            return typeof(T).IsAssignableFrom(e.GetType());
         }
     }
 }

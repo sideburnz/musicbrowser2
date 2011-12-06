@@ -51,7 +51,7 @@ namespace MusicBrowser.Actions
 
         public static baseActionCommand GetEnterAction(baseEntity entity)
         {
-            IEnumerable<string> tree = entity.InheritanceTree;
+            IEnumerable<string> tree = entity.Tree();
             foreach (string leaf in tree)
             {
                 if (_actionConfig.ContainsKey(leaf))
@@ -59,12 +59,12 @@ namespace MusicBrowser.Actions
                     return _actionConfig[leaf].OnEnter.NewInstance(entity);
                 }
             }
-            return new ActionNoOperation(entity);
+            return new ActionOpen(entity);
         }
 
         public static baseActionCommand GetPlayAction(baseEntity entity)
         {
-            IEnumerable<string> tree = entity.InheritanceTree;
+            IEnumerable<string> tree = entity.Tree();
             foreach (string leaf in tree)
             {
                 if (_actionConfig.ContainsKey(leaf))
@@ -72,12 +72,12 @@ namespace MusicBrowser.Actions
                     return _actionConfig[leaf].OnPlay.NewInstance(entity);
                 }
             }
-            return new ActionNoOperation(entity);
+            return new ActionPlay(entity);
         }
 
         public static baseActionCommand GetRecordAction(baseEntity entity)
         {
-            IEnumerable<string> tree = entity.InheritanceTree;
+            IEnumerable<string> tree = entity.Tree();
             foreach (string leaf in tree)
             {
                 if (_actionConfig.ContainsKey(leaf))
@@ -85,12 +85,12 @@ namespace MusicBrowser.Actions
                     return _actionConfig[leaf].OnRecord.NewInstance(entity);
                 }
             }
-            return new ActionNoOperation(entity);
+            return new ActionRefreshMetadata(entity);
         }
 
         public static IList<baseActionCommand> GetActionList(baseEntity entity)
         {
-            IEnumerable<string> tree = entity.InheritanceTree;
+            IEnumerable<string> tree = entity.Tree();
             foreach (string leaf in tree)
             {
                 if (_actionConfig.ContainsKey(leaf))
