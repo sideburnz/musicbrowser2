@@ -1,4 +1,5 @@
 ﻿using MusicBrowser.Entities;
+using MusicBrowser.Engines.Cache;
 
 namespace MusicBrowser.Actions
 {
@@ -36,6 +37,7 @@ namespace MusicBrowser.Actions
                 default: view = "List"; break;
             }
             entity.View = view;
+            entity.UpdateCache();
         }
     }
 }

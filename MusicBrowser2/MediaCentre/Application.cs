@@ -95,6 +95,9 @@ namespace MusicBrowser
                             //}
                             break;
                         }
+                    case "MusicCollection":
+                    case "VideoCollection":
+                    case "PhotoCollection":
                     case "Collection":
                         {
                             IFolderItemsProvider fip = new CollectionProvider();

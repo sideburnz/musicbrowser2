@@ -104,6 +104,23 @@ namespace MusicBrowser.Providers.FolderItems
             return null;
         }
 
+        public static string GetTargetType(string uri)
+        {
+            if (Path.GetExtension(uri) != ".vf")
+            {
+                uri += ".vf";
+            }
+            foreach (string line in GetFileContents(uri))
+            {
+                if (line.Length < 9) { continue; }
+                if (line.StartsWith("optimizefor:"))
+                {
+                    return line.Substring(12).Trim();
+                }
+            }
+            return null;
+        }
+
         public static string GetSortOrder(string uri)
         {
             if (Path.GetExtension(uri) != ".vf")

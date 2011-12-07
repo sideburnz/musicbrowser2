@@ -21,11 +21,23 @@ namespace MusicBrowser.Providers.FolderItems
                 {
                     if (Path.GetExtension(item.Name).ToLower() == ".vf")
                     {
-                        baseEntity e = new Collection();
+                        baseEntity e;
+                        switch (VirtualFolderProvider.GetTargetType(item.FullPath))
+                        {
+                            case "music":
+                                e = new MusicCollection(); break;
+                            case "video":
+                                e = new VideoCollection(); break;
+                            case "photo":
+                                e = new PhotoCollection(); break;
+                            default: // generic collection
+                                e = new Collection(); break;
+
+                        }
+
                         e.Path = item.FullPath;
+                        e.ThumbPath = VirtualFolderProvider.GetImage(item.FullPath);
                         e.Title = Path.GetFileNameWithoutExtension(item.FullPath);
-                        //e.SortName = VirtualFolderProvider.GetSortOrder(item.FullPath);
-                        //e.IconPath = VirtualFolderProvider.GetImage(item.FullPath);
                         ret.Add(e);
                     }
                 }

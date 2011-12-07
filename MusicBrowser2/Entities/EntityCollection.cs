@@ -41,7 +41,8 @@ namespace MusicBrowser.Entities
 
         public new void Sort()
         {
-            //foreach (baseEntity e in this) { e.CacheSortName(); }
+            //TODO: implement bespoke ordering here
+            foreach (baseEntity e in this) { e.SortName = e.Title; }
             base.Sort(new EntityCollectionSorter());
             for (int i = 0; i < Count; this[i].Index = i++) ;
         }
@@ -158,14 +159,7 @@ namespace MusicBrowser.Entities
     {
         public int Compare(baseEntity x, baseEntity y)
         {
-            bool xIsItem = x.GetType().IsSubclassOf(typeof(Item));
-            bool yIsItem = y.GetType().IsSubclassOf(typeof(Item));
-
-            //folders (artists and albums) have a higher priority than playlists and tracks
-            if (!xIsItem && yIsItem) { return -1; }
-            if (xIsItem && !yIsItem) { return 1; }
-
-            return string.Compare(x.Title, y.Title, true);
+            return string.Compare(x.SortName, y.SortName, true);
         }
     }
 
