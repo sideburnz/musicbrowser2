@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using MusicBrowser.Models;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.Providers;
+using System.Drawing;
 
 namespace MusicBrowser.Entities
 {
@@ -17,6 +19,7 @@ namespace MusicBrowser.Entities
         #region variables
         private string _thumbPath;
         private string _title;
+        private string _sortName;
         #endregion
 
         #region cached attributes
@@ -53,7 +56,9 @@ namespace MusicBrowser.Entities
             }
         }
         [DataMember]
-        public DateTime CreateDate { get; set; }
+        public DateTime TimeStamp { get; set; }
+        [DataMember]
+        public DateTime LastUpdated { get; set; }
         [DataMember]
         public virtual String View
         {
@@ -76,7 +81,6 @@ namespace MusicBrowser.Entities
             {
                 _view = value;
                 FirePropertyChanged("View");
-                this.UpdateCache();
             }
         }
         #endregion
@@ -85,13 +89,6 @@ namespace MusicBrowser.Entities
         [DataMember]
         private String _view = String.Empty;
         #endregion
-
-        /********************
-         * values needed for displaying
-         *  - SummaryLine
-         *  - Summary
-         *  - SummaryLine2
-         */
 
         public new string Description
         {
@@ -124,7 +121,7 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public Image Thumb
+        public Microsoft.MediaCenter.UI.Image Thumb
         {
             get
             {
@@ -134,11 +131,40 @@ namespace MusicBrowser.Entities
 
         public int Index { get; set; }
 
+        public string SortName
+        {
+            get
+            {
+                return _sortName;
+            }
+            set
+            {
+                _sortName = HandleSortIgnoreWords(value);
+            }
+        }
+
         public string Kind
         {
             get
             {
                 return this.GetType().Name;
+            }
+        }
+
+        public Microsoft.MediaCenter.UI.Color Color
+        {
+            get
+            {
+                if (System.IO.File.Exists(ThumbPath))
+                {
+                    Bitmap image = new Bitmap(ThumbPath);
+                    System.Drawing.Color baseColor = ImageProvider.CalculateAverageColor(image);
+                    if (baseColor != null)
+                    {
+                        return new Microsoft.MediaCenter.UI.Color(baseColor.R, baseColor.G, baseColor.B);
+                    }
+                }
+                return new Microsoft.MediaCenter.UI.Color(128, 128, 128);
             }
         }
 
@@ -168,21 +194,31 @@ namespace MusicBrowser.Entities
         #endregion
 
         #region protected helpers
-        protected static Image GetImage(string path)
+        protected static Microsoft.MediaCenter.UI.Image GetImage(string path)
         {
             if (path.StartsWith("resx://"))
             {
-                return new Image(path);
+                return new Microsoft.MediaCenter.UI.Image(path);
             }
             if (path.StartsWith("http://"))
             {
-                return new Image(path);
+                return new Microsoft.MediaCenter.UI.Image(path);
             }
             if (System.IO.File.Exists(path))
             {
-                return new Image("file://" + path);
+                return new Microsoft.MediaCenter.UI.Image("file://" + path);
             }
-            return new Image("resx://MusicBrowser/MusicBrowser.Resources/nullImage");
+            return new Microsoft.MediaCenter.UI.Image("resx://MusicBrowser/MusicBrowser.Resources/nullImage");
+        }
+
+        private static IEnumerable<string> _sortIgnore = Util.Config.GetInstance().GetListSetting("SortReplaceWords");
+        protected static string HandleSortIgnoreWords(string value)
+        {
+            foreach (string item in _sortIgnore)
+            {
+                if (value.ToLower().StartsWith(item + " ")) { return value.Substring(item.Length + 1); }
+            }
+            return value;
         }
         #endregion
     }

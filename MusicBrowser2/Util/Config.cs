@@ -232,18 +232,5 @@ namespace MusicBrowser.Util
             // reset the cache too
             _settingCache.Clear();
         }
-
-        // this pushes the intelligence involved with some settings to the config manager
-        static IEnumerable<string> _sortIgnore;
-        public static string HandleIgnoreWords(string value)
-        {
-            if (_sortIgnore == null) { _sortIgnore = _instance.GetListSetting("SortReplaceWords"); }
-
-            foreach (string item in _sortIgnore)
-            {
-                if (value.ToLower().StartsWith(item + " ")) { return value.Substring(item.Length + 1); }
-            }
-            return value;
-        }
     }
 }

@@ -57,6 +57,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <UseVSHostingProcess>true</UseVSHostingProcess>
@@ -174,6 +175,9 @@
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />
     <Compile Include="Entities\Album.cs" />
+    <Compile Include="Entities\PhotoCollection.cs" />
+    <Compile Include="Entities\VideoCollection.cs" />
+    <Compile Include="Entities\MusicCollection.cs" />
     <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\Episode.cs" />

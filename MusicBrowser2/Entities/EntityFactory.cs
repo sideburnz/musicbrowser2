@@ -60,7 +60,7 @@ namespace MusicBrowser.Entities
             #region persistent cache
             // get the value from persistent cache
             entity = _cacheEngine.Fetch(key);
-            if (entity != null && entity.CreateDate > item.LastUpdated)
+            if (entity != null && entity.TimeStamp > item.LastUpdated)
             {
                 _MemCache.Update(entity);
                 return entity;
@@ -126,9 +126,11 @@ namespace MusicBrowser.Entities
         private static T Factorize<T>(FileSystemItem item) where T : baseEntity, new()
         {
             T e = new T();
-            e.Title = item.Name;
+            e.Title = Path.GetFileNameWithoutExtension(item.Name);
             e.Path = item.FullPath;
-            e.CreateDate = item.Created;
+            e.LastUpdated = item.LastUpdated;
+            e.TimeStamp = DateTime.Now;
+            e.ThumbPath = ImageProvider.LocateFanArt(item.FullPath, ImageType.Thumb);
             return e;
         }
 
