@@ -24,6 +24,8 @@ namespace MusicBrowser.Util
                 { "Log.Destination", "file" },
                 { "Log.File", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
 
+                { "Entity.View.Home", "Thumb" },
+
                 { "Internet.UseProviders", true.ToString() } ,
                 { "Internet.LastFMUserName", String.Empty },
 
@@ -31,9 +33,6 @@ namespace MusicBrowser.Util
 
                 { "Cache.Path", Helper.CachePath },
                 { "Cache.Enable", true.ToString() },
-                { "Cache.Engine", "SQLite" },
-                                        
-                { "Entity.Home.View", "Thumb" },
                                         
                 { "Telemetry.Participate", false.ToString() },
                 { "Telemetry.ID", Guid.NewGuid().ToString() },

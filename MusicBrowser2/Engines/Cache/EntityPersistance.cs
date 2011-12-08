@@ -24,6 +24,15 @@ namespace MusicBrowser.Engines.Cache
                 case "Show":
                     return JsonSerializer.DeserializeFromString<Show>(data);
 
+                case "Collection":
+                    return JsonSerializer.DeserializeFromString<Collection>(data);
+                case "VideoCollection":
+                    return JsonSerializer.DeserializeFromString<VideoCollection>(data);
+                case "MusicCollection":
+                    return JsonSerializer.DeserializeFromString<MusicCollection>(data);
+                case "PhotoCollection":
+                    return JsonSerializer.DeserializeFromString<PhotoCollection>(data);
+
                 case "Playlist":
                     return JsonSerializer.DeserializeFromString<Playlist>(data);
                 case "Track":

@@ -18,6 +18,7 @@ namespace MusicBrowser.Entities
     {
         #region variables
         private string _thumbPath;
+        private string _bannerPath;
         private string _title;
         private string _sortName;
         #endregion
@@ -40,6 +41,19 @@ namespace MusicBrowser.Entities
             {
                 _thumbPath = value;
                 FirePropertiesChanged("ThumbPath", "Thumb");
+            }
+        }
+        [DataMember]
+        public String BannerPath
+        {
+            get
+            {
+                return _bannerPath;
+            }
+            set
+            {
+                _bannerPath = value;
+                FirePropertiesChanged("BannerPath", "Banner", "BannerExists");
             }
         }
         [DataMember]
@@ -129,6 +143,22 @@ namespace MusicBrowser.Entities
             }
         }
 
+        public Microsoft.MediaCenter.UI.Image Banner
+        {
+            get
+            {
+                return GetImage(BannerPath);
+            }
+        }
+
+        public bool BannerExists
+        {
+            get
+            {
+                return System.IO.File.Exists(BannerPath);
+            }
+        }
+
         public int Index { get; set; }
 
         public string SortName
@@ -153,6 +183,9 @@ namespace MusicBrowser.Entities
 
         public Microsoft.MediaCenter.UI.Color Color
         {
+            /// <summary>
+            /// Provides a MediaCenter compatible "average" color for the image
+            /// </summary>
             get
             {
                 if (System.IO.File.Exists(ThumbPath))
@@ -196,6 +229,10 @@ namespace MusicBrowser.Entities
         #region protected helpers
         protected static Microsoft.MediaCenter.UI.Image GetImage(string path)
         {
+            if (String.IsNullOrEmpty(path))
+            {
+                return new Microsoft.MediaCenter.UI.Image("resx://MusicBrowser/MusicBrowser.Resources/nullImage");
+            }
             if (path.StartsWith("resx://"))
             {
                 return new Microsoft.MediaCenter.UI.Image(path);

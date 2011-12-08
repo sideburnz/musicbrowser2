@@ -4,6 +4,7 @@ using System.IO;
 using MusicBrowser.Engines.Logging;
 using MusicBrowser.Util;
 using MusicBrowser.Entities;
+using MusicBrowser.Engines.Cache;
 
 namespace MusicBrowser.Providers.FolderItems
 {
@@ -21,28 +22,47 @@ namespace MusicBrowser.Providers.FolderItems
                 {
                     if (Path.GetExtension(item.Name).ToLower() == ".vf")
                     {
-                        baseEntity e;
-                        switch (VirtualFolderProvider.GetTargetType(item.FullPath))
+                        baseEntity e = CollectionFactory(item);
+                        if (e != null)
                         {
-                            case "music":
-                                e = new MusicCollection(); break;
-                            case "video":
-                                e = new VideoCollection(); break;
-                            case "photo":
-                                e = new PhotoCollection(); break;
-                            default: // generic collection
-                                e = new Collection(); break;
-
+                            ret.Add(e);
                         }
-
-                        e.Path = item.FullPath;
-                        e.ThumbPath = VirtualFolderProvider.GetImage(item.FullPath);
-                        e.Title = Path.GetFileNameWithoutExtension(item.FullPath);
-                        ret.Add(e);
                     }
                 }
                 return ret;
             }
+        }
+
+        public static baseEntity CollectionFactory(FileSystemItem vf)
+        {
+            baseEntity entity;
+            string key = Helper.GetCacheKey(vf.FullPath);
+
+            #region persistent cache
+            // get the value from persistent cache
+            entity = CacheEngineFactory.GetEngine().Fetch(key);
+            if (entity == null)
+            {
+                string targetType = VirtualFolderProvider.GetTargetType(vf.FullPath);
+                switch (targetType)
+                {
+                    case "music":
+                        entity = new MusicCollection(); break;
+                    case "video":
+                        entity = new VideoCollection(); break;
+                    case "photo":
+                        entity = new PhotoCollection(); break;
+                    default: // generic collection
+                        entity = new Collection(); break;
+                }
+            }
+            #endregion
+
+            entity.Path = vf.FullPath;
+            entity.ThumbPath = VirtualFolderProvider.GetImage(vf.FullPath);
+            entity.Title = Path.GetFileNameWithoutExtension(vf.FullPath);
+
+            return entity;
         }
     }
 }

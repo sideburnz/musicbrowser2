@@ -130,7 +130,11 @@ namespace MusicBrowser.Entities
             e.Path = item.FullPath;
             e.LastUpdated = item.LastUpdated;
             e.TimeStamp = DateTime.Now;
-            e.ThumbPath = ImageProvider.LocateFanArt(item.FullPath, ImageType.Thumb);
+            if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
+            {
+                e.ThumbPath = ImageProvider.LocateFanArt(item.FullPath, ImageType.Thumb);
+                e.BannerPath = ImageProvider.LocateFanArt(item.FullPath, ImageType.Banner);
+            }
             return e;
         }
 

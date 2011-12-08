@@ -13,6 +13,7 @@ namespace MusicBrowser.Providers
     {
         Thumb,
         Backdrop,
+        Banner,
         Other
     }
 
@@ -121,6 +122,7 @@ namespace MusicBrowser.Providers
         public static string LocateFanArt(string path, ImageType type)
         {
             if (type == ImageType.Backdrop) { return internalFanArtSearch(path, "backdrop"); }
+            if (type == ImageType.Banner) { return internalFanArtSearch(path, "banner"); }
             if (type == ImageType.Thumb)
             {
                 string iconPath = internalFanArtSearch(path, "folder");
