@@ -65,12 +65,12 @@
         <Children>
           <ColorFill Content="Transparent" Layout="Dock">
             <Children>
-              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" MaximumSize="96,96" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="25,10,25,10">
+              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="25,10,25,10">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
                 <Children>
-                  <Graphic Content="[Entity.Thumb]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
+                  <Graphic Content="[Entity.Thumb]" Name="icon" MaintainAspectRatio="true" MaximumSize="0,96" />
                 </Children>
               </Graphic>
 

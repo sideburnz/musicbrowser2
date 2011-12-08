@@ -45,6 +45,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -323,7 +324,9 @@
     <Content Include="MediaCentre\Markup\Controls\Controls\ctrlTextBox.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MediaCentre\Markup\Controls\Controls\ctrlThumb.mcml" />
+    <Content Include="MediaCentre\Markup\Controls\Controls\ctrlThumb.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MediaCentre\Markup\Controls\PageViews\viewThumbsDown.mcml">
       <SubType>Designer</SubType>
     </None>

@@ -18,22 +18,9 @@ namespace MusicBrowser.Engines.Cache
                 {
                     if (enable)
                     {
-                        string engine = Util.Config.GetInstance().GetStringSetting("Cache.Engine");
-                        switch (engine.ToLower())
-                        {
-                            case "none":
-                                {
-                                    _cacheEngine = new NoCache();
-                                    break;
-                                }
-                            default:
-                                {
-                                    _cacheEngine = new SQLiteCache();
-                                    break;
-                                }
-                        }
+                        _cacheEngine = new SQLiteCache();
                     }
-                    if (!enable)
+                    else
                     {
                         _cacheEngine = new NoCache();
                     }
