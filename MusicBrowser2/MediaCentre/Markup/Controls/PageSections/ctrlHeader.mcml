@@ -18,17 +18,17 @@
     </Properties>
 
     <Locals>
-      <actions:ActionShowSearch Name="SearchAction" />
-      <actions:ActionShowActions Name="ActionActions" Source="Menu" Entity="[Entity]" />
-      <actions:ActionShowSettings Name="SettingsAction" />
-      <actions:ActionCycleViews Name="CycleViewsAction" Entity="[Entity]" />
-      <actions:ActionCycleSorts Name="CycleSortOrder" Entity="[Entity]" />
-      <!--<actions:ActionShowGroupBy Name="ShowGroupBy" />-->
+      <actions:ActionShowSearch Name="ShowSearch" />
+      <actions:ActionShowActions Name="ShowActions" Source="Menu" Entity="[Entity]" />
+      <actions:ActionShowSettings Name="ShowSettings" />
+      <actions:ActionCycleViews Name="CycleViews" Entity="[Entity]" />
     </Locals>
     
     <Rules>
-      <Binding Source="[Entity.Thumb]" Target="[icon.Content]" />
-      <Binding Source="[Entity.Title]" Target="[PageName_Label.Content]" />
+      <Binding Target="[icon.Content]" Source="[Entity.Thumb]" />
+      <Binding Target="[banner.Content]" Source="[Entity.Banner]" />
+      <Binding Target="[PageName.Content]" Source="[Entity.Title]" />
+      
 
       <Changed Source="[FolderModel.ParentEntity.View]" InitialEvaluate="true">
         <Conditions>
@@ -54,8 +54,25 @@
         </Conditions>
         <Actions>
           <Set Target="[SettingsMenu.Visible]" Value="true" />
-          <!--<Set Target="[GroupMenu.Visible]" Value="true" />-->
-          <Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+        </Actions>
+      </Changed>
+
+      <!--<Set Target="[GroupMenu.Visible]" Value="true" />-->
+      <!--<Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />-->
+
+      <Changed Source="[Entity.Index]" InitialEvaluate="true">
+        <Actions>
+          <Set Target="[icon.Visible]" Value="[Entity.BannerExists]">
+            <Transformer>
+              <BooleanTransformer Inverse="true" />
+            </Transformer>
+          </Set>
+          <Set Target="[label.Visible]" Value="[Entity.BannerExists]">
+            <Transformer>
+              <BooleanTransformer Inverse="true" />
+            </Transformer>
+          </Set>
+          <Set Target="[banner.Visible]" Value="[Entity.BannerExists]" />
         </Actions>
       </Changed>
     </Rules>
@@ -65,36 +82,37 @@
         <Children>
           <ColorFill Content="Transparent" Layout="Dock">
             <Children>
-              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="25,10,25,10">
+
+              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="25,10,10,10">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
                 <Children>
-                  <Graphic Content="[Entity.Thumb]" Name="icon" MaintainAspectRatio="true" MaximumSize="0,96" />
+                  <Graphic Name="icon" Content="[Entity.Thumb]" MaintainAspectRatio="true" MaximumSize="0,96" />
+                  <Graphic Name="banner" Content="[Entity.Banner]" MaintainAspectRatio="true" MaximumSize="0,96" />
                 </Children>
               </Graphic>
 
-                  <ColorFill Content="Transparent" Layout="HorizontalFlow" Navigation="ContainHorizontal" Margins="70,70,0,0">
-                    <LayoutInput>
-                      <FormLayoutInput Bottom="Parent,1" Left="Parent,0"/>
-                    </LayoutInput>
-                    <Children>
-                      <me:buttonIcon Command="[SettingsAction]" Name="SettingsMenu" Text="" Icon="[SettingsAction.Icon]" Margins="0,0,5,0" Visible="false" />
-                      <me:buttonIcon Command="[ActionActions]" Name="ActionsMenu" Text="Actions" Icon="[ActionActions.Icon]" Margins="0,0,5,0" />
-                      <!--<me:buttonIcon Command="[ShowGroupBy]" Name="GroupMenu" Text="Group By" Icon="[ShowGroupBy.Icon]" Margins="0,0,5,0" Visible="false" />-->
-                      <me:buttonIcon Command="[CycleViewsAction]" Name="ViewMenu" Text="[FolderModel.ParentEntity.View]" Icon="[CycleViewsAction.Icon]" Margins="0,0,5,0" />
-                      <me:buttonIcon Command="[CycleSortOrder]" Name="SortMenu" Text="[FolderModel.ParentEntity.View]" Icon="[CycleSortOrder.Icon]" Margins="0,0,5,0" Visible="false"/>
-                    </Children>
-                  </ColorFill>
+              <ColorFill Content="Transparent" Layout="HorizontalFlow" Navigation="ContainHorizontal" Margins="70,70,0,0">
+                <LayoutInput>
+                  <FormLayoutInput Bottom="Parent,1" Left="Parent,0"/>
+                </LayoutInput>
+                <Children>
+                  <me:buttonIcon Command="[ShowSettings]" Name="SettingsMenu" Text="" Icon="[ShowSettings.Icon]" Margins="0,0,5,0" Visible="false" />
+                  <me:buttonIcon Command="[ShowActions]" Name="ActionsMenu" Text="Actions" Icon="[ShowActions.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[ShowSearch]" Name="Search" Text="[ShowSearch.Label]" Icon="[ShowSearch.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[CycleViews]" Name="ViewMenu" Text="[FolderModel.ParentEntity.View]" Icon="[CycleViews.Icon]" Margins="0,0,5,0" />
+                </Children>
+              </ColorFill>
 
-                  <ColorFill Content="Transparent" Margins="0,0,0,0">
-                    <LayoutInput>
-                      <FormLayoutInput Top="Parent,0" Right="Parent,1"/>
-                    </LayoutInput>
-                    <Children>
-                      <Text Name="PageName_Label" Content="Entity.DescriptionEntity.DescriptionEntity.DescriptionEntity.Description" Color="White" Font="Segoe Media Center Light, 36" HorizontalAlignment="Far" />
-                    </Children>
-                  </ColorFill>
+              <ColorFill Content="Transparent" Margins="0,0,0,0" Name="label">
+                <LayoutInput>
+                  <FormLayoutInput Top="Parent,0" Right="Parent,1"/>
+                </LayoutInput>
+                <Children>
+                  <Text Name="PageName" Color="White" Font="Segoe Media Center Light, 36" HorizontalAlignment="Far" />
+                </Children>
+              </ColorFill>
 
             </Children>
 

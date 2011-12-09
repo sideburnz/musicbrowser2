@@ -18,7 +18,7 @@
   <UI Name="pageSearch">
 
     <Properties>
-      <!--<models:SearchModel Name="Model" SearchModel="$Required" />-->
+      <models:SearchModel Name="Model" SearchModel="$Required" />
       <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
       <models:UINotifier Name="UINotifier" UINotifier="$Required" />
       
@@ -31,10 +31,12 @@
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
 
-      <Command Name="CmdSetScopeToContext" />
       <Command Name="CmdSetScopeToAlbums" />
       <Command Name="CmdSetScopeToArtists" />
       <Command Name="CmdSetScopeToTracks" />
+      <Command Name="CmdSetScopeToMovies" />
+      <Command Name="CmdSetScopeToShows" />
+      <Command Name="CmdSetScopeToEpisodes" />
       <Command Name="CmdShowKeyboard" />
 
       <ScrollingData Name="SearchResultData" PageStep="1" />
@@ -50,89 +52,111 @@
         <Actions>
           <Invoke Target="[CmdSetScopeToArtists.Invoke]" />
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
-          <!--<Invoke Target="[SearchBox.NavigateInto]" />-->
+          <Invoke Target="[SearchBox.NavigateInto]" />
           <Invoke Target="[SearchResultData.Home]" />
         </Actions>
       </Rule>
 
-      <!--<Condition Source="[Model.HasContext]" SourceValue="true">
+      <Changed Source="[CmdSetScopeToAlbums.Invoked]">
         <Actions>
-          <Set Target="[btnCurrentFolder.Visible]" Value="true"/>
-          <Set Target="[btnCurrentFolder.Text]" Value="[Model.ContextName]" />
-          <Set Target="[txtDetail.Content]" Value="[Model.ContextName]" />
-          <Invoke Target="[CmdSetScopeToContext.Invoke]"/>
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Album" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnMovies.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnShows.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnEpisodes.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
-      </Condition>-->
+      </Changed>
 
-      <!--<Changed Source="[CmdSetScopeToContext.Invoked]">
+      <Changed Source="[CmdSetScopeToArtists.Invoked]">
         <Actions>
-          <Invoke Target="[Model.SetSetSearchScope]" scope="Folder" />
-          <Set Target="[txtDetail.Visible]" Value="true" />
-          <Set Target="[txtScope.Visible]" Value="false" />
-          <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
-          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Artist" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnMovies.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnShows.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnEpisodes.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
-      </Changed>-->
+      </Changed>
 
-      <!--<Changed Source="[CmdSetScopeToAlbums.Invoked]">
+      <Changed Source="[CmdSetScopeToTracks.Invoked]">
         <Actions>
-          <Invoke Target="[Model.SetSetSearchScope]" scope="Albums" />
-          <Set Target="[txtDetail.Visible]" Value="false" />
-          <Set Target="[txtScope.Visible]" Value="true" />
-          <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
-          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Track" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
+          <Set Target="[btnMovies.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnShows.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnEpisodes.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
-      </Changed>-->
+      </Changed>
 
-      <!--<Changed Source="[CmdSetScopeToArtists.Invoked]">
+      <Changed Source="[CmdSetScopeToMovies.Invoked]">
         <Actions>
-          <Invoke Target="[Model.SetSetSearchScope]" scope="Artists" />
-          <Set Target="[txtDetail.Visible]" Value="false" />
-          <Set Target="[txtScope.Visible]" Value="true" />
-          <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
-          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Movie" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnMovies.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
+          <Set Target="[btnShows.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnEpisodes.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
-      </Changed>-->
+      </Changed>
 
-      <!--<Changed Source="[CmdSetScopeToTracks.Invoked]">
+      <Changed Source="[CmdSetScopeToShows.Invoked]">
         <Actions>
-          <Invoke Target="[Model.SetSetSearchScope]" scope="Tracks" />
-          <Set Target="[txtDetail.Visible]" Value="false" />
-          <Set Target="[txtScope.Visible]" Value="true" />
-          <Set Target="[btnCurrentFolder.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Show" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnMovies.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnShows.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
+          <Set Target="[btnEpisodes.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
-      </Changed>-->
+      </Changed>
 
-      <!--<Binding Target="[txtScope.Content]" Source="[Model.Scope]" />
+      <Changed Source="[CmdSetScopeToEpisodes.Invoked]">
+        <Actions>
+          <Invoke Target="[Model.SetSetSearchScope]" scope="Episode" />
+          <Set Target="[btnAlbums.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnArtists.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnTracks.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnMovies.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnShows.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnEpisodes.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
+        </Actions>
+      </Changed>
 
-      <Binding Target="[SearchResultRepeater.Source]" Source="[Model.ResultSet]" />-->
+      <Binding Target="[txtScope.Content]" Source="[Model.Scope]" />
+
+      <Binding Target="[SearchResultRepeater.Source]" Source="[Model.ResultSet]" />
       <Default Target="[ScrollHander.ScrollingData]" Value="[SearchResultData]"/>
       <Default Target="[SearchResultData.Repeater]" Value="[SearchResultRepeater]"/>
 
-      <!--<Binding Source="[Model.KeyboardHandler]" Target="[typingHandler.EditableText]" />-->
+      <Binding Source="[Model.KeyboardHandler]" Target="[typingHandler.EditableText]" />
 
-      <!--<Changed Source="[typingHandler.EditableText.Value]">
+      <Changed Source="[typingHandler.EditableText.Value]">
         <Actions>
           <Invoke Target="[SearchBox.NavigateInto]" />
         </Actions>
-      </Changed>-->
+      </Changed>
 
-      <!--<Changed Source="[Model.ResultSet]">
+      <Changed Source="[Model.ResultSet]">
         <Actions>
           <Invoke Target="[SearchResultData.ScrollUp]" />
           <Invoke Target="[SearchResultData.Home]" />
           <Invoke Target="[SearchResultData.ScrollUp]" />
+
+          <Set Target="[btnArtists.Text]" Value="[Model.ArtistsLabel]" />
+          <Set Target="[btnAlbums.Text]" Value="[Model.AlbumsLabel]" />
+          <Set Target="[btnTracks.Text]" Value="[Model.TracksLabel]" />
+          <Set Target="[btnMovies.Text]" Value="[Model.MoviesLabel]" />
+          <Set Target="[btnShows.Text]" Value="[Model.ShowsLabel]" />
+          <Set Target="[btnEpisodes.Text]" Value="[Model.EpisodesLabel]" />
         </Actions>
-      </Changed>-->
+      </Changed>
       
       <Changed Source="[SearchResultData.TotalPages]" InitialEvaluate="true">
         <Conditions>
@@ -196,7 +220,7 @@
           <!-- MAIN BODY -->
           <Panel Layout="Dock">
             <Children>
-              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="25,25,25,25">
+              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="10,25,10,25">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
@@ -204,19 +228,21 @@
                   <FlowLayout FillStrip="true" Orientation="Vertical" Repeat="Never" StripAlignment="Near" ItemAlignment="Near" />
                 </Layout>
                 <Children>
-                  <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" />
-                  <!--<Panel Layout="HorizontalFlow" Margins="0,40,0,0">
+                  <Text Content="Search" Color="White" Font="Segoe Media Center Light, 32" Margins="37,0,0,0" />
+                  <Panel Layout="HorizontalFlow" Margins="0,40,0,0">
                     <Children>
                       <me:searchBox Name="SearchBox" Model="[Model]" />
                     </Children>
-                  </Panel>-->
+                  </Panel>
                   
                   <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
                   
-                  <me:buttonImage Command="[CmdSetScopeToContext]" Name="btnCurrentFolder" Text="Current Folder" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" Visible="false" />
-                  <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="All Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-                  <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="All Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-                  <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="All Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+                  <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToMovies]" Name="btnMovies" Text="Movies" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToShows]" Name="btnShows" Text="Shows" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToEpisodes]" Name="btnEpisodes" Text="Episodes" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
 
                   <Graphic Name="Underline2" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
 
@@ -243,7 +269,6 @@
                       <Panel Layout="HorizontalFlow">
                         <Children>
                           <Text Name="txtScope" Color="White" Font="Segoe Media Center Light, 32" />
-                          <Text Name="txtDetail" Color="White" Font="Segoe Media Center Light, 32" />
                         </Children>
                       </Panel>
                       <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow"  Navigation="ContainVertical">
@@ -274,7 +299,7 @@
   <UI Name="searchBox">
 
     <Properties>
-      <!--<models:SearchModel Name="Model" SearchModel="$Required" />-->
+      <models:SearchModel Name="Model" SearchModel="$Required" />
       <Command Name="CmdNoOp" />
       <Command Name="CmdTypeSpace" />
     </Properties>
@@ -283,11 +308,11 @@
       <KeyHandler Name="BackHandler" Handle="true" Key="Backspace" HandlerStage="Bubbled" Command="[CmdNoOp]"/>
       <KeyHandler Name="SpaceHandler" Handle="true" Key="Space" HandlerStage="Routed" Command="[CmdTypeSpace]" />
       <ClickHandler Name="Clicker" />
-      <!--<actions:ActionShowKeyboard Name="KeyboardAction" MaxLength="20" editableText="[Model.KeyboardHandler]" />-->
+      <actions:ActionShowKeyboard Name="KeyboardAction" MaxLength="20" editableText="[Model.KeyboardHandler]" />
     </Locals>
     
     <Rules>
-      <!--<Binding Target="[Clicker.Command]" Source="[KeyboardAction]" />-->
+      <Binding Target="[Clicker.Command]" Source="[KeyboardAction]" />
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
@@ -301,12 +326,12 @@
           <Set Target="[SelectBox.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
         </Actions>
       </Condition>
-      <!--<Changed Source="[CmdTypeSpace.Invoked]">
+      <Changed Source="[CmdTypeSpace.Invoked]">
         <Actions>
           <Invoke Target="[Model.TypeSpace]" />
         </Actions>
-      </Changed>-->
-      <!--<Binding Target="[txtSearchString.Content]" Source="[Model.KeyboardHandler.Value]" />-->
+      </Changed>
+      <Binding Target="[txtSearchString.Content]" Source="[Model.KeyboardHandler.Value]" />
     </Rules>
     
     <Content>

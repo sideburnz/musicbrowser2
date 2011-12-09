@@ -46,16 +46,19 @@ namespace MusicBrowser.Actions
         public void Invoke()
         {
             string title;
+            string kind;
             if (Entity == null)
             {
                 title = "none defined";
+                kind = "null";
             }
             else
             {
                 title = Entity.Title;
+                kind = Entity.Kind;
             }
 
-            LoggerEngineFactory.Debug(String.Format("Action: {0}, Entity: {1} [{2}]", Label, title, Entity.Kind));
+            LoggerEngineFactory.Debug(String.Format("Action: {0}, Entity: {1} [{2}]", Label, title, kind));
 
             Statistics.Hit("Action." + Label);
 

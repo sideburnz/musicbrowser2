@@ -10,13 +10,14 @@ namespace MusicBrowser.Engines.Cache
     public class SQLiteCache : ICacheEngine
     {
         private readonly string _file;
-        private const string SQL_CREATE_TABLE = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [value] TEXT NULL, [kind] Character(12))";
-        private const string SQL_INSERT = "INSERT INTO [t_Cache] ([key], [value], [kind]) VALUES(@1, @2, @3)";
-        private const string SQL_UPDATE = "UPDATE [t_Cache] SET [value] = @1 WHERE [key]=@2";
+        private const string SQL_CREATE_TABLE = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [value] TEXT NULL, [kind] Character(12), [title] TEXT)";
+        private const string SQL_INSERT = "INSERT INTO [t_Cache] ([key], [value], [kind], [title]) VALUES(@1, @2, @3, @4)";
+        private const string SQL_UPDATE = "UPDATE [t_Cache] SET [value] = @1, [title] = @3 WHERE [key] = @2";
         private const string SQL_DELETE = "DELETE FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_SELECT = "SELECT [kind], [value] FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_EXISTS = "SELECT COUNT([key]) FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_CLEAR = "DELETE FROM [t_Cache]";
+        private const string SQL_SEARCH = "SELECT [key] FROM [t_Cache] WHERE [kind] = @1 AND [title] LIKE @2";
 
         private object _lock = new object();
 
@@ -54,6 +55,7 @@ namespace MusicBrowser.Engines.Cache
             string key = e.CacheKey;
             string value = EntityPersistance.Serialize(e);
             string kind = e.GetType().Name;
+            string title = e.Title;
 
             if (Exists(key))
             {
@@ -63,7 +65,7 @@ namespace MusicBrowser.Engines.Cache
                 cmdU.CommandText = SQL_UPDATE;
                 cmdU.Parameters.AddWithValue("@2", key);
                 cmdU.Parameters.AddWithValue("@1", value);
-                cmdU.Parameters.AddWithValue("@3", kind);
+                cmdU.Parameters.AddWithValue("@3", title);
                 cmdU.ExecuteNonQuery();
                 cnn.Close();
             }
@@ -76,6 +78,7 @@ namespace MusicBrowser.Engines.Cache
                 cmdI.Parameters.AddWithValue("@1", key);
                 cmdI.Parameters.AddWithValue("@2", value);
                 cmdI.Parameters.AddWithValue("@3", kind);
+                cmdI.Parameters.AddWithValue("@4", title);
                 cmdI.ExecuteNonQuery();
                 cnn.Close();
             }
@@ -96,6 +99,19 @@ namespace MusicBrowser.Engines.Cache
         {
             string SQL = SQL_CLEAR;
             ExecuteNonQuery(SQL);
+        }
+
+        public IEnumerable<String> Search(string kind, string predicate)
+        {
+            SQLiteConnection cnn = GetConnection();
+            cnn.Open();
+            SQLiteCommand cmd = cnn.CreateCommand();
+            cmd.CommandText = SQL_SEARCH;
+            cmd.Parameters.AddWithValue("@1", kind);
+            cmd.Parameters.AddWithValue("@2", predicate + "%");
+            IEnumerable<string> results = ExecuteQuery<string>(cmd);
+            cnn.Close();
+            return results;
         }
 
         private int ExecuteNonQuery(string sql)
@@ -143,6 +159,20 @@ namespace MusicBrowser.Engines.Cache
             reader.Close();
             cnn.Close();
 
+            return ret;
+        }
+
+        public IEnumerable<T> ExecuteQuery<T>(SQLiteCommand cmd)
+        {
+            SQLiteDataReader reader = cmd.ExecuteReader();
+            List<T> ret = new List<T>();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    ret.Add((T)reader[0]);
+                }
+            }
             return ret;
         }
 

@@ -35,8 +35,8 @@
 
       <Changed Source="[CmdSetScopeToSystem.Invoked]">
         <Actions>
-          <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
-          <Set Target="[btnDisplay.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+          <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
+          <Set Target="[btnDisplay.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
 
           <Set Target="[txtScope.Content]" Value="System Settings" />
 
@@ -47,8 +47,8 @@
 
       <Changed Source="[CmdSetScopeToDisplay.Invoked]">
         <Actions>
-          <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
-          <Set Target="[btnDisplay.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
+          <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnDisplay.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
 
           <Set Target="[txtScope.Content]" Value="Display Settings" />
 
@@ -66,7 +66,7 @@
           <!-- MAIN BODY -->
           <Panel Layout="Dock">
             <Children>
-              <Graphic Name="NavMenu" Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="25,25,25,25">
+              <Graphic Name="NavMenu" Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" Padding="10,25,10,25">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
@@ -74,15 +74,15 @@
                   <FlowLayout FillStrip="true" Orientation="Vertical" Repeat="Never" StripAlignment="Near" ItemAlignment="Near" />
                 </Layout>
                 <Children>
-                  <Text Content="Settings" Color="White" Font="Segoe Media Center Light, 32" />
-                  <Text Content="[VersionString]" Color="White" Font="Segoe Media Center Light, 12"  Margins="0,0,0,25" />
+                  <Text Content="Settings" Color="White" Font="Segoe Media Center Light, 32"  Margins="37,0,0,0" />
+                  <Text Content="[VersionString]" Color="White" Font="Segoe Media Center Light, 12"  Margins="37,0,0,25" />
 
-                  <me:buttonImage Command="[CmdSetScopeToSystem]" Name="btnSystem" Text="System" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" />
-                  <me:buttonImage Command="[CmdSetScopeToDisplay]" Name="btnDisplay" Text="Display" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/radioUnselected" />
+                  <me:buttonImage Command="[CmdSetScopeToSystem]" Name="btnSystem" Text="System" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
+                  <me:buttonImage Command="[CmdSetScopeToDisplay]" Name="btnDisplay" Text="Display" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
                   
                   <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
 
-                  <me:buttonAction Action="[BackAction]" Size="320,52"/>
+                  <me:buttonAction Action="[BackAction]" Size="320,52" Margins="0,0,0,2" />
                  </Children>
               </Graphic>
 

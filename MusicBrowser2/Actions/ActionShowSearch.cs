@@ -34,7 +34,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            //Application.GetReference().NavigateToSearch(SearchString, entity);
+            Application.GetReference().NavigateToSearch(SearchString, entity);
         }
     }
 }

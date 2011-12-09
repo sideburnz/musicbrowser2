@@ -85,10 +85,22 @@
         </Actions>
       </Condition>
 
+      <Condition Source="[Text.Length]"  ConditionOp="Equals" SourceValue="0">
+        <Actions>
+          <Set Target="[button.Visible]" Value="false" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Text.Length]"  ConditionOp="NotEquals" SourceValue="0">
+        <Actions>
+          <Set Target="[button.Visible]" Value="true" />
+        </Actions>
+      </Condition>
+
     </Rules>
 
     <Content>
-      <Panel>
+      <Panel Name="button">
         <Children>
           <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[MinSize]" MaximumSize="[MinSize]" >
             <Layout>
