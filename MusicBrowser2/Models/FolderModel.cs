@@ -10,23 +10,17 @@ namespace MusicBrowser.Models
 {
     public class FolderModel : ModelItem
     {
-
         readonly baseEntity _parentEntity;
         private readonly EntityCollection _entities;
         Int32 _selectedIndex;
-        private readonly bool _isHome;
 
         public FolderModel(baseEntity parentEntity, EntityCollection entities)
         {
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", size: " + entities.Count + ")", "start");  
 #endif
-
             _parentEntity = parentEntity;
             _entities = entities;
-            _isHome = (parentEntity.Kind == "Home");
-
-            Config.OnSettingUpdate += SettingsChanged;
             CommonTaskQueue.OnStateChanged += BusyStateChanged;
             Busy = CommonTaskQueue.Busy;
         }
@@ -100,28 +94,5 @@ namespace MusicBrowser.Models
             Busy = busy;
             FirePropertyChanged("Busy");
         }
-
-        private void SettingsChanged(string key)
-        {
-            string myKey;
-
-            if (key.Contains('.'))
-            {
-                // get the last part of the string
-                string[] parts = key.Split('.');
-                myKey = parts[parts.Length - 1];
-            }
-            else 
-            {
-                myKey = key;
-            }
-
-            if (myKey.ToLower() == "view") 
-            { 
-                FirePropertyChanged("View");
-                FirePropertyChanged("ShowSummary");
-            }
-        }
-
     }
 }

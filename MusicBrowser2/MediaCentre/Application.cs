@@ -66,14 +66,14 @@ namespace MusicBrowser
             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSettings", props);
         }
 
-        //public void NavigateToSearch(string searchString, baseEntity entity)
-        //{
-        //    Dictionary<string, object> props = new Dictionary<string, object>();
-        //    props.Add("Model", new SearchModel(searchString, entity));
-        //    props.Add("ActionsModel", ActionsModel.GetInstance);
-        //    props.Add("UINotifier", UINotifier.GetInstance());
-        //    _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props);
-        //}
+        public void NavigateToSearch(string searchString, baseEntity entity)
+        {
+            Dictionary<string, object> props = new Dictionary<string, object>();
+            props.Add("Model", new SearchModel(searchString));
+            props.Add("ActionsModel", ActionsModel.GetInstance);
+            props.Add("UINotifier", UINotifier.GetInstance());
+            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props);
+        }
 
         public void Navigate(baseEntity entity)
         {

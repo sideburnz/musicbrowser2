@@ -31,5 +31,10 @@ namespace MusicBrowser.Engines.Cache
         public void Scavenge() { }
 
         public void Clear() { }
+
+        public IEnumerable<string> Search(string kind, string predicate)
+        {
+            return new List<string>();
+        }
     }
 }

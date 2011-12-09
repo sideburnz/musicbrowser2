@@ -596,6 +596,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap selectedMenu {
+            get {
+                object obj = ResourceManager.GetObject("selectedMenu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static byte[] SystemSettings {
             get {
                 object obj = ResourceManager.GetObject("SystemSettings", resourceCulture);
