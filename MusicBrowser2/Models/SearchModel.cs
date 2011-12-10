@@ -51,14 +51,11 @@ namespace MusicBrowser.Models
             get
             {
                 EntityCollection dataset = new EntityCollection();
-
                 IEnumerable<string> searchResults = _engine.Search(_searchScope, _remoteFilter.Value);
-
                 foreach (string item in searchResults)
                 {
                     dataset.Add(_engine.Fetch(item));
                 }
-
                 return new EntityVirtualList(dataset, false);
             }
         }
@@ -76,28 +73,12 @@ namespace MusicBrowser.Models
 
         public string ArtistsLabel
         {
-            get 
-            {
-                string r = FormatLabel("Artist");
-                if (String.IsNullOrEmpty(r))
-                {
-                //    SetSetSearchScope("Album");
-                }
-                return r; 
-            }
+            get { return FormatLabel("Artist"); }
         }
 
         public string AlbumsLabel
         {
-            get 
-            {
-                string r = FormatLabel("Album");
-                if (String.IsNullOrEmpty(r))
-                {
-                //    SetSetSearchScope("Track");
-                }
-                return r; 
-            }
+            get { return FormatLabel("Album"); }
         }
 
         public string TracksLabel

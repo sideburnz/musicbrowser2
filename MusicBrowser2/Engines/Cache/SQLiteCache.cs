@@ -4,12 +4,13 @@ using System.Data.SQLite;
 using System.IO;
 using MusicBrowser.Util;
 using MusicBrowser.Entities;
+using MusicBrowser.Providers.Background;
+using MusicBrowser.Providers;
 
 namespace MusicBrowser.Engines.Cache
 {
     public class SQLiteCache : ICacheEngine
     {
-        private readonly string _file;
         private const string SQL_CREATE_TABLE = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [value] TEXT NULL, [kind] Character(12), [title] TEXT)";
         private const string SQL_INSERT = "INSERT INTO [t_Cache] ([key], [value], [kind], [title]) VALUES(@1, @2, @3, @4)";
         private const string SQL_UPDATE = "UPDATE [t_Cache] SET [value] = @1, [title] = @3 WHERE [key] = @2";
@@ -18,13 +19,13 @@ namespace MusicBrowser.Engines.Cache
         private const string SQL_EXISTS = "SELECT COUNT([key]) FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_CLEAR = "DELETE FROM [t_Cache]";
         private const string SQL_SEARCH = "SELECT [key] FROM [t_Cache] WHERE [kind] = @1 AND [title] LIKE @2";
+        private const string SQL_SCAVENGE = "SELECT [value] FROM [t_Cache]";
 
         private object _lock = new object();
+        private static string _file = Path.Combine(Config.GetInstance().GetStringSetting("Cache.Path"), "cache.db");
 
         public SQLiteCache()
         {
-            _file = Path.Combine(Config.GetInstance().GetStringSetting("Cache.Path"), "cache.db");
-
             if (!File.Exists(_file))
             {
                 SQLiteConnection.CreateFile(_file);
@@ -92,7 +93,22 @@ namespace MusicBrowser.Engines.Cache
 
         public void Scavenge()
         {
-//            throw new NotImplementedException();
+            SQLiteConnection cnn = GetConnection();
+            cnn.Open();
+            SQLiteCommand cmd = cnn.CreateCommand();
+            cmd.CommandText = SQL_SCAVENGE;
+            IEnumerable<string> results = ExecuteQuery<string>(cmd);
+            cnn.Close();
+            foreach (string result in results)
+            {
+                // not everything is a folder, but everything should be able to be deserialized into a folder
+                baseEntity e = EntityPersistance.Deserialize("Folder", result);
+                FileSystemItem i = FileSystemProvider.GetItemDetails(e.Path);
+                if (i.Attributes == 0)
+                {
+                    Delete(e.CacheKey);
+                }
+            }
         }
 
         public void Clear()

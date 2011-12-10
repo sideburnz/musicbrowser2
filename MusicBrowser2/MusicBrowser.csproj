@@ -167,6 +167,7 @@
     <Compile Include="Actions\ActionPlayVirtual.cs" />
     <Compile Include="Actions\Helper.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
+    <Compile Include="Engines\Cache\CacheScavenger.cs" />
     <Compile Include="Engines\Cache\Extensions.cs" />
     <Compile Include="Engines\Cache\ICacheEngine.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="Models\ActionsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\JILModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Providers\Background\BackgroundTaskQueueProvider.cs" />
     <Compile Include="Entities\EntityCollection.cs" />
