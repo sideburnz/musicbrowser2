@@ -1,5 +1,6 @@
 ﻿using System;
 using MusicBrowser.Entities;
+using MusicBrowser.Providers.Background;
 using System.Collections.Generic;
 
 namespace MusicBrowser.Engines.Cache
@@ -16,6 +17,5 @@ namespace MusicBrowser.Engines.Cache
         void Clear();
 
         IEnumerable<string> Search(string kind, string predicate);
-
     }
 }

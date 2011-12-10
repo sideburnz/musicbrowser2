@@ -30,7 +30,6 @@ namespace MusicBrowser
                 Engines.Logging.LoggerEngineFactory.Verbose(Util.Helper.outputTypes(), "stats");
 #endif
             }
-            //InMemoryCache.GetInstance().Save();
         }
         
         public void Launch(AddInHost host)         
@@ -38,21 +37,20 @@ namespace MusicBrowser
 #if DEBUG
             Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog("Attach debugger and hit ok", "debug", Microsoft.MediaCenter.DialogButtons.Ok, 100, true);
 #endif
-
-            // Set up a reference to the first screen, if you only have one library enabled, don't show the list of libraries
-
-            baseEntity firstScreen = new Home();
-            firstScreen.Path = "home";
-            
-            Util.Config config = Util.Config.GetInstance();
             if (host != null && host.ApplicationContext != null)
             {
                 host.ApplicationContext.SingleInstance = true;
             }
             _sSession = new HistoryOrientedPageSession();
             Application app = new Application(_sSession, host);
+
             // Go to the initial screen
+            baseEntity firstScreen = new Home();
+            firstScreen.Path = "home";
             app.Navigate(firstScreen);
+
+            // run job in the background ensuring the cache is up to date
+            CommonTaskQueue.Enqueue(new CacheScavenger());
         }     
     } 
 } 

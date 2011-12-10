@@ -29,7 +29,7 @@ namespace MusicBrowser.Providers
         {
             IntPtr invalidHandleValue = new IntPtr(-1);
             IntPtr findHandle = invalidHandleValue;
-            FileSystemItem info = new FileSystemItem();
+            FileSystemItem info = new FileSystemItem(String.Empty,String.Empty,0,DateTime.MinValue,DateTime.MinValue);
 
             try
             {

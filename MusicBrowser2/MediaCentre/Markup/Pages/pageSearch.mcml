@@ -237,12 +237,12 @@
                   
                   <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
                   
-                  <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
-                  <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
-                  <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
-                  <me:buttonImage Command="[CmdSetScopeToMovies]" Name="btnMovies" Text="Movies" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
-                  <me:buttonImage Command="[CmdSetScopeToShows]" Name="btnShows" Text="Shows" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
-                  <me:buttonImage Command="[CmdSetScopeToEpisodes]" Name="btnEpisodes" Text="Episodes" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="7,4,0,0" ImageMargins="14,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToArtists]" Name="btnArtists" Text="Artists" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToAlbums]" Name="btnAlbums" Text="Albums" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToTracks]" Name="btnTracks" Text="Tracks" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToMovies]" Name="btnMovies" Text="Movies" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToShows]" Name="btnShows" Text="Shows" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+                  <me:buttonImage Command="[CmdSetScopeToEpisodes]" Name="btnEpisodes" Text="Episodes" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
 
                   <Graphic Name="Underline2" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
 
@@ -406,7 +406,7 @@
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
-              <Graphic Name="graphicBullet" Content="[Entity.Thumb]" Margins="5,5,0,5" MaximumSize="47,47" MinimumSize="47,47" MaintainAspectRatio="false" Visible="true" />
+              <Graphic Name="graphicBullet" Content="[Entity.Thumb]" Margins="5,5,0,5" MaximumSize="0,47" MinimumSize="0,47" MaintainAspectRatio="true" Visible="true" />
               <Text Name="lblTitle" Content="[Entity.Title]" Color="White" Margins="12,5,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" Alpha="0.6"/>
             </Children>
           </ColorFill>
@@ -416,9 +416,9 @@
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
             <Children>
-              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" MaximumSize="110,110" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="5,5,0,5">
+              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="5,5,0,5">
                 <Children>
-                  <Graphic Content="[Entity.Thumb]" Name="icon" Layout="Fill" MaintainAspectRatio="true" />
+                  <Graphic Content="[Entity.Thumb]" Name="icon" MaintainAspectRatio="true" MaximumSize="0,108" />
                 </Children>
               </Graphic>
               <me:ctrlFooter Entity="[Entity]" Margins="10,5,0,0" />
