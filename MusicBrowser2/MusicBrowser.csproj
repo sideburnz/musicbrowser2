@@ -203,7 +203,11 @@
     <Compile Include="Models\ActionsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
-    <Compile Include="Models\JILModel.cs" />
+    <Compile Include="Models\Keyboard\IKeyboardHandler.cs" />
+    <Compile Include="Models\Keyboard\KeyboardFilter.cs" />
+    <Compile Include="Models\Keyboard\KeyboardHandlerFactory.cs" />
+    <Compile Include="Models\Keyboard\KeyboardJIL.cs" />
+    <Compile Include="Models\Keyboard\KeyboardSearch.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Providers\Background\BackgroundTaskQueueProvider.cs" />
     <Compile Include="Entities\EntityCollection.cs" />

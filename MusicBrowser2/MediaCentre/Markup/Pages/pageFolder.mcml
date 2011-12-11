@@ -27,7 +27,6 @@
       <models:UINotifier Name="UINotifier" UINotifier="$Required" />
       <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
 
-      <actions:ActionShowSearch Name="SearchAction" />
       <actions:ActionShowNowPlaying Name="ActionShowNowPlaying" />
       
       <actions:ActionStop Name="ActionStop" />
@@ -56,17 +55,12 @@
     </Locals>
 
     <Rules>
-      <Binding Source="[FolderModel.ParentEntity]" Target="[SearchAction.Entity]" />
 
       <Binding Source="[editableText]" Target="[typingHandler.EditableText]" />
+      <Binding Source="[editableText.Value]" Target="[KeyDisplay.Content]" />
       <Changed Source="[editableText.Value]">
-        <Conditions>
-          <Equality Source="[editableText.Value]" ConditionOp="NotEquals" Value="" />
-        </Conditions>
         <Actions>
-          <Set Target="[SearchAction.SearchString]" Value="[editableText.Value]" />
-          <Invoke Target="[SearchAction.Invoke]" />
-          <Set Target="[editableText.Value]" Value="" />
+          <Set Target="[FolderModel.KeyedValue]" Value="[editableText.Value]" />
         </Actions>
       </Changed>
 
@@ -144,6 +138,13 @@
               <ColorFill Name="pageFader" Visible="false" Content="Black" Alpha="0.9" Navigation="ContainAll" MouseInteractive="true"/>
             </Children>
           </Panel>
+
+          <!-- KEYBOARD HANDLER -->
+          <Text Name="KeyDisplay" Font="Segoe Media Center Semibold,150" Color="LightBlue">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.60" />
+            </LayoutInput>
+          </Text>
 
           <!-- VIEWS -->
           <Panel Name="ViewPanel">
