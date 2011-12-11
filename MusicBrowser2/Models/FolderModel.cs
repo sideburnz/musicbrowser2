@@ -5,22 +5,25 @@ using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Util;
 using MusicBrowser.Actions;
+using MusicBrowser.Models.Keyboard;
 
 namespace MusicBrowser.Models
 {
     public class FolderModel : ModelItem
     {
         readonly baseEntity _parentEntity;
-        private readonly EntityCollection _entities;
         Int32 _selectedIndex;
+        IKeyboardHandler _keyboard;
 
-        public FolderModel(baseEntity parentEntity, EntityCollection entities)
+        public FolderModel(baseEntity parentEntity, EntityCollection entities, IKeyboardHandler keyboard)
         {
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", size: " + entities.Count + ")", "start");  
 #endif
+            _keyboard = keyboard;
+            _keyboard.RawDataSet = entities;
             _parentEntity = parentEntity;
-            _entities = entities;
+            IKeyboardHandler.OnDataChanged += KeyboardHandler;
             CommonTaskQueue.OnStateChanged += BusyStateChanged;
             Busy = CommonTaskQueue.Busy;
         }
@@ -36,13 +39,19 @@ namespace MusicBrowser.Models
             }
         }
 
+        public string KeyedValue
+        {
+            get { return _keyboard.Value; }
+            set { _keyboard.Value = value; }
+        }
+
         public Application application { get; set; }
 
         public string Matches
         {
             get
             {
-                return _entities.Count.ToString();
+                return _keyboard.DataSet.Count.ToString();
             }
         }
 
@@ -51,7 +60,7 @@ namespace MusicBrowser.Models
         /// </summary>
         public EntityVirtualList EntityList
         {
-            get { return new EntityVirtualList(_entities); }
+            get { return new EntityVirtualList(_keyboard.DataSet); }
         }
 
         /// <summary>
@@ -71,14 +80,14 @@ namespace MusicBrowser.Models
             get
             {
                 if (SelectedIndex < 0) { SelectedIndex = 0; }
-                if (SelectedIndex > _entities.Count) { SelectedIndex = _entities.Count; }
+                if (SelectedIndex > _keyboard.DataSet.Count) { SelectedIndex = _keyboard.DataSet.Count; }
 
-                if (_entities.Count == 0)
-                {
-                    baseActionCommand goBack = new ActionPreviousPage(null);
-                    goBack.Invoke();
-                }
-                return _entities[SelectedIndex];
+                //if (_entities.Count == 0)
+                //{
+                //    baseActionCommand goBack = new ActionPreviousPage(null);
+                //    goBack.Invoke();
+                //}
+                return _keyboard.DataSet[SelectedIndex];
             }
         }
 
@@ -93,6 +102,19 @@ namespace MusicBrowser.Models
         {
             Busy = busy;
             FirePropertyChanged("Busy");
+        }
+
+        private void KeyboardHandler(string key)
+        {
+            if (key.Equals("DataSet", StringComparison.InvariantCultureIgnoreCase))
+            {
+                FirePropertyChanged("EntityList");
+            }
+            if (key.Equals("Value", StringComparison.InvariantCultureIgnoreCase))
+            {
+                FirePropertyChanged("KeyedValue");
+            }
+            FirePropertyChanged(key);
         }
     }
 }

@@ -9,6 +9,7 @@ using MusicBrowser.Models;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Providers.Background;
+using MusicBrowser.Models.Keyboard;
 
 // ReSharper disable CheckNamespace
 namespace MusicBrowser
@@ -165,7 +166,7 @@ namespace MusicBrowser
                 }
 
                 properties["Application"] = this;
-                FolderModel folderModel = new FolderModel(entity, entities);
+                FolderModel folderModel = new FolderModel(entity, entities, KeyboardHandlerFactory.GetHandler());
                 folderModel.application = this;
                 properties["FolderModel"] = folderModel;
                 properties["UINotifier"] = UINotifier.GetInstance();
