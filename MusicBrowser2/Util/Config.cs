@@ -20,6 +20,8 @@ namespace MusicBrowser.Util
                 { "PutDiscInTrackNo", true.ToString() },
                 { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
 
+                { "KeyboardAction", "Jump" },
+
                 { "Log.Level", "error" },
                 { "Log.Destination", "file" },
                 { "Log.File", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },

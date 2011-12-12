@@ -142,7 +142,7 @@
           <!-- KEYBOARD HANDLER -->
           <Text Name="KeyDisplay" Font="Segoe Media Center Semibold,150" Color="LightBlue">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.05" Top="Parent,.60" />
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.70" />
             </LayoutInput>
           </Text>
 

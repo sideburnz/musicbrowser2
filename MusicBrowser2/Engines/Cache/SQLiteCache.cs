@@ -18,7 +18,7 @@ namespace MusicBrowser.Engines.Cache
         private const string SQL_SELECT = "SELECT [kind], [value] FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_EXISTS = "SELECT COUNT([key]) FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_CLEAR = "DELETE FROM [t_Cache]";
-        private const string SQL_SEARCH = "SELECT [key] FROM [t_Cache] WHERE [kind] = @1 AND [title] LIKE @2";
+        private const string SQL_SEARCH = "SELECT [key] FROM [t_Cache] WHERE [kind] = @1 AND ([title] LIKE @2 OR [title] LIKE @3)";
         private const string SQL_SCAVENGE = "SELECT [value] FROM [t_Cache]";
 
         private object _lock = new object();
@@ -117,14 +117,15 @@ namespace MusicBrowser.Engines.Cache
             ExecuteNonQuery(SQL);
         }
 
-        public IEnumerable<String> Search(string kind, string predicate)
+        public IEnumerable<String> Search(string kind, string criteria)
         {
             SQLiteConnection cnn = GetConnection();
             cnn.Open();
             SQLiteCommand cmd = cnn.CreateCommand();
             cmd.CommandText = SQL_SEARCH;
             cmd.Parameters.AddWithValue("@1", kind);
-            cmd.Parameters.AddWithValue("@2", predicate + "%");
+            cmd.Parameters.AddWithValue("@2", criteria + "%");
+            cmd.Parameters.AddWithValue("@3", "the " + criteria + "%");
             IEnumerable<string> results = ExecuteQuery<string>(cmd);
             cnn.Close();
             return results;
