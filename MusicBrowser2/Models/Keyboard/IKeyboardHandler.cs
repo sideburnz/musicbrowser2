@@ -61,7 +61,6 @@ namespace MusicBrowser.Models.Keyboard
             protected set
             {
                 _processeddata = value;
-                _rawdata = value;
                 if (!(OnDataChanged == null))
                 {
                     OnDataChanged("DataSet");

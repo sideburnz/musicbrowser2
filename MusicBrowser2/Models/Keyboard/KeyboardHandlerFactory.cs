@@ -9,9 +9,6 @@ namespace MusicBrowser.Models.Keyboard
     {
         public static IKeyboardHandler GetHandler()
         {
-
-            return new KeyboardFilter();
-
             switch (Util.Config.GetInstance().GetStringSetting("KeyboardAction").ToLower())
             {
                 case "search":

@@ -70,6 +70,13 @@
       <!--<Binding Target="[Summary.Summary]" Source="[FolderModel.SelectedItem.Summary]" />-->
       <!--<Binding Target="[Summary.Visible]" Source="[FolderModel.ShowSummary]" />-->
 
+      <Changed Source="[FolderModel.JILIndex]">
+        <Actions>
+          <Invoke Target="[scrollData.Home]"/>
+          <Invoke Target="[scrollData.Scroll]" amount="[FolderModel.JILIndex]"/>
+        </Actions>
+      </Changed>
+
       <Changed Source="[FolderModel.ParentEntity.View]" InitialEvaluate="true">
         <Conditions>
           <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="Strip" />

@@ -82,11 +82,11 @@ namespace MusicBrowser.Models
                 if (SelectedIndex < 0) { SelectedIndex = 0; }
                 if (SelectedIndex > _keyboard.DataSet.Count) { SelectedIndex = _keyboard.DataSet.Count; }
 
-                //if (_entities.Count == 0)
-                //{
-                //    baseActionCommand goBack = new ActionPreviousPage(null);
-                //    goBack.Invoke();
-                //}
+                if (_keyboard.DataSet.Count == 0)
+                {
+                    baseActionCommand goBack = new ActionPreviousPage(null);
+                    goBack.Invoke();
+                }
                 return _keyboard.DataSet[SelectedIndex];
             }
         }
@@ -104,6 +104,8 @@ namespace MusicBrowser.Models
             FirePropertyChanged("Busy");
         }
 
+        public int JILIndex { get; set; }
+
         private void KeyboardHandler(string key)
         {
             if (key.Equals("DataSet", StringComparison.InvariantCultureIgnoreCase))
@@ -114,7 +116,11 @@ namespace MusicBrowser.Models
             {
                 FirePropertyChanged("KeyedValue");
             }
-            FirePropertyChanged(key);
+            if (key.Equals("Index", StringComparison.CurrentCultureIgnoreCase))
+            {
+                JILIndex = _keyboard.Index;
+                FirePropertyChanged("JILIndex");
+            }
         }
     }
 }

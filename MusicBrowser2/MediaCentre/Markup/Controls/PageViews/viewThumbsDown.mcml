@@ -50,6 +50,13 @@
           <Set Target="[div_ListThumb.Visible]" Value="false" />
         </Actions>
       </Changed>
+
+      <Changed Source="[FolderModel.JILIndex]">
+        <Actions>
+          <Invoke Target="[scrollData.Home]"/>
+          <Invoke Target="[scrollData.Scroll]" amount="[FolderModel.JILIndex]"/>
+        </Actions>
+      </Changed>
       
       <Rule>
         <Actions>
