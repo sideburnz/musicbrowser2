@@ -8,20 +8,21 @@ namespace MusicBrowser.Models.Keyboard
 {
     class KeyboardFilter : IKeyboardHandler
     {
+        private static IEnumerable<string> _sortIgnore = Util.Config.GetInstance().GetListSetting("SortReplaceWords");
+
+        private static string HandleIgnoreWords(string value)
+        {
+            foreach (string item in _sortIgnore)
+            {
+                if (value.ToLower().StartsWith(item + " ")) { return value.Substring(item.Length + 1).Replace(" ", ""); }
+            }
+            return value.Replace(" ", "");
+        }
+
         private bool isMatch(string candidate, string criteria)
         {
             candidate = candidate.ToLower().Trim();
-            List<string> candidates = new List<string>();
-            candidates.Add(candidate.Replace(" ", ""));
-            if (candidate.StartsWith("the "))
-            {
-                candidates.Add(candidate.Substring(4));
-            }
-            foreach (string c in candidates)
-            {
-                if (c.StartsWith(criteria)) { return true; }
-            }
-            return false;
+            return ((candidate.StartsWith(criteria)) || (HandleIgnoreWords(candidate).StartsWith(criteria)));
         }
 
         public override void DoService()
@@ -37,7 +38,6 @@ namespace MusicBrowser.Models.Keyboard
             if (res.Count == 0)
             {
                 // prevent filtering everything
-                Value = Value.Substring(0, Value.Length - 1);
                 return;
             }
             DataSet = res;

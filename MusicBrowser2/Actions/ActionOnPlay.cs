@@ -30,7 +30,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            baseActionCommand action = Helper.GetPlayAction(entity);
+            baseActionCommand action = Factory.GetPlayAction(entity);
             action.Invoke();
         }
     }

@@ -165,7 +165,7 @@
     <Compile Include="Actions\ActionPlayFolder.cs" />
     <Compile Include="Actions\ActionPlayMusic.cs" />
     <Compile Include="Actions\ActionPlayVirtual.cs" />
-    <Compile Include="Actions\Helper.cs" />
+    <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\CacheScavenger.cs" />
     <Compile Include="Engines\Cache\Extensions.cs" />

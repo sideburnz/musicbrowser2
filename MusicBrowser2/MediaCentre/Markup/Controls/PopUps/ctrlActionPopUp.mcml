@@ -33,12 +33,12 @@
       <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
 
-      <!--<Binding Target="[viewListRepeater.Source]" Source="[Model.Context.Actions]" />
-      <Binding Target="[ListSize]" Source="[Model.Context.Actions.Count]">
+      <Binding Target="[viewListRepeater.Source]" Source="[Model.Actions]" />
+      <Binding Target="[ListSize]" Source="[Model.Actions.Count]">
         <Transformer>
           <MathTransformer Add="-1" />
         </Transformer>
-      </Binding>-->
+      </Binding>
 
       <Changed Source="[CmdClose.Invoked]">
         <Actions>

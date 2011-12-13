@@ -60,6 +60,15 @@ namespace MusicBrowser.Models
             {
                 _context = value;
                 FirePropertyChanged("Context");
+                FirePropertyChanged("Actions");
+            }
+        }
+
+        public List<baseActionCommand> Actions
+        {
+            get
+            {
+                return Factory.GetActionList(_context);
             }
         }
     }
