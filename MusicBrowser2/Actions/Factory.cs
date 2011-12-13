@@ -11,15 +11,14 @@ using MusicBrowser.Engines.Logging;
 
 namespace MusicBrowser.Actions
 {
-    static class Helper
+    static class Factory
     {
         private struct ActionConfigEntry
         {
             public baseActionCommand OnRecord;
             public baseActionCommand OnEnter;
             public baseActionCommand OnPlay;
-
-            //TODO: add an OnStar - default is to show the content menu
+            public baseActionCommand OnStar;
 
             public IList<baseActionCommand> MenuOptions;
         }
@@ -59,7 +58,7 @@ namespace MusicBrowser.Actions
                     return _actionConfig[leaf].OnEnter.NewInstance(entity);
                 }
             }
-            return new ActionOpen(entity);
+            return new ActionNoOperation();
         }
 
         public static baseActionCommand GetPlayAction(baseEntity entity)
@@ -72,7 +71,20 @@ namespace MusicBrowser.Actions
                     return _actionConfig[leaf].OnPlay.NewInstance(entity);
                 }
             }
-            return new ActionPlay(entity);
+            return new ActionNoOperation();
+        }
+
+        public static baseActionCommand GetStarAction(baseEntity entity)
+        {
+            IEnumerable<string> tree = entity.Tree();
+            foreach (string leaf in tree)
+            {
+                if (_actionConfig.ContainsKey(leaf))
+                {
+                    return _actionConfig[leaf].OnPlay.NewInstance(entity);
+                }
+            }
+            return new ActionNoOperation();
         }
 
         public static baseActionCommand GetRecordAction(baseEntity entity)
@@ -85,10 +97,10 @@ namespace MusicBrowser.Actions
                     return _actionConfig[leaf].OnRecord.NewInstance(entity);
                 }
             }
-            return new ActionRefreshMetadata(entity);
+            return new ActionNoOperation();
         }
 
-        public static IList<baseActionCommand> GetActionList(baseEntity entity)
+        public static List<baseActionCommand> GetActionList(baseEntity entity)
         {
             IEnumerable<string> tree = entity.Tree();
             foreach (string leaf in tree)
@@ -153,6 +165,7 @@ namespace MusicBrowser.Actions
             {
                 if (File.Exists(configFile))
                 {
+                    LoggerEngineFactory.Debug("using actions override file");
                     xml.Load(configFile);
                 }
                 else
@@ -177,6 +190,7 @@ namespace MusicBrowser.Actions
                     entry.OnEnter = ActionFactory(node.SelectSingleNode("OnEnter"));
                     entry.OnPlay = ActionFactory(node.SelectSingleNode("OnPlay"));
                     entry.OnRecord = ActionFactory(node.SelectSingleNode("OnRecord"));
+                    entry.OnStar = ActionFactory(node.SelectSingleNode("OnStar"));
 
                     foreach (XmlNode item in node.SelectNodes("MenuItems/Item"))
                     {

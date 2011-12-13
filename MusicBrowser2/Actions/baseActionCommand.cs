@@ -4,7 +4,6 @@ using MusicBrowser.Engines.Logging;
 using MusicBrowser.Entities;
 using MusicBrowser.Models;
 using MusicBrowser.Providers;
-using MusicBrowser.Engines.Logging;
 
 namespace MusicBrowser.Actions
 {
@@ -58,9 +57,15 @@ namespace MusicBrowser.Actions
                 kind = Entity.Kind;
             }
 
-            LoggerEngineFactory.Debug(String.Format("Action: {0}, Entity: {1} [{2}]", Label, title, kind));
+            LoggerEngineFactory.Debug(String.Format("Action: {0}, Entity: {1} [{2}] ({3})", Label, title, kind, Available));
 
-            Statistics.Hit("Action." + Label);
+            // if the action isn't enabled, do run it
+            if (!Available)
+            {
+                return;
+            }
+
+            Statistics.Hit("Action." + Label.Replace(" ", ""));
 
             try
             {

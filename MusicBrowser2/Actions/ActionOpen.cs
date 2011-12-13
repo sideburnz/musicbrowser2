@@ -16,6 +16,7 @@ namespace MusicBrowser.Actions
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
+            Available = Directory.Exists(entity.Path) || InheritsFrom<Container>(entity);
         }
 
         public ActionOpen()
@@ -31,10 +32,8 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            if (Directory.Exists(entity.Path) || InheritsFrom<Container>(entity))
-            {
-                MusicBrowser.Application.GetReference().Navigate(entity);
-            }
+            MusicBrowser.Application.GetReference().Navigate(entity);
         }
+
     }
 }

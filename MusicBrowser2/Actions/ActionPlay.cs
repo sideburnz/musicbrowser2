@@ -15,6 +15,7 @@ namespace MusicBrowser.Actions
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
+            Available = InheritsFrom<Item>(entity);
         }
 
         public ActionPlay()
@@ -30,41 +31,26 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            //baseActionCommand action;
+            baseActionCommand action = new ActionNoOperation();
 
-            //switch (entity.Kind)
-            //{
-            //    case EntityKind.Album:
-            //    case EntityKind.Artist:
-            //    case EntityKind.Folder:
-            //    case EntityKind.Genre:
-            //    case EntityKind.PhotoAlbum:
-            //    case EntityKind.Series:
-            //    case EntityKind.Show:
-            //        action = new ActionPlayFolder(entity);
-            //        break;
-            //    case EntityKind.Episode:
-            //    case EntityKind.Movie:
-            //        action = new ActionPlayVideo(entity);
-            //        break;
-            //    case EntityKind.Photo:
-            //        action = new ActionPlayImage(entity);
-            //        break;
-            //    case EntityKind.Playlist:
-            //    case EntityKind.Track:
-            //        action = new ActionPlayMusic(entity);
-            //        break;
-            //    case EntityKind.Group:
-            //    case EntityKind.GroupBy:
-            //    case EntityKind.Virtual:
-            //        action = new ActionPlayVirtual(entity);
-            //        break;
-            //    default:
-            //        action = new ActionNoOperation();
-            //        break;
-            //}
+            if (InheritsFrom<Collection>(entity))
+            {
+                action = new ActionPlayFolder(entity);
+            }
+            if (InheritsFrom<Music>(entity))
+            {
+                action = new ActionPlayMusic(entity);
+            }
+            if (InheritsFrom<Video>(entity))
+            {
+                action = new ActionPlayVideo(entity);
+            }
+            if (InheritsFrom<Photo>(entity))
+            {
+                action = new ActionPlayImage(entity);
+            }
 
-            //action.Invoke();
+            action.Invoke();
         }
     }
 }
