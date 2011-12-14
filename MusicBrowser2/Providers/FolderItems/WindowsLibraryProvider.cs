@@ -25,7 +25,13 @@ namespace MusicBrowser.Providers.FolderItems
             bool runningOnExtender = Environment.UserName.ToLower().StartsWith("mcx");
             if (runningOnExtender)
             {
-                //TODO: tell the user to not use libraries in their .vf file
+                Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog
+                     ("Libraries cannot be used on extenders.",
+                     "Error",
+                     Microsoft.MediaCenter.DialogButtons.Ok,
+                     100,
+                     true);
+                throw new Exception("Libraries cannot be used on extenders.");
             }
 
             XmlDocument libraryDfn;

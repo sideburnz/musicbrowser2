@@ -67,7 +67,6 @@ namespace MusicBrowser.Engines.Transport
             }
 
             ExecuteCommand(sb.ToString());
-            //TODO: why does this pause?
             System.Threading.Thread.Sleep(100);
             HideFoobar();
         }

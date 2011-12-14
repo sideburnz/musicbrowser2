@@ -39,12 +39,19 @@ namespace MusicBrowser.Entities
             base.AddRange(entities);
         }
 
-        public new void Sort()
+        public void Sort(string Field)
         {
-            //TODO: implement bespoke ordering here
-            foreach (baseEntity e in this) { e.SortName = e.Title; }
+            foreach (baseEntity e in this) 
+            {
+                e.SortName = e.TokenSubstitution(Field);
+            }
             base.Sort(new EntityCollectionSorter());
             for (int i = 0; i < Count; this[i].Index = i++) ;
+        }
+
+        protected static bool InheritsFrom<T>(baseEntity e)
+        {
+            return typeof(T).IsAssignableFrom(e.GetType());
         }
 
         //public EntityCollection Filter(EntityKind kind, string key, string value)

@@ -33,14 +33,14 @@ namespace MusicBrowser.Providers.FolderItems
             }
         }
 
-        public static baseEntity CollectionFactory(FileSystemItem vf)
+        public static Collection CollectionFactory(FileSystemItem vf)
         {
-            baseEntity entity;
+            Collection entity;
             string key = Helper.GetCacheKey(vf.FullPath);
 
             #region persistent cache
             // get the value from persistent cache
-            entity = CacheEngineFactory.GetEngine().Fetch(key);
+            entity = (Collection)CacheEngineFactory.GetEngine().Fetch(key);
             if (entity == null)
             {
                 string targetType = VirtualFolderProvider.GetTargetType(vf.FullPath);
@@ -61,6 +61,7 @@ namespace MusicBrowser.Providers.FolderItems
             entity.Path = vf.FullPath;
             entity.ThumbPath = VirtualFolderProvider.GetImage(vf.FullPath);
             entity.Title = Path.GetFileNameWithoutExtension(vf.FullPath);
+            entity.SortOrder = VirtualFolderProvider.GetSortOrder(vf.FullPath);
 
             return entity;
         }

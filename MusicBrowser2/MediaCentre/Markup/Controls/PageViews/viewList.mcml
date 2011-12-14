@@ -145,10 +145,10 @@
     <Content>
       <Panel Name="EntityButtonFace">
         <Children>
-          <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[MinSize]" MaximumSize="[MinSize]">
+          <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[MinSize]" MaximumSize="[MinSize]" Layout="HorizontalFlow">
             <Children>
               <Graphic Name="graphicBullet" Content="[Entity.Thumb]" Margins="5,5,0,5" MaximumSize="0,47" MinimumSize="0,47" MaintainAspectRatio="true" Visible="true" />
-              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="60,7,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" MaximumSize="[Size]" />
+              <Text Name="Label" Color="White" MinimumSize="0,30" Margins="10,7,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" MaximumSize="[Size]" />
             </Children>
           </Graphic>
         </Children>

@@ -56,7 +56,7 @@ namespace MusicBrowser.Actions
                 mce.PlayMedia(MediaType.Video, entity.Path, false);
             }
             mce.MediaExperience.GoToFullScreen();
-            //TODO: this should detect when the video stops to "press" the back button
+            //TODO: this should detect when the video stops to save the playstate
         }
     }
 }
