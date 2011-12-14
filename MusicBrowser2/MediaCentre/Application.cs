@@ -89,7 +89,7 @@ namespace MusicBrowser
                     case "Home":
                         {
                             entities = HomeScreen.Entities;
-
+                            //TODO: restore this
                             //foreach (baseEntity e in entities)
                             //{
                             //    CommonTaskQueue.Enqueue(new BackgroundCacheProvider(e));
@@ -105,49 +105,8 @@ namespace MusicBrowser
                             entities.AddRange(fip.GetItems(entity.Path));
                             break;
                         }
-                    //case "Group":
-                    //    {
-                    //        switch (entity.Title.ToLower())
-                    //        {
-                    //            case "tracks by genre":
-                    //                {
-                    //                    entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Track, "Genre");
-                    //                    break;
-                    //                }
-                    //            case "albums by year":
-                    //                {
-                    //                    entities = InMemoryCache.GetInstance().DataSet.Group(EntityKind.Album, "Year");
-                    //                    break;
-                    //                }
-                    //        }
-                    //        break;
-                    //    }
-                    //case "Virtual":
-                    //    {
-                    //        switch (entity.Path.ToLower())
-                    //        {
-                    //            //TODO: redo this group by logic 
-                    //            case "tracks by genre":
-                    //                {
-                    //                    entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Track, "Genre", entity.Title);
-                    //                    break;
-                    //                }
-                    //            case "albums by year":
-                    //                {
-                    //                    entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "Year", entity.Title);
-                    //                    break;
-                    //                }
-                    //            case "albums":
-                    //                {
-                    //                    entities = InMemoryCache.GetInstance().DataSet.Filter(EntityKind.Album, "", entity.Title);
-                    //                    break;
-                    //                }
-                    //        }
-                    //        break;
-                    //    }
                     case "Photo":
                         {
-                            //TODO: bad programming here, fix it
                             properties["Model"] = entity;
                             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageImage", properties);
                             return;

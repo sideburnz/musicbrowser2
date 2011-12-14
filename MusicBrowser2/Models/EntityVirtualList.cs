@@ -11,23 +11,12 @@ namespace MusicBrowser.Models
     {
         private EntityCollection _collection;
 
-        public EntityVirtualList(EntityCollection entityCollection)
+        public EntityVirtualList(EntityCollection entityCollection, string field)
         {
-            entityCollection.Sort();
+            entityCollection.Sort(field);
             _collection = entityCollection;
             this.Count = _collection.Count;
             this.EnableSlowDataRequests = false;  
-        }
-
-        public EntityVirtualList(EntityCollection entityCollection, bool sort)
-        {
-            if (sort)
-            {
-                entityCollection.Sort();
-            }
-            _collection = entityCollection;
-            this.Count = _collection.Count;
-            this.EnableSlowDataRequests = false;
         }
 
         // this allows the page to load without

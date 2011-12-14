@@ -7,8 +7,6 @@ using System.Text;
 using MusicBrowser.Entities;
 using MusicBrowser.Engines.Logging;
 
-//TODO: tidy this up
-
 namespace MusicBrowser.Actions
 {
     static class Factory
@@ -55,7 +53,10 @@ namespace MusicBrowser.Actions
             {
                 if (_actionConfig.ContainsKey(leaf))
                 {
-                    return _actionConfig[leaf].OnEnter.NewInstance(entity);
+                    if (_actionConfig[leaf].OnEnter.GetType() != typeof(ActionNoOperation))
+                    {
+                        return _actionConfig[leaf].OnEnter.NewInstance(entity);
+                    }
                 }
             }
             return new ActionNoOperation();
@@ -68,7 +69,10 @@ namespace MusicBrowser.Actions
             {
                 if (_actionConfig.ContainsKey(leaf))
                 {
-                    return _actionConfig[leaf].OnPlay.NewInstance(entity);
+                    if (_actionConfig[leaf].OnPlay.GetType() != typeof(ActionNoOperation))
+                    {
+                        return _actionConfig[leaf].OnPlay.NewInstance(entity);
+                    }
                 }
             }
             return new ActionNoOperation();
@@ -81,7 +85,10 @@ namespace MusicBrowser.Actions
             {
                 if (_actionConfig.ContainsKey(leaf))
                 {
-                    return _actionConfig[leaf].OnPlay.NewInstance(entity);
+                    if (_actionConfig[leaf].OnStar.GetType() != typeof(ActionNoOperation))
+                    {
+                        return _actionConfig[leaf].OnStar.NewInstance(entity);
+                    }
                 }
             }
             return new ActionNoOperation();
@@ -94,7 +101,10 @@ namespace MusicBrowser.Actions
             {
                 if (_actionConfig.ContainsKey(leaf))
                 {
-                    return _actionConfig[leaf].OnRecord.NewInstance(entity);
+                    if (_actionConfig[leaf].OnRecord.GetType() != typeof(ActionNoOperation))
+                    {
+                        return _actionConfig[leaf].OnRecord.NewInstance(entity);
+                    }
                 }
             }
             return new ActionNoOperation();
@@ -107,12 +117,15 @@ namespace MusicBrowser.Actions
             {
                 if (_actionConfig.ContainsKey(leaf))
                 {
-                    List<baseActionCommand> ret = new List<baseActionCommand>();
-                    foreach (baseActionCommand action in _actionConfig[leaf].MenuOptions)
+                    if (_actionConfig[leaf].MenuOptions.Count > 0)
                     {
-                        ret.Add(action.NewInstance(entity));
+                        List<baseActionCommand> ret = new List<baseActionCommand>();
+                        foreach (baseActionCommand action in _actionConfig[leaf].MenuOptions)
+                        {
+                            ret.Add(action.NewInstance(entity));
+                        }
+                        return ret;
                     }
-                    return ret;
                 }
             }
             return null;
@@ -125,7 +138,6 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionCloseMenu());
             ret.Add(new ActionCycleViews());
             ret.Add(new ActionNoOperation()); // AKA Do Nothing
-            //the ActionOn____ actions should never be factored
             ret.Add(new ActionOpen());
             ret.Add(new ActionPause());
             ret.Add(new ActionPlay());
@@ -140,11 +152,7 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionPreviousPage());
             ret.Add(new ActionQueue());
             ret.Add(new ActionRefreshMetadata());
-//          ret.Add(new ActionSetBooleanSetting());
-//          ret.Add(new ActionSetSetting());
             ret.Add(new ActionShowActions());
-            //ret.Add(new ActionShowGroupAlbumsByYear());
-            //ret.Add(new ActionShowGroupTracksByGenre());
             ret.Add(new ActionShowKeyboard());
             ret.Add(new ActionShowSearch());
             ret.Add(new ActionShowSettings());

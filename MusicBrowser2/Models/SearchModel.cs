@@ -56,7 +56,7 @@ namespace MusicBrowser.Models
                 {
                     dataset.Add(_engine.Fetch(item));
                 }
-                return new EntityVirtualList(dataset, false);
+                return new EntityVirtualList(dataset, "[Title]");
             }
         }
 

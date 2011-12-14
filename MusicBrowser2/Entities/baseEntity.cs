@@ -21,6 +21,7 @@ namespace MusicBrowser.Entities
         private string _bannerPath;
         private string _title;
         private string _sortName;
+        private string _sortField;
         #endregion
 
         #region cached attributes
@@ -97,6 +98,28 @@ namespace MusicBrowser.Entities
                 FirePropertyChanged("View");
             }
         }
+        [DataMember]
+        public virtual String SortField
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(_sortField))
+                {
+                    return _sortField;
+                }
+                string setting = String.Format("Entity.{0}.SortBy", Kind);
+                if (Config.GetInstance().Exists(setting))
+                {
+                    return Config.GetInstance().GetStringSetting(setting);
+                }
+                return "[Title]";
+            }
+            set
+            {
+                _sortField = value;
+                FirePropertyChanged("SortField");
+            }
+        }
         #endregion
 
         #region private cached items
@@ -115,7 +138,7 @@ namespace MusicBrowser.Entities
 
                     if (Config.GetInstance().Exists(setting))
                     {
-                        return MacroSubstitution(Config.GetInstance().GetStringSetting(setting));
+                        return TokenSubstitution(Config.GetInstance().GetStringSetting(setting));
                     }
                 }
                 // if we can't find anything, just return a fixed result
@@ -206,7 +229,7 @@ namespace MusicBrowser.Entities
         #endregion
 
         #region private helpers
-        private string MacroSubstitution(string input)
+        public virtual string TokenSubstitution(string input)
         {
             string output = input;
 
@@ -217,9 +240,11 @@ namespace MusicBrowser.Entities
                 switch (token)
                 {
                     case "title":
-                        output = output.Replace("[title]", Title); break;
+                    case "Title":
+                        output = output.Replace("[" + token + "]", Title); break;
+                    case "Kind":
                     case "kind":
-                        output = output.Replace("[kind]", Kind); break;
+                        output = output.Replace("[" + token + "]", Kind); break;
                 }
             }
             return output.Trim();

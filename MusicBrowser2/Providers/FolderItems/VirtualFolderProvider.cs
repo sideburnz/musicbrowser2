@@ -133,7 +133,7 @@ namespace MusicBrowser.Providers.FolderItems
 
                 if (line.StartsWith("sortorder:"))
                 {
-                    return line.Substring(8).Trim();
+                    return line.Substring(10).Trim();
                 }
             }
             return string.Empty;
