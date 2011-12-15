@@ -184,17 +184,7 @@ namespace MusicBrowser.Entities
 
         public int Index { get; set; }
 
-        public string SortName
-        {
-            get
-            {
-                return _sortName;
-            }
-            set
-            {
-                _sortName = HandleSortIgnoreWords(value);
-            }
-        }
+        public string SortName { get; set; }
 
         public string Kind
         {
@@ -242,9 +232,47 @@ namespace MusicBrowser.Entities
                     case "title":
                     case "Title":
                         output = output.Replace("[" + token + "]", Title); break;
+                    case "title:sort":
+                    case "Title:sort":
+                        output = output.Replace("[" + token + "]", HandleIgnoreWords(Title)); break;
                     case "Kind":
                     case "kind":
+                    case "Kind:sort":
+                    case "kind:sort": 
                         output = output.Replace("[" + token + "]", Kind); break;
+                    case "filename":
+                    case "Filename":
+                    case "filename:sort":
+                    case "Filename:sort":
+                        string filename = string.Empty;
+                        if (System.IO.File.Exists(Path))
+                        {
+                            filename = System.IO.Path.GetFileNameWithoutExtension(Path);
+                        }
+                        else if (System.IO.Directory.Exists(Path))
+                        {
+                            filename = System.IO.Path.GetFileName(Path);
+                        }
+                        output = output.Replace("[" + token + "]", filename);
+                        break;
+                    case "Added:sort":
+                    case "added:sort":
+                        if (TimeStamp > DateTime.Parse("01-JAN-1000")) 
+                        { 
+                            output = output.Replace("[" + token + "]", TimeStamp.ToString("yyyy-mm-dd hh:MM:ss")); 
+                            break; 
+                        }
+                        output = output.Replace("[" + token + "]", ""); 
+                        break;
+                    case "Added":
+                    case "added":
+                        if (TimeStamp > DateTime.Parse("01-JAN-1000"))
+                        {
+                            output = output.Replace("[" + token + "]", TimeStamp.ToString("dd mmm yyyy"));
+                            break;
+                        }
+                        output = output.Replace("[" + token + "]", "");
+                        break;
                 }
             }
             return output.Trim();
@@ -274,7 +302,7 @@ namespace MusicBrowser.Entities
         }
 
         private static IEnumerable<string> _sortIgnore = Util.Config.GetInstance().GetListSetting("SortReplaceWords");
-        protected static string HandleSortIgnoreWords(string value)
+        protected static string HandleIgnoreWords(string value)
         {
             foreach (string item in _sortIgnore)
             {

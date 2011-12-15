@@ -51,8 +51,6 @@ namespace MusicBrowser.Actions
             //        return;
             //}
 
-            Models.UINotifier.GetInstance().Message = String.Format("playing videos folders doesn't always work");
-
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
             MediaCollection collection = new MediaCollection();
             string lastitem = string.Empty;
@@ -77,14 +75,16 @@ namespace MusicBrowser.Actions
             // if there's only 1 item, just play it (this may go wrong if it's not a video)
             if (collection.Count == 1)
             {
+                entity.MarkPlayed();
                 mce.PlayMedia(MediaType.Video, lastitem, false);
                 mce.MediaExperience.GoToFullScreen();
                 return;
             }
 
             Models.UINotifier.GetInstance().Message = String.Format("playing {0} folder items", collection.Count());
+            entity.MarkPlayed();
             mce.PlayMedia(MediaType.MediaCollection, collection, false);
-//            mce.MediaExperience.GoToFullScreen();
+            mce.MediaExperience.GoToFullScreen();
         }
     }
 }

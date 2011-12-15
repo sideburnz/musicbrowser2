@@ -171,7 +171,9 @@
     <Compile Include="Engines\Cache\ICacheEngine.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
+    <Compile Include="Engines\Cache\PlayState.cs" />
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
+    <Compile Include="Engines\Cache\SQLiteHelper.cs" />
     <Compile Include="Entities\baseEntity.cs" />
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />

@@ -7,6 +7,7 @@ using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 using MusicBrowser.Util;
 using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace MusicBrowser.Entities
 {
@@ -126,7 +127,14 @@ namespace MusicBrowser.Entities
         private static T Factorize<T>(FileSystemItem item) where T : baseEntity, new()
         {
             T e = new T();
-            e.Title = Path.GetFileNameWithoutExtension(item.Name);
+            if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
+            {
+                e.Title = item.Name;
+            }
+            else
+            {
+                e.Title = Path.GetFileNameWithoutExtension(item.Name);
+            }
             e.Path = item.FullPath;
             e.LastUpdated = item.LastUpdated;
             e.TimeStamp = DateTime.Now;
@@ -167,6 +175,21 @@ namespace MusicBrowser.Entities
                     {
                         // ignore metadata folders
                         if (entity.Name.ToLower() == "metadata") { return null; }
+
+                        // see if the user has overriden the type
+                        try
+                        {
+                            string metadataFile = MetadataPath(entity.FullPath);
+                            if (!String.IsNullOrEmpty(metadataFile))
+                            {
+                                EntityKind? extracted = ExtractType(metadataFile);
+                                if (extracted != null)
+                                {
+                                    return extracted;
+                                }
+                            }
+                        }
+                        catch { }
 
                         IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
                         bool hasImages = false;
@@ -241,5 +264,57 @@ namespace MusicBrowser.Entities
         {
             return _EpisodeRegEx.Match(path).Success;
         }
+
+        // works out where the metadata file is (if there is one)
+        private static string MetadataPath(string item)
+        {
+            string itemName = Path.GetFileNameWithoutExtension(item);
+            string metadataPath = Directory.GetParent(item).FullName;
+            FileSystemItem metadataFile;
+
+            string metadataLocal = metadataPath + "\\" + itemName + "\\metadata.xml";
+            metadataFile = FileSystemProvider.GetItemDetails(metadataLocal);
+            if (!String.IsNullOrEmpty(metadataFile.Name))
+            {
+                return metadataFile.FullPath;
+            }
+            string metadataInParent = metadataPath + "\\metadata\\" + itemName + ".xml";
+            metadataFile = FileSystemProvider.GetItemDetails(metadataInParent);
+            // this either returns detail or an empty struct which would indicate not found
+            if (!String.IsNullOrEmpty(metadataFile.Name))
+            {
+                return metadataFile.FullPath;
+            }
+            return String.Empty;
+        }
+
+        private static EntityKind? ExtractType(string metadataFile)
+        {
+            XmlDocument xml = new XmlDocument();
+            xml.Load(metadataFile);
+            switch (Helper.ReadXmlNode(xml, "EntityXML/@type").ToLower())
+            {
+                case "album":
+                    return EntityKind.Album;
+                case "artist":
+                    return EntityKind.Artist;
+                case "episode":
+                    return EntityKind.Episode;
+                case "folder":
+                    return EntityKind.Folder;
+                case "genre":
+                    return EntityKind.Genre;
+                case "movie":
+                    return EntityKind.Movie;
+                case "photoalbum":
+                    return EntityKind.PhotoAlbum;
+                case "season":
+                    return EntityKind.Season;
+                case "show":
+                    return EntityKind.Show;
+            }
+            return null;
+        }
+
     }
 }

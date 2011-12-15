@@ -37,6 +37,7 @@ namespace MusicBrowser.Actions
         public override void DoAction(baseEntity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("playing {0}", entity.Title);
+            entity.MarkPlayed();
             TransportEngineFactory.GetEngine().Play(false, entity.Path);
             MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }

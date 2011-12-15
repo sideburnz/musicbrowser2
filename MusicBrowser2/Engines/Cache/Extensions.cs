@@ -14,5 +14,25 @@ namespace MusicBrowser.Engines.Cache
         {
             _engine.Update(entity);
         }
+
+        public static void MarkPlayed(this baseEntity entity)
+        {
+            PlayState.MarkPlayed(entity.CacheKey, -1);
+        }
+
+        public static void MarkPlayed(this baseEntity entity, int progress)
+        {
+            PlayState.MarkPlayed(entity.CacheKey, progress);
+        }
+
+        public static DateTime LastPlayed(this baseEntity entity)
+        {
+            return PlayState.LastPlayed(entity.CacheKey);
+        }
+
+        public static int PlayProgress(this baseEntity entity)
+        {
+            return PlayState.Progress(entity.CacheKey);
+        }
     }
 }
