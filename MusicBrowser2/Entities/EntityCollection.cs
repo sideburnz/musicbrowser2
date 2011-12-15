@@ -43,7 +43,7 @@ namespace MusicBrowser.Entities
         {
             foreach (baseEntity e in this) 
             {
-                e.SortName = e.TokenSubstitution(Field);
+                e.SortName = e.TokenSubstitution(Field + ":sort");
             }
             base.Sort(new EntityCollectionSorter());
             for (int i = 0; i < Count; this[i].Index = i++) ;

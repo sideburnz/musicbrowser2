@@ -53,6 +53,7 @@ namespace MusicBrowser.Actions
             }
             else
             {
+                entity.MarkPlayed();
                 mce.PlayMedia(MediaType.Video, entity.Path, false);
             }
             mce.MediaExperience.GoToFullScreen();

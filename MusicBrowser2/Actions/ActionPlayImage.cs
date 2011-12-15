@@ -36,6 +36,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
+            entity.MarkPlayed();
             Application.GetReference().Navigate(entity);
         }
     }
