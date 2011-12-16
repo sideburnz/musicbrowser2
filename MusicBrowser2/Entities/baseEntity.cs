@@ -10,6 +10,7 @@ using Microsoft.MediaCenter.UI;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.Providers;
 using System.Drawing;
+using ServiceStack.Text;
 
 namespace MusicBrowser.Entities
 {
@@ -112,7 +113,7 @@ namespace MusicBrowser.Entities
                 {
                     return Config.GetInstance().GetStringSetting(setting);
                 }
-                return "[Title]";
+                return "Title";
             }
             set
             {
@@ -120,6 +121,8 @@ namespace MusicBrowser.Entities
                 FirePropertyChanged("SortField");
             }
         }
+        [DataMember]
+        public DateTime LastPlayed { get; set; }
         #endregion
 
         #region private cached items
@@ -194,6 +197,8 @@ namespace MusicBrowser.Entities
             }
         }
 
+        public bool Played { get { return LastPlayed > DateTime.Parse("2000-01-01"); } }
+
         public Microsoft.MediaCenter.UI.Color Color
         {
             /// <summary>
@@ -213,6 +218,8 @@ namespace MusicBrowser.Entities
                 return new Microsoft.MediaCenter.UI.Color(128, 128, 128);
             }
         }
+
+        public abstract string Serialize();
 
         #region abstract attributes
         public abstract string DefaultThumbPath { get; }

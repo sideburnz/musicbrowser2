@@ -14,20 +14,20 @@ using MusicBrowser.MediaCentre;
 
 namespace MusicBrowser.Actions
 {
-    public class ActionPlayVideo : baseActionCommand
+    public class ActionResume : baseActionCommand
     {
-        private const string LABEL = "Play";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
+        private const string LABEL = "Resume";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconResume";
 
-        public ActionPlayVideo(baseEntity entity)
+        public ActionResume(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
-            Available = (InheritsFrom<Video>(entity)); 
+            Available = (InheritsFrom<Video>(entity)) && ((Video)entity).Progress > 0; 
         }
 
-        public ActionPlayVideo()
+        public ActionResume()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -35,7 +35,7 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(baseEntity entity)
         {
-            return new ActionPlayVideo(entity);
+            return new ActionResume(entity);
         }
 
         public override void DoAction(baseEntity entity)
@@ -47,20 +47,16 @@ namespace MusicBrowser.Actions
                 {
                     entity.MarkPlayed();
                     mce.PlayMedia(MediaType.Dvd, entity.Path, false);
-                }
-                else
-                {
-                    // refer it on to a more specialist Play action
-                    ActionPlayFolder a = new ActionPlayFolder(entity);
-                    a.Invoke();
-                    return;
+                    mce.MediaExperience.Transport.Position = new TimeSpan(0, 0, ((Video)entity).Progress);
                 }
             }
             else
             {
                 entity.MarkPlayed();
                 mce.PlayMedia(MediaType.Video, entity.Path, false);
+                mce.MediaExperience.Transport.Position = new TimeSpan(0, 0, ((Video)entity).Progress);
             }
+
             mce.MediaExperience.GoToFullScreen();
             ProgressRecorder.Register(entity);
         }

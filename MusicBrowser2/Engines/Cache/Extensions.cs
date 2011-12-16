@@ -17,22 +17,24 @@ namespace MusicBrowser.Engines.Cache
 
         public static void MarkPlayed(this baseEntity entity)
         {
-            PlayState.MarkPlayed(entity.CacheKey, -1);
+            entity.LastPlayed = DateTime.Now;
+            entity.UpdateCache();
         }
 
-        public static void MarkPlayed(this baseEntity entity, int progress)
+        public static void SetProgress(this baseEntity entity, int progress)
         {
-            PlayState.MarkPlayed(entity.CacheKey, progress);
+            if (InheritsFrom<Video>(entity))
+            {
+                ((Video)entity).Progress = progress;
+                entity.UpdateCache();
+
+                Logging.LoggerEngineFactory.Debug(entity.Title + " was stopped at " + progress + " seconds");
+            }
         }
 
-        public static DateTime LastPlayed(this baseEntity entity)
+        private static bool InheritsFrom<T>(baseEntity e)
         {
-            return PlayState.LastPlayed(entity.CacheKey);
-        }
-
-        public static int PlayProgress(this baseEntity entity)
-        {
-            return PlayState.Progress(entity.CacheKey);
+            return typeof(T).IsAssignableFrom(e.GetType());
         }
     }
 }

@@ -56,7 +56,7 @@ namespace MusicBrowser.Engines.Cache
         public void Update(baseEntity e)
         {
             string key = e.CacheKey;
-            string value = EntityPersistance.Serialize(e);
+            string value = e.Serialize();
             string kind = e.GetType().Name;
             string title = e.Title;
 

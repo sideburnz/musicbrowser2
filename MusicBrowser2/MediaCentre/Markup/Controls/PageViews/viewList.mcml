@@ -131,15 +131,28 @@
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
           <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
-          <Set Target="[Label.Color]" Value="White"/>
+          <Set Target="[Label.Alpha]" Value="1"/>
           <Set Target="[FolderModel.SelectedIndex]" Value="[Entity.Index]"/>
         </Actions>
       </Condition>
-      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[Input.KeyFocus]" Value="false" />
+          <Equality ConditionOp="Equals" Source="[Entity.Played]" Value="true" />
+        </Conditions>
         <Actions>
-          <Set Target="[Label.Color]" Value="Gray"/>
+          <Set Target="[Label.Alpha]" Value="0.25"/>
         </Actions>
-      </Condition>
+      </Rule>
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[Input.KeyFocus]" Value="false" />
+          <Equality ConditionOp="Equals" Source="[Entity.Played]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Label.Alpha]" Value="0.5"/>
+        </Actions>
+      </Rule>
     </Rules>
 
     <Content>

@@ -164,6 +164,7 @@
     <Compile Include="Actions\ActionPlayImage.cs" />
     <Compile Include="Actions\ActionPlayFolder.cs" />
     <Compile Include="Actions\ActionPlayMusic.cs" />
+    <Compile Include="Actions\ActionResume.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\CacheScavenger.cs" />
@@ -171,7 +172,6 @@
     <Compile Include="Engines\Cache\ICacheEngine.cs" />
     <Compile Include="Engines\Cache\NoCache.cs" />
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
-    <Compile Include="Engines\Cache\PlayState.cs" />
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
     <Compile Include="Engines\Cache\SQLiteHelper.cs" />
     <Compile Include="Entities\baseEntity.cs" />
@@ -195,12 +195,10 @@
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Folder.cs" />
     <Compile Include="Entities\Home.cs" />
-    <Compile Include="Entities\IPlayable.cs" />
-    <Compile Include="Entities\IPlaylistable.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Virtual.cs" />
     <Compile Include="MediaCentre\FirstRun.cs" />
-    <Compile Include="MediaCentre\UI.cs" />
+    <Compile Include="MediaCentre\ProgressRecorder.cs" />
     <Compile Include="Models\ActionsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
