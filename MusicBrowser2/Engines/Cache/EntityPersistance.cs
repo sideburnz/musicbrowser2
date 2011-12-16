@@ -49,10 +49,5 @@ namespace MusicBrowser.Engines.Cache
             }
             return null;
         }
-
-        public static string Serialize(baseEntity graph)
-        {
-            return graph.ToJson();
-        }
     }
 }
