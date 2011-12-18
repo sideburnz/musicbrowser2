@@ -280,7 +280,6 @@
     <Compile Include="Engines\Transport\Foobar2000Transport.cs" />
     <Compile Include="Engines\Transport\MediaCentreTransport.cs" />
     <Compile Include="Engines\Transport\TransportEngineFactory.cs" />
-    <Compile Include="Engines\Transport\VLCTransport.cs" />
     <Compile Include="Util\Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\FolderItems\WindowsLibraryProvider.cs" />
