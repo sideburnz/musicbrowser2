@@ -29,11 +29,11 @@ namespace MusicBrowser.MediaCentre
 
         //not perfect
         private static bool ComparePathToURI(string path, string uri)
-        {
-            Engines.Logging.LoggerEngineFactory.Debug("PROGRESS: testing " + path + " with " + uri);
-                        
+        {                       
             string comparerpath = path.Replace('\\', '/');
-            return uri.EndsWith(comparerpath);
+            bool res = uri.EndsWith(comparerpath) || (path == uri);
+            Engines.Logging.LoggerEngineFactory.Debug("PROGRESS: testing " + path + " with " + uri + " : " + res);
+            return res;
         }
 
         private static void TransportPropertyChanged(IPropertyObject sender, string property)
@@ -48,7 +48,6 @@ namespace MusicBrowser.MediaCentre
                         if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
                         {
                             e.SetProgress((int)transport.Position.TotalSeconds);
-                            _registered.Remove(e);
                         }
                     }
                 }
@@ -59,7 +58,6 @@ namespace MusicBrowser.MediaCentre
                         if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
                         {
                             e.SetProgress(0);
-                            _registered.Remove(e);
                         }
                     } 
                 }
