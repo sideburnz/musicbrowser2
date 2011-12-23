@@ -21,7 +21,6 @@ namespace MusicBrowser.Entities
         private string _thumbPath;
         private string _bannerPath;
         private string _title;
-        private string _sortName;
         private string _sortField;
         #endregion
 

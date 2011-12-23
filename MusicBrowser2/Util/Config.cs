@@ -41,7 +41,7 @@ namespace MusicBrowser.Util
 
                 { "Player.Engine", "MediaCentre" },
                 { "Player.Paths.foobar2000", (Is64Bit ? "C:\\Program Files (x86)" : "C:\\Program Files") + "\\foobar2000\\foobar2000.exe" },
-                { "Player.Paths.VLC", (Is64Bit ? "C:\\Program Files (x86)" : "C:\\Program Files") + "\\VideoLAN\\VLC\\vlc.exe" },
+                { "Player.URLs.foobar2000", @"http://127.0.0.1:8888/musicbrowser2" },
 
                 { "Extensions.Playlist", ".wpl|.m3u|.asx" },
                 { "Extensions.Ignore", ".xml|.cue|.txt|.nfo" },

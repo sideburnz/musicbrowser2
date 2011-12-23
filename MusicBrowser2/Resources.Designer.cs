@@ -561,6 +561,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static byte[] pageFooBar2000 {
+            get {
+                object obj = ResourceManager.GetObject("pageFooBar2000", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] pageImage {
             get {
                 object obj = ResourceManager.GetObject("pageImage", resourceCulture);

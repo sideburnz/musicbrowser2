@@ -3,21 +3,22 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using MusicBrowser.Engines.Logging;
-using MusicBrowser.Interfaces;
+using MusicBrowser.Models;
+
+
+// this controls the playback via Foobar2000
 
 namespace MusicBrowser.Engines.Transport
 {
-    class Foobar2000Transport : ITransportEngine
+    public class Foobar2000Transport : BaseModel, ITransportEngine
     {
-
         private const int BATCH_SIZE = 10;
 
         #region ITransport Members
 
         public void PlayPause()
         {
-            ExecuteCommand("/playpause");
-            HideFoobar();
+            ExecuteCommand("PlayOrPause");
         }
 
         public void Play(bool queue, string file)
@@ -33,7 +34,7 @@ namespace MusicBrowser.Engines.Transport
             }
             sb.Append(" \"" + file + "\"");
 
-            ExecuteCommand(sb.ToString());
+            ExecuteCommandLine(sb.ToString());
             // pause
             System.Threading.Thread.Sleep(100);
             HideFoobar();
@@ -66,45 +67,34 @@ namespace MusicBrowser.Engines.Transport
                 sb.Append(" \"" + file + "\"");
             }
 
-            ExecuteCommand(sb.ToString());
-            System.Threading.Thread.Sleep(100);
-            HideFoobar();
-        }
-
-        public void PlayDisc(string drive)
-        {
-            ExecuteCommand("/play " + drive);
+            ExecuteCommandLine(sb.ToString());
             System.Threading.Thread.Sleep(100);
             HideFoobar();
         }
 
         public void Stop()
         {
-            ExecuteCommand("/stop");
-            HideFoobar();
+            ExecuteCommand("Stop");
         }
 
         public void Next()
         {
-            ExecuteCommand("/next");
-            HideFoobar();
+            ExecuteCommand("StartNext");
         }
 
         public void Previous()
         {
-            // there appears to be a bug in this, so rather than stop playback, do nothing
-            //ExecuteCommand("/prev");
-            //HideFoobar();
+            ExecuteCommand("StartPrevious");
         }
 
         public void Close()
         {
-            ExecuteCommand("/exit");
+            ExecuteCommandLine("/exit");
         }
 
-        public PlayState State
+        public void Open()
         {
-            get { return PlayState.Undefined; }
+            HideFoobar();
         }
 
         #endregion
@@ -114,15 +104,43 @@ namespace MusicBrowser.Engines.Transport
             get { return Util.Config.GetInstance().GetStringSetting("Player.Paths.foobar2000"); }
         }
 
+        private string FooURL
+        {
+            get { return Util.Config.GetInstance().GetStringSetting("Player.URLs.foobar2000"); }
+        }
+
         private void HideFoobar()
         {
             ExecuteCommand("/hide");
         }
 
-        private void ExecuteCommand(string command)
+        protected string ExecuteCommand(string command, params string[] parameters)
         {
-            LoggerEngineFactory.Debug(command);
+            StringBuilder sb = new StringBuilder();
+            sb.Append(FooURL);
+            sb.Append("?" + WebServices.Helper.Externals.EncodeURL(command));
 
+            foreach (string param in parameters)
+            {
+                sb.Append("&" + WebServices.Helper.Externals.EncodeURL(param));
+            }
+
+            WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider();
+            h.Method = WebServices.Helper.HttpProvider.HttpMethod.Get;
+            h.Url = sb.ToString();
+            h.DoService();
+
+            if (h.Status != "200")
+            {
+                return string.Empty;
+            }
+
+            return h.Response;
+
+        }
+
+        protected void ExecuteCommandLine(string command, params string[] parameters)
+        {
             ProcessStartInfo externalProc = new ProcessStartInfo();
             externalProc.FileName = FooPath;
             externalProc.Arguments = command;
@@ -132,18 +150,6 @@ namespace MusicBrowser.Engines.Transport
             externalProc.RedirectStandardInput = true;
             externalProc.WindowStyle = ProcessWindowStyle.Hidden;
             Process.Start(externalProc);
-        }
-
-
-
-        public void FastForward()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void FastReverse()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

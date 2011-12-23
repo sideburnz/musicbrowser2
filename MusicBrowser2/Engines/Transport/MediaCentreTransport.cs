@@ -13,7 +13,7 @@ namespace MusicBrowser.Engines.Transport
 
         public void PlayPause()
         {
-            if (State == Interfaces.PlayState.Playing)
+            if (Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayState == PlayState.Playing)
             {
                 Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 1;
             }
@@ -47,12 +47,6 @@ namespace MusicBrowser.Engines.Transport
             }
         }
 
-        public void PlayDisc(string drive)
-        {
-            MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-            mce.PlayMedia(MediaType.Audio, drive, false);
-        }
-
         public void Stop()
         {
             Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 0;
@@ -60,12 +54,12 @@ namespace MusicBrowser.Engines.Transport
 
         public void Next()
         {
-        //    Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipForward();
+            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipForward();
         }
 
         public void Previous()
         {
-        //    Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipBack();
+            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipBack();
         }
 
         public void Close()
@@ -73,54 +67,12 @@ namespace MusicBrowser.Engines.Transport
             // do nothing, for external players only
         }
 
-        public int Progress
+        public void Open()
         {
-            get
-            {
-                try
-                {
-                    return Int32.Parse(Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.Position.TotalSeconds.ToString());
-                }
-                catch { }
-                return -1;
-            }
-        }
-
-        public MusicBrowser.Interfaces.PlayState State
-        {
-            get
-            {
-                try
-                {
-                    switch (Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayState)
-                    {
-                        case Microsoft.MediaCenter.PlayState.Paused:
-                            {
-                                return MusicBrowser.Interfaces.PlayState.Paused;
-                            }
-                        case Microsoft.MediaCenter.PlayState.Playing:
-                            {
-                                return MusicBrowser.Interfaces.PlayState.Playing;
-                            }
-                    }
-                }
-                catch { }
-                return MusicBrowser.Interfaces.PlayState.Undefined;
-            }
+            // do nothing
         }
 
         #endregion
-
-
-        public void FastForward()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void FastReverse()
-        {
-            throw new NotImplementedException();
-        }
 
         private IEnumerable<string> GetTracks(string path)
         {

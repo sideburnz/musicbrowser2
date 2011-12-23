@@ -15,11 +15,7 @@ namespace MusicBrowser.Engines.Transport
                     case "foobar2000":
                         {
                             _transport = new Foobar2000Transport();
-                            break;
-                        }
-                    case "vlc":
-                        {
-                            _transport = new VLCTransport();
+                            _transport.Open();
                             break;
                         }
                     default:

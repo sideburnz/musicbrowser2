@@ -51,8 +51,6 @@
   <ItemGroup>
     <Compile Include="DataProviderException.cs" />
     <Compile Include="IDataProvider.cs" />
-    <Compile Include="ILoggingEngine.cs" />
-    <Compile Include="ITransportEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
