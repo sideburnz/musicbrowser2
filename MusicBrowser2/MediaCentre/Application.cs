@@ -60,6 +60,13 @@ namespace MusicBrowser
             }
         }
 
+        public void NavigateToFoo()
+        {
+            Dictionary<string, object> props = new Dictionary<string, object>();
+            props.Add("Model", new Foobar2000());
+            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFooBar2000", props);
+        }
+
         public void NavigateToSettings()
         {
             Dictionary<string, object> props = new Dictionary<string, object>();

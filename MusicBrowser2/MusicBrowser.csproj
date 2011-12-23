@@ -174,6 +174,8 @@
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
     <Compile Include="Engines\Cache\SQLiteHelper.cs" />
+    <Compile Include="Engines\Logging\ILoggingEngine.cs" />
+    <Compile Include="Engines\Transport\ITransportEngine.cs" />
     <Compile Include="Entities\baseEntity.cs" />
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="Models\ActionsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\Foobar2000.cs" />
     <Compile Include="Models\Keyboard\IKeyboardHandler.cs" />
     <Compile Include="Models\Keyboard\KeyboardFilter.cs" />
     <Compile Include="Models\Keyboard\KeyboardHandlerFactory.cs" />
@@ -274,6 +277,8 @@
     <Compile Include="Providers\FileSystemProvider.cs" />
     <Compile Include="Providers\FolderItems\VirtualFolderProvider.cs" />
     <Compile Include="Providers\FolderItems\IFolderItemsProvider.cs" />
+    <Compile Include="Providers\Metadata\DataProviderException.cs" />
+    <Compile Include="Providers\Metadata\IDataProvider.cs" />
     <Compile Include="Providers\ImageProvider.cs" />
     <Compile Include="Providers\PlaylistProvider.cs" />
     <Compile Include="Providers\Statistics.cs" />
@@ -342,6 +347,7 @@
     <Content Include="MediaCentre\Markup\Pages\pageImage.mcml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="MediaCentre\Markup\Pages\pageFooBar2000.mcml" />
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -414,12 +420,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MusicBrowser.Interfaces\MusicBrowser.Interfaces.csproj">
-      <Project>{EF0ECB7F-1384-40F8-838D-DD9ADD917B07}</Project>
-      <Name>MusicBrowser.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

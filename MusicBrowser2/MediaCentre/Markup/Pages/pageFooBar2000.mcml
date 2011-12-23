@@ -1,0 +1,55 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+            xmlns:me="Me"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <UI Name="pageFooBar2000">
+
+    <Properties>
+      <models:Foobar2000 Name="Model" Foobar2000="$Required" />
+    </Properties>
+
+    <!--<Locals>
+      <cor:String Name="MyString" String="Hello"/>
+    </Locals>-->
+
+    <Rules>
+      <!--<Binding Target="[TrackDetails.Model]" Source="[Model.CurrentTrack]"/>-->
+      <Binding Target="[MyText.Content]" Source="[Model.CurrentTrack.Title]"/>
+      <Binding Target="[Cover.Content]" Source="[Model.CurrentTrack.Thumb]"/>
+    </Rules>
+
+    <Content>
+      <ColorFill Content="Transparent" Layout="VerticalFlow">
+        <Children>
+          <Graphic Name="Cover" />
+      <Text Name="MyText" Color="White" Font="Calibri, 24"/>
+      <!--<me:TrackDetails Name="TrackDetails" Model="[Model.CurrentTrack]" />-->
+        </Children>
+      </ColorFill>
+    </Content>
+
+  </UI>
+
+  <UI Name="TrackDetails">
+
+    <Properties>
+      <entities:baseEntity Name="Model" baseEntity="$Required" />
+    </Properties>
+
+    <Rules>
+      <Binding Target="[Track.Content]" Source="[Model.Title]"/>
+    </Rules>
+    
+    <Content>
+      <ColorFill Content="Transparent">
+        <Children>
+          <Text Color="White" Content="Track" />
+          <Text Color="White" Name="Track" />
+        </Children>
+      </ColorFill>
+    </Content>
+    
+  </UI>
+</Mcml>
