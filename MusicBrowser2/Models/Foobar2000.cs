@@ -97,7 +97,7 @@ namespace MusicBrowser.Models
                 if (value != _playbackstyle)
                 {
                     _playbackstyle = value;
-                    FirePropertyChanged("PlaybackStyle");
+                    DataChanged("PlaybackStyle");
                 }
             }
         }
@@ -115,14 +115,14 @@ namespace MusicBrowser.Models
                 if (value == null)
                 {
                     _playlistPageData.Clear();
-                    FirePropertyChanged("PlaylistPageData");
+                    DataChanged("PlaylistPageData");
                     return;
                 }
                 if (_playlistPageData.GetHashCode() != value.GetHashCode())
                 {
                     _playlistPageData.Clear();
                     _playlistPageData.AddRange(value);
-                    FirePropertyChanged("PlaylistPageData");
+                    DataChanged("PlaylistPageData");
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace MusicBrowser.Models
                 if (value != _playlistpage)
                 {
                     _playlistpage = value;
-                    FirePropertyChanged("PlaylistPage");
+                    DataChanged("PlaylistPage");
                 }
             }
         }
@@ -154,7 +154,7 @@ namespace MusicBrowser.Models
                 if (value != _playlistPages)
                 {
                     _playlistPages = value;
-                    FirePropertyChanged("PlaylistPages");
+                    DataChanged("PlaylistPages");
                 }
             }
         }
@@ -170,7 +170,7 @@ namespace MusicBrowser.Models
                 if (value != _playlistLength)
                 {
                     _playlistLength = value;
-                    FirePropertyChanged("PlaylistLength");
+                    DataChanged("PlaylistLength");
                 }
             }
         }
@@ -186,7 +186,7 @@ namespace MusicBrowser.Models
                 if (value != _playlistDuration)
                 {
                     _playlistDuration = value;
-                    FirePropertyChanged("PlaylistDuration");
+                    DataChanged("PlaylistDuration");
                 }
             }
         }
@@ -208,10 +208,11 @@ namespace MusicBrowser.Models
                 if (CurrentTrack.CacheKey != value.CacheKey)
                 {
                     _currentTrack = value;
-                    FirePropertyChanged("CurrentTrack");
+                    DataChanged("CurrentTrack");
                 }
             }
         }
+
         private int _position = 0;
         public int Position 
         { 
@@ -224,10 +225,37 @@ namespace MusicBrowser.Models
                 if (value != _position)
                 {
                     _position = value;
-                    FirePropertyChanged("Position");
+                    if (ReportedLength > 0)
+                    {
+                        PercentComplete = (int)Math.Ceiling((100.00 * _position) / ReportedLength);
+                    }
+                    
+                    DataChanged("Position");
+                    DataChanged("PercentComplete");
+                    DataChanged("ProgressBar");
                 }
             }
         }
+
+        public int PercentComplete { get; set; }
+
+        private int _reportedLength = 0;
+        public int ReportedLength
+        {
+            get 
+            { 
+                return _reportedLength;
+            }
+            set
+            {
+                if (value != _reportedLength)
+                {
+                    _reportedLength = value;                    
+                    DataChanged("ReportedLength");
+                }
+            }
+        }        
+
         private PlayState _state = PlayState.Undefined;
         PlayState State
         {
@@ -240,9 +268,26 @@ namespace MusicBrowser.Models
                 if (_state != value)
                 {
                     _state = value;
-                    FirePropertyChanged("State");
+                    DataChanged("State");
                 }
             }
+        }
+
+        public void SetPlaybackStyle(PlaybackStyles style)
+        {
+            int enumeration = 0;
+            switch (style)
+            {
+                case PlaybackStyles.Default:
+                    enumeration = 0; break;
+                case PlaybackStyles.RepeatPlaylist:
+                    enumeration = 1; break;
+                case PlaybackStyles.RepeatTrack:
+                    enumeration = 2; break;
+                case PlaybackStyles.Shuffle:
+                    enumeration = 3; break;
+            }
+            ExecuteCommand("PlaybackOrder", enumeration.ToString());
         }
 
         public void GotoPlaylistPage(int pageNum)
@@ -252,7 +297,7 @@ namespace MusicBrowser.Models
 
         void Seek(int location)
         {
-            ExecuteCommand("SeekDelta=" + _position + location);
+            ExecuteCommand("SeekDelta=" + (_position + location));
         }
 
         private PlayerInformation ProcessResponse(string xml)
@@ -314,6 +359,16 @@ namespace MusicBrowser.Models
                     result.playingTrackProgress = 0;
                 }
 
+                i = 0;
+                if (Int32.TryParse(Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/item/ITEM_PLAYING_LEN", "0"), out i))
+                {
+                    result.playingTrackLength = i;
+                }
+                else
+                {
+                    result.playingTrackLength = 0;
+                }
+
                 result.playingTrackPath = Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/item/path", String.Empty);
 
                 i = 0;
@@ -368,8 +423,33 @@ namespace MusicBrowser.Models
 
                 PlaylistDuration = info.playlistDuration;
                 PlaylistLength = info.playlistSize;
+
+                ReportedLength = info.playingTrackLength;
             }
             
+        }
+
+        private void DataChanged(string property)
+        {
+            FirePropertyChanged(property);
+            if(!(OnPropertyChanged == null)) 
+            {
+                OnPropertyChanged(property); 
+            }
+        }
+
+        public delegate void ChangedPropertyHandler(string property);
+        public event ChangedPropertyHandler OnPropertyChanged;
+
+        public Size ProgressBar
+        {
+            get
+            {
+                Size s = new Size();
+                s.Height = 30;
+                s.Width = PercentComplete * 3;
+                return s;
+            }
         }
     }
 }
