@@ -118,17 +118,24 @@ namespace MusicBrowser.Engines.Transport
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(FooURL);
-            sb.Append("?" + WebServices.Helper.Externals.EncodeURL(command));
+            sb.Append("?cmd=" + WebServices.Helper.Externals.EncodeURL(command));
 
+            int i = 1;
             foreach (string param in parameters)
             {
-                sb.Append("&" + WebServices.Helper.Externals.EncodeURL(param));
+                sb.Append("&param" + i + "=" + WebServices.Helper.Externals.EncodeURL(param));
+                i++;
             }
 
             WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider();
             h.Method = WebServices.Helper.HttpProvider.HttpMethod.Get;
             h.Url = sb.ToString();
             h.DoService();
+
+            if (command != "RefreshPlayingInfo")
+            {
+                Logging.LoggerEngineFactory.Debug("Foo: " + sb.ToString() + " => " + h.Status);
+            }
 
             if (h.Status != "200")
             {

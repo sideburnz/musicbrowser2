@@ -1,33 +1,65 @@
 ﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
-            xmlns:me="Me"
+      xmlns:me="Me"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:cor="assembly://MSCorLib/System">
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonAction"/>
 
   <UI Name="pageFooBar2000">
 
     <Properties>
       <models:Foobar2000 Name="Model" Foobar2000="$Required" />
+
+      <actions:ActionPlaybackRepeat Name="Repeat" />
+      <actions:ActionPlaybackShuffle Name="Shuffle" />
     </Properties>
 
     <!--<Locals>
-      <cor:String Name="MyString" String="Hello"/>
+      <Size Name="PercentComplete" Height="20" Width="[Model.PercentComplete]" />
     </Locals>-->
 
     <Rules>
-      <!--<Binding Target="[TrackDetails.Model]" Source="[Model.CurrentTrack]"/>-->
-      <Binding Target="[MyText.Content]" Source="[Model.CurrentTrack.Title]"/>
-      <Binding Target="[Cover.Content]" Source="[Model.CurrentTrack.Thumb]"/>
+      <Binding Target="[Repeat.Model]" Source="[Model]" />
+      <Binding Target="[Shuffle.Model]" Source="[Model]" />
+      <Binding Target="[TrackDetails.Model]" Source="[Model.CurrentTrack]" />
+
+      <Binding Target="[Progress.Content]" Source="[Model.PercentComplete!cor:String]"/>
+      
+      <Binding Target="[ProgressBar.MaximumSize]" Source="[Model.ProgressBar]" />
+      <Binding Target="[ProgressBar.MinimumSize]" Source="[Model.ProgressBar]" />
     </Rules>
 
     <Content>
-      <ColorFill Content="Transparent" Layout="VerticalFlow">
+      <Panel Layout="Dock">
         <Children>
-          <Graphic Name="Cover" />
-      <Text Name="MyText" Color="White" Font="Calibri, 24"/>
-      <!--<me:TrackDetails Name="TrackDetails" Model="[Model.CurrentTrack]" />-->
+          <Panel Margins="25,25,25,25">
+            <LayoutInput>
+              <DockLayoutInput Alignment="Far" Position="Bottom" />
+            </LayoutInput>
+            <Children>
+              <Text Name="Progress" Color="White" />
+              <ColorFill Name="ProgressBar" Content="Gray" />
+            </Children>
+          </Panel>
+          <Panel Layout="VerticalFlow" Margins="25,75,25,75">
+            <LayoutInput>
+              <DockLayoutInput Alignment="Near" Position="Right" />
+            </LayoutInput>
+            <Children>
+              <Text Content="View Playlist" Color="White" Font="Segoe Media Center Light, 22" Margins="37,0,0,0" />
+              <me:buttonAction Action="[Shuffle]" Size="320,52"/>
+              <me:buttonAction Action="[Repeat]" Size="320,52"/>
+            </Children>
+          </Panel>
+          <me:TrackDetails Name="TrackDetails" Model="[Model.CurrentTrack]">
+            <LayoutInput>
+              <DockLayoutInput Alignment="Near" Position="Left" />
+            </LayoutInput>
+          </me:TrackDetails>
         </Children>
-      </ColorFill>
+      </Panel>
     </Content>
 
   </UI>
@@ -40,15 +72,18 @@
 
     <Rules>
       <Binding Target="[Track.Content]" Source="[Model.Title]"/>
+      <Binding Target="[Cover.Content]" Source="[Model.Thumb]"/>
     </Rules>
     
     <Content>
-      <ColorFill Content="Transparent">
+      <Panel Layout="VerticalFlow" Margins="25,25,25,25">
         <Children>
+          <Graphic Name="Cover" />
           <Text Color="White" Content="Track" />
           <Text Color="White" Name="Track" />
+          <Text Color="White" Name="Progress" />
         </Children>
-      </ColorFill>
+      </Panel>
     </Content>
     
   </UI>

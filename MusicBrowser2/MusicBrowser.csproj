@@ -165,6 +165,8 @@
     <Compile Include="Actions\ActionPlayFolder.cs" />
     <Compile Include="Actions\ActionPlayMusic.cs" />
     <Compile Include="Actions\ActionResume.cs" />
+    <Compile Include="Actions\ActionPlaybackShuffle.cs" />
+    <Compile Include="Actions\ActionPlaybackRepeat.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\CacheScavenger.cs" />
@@ -347,7 +349,9 @@
     <Content Include="MediaCentre\Markup\Pages\pageImage.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MediaCentre\Markup\Pages\pageFooBar2000.mcml" />
+    <Content Include="MediaCentre\Markup\Pages\pageFooBar2000.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>

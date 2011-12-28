@@ -12,7 +12,7 @@ namespace MusicBrowser.Actions
 
         public ActionPlay(baseEntity entity)
         {
-            Label = LABEL;
+            Label = LABEL + " " + entity.Kind;
             IconPath = ICON_PATH;
             Entity = entity;
             Available = InheritsFrom<Item>(entity);

@@ -100,7 +100,12 @@ namespace MusicBrowser.Actions
         /// <summary>
         /// The path to the icon that will be used for the UI
         /// </summary>
-        public string IconPath { get; set; }
+        private string _iconPath = String.Empty;
+        public string IconPath 
+        {
+            get { return _iconPath; }
+            set { _iconPath = value; FirePropertyChanged("Icon"); } 
+        }
 
         /// <summary>
         /// Returns the icon as an Image
