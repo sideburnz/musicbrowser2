@@ -229,6 +229,7 @@
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
     <None Include="MediaCentre\Images\buttons\selectedMenu.png" />
+    <None Include="MediaCentre\Images\buttonicons\IconRepeat.png" />
     <Content Include="TextFile1.txt" />
     <None Include="MediaCentre\Images\buttonicons\IconMinus.png" />
     <None Include="MediaCentre\Images\buttonicons\IconNew.png" />

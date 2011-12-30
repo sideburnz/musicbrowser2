@@ -21,5 +21,9 @@ namespace MusicBrowser.Engines.Transport
         // instatiates and disposes of transport
         void Open();
         void Close();
+
+        bool ShowNowPlaying();
+
+        bool HasBespokeNowPlaying { get; }
     }
 }

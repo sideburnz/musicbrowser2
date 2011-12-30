@@ -2,6 +2,7 @@
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:me="Me"
+      xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
       xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:cor="assembly://MSCorLib/System">
 
@@ -16,75 +17,97 @@
       <actions:ActionPlaybackShuffle Name="Shuffle" />
     </Properties>
 
-    <!--<Locals>
-      <Size Name="PercentComplete" Height="20" Width="[Model.PercentComplete]" />
-    </Locals>-->
+    <Locals>
+      <addin:AddInHost Name="AddInHost"/>
+    </Locals>
 
     <Rules>
       <Binding Target="[Repeat.Model]" Source="[Model]" />
       <Binding Target="[Shuffle.Model]" Source="[Model]" />
-      <Binding Target="[TrackDetails.Model]" Source="[Model.CurrentTrack]" />
 
-      <Binding Target="[Progress.Content]" Source="[Model.PercentComplete!cor:String]"/>
+      <!--<Binding Target="[Progress.Content]" Source="[Model.PercentComplete!cor:String]"/>-->
       
       <Binding Target="[ProgressBar.MaximumSize]" Source="[Model.ProgressBar]" />
       <Binding Target="[ProgressBar.MinimumSize]" Source="[Model.ProgressBar]" />
+
+
+      <Binding Target="[Cover.Content]" Source="[Model.CurrentTrack.Thumb]"/>
+
+      <Binding Target="[Track.Content]" Source="[Model.CurrentTrack.Title]"/>
+      <Binding Target="[Artist.Content]" Source="[Model.CurrentTrack.Artist]"/>
+      <Binding Target="[Album.Content]" Source="[Model.CurrentTrack.Album]"/>
+
+      <Rule>
+        <Actions>
+          <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
+        </Actions>
+      </Rule>
     </Rules>
 
     <Content>
       <Panel Layout="Dock">
         <Children>
-          <Panel Margins="25,25,25,25">
-            <LayoutInput>
-              <DockLayoutInput Alignment="Far" Position="Bottom" />
-            </LayoutInput>
-            <Children>
-              <Text Name="Progress" Color="White" />
-              <ColorFill Name="ProgressBar" Content="Gray" />
-            </Children>
-          </Panel>
-          <Panel Layout="VerticalFlow" Margins="25,75,25,75">
-            <LayoutInput>
-              <DockLayoutInput Alignment="Near" Position="Right" />
-            </LayoutInput>
-            <Children>
-              <Text Content="View Playlist" Color="White" Font="Segoe Media Center Light, 22" Margins="37,0,0,0" />
-              <me:buttonAction Action="[Shuffle]" Size="320,52"/>
-              <me:buttonAction Action="[Repeat]" Size="320,52"/>
-            </Children>
-          </Panel>
-          <me:TrackDetails Name="TrackDetails" Model="[Model.CurrentTrack]">
+
+          <Panel Layout="VerticalFlow" Margins="100,100,100,100">
             <LayoutInput>
               <DockLayoutInput Alignment="Near" Position="Left" />
             </LayoutInput>
-          </me:TrackDetails>
+            <Children>
+              <Graphic Name="Cover" MinimumSize="200,200" MaximumSize="200,200"/>
+              <Text Color="White" Name="Track" Content="Track" Margins="0,15,0,0" Font="Segoe Media Center Light, 32" />
+              <Text Color="White" Name="Artist" Content="Artist" Margins="0,8,0,0" Font="Segoe Media Center Light, 24" />
+              <Text Color="White" Name="Album" Content="Album" Margins="0,10,0,0" Font="Segoe Media Center Light, 22" />
+              
+              <Panel>
+                <Layout>
+                  <FlowLayout Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="0,20,0,0" Alpha="1"/>
+                  <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,20,0,0" Alpha="1"/>
+                  <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,20,0,0" Alpha="1"/>
+                  <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,20,0,0" Alpha="1"/>
+                  <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,20,0,0" Alpha="1"/>
+
+                  <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="15,18,0,0" Alpha="1"/>
+                </Children>
+              </Panel>
+
+              <Panel Margins="0,30,0,0">
+                <Layout>
+                  <AnchorLayout />
+                </Layout>
+                <Children>
+                  <ColorFill Content="White" Alpha="0.1" MinimumSize="400,30" MaximumSize="400,30">
+                    <LayoutInput>
+                      <AnchorLayoutInput Left="Parent, 0" />
+                    </LayoutInput>
+                  </ColorFill>
+                  <ColorFill Name="ProgressBar" Content="White" Alpha="0.8">
+                    <LayoutInput>
+                      <AnchorLayoutInput Left="Parent, 0" />
+                    </LayoutInput>
+                  </ColorFill>
+                </Children>
+              </Panel>
+
+              <Panel Margins="0,10,0,0">
+                <Layout>
+                  <FlowLayout Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <me:buttonAction Action="[Shuffle]" Size="52,52"/>
+                  <me:buttonAction Action="[Repeat]" Size="52,52"/>
+                  <Text Content="Playing"  Color="White" Font="Segoe Media Center Light, 22" />
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+
         </Children>
       </Panel>
     </Content>
 
   </UI>
 
-  <UI Name="TrackDetails">
-
-    <Properties>
-      <entities:baseEntity Name="Model" baseEntity="$Required" />
-    </Properties>
-
-    <Rules>
-      <Binding Target="[Track.Content]" Source="[Model.Title]"/>
-      <Binding Target="[Cover.Content]" Source="[Model.Thumb]"/>
-    </Rules>
-    
-    <Content>
-      <Panel Layout="VerticalFlow" Margins="25,25,25,25">
-        <Children>
-          <Graphic Name="Cover" />
-          <Text Color="White" Content="Track" />
-          <Text Color="White" Name="Track" />
-          <Text Color="White" Name="Progress" />
-        </Children>
-      </Panel>
-    </Content>
-    
-  </UI>
 </Mcml>

@@ -107,6 +107,13 @@ namespace MusicBrowser.Actions
             set { _iconPath = value; FirePropertyChanged("Icon"); } 
         }
 
+        private Single _alpha = 1;
+        public Single Alpha
+        {
+            get { return _alpha; }
+            set { _alpha = value; FirePropertyChanged("Alpha"); }
+        }
+
         /// <summary>
         /// Returns the icon as an Image
         /// </summary>

@@ -52,6 +52,14 @@ namespace MusicBrowser.MediaCentre
         {
             if (Config.GetInstance().GetBooleanSetting("AutoLoadNowPlaying"))
             {
+                ITransportEngine t = TransportEngineFactory.GetEngine();
+                if (t.HasBespokeNowPlaying)
+                {
+                    if (TransportEngineFactory.GetEngine().ShowNowPlaying())
+                    {
+                        return;
+                    }
+                }
                 MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
                 if (mce.MediaExperience != null)
                 {
