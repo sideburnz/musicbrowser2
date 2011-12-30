@@ -8,7 +8,7 @@ using MusicBrowser.Models;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    abstract class Item : baseEntity
+    public abstract class Item : baseEntity
     {
     }
 }

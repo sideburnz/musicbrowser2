@@ -46,7 +46,10 @@
 
       <Binding Target="[grpIcon.Content]" Source="[Action.Icon]" />
       <Binding Target="[txtLabel.Content]" Source="[Action.Label]" />
-      
+      <Binding Target="[grpIcon.Alpha]" Source="[Action.Alpha]" />
+      <Binding Target="[txtLabel.Alpha]" Source="[Action.Alpha]" />
+
+
     </Rules>
 
     <Content>

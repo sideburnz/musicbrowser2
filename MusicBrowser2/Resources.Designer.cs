@@ -358,6 +358,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconRepeat {
+            get {
+                object obj = ResourceManager.GetObject("IconRepeat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconResume {
             get {
                 object obj = ResourceManager.GetObject("IconResume", resourceCulture);

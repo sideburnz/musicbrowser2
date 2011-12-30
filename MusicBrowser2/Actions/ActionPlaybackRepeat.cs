@@ -13,7 +13,7 @@ namespace MusicBrowser.Actions
     public class ActionPlaybackRepeat : baseActionCommand
     {
         private const string LABEL = "Repeat Tracks";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/checkUnselected";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconRepeat";
 
         private Foobar2000 _model;
 
@@ -55,11 +55,11 @@ namespace MusicBrowser.Actions
             {
                 if (Value)
                 {
-                    IconPath = "resx://MusicBrowser/MusicBrowser.Resources/checkSelected";
+                    Alpha = 1;
                 }
                 else
                 {
-                    IconPath = "resx://MusicBrowser/MusicBrowser.Resources/checkUnselected";
+                    Alpha = 0.2F;
                 }
                 FirePropertyChanged("Value");
             }

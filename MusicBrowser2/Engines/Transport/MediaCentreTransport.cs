@@ -72,6 +72,22 @@ namespace MusicBrowser.Engines.Transport
             // do nothing
         }
 
+        public bool ShowNowPlaying()
+        {
+            MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+            if (mce.MediaExperience != null)
+            {
+                mce.MediaExperience.GoToFullScreen();
+                return true;
+            }
+            return false;
+        }
+
+        public bool HasBespokeNowPlaying
+        {
+            get { return false; }
+        }
+
         #endregion
 
         private IEnumerable<string> GetTracks(string path)

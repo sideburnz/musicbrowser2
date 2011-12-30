@@ -44,10 +44,6 @@ namespace MusicBrowser
             _sSession = new HistoryOrientedPageSession();
             Application app = new Application(_sSession, host);
 
-            //temp
-            app.NavigateToFoo();
-            return;
-
             // Go to the initial screen
             baseEntity firstScreen = new Home();
             firstScreen.Path = "home";

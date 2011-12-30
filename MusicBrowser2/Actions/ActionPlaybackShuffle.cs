@@ -13,7 +13,7 @@ namespace MusicBrowser.Actions
     public class ActionPlaybackShuffle : baseActionCommand
     {
         private const string LABEL = "Shuffle Tracks";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/checkUnselected";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconShuffle";
 
         private Foobar2000 _model;
 
@@ -55,15 +55,13 @@ namespace MusicBrowser.Actions
             {
                 if (Value)
                 {
-                    IconPath = "resx://MusicBrowser/MusicBrowser.Resources/checkSelected";
+                    Alpha = 1;
                 }
                 else
                 {
-                    IconPath = "resx://MusicBrowser/MusicBrowser.Resources/checkUnselected";
+                    Alpha = 0.2F;
                 }
                 FirePropertyChanged("Value");
-
-                Engines.Logging.LoggerEngineFactory.Debug("PlaybackStyle: " + IconPath);
             }
         }
 

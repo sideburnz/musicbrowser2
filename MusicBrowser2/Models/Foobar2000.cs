@@ -112,6 +112,10 @@ namespace MusicBrowser.Models
             }
             private set
             {
+                if (value == null && _playlistPageData == null)
+                {
+                    return;
+                }
                 if (value == null)
                 {
                     _playlistPageData.Clear();
@@ -192,8 +196,8 @@ namespace MusicBrowser.Models
         }
 
         // context information
-        private baseEntity _currentTrack = null;
-        public baseEntity CurrentTrack 
+        private Track _currentTrack = null;
+        public Track CurrentTrack 
         {
             get
             {
@@ -205,6 +209,16 @@ namespace MusicBrowser.Models
             }
             protected set
             {
+
+                if (value == null)
+                {
+                    if (_currentTrack != null)
+                    {
+                        _currentTrack = null;
+                        DataChanged("CurrentTrack");
+                    }
+                    return;
+                }
                 if (CurrentTrack.CacheKey != value.CacheKey)
                 {
                     _currentTrack = value;
@@ -227,7 +241,7 @@ namespace MusicBrowser.Models
                     _position = value;
                     if (ReportedLength > 0)
                     {
-                        PercentComplete = (int)Math.Ceiling((100.00 * _position) / ReportedLength);
+                        PercentComplete = (100.00 * _position) / ReportedLength;
                     }
                     
                     DataChanged("Position");
@@ -237,7 +251,7 @@ namespace MusicBrowser.Models
             }
         }
 
-        public int PercentComplete { get; set; }
+        public double PercentComplete { get; set; }
 
         private int _reportedLength = 0;
         public int ReportedLength
@@ -413,7 +427,7 @@ namespace MusicBrowser.Models
 
                 if (_path != info.playingTrackPath)
                 {
-                    CurrentTrack = EntityFactory.GetItem(info.playingTrackPath);
+                    CurrentTrack = (Track)EntityFactory.GetItem(info.playingTrackPath);
                     _path = info.playingTrackPath;
                 }
 
@@ -447,7 +461,7 @@ namespace MusicBrowser.Models
             {
                 Size s = new Size();
                 s.Height = 30;
-                s.Width = PercentComplete * 3;
+                s.Width = (int)(PercentComplete * 4);
                 return s;
             }
         }

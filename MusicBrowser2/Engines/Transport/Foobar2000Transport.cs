@@ -158,5 +158,20 @@ namespace MusicBrowser.Engines.Transport
             externalProc.WindowStyle = ProcessWindowStyle.Hidden;
             Process.Start(externalProc);
         }
+
+        public bool ShowNowPlaying()
+        {
+            if (!string.IsNullOrEmpty(ExecuteCommand("RefreshPlayingInfo")))
+            {
+                Application.GetReference().NavigateToFoo();
+                return true;
+            }
+            return false;
+        }
+
+        public bool HasBespokeNowPlaying
+        {
+            get { return true; }
+        }
     }
 }
