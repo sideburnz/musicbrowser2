@@ -157,6 +157,7 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionShowKeyboard());
             ret.Add(new ActionShowSearch());
             ret.Add(new ActionShowSettings());
+            ret.Add(new ActionShuffle());
             ret.Add(new ActionSkipBack());
             ret.Add(new ActionSkipForward());
             ret.Add(new ActionStop());

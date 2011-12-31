@@ -232,6 +232,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconBorder {
+            get {
+                object obj = ResourceManager.GetObject("IconBorder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconClose {
             get {
                 object obj = ResourceManager.GetObject("IconClose", resourceCulture);
@@ -529,13 +536,6 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap imageVideo {
             get {
                 object obj = ResourceManager.GetObject("imageVideo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap imgButtonIcon {
-            get {
-                object obj = ResourceManager.GetObject("imgButtonIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
