@@ -31,26 +31,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            baseActionCommand action = new ActionNoOperation();
-
-            if (InheritsFrom<Collection>(entity))
-            {
-                action = new ActionPlayFolder(entity);
-            }
-            if (InheritsFrom<Music>(entity))
-            {
-                action = new ActionPlayMusic(entity);
-            }
-            if (InheritsFrom<Video>(entity))
-            {
-                action = new ActionPlayVideo(entity);
-            }
-            if (InheritsFrom<Photo>(entity))
-            {
-                action = new ActionPlayImage(entity);
-            }
-
-            action.Invoke();
+            entity.Play(false, false);
         }
     }
 }

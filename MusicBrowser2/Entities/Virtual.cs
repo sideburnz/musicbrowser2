@@ -19,5 +19,10 @@ namespace MusicBrowser.Entities
         {
             return this.ToJson();
         }
+
+        public override void Play(bool queue, bool shuffle)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
