@@ -81,21 +81,6 @@ namespace MusicBrowser.Providers
         //}
 
 
-        public static void ShuffleList<TE>(IList<TE> list)
-        {
-            if (list.Count > 1)
-            {
-                for (int i = list.Count - 1; i >= 0; i--)
-                {
-                    TE tmp = list[i];
-                    int randomIndex = Random.Next(i + 1);
-                    //Swap elements
-                    list[i] = list[randomIndex];
-                    list[randomIndex] = tmp;
-                }
-            }
-        }
-
         private static void CreatePlaylist(IEnumerable<string> paths, bool queue, bool shuffle)
         {
             List<string> tracks = new List<string>();
@@ -120,7 +105,7 @@ namespace MusicBrowser.Providers
             // shuffle the tracks if requested
             if (shuffle)
             {
-                ShuffleList(tracks);
+                Util.Helper.ShuffleList<string>(tracks);
             }
             // Kick off a new thread
             MediaCentre.Playlist.PlayTrackList(tracks, queue);

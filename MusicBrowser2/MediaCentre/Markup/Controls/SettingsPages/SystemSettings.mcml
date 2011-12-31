@@ -132,7 +132,7 @@
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Condition Source="[Input.KeyFocus]"  SourceValue="true">
         <Actions>
-          <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/imgButtonIcon"/>
+          <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/IconBorder"/>
           <Invoke Target="[OnFocus.Invoke]" />
         </Actions>
       </Condition>
@@ -144,7 +144,7 @@
       </Condition>
     </Rules>
     <Content>
-      <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/imgButtonIcon" Name="ButtonBack" MinimumSize="35,35" MaximumSize="35,35" Margins="0,0,0,0">
+      <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/IconBorder" Name="ButtonBack" MinimumSize="35,35" MaximumSize="35,35" Margins="0,0,0,0">
         <Children>
           <Graphic Content="[Icon]" Name="ButtonFace" MinimumSize="25,25" MaximumSize="25,25" Margins="5,5,5,5"/>
         </Children>

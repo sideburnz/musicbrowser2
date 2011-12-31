@@ -12,27 +12,12 @@ namespace MusicBrowser.Models
 {
     // now playing page for Foobar2000 transport
 
-    public enum PlayState
-    {
-        Undefined,
-        Playing,
-        Paused
-    }
-
     public enum PlaybackStyles
     {
         Shuffle,
         RepeatTrack,
         RepeatPlaylist,
         Default
-    }
-
-    public class PlaylistItem : BaseModel
-    {
-        string Artist;
-        string Track;
-        string Duration;
-        int Index;
     }
 
     public enum FoobarInternalPlaybackStyles
@@ -55,7 +40,6 @@ namespace MusicBrowser.Models
         public int playlistSize;
         public int playlistCurrentPage;
         public int playlistPageSize;
-        public IEnumerable<PlaylistItem> playlistPageData;
         public string playlistDuration;
         public int playlistItemPlaying;
 
@@ -102,34 +86,6 @@ namespace MusicBrowser.Models
             }
         }
 
-        //
-        List<PlaylistItem> _playlistPageData = new List<PlaylistItem>();
-        public List<PlaylistItem> PlaylistPageData
-        {
-            get
-            {
-                return _playlistPageData;
-            }
-            private set
-            {
-                if (value == null && _playlistPageData == null)
-                {
-                    return;
-                }
-                if (value == null)
-                {
-                    _playlistPageData.Clear();
-                    DataChanged("PlaylistPageData");
-                    return;
-                }
-                if (_playlistPageData.GetHashCode() != value.GetHashCode())
-                {
-                    _playlistPageData.Clear();
-                    _playlistPageData.AddRange(value);
-                    DataChanged("PlaylistPageData");
-                }
-            }
-        }
         private int _playlistpage = 0;
         public int PlaylistPage 
         {
@@ -191,6 +147,40 @@ namespace MusicBrowser.Models
                 {
                     _playlistDuration = value;
                     DataChanged("PlaylistDuration");
+                }
+            }
+        }
+
+        private bool _isPlaying = false;
+        public bool IsPlaying
+        {
+            get
+            {
+                return _isPlaying;
+            }
+            set
+            {
+                if (_isPlaying != value)
+                {
+                    _isPlaying = value;
+                    FirePropertyChanged("IsPlaying");
+                }
+            }
+        }
+
+        private bool _isPaused = false;
+        public bool IsPaused
+        {
+            get
+            {
+                return _isPaused;
+            }
+            set
+            {
+                if (_isPaused != value)
+                {
+                    _isPaused = value;
+                    FirePropertyChanged("IsPaused");
                 }
             }
         }
@@ -269,23 +259,6 @@ namespace MusicBrowser.Models
                 }
             }
         }        
-
-        private PlayState _state = PlayState.Undefined;
-        PlayState State
-        {
-            get
-            {
-                return _state;
-            }
-            set
-            {
-                if (_state != value)
-                {
-                    _state = value;
-                    DataChanged("State");
-                }
-            }
-        }
 
         public void SetPlaybackStyle(PlaybackStyles style)
         {
@@ -407,40 +380,37 @@ namespace MusicBrowser.Models
         public void OnTick()
         {
             string xml = ExecuteCommand("RefreshPlayingInfo");
+            PlayerInformation info;
 
             if (!String.IsNullOrEmpty(xml))
             {
-                PlayerInformation info = ProcessResponse(xml);
-                PlaybackStyle = info.playbackStyle;
-                if (info.playlistPageData != null)
-                {
-                    PlaylistPageData = info.playlistPageData.ToList<PlaylistItem>();
-                }
-                else
-                {
-                    PlaylistPageData = null;
-                }
-                PlaylistPage = info.playlistCurrentPage;
-                PlaylistPages = (int)Math.Ceiling((double)info.playlistSize / (double)info.playlistPageSize);
-
-                Position = info.playingTrackProgress;
-
-                if (_path != info.playingTrackPath)
-                {
-                    CurrentTrack = (Track)EntityFactory.GetItem(info.playingTrackPath);
-                    _path = info.playingTrackPath;
-                }
-
-                if (info.isPaused) { State = PlayState.Paused; }
-                else if (info.isPlaying) { State = PlayState.Playing; }
-                else { State = PlayState.Undefined; }
-
-                PlaylistDuration = info.playlistDuration;
-                PlaylistLength = info.playlistSize;
-
-                ReportedLength = info.playingTrackLength;
+                info = ProcessResponse(xml);
             }
-            
+            else
+            {
+                info = new PlayerInformation();
+            }
+
+            PlaybackStyle = info.playbackStyle;
+
+            PlaylistPage = info.playlistCurrentPage;
+            PlaylistPages = (int)Math.Ceiling((double)info.playlistSize / (double)info.playlistPageSize);
+
+            Position = info.playingTrackProgress;
+
+            if (_path != info.playingTrackPath)
+            {
+                CurrentTrack = (Track)EntityFactory.GetItem(info.playingTrackPath);
+                _path = info.playingTrackPath;
+            }
+
+            IsPaused = info.isPaused;
+            IsPlaying = info.isPlaying;
+
+            PlaylistDuration = info.playlistDuration;
+            PlaylistLength = info.playlistSize;
+
+            ReportedLength = info.playingTrackLength;
         }
 
         private void DataChanged(string property)

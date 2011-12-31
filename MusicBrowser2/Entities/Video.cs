@@ -3,6 +3,10 @@ using System.Runtime.Serialization;
 using Microsoft.MediaCenter;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.MediaCentre;
+using MusicBrowser.Providers;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MusicBrowser.Entities
 {
@@ -19,23 +23,47 @@ namespace MusicBrowser.Entities
             {
                 if (Util.Helper.IsDVD(Path))
                 {
-                    this.MarkPlayed();
-                    mce.PlayMedia(MediaType.Dvd, Path, false);
+                    mce.PlayMedia(MediaType.Dvd, Path, queue);
                 }
                 else
                 {
-                    throw new NotImplementedException("Video.Play - when it's a folder and not a DVD");
-                    //// refer it on to a more specialist Play action
-                    //ActionPlayFolder a = new ActionPlayFolder(entity);
-                    //a.Invoke();
-                    //return;
+                    MediaCollection collection = new MediaCollection();
+                    string lastitem = string.Empty;
+
+                    List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path).
+                        OrderBy(item => item.Name).
+                        ToList();
+
+                    foreach (FileSystemItem item in candidateitems)
+                    {
+                        var t = Util.Helper.getKnownType(item);
+                        if (t == Util.Helper.knownType.Video)
+                        {
+                            collection.AddItem(item.FullPath);
+                            collection[collection.Count - 1].FriendlyData.
+                                Add("Title", 
+                                Title + " (" + System.IO.Path.GetFileNameWithoutExtension(item.Name) + ")");
+                            lastitem = item.FullPath;
+                        }
+                    }
+
+                    // if there's only 1 item, just play it
+                    if (collection.Count == 1)
+                    {
+                        mce.PlayMedia(MediaType.Video, lastitem, queue);
+                    }
+                    else
+                    {
+                        mce.PlayMedia(MediaType.MediaCollection, collection, queue);
+                    }
                 }
             }
             else
             {
-                this.MarkPlayed();
                 mce.PlayMedia(MediaType.Video, Path, queue);
             }
+
+            this.MarkPlayed();
             mce.MediaExperience.GoToFullScreen();
             ProgressRecorder.Register(this);
         }

@@ -6,8 +6,6 @@
       xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:cor="assembly://MSCorLib/System">
 
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonAction"/>
-
   <UI Name="pageFooBar2000">
 
     <Properties>
@@ -19,17 +17,15 @@
 
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
+      <models:RatingUI Name="RatingIcons" />
     </Locals>
 
     <Rules>
       <Binding Target="[Repeat.Model]" Source="[Model]" />
       <Binding Target="[Shuffle.Model]" Source="[Model]" />
-
-      <!--<Binding Target="[Progress.Content]" Source="[Model.PercentComplete!cor:String]"/>-->
       
       <Binding Target="[ProgressBar.MaximumSize]" Source="[Model.ProgressBar]" />
       <Binding Target="[ProgressBar.MinimumSize]" Source="[Model.ProgressBar]" />
-
 
       <Binding Target="[Cover.Content]" Source="[Model.CurrentTrack.Thumb]"/>
 
@@ -37,18 +33,51 @@
       <Binding Target="[Artist.Content]" Source="[Model.CurrentTrack.Artist]"/>
       <Binding Target="[Album.Content]" Source="[Model.CurrentTrack.Album]"/>
 
+      <Binding Target="[RatingIcons.Rating]" Source="[Model.CurrentTrack.Rating]" />
+      <Binding Target="[RatingIcons.Loved]" Source="[Model.CurrentTrack.Loved]" />
+      <Binding Target="[IconRepeater.Source]" Source="[RatingIcons.Stars]" />
+
       <Rule>
         <Actions>
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
         </Actions>
       </Rule>
+
+      <Rule>
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[Model.CurrentTrack.Path]" Value="placeholder" />
+        </Conditions>
+        <Actions>
+          <Set Target="[NothingPlaying.Visible]" Value="true"/>
+          <Set Target="[Playing.Visible]" Value="false"/>
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Conditions>
+          <Equality ConditionOp="NotEquals" Source="[Model.CurrentTrack.Path]" Value="placeholder" />
+        </Conditions>
+        <Actions>
+          <Set Target="[NothingPlaying.Visible]" Value="false"/>
+          <Set Target="[Playing.Visible]" Value="true"/>
+        </Actions>
+      </Rule>
+
+      <Binding Target="[isPlaying.Visible]" Source="[Model.IsPlaying]" />
+      <Binding Target="[isPaused.Visible]" Source="[Model.IsPaused]" />
     </Rules>
 
     <Content>
-      <Panel Layout="Dock">
+      <Panel>
         <Children>
 
-          <Panel Layout="VerticalFlow" Margins="100,100,100,100">
+          <Panel Name="NothingPlaying" Visible="false">
+            <Children>
+              <Text Content="Nothing playing" Font="Segoe Media Center Light, 48" Color="White" Margins="100,250,0,0"/>
+            </Children>
+          </Panel>
+
+          <Panel Name="Playing" Layout="VerticalFlow" Margins="100,100,100,100">
             <LayoutInput>
               <DockLayoutInput Alignment="Near" Position="Left" />
             </LayoutInput>
@@ -57,23 +86,17 @@
               <Text Color="White" Name="Track" Content="Track" Margins="0,15,0,0" Font="Segoe Media Center Light, 32" />
               <Text Color="White" Name="Artist" Content="Artist" Margins="0,8,0,0" Font="Segoe Media Center Light, 24" />
               <Text Color="White" Name="Album" Content="Album" Margins="0,10,0,0" Font="Segoe Media Center Light, 22" />
-              
-              <Panel>
+
+              <Repeater Name="IconRepeater" Navigation="ContainAll">
                 <Layout>
-                  <FlowLayout Orientation="Horizontal"/>
+                  <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
                 </Layout>
-                <Children>
-                  <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="0,20,0,0" Alpha="1"/>
-                  <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,20,0,0" Alpha="1"/>
-                  <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,20,0,0" Alpha="1"/>
-                  <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,20,0,0" Alpha="1"/>
-                  <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,20,0,0" Alpha="1"/>
+                <Content>
+                  <Graphic Content="[RepeatedItem!Image]" Margins="5,10,0,0" MaximumSize="35,35" MinimumSize="35,35" Alpha="0.8" />
+                </Content>
+              </Repeater>
 
-                  <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="15,18,0,0" Alpha="1"/>
-                </Children>
-              </Panel>
-
-              <Panel Margins="0,30,0,0">
+              <Panel Margins="0,25,0,0">
                 <Layout>
                   <AnchorLayout />
                 </Layout>
@@ -96,9 +119,10 @@
                   <FlowLayout Orientation="Horizontal"/>
                 </Layout>
                 <Children>
-                  <me:buttonAction Action="[Shuffle]" Size="52,52"/>
-                  <me:buttonAction Action="[Repeat]" Size="52,52"/>
-                  <Text Content="Playing"  Color="White" Font="Segoe Media Center Light, 22" />
+                  <me:button Action="[Shuffle]" Margins="0,0,0,0"/>
+                  <me:button Action="[Repeat]" Margins="10,0,0,0"/>
+                  <Text Content="Playing" Name="isPlaying" Color="White" Font="Segoe Media Center Light, 22" Margins="10,0,0,0"/>
+                  <Text Content="Paused" Name="isPaused" Color="White" Font="Segoe Media Center Light, 22" Margins="10,0,0,0"/>
                 </Children>
               </Panel>
             </Children>
@@ -106,6 +130,54 @@
 
         </Children>
       </Panel>
+    </Content>
+
+  </UI>
+
+  <UI Name="button">
+
+    <Properties>
+      <actions:baseActionCommand Name="Action" baseActionCommand="$Required" />
+    </Properties>
+
+    <Locals>
+      <ClickHandler Name="Clicker" />
+      <Command Name="CmdChange" />
+    </Locals>
+
+    <Rules>
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/IconBorder"/>
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
+        </Actions>
+      </Condition>
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Binding Source="[CmdChange]" Target="[Clicker.Command]" />
+
+      <Changed Source="[CmdChange.Invoked]">
+        <Actions>
+          <Invoke Target="[Action.Invoke]" />
+        </Actions>
+      </Changed>
+
+      <Binding Target="[grpIcon.Content]" Source="[Action.Icon]" />
+      <Binding Target="[grpIcon.Alpha]" Source="[Action.Alpha]" />
+      
+    </Rules>
+
+    <Content>
+      <Graphic Name="Frame" SizingPolicy="SizeToChildren" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" Visible="[Action.Available]">
+        <Children>
+          <Graphic Name="grpIcon" Content="[Action.Icon]" MaximumSize="35,35" MinimumSize="35,35" MaintainAspectRatio="true" Margins="5,5,5,5" Visible="true" />
+        </Children>
+      </Graphic>
     </Content>
 
   </UI>

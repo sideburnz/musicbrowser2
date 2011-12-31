@@ -9,19 +9,19 @@ using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Actions
 {
-    class ActionQueue : baseActionCommand
+    class ActionShuffle : baseActionCommand
     {
-        private const string LABEL = "Queue";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconQueue";
+        private const string LABEL = "Shuffle";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconShuffle";
 
-        public ActionQueue(baseEntity entity)
+        public ActionShuffle(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionQueue()
+        public ActionShuffle()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -29,12 +29,12 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(baseEntity entity)
         {
-            return new ActionQueue(entity);
+            return new ActionShuffle(entity);
         }
 
         public override void DoAction(baseEntity entity)
         {
-            entity.Play(true, false);
+            entity.Play(false, true);
         }
     }
 }
