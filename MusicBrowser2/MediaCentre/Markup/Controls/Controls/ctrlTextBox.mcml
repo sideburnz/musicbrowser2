@@ -43,6 +43,7 @@
           <Set Target="[thisControl.Alpha]" Value="1" />
           <Set Target="[Underline.Alpha]" Value="0.5" />
           <Set Target="[FocusBox.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus" />
+          <Set Target="[carrat.Alpha]" Value="1" />
         </Actions>
       </Condition>
       <Condition Source="[Input.KeyFocus]" SourceValue="false">
@@ -50,6 +51,7 @@
           <Set Target="[thisControl.Alpha]" Value="0.5"/>
           <Set Target="[Underline.Alpha]" Value="0" />
           <Set Target="[FocusBox.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[carrat.Alpha]" Value="0" />
         </Actions>
       </Condition>
     </Rules>
@@ -74,7 +76,8 @@
             <Children>
               <ColorFill Content="White" Name="TextBox" Margins="2,2,2,2" Layout="Fill">
                 <Children>
-                  <Text Name="txtString" Content="search for" Color="Black" Font="Segoe Media Center Light, 18" Margins="5,0,5,0" />
+                  <Text Name="txtString" Color="Black" Font="Segoe Media Center Light, 18" Margins="5,0,5,0" />
+                  <Text Name="carrat" Content="" Color="Black" Font="Segoe Media Center Light, 22" />
                 </Children>
               </ColorFill>
             </Children>

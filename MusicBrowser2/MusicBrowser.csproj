@@ -160,10 +160,6 @@
     <Compile Include="Actions\ActionCheckForNewVersion.cs" />
     <Compile Include="Actions\ActionCycleSorts.cs" />
     <Compile Include="Actions\ActionShowNowPlaying.cs" />
-    <Compile Include="Actions\ActionPlayVideo.cs" />
-    <Compile Include="Actions\ActionPlayImage.cs" />
-    <Compile Include="Actions\ActionPlayFolder.cs" />
-    <Compile Include="Actions\ActionPlayMusic.cs" />
     <Compile Include="Actions\ActionResume.cs" />
     <Compile Include="Actions\ActionPlaybackShuffle.cs" />
     <Compile Include="Actions\ActionPlaybackRepeat.cs" />
@@ -212,6 +208,7 @@
     <Compile Include="Models\Keyboard\KeyboardHandlerFactory.cs" />
     <Compile Include="Models\Keyboard\KeyboardJIL.cs" />
     <Compile Include="Models\Keyboard\KeyboardSearch.cs" />
+    <Compile Include="Models\RatingUI.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Providers\Background\BackgroundTaskQueueProvider.cs" />
     <Compile Include="Entities\EntityCollection.cs" />
@@ -226,6 +223,7 @@
     <Content Include="MediaCentre\Images\buttonicons\IconDown.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconFastForward.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconFavorite.png" />
+    <None Include="MediaCentre\Images\buttonicons\IconHalfStar.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconGroup.png" />
     <None Include="MediaCentre\Images\buttons\selectedMenu.png" />

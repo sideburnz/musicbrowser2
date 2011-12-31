@@ -122,6 +122,10 @@ namespace MusicBrowser.Entities
         }
         [DataMember]
         public DateTime LastPlayed { get; set; }
+        [DataMember]
+        public int Rating { get; set; }
+        [DataMember]
+        public bool Loved { get; set; }
         #endregion
 
         #region private cached items
@@ -219,6 +223,8 @@ namespace MusicBrowser.Entities
         }
 
         public abstract string Serialize();
+
+        public abstract void Play(bool queue, bool shuffle);
 
         #region abstract attributes
         public abstract string DefaultThumbPath { get; }

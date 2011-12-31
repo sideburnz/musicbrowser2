@@ -11,6 +11,10 @@
       <Timer Name="RefreshTimer" AutoRepeat="True" Interval="5000" Enabled="True" />
     </Properties>
 
+    <Locals>
+      <models:RatingUI Name="RatingIcons" />
+    </Locals>
+
     <Rules>
 
       <Changed Source="[CmdRefresh.Invoked]" InitialEvaluate="true">
@@ -18,9 +22,10 @@
           <Set Target="[Desc.Content]" Value="[Entity.Title]" />
 
           <Set Target="[Summary1.Content]" Value="[Entity.Kind]" />
+          <Set Target="[RatingIcons.Rating]" Value="[Entity.Rating]" />
+          <Set Target="[RatingIcons.Loved]" Value="[Entity.Loved]" />
           <!--<Set Target="[Summary1.Content]" Value="[Entity.ShortSummaryLine1]" />
-          <Set Target="[Summary2.Content]" Value="[Entity.ShortSummaryLine2]" />
-          <Set Target="[Favorite.Visible]" Value="[Entity.Favorite]" />-->
+          <Set Target="[Summary2.Content]" Value="[Entity.ShortSummaryLine2]" />-->
         </Actions>
       </Changed>
 
@@ -36,50 +41,12 @@
         </Actions>
       </Changed>
 
-      <!--<Changed Source="[Entity]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="100" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Star5.Alpha]" Value="0.6" />
-        </Actions>
-      </Changed>
-      <Changed Source="[Entity]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="80" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Star4.Alpha]" Value="0.6" />
-        </Actions>
-      </Changed>
-      <Changed Source="[Entity]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="60" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Star3.Alpha]" Value="0.6" />
-        </Actions>
-      </Changed>
-      <Changed Source="[Entity]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="40" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Star2.Alpha]" Value="0.6" />
-        </Actions>
-      </Changed>
-      <Changed Source="[Entity]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[Entity.Rating]" ConditionOp="GreaterThanOrEquals" Value="20" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Star1.Alpha]" Value="0.6" />
-        </Actions>
-      </Changed>-->
+      <Binding Target="[IconRepeater.Source]" Source="[RatingIcons.Stars]" />
+      
     </Rules>
 
     <Content>
-      <Panel>
+      <Panel Margins="0,10,0,0">
         <Layout>
           <FlowLayout Orientation="Vertical"/>
         </Layout>
@@ -91,12 +58,14 @@
             </Layout>
             <Children>
               <Text Name="Desc" Color="White" Font="Segoe Media Center Light, 26" Content="" Margins="0,-5,0,-2"/>
-              <Graphic Name="Star1" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="10,11,0,0" Alpha="0.1"/>
-              <Graphic Name="Star2" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
-              <Graphic Name="Star3" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
-              <Graphic Name="Star4" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
-              <Graphic Name="Star5" Content="resx://MusicBrowser/MusicBrowser.Resources/IconStar" Margins="2,11,0,0" Alpha="0.1"/>
-              <Graphic Name="Favorite" Content="resx://MusicBrowser/MusicBrowser.Resources/IconFavorite" Margins="10,9,0,0" Alpha="0.6" Visible="false"/>
+              <Repeater Name="IconRepeater" Navigation="ContainAll" Margins="10,10,0,0">
+                <Layout>
+                  <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+                </Layout>
+                <Content>
+                  <Graphic Content="[RepeatedItem!Image]" Margins="5,0,0,0" MaximumSize="25,25" MinimumSize="25,25" Alpha="0.8" />
+                </Content>
+              </Repeater>
             </Children>
           </Panel>
           <Text Name="Summary1" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>

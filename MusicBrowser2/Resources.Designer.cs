@@ -288,6 +288,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconHalfStar {
+            get {
+                object obj = ResourceManager.GetObject("IconHalfStar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconHome {
             get {
                 object obj = ResourceManager.GetObject("IconHome", resourceCulture);

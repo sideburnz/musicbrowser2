@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using MusicBrowser.Models;
 using ServiceStack.Text;
+using MusicBrowser.Engines.Cache;
 
 namespace MusicBrowser.Entities
 {
@@ -19,6 +20,12 @@ namespace MusicBrowser.Entities
         public override string Serialize()
         {
             return this.ToJson();
+        }
+
+        public override void Play(bool queue, bool shuffle)
+        {
+            this.MarkPlayed();
+            Application.GetReference().Navigate(this);
         }
     }
 }
