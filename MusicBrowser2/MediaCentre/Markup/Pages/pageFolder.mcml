@@ -118,7 +118,6 @@
       </Changed>
 
       <Binding Source="[ActionsModel.Visible]" Target="[ActionPopUp.Visible]" />
-      
     </Rules>
     
     <Content>
@@ -204,14 +203,7 @@
           </Panel>
 
           <!-- Now Playing Pod -->
-          <Panel>
-            <LayoutInput>
-              <AnchorLayoutInput Bottom="Parent,1" Left="Parent,0"/>
-            </LayoutInput>
-            <Children>
-              <NowPlaying Name="NowPlayingPod" ShowFullMetadata="Never" />
-            </Children>
-          </Panel>
+          <me:NowPlayingElement />
 
           <!-- FOOTER -->
           <Panel Layout="Form">
@@ -259,6 +251,52 @@
       
     </Content>
 
+  </UI>
+
+  <UI Name="NowPlayingElement">
+
+    <Properties>
+      <actions:ActionShowNowPlaying Name="NowPlayingAction" />
+    </Properties>
+    
+    <Locals>
+      <models:NowPlayingUI Name="NowPlayingUI"/>
+      <ClickHandler Name="Clicker" />
+      <Command Name="CmdChange" />
+    </Locals>
+
+    <Rules>
+      <Binding Target="[FooPlaying.Visible]" Source="[NowPlayingUI.Active]" />
+      <Binding Target="[NowPlayingAction.Available]" Source="[NowPlayingUI.Active]" />
+      <Binding Target="[FooPlayingIcon.Content]" Source="[NowPlayingUI.Icon]" />
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+
+      <Binding Source="[CmdChange]" Target="[Clicker.Command]" />
+
+      <Changed Source="[CmdChange.Invoked]">
+        <Actions>
+          <Invoke Target="[NowPlayingAction.Invoke]" />
+        </Actions>
+      </Changed>
+    </Rules>
+    
+    <Content>
+      <Panel>
+        <LayoutInput>
+          <AnchorLayoutInput Bottom="Parent,1" Left="Parent,0"/>
+        </LayoutInput>
+        <Children>
+          <NowPlaying Name="MCENowPlaying" ShowFullMetadata="Never" Visible="True" />
+          <Panel Name="FooPlaying">
+            <Children>
+              <Graphic Name="FooPlayingIcon" Content="resx://MusicBrowser/MusicBrowser.Resources/imageTrack" MaximumSize="135,135" MinimumSize="135,135" Margins="40,10,20,10" />
+            </Children>
+          </Panel>
+        </Children>
+
+      </Panel>
+    </Content>
   </UI>
   
 </Mcml>

@@ -163,7 +163,7 @@ namespace MusicBrowser.Models
                 if (_isPlaying != value)
                 {
                     _isPlaying = value;
-                    FirePropertyChanged("IsPlaying");
+                    DataChanged("IsPlaying");
                 }
             }
         }
@@ -180,7 +180,7 @@ namespace MusicBrowser.Models
                 if (_isPaused != value)
                 {
                     _isPaused = value;
-                    FirePropertyChanged("IsPaused");
+                    DataChanged("IsPaused");
                 }
             }
         }

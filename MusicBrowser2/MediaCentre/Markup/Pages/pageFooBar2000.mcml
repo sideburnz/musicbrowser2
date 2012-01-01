@@ -13,6 +13,7 @@
 
       <actions:ActionPlaybackRepeat Name="Repeat" />
       <actions:ActionPlaybackShuffle Name="Shuffle" />
+      <actions:ActionPause Name="PlayPause" />
     </Properties>
 
     <Locals>
@@ -63,8 +64,24 @@
         </Actions>
       </Rule>
 
-      <Binding Target="[isPlaying.Visible]" Source="[Model.IsPlaying]" />
-      <Binding Target="[isPaused.Visible]" Source="[Model.IsPaused]" />
+      <Rule>
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[Model.IsPaused]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[PlayPause.IconPath]" Value="MusicBrowser/MusicBrowser.Resources/IconPlay"/>
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[Model.IsPlaying]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[PlayPause.IconPath]" Value="MusicBrowser/MusicBrowser.Resources/IconPause"/>
+        </Actions>
+      </Rule>
+      
     </Rules>
 
     <Content>
@@ -82,7 +99,7 @@
               <DockLayoutInput Alignment="Near" Position="Left" />
             </LayoutInput>
             <Children>
-              <Graphic Name="Cover" MinimumSize="200,200" MaximumSize="200,200"/>
+              <Graphic Name="Cover" MinimumSize="200,200" MaximumSize="200,200" />
               <Text Color="White" Name="Track" Content="Track" Margins="0,15,0,0" Font="Segoe Media Center Light, 32" />
               <Text Color="White" Name="Artist" Content="Artist" Margins="0,8,0,0" Font="Segoe Media Center Light, 24" />
               <Text Color="White" Name="Album" Content="Album" Margins="0,10,0,0" Font="Segoe Media Center Light, 22" />
@@ -121,8 +138,7 @@
                 <Children>
                   <me:button Action="[Shuffle]" Margins="0,0,0,0"/>
                   <me:button Action="[Repeat]" Margins="10,0,0,0"/>
-                  <Text Content="Playing" Name="isPlaying" Color="White" Font="Segoe Media Center Light, 22" Margins="10,0,0,0"/>
-                  <Text Content="Paused" Name="isPaused" Color="White" Font="Segoe Media Center Light, 22" Margins="10,0,0,0"/>
+                  <me:button Action="[PlayPause]" Margins="10,0,0,0"/>
                 </Children>
               </Panel>
             </Children>
@@ -159,6 +175,7 @@
       </Condition>
 
       <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
       <Binding Source="[CmdChange]" Target="[Clicker.Command]" />
 
       <Changed Source="[CmdChange.Invoked]">
