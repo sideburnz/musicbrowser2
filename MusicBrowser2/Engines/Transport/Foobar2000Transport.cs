@@ -111,7 +111,7 @@ namespace MusicBrowser.Engines.Transport
 
         private void HideFoobar()
         {
-            ExecuteCommand("/hide");
+            ExecuteCommandLine("/hide");
         }
 
         protected string ExecuteCommand(string command, params string[] parameters)

@@ -33,7 +33,9 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.GoToFullScreen();
+            Application.GetReference().NavigateToFoo();
+
+//            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.GoToFullScreen();
         }
     }
 }

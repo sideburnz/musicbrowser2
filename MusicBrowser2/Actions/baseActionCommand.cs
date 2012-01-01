@@ -119,7 +119,15 @@ namespace MusicBrowser.Actions
         /// </summary>
         public Image Icon
         {
-            get { return new Image(IconPath); }
+            get 
+            {
+                string path = IconPath;
+                if (!path.StartsWith("resx://"))
+                {
+                    path = "resx://" + path;
+                }
+                return new Image(path); 
+            }
         }
 
         /// <summary>

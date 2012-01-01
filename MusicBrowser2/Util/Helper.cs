@@ -410,5 +410,10 @@ namespace MusicBrowser.Util
             }
         }
 
+
+        public static bool InheritsFrom<T>(object e)
+        {
+            return typeof(T).IsAssignableFrom(e.GetType());
+        }
     }
 }

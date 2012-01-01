@@ -209,6 +209,7 @@
     <Compile Include="Models\Keyboard\KeyboardHandlerFactory.cs" />
     <Compile Include="Models\Keyboard\KeyboardJIL.cs" />
     <Compile Include="Models\Keyboard\KeyboardSearch.cs" />
+    <Compile Include="Models\NowPlayingUI.cs" />
     <Compile Include="Models\RatingUI.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Providers\Background\BackgroundTaskQueueProvider.cs" />
