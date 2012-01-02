@@ -203,7 +203,11 @@
           </Panel>
 
           <!-- Now Playing Pod -->
-          <me:NowPlayingElement />
+          <me:NowPlayingElement>
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Bottom="Parent,1" />
+            </LayoutInput>
+          </me:NowPlayingElement>
 
           <!-- FOOTER -->
           <Panel Layout="Form">
@@ -266,36 +270,43 @@
     </Locals>
 
     <Rules>
-      <Binding Target="[FooPlaying.Visible]" Source="[NowPlayingUI.Active]" />
+      <Binding Target="[Frame.Visible]" Source="[NowPlayingUI.Active]" />
       <Binding Target="[NowPlayingAction.Available]" Source="[NowPlayingUI.Active]" />
       <Binding Target="[FooPlayingIcon.Content]" Source="[NowPlayingUI.Icon]" />
+      <Binding Target="[Clicker.Command]" Source="[CmdChange]" />
 
       <Default Target="[Input.KeyInteractive]" Value="true" />
-
-      <Binding Source="[CmdChange]" Target="[Clicker.Command]" />
 
       <Changed Source="[CmdChange.Invoked]">
         <Actions>
           <Invoke Target="[NowPlayingAction.Invoke]" />
         </Actions>
       </Changed>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/IconBorder"/>
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
+        </Actions>
+      </Condition>
     </Rules>
     
     <Content>
-      <Panel>
-        <LayoutInput>
-          <AnchorLayoutInput Bottom="Parent,1" Left="Parent,0"/>
-        </LayoutInput>
+      <ColorFill Content="Transparent">
         <Children>
           <NowPlaying Name="MCENowPlaying" ShowFullMetadata="Never" Visible="True" />
-          <Panel Name="FooPlaying">
+          <Graphic Name="Frame" SizingPolicy="SizeToChildren" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" Margins="40,10,20,10">
             <Children>
-              <Graphic Name="FooPlayingIcon" Content="resx://MusicBrowser/MusicBrowser.Resources/imageTrack" MaximumSize="135,135" MinimumSize="135,135" Margins="40,10,20,10" />
+              <Graphic Name="FooPlayingIcon" Content="resx://MusicBrowser/MusicBrowser.Resources/imageTrack" MaximumSize="135,135" MinimumSize="135,135" Margins="2,2,2,2"/>
             </Children>
-          </Panel>
+          </Graphic>
         </Children>
-
-      </Panel>
+      </ColorFill>
     </Content>
   </UI>
   

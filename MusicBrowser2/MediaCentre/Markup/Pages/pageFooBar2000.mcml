@@ -44,7 +44,7 @@
         </Actions>
       </Rule>
 
-      <Rule>
+      <Changed Source="[Model.CurrentTrack]">
         <Conditions>
           <Equality ConditionOp="Equals" Source="[Model.CurrentTrack.Path]" Value="placeholder" />
         </Conditions>
@@ -52,9 +52,9 @@
           <Set Target="[NothingPlaying.Visible]" Value="true"/>
           <Set Target="[Playing.Visible]" Value="false"/>
         </Actions>
-      </Rule>
+      </Changed>
 
-      <Rule>
+      <Changed Source="[Model.CurrentTrack]">
         <Conditions>
           <Equality ConditionOp="NotEquals" Source="[Model.CurrentTrack.Path]" Value="placeholder" />
         </Conditions>
@@ -62,7 +62,7 @@
           <Set Target="[NothingPlaying.Visible]" Value="false"/>
           <Set Target="[Playing.Visible]" Value="true"/>
         </Actions>
-      </Rule>
+      </Changed>
 
       <Rule>
         <Conditions>

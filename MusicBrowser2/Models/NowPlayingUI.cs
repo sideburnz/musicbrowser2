@@ -18,8 +18,12 @@ namespace MusicBrowser.Models
             _enabled = (Util.Helper.InheritsFrom<Foobar2000Transport>(transport));
             if (_enabled)
             {
-                _model = new Foobar2000();
+                _model = Foobar2000.GetInstance();
                 _model.PropertyChanged += new PropertyChangedEventHandler(_model_PropertyChanged);
+
+                _model_PropertyChanged(null, "CurrentTrack");
+                _model_PropertyChanged(null, "IsPlaying");
+                _model_PropertyChanged(null, "IsPaused");
             }
         }
 

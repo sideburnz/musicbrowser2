@@ -58,7 +58,14 @@ namespace MusicBrowser.Models
     {
         private readonly Timer _timer;
         
-        public Foobar2000()
+        private static Foobar2000 _instance = new Foobar2000();
+
+        public static Foobar2000 GetInstance()
+        {
+            return _instance;
+        }
+
+        private Foobar2000()
         {
             _timer = new Timer(this)
             {
@@ -277,11 +284,6 @@ namespace MusicBrowser.Models
             ExecuteCommand("PlaybackOrder", enumeration.ToString());
         }
 
-        public void GotoPlaylistPage(int pageNum)
-        {
-            ExecuteCommand("SwitchPlaylistPage=" + pageNum);
-        }
-
         void Seek(int location)
         {
             ExecuteCommand("SeekDelta=" + (_position + location));
@@ -449,7 +451,6 @@ namespace MusicBrowser.Models
 //        <PLAYLIST_PLAYING_ITEMS_COUNT>3</PLAYLIST_PLAYING_ITEMS_COUNT>
 //        <PLAYLIST_PAGE>0</PLAYLIST_PAGE>
 //        <PLAYLIST_ITEMS_PER_PAGE>10</PLAYLIST_ITEMS_PER_PAGE>
-//        <PLAYLIST><tr onclick="a('0')" class="o">Bob Evans,Someone So Much,3:35|</tr><tr onclick="a('1')" class="e prev">Bob Evans,Hand Me Downs,3:32|</tr><tr onclick="a('2')" class="npr  focus" id="nowplaying">Bob Evans,Brother, O Brother,4:02|</tr></PLAYLIST>
 //        <PLAYLIST_TOTAL_TIME>11:09</PLAYLIST_TOTAL_TIME>
 //        <PLAYLIST_ITEM_PLAYING>2</PLAYLIST_ITEM_PLAYING>
 //    </playlist>

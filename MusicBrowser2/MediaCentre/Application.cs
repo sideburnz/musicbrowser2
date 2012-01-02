@@ -63,7 +63,7 @@ namespace MusicBrowser
         public void NavigateToFoo()
         {
             Dictionary<string, object> props = new Dictionary<string, object>();
-            props.Add("Model", new Foobar2000());
+            props.Add("Model", Foobar2000.GetInstance());
             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFooBar2000", props);
         }
 
