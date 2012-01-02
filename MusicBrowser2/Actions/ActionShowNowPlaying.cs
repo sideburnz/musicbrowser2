@@ -5,6 +5,8 @@ using System.Text;
 using MusicBrowser.Entities;
 using Microsoft.MediaCenter.UI;
 using Microsoft.MediaCenter.Hosting;
+using Microsoft.MediaCenter;
+using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Actions
 {
@@ -33,9 +35,19 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            Application.GetReference().NavigateToFoo();
-
-//            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.GoToFullScreen();
+            ITransportEngine t = TransportEngineFactory.GetEngine();
+            if (t.HasBespokeNowPlaying)
+            {
+                if (TransportEngineFactory.GetEngine().ShowNowPlaying())
+                {
+                    return;
+                }
+            }
+            MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+            if (mce.MediaExperience != null)
+            {
+                mce.MediaExperience.GoToFullScreen();
+            }
         }
     }
 }
