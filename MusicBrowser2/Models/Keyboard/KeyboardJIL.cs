@@ -10,13 +10,15 @@ namespace MusicBrowser.Models.Keyboard
     {
         public override void DoService()
         {
+            int i = 0;
             foreach (baseEntity item in RawDataSet)
             {
                 if (String.Compare(item.SortName, Value, true) > 0)
                 {
-                    Index = item.Index;
+                    Index = i;
                     return;
                 }
+                i++;
             }
             // if no match is found, go to the end of the list
             Index = RawDataSet.Count();

@@ -122,5 +122,17 @@ namespace MusicBrowser.Models
                 FirePropertyChanged("JILIndex");
             }
         }
+
+        public Size ReferenceSize
+        {
+            get
+            {
+                int i = 83;
+                return new Size(i, (int)(i*1.5));
+            }
+            set
+            {
+            }
+        }
     }
 }

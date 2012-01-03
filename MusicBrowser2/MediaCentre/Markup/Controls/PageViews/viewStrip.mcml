@@ -31,6 +31,8 @@
     <Locals>
       <ScrollingData Name="scrollData" EndPadding="2380" BeginPadding="120" PageStep="1" /> 
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
+
+      <GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" Rows="1" Columns="0" AllowWrap="true" Spacing="1,1" MinorAlignment="Center" MajorAlignment="Center" />
     </Locals>
 
     <Rules>
@@ -100,6 +102,8 @@
           <Invoke Target="[viewThumbRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" InvokePolicy="Synchronous" />
         </Actions>
       </Rule>
+
+      <Binding Target="[MyLayout.ReferenceSize]" Source="[FolderModel.ReferenceSize]" />
     </Rules>
     
     <Content>
@@ -107,7 +111,7 @@
         <Children>
           <Panel Layout="Dock">
             <LayoutInput>
-              <FormLayoutInput Bottom="Parent,0.65" Top="Parent,0" Left="Parent,0" Right="Parent,1"/>
+              <FormLayoutInput Bottom="Parent,0.7" Top="Parent,0" Left="Parent,0" Right="Parent,1"/>
             </LayoutInput>
             <Children>
               <!--<Graphic Name="ViewBackground" Content="[FolderModel.SelectedItem.Background]" Alpha="1" MaintainAspectRatio="true" Margins="0,0,0,0" Visible="true">
@@ -132,13 +136,10 @@
           </Panel>
            <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100">
             <LayoutInput>
-              <FormLayoutInput Bottom="Parent,1" Top="Parent,0.68" Left="Parent,0" Right="Parent,1"/>
+              <FormLayoutInput Bottom="Parent,1" Top="Parent,0.72" Left="Parent,0" Right="Parent,1" Horizontal="Fill" Vertical="Center"/>
             </LayoutInput>
             <Children>
-              <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true">
-                <Layout>
-                  <GridLayout Orientation="Vertical" Rows="1" Columns="9" AllowWrap="true" Spacing="1,1" Repeat="WhenTooBig" RepeatGap="100"/>
-                </Layout>
+              <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true" Layout="[MyLayout]">
                 <Animations>
                   <Animation Animation="[Slide]" />
                 </Animations>
@@ -150,7 +151,7 @@
    </Content>
 
     <Content Name="Thumb">
-      <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" />
+      <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]" Size="[FolderModel.ReferenceSize]"/>
     </Content>
 
   </UI>

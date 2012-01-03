@@ -83,7 +83,7 @@
                   <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
                 </Layout>
                 <Content>
-                  <me:buttonEntity Entity="[RepeatedItem!entities:baseEntity]" FolderModel="[FolderModel]"/>
+                  <me:buttonEntity Entity="[RepeatedItem!entities:baseEntity]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]"/>
                 </Content>
               </Repeater>
             </Children>
@@ -105,6 +105,8 @@
       <Size Name="MinSize" Size="600,57" />
       <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
       <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
+
+      <Index Name="Index" Index="$Required" />
     </Properties>
     <Locals>
       <Command Name="CmdEnter"/>
@@ -132,7 +134,7 @@
         <Actions>
           <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
           <Set Target="[Label.Alpha]" Value="1"/>
-          <Set Target="[FolderModel.SelectedIndex]" Value="[Entity.Index]"/>
+          <Set Target="[FolderModel.SelectedIndex]" Value="[Index.Value]"/>
         </Actions>
       </Condition>
       <Rule ConditionLogicalOp="And">

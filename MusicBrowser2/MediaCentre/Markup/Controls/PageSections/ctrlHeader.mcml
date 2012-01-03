@@ -48,19 +48,19 @@
         </Actions>
       </Changed>
       
-      <Changed Source="[Entity.Index]" InitialEvaluate="true">
+      <Rule>
         <Conditions>
           <Equality Source="[Entity.Kind]" ConditionOp="Equals" Value="Home" />
         </Conditions>
         <Actions>
           <Set Target="[SettingsMenu.Visible]" Value="true" />
         </Actions>
-      </Changed>
+      </Rule>
 
       <!--<Set Target="[GroupMenu.Visible]" Value="true" />-->
       <!--<Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />-->
 
-      <Changed Source="[Entity.Index]" InitialEvaluate="true">
+      <Rule>
         <Actions>
           <Set Target="[icon.Visible]" Value="[Entity.BannerExists]">
             <Transformer>
@@ -74,7 +74,7 @@
           </Set>
           <Set Target="[banner.Visible]" Value="[Entity.BannerExists]" />
         </Actions>
-      </Changed>
+      </Rule>
     </Rules>
 
     <Content>

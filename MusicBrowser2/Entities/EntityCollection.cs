@@ -46,7 +46,6 @@ namespace MusicBrowser.Entities
                 e.SortName = e.TokenSubstitution(Field + ":sort");
             }
             base.Sort(new EntityCollectionSorter());
-            for (int i = 0; i < Count; this[i].Index = i++) ;
         }
 
         protected static bool InheritsFrom<T>(baseEntity e)
