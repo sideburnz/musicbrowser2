@@ -85,7 +85,7 @@
     </Content>
 
     <Content Name="Thumb">
-      <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" />
+      <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]" />
     </Content>
 
   </UI>

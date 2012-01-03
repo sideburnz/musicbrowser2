@@ -10,6 +10,8 @@
       <entities:baseEntity Name="Entity" baseEntity="$Required" />
       <a:Application Name="Application" Application="$Required"/>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+      <Index Name="Index" Index="$Required" />
+      <Size Name="Size" Size="100,100" />
     </Properties>
     <Locals>
       <Command Name="CmdEnter"/>
@@ -34,7 +36,7 @@
         <Actions>
           <Set Target="[Wrapper.Scale]" Value="1.33,1.33,0.5"/>
           <Set Target="[Fader.Alpha]" Value="0" />
-          <Set Target="[FolderModel.SelectedIndex]" Value="[Entity.Index]"/>
+          <Set Target="[FolderModel.SelectedIndex]" Value="[Index.SourceValue]"/>
           <Set Target="[Wrapper.Padding]" Value="1,1,1,1" />
           <Set Target="[Blocker.Content]" Value="Black"/>
           <Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/border" />
@@ -53,10 +55,10 @@
       <Binding Source="[Entity.Thumb]" Target="[Background.Content]" />
     </Rules>
     <Content>
-      <Graphic Content="null" Layout="Fill" Name="Wrapper" CenterPointPercent=".5,.5,.5" SizingPolicy="SizeToChildren">
-        <Children>          
+      <Graphic Content="null" Name="Wrapper" CenterPointPercent=".5,.5,.5" SizingPolicy="SizeToChildren" Padding="2,2,2,2"  MaximumSize="[Size]" MinimumSize="[Size]">
+        <Children>
           <ColorFill Content="Black" Alpha="0.6" Name="Fader" Layout="Fill"/>
-          <Graphic Content="[Entity.Thumb]" Name="Background" Layout="Fill" MaintainAspectRatio="true" />
+          <Graphic Content="[Entity.Thumb]" Name="Background" Layout="Fill"/>
           <ColorFill Content="Transparent" Name="Blocker" Layout="Fill"/>
         </Children>
       </Graphic>

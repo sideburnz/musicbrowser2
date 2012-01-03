@@ -188,8 +188,6 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public int Index { get; set; }
-
         public string SortName { get; set; }
 
         public string Kind
