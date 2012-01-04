@@ -32,7 +32,7 @@
       <ScrollingData Name="scrollData" EndPadding="2380" BeginPadding="120" PageStep="1" /> 
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
 
-      <GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" Rows="1" Columns="0" AllowWrap="true" Spacing="1,1" MinorAlignment="Center" MajorAlignment="Center" />
+      <GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" Rows="1" Columns="0" AllowWrap="true" Spacing="2,2" MinorAlignment="Center" MajorAlignment="Center" />
     </Locals>
 
     <Rules>
@@ -103,7 +103,7 @@
         </Actions>
       </Rule>
 
-      <Binding Target="[MyLayout.ReferenceSize]" Source="[FolderModel.ReferenceSize]" />
+      <Binding Target="[MyLayout.ReferenceSize]" Source="[FolderModel.FixedReferenceSize]" />
     </Rules>
     
     <Content>
@@ -151,7 +151,7 @@
    </Content>
 
     <Content Name="Thumb">
-      <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]" Size="[FolderModel.ReferenceSize]"/>
+      <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]" />
     </Content>
 
   </UI>

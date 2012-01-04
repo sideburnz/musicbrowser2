@@ -17,9 +17,42 @@ namespace MusicBrowser.Providers
         Other
     }
 
+    public enum ImageRatio
+    {
+        Ratio2to3,
+        Ratio1to1,
+        Ratio16to9,
+        Ratio11to2,
+        RatioUncommon
+    }
+
     public static class ImageProvider
     {
         const int Thumbsize = 200;
+
+        public static ImageRatio Ratio(Bitmap bitmap)
+        {
+            double ratio = (double)bitmap.Height / (double)bitmap.Width;
+
+            if (ratio < 0.35)
+            {
+                return ImageRatio.Ratio11to2; // 0.1818181818181818
+            }
+            if (ratio >= 0.35 && ratio < 0.75) 
+            {
+                return ImageRatio.Ratio16to9; // 0.5625
+            }
+            if (ratio >= 0.75 && ratio < 1.25)
+            {
+                return ImageRatio.Ratio1to1; // 1
+            }
+            if (ratio >= 1.25 && ratio < 1.75)
+            {
+                return ImageRatio.Ratio2to3;  // 1.5
+            }
+
+            return ImageRatio.RatioUncommon;
+        }
 
         public static Bitmap Convert(TagLib.IPicture picture)
         {
@@ -35,7 +68,6 @@ namespace MusicBrowser.Providers
                 return null;
             }
         }
-
 
         public static Bitmap Resize(Bitmap bitmap, ImageType type)
         {

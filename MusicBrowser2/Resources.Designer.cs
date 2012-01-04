@@ -658,12 +658,5 @@ namespace MusicBrowser {
                 return ((byte[])(obj));
             }
         }
-        
-        internal static byte[] viewThumbsDown {
-            get {
-                object obj = ResourceManager.GetObject("viewThumbsDown", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

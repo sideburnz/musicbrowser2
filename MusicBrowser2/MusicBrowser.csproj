@@ -164,6 +164,8 @@
     <Compile Include="Actions\ActionPlaybackShuffle.cs" />
     <Compile Include="Actions\ActionPlaybackRepeat.cs" />
     <Compile Include="Actions\ActionShuffle.cs" />
+    <Compile Include="Actions\ActionIncreaseThumbSize.cs" />
+    <Compile Include="Actions\ActionDecreaseThumbSize.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\CacheScavenger.cs" />
@@ -342,9 +344,6 @@
     <Content Include="MediaCentre\Markup\Controls\Controls\ctrlThumb.mcml">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumbsDown.mcml">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml">
       <SubType>Designer</SubType>
     </None>
