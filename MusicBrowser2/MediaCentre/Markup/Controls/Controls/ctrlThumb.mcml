@@ -11,7 +11,6 @@
       <a:Application Name="Application" Application="$Required"/>
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
       <Index Name="Index" Index="$Required" />
-      <Size Name="Size" Size="100,100" />
     </Properties>
     <Locals>
       <Command Name="CmdEnter"/>
@@ -53,9 +52,11 @@
       </Condition>
 
       <Binding Source="[Entity.Thumb]" Target="[Background.Content]" />
+      <Binding Source="[FolderModel.ReferenceSize]" Target="[Wrapper.MaximumSize]" />
+      <Binding Source="[FolderModel.ReferenceSize]" Target="[Wrapper.MinimumSize]" />
     </Rules>
     <Content>
-      <Graphic Content="null" Name="Wrapper" CenterPointPercent=".5,.5,.5" SizingPolicy="SizeToChildren" Padding="2,2,2,2"  MaximumSize="[Size]" MinimumSize="[Size]">
+      <Graphic Content="null" Name="Wrapper" CenterPointPercent=".5,.5,.5" Padding="2,2,2,2">
         <Children>
           <ColorFill Content="Black" Alpha="0.6" Name="Fader" Layout="Fill"/>
           <Graphic Content="[Entity.Thumb]" Name="Background" Layout="Fill"/>

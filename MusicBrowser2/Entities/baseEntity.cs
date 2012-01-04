@@ -22,6 +22,7 @@ namespace MusicBrowser.Entities
         private string _bannerPath;
         private string _title;
         private string _sortField;
+        private int _thumbSize;
         #endregion
 
         #region cached attributes
@@ -41,7 +42,8 @@ namespace MusicBrowser.Entities
             set
             {
                 _thumbPath = value;
-                FirePropertiesChanged("ThumbPath", "Thumb");
+                DataChanged("ThumbPath");
+                DataChanged("Thumb");
             }
         }
         [DataMember]
@@ -54,7 +56,9 @@ namespace MusicBrowser.Entities
             set
             {
                 _bannerPath = value;
-                FirePropertiesChanged("BannerPath", "Banner", "BannerExists");
+                DataChanged("BannerPath");
+                DataChanged("Banner");
+                DataChanged("BannerExists");
             }
         }
         [DataMember]
@@ -67,7 +71,8 @@ namespace MusicBrowser.Entities
             set
             {
                 _title = value;
-                FirePropertiesChanged("Title", "Description");
+                DataChanged("Title");
+                DataChanged("Description");
             }
         }
         [DataMember]
@@ -95,7 +100,7 @@ namespace MusicBrowser.Entities
             set
             {
                 _view = value;
-                FirePropertyChanged("View");
+                DataChanged("View");
             }
         }
         [DataMember]
@@ -117,7 +122,7 @@ namespace MusicBrowser.Entities
             set
             {
                 _sortField = value;
-                FirePropertyChanged("SortField");
+                DataChanged("SortField");
             }
         }
         [DataMember]
@@ -126,6 +131,29 @@ namespace MusicBrowser.Entities
         public int Rating { get; set; }
         [DataMember]
         public bool Loved { get; set; }
+        [DataMember]
+        public int ThumbSize
+        {
+            get
+            {
+                if (_thumbSize == 0)
+                {
+                    return Config.GetInstance().GetIntSetting("Views.ThumbSize");
+                }
+                else
+                {
+                    return _thumbSize;
+                }
+            }
+            set
+            {
+                if (_thumbSize != value)
+                {
+                    _thumbSize = value;
+                    DataChanged("ThumbSize");
+                }
+            }
+        }
         #endregion
 
         #region private cached items
@@ -320,6 +348,18 @@ namespace MusicBrowser.Entities
             }
             return value;
         }
+
+        protected void DataChanged(string property)
+        {
+            FirePropertyChanged(property);
+            if (!(OnPropertyChanged == null))
+            {
+                OnPropertyChanged(property);
+            }
+        }
+
+        public delegate void ChangedPropertyHandler(string property);
+        public event ChangedPropertyHandler OnPropertyChanged;
         #endregion
     }
 

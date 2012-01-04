@@ -28,7 +28,7 @@
       <ScrollingData Name="scrollData" EndPadding="500" BeginPadding="500" PageStep="1" />
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
 
-      <GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" AllowWrap="true" Spacing="1,1" MinorAlignment="Center" MajorAlignment="Center" />
+      <GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" AllowWrap="true" Spacing="3,3" MinorAlignment="Center" MajorAlignment="Center" />
     </Locals>
 
     <Rules> 
@@ -74,6 +74,7 @@
           <Set Target="[MyLayout.Rows]" Value="1" />
         </Actions>
       </Rule>
+
     </Rules>
     
     <Content>
@@ -96,7 +97,7 @@
     </Content>
 
     <Content Name="Thumb">
-      <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]" Size="[FolderModel.ReferenceSize]"/>
+      <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]" />
     </Content>
 
   </UI>

@@ -6,6 +6,7 @@ using MusicBrowser.Providers.Background;
 using MusicBrowser.Util;
 using MusicBrowser.Actions;
 using MusicBrowser.Models.Keyboard;
+using MusicBrowser.Providers;
 
 namespace MusicBrowser.Models
 {
@@ -26,6 +27,78 @@ namespace MusicBrowser.Models
             IKeyboardHandler.OnDataChanged += KeyboardHandler;
             CommonTaskQueue.OnStateChanged += BusyStateChanged;
             Busy = CommonTaskQueue.Busy;
+
+            _parentEntity.OnPropertyChanged += new baseEntity.ChangedPropertyHandler(_parentEntity_OnPropertyChanged);
+
+            int i = 0;
+
+            int ratio1to1 = 0;
+            int ratio11to2 = 0;
+            int ratio16to9 = 0;
+            int ratio2to3 = 0;
+
+            foreach (baseEntity e in entities)
+            {
+                try
+                {
+                    ImageRatio r = ImageProvider.Ratio(new System.Drawing.Bitmap(e.ThumbPath));
+                    if (r != ImageRatio.RatioUncommon)
+                    {
+                        i++;
+
+                        switch (r)
+                        {
+                            case ImageRatio.Ratio11to2:
+                                ratio11to2++; break;
+                            case ImageRatio.Ratio16to9:
+                                ratio16to9++; break;
+                            case ImageRatio.Ratio2to3:
+                                ratio2to3++; break;
+                            case ImageRatio.Ratio1to1:
+                                ratio1to1++; break;
+                        }
+
+                    }
+                    if (i > 10)
+                    {
+                        break;
+                    }
+                }
+                catch { }
+            }
+
+            if (ratio1to1 > ratio2to3 && ratio1to1 > ratio16to9 && ratio1to1 > ratio11to2)
+            {
+                ReferenceRatio = 1;
+            }
+            else if (ratio2to3 > ratio1to1 && ratio2to3 > ratio16to9 && ratio2to3 > ratio11to2)
+            {
+                ReferenceRatio = 2 / 3.00;
+            }
+            else if (ratio16to9 > ratio1to1 && ratio16to9 > ratio2to3 && ratio16to9 > ratio11to2)
+            {
+                ReferenceRatio = 16 / 9.00;
+            }
+            else if (ratio11to2 > ratio1to1 && ratio11to2 > ratio2to3 && ratio11to2 > ratio16to9)
+            {
+                ReferenceRatio = 11 / 2.00;
+            }
+            else
+            {
+                ReferenceRatio = 1;
+            }
+        }
+
+        void _parentEntity_OnPropertyChanged(string property)
+        {
+            switch (property.ToLower())
+            {
+                case "thumbsize":
+                    {
+                        FirePropertyChanged("ReferenceSize");
+                        break;
+                    }
+            }
         }
 
         /// <summary>
@@ -123,15 +196,39 @@ namespace MusicBrowser.Models
             }
         }
 
+        private double _refRatio = 1;
+        private double ReferenceRatio
+        {
+            get
+            {
+                return _refRatio;
+            }
+            set
+            {
+                if (value != _refRatio)
+                {
+                    _refRatio = value;
+                    FirePropertyChanged("ReferenceSize");
+                }
+            }
+        }
+
+        [MarkupVisible]
         public Size ReferenceSize
         {
             get
             {
-                int i = 83;
-                return new Size(i, (int)(i*1.5));
+                int i = _parentEntity.ThumbSize;
+                return new Size((int)(i * ReferenceRatio), i);
             }
-            set
+        }
+
+        public Size FixedReferenceSize
+        {
+            get
             {
+                int i = 127;
+                return new Size((int)(i * ReferenceRatio), i);
             }
         }
     }
