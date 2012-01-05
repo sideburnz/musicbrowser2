@@ -23,6 +23,7 @@ namespace MusicBrowser.Entities
         private string _title;
         private string _sortField;
         private int _thumbSize;
+        private List<string> _backgroundPaths;
         #endregion
 
         #region cached attributes
@@ -140,10 +141,7 @@ namespace MusicBrowser.Entities
                 {
                     return Config.GetInstance().GetIntSetting("Views.ThumbSize");
                 }
-                else
-                {
-                    return _thumbSize;
-                }
+                return _thumbSize;
             }
             set
             {
@@ -152,6 +150,19 @@ namespace MusicBrowser.Entities
                     _thumbSize = value;
                     DataChanged("ThumbSize");
                 }
+            }
+        }
+        [DataMember]
+        public List<String> BackgroundPaths 
+        {
+            get
+            {
+                return _backgroundPaths;
+            }
+            set
+            {
+                _backgroundPaths = value;
+                DataChanged("BackgroundPaths");
             }
         }
         #endregion
@@ -196,7 +207,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return GetImage(ThumbPath);
+                return Helper.GetImage(ThumbPath);
             }
         }
 
@@ -204,7 +215,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return GetImage(BannerPath);
+                return Helper.GetImage(BannerPath);
             }
         }
 
@@ -318,26 +329,6 @@ namespace MusicBrowser.Entities
         #endregion
 
         #region protected helpers
-        protected static Microsoft.MediaCenter.UI.Image GetImage(string path)
-        {
-            if (String.IsNullOrEmpty(path))
-            {
-                return new Microsoft.MediaCenter.UI.Image("resx://MusicBrowser/MusicBrowser.Resources/nullImage");
-            }
-            if (path.StartsWith("resx://"))
-            {
-                return new Microsoft.MediaCenter.UI.Image(path);
-            }
-            if (path.StartsWith("http://"))
-            {
-                return new Microsoft.MediaCenter.UI.Image(path);
-            }
-            if (System.IO.File.Exists(path))
-            {
-                return new Microsoft.MediaCenter.UI.Image("file://" + path);
-            }
-            return new Microsoft.MediaCenter.UI.Image("resx://MusicBrowser/MusicBrowser.Resources/nullImage");
-        }
 
         private static IEnumerable<string> _sortIgnore = Util.Config.GetInstance().GetListSetting("SortReplaceWords");
         protected static string HandleIgnoreWords(string value)
