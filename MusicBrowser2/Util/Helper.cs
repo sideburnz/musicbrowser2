@@ -193,9 +193,9 @@ namespace MusicBrowser.Util
                         case "video":
                             perceivedTypeCache.Add(extension, knownType.Video);
                             break;
-                        case "image":
-                            perceivedTypeCache.Add(extension, knownType.Image);
-                            break;
+                        //case "image":
+                        //    perceivedTypeCache.Add(extension, knownType.Image);
+                        //    break;
                         case "audio":
                             perceivedTypeCache.Add(extension, knownType.Track);
                             break;
@@ -414,6 +414,27 @@ namespace MusicBrowser.Util
         public static bool InheritsFrom<T>(object e)
         {
             return typeof(T).IsAssignableFrom(e.GetType());
+        }
+
+        public static Microsoft.MediaCenter.UI.Image GetImage(string path)
+        {
+            if (String.IsNullOrEmpty(path))
+            {
+                return new Microsoft.MediaCenter.UI.Image("resx://MusicBrowser/MusicBrowser.Resources/nullImage");
+            }
+            if (path.StartsWith("resx://"))
+            {
+                return new Microsoft.MediaCenter.UI.Image(path);
+            }
+            if (path.StartsWith("http://"))
+            {
+                return new Microsoft.MediaCenter.UI.Image(path);
+            }
+            if (System.IO.File.Exists(path))
+            {
+                return new Microsoft.MediaCenter.UI.Image("file://" + path);
+            }
+            return new Microsoft.MediaCenter.UI.Image("resx://MusicBrowser/MusicBrowser.Resources/nullImage");
         }
     }
 }

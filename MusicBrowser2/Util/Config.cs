@@ -50,7 +50,7 @@ namespace MusicBrowser.Util
                 { "Views.Thumbs.IsHorizontal", true.ToString() },
                 { "Views.List.ShowSummary", true.ToString() },
                 { "Views.Strip.ShowSummary", true.ToString() },
-                { "Views.ThumbSize", "200" }
+                { "Views.ThumbSize", "240" }
 
         };
 

@@ -103,15 +103,33 @@
         </Actions>
       </Rule>
 
-      <Binding Target="[MyLayout.ReferenceSize]" Source="[FolderModel.FixedReferenceSize]" />
+      <Binding Target="[MyLayout.ReferenceSize]" Source="[FolderModel.ReferenceSize]" />
+      <Binding Target="[Scroller.MaximumSize]" Source="[FolderModel.ReferenceHeight]" />
     </Rules>
     
     <Content>
-      <ColorFill Content="Transparent" Layout="Form" Name="div_Strip" Visible="false">
+      <ColorFill Content="Transparent" Layout="Dock" Name="div_Strip" Visible="false">
+        <Layout>
+          <DockLayout SizeToChildren="true" />
+        </Layout>
         <Children>
+          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100" MaximumSize="0,150">
+            <LayoutInput>
+              <DockLayoutInput Position="Bottom" Alignment="Fill" />
+            </LayoutInput>
+            <Children>
+              <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true" Layout="[MyLayout]">
+                <Animations>
+                  <Animation Animation="[Slide]" />
+                </Animations>
+              </Repeater>
+            </Children>
+          </Scroller>
+
+
           <Panel Layout="Dock">
             <LayoutInput>
-              <FormLayoutInput Bottom="Parent,0.7" Top="Parent,0" Left="Parent,0" Right="Parent,1"/>
+              <DockLayoutInput Position="Bottom" Alignment="Fill" />
             </LayoutInput>
             <Children>
               <!--<Graphic Name="ViewBackground" Content="[FolderModel.SelectedItem.Background]" Alpha="1" MaintainAspectRatio="true" Margins="0,0,0,0" Visible="true">
@@ -134,18 +152,8 @@
               </Panel>
             </Children>
           </Panel>
-           <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100">
-            <LayoutInput>
-              <FormLayoutInput Bottom="Parent,1" Top="Parent,0.72" Left="Parent,0" Right="Parent,1" Horizontal="Fill" Vertical="Center"/>
-            </LayoutInput>
-            <Children>
-              <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true" Layout="[MyLayout]">
-                <Animations>
-                  <Animation Animation="[Slide]" />
-                </Animations>
-              </Repeater>
-            </Children>
-          </Scroller>
+
+
         </Children>
       </ColorFill>
    </Content>

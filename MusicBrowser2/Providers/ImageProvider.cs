@@ -175,7 +175,7 @@ namespace MusicBrowser.Providers
             if (String.IsNullOrEmpty(iconPath)) { return backs; }
             backs.Add(iconPath);
 
-            for (int i = 1; i < 10; i++)
+            for (int i = 1; i < 99; i++)
             {
                 iconPath = internalFanArtSearch(path, "backdrop" + i);
                 if (String.IsNullOrEmpty(iconPath)) { return backs; }

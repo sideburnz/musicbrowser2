@@ -12,9 +12,10 @@ namespace MusicBrowser.Models
 {
     public class FolderModel : ModelItem
     {
-        readonly baseEntity _parentEntity;
-        Int32 _selectedIndex;
-        IKeyboardHandler _keyboard;
+        private readonly baseEntity _parentEntity;
+        private Int32 _selectedIndex;
+        private IKeyboardHandler _keyboard;
+        private static readonly Random _rnd = new Random(DateTime.Now.Millisecond);
 
         public FolderModel(baseEntity parentEntity, EntityCollection entities, IKeyboardHandler keyboard)
         {
@@ -45,7 +46,6 @@ namespace MusicBrowser.Models
                     if (r != ImageRatio.RatioUncommon)
                     {
                         i++;
-
                         switch (r)
                         {
                             case ImageRatio.Ratio11to2:
@@ -59,12 +59,19 @@ namespace MusicBrowser.Models
                         }
 
                     }
-                    if (i > 10)
+                }
+                catch 
+                {
+                    if (Util.Helper.InheritsFrom<Video>(e))
                     {
-                        break;
+                        i++;
+                        ratio2to3++;
                     }
                 }
-                catch { }
+                if (i > 10)
+                {
+                    break;
+                }
             }
 
             if (ratio1to1 > ratio2to3 && ratio1to1 > ratio16to9 && ratio1to1 > ratio11to2)
@@ -96,6 +103,12 @@ namespace MusicBrowser.Models
                 case "thumbsize":
                     {
                         FirePropertyChanged("ReferenceSize");
+                        FirePropertyChanged("ReferenceHeight");
+                        break;
+                    }
+                case "backgroundpaths":
+                    {
+                        FirePropertyChanged("Background");
                         break;
                     }
             }
@@ -209,6 +222,7 @@ namespace MusicBrowser.Models
                 {
                     _refRatio = value;
                     FirePropertyChanged("ReferenceSize");
+                    FirePropertyChanged("ReferenceHeight");
                 }
             }
         }
@@ -223,12 +237,30 @@ namespace MusicBrowser.Models
             }
         }
 
-        public Size FixedReferenceSize
+        [MarkupVisible]
+        public Size ReferenceHeight
         {
             get
             {
-                int i = 127;
-                return new Size((int)(i * ReferenceRatio), i);
+                return new Size(0, _parentEntity.ThumbSize);
+            }
+        }
+
+        [MarkupVisible]
+        public Image Background
+        {
+            get
+            {
+                if (_parentEntity.BackgroundPaths == null || _parentEntity.BackgroundPaths.Count == 0)
+                {
+                    return Util.Helper.GetImage(String.Empty);
+                }
+                if (_parentEntity.BackgroundPaths.Count == 1)
+                {
+                    return Util.Helper.GetImage(_parentEntity.BackgroundPaths[0]);
+                }
+                int i = _rnd.Next(_parentEntity.BackgroundPaths.Count);
+                return Util.Helper.GetImage(_parentEntity.BackgroundPaths[i]);
             }
         }
     }

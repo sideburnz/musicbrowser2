@@ -30,7 +30,7 @@ namespace MusicBrowser.Actions
         {
             if (entity.ThumbSize < 300)
             {
-                entity.ThumbSize += 25;
+                entity.ThumbSize += 20;
                 entity.UpdateCache();
             }
         }
