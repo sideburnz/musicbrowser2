@@ -181,10 +181,8 @@
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />
     <Compile Include="Entities\Album.cs" />
-    <Compile Include="Entities\PhotoCollection.cs" />
     <Compile Include="Entities\VideoCollection.cs" />
     <Compile Include="Entities\MusicCollection.cs" />
-    <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\Episode.cs" />
     <Compile Include="Entities\Video.cs" />
@@ -194,7 +192,6 @@
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\Show.cs" />
     <Compile Include="Entities\Season.cs" />
-    <Compile Include="Entities\Gallery.cs" />
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Folder.cs" />
     <Compile Include="Entities\Home.cs" />
@@ -233,6 +230,7 @@
     <None Include="MediaCentre\Images\buttons\selectedMenu.png" />
     <None Include="MediaCentre\Images\buttonicons\IconRepeat.png" />
     <None Include="MediaCentre\Images\buttons\IconBorder.png" />
+    <None Include="MediaCentre\Images\buttonicons\IconOpen.png" />
     <Content Include="TextFile1.txt" />
     <None Include="MediaCentre\Images\buttonicons\IconMinus.png" />
     <None Include="MediaCentre\Images\buttonicons\IconNew.png" />
@@ -347,9 +345,6 @@
     <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="MediaCentre\Markup\Pages\pageImage.mcml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="MediaCentre\Markup\Pages\pageFooBar2000.mcml">
       <SubType>Designer</SubType>
     </Content>

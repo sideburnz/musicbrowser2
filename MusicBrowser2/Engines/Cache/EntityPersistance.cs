@@ -17,8 +17,6 @@ namespace MusicBrowser.Engines.Cache
                     return JsonSerializer.DeserializeFromString<Folder>(data); 
                 case "Genre":
                     return JsonSerializer.DeserializeFromString<Genre>(data);
-                case "PhotoAlbum":
-                    return JsonSerializer.DeserializeFromString<Gallery>(data); 
                 case "Season":
                     return JsonSerializer.DeserializeFromString<Season>(data);
                 case "Show":
@@ -30,8 +28,6 @@ namespace MusicBrowser.Engines.Cache
                     return JsonSerializer.DeserializeFromString<VideoCollection>(data);
                 case "MusicCollection":
                     return JsonSerializer.DeserializeFromString<MusicCollection>(data);
-                case "PhotoCollection":
-                    return JsonSerializer.DeserializeFromString<PhotoCollection>(data);
 
                 case "Playlist":
                     return JsonSerializer.DeserializeFromString<Playlist>(data);
@@ -42,9 +38,6 @@ namespace MusicBrowser.Engines.Cache
                     return JsonSerializer.DeserializeFromString<Episode>(data); 
                 case "Movie":
                     return JsonSerializer.DeserializeFromString<Movie>(data); 
-
-                case "Photo":
-                    return JsonSerializer.DeserializeFromString<Photo>(data);
 
             }
             return null;

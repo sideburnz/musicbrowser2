@@ -23,53 +23,32 @@ namespace MusicBrowser.Engines.Transport
 
         public void Play(bool queue, string file)
         {
-            StringBuilder sb = new StringBuilder();
-            if (queue)
+            if (!queue)
             {
-                sb.Append(" /add /immediate");
+                ExecuteCommand("EmptyPlaylist");
             }
-            else
+            ExecuteCommand("Browse", file);
+            if (!queue)
             {
-                sb.Append(" /play /immediate");
+                ExecuteCommand("Start");
             }
-            sb.Append(" \"" + file + "\"");
-
-            ExecuteCommandLine(sb.ToString());
-            // pause
-            System.Threading.Thread.Sleep(100);
-            HideFoobar();
         }
 
         public void Play(bool queue, IEnumerable<string> files)
         {
-            // batch up the play, large playlists fail
-            if (files.Count() > BATCH_SIZE)
+            if (!queue)
             {
-                int startEntry = 0;
-                while (startEntry < files.Count())
-                {
-                    Play(startEntry == 0 && queue, files.Skip(startEntry).Take(BATCH_SIZE));
-                    startEntry += BATCH_SIZE;
-                }
+                ExecuteCommand("EmptyPlaylist");
             }
-
-            StringBuilder sb = new StringBuilder();
-            if (queue)
+            foreach (string item in files)
             {
-                sb.Append(" /add /immediate");
+                Play(true, item);
+                
             }
-            else
+            if (!queue)
             {
-                sb.Append(" /play /immediate");
+                ExecuteCommand("Start");
             }
-            foreach (string file in files)
-            {
-                sb.Append(" \"" + file + "\"");
-            }
-
-            ExecuteCommandLine(sb.ToString());
-            System.Threading.Thread.Sleep(100);
-            HideFoobar();
         }
 
         public void Stop()

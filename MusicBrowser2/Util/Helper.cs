@@ -160,7 +160,6 @@ namespace MusicBrowser.Util
             Playlist,
             Folder,
             Video,
-            Image,
             Other
         }
         public static Dictionary<string, knownType> perceivedTypeCache = getKnownTypes();
@@ -193,9 +192,6 @@ namespace MusicBrowser.Util
                         case "video":
                             perceivedTypeCache.Add(extension, knownType.Video);
                             break;
-                        //case "image":
-                        //    perceivedTypeCache.Add(extension, knownType.Image);
-                        //    break;
                         case "audio":
                             perceivedTypeCache.Add(extension, knownType.Track);
                             break;

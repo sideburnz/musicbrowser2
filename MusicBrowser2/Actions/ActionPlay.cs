@@ -15,7 +15,6 @@ namespace MusicBrowser.Actions
             Label = LABEL + " " + entity.Kind;
             IconPath = ICON_PATH;
             Entity = entity;
-            Available = InheritsFrom<Item>(entity);
         }
 
         public ActionPlay()
