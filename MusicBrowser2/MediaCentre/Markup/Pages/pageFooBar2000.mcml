@@ -13,7 +13,11 @@
 
       <actions:ActionPlaybackRepeat Name="Repeat" />
       <actions:ActionPlaybackShuffle Name="Shuffle" />
+      
       <actions:ActionPause Name="PlayPause" />
+      <actions:ActionStop Name="Stop" />
+      <actions:ActionSkipForward Name="Next" />
+      <actions:ActionSkipBack Name="Back" />
     </Properties>
 
     <Locals>
@@ -131,14 +135,25 @@
                 </Children>
               </Panel>
 
-              <Panel Margins="0,10,0,0">
+              <Panel Margins="0,15,0,0">
+                <Layout>
+                  <FlowLayout Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <me:button Action="[PlayPause]" Margins="0,0,0,0"/>
+                  <me:button Action="[Stop]" Margins="10,0,0,0"/>
+                  <me:button Action="[Back]" Margins="10,0,0,0"/>
+                  <me:button Action="[Next]" Margins="10,0,0,0"/>
+                </Children>
+              </Panel>
+
+              <Panel Margins="0,15,0,0">
                 <Layout>
                   <FlowLayout Orientation="Horizontal"/>
                 </Layout>
                 <Children>
                   <me:button Action="[Shuffle]" Margins="0,0,0,0"/>
                   <me:button Action="[Repeat]" Margins="10,0,0,0"/>
-                  <me:button Action="[PlayPause]" Margins="10,0,0,0"/>
                 </Children>
               </Panel>
             </Children>

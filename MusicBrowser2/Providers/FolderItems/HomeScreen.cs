@@ -50,8 +50,6 @@ namespace MusicBrowser.Providers.FolderItems
                         entity = new MusicCollection(); break;
                     case "video":
                         entity = new VideoCollection(); break;
-                    case "photo":
-                        entity = new PhotoCollection(); break;
                     default: // generic collection
                         entity = new Collection(); break;
                 }

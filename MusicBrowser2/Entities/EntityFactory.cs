@@ -92,13 +92,10 @@ namespace MusicBrowser.Entities
                     entity = Factorize<Folder>(item); break;
                 case EntityKind.Genre:
                     entity = Factorize<Genre>(item); break;
-                case EntityKind.PhotoAlbum:
-                    entity = Factorize<Gallery>(item); break;
                 case EntityKind.Season:
                     entity = Factorize<Season>(item); break;
                 case EntityKind.Show:
                     entity = Factorize<Show>(item); break;
-
                 case EntityKind.Playlist:
                     entity = Factorize<Playlist>(item); break;
                 case EntityKind.Track:
@@ -110,9 +107,6 @@ namespace MusicBrowser.Entities
                     entity = Factorize<Episode>(item); break;
                 case EntityKind.Movie:
                     entity = Factorize<Movie>(item); break;
-
-                case EntityKind.Photo:
-                    entity = Factorize<Photo>(item); break;
             }
 
             entity.UpdateCache();
@@ -245,15 +239,6 @@ namespace MusicBrowser.Entities
                             return EntityKind.Episode;
                         }
                         return EntityKind.Movie;
-                    }
-                case Helper.knownType.Image:
-                    {
-                        // images have exceptions
-                        if (!nonphotoimages.Contains(Path.GetFileNameWithoutExtension(entity.Name)))
-                        {
-                            return EntityKind.Photo;
-                        }
-                        break;
                     }
             }
             return null;

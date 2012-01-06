@@ -16,7 +16,7 @@ namespace MusicBrowser.Actions
 
         public ActionShuffle(baseEntity entity)
         {
-            Label = LABEL;
+            Label = LABEL + " " + entity.Kind;
             IconPath = ICON_PATH;
             Entity = entity;
         }

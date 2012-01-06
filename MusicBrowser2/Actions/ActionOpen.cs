@@ -9,11 +9,11 @@ namespace MusicBrowser.Actions
     class ActionOpen : baseActionCommand
     {
         private const string LABEL = "Open";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconOpen";
 
         public ActionOpen(baseEntity entity)
         {
-            Label = LABEL;
+            Label = LABEL + " " + entity.Kind;
             IconPath = ICON_PATH;
             Entity = entity;
             Available = Directory.Exists(entity.Path) || InheritsFrom<Container>(entity);
