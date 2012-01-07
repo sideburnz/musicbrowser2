@@ -265,7 +265,7 @@ namespace MusicBrowser.Models
                     DataChanged("ReportedLength");
                 }
             }
-        }        
+        }
 
         public void SetPlaybackStyle(PlaybackStyles style)
         {
@@ -435,6 +435,14 @@ namespace MusicBrowser.Models
                 s.Height = 30;
                 s.Width = (int)(PercentComplete * 4);
                 return s;
+            }
+        }
+
+        public bool ScreenSaverDisabled
+        {
+            get
+            {
+                return Config.GetInstance().GetBooleanSetting("Player.DisableScreenSaver");
             }
         }
     }

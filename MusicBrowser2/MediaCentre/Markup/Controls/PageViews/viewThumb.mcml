@@ -80,7 +80,7 @@
     <Content>
       <ColorFill Content="Transparent" Layout="Form" Name="div_ListThumb" Visible="false">
         <Children> 
-          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100">
+          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100" Navigation="ContainHorizontal">
             <LayoutInput>
               <FormLayoutInput Bottom="Parent,0.99" Top="Parent,0.01" Left="Parent,0" Right="Parent,1" Horizontal="Fill" Vertical="Center"/>
             </LayoutInput>

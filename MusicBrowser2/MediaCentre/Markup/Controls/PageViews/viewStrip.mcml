@@ -54,8 +54,7 @@
           
           <Set Target="[Banner.Content]" Value="[FolderModel.SelectedItem.Banner]" />
           <Set Target="[Banner.Visible]" Value="[FolderModel.SelectedItem.BannerExists]" />
-          
-          <!--<Set Target="[ViewBackground.Content]" Value="[FolderModel.SelectedItem.Background]" />-->
+         
           <!--<Set Target="[Summary.Summary]" Value="[FolderModel.SelectedItem.Summary]" />-->
         </Actions>
       </Changed>
@@ -113,7 +112,7 @@
           <DockLayout SizeToChildren="true" />
         </Layout>
         <Children>
-          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100" MaximumSize="0,150">
+          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100" MaximumSize="0,150" Navigation="ContainHorizontal">
             <LayoutInput>
               <DockLayoutInput Position="Bottom" Alignment="Fill" />
             </LayoutInput>
@@ -132,11 +131,6 @@
               <DockLayoutInput Position="Bottom" Alignment="Fill" />
             </LayoutInput>
             <Children>
-              <!--<Graphic Name="ViewBackground" Content="[FolderModel.SelectedItem.Background]" Alpha="1" MaintainAspectRatio="true" Margins="0,0,0,0" Visible="true">
-                <LayoutInput>
-                  <DockLayoutInput Alignment="Near" Position="Right" />
-                </LayoutInput>
-              </Graphic>-->
               <Panel Margins="0,0,10,10" Name="SummaryPanel">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Left" />
