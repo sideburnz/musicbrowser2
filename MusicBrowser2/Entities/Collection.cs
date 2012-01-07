@@ -24,6 +24,8 @@ namespace MusicBrowser.Entities
                 {
                     case "sortorder":
                     case "SortOrder":
+                    case "sortorder:sort":
+                    case "SortOrder:sort":
                         output = output.Replace("[" + token + "]", SortOrder); break;
                 }
             }

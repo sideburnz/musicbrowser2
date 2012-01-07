@@ -96,11 +96,10 @@ namespace MusicBrowser
                     case "Home":
                         {
                             entities = HomeScreen.Entities;
-                            //TODO: restore this
-                            //foreach (baseEntity e in entities)
-                            //{
-                            //    CommonTaskQueue.Enqueue(new BackgroundCacheProvider(e));
-                            //}
+                            foreach (baseEntity e in entities)
+                            {
+                                CommonTaskQueue.Enqueue(new BackgroundCacheProvider(e));
+                            }
                             break;
                         }
                     case "MusicCollection":
@@ -111,12 +110,6 @@ namespace MusicBrowser
                             IFolderItemsProvider fip = new CollectionProvider();
                             entities.AddRange(fip.GetItems(entity.Path));
                             break;
-                        }
-                    case "Photo":
-                        {
-                            properties["Model"] = entity;
-                            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageImage", properties);
-                            return;
                         }
                     default:
                         {
