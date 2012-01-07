@@ -19,6 +19,7 @@ namespace MusicBrowser.Actions
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
+            Available = Util.Helper.InheritsFrom<Music>(entity); // only audio can be queued
         }
 
         public ActionQueue()

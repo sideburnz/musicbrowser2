@@ -26,6 +26,11 @@ namespace MusicBrowser.Engines.Cache
             if (InheritsFrom<Video>(entity))
             {
                 ((Video)entity).Progress = progress;
+                if (progress == 0)
+                {
+                    entity.LastPlayed = DateTime.Now;
+                    entity.TimesPlayed++;
+                }
                 entity.UpdateCache();
 
                 Logging.LoggerEngineFactory.Debug(entity.Title + " was stopped at " + progress + " seconds");

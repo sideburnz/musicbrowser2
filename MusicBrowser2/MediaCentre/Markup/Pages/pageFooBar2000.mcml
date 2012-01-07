@@ -23,6 +23,12 @@
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
       <models:RatingUI Name="RatingIcons" />
+
+      <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" Command="[Next]"/>
+      <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true" Command="[Back]" />
+      <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Bubbled" Handle="true" Command="[Stop]" />
+      <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Bubbled"  Handle="true" Command="[PlayPause]"/>
+      <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Bubbled" Handle="true" Command="[PlayPause]"/>
     </Locals>
 
     <Rules>
@@ -45,6 +51,7 @@
       <Rule>
         <Actions>
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
+          <Set Target="[AddInHost.MediaCenterEnvironment.ScreenSaverEnabledHint]" Value="[Model.ScreenSaverDisabled]" />
         </Actions>
       </Rule>
 
@@ -95,6 +102,7 @@
           <Panel Name="NothingPlaying" Visible="false">
             <Children>
               <Text Content="Nothing playing" Font="Segoe Media Center Light, 48" Color="White" Margins="100,250,0,0"/>
+              <me:button Action="[PlayPause]" Margins="0,0,0,0" Alpha="0"/>
             </Children>
           </Panel>
 
@@ -131,6 +139,14 @@
                     <LayoutInput>
                       <AnchorLayoutInput Left="Parent, 0" />
                     </LayoutInput>
+                    <Animations>
+                      <Animation Type="Size">
+                        <Keyframes>
+                          <SizeKeyframe Time="0.0" RelativeTo="Current" Value="0,0,0" />
+                          <SizeKeyframe Time="0.9" RelativeTo="Final" Value="0,0,0" Interpolation="Linear" />
+                        </Keyframes>
+                      </Animation>
+                    </Animations>
                   </ColorFill>
                 </Children>
               </Panel>

@@ -129,6 +129,8 @@ namespace MusicBrowser.Entities
         [DataMember]
         public DateTime LastPlayed { get; set; }
         [DataMember]
+        public int TimesPlayed { get; set; }
+        [DataMember]
         public int Rating { get; set; }
         [DataMember]
         public bool Loved { get; set; }

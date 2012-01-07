@@ -23,7 +23,7 @@ namespace MusicBrowser.Entities
             {
                 if (Util.Helper.IsDVD(Path))
                 {
-                    mce.PlayMedia(MediaType.Dvd, Path, queue);
+                    mce.PlayMedia(MediaType.Dvd, Path, false);
                 }
                 else
                 {
@@ -50,20 +50,19 @@ namespace MusicBrowser.Entities
                     // if there's only 1 item, just play it
                     if (collection.Count == 1)
                     {
-                        mce.PlayMedia(MediaType.Video, lastitem, queue);
+                        mce.PlayMedia(MediaType.Video, lastitem, false);
                     }
                     else
                     {
-                        mce.PlayMedia(MediaType.MediaCollection, collection, queue);
+                        mce.PlayMedia(MediaType.MediaCollection, collection, false);
                     }
                 }
             }
             else
             {
-                mce.PlayMedia(MediaType.Video, Path, queue);
+                mce.PlayMedia(MediaType.Video, Path, false);
             }
 
-            this.MarkPlayed();
             mce.MediaExperience.GoToFullScreen();
             ProgressRecorder.Register(this);
         }

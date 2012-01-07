@@ -17,6 +17,14 @@ namespace MusicBrowser.WebServices.Helper
         [In]      uint dwFlags
         );
 
+        [DllImport("shlwapi.dll", CharSet = CharSet.Auto)]
+        static extern int UrlUnescape(
+        [In]      string pszURL,
+        [Out]     string pszUnescaped,
+        [In, Out] ref uint urlLength,
+        [In]      uint dwFlags
+        );
+
         const UInt32 UrlEscapePercent = 0x1000;
         const UInt32 URL_ESCAPE_SEGMENT_ONLY = 0x00002000;
         const Int32 UrlMax = 3000;
@@ -29,6 +37,18 @@ namespace MusicBrowser.WebServices.Helper
             string strTemp = new string(' ', UrlMax);
 
             if (UrlEscape(strData, strTemp, ref pos, UrlEscapePercent + URL_ESCAPE_SEGMENT_ONLY) == UrlSuccess)
+            {
+                return strTemp.Substring(0, Int32.Parse(pos.ToString()));
+            }
+            return string.Empty;
+        }
+
+        public static string DecodeURL(string strData)
+        {
+            UInt32 pos = UrlMax;
+            string strTemp = new string(' ', UrlMax);
+
+            if (UrlUnescape(strData, strTemp, ref pos, 0) == UrlSuccess)
             {
                 return strTemp.Substring(0, Int32.Parse(pos.ToString()));
             }

@@ -376,7 +376,7 @@ namespace MusicBrowser.Util
         public static bool IsDVD (string path)
         {
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(path);
-            if (items.Count() > 5) 
+            if (items.Count() > 10) 
             { 
                 // don't cycle through a long list of files
                 return false; 
