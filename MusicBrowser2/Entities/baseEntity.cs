@@ -118,7 +118,7 @@ namespace MusicBrowser.Entities
                 {
                     return Config.GetInstance().GetStringSetting(setting);
                 }
-                return "Title";
+                return "[Title:sort]";
             }
             set
             {

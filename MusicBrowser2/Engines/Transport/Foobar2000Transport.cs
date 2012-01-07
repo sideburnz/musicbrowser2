@@ -30,7 +30,7 @@ namespace MusicBrowser.Engines.Transport
             ExecuteCommand("Browse", file);
             if (!queue)
             {
-                ExecuteCommand("Start");
+                ExecuteCommand("StartNext");
             }
         }
 
@@ -43,11 +43,11 @@ namespace MusicBrowser.Engines.Transport
             foreach (string item in files)
             {
                 Play(true, item);
-                
+                System.Threading.Thread.Sleep(100);
             }
             if (!queue)
             {
-                ExecuteCommand("Start");
+                ExecuteCommand("StartNext");
             }
         }
 
@@ -122,7 +122,6 @@ namespace MusicBrowser.Engines.Transport
             }
 
             return h.Response;
-
         }
 
         protected void ExecuteCommandLine(string command, params string[] parameters)

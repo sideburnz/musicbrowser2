@@ -41,9 +41,14 @@ namespace MusicBrowser.Entities
 
         public void Sort(string Field)
         {
+            string sort = Field;
+            if (sort.IndexOf(":sort") == 0)
+            {
+                sort.Replace("]", ":sort]");
+            }
             foreach (baseEntity e in this) 
             {
-                e.SortName = e.TokenSubstitution(Field + ":sort");
+                e.SortName = e.TokenSubstitution(sort);
             }
             base.Sort(new EntityCollectionSorter());
         }
