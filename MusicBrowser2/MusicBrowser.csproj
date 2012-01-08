@@ -284,6 +284,8 @@
     <Compile Include="Providers\Metadata\DataProviderException.cs" />
     <Compile Include="Providers\Metadata\IDataProvider.cs" />
     <Compile Include="Providers\ImageProvider.cs" />
+    <Compile Include="Providers\Metadata\Lite\TagSharpMetadataProvider.cs" />
+    <Compile Include="Providers\Metadata\Lite\VideoFilenameMetadataProvider.cs" />
     <Compile Include="Providers\PlaylistProvider.cs" />
     <Compile Include="Providers\Statistics.cs" />
     <Compile Include="Engines\Transport\Foobar2000Transport.cs" />

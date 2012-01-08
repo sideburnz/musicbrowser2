@@ -27,6 +27,7 @@ namespace MusicBrowser.Util
                 { "Log.File", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
 
                 { "Entity.View.Home", "Thumb" },
+                { "Entity.Track.DisplayFormat", "[Track#] - [Title]" },
 
                 { "Internet.UseProviders", true.ToString() } ,
                 { "Internet.LastFMUserName", String.Empty },

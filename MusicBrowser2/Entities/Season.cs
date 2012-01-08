@@ -9,5 +9,9 @@ namespace MusicBrowser.Entities
     [DataContract]
     class Season : Folder
     {
+        public override string DefaultSort
+        {
+            get { return "[Episode#:sort]"; }
+        }
     }
 }

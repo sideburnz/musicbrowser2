@@ -25,7 +25,18 @@ namespace MusicBrowser.Engines.Cache
 
         public static SQLiteConnection GetConnection(string file)
         {
-            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + file);
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("Data Source=" + file + ";");
+            sb.Append("PRAGMA main.cache_size=500;");
+            sb.Append("PRAGMA main.temp_store = MEMORY;");
+            sb.Append("PRAGMA main.page_size = 4096;");
+            sb.Append("PRAGMA main.locking_mode=EXCLUSIVE;");
+            sb.Append("PRAGMA main.synchronous=OFF;");
+            sb.Append("PRAGMA main.journal_mode=MEMORY;");
+
+            SQLiteConnection cnn = new SQLiteConnection(sb.ToString());
+                            
             return cnn;
         }
 

@@ -15,6 +15,11 @@ namespace MusicBrowser.Entities
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageAlbum"; }
         }
 
+        public override string DefaultSort
+        {
+            get { return "[Track#:sort]"; }
+        }
+
         public override void Play(bool queue, bool shuffle)
         {
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(Path);
