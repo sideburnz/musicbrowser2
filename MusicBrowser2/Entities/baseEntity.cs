@@ -73,7 +73,6 @@ namespace MusicBrowser.Entities
             {
                 _title = value;
                 DataChanged("Title");
-                DataChanged("Description");
             }
         }
         [DataMember]
@@ -86,15 +85,13 @@ namespace MusicBrowser.Entities
             get
             {
                 // if view is overriden for this single entity, use its setting
-                if (!string.IsNullOrEmpty(_view))
+                if (!String.IsNullOrEmpty(_view))
                 {
                     return _view;
                 }
-                // if there's a view defined in the config, use it
-                string setting = String.Format("Entity.{0}.View", Kind);
-                if (Config.GetInstance().Exists(setting))
+                if (!String.IsNullOrEmpty(DefaultView))
                 {
-                    return Config.GetInstance().GetStringSetting(setting);
+                    return DefaultView;
                 }
                 return "List";
             }
@@ -113,10 +110,9 @@ namespace MusicBrowser.Entities
                 {
                     return _sortField;
                 }
-                string setting = String.Format("Entity.{0}.SortBy", Kind);
-                if (Config.GetInstance().Exists(setting))
+                if (!String.IsNullOrEmpty(DefaultSort))
                 {
-                    return Config.GetInstance().GetStringSetting(setting);
+                    return DefaultSort;
                 }
                 return "[Title:sort]";
             }
@@ -174,21 +170,15 @@ namespace MusicBrowser.Entities
         private String _view = String.Empty;
         #endregion
 
+        #region non-cached attributes
         public new string Description
         {
             get
             {
-                IEnumerable<String> tree = this.Tree();
-                foreach (string leaf in tree)
+                if (!String.IsNullOrEmpty(DefaultFormat))
                 {
-                    string setting = String.Format("Entity.{0}.DisplayFormat", leaf);
-
-                    if (Config.GetInstance().Exists(setting))
-                    {
-                        return TokenSubstitution(Config.GetInstance().GetStringSetting(setting));
-                    }
+                    return TokenSubstitution(DefaultFormat);
                 }
-                // if we can't find anything, just return a fixed result
                 return Title;
             }
         }
@@ -260,13 +250,18 @@ namespace MusicBrowser.Entities
                 return new Microsoft.MediaCenter.UI.Color(128, 128, 128);
             }
         }
+        #endregion
 
+        #region abstract methods
         public abstract string Serialize();
-
         public abstract void Play(bool queue, bool shuffle);
+        #endregion
 
         #region abstract attributes
         public abstract string DefaultThumbPath { get; }
+        public abstract string DefaultFormat { get; }
+        public abstract string DefaultSort { get; }
+        public abstract string DefaultView { get; }
         #endregion
 
         #region private helpers
@@ -309,8 +304,8 @@ namespace MusicBrowser.Entities
                     case "Added:sort":
                     case "added:sort":
                         if (TimeStamp > DateTime.Parse("01-JAN-1000")) 
-                        { 
-                            output = output.Replace("[" + token + "]", TimeStamp.ToString("yyyy-mm-dd hh:MM:ss")); 
+                        {
+                            output = output.Replace("[" + token + "]", TimeStamp.ToString("yyyymmdd hhMMss")); 
                             break; 
                         }
                         output = output.Replace("[" + token + "]", ""); 
@@ -345,6 +340,8 @@ namespace MusicBrowser.Entities
         protected void DataChanged(string property)
         {
             FirePropertyChanged(property);
+            FirePropertyChanged("Description");
+            //TODO: remember to fire derived properties like Description
             if (!(OnPropertyChanged == null))
             {
                 OnPropertyChanged(property);
@@ -353,6 +350,7 @@ namespace MusicBrowser.Entities
 
         public delegate void ChangedPropertyHandler(string property);
         public event ChangedPropertyHandler OnPropertyChanged;
+
         #endregion
     }
 

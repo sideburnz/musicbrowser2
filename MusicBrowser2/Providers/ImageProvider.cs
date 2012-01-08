@@ -28,7 +28,7 @@ namespace MusicBrowser.Providers
 
     public static class ImageProvider
     {
-        const int Thumbsize = 200;
+        private const int Thumbsize = 250;
 
         public static ImageRatio Ratio(Bitmap bitmap)
         {

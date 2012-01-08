@@ -113,8 +113,8 @@
             <Children>
               <Graphic Name="Cover" MinimumSize="200,200" MaximumSize="200,200" />
               <Text Color="White" Name="Track" Content="Track" Margins="0,15,0,0" Font="Segoe Media Center Light, 32" />
-              <Text Color="White" Name="Artist" Content="Artist" Margins="0,8,0,0" Font="Segoe Media Center Light, 24" />
-              <Text Color="White" Name="Album" Content="Album" Margins="0,10,0,0" Font="Segoe Media Center Light, 22" />
+              <Text Color="White" Name="Artist" Content="Artist" Margins="0,5,0,0" Font="Segoe Media Center Light, 20" />
+              <Text Color="White" Name="Album" Content="Album" Margins="0,5,0,0" Font="Segoe Media Center Light, 20" />
 
               <Repeater Name="IconRepeater" Navigation="ContainAll">
                 <Layout>
@@ -139,14 +139,6 @@
                     <LayoutInput>
                       <AnchorLayoutInput Left="Parent, 0" />
                     </LayoutInput>
-                    <Animations>
-                      <Animation Type="Size">
-                        <Keyframes>
-                          <SizeKeyframe Time="0.0" RelativeTo="Current" Value="0,0,0" />
-                          <SizeKeyframe Time="0.9" RelativeTo="Final" Value="0,0,0" Interpolation="Linear" />
-                        </Keyframes>
-                      </Animation>
-                    </Animations>
                   </ColorFill>
                 </Children>
               </Panel>

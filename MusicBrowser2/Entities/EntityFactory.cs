@@ -5,6 +5,7 @@ using System.Linq;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
+using MusicBrowser.Providers.Metadata.Lite;
 using MusicBrowser.Util;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -29,10 +30,7 @@ namespace MusicBrowser.Entities
             Episode = 202,
             Movie = 203,
             Season = 204,
-            Show = 205,
-
-            Photo = 301,
-            PhotoAlbum = 302
+            Show = 205
         }
 
         public static baseEntity GetItem(string item)
@@ -100,11 +98,12 @@ namespace MusicBrowser.Entities
                     entity = Factorize<Playlist>(item); break;
                 case EntityKind.Track:
                     entity = Factorize<Track>(item);
-                    //TagSharpMetadataProvider.FetchLite(entity);
+                    TagSharpMetadataProvider.FetchLite(entity);
                     break;
-
                 case EntityKind.Episode:
-                    entity = Factorize<Episode>(item); break;
+                    entity = Factorize<Episode>(item);
+                    VideoFilenameMetadataProvider.FetchLite(entity);
+                    break;
                 case EntityKind.Movie:
                     entity = Factorize<Movie>(item); break;
             }
@@ -141,25 +140,6 @@ namespace MusicBrowser.Entities
             return e;
         }
 
-        private static IEnumerable<string> nonphotoimages = new string[] { 
-            "folder", 
-            "banner", 
-            "disc",
-            "cover",
-            "front",
-            "back",
-            "backdrop", 
-            "backdrop1", 
-            "backdrop2",
-            "backdrop3",
-            "backdrop4",
-            "backdrop5",
-            "backdrop6",
-            "backdrop7",
-            "backdrop8",
-            "backdrop9",
-        };
-
         private static Nullable<EntityKind> DetermineKind(FileSystemItem entity)
         {
             Helper.knownType type = Helper.getKnownType(entity);
@@ -187,7 +167,6 @@ namespace MusicBrowser.Entities
                         catch { }
 
                         IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
-                        bool hasImages = false;
                         foreach (FileSystemItem item in items)
                         {
                             switch (item.Name.ToLower())
@@ -213,15 +192,12 @@ namespace MusicBrowser.Entities
                                     return EntityKind.Artist;
                                 case EntityKind.Artist:
                                     return EntityKind.Genre;
-                                case EntityKind.Photo:
-                                    hasImages = true; break;
                                 case EntityKind.Episode:
                                     return EntityKind.Season;
                                 case EntityKind.Season:
                                     return EntityKind.Show;
                             }
                         }
-                        if (hasImages) { return EntityKind.PhotoAlbum; }
                         return EntityKind.Folder;
                     }
                 case Helper.knownType.Track:
@@ -292,8 +268,6 @@ namespace MusicBrowser.Entities
                     return EntityKind.Genre;
                 case "movie":
                     return EntityKind.Movie;
-                case "photoalbum":
-                    return EntityKind.PhotoAlbum;
                 case "season":
                     return EntityKind.Season;
                 case "show":

@@ -88,7 +88,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                return new Image(IconPath);
+                return Util.Helper.GetImage(_iconPath);
             }
         }
     }
