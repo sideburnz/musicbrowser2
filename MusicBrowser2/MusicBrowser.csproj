@@ -166,6 +166,8 @@
     <Compile Include="Actions\ActionShuffle.cs" />
     <Compile Include="Actions\ActionIncreaseThumbSize.cs" />
     <Compile Include="Actions\ActionDecreaseThumbSize.cs" />
+    <Compile Include="Actions\ActionJumpBack.cs" />
+    <Compile Include="Actions\ActionJumpForward.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\CacheScavenger.cs" />

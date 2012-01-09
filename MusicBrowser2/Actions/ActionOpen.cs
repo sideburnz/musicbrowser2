@@ -3,6 +3,8 @@ using System.IO;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Background;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MusicBrowser.Actions
 {
@@ -16,7 +18,29 @@ namespace MusicBrowser.Actions
             Label = LABEL + " " + entity.Kind;
             IconPath = ICON_PATH;
             Entity = entity;
-            Available = Directory.Exists(entity.Path) || InheritsFrom<Container>(entity);
+
+            if (InheritsFrom<Video>(entity) && Directory.Exists(entity.Path))
+            {
+                IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.Path);
+                int hits = 0;
+                foreach (FileSystemItem item in items)
+                {
+                    if (Util.Helper.getKnownType(item) == Util.Helper.knownType.Video)
+                    {
+                        hits++;
+                        if (hits > 2)
+                        {
+                            Available = true;
+                            return;
+                        }
+                    }
+                }
+                Available = false;
+            }
+            else
+            {
+                Available = InheritsFrom<Container>(entity);
+            }
         }
 
         public ActionOpen()

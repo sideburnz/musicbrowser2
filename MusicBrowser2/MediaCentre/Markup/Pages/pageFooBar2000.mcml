@@ -18,6 +18,8 @@
       <actions:ActionStop Name="Stop" />
       <actions:ActionSkipForward Name="Next" />
       <actions:ActionSkipBack Name="Back" />
+      <actions:ActionJumpBack Name="Rewind" />
+      <actions:ActionJumpForward Name="Forward" />
     </Properties>
 
     <Locals>
@@ -29,6 +31,8 @@
       <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Bubbled" Handle="true" Command="[Stop]" />
       <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Bubbled"  Handle="true" Command="[PlayPause]"/>
       <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Bubbled" Handle="true" Command="[PlayPause]"/>
+      <ShortcutHandler Name="hForward" Shortcut="FastForward" HandlerStage="Bubbled" Handle="true" Command="[Forward]"/>
+      <ShortcutHandler Name="hRewind" Shortcut="Rewind" HandlerStage="Bubbled" Handle="true" Command="[Rewind]" />
     </Locals>
 
     <Rules>
@@ -47,6 +51,10 @@
       <Binding Target="[RatingIcons.Rating]" Source="[Model.CurrentTrack.Rating]" />
       <Binding Target="[RatingIcons.Loved]" Source="[Model.CurrentTrack.Loved]" />
       <Binding Target="[IconRepeater.Source]" Source="[RatingIcons.Stars]" />
+
+      <Binding Target="[PlaylistDuration.Content]" Source="[Model.PlaylistDuration]" />
+      <Binding Target="[PlaylistSize.Content]" Source="[Model.PlaylistLength!cor:String]" />
+      <Binding Target="[PlaylistItem.Content]" Source="[Model.PlaylistItem!cor:String]" />
 
       <Rule>
         <Actions>
@@ -106,7 +114,7 @@
             </Children>
           </Panel>
 
-          <Panel Name="Playing" Layout="VerticalFlow" Margins="100,100,100,100">
+          <Panel Name="Playing" Layout="VerticalFlow" Margins="100,75,100,0">
             <LayoutInput>
               <DockLayoutInput Alignment="Near" Position="Left" />
             </LayoutInput>
@@ -114,7 +122,13 @@
               <Graphic Name="Cover" MinimumSize="200,200" MaximumSize="200,200" />
               <Text Color="White" Name="Track" Content="Track" Margins="0,15,0,0" Font="Segoe Media Center Light, 32" />
               <Text Color="White" Name="Artist" Content="Artist" Margins="0,5,0,0" Font="Segoe Media Center Light, 20" />
-              <Text Color="White" Name="Album" Content="Album" Margins="0,5,0,0" Font="Segoe Media Center Light, 20" />
+
+              <Panel Layout="HorizontalFlow" Margins="0,5,0,0">
+                <Children>
+                  <Text Color="White" Name="Album" Content="Album" Margins="0,0,0,0" Font="Segoe Media Center Light, 20" />
+                  <Text Color="White" Name="Year" Content="(2010)" Margins="10,0,0,0" Font="Segoe Media Center Light, 20" />
+                </Children>
+              </Panel>
 
               <Repeater Name="IconRepeater" Navigation="ContainAll">
                 <Layout>
@@ -148,10 +162,12 @@
                   <FlowLayout Orientation="Horizontal"/>
                 </Layout>
                 <Children>
-                  <me:button Action="[PlayPause]" Margins="0,0,0,0"/>
-                  <me:button Action="[Stop]" Margins="10,0,0,0"/>
+                  <me:button Action="[Rewind]" Margins="0,0,0,0"/>
                   <me:button Action="[Back]" Margins="10,0,0,0"/>
+                  <me:button Action="[Stop]" Margins="0,0,0,0"/>
+                  <me:button Action="[PlayPause]" Margins="10,0,0,0"/>
                   <me:button Action="[Next]" Margins="10,0,0,0"/>
+                  <me:button Action="[Forward]" Margins="10,0,0,0"/>
                 </Children>
               </Panel>
 
@@ -162,6 +178,12 @@
                 <Children>
                   <me:button Action="[Shuffle]" Margins="0,0,0,0"/>
                   <me:button Action="[Repeat]" Margins="10,0,0,0"/>
+                  <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" Margins="20,18,20,0" MaximumSize="10,10" MinimumSize="10,10" Alpha="0.6" />
+                  <Text Color="White" Name="PlaylistDuration" Content="01:20" Margins="0,2,0,0" Font="Segoe Media Center Light, 20" Alpha="0.6" />
+                  <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" Margins="20,18,20,0" MaximumSize="10,10" MinimumSize="10,10" Alpha="0.6" />
+                  <Text Color="White" Name="PlaylistItem" Content="12" Margins="0,2,0,0" Font="Segoe Media Center Light, 20" Alpha="0.6" />
+                  <Text Color="White" Content="|" Margins="5,2,0,0" Font="Segoe Media Center Light, 20" Alpha="0.6" />
+                  <Text Color="White" Name="PlaylistSize" Content="100" Margins="5,2,0,0" Font="Segoe Media Center Light, 20" Alpha="0.6" />
                 </Children>
               </Panel>
             </Children>

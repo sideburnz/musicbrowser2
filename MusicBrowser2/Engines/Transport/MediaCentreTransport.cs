@@ -110,5 +110,16 @@ namespace MusicBrowser.Engines.Transport
             }
             return ret;
         }
+
+
+        public void JumpForward()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void JumpBack()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

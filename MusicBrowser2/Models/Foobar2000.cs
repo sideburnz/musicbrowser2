@@ -141,6 +141,22 @@ namespace MusicBrowser.Models
                 }
             }
         }
+        private int _playlistItem = 0;
+        public int PlaylistItem
+        {
+            get
+            {
+                return _playlistItem;
+            }
+            protected set
+            {
+                if (value != _playlistItem)
+                {
+                    _playlistItem = value;
+                    DataChanged("PlaylistItem");
+                }
+            }
+        }
         private string _playlistDuration = "0:00";
         public string PlaylistDuration
         {
@@ -370,6 +386,16 @@ namespace MusicBrowser.Models
                     result.playlistSize = 0;
                 }
 
+                i = 0;
+                if (Int32.TryParse(Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_ITEM_PLAYING", "0"), out i))
+                {
+                    result.playlistItemPlaying = i;
+                }
+                else
+                {
+                    result.playlistItemPlaying = 0;
+                }
+
                 result.playlistDuration = Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_TOTAL_TIME", "0:00");
 
             }
@@ -411,6 +437,7 @@ namespace MusicBrowser.Models
 
             PlaylistDuration = info.playlistDuration;
             PlaylistLength = info.playlistSize;
+            PlaylistItem = info.playlistItemPlaying + 1;
 
             ReportedLength = info.playingTrackLength;
         }
