@@ -29,8 +29,8 @@ namespace MusicBrowser.Providers.Background
             // set up the task queue 
             _queue = new List<IBackgroundTaskable>();
 
-            // spin up the threads - two per logical CPU
-            _maximumThreads = System.Environment.ProcessorCount * 2;
+            // spin up the threads - one per logical CPU
+            _maximumThreads = System.Environment.ProcessorCount;
 #if DEBUG
             // if we're debugging, multithreading is a pain in the ass
             _maximumThreads = 1;
@@ -99,7 +99,7 @@ namespace MusicBrowser.Providers.Background
 #if DEBUG
                         Engines.Logging.LoggerEngineFactory.Verbose("Thread " + id.ToString() + " " + task.Title, "thread start");
 #endif
-                        System.Threading.Thread.Sleep(10);
+                        System.Threading.Thread.Sleep(100);
                         task.Execute();
                     }
                     catch (Exception e)

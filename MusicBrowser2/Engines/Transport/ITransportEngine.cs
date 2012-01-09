@@ -17,6 +17,8 @@ namespace MusicBrowser.Engines.Transport
         void Stop();
         void Next();
         void Previous();
+        void JumpForward();
+        void JumpBack();
 
         // instatiates and disposes of transport
         void Open();

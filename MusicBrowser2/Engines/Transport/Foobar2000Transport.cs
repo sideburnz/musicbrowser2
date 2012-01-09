@@ -151,5 +151,16 @@ namespace MusicBrowser.Engines.Transport
         {
             get { return true; }
         }
+
+
+        public void JumpForward()
+        {
+            ExecuteCommand("SeekDelta", "10");
+        }
+
+        public void JumpBack()
+        {
+            ExecuteCommand("SeekDelta", "-10");
+        }
     }
 }
