@@ -218,7 +218,7 @@ namespace MusicBrowser.Entities
                     case "releaseyear:sort":
                         if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
                         {
-                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("yyyy"));
+                            output = output.Replace("[" + token + "]", ReleaseDate.Year.ToString());
                             break;
                         }
                         output = output.Replace("[" + token + "]", "");
@@ -232,7 +232,7 @@ namespace MusicBrowser.Entities
                     case "track#":
                     case "Track#:sort":
                     case "track#:sort":
-                        if (Util.Config.GetInstance().GetBooleanSetting("PutDiscInTrackNo"))
+                        if (Util.Config.GetInstance().GetBooleanSetting("PutDiscInTrackNo") && DiscNumber > 0)
                         {
                             output = output.Replace("[" + token + "]", DiscNumber.ToString() + "." + TrackNumber.ToString("D2")); break;
                         }
