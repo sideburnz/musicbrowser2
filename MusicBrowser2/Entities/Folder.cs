@@ -7,6 +7,7 @@ using ServiceStack.Text;
 using MusicBrowser.Engines.Cache;
 using Microsoft.MediaCenter;
 using MusicBrowser.Providers;
+using MusicBrowser.Util;
 using System.IO;
 
 namespace MusicBrowser.Entities
@@ -26,39 +27,37 @@ namespace MusicBrowser.Entities
 
         public override void Play(bool queue, bool shuffle)
         {
-            // determine if it has move images, music or videos
-            // photos can't be queued at the moment, so say so
-            // music should be added to a virtual playlist and passed to the transport
-            // videos should be queued up and played
+            Type thisType = this.GetType();
 
-            throw new NotImplementedException();
+            if (thisType == typeof(Folder))
+            {
+                IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(Path);
+                int music = 0;
+                int video = 0;
+                foreach (FileSystemItem item in items)
+                {
+                    Helper.knownType type = Helper.getKnownType(item);
+                    if (type == Helper.knownType.Track) { music++; }
+                    else if (type == Helper.knownType.Video) { video++; }
+                }
+                if (music >= video) { thisType = typeof(Album); }
+                else { thisType = typeof(Season); }
+            }
 
-            //MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+            if (thisType == typeof(Album) || thisType == typeof(Artist) || thisType == typeof(Genre))
+            {
+                MusicCollection m = new MusicCollection();
+                m.Path = Path;
+                m.Play(queue, shuffle);
+            }
 
-            //List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path).
-            //    OrderBy(item => item.Name).
-            //    ToList();
+            if (thisType == typeof(Season) || thisType == typeof(Show))
+            {
+                VideoCollection v = new VideoCollection();
+                v.Path = Path;
+                v.Play(queue, shuffle);
+            }
 
-            //if (shuffle)
-            //{
-            //    Util.Helper.ShuffleList<FileSystemItem>(candidateitems);
-            //}
-
-            //foreach (FileSystemItem item in candidateitems)
-            //{
-            //    var t = Util.Helper.getKnownType(item);
-            //    if (t == Util.Helper.knownType.Video || t == Util.Helper.knownType.Track)
-            //    {
-            //        collection.AddItem(item.FullPath);
-            //        collection[collection.Count - 1].FriendlyData.Add("Title", System.IO.Path.GetFileNameWithoutExtension(item.Name));
-            //        lastitem = item.FullPath;
-            //    }
-            //}
-
-            //Models.UINotifier.GetInstance().Message = String.Format("playing {0} folder items", collection.Count());
-            //this.MarkPlayed();
-            //mce.PlayMedia(MediaType.MediaCollection, collection, queue);
-            //mce.MediaExperience.GoToFullScreen();
         }
     }
 }

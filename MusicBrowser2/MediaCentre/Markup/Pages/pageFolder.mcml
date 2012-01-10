@@ -269,6 +269,12 @@
 
     <Rules>
       <Binding Target="[Frame.Visible]" Source="[NowPlayingUI.Active]" />
+      <Binding Target="[MCENowPlaying.Visible]" Source="[NowPlayingUI.Active]">
+        <Transformer>
+          <BooleanTransformer Inverse="true"/>
+        </Transformer>
+      </Binding>
+      
       <Binding Target="[NowPlayingAction.Available]" Source="[NowPlayingUI.Active]" />
       <Binding Target="[FooPlayingIcon.Content]" Source="[NowPlayingUI.Icon]" />
       <Binding Target="[Clicker.Command]" Source="[CmdChange]" />

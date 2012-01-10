@@ -13,7 +13,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
     class VideoFilenameMetadataProvider
     {
         private static readonly Regex[] episodeExpressions = new Regex[] {
-                        //new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})\W*(?<epname>.*)") // S01E02 blah.avi, S01xE01 blah.avi
+                        //new Regex(@"(?:.*[^\\])\\(?<seriesname>.*[^\\])\\(?:.*[^\\])\\[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<episodenumber>\d{1,3})\W*(?<episodename>.*)[^\.]"), // S01E02 blah.avi, S01xE01 blah.avi
                         new Regex(@"(?:.*[^\\])\\(?<seriesname>.*[^\\])\\(?:.*[^\\])\\[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<episodenumber>\d{1,3})\W*(?<episodename>.*)\.(?:.*)") // S01E02 blah.avi, S01xE01 blah.avi
         };
 
