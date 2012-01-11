@@ -14,6 +14,7 @@ namespace MusicBrowser.Engines.Cache
         bool Exists(string key);
 
         void Scavenge();
+        void Compress();
         void Clear();
 
         IEnumerable<string> Search(string kind, string predicate);

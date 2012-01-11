@@ -135,6 +135,7 @@ namespace MusicBrowser.Entities
             {
                 e.ThumbPath = ImageProvider.LocateFanArt(item.FullPath, ImageType.Thumb);
                 e.BannerPath = ImageProvider.LocateFanArt(item.FullPath, ImageType.Banner);
+                e.LogoPath = ImageProvider.LocateFanArt(item.FullPath, ImageType.Logo);
                 e.BackgroundPaths = ImageProvider.LocateBackdropList(item.FullPath);
             }
             return e;
