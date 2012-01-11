@@ -48,9 +48,6 @@ namespace MusicBrowser
             baseEntity firstScreen = new Home();
             firstScreen.Path = "home";
             app.Navigate(firstScreen);
-
-            // run job in the background ensuring the cache is up to date
-            CommonTaskQueue.Enqueue(new CacheScavenger());
         }     
     } 
 } 

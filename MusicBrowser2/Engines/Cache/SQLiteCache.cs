@@ -20,6 +20,7 @@ namespace MusicBrowser.Engines.Cache
         private const string SQL_CLEAR = "DELETE FROM [t_Cache]";
         private const string SQL_SEARCH = @"SELECT [key] FROM [t_Cache] WHERE [kind] = @1 AND ([title] LIKE @2 OR [title] LIKE @3 OR [title] LIKE @4 OR [title] LIKE @5)";
         private const string SQL_SCAVENGE = "SELECT [value] FROM [t_Cache]";
+        private const string SQL_COMPRESS = "VACUUM";
 
         private object _lock = new object();
         private static string _file = Path.Combine(Config.GetInstance().GetStringSetting("Cache.Path"), "cache.db");
@@ -119,6 +120,15 @@ namespace MusicBrowser.Engines.Cache
         public void Clear()
         {
             string SQL = SQL_CLEAR;
+            SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
+            cnn.Open();
+            SQLiteHelper.ExecuteNonQuery(SQL, cnn);
+            cnn.Close();
+        }
+
+        public void Compress()
+        {
+            string SQL = SQL_COMPRESS;
             SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
             cnn.Open();
             SQLiteHelper.ExecuteNonQuery(SQL, cnn);

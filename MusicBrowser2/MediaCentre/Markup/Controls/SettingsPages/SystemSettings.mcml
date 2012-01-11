@@ -20,6 +20,7 @@
 
       <actions:ActionSetBooleanSetting Name="CmdCacheEnable" Key="Cache.Enable" />
       <actions:ActionDeleteCache Name="CmdDeleteCache" />
+      <actions:ActionCleanCache Name="CmdCleanCache" />
       <actions:ActionCheckForNewVersion Name="CmdNewVersion" />
 
       <actions:ActionSetNumericSetting Name="CmdSetNumericSetting" Key="AutoPlaylistSize" />
@@ -37,6 +38,7 @@
           <Text Content="Cache Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Enable caching" Action="[CmdCacheEnable]" />
           <me:buttonAction Action="[CmdDeleteCache]" Size="0,52" />
+          <me:buttonAction Action="[CmdCleanCache]" Size="0,52" />
 
           <Text Content="Play Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Show 'Now Playing' page automatically" Action="[CmdAutoLoadNowPlaying]" />

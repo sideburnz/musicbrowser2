@@ -11,19 +11,19 @@ using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Actions
 {
-    public class ActionDeleteCache : baseActionCommand
+    public class ActionCleanCache : baseActionCommand
     {
-        private const string LABEL = "Rebuild cache";
+        private const string LABEL = "Clean cache";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconDeleteCache";
 
-        public ActionDeleteCache(baseEntity entity)
+        public ActionCleanCache(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionDeleteCache()
+        public ActionCleanCache()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -31,7 +31,7 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(baseEntity entity)
         {
-            return new ActionDeleteCache(entity);
+            return new ActionCleanCache(entity);
         }
 
         public override void DoAction(baseEntity entity)
@@ -46,8 +46,8 @@ namespace MusicBrowser.Actions
 
                 DialogResult response =
                    Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog
-                        ("This will delete the cache and close the application to force the cache to rebuild.",
-                        "Rebuild Cache",
+                        ("This may take some time and the application will not be usable whilst this is running.",
+                        "Clean the cache?",
                         buttons,
                         30,
                         true,
@@ -62,10 +62,10 @@ namespace MusicBrowser.Actions
 
             if (confirmation)
             {
-                Models.UINotifier.GetInstance().Message = "removing cached data";
-                CacheEngineFactory.GetEngine().Clear();
-                InMemoryCache.GetInstance().Clear();
-                Application.GetReference().Session().Close();
+                Models.UINotifier.GetInstance().Message = "validating items in the cache";
+                CacheEngineFactory.GetEngine().Scavenge();
+                Models.UINotifier.GetInstance().Message = "compressing cache";
+                CacheEngineFactory.GetEngine().Compress();
             }
         }
     }

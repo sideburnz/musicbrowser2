@@ -14,6 +14,7 @@ namespace MusicBrowser.Providers
         Thumb,
         Backdrop,
         Banner,
+        Logo,
         Other
     }
 
@@ -155,6 +156,15 @@ namespace MusicBrowser.Providers
         {
             if (type == ImageType.Backdrop) { return internalFanArtSearch(path, "backdrop"); }
             if (type == ImageType.Banner) { return internalFanArtSearch(path, "banner"); }
+            if (type == ImageType.Logo)
+            {
+                string logoPath = internalFanArtSearch(path, "logo");
+                if (logoPath.ToLower().EndsWith(@"\logo.png"))
+                {
+                    return logoPath;
+                }
+                return string.Empty;
+            }
             if (type == ImageType.Thumb)
             {
                 string iconPath = internalFanArtSearch(path, "folder");

@@ -30,6 +30,8 @@ namespace MusicBrowser.Engines.Cache
 
         public void Scavenge() { }
 
+        public void Compress() { }
+
         public void Clear() { }
 
         public IEnumerable<string> Search(string kind, string predicate)

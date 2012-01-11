@@ -20,6 +20,7 @@ namespace MusicBrowser.Entities
         #region variables
         private string _thumbPath;
         private string _bannerPath;
+        private string _logoPath;
         private string _title;
         private string _sortField;
         private int _thumbSize;
@@ -45,6 +46,21 @@ namespace MusicBrowser.Entities
                 _thumbPath = value;
                 DataChanged("ThumbPath");
                 DataChanged("Thumb");
+            }
+        }
+        [DataMember]
+        public String LogoPath
+        {
+            get
+            {
+                return _bannerPath;
+            }
+            set
+            {
+                _bannerPath = value;
+                DataChanged("LogoPath");
+                DataChanged("Logo");
+                DataChanged("LogoExists");
             }
         }
         [DataMember]
@@ -163,6 +179,7 @@ namespace MusicBrowser.Entities
                 DataChanged("BackgroundPaths");
             }
         }
+
         #endregion
 
         #region private cached items
@@ -211,11 +228,27 @@ namespace MusicBrowser.Entities
             }
         }
 
+        public Microsoft.MediaCenter.UI.Image Logo
+        {
+            get
+            {
+                return Helper.GetImage(LogoPath);
+            }
+        }
+
         public bool BannerExists
         {
             get
             {
                 return System.IO.File.Exists(BannerPath);
+            }
+        }
+
+        public bool LogoExists
+        {
+            get
+            {
+                return System.IO.File.Exists(LogoPath);
             }
         }
 

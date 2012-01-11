@@ -24,6 +24,7 @@
           <Set Target="[Summary1.Content]" Value="[Entity.Kind]" />
           <Set Target="[RatingIcons.Rating]" Value="[Entity.Rating]" />
           <Set Target="[RatingIcons.Loved]" Value="[Entity.Loved]" />
+          <Set Target="[Logo.Content]" Value="[Entity.Logo]" />
           <!--<Set Target="[Summary1.Content]" Value="[Entity.ShortSummaryLine1]" />
           <Set Target="[Summary2.Content]" Value="[Entity.ShortSummaryLine2]" />-->
         </Actions>
@@ -46,30 +47,34 @@
     </Rules>
 
     <Content>
-      <Panel Margins="0,10,0,0">
-        <Layout>
-          <FlowLayout Orientation="Vertical"/>
-        </Layout>
+      <Panel Margins="0,15,0,0">
         <Children>
-
+          <Graphic Name="Logo" Margins="0,10,0,0" Alpha="0.1" MaximumSize="0,100" MinimumSize="0,100" MaintainAspectRatio="true" />
           <Panel>
             <Layout>
-              <FlowLayout Orientation="Horizontal"/>
+              <FlowLayout Orientation="Vertical"/>
             </Layout>
             <Children>
-              <Text Name="Desc" Color="White" Font="Segoe Media Center Light, 26" Content="" Margins="0,-5,0,-2"/>
-              <Repeater Name="IconRepeater" Navigation="ContainAll" Margins="10,10,0,0">
+              <Panel>
                 <Layout>
-                  <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+                  <FlowLayout Orientation="Horizontal"/>
                 </Layout>
-                <Content>
-                  <Graphic Content="[RepeatedItem!Image]" Margins="5,0,0,0" MaximumSize="25,25" MinimumSize="25,25" Alpha="0.8" />
-                </Content>
-              </Repeater>
+                <Children>
+                  <Text Name="Desc" Color="White" Font="Segoe Media Center Light, 26" Content="" Margins="0,-5,0,-2"/>
+                  <Repeater Name="IconRepeater" Navigation="ContainAll" Margins="10,10,0,0">
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+                    </Layout>
+                    <Content>
+                      <Graphic Content="[RepeatedItem!Image]" Margins="5,0,0,0" MaximumSize="25,25" MinimumSize="25,25" Alpha="0.8" />
+                    </Content>
+                  </Repeater>
+                </Children>
+              </Panel>
+              <Text Name="Summary1" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
+              <Text Name="Summary2" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
             </Children>
           </Panel>
-          <Text Name="Summary1" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
-          <Text Name="Summary2" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
         </Children>
       </Panel>
     </Content>
