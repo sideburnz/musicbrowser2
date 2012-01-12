@@ -157,24 +157,39 @@
           <Set Target="[btnEpisodes.Text]" Value="[Model.EpisodesLabel]" />
         </Actions>
       </Changed>
-      
-      <Changed Source="[SearchResultData.TotalPages]" InitialEvaluate="true">
+
+      <Rule ConditionLogicalOp="And">
         <Conditions>
           <Equality Source="[SearchResultData.TotalPages]" ConditionOp="Equals" Value="0" />
+          <Equality Source="[Model.SearchText.Length]" ConditionOp="NotEquals" Value="0" />
         </Conditions>
         <Actions>
           <Set Target="[labelNoResultsError.Visible]" Value="true" />
+          <Set Target="[labelNothingEntered.Visible]" Value="false" />
         </Actions>
-      </Changed>
+      </Rule>
 
-      <Changed Source="[SearchResultData.TotalPages]" InitialEvaluate="true">
+      <Rule ConditionLogicalOp="And">
         <Conditions>
           <Equality Source="[SearchResultData.TotalPages]" ConditionOp="NotEquals" Value="0" />
+          <Equality Source="[Model.SearchText.Length]" ConditionOp="NotEquals" Value="0" />
         </Conditions>
         <Actions>
           <Set Target="[labelNoResultsError.Visible]" Value="false" />
+          <Set Target="[labelNothingEntered.Visible]" Value="false" />
         </Actions>
-      </Changed>
+      </Rule>
+
+      <Rule ConditionLogicalOp="And">
+        <Conditions>
+          <Equality Source="[SearchResultData.TotalPages]" ConditionOp="Equals" Value="0" />
+          <Equality Source="[Model.SearchText.Length]" ConditionOp="Equals" Value="0" />
+        </Conditions>
+        <Actions>
+          <Set Target="[labelNoResultsError.Visible]" Value="false" />
+          <Set Target="[labelNothingEntered.Visible]" Value="true" />
+        </Actions>
+      </Rule>
 
       <Changed Source="[ActionsModel.Visible]">
         <Conditions>
@@ -185,7 +200,7 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[ActionsModel.Visible]">
+      <Rule>
         <Conditions>
           <Equality Source="[ActionsModel.Visible]" Value="true" />
         </Conditions>
@@ -193,7 +208,7 @@
           <Set Target="[pageFader.Visible]" Value="true" />
           <Invoke Target="[ActionPopUp.NavigateInto]" />
         </Actions>
-      </Changed>
+      </Rule>
 
       <Binding Source="[ActionsModel.Visible]" Target="[ActionPopUp.Visible]" />
 
@@ -273,7 +288,8 @@
                       </Panel>
                       <ColorFill Content="Transparent" Margins="25,100,25,0" Layout="VerticalFlow"  Navigation="ContainVertical">
                         <Children>
-                          <Text Name="labelNoResultsError" Content="No items found" Color="White" Font="Segoe Media Center Light, 22" Visible="false"/>
+                          <Text Name="labelNothingEntered" Content="Nothing searched for" Color="White" Font="Segoe Media Center Light, 32" Visible="false"/>
+                          <Text Name="labelNoResultsError" Content="No items found" Color="White" Font="Segoe Media Center Light, 32" Visible="false"/>
                           <Scroller Orientation="Vertical" FadeSize="-10" Margins="0,0,0,0" Name="viewListScroller" ScrollingData="[SearchResultData]" >
                             <Children>
                               <Repeater Name="SearchResultRepeater" Layout="VerticalFlow">

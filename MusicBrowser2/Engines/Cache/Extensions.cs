@@ -17,13 +17,18 @@ namespace MusicBrowser.Engines.Cache
 
         public static void MarkPlayed(this baseEntity entity)
         {
+            if (entity.FirstPlayed < DateTime.Parse("01-JAN-1000"))
+            {
+                entity.FirstPlayed = DateTime.Now;
+            }
+            entity.TimesPlayed++;
             entity.LastPlayed = DateTime.Now;
             entity.UpdateCache();
         }
 
         public static void SetProgress(this baseEntity entity, int progress)
         {
-            if (InheritsFrom<Video>(entity))
+            if (Util.Helper.InheritsFrom<Item>(entity))
             {
                 ((Video)entity).Progress = progress;
                 if (progress == 0)
@@ -32,14 +37,7 @@ namespace MusicBrowser.Engines.Cache
                     entity.TimesPlayed++;
                 }
                 entity.UpdateCache();
-
-                Logging.LoggerEngineFactory.Debug(entity.Title + " was stopped at " + progress + " seconds");
             }
-        }
-
-        private static bool InheritsFrom<T>(baseEntity e)
-        {
-            return typeof(T).IsAssignableFrom(e.GetType());
         }
     }
 }

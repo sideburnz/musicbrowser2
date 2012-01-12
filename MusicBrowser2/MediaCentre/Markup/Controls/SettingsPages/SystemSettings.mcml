@@ -13,17 +13,14 @@
 
     <Locals>
       <actions:ActionSetBooleanSetting Name="CmdUseInternetProviders" Key="Internet.UseProviders" />
-      <actions:ActionSetTextSetting Name="CmdLastfmUserName" Key="Internet.LastFMUserName" />
 
-      <actions:ActionSetBooleanSetting Name="CmdAutoLoadNowPlaying" Key="AutoLoadNowPlaying" />
       <actions:ActionSetBooleanSetting Name="CmdAnonymousUsage" Key="Telemetry.Participate" />
 
       <actions:ActionSetBooleanSetting Name="CmdCacheEnable" Key="Cache.Enable" />
       <actions:ActionDeleteCache Name="CmdDeleteCache" />
       <actions:ActionCleanCache Name="CmdCleanCache" />
       <actions:ActionCheckForNewVersion Name="CmdNewVersion" />
-
-      <actions:ActionSetNumericSetting Name="CmdSetNumericSetting" Key="AutoPlaylistSize" />
+     
     </Locals>
     
     <Content>
@@ -32,17 +29,12 @@
 
           <Text Content="Internet Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Allow internet providers" Action="[CmdUseInternetProviders]" />
-          <me:ctrlTextBox Label="Last.fm username" Action="[CmdLastfmUserName]" />
           <me:ctrlCheckbox Label="Send anonymous usage statistics" Action="[CmdAnonymousUsage]" />
  
           <Text Content="Cache Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Enable caching" Action="[CmdCacheEnable]" />
           <me:buttonAction Action="[CmdDeleteCache]" Size="0,52" />
           <me:buttonAction Action="[CmdCleanCache]" Size="0,52" />
-
-          <Text Content="Play Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
-          <me:ctrlCheckbox Label="Show 'Now Playing' page automatically" Action="[CmdAutoLoadNowPlaying]" />
-          <me:ctrlSpinner Action="[CmdSetNumericSetting]" Desc="Auto-generated playlist size" />
 
           <Text Content="New Version" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:buttonAction Action="[CmdNewVersion]" Size="0,52" />
@@ -51,107 +43,6 @@
       </ColorFill>
     </Content>
 
-  </UI>
-
-  <UI Name="ctrlSpinner">
-
-    <Properties>
-      <actions:ActionSetNumericSetting Name="Action" ActionSetNumericSetting="$Required" />
-      <cor:String Name="Desc" String="$Required" />
-    </Properties>
-
-    <Locals>
-      <Command Name="CmdIncrement" />
-      <Command Name="CmdDecrement" />
-
-      <Command Name="OnFocus" />
-      <Command Name="LostFocus" />
-    </Locals>
-
-    <Rules>
-      <Binding Target="[txtValue.Content]" Source="[Action.Value!cor:String]" />
-      <Changed Source="[CmdIncrement.Invoked]">
-        <Actions>
-          <Invoke Target="[Action.Increment]" />
-        </Actions>
-      </Changed>
-      <Changed Source="[CmdDecrement.Invoked]">
-        <Actions>
-          <Invoke Target="[Action.Decrement]" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[OnFocus.Invoked]">
-        <Actions>
-          <Set Target="[thisControl.Alpha]" Value="1"/>
-          <Set Target="[Underline.Alpha]" Value="0.5" />
-        </Actions>
-      </Changed>
-      <Changed Source="[LostFocus.Invoked]">
-        <Actions>
-          <Set Target="[thisControl.Alpha]" Value="0.5"/>
-          <Set Target="[Underline.Alpha]" Value="0" />
-        </Actions>
-      </Changed>
-    </Rules>
-
-    <Content>
-
-      <Panel Name="thisControl">
-        <Layout>
-          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
-        </Layout>
-        <Children>
-          <ColorFill Content="Transparent" Layout="Anchor">
-            <Children>
-              <Text Name="txtLabel" Content="[Desc]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,15,10" />
-              <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" Alpha="0" Margins="5,0,0,0">
-                <LayoutInput>
-                  <AnchorLayoutInput Left="txtLabel,0" Right="txtLabel,1,-12" Bottom="txtLabel,1,-8"/>
-                </LayoutInput>
-              </Graphic>
-            </Children>
-          </ColorFill>
-          <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconMinus" Command="[CmdDecrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
-          <Text Name="txtValue" Content="[Action.Value!cor:String]" Color="White" Font="Segoe Media Center, 22" Margins="5,3,5,10" />
-          <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlus" Command="[CmdIncrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
-        </Children>
-      </Panel>
-    </Content>
-  </UI>
-
-  <UI Name="SpinnerButton">
-    <Properties>
-      <Command Name="Command" Command="$Required" />
-      <Command Name="OnFocus" Command="$Required" />
-      <Command Name="LostFocus" Command="$Required" />
-      <Image Name="Icon" Image="null"/>
-    </Properties>
-    <Locals>
-      <ClickHandler Name="Clicker" Command="[Command]"/>
-    </Locals>
-    <Rules>
-      <Default Target="[Input.KeyInteractive]" Value="true" />
-      <Condition Source="[Input.KeyFocus]"  SourceValue="true">
-        <Actions>
-          <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/IconBorder"/>
-          <Invoke Target="[OnFocus.Invoke]" />
-        </Actions>
-      </Condition>
-      <Condition Source="[Input.KeyFocus]"  SourceValue="false">
-        <Actions>
-          <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
-          <Invoke Target="[LostFocus.Invoke]" />
-        </Actions>
-      </Condition>
-    </Rules>
-    <Content>
-      <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/IconBorder" Name="ButtonBack" MinimumSize="35,35" MaximumSize="35,35" Margins="0,0,0,0">
-        <Children>
-          <Graphic Content="[Icon]" Name="ButtonFace" MinimumSize="25,25" MaximumSize="25,25" Margins="5,5,5,5"/>
-        </Children>
-      </Graphic>
-    </Content>
   </UI>
 
 </Mcml>

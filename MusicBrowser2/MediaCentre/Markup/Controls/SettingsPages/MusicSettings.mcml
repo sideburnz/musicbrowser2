@@ -6,30 +6,37 @@
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlCheckbox"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlTextBox"/>
 
-  <UI Name="DisplaySettings">
+  <UI Name="MusicSettings">
 
     <Locals>
+      <actions:ActionSetTextSetting Name="CmdLastfmUserName" Key="Internet.LastFMUserName" />
+
+
       <actions:ActionSetBooleanSetting Name="CmdShowFanArt" Key="EnableFanArt" />
       <actions:ActionSetBooleanSetting Name="CmdUpdateShowClock" Key="ShowClock" />
 
-      <actions:ActionSetBooleanSetting Name="CmdStripShowSummary" Key="Views.Strip.ShowSummary" />
-      <actions:ActionSetBooleanSetting Name="CmdListShowSummary" Key="Views.List.ShowSummary" />
-      <actions:ActionSetBooleanSetting Name="CmdHorizontalThumbs" Key="Views.Thumbs.IsHorizontal" />
+      <actions:ActionSetBooleanSetting Name="CmdUseFolderImageForTracks" Key="UseFolderImageForTracks" />
+      <actions:ActionSetBooleanSetting Name="CmdPutDiscInTrackNo" Key="PutDiscInTrackNo" />
+
+      <actions:ActionSetBooleanSetting Name="CmdAutoLoadNowPlaying" Key="AutoLoadNowPlaying" />
+      <actions:ActionSetNumericSetting Name="CmdSetNumericSetting" Key="AutoPlaylistSize" />
     </Locals>
 
     <Content>
       <ColorFill Content="Transparent" Layout="VerticalFlow">
         <Children>
-          <Text Content="General Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
-          <me:ctrlCheckbox Label="Enable background images" Action="[CmdShowFanArt]" />
-          <me:ctrlCheckbox Label="Show clock" Action="[CmdUpdateShowClock]" />
+          <Text Content="Metadata Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
+          <me:ctrlTextBox Label="Last.fm username" Action="[CmdLastfmUserName]" />
 
-          <Text Content="View Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
-          <me:ctrlCheckbox Label="Show summary on the List view" Action="[CmdListShowSummary]" />
-          <me:ctrlCheckbox Label="Show summary on the Strip view" Action="[CmdStripShowSummary]" />
-          <me:ctrlCheckbox Label="Scroll Thumb view across the page" Action="[CmdHorizontalThumbs]" />
-          
+          <Text Content="Track Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
+          <me:ctrlCheckbox Label="Use folder image as track thumbs" Action="[CmdUseFolderImageForTracks]" />
+          <me:ctrlCheckbox Label="Put the disc number in the track number" Action="[CmdPutDiscInTrackNo]" />
+
+          <Text Content="Play Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
+          <me:ctrlCheckbox Label="Show 'Now Playing' page automatically" Action="[CmdAutoLoadNowPlaying]" />
+          <me:ctrlSpinner Action="[CmdSetNumericSetting]" Desc="Auto-generated playlist size" />
         </Children>
       </ColorFill>
     </Content>

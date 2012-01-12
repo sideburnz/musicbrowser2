@@ -10,6 +10,9 @@ namespace MusicBrowser.Entities
     [DataContract]
     public abstract class Item : baseEntity
     {
+        [DataMember]
+        public int Progress { get; set; }
+
         public override string DefaultView
         {
             get { return "List"; }

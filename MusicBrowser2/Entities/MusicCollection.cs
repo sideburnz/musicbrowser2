@@ -11,6 +11,14 @@ namespace MusicBrowser.Entities
     [DataContract]
     class MusicCollection : Collection
     {
+        public override string Information
+        {
+            get
+            {
+                return "Music Collection";
+            }
+        }
+
         public override void Play(bool queue, bool shuffle)
         {
             List<string> playlist = new List<string>();

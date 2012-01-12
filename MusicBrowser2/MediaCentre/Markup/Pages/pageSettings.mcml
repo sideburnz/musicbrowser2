@@ -11,6 +11,7 @@
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/DisplaySettings"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/SystemSettings"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/MusicSettings"/>
 
   <UI Name="pageSettings">
 
@@ -22,6 +23,8 @@
       <addin:AddInHost Name="AddInHost"/>
       <Command Name="CmdSetScopeToSystem" />
       <Command Name="CmdSetScopeToDisplay" />
+      <Command Name="CmdSetScopeToMusic" />
+      
       <TypingHandler Name="RemoteTyper" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
       <actions:ActionPreviousPage Name="BackAction" />
     </Locals>
@@ -37,11 +40,13 @@
         <Actions>
           <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
           <Set Target="[btnDisplay.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnMusic.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
 
           <Set Target="[txtScope.Content]" Value="System Settings" />
 
           <Set Target="[viewSystemSetings.Visible]" Value="true" />
           <Set Target="[viewDisplaySetings.Visible]" Value="false" />
+          <Set Target="[viewMusicSetings.Visible]" Value="false" />
         </Actions>
       </Changed>
 
@@ -49,11 +54,27 @@
         <Actions>
           <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
           <Set Target="[btnDisplay.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
+          <Set Target="[btnMusic.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
 
           <Set Target="[txtScope.Content]" Value="Display Settings" />
 
           <Set Target="[viewSystemSetings.Visible]" Value="false" />
           <Set Target="[viewDisplaySetings.Visible]" Value="true" />
+          <Set Target="[viewMusicSetings.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdSetScopeToMusic.Invoked]">
+        <Actions>
+          <Set Target="[btnSystem.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnDisplay.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+          <Set Target="[btnMusic.Icon]" Value="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
+
+          <Set Target="[txtScope.Content]" Value="Music Settings" />
+
+          <Set Target="[viewSystemSetings.Visible]" Value="false" />
+          <Set Target="[viewDisplaySetings.Visible]" Value="false" />
+          <Set Target="[viewMusicSetings.Visible]" Value="true" />
         </Actions>
       </Changed>
 
@@ -79,7 +100,8 @@
 
                   <me:buttonImage Command="[CmdSetScopeToSystem]" Name="btnSystem" Text="System" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/selectedMenu" />
                   <me:buttonImage Command="[CmdSetScopeToDisplay]" Name="btnDisplay" Text="Display" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
-                  
+                  <me:buttonImage Command="[CmdSetScopeToMusic]" Name="btnMusic" Text="Music" MinSize="320,52" Font="Segoe Media Center Light,22" TextMargins="5,4,0,0" ImageMargins="5,14,0,0" Margins="0,0,0,2" Icon="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />
+
                   <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="320,1" Alpha="0.5" Margins="0,20,0,20"/>
 
                   <me:buttonAction Action="[BackAction]" Size="320,52" Margins="0,0,0,2" />
@@ -107,6 +129,7 @@
                         <Children>
                           <me:SystemSettings Name="viewSystemSetings" Visible="true" />
                           <me:DisplaySettings Name="viewDisplaySetings" Visible="false" />
+                          <me:MusicSettings Name="viewMusicSetings" Visible="false" />
                         </Children>
                       </ColorFill>
                     </Children>

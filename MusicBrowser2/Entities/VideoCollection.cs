@@ -11,6 +11,14 @@ namespace MusicBrowser.Entities
     [DataContract]
     class VideoCollection : Collection
     {
+        public override string Information
+        {
+            get
+            {
+                return "Video Collection";
+            }
+        }
+
         public override void Play(bool queue, bool shuffle)
         {
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;

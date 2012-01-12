@@ -38,6 +38,18 @@ namespace MusicBrowser.Models
             FirePropertyChanged("ResultSet");
         }
 
+        public string SearchText
+        {
+            get
+            {
+                if (_remoteFilter.Value == null)
+                {
+                    return String.Empty;
+                }
+                return _remoteFilter.Value;
+            }
+        }
+
         public string Scope
         {
             get
