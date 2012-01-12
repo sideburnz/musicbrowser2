@@ -53,11 +53,11 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return _bannerPath;
+                return _logoPath;
             }
             set
             {
-                _bannerPath = value;
+                _logoPath = value;
                 DataChanged("LogoPath");
                 DataChanged("Logo");
                 DataChanged("LogoExists");
@@ -140,6 +140,8 @@ namespace MusicBrowser.Entities
         }
         [DataMember]
         public DateTime LastPlayed { get; set; }
+        [DataMember]
+        public DateTime FirstPlayed { get; set; }
         [DataMember]
         public int TimesPlayed { get; set; }
         [DataMember]
@@ -288,6 +290,7 @@ namespace MusicBrowser.Entities
         #region abstract methods
         public abstract string Serialize();
         public abstract void Play(bool queue, bool shuffle);
+        public virtual string Information { get { return Kind; } }
         #endregion
 
         #region abstract attributes
@@ -374,7 +377,7 @@ namespace MusicBrowser.Entities
         {
             FirePropertyChanged(property);
             FirePropertyChanged("Description");
-            //TODO: remember to fire derived properties like Description
+            FirePropertyChanged("Information");
             if (!(OnPropertyChanged == null))
             {
                 OnPropertyChanged(property);

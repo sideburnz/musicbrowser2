@@ -20,13 +20,11 @@
       <Changed Source="[CmdRefresh.Invoked]" InitialEvaluate="true">
         <Actions>
           <Set Target="[Desc.Content]" Value="[Entity.Title]" />
-
-          <Set Target="[Summary1.Content]" Value="[Entity.Kind]" />
           <Set Target="[RatingIcons.Rating]" Value="[Entity.Rating]" />
           <Set Target="[RatingIcons.Loved]" Value="[Entity.Loved]" />
           <Set Target="[Logo.Content]" Value="[Entity.Logo]" />
-          <!--<Set Target="[Summary1.Content]" Value="[Entity.ShortSummaryLine1]" />
-          <Set Target="[Summary2.Content]" Value="[Entity.ShortSummaryLine2]" />-->
+          <Set Target="[InfoBar.Content]" Value="[Entity.Information]" />
+          <!--<Set Target="[Summary2.Content]" Value="[Entity.ShortSummaryLine2]" />-->
         </Actions>
       </Changed>
 
@@ -71,7 +69,7 @@
                   </Repeater>
                 </Children>
               </Panel>
-              <Text Name="Summary1" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
+              <Text Name="InfoBar" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
               <Text Name="Summary2" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
             </Children>
           </Panel>

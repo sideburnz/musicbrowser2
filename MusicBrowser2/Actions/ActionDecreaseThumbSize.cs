@@ -28,7 +28,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            if (entity.ThumbSize >= 60)
+            if (entity.ThumbSize >= 100)
             {
                 entity.ThumbSize -= 20;
                 entity.UpdateCache();

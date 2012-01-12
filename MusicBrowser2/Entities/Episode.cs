@@ -70,6 +70,19 @@ namespace MusicBrowser.Entities
         }
         private string _show;
 
+        #region overrides
+        public override string Information
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(ShowName))
+                {
+                    return ShowName + ", Season " + SeasonNumber;
+                }
+                return base.Information;
+            }
+        }
+
         public override string TokenSubstitution(string input)
         {
             string output = input;
@@ -97,5 +110,6 @@ namespace MusicBrowser.Entities
 
             return base.TokenSubstitution(output);
         }
+        #endregion
     }
 }

@@ -352,6 +352,9 @@
     <Content Include="MediaCentre\Markup\Pages\pageFooBar2000.mcml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="MediaCentre\Markup\Controls\SettingsPages\MusicSettings.mcml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>

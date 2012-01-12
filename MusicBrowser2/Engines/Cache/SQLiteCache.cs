@@ -23,7 +23,7 @@ namespace MusicBrowser.Engines.Cache
         private const string SQL_COMPRESS = "VACUUM";
 
         private object _lock = new object();
-        private static string _file = Path.Combine(Config.GetInstance().GetStringSetting("Cache.Path"), "cache.db");
+        private static string _file = Path.Combine(Config.GetInstance().GetStringSetting("Cache.Path"), "entities.db");
 
         public SQLiteCache()
         {

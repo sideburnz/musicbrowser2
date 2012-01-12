@@ -59,7 +59,6 @@ namespace MusicBrowser.MediaCentre
                         if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
                         {
                             e.SetProgress(0);
-                            e.LastPlayed = DateTime.Now;
                             e.UpdateCache();
                         }
                     } 

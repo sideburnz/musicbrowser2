@@ -561,6 +561,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static byte[] MusicSettings {
+            get {
+                object obj = ResourceManager.GetObject("MusicSettings", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap NavPanel {
             get {
                 object obj = ResourceManager.GetObject("NavPanel", resourceCulture);

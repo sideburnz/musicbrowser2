@@ -13,9 +13,6 @@ namespace MusicBrowser.Entities
     [DataContract]
     abstract class Video : Item
     {
-        [DataMember]
-        public int Progress { get; set; }
-
         public override void Play(bool queue, bool shuffle)
         {
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
@@ -64,6 +61,7 @@ namespace MusicBrowser.Entities
             }
 
             mce.MediaExperience.GoToFullScreen();
+            this.LastPlayed = DateTime.Now;
             ProgressRecorder.Register(this);
         }
     }
