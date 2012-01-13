@@ -25,6 +25,7 @@ namespace MusicBrowser.Entities
         private string _sortField;
         private int _thumbSize;
         private List<string> _backgroundPaths;
+        private DateTime _lastPlayed;
         #endregion
 
         #region cached attributes
@@ -139,7 +140,22 @@ namespace MusicBrowser.Entities
             }
         }
         [DataMember]
-        public DateTime LastPlayed { get; set; }
+        public DateTime LastPlayed 
+        {
+            get
+            {
+                return _lastPlayed;
+            }
+            set
+            {
+                if (value != _lastPlayed)
+                {
+                    _lastPlayed = value;
+                    DataChanged("LastPlayed");
+                    DataChanged("Played");
+                }
+            }
+        }
         [DataMember]
         public DateTime FirstPlayed { get; set; }
         [DataMember]
@@ -264,7 +280,7 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public bool Played { get { return LastPlayed > DateTime.Parse("2000-01-01"); } }
+        public bool Played { get { return LastPlayed > DateTime.Parse("1000-01-01"); } }
 
         public Microsoft.MediaCenter.UI.Color Color
         {

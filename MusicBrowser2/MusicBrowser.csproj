@@ -169,6 +169,7 @@
     <Compile Include="Actions\ActionJumpBack.cs" />
     <Compile Include="Actions\ActionJumpForward.cs" />
     <Compile Include="Actions\ActionCleanCache.cs" />
+    <Compile Include="Actions\ActionToggleWatched.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\Extensions.cs" />

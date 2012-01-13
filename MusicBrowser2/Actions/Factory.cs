@@ -161,6 +161,7 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionSkipBack());
             ret.Add(new ActionSkipForward());
             ret.Add(new ActionStop());
+            ret.Add(new ActionToggleWatched());
 
             return ret;
         }
