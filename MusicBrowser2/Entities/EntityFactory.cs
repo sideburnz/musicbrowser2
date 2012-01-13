@@ -152,21 +152,6 @@ namespace MusicBrowser.Entities
                         // ignore metadata folders
                         if (entity.Name.ToLower() == "metadata") { return null; }
 
-                        // see if the user has overriden the type
-                        try
-                        {
-                            string metadataFile = MetadataPath(entity.FullPath);
-                            if (!String.IsNullOrEmpty(metadataFile))
-                            {
-                                EntityKind? extracted = ExtractType(metadataFile);
-                                if (extracted != null)
-                                {
-                                    return extracted;
-                                }
-                            }
-                        }
-                        catch { }
-
                         IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
                         foreach (FileSystemItem item in items)
                         {
@@ -174,13 +159,21 @@ namespace MusicBrowser.Entities
                             {
                                 case "series.xml":
                                     return EntityKind.Show;
+                                case "movie.xml":
+                                    return EntityKind.Movie;
+                                case "genre.xml":
+                                    return EntityKind.Genre;
+                                case "album.xml":
+                                    return EntityKind.Album;
+                                case "artist.xml":
+                                    return EntityKind.Artist;
+                                case "season.xml":
+                                    return EntityKind.Season;
                                 case "video_ts":
                                     if (IsEpisode(entity.Name))
                                     {
                                         return EntityKind.Episode;
                                     }
-                                    return EntityKind.Movie;
-                                case "mymovies.xml":
                                     return EntityKind.Movie;
                             }
 
@@ -229,53 +222,27 @@ namespace MusicBrowser.Entities
         }
 
         // works out where the metadata file is (if there is one)
-        private static string MetadataPath(string item)
-        {
-            string itemName = Path.GetFileNameWithoutExtension(item);
-            string metadataPath = Directory.GetParent(item).FullName;
-            FileSystemItem metadataFile;
+        //private static string MetadataPath(string item)
+        //{
+        //    string itemName = Path.GetFileNameWithoutExtension(item);
+        //    string metadataPath = Directory.GetParent(item).FullName;
+        //    FileSystemItem metadataFile;
 
-            string metadataLocal = metadataPath + "\\" + itemName + "\\metadata.xml";
-            metadataFile = FileSystemProvider.GetItemDetails(metadataLocal);
-            if (!String.IsNullOrEmpty(metadataFile.Name))
-            {
-                return metadataFile.FullPath;
-            }
-            string metadataInParent = metadataPath + "\\metadata\\" + itemName + ".xml";
-            metadataFile = FileSystemProvider.GetItemDetails(metadataInParent);
-            // this either returns detail or an empty struct which would indicate not found
-            if (!String.IsNullOrEmpty(metadataFile.Name))
-            {
-                return metadataFile.FullPath;
-            }
-            return String.Empty;
-        }
-
-        private static EntityKind? ExtractType(string metadataFile)
-        {
-            XmlDocument xml = new XmlDocument();
-            xml.Load(metadataFile);
-            switch (Helper.ReadXmlNode(xml, "EntityXML/@type").ToLower())
-            {
-                case "album":
-                    return EntityKind.Album;
-                case "artist":
-                    return EntityKind.Artist;
-                case "episode":
-                    return EntityKind.Episode;
-                case "folder":
-                    return EntityKind.Folder;
-                case "genre":
-                    return EntityKind.Genre;
-                case "movie":
-                    return EntityKind.Movie;
-                case "season":
-                    return EntityKind.Season;
-                case "show":
-                    return EntityKind.Show;
-            }
-            return null;
-        }
+        //    string metadataLocal = metadataPath + "\\" + itemName + "\\metadata.xml";
+        //    metadataFile = FileSystemProvider.GetItemDetails(metadataLocal);
+        //    if (!String.IsNullOrEmpty(metadataFile.Name))
+        //    {
+        //        return metadataFile.FullPath;
+        //    }
+        //    string metadataInParent = metadataPath + "\\metadata\\" + itemName + ".xml";
+        //    metadataFile = FileSystemProvider.GetItemDetails(metadataInParent);
+        //    // this either returns detail or an empty struct which would indicate not found
+        //    if (!String.IsNullOrEmpty(metadataFile.Name))
+        //    {
+        //        return metadataFile.FullPath;
+        //    }
+        //    return String.Empty;
+        //}
 
     }
 }
