@@ -9,7 +9,7 @@ using MusicBrowser.Engines.Logging;
 
 namespace MusicBrowser.Actions
 {
-    static class Factory
+    public static class Factory
     {
         private struct ActionConfigEntry
         {
@@ -21,8 +21,8 @@ namespace MusicBrowser.Actions
             public IList<baseActionCommand> MenuOptions;
         }
 
-        private static readonly IEnumerable<baseActionCommand> _availableActions = GetAvailableActions();
-        private static readonly IDictionary<String, ActionConfigEntry> _actionConfig = GetActionConfig();
+        private static readonly List<baseActionCommand> _availableActions = GetAvailableActions();
+        private static IDictionary<String, ActionConfigEntry> _actionConfig;
 
         public static baseActionCommand ActionFactory(String name)
         {
@@ -48,6 +48,11 @@ namespace MusicBrowser.Actions
 
         public static baseActionCommand GetEnterAction(baseEntity entity)
         {
+            if (_actionConfig == null)
+            {
+                _actionConfig = GetActionConfig();
+            }
+
             IEnumerable<string> tree = entity.Tree();
             foreach (string leaf in tree)
             {
@@ -64,6 +69,11 @@ namespace MusicBrowser.Actions
 
         public static baseActionCommand GetPlayAction(baseEntity entity)
         {
+            if (_actionConfig == null)
+            {
+                _actionConfig = GetActionConfig();
+            }
+
             IEnumerable<string> tree = entity.Tree();
             foreach (string leaf in tree)
             {
@@ -80,6 +90,11 @@ namespace MusicBrowser.Actions
 
         public static baseActionCommand GetStarAction(baseEntity entity)
         {
+            if (_actionConfig == null)
+            {
+                _actionConfig = GetActionConfig();
+            }
+
             IEnumerable<string> tree = entity.Tree();
             foreach (string leaf in tree)
             {
@@ -96,6 +111,11 @@ namespace MusicBrowser.Actions
 
         public static baseActionCommand GetRecordAction(baseEntity entity)
         {
+            if (_actionConfig == null)
+            {
+                _actionConfig = GetActionConfig();
+            }
+
             IEnumerable<string> tree = entity.Tree();
             foreach (string leaf in tree)
             {
@@ -112,6 +132,11 @@ namespace MusicBrowser.Actions
 
         public static List<baseActionCommand> GetActionList(baseEntity entity)
         {
+            if (_actionConfig == null)
+            {
+                _actionConfig = GetActionConfig();
+            }
+
             IEnumerable<string> tree = entity.Tree();
             foreach (string leaf in tree)
             {
@@ -131,7 +156,7 @@ namespace MusicBrowser.Actions
             return null;
         }
 
-        private static IEnumerable<baseActionCommand> GetAvailableActions()
+        private static List<baseActionCommand> GetAvailableActions()
         {
             List<baseActionCommand> ret = new List<baseActionCommand>();
 
@@ -145,10 +170,7 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionPlayFavourites());
             ret.Add(new ActionPlayNewlyAdded());
             ret.Add(new ActionPlayMostPopular());
-            ret.Add(new ActionPlayPopularLastFM());
             ret.Add(new ActionPlayRandomPopular());
-            ret.Add(new ActionPlayRandomPopularLastFM());
-            ret.Add(new ActionPlaySimilarTracks());
             ret.Add(new ActionPreviousPage());
             ret.Add(new ActionQueue());
             ret.Add(new ActionRefreshMetadata());
@@ -164,6 +186,11 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionToggleWatched());
 
             return ret;
+        }
+
+        public static void RegisterAction(baseActionCommand action)
+        {
+            _availableActions.Add(action);
         }
 
         private static IDictionary<String, ActionConfigEntry> GetActionConfig()

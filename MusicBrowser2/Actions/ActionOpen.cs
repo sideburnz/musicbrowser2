@@ -28,7 +28,7 @@ namespace MusicBrowser.Actions
                     if (Util.Helper.getKnownType(item) == Util.Helper.knownType.Video)
                     {
                         hits++;
-                        if (hits > 2)
+                        if (hits > 1)
                         {
                             Available = true;
                             return;

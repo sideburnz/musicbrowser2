@@ -142,7 +142,6 @@
     <Compile Include="Actions\ActionOnPlay.cs" />
     <Compile Include="Actions\ActionNoOperation.cs" />
     <Compile Include="Actions\ActionSetBooleanSetting.cs" />
-    <Compile Include="Actions\ActionPlayPopularLastFM.cs" />
     <Compile Include="Actions\ActionOnRecord.cs" />
     <Compile Include="Actions\ActionPause.cs" />
     <Compile Include="Actions\ActionStop.cs" />
@@ -150,15 +149,12 @@
     <Compile Include="Actions\ActionSkipBack.cs" />
     <Compile Include="Actions\ActionDeleteCache.cs" />
     <Compile Include="Actions\ActionSetNumericSetting.cs" />
-    <Compile Include="Actions\ActionPlayRandomPopularLastFM.cs" />
     <Compile Include="Actions\ActionShowGroupBy.cs" />
     <Compile Include="Actions\ActionShowGroupAlbumsByYear.cs" />
     <Compile Include="Actions\ActionShowGroupTracksByGenre.cs" />
-    <Compile Include="Actions\ActionPlaySimilarTracks.cs" />
     <Compile Include="Actions\ActionPlayMostPopular.cs" />
     <Compile Include="Actions\ActionSetTextSetting.cs" />
     <Compile Include="Actions\ActionCheckForNewVersion.cs" />
-    <Compile Include="Actions\ActionCycleSorts.cs" />
     <Compile Include="Actions\ActionShowNowPlaying.cs" />
     <Compile Include="Actions\ActionResume.cs" />
     <Compile Include="Actions\ActionPlaybackShuffle.cs" />
@@ -179,6 +175,10 @@
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
     <Compile Include="Engines\Cache\SQLiteHelper.cs" />
     <Compile Include="Engines\Logging\ILoggingEngine.cs" />
+    <Compile Include="Engines\PlugIns\IPlugIn.cs" />
+    <Compile Include="Engines\PlugIns\LoadPlugIns.cs" />
+    <Compile Include="Engines\Themes\ITheme.cs" />
+    <Compile Include="Engines\Themes\ThemeFactory.cs" />
     <Compile Include="Engines\Transport\ITransportEngine.cs" />
     <Compile Include="Entities\baseEntity.cs" />
     <Compile Include="Entities\Collection.cs" />
@@ -200,6 +200,7 @@
     <Compile Include="Entities\Home.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Virtual.cs" />
+    <Compile Include="MediaCentre\AssemblyResolver.cs" />
     <Compile Include="MediaCentre\FirstRun.cs" />
     <Compile Include="MediaCentre\ProgressRecorder.cs" />
     <Compile Include="Models\ActionsModel.cs" />
@@ -252,15 +253,8 @@
     <Content Include="MediaCentre\Images\buttonicons\IconView.png" />
     <Content Include="MediaCentre\Images\buttons\checkSelected.png" />
     <Content Include="MediaCentre\Images\buttons\checkUnselected.png" />
-    <Content Include="MediaCentre\Images\buttons\Keyboard.png" />
     <Content Include="MediaCentre\Images\buttons\radioSelected.png" />
     <Content Include="MediaCentre\Images\buttons\radioUnselected.png" />
-    <Content Include="MediaCentre\Images\buttonicons\IconLastFM.png" />
-    <None Include="MediaCentre\Images\icons\imageDVD.png" />
-    <None Include="MediaCentre\Images\icons\IconPhoto.png" />
-    <None Include="MediaCentre\Images\icons\IconPhotoAlbum.png" />
-    <None Include="MediaCentre\Images\icons\imagePhoto.png" />
-    <None Include="MediaCentre\Images\icons\imagePhotoAlbum.png" />
     <Content Include="MediaCentre\Images\icons\imageVideo.png" />
     <Content Include="MediaCentre\Images\icons\imageGenre.png" />
     <Content Include="MediaCentre\Images\icons\imageSpinner.png" />
@@ -318,44 +312,29 @@
     <Compile Include="WebServices\WebServiceProviders\LastFMWebProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\Controls\ctrlScrollingText.mcml" />
-    <Content Include="MediaCentre\Markup\Pages\pageSearch.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Pages\pageSettings.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\SettingsPages\SystemSettings.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\Controls\ctrlCheckbox.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlActionPopUp.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonAction.mcml" />
-    <Content Include="MediaCentre\Markup\Controls\Controls\ctrlTextBox.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\Controls\ctrlThumb.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml">
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="MediaCentre\Markup\Pages\pageFooBar2000.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\SettingsPages\MusicSettings.mcml">
-      <SubType>Designer</SubType>
-    </Content>
+    <None Include="MediaCentre\Markup\blank.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Buttons\buttonAction.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Buttons\buttonBasic.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Buttons\buttonIcon.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Buttons\buttonImage.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Controls\ctrlCheckbox.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Controls\ctrlScrollingText.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Controls\ctrlTextBox.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Controls\ctrlThumb.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PopUps\ctrlActionPopUp.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml" />
+    <None Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml" />
+    <None Include="MediaCentre\Markup\Controls\SettingsPages\MusicSettings.mcml" />
+    <None Include="MediaCentre\Markup\Controls\SettingsPages\SystemSettings.mcml" />
+    <None Include="MediaCentre\Markup\Pages\pageFolder.mcml" />
+    <None Include="MediaCentre\Markup\Pages\pageFooBar2000.mcml" />
+    <None Include="MediaCentre\Markup\Pages\pageSearch.mcml" />
+    <None Include="MediaCentre\Markup\Pages\pageSettings.mcml" />
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -376,7 +355,6 @@
     <Content Include="MediaCentre\Images\icons\imageDisc.png" />
     <Content Include="MediaCentre\Images\buttons\ButtonLeftFocus.png" />
     <Content Include="MediaCentre\Images\backgrounds\defaultBackground.png" />
-    <Content Include="MediaCentre\Images\buttons\ButtonIcon.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconClose.png" />
     <Content Include="MediaCentre\Images\icons\imageFolder.png" />
     <Content Include="MediaCentre\Images\icons\imageAlbum.png" />
@@ -385,31 +363,6 @@
     <Content Include="MediaCentre\Images\icons\imageTrack.png" />
     <Content Include="MediaCentre\Images\icons\MusicBrowser2.png" />
     <Content Include="MediaCentre\Images\nullImage.png" />
-    <Content Include="MediaCentre\Markup\blank.mcml" />
-    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonBasic.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonIcon.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\Buttons\buttonImage.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="MediaCentre\Markup\Pages\pageFolder.mcml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Music.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -439,6 +392,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"$(ProjectDir)MediaCentre\Markup"</PostBuildEvent>
+    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"C:\ProgramData\MusicBrowser\Themes"</PostBuildEvent>
   </PropertyGroup>
 </Project>

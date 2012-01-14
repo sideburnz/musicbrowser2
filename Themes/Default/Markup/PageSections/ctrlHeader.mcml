@@ -1,0 +1,134 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:a="assembly://MusicBrowser/MusicBrowser"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:me="Me"
+      >
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonIcon"/>
+
+  <UI Name="ctrlHeader">
+
+    <Properties>
+      <entities:baseEntity Name="Entity" baseEntity="$Required" />
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+      <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
+    </Properties>
+
+    <Locals>
+      <actions:ActionShowSearch Name="ShowSearch" />
+      <actions:ActionShowActions Name="ShowActions" Source="Menu" Entity="[Entity]" />
+      <actions:ActionShowSettings Name="ShowSettings" />
+      <actions:ActionCycleViews Name="CycleViews" Entity="[Entity]" />
+
+      <actions:ActionDecreaseThumbSize Name="BigThumb" Entity="[Entity]" />
+      <actions:ActionIncreaseThumbSize Name="SmallThumb" Entity="[Entity]" />
+    </Locals>
+    
+    <Rules>
+      <Binding Target="[icon.Content]" Source="[Entity.Thumb]" />
+      <Binding Target="[banner.Content]" Source="[Entity.Banner]" />
+      <Binding Target="[PageName.Content]" Source="[Entity.Title]" />
+      
+
+      <Changed Source="[FolderModel.ParentEntity.View]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.ParentEntity.View]" Value="ThumbsDown" />
+        </Conditions>
+        <Actions>
+          <Set Target="[ViewMenu.Text]" Value="Thumb" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FolderModel.ParentEntity.View]">
+        <Conditions>
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="NotEquals" Value="ThumbsDown" />
+        </Conditions>
+        <Actions>
+          <Set Target="[ViewMenu.Text]" Value="[FolderModel.ParentEntity.View]" />
+        </Actions>
+      </Changed>
+      
+      <Rule>
+        <Conditions>
+          <Equality Source="[Entity.Kind]" ConditionOp="Equals" Value="Home" />
+        </Conditions>
+        <Actions>
+          <Set Target="[SettingsMenu.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+
+      <!--<Set Target="[GroupMenu.Visible]" Value="true" />-->
+      <!--<Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />-->
+
+      <Rule>
+        <Actions>
+          <Set Target="[icon.Visible]" Value="[Entity.BannerExists]">
+            <Transformer>
+              <BooleanTransformer Inverse="true" />
+            </Transformer>
+          </Set>
+          <Set Target="[label.Visible]" Value="[Entity.BannerExists]">
+            <Transformer>
+              <BooleanTransformer Inverse="true" />
+            </Transformer>
+          </Set>
+          <Set Target="[banner.Visible]" Value="[Entity.BannerExists]" />
+        </Actions>
+      </Rule>
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Children>
+          <ColorFill Content="Transparent" Layout="Dock">
+            <Children>
+
+              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="25,10,10,10">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Near" Position="Right" />
+                </LayoutInput>
+                <Children>
+                  <Graphic Name="icon" Content="[Entity.Thumb]" MaintainAspectRatio="true" MaximumSize="0,96" />
+                  <Graphic Name="banner" Content="[Entity.Banner]" MaintainAspectRatio="true" MaximumSize="0,96" />
+                </Children>
+              </Graphic>
+
+              <ColorFill Content="Transparent" Layout="HorizontalFlow" Navigation="ContainHorizontal" Margins="70,70,0,0">
+                <LayoutInput>
+                  <FormLayoutInput Bottom="Parent,1" Left="Parent,0"/>
+                </LayoutInput>
+                <Children>
+                  <me:buttonIcon Command="[ShowSettings]" Name="SettingsMenu" Text="" Icon="[ShowSettings.Icon]" Margins="0,0,5,0" Visible="false" />
+                  <me:buttonIcon Command="[ShowActions]" Name="ActionsMenu" Text="Actions" Icon="[ShowActions.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[ShowSearch]" Name="Search" Text="[ShowSearch.Label]" Icon="[ShowSearch.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[CycleViews]" Name="ViewMenu" Text="[FolderModel.ParentEntity.View]" Icon="[CycleViews.Icon]" Margins="0,0,5,0" />
+
+                  <me:buttonIcon Command="[BigThumb]" Name="bBigThumb" Text="[BigThumb.Label]" Icon="[BigThumb.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[SmallThumb]" Name="bSmallThumb" Text="[SmallThumb.Label]" Icon="[SmallThumb.Icon]" Margins="0,0,5,0" />
+
+                </Children>
+              </ColorFill>
+
+              <ColorFill Content="Transparent" Margins="0,0,0,0" Name="label">
+                <LayoutInput>
+                  <FormLayoutInput Top="Parent,0" Right="Parent,1"/>
+                </LayoutInput>
+                <Children>
+                  <Text Name="PageName" Color="White" Font="Segoe Media Center Light, 36" HorizontalAlignment="Far" />
+                </Children>
+              </ColorFill>
+
+            </Children>
+
+          </ColorFill>
+          <ColorFill Content="Black" Alpha="0.33" />
+        </Children>
+      </Panel>
+    </Content>
+
+  </UI>
+
+</Mcml>
