@@ -5,8 +5,9 @@ using System.Text;
 using MusicBrowser.Providers;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
+using MusicBrowser.Actions;
 
-namespace MusicBrowser.Actions
+namespace MusicBrowser.Engines.PlugIns.Actions
 {
     public class ActionPlayRandomPopularLastFM : baseActionCommand
     {
@@ -17,7 +18,7 @@ namespace MusicBrowser.Actions
         {
             Label = LABEL;
             IconPath = ICON_PATH;
-            Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+            //Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
             Entity = entity;
         }
 
@@ -25,7 +26,7 @@ namespace MusicBrowser.Actions
         {
             Label = LABEL;
             IconPath = ICON_PATH;
-            Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+            //Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
         }
 
         public override baseActionCommand NewInstance(baseEntity entity)
@@ -35,9 +36,9 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "random tracks with the high playcounts on Last.fm");
-            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdlastfmpopular", entity), true);
-            MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
+            //Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "random tracks with the high playcounts on Last.fm");
+            //CommonTaskQueue.Enqueue(new PlaylistProvider("cmdlastfmpopular", entity), true);
+            //MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
     }
 }

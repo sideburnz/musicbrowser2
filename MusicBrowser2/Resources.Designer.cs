@@ -281,13 +281,6 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap IconFavorite1 {
-            get {
-                object obj = ResourceManager.GetObject("IconFavorite1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap IconGroup {
             get {
                 object obj = ResourceManager.GetObject("IconGroup", resourceCulture);
@@ -305,13 +298,6 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap IconHome {
             get {
                 object obj = ResourceManager.GetObject("IconHome", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap IconLastFM {
-            get {
-                object obj = ResourceManager.GetObject("IconLastFM", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -505,20 +491,6 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap imagePhoto {
-            get {
-                object obj = ResourceManager.GetObject("imagePhoto", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap imagePhotoAlbum {
-            get {
-                object obj = ResourceManager.GetObject("imagePhotoAlbum", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap imagePlaylist {
             get {
                 object obj = ResourceManager.GetObject("imagePlaylist", resourceCulture);
@@ -543,13 +515,6 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap imageVideo {
             get {
                 object obj = ResourceManager.GetObject("imageVideo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap Keyboard {
-            get {
-                object obj = ResourceManager.GetObject("Keyboard", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

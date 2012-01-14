@@ -10,6 +10,7 @@ using MusicBrowser.Providers;
 using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Models.Keyboard;
+using MusicBrowser.Engines;
 
 // ReSharper disable CheckNamespace
 namespace MusicBrowser
@@ -130,6 +131,7 @@ namespace MusicBrowser
                 properties["FolderModel"] = folderModel;
                 properties["UINotifier"] = UINotifier.GetInstance();
                 properties["ActionsModel"] = ActionsModel.GetInstance;
+                //_session.GoToPage(Engines.Themes.ThemeFactory.GetTheme().HomePage(), properties);
                 _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
             }
             catch (Exception ex)

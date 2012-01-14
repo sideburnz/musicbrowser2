@@ -120,202 +120,6 @@
   <data name="BlankSettings" xml:space="preserve">
     <value>&lt;Settings&gt;&lt;/Settings&gt;</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="border" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\backgrounds\border.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="buttonBasic" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\buttons\buttonbasic.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="buttonIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\buttons\buttonicon.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="buttonImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\buttons\buttonimage.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ButtonLeftFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttons\buttonleftfocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ctrlFooter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\pagesections\ctrlfooter.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ctrlHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\pagesections\ctrlheader.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ctrlPlayListAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\popups\ctrlplaylistaction.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="defaultBackground" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\backgrounds\defaultbackground.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconclose.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconPause" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconpause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconPlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconplay.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconQueue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconqueue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconResume" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconresume.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconShuffle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconshuffle.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="imageAlbum" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\imagealbum.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="imageArtist" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\imageartist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="imageFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\imagefolder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="imagePlaylist" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\imageplaylist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MusicBrowser2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\musicbrowser2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="nullImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\nullimage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pageFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\pages\pagefolder.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="underline" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\backgrounds\underline.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="viewList" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\pageviews\viewlist.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="viewThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\pageviews\viewthumb.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="imageDisc" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\imagedisc.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="imageGenre" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\imagegenre.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconHome" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconhome.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconconfig.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconGroup" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\icongroup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="imageTrack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\imagetrack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="imageSpinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\imagespinner.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="viewStrip" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\pageviews\viewstrip.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="IconPlaylist" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconplaylist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ctrlScrollingText" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\controls\ctrlscrollingtext.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="pageSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\pages\pagesearch.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="DisplaySettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\settingspages\displaysettings.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="pageSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\pages\pagesettings.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SystemSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\settingspages\systemsettings.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="IconAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconaction.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconRefresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconrefresh.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconsearch.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconView" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconview.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ctrlCheckbox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\controls\ctrlcheckbox.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ctrlActionPopUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\popups\ctrlactionpopup.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="NavPanel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\backgrounds\navpanel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="checkSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttons\checkselected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="checkUnselected" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttons\checkunselected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconFavorite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconfavorite.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconFavorite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconfavorite.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="radioSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttons\radioselected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="radioUnselected" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttons\radiounselected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconStar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconstar.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Keyboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttons\keyboard.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconUnknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconunknown.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconLastFM" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconlastfm.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconStop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\iconstop.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconDown.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconFastForward" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconFastForward.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconRewind" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconRewind.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconSkipBack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconSkipBack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconSkipForward" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconSkipForward.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconUp.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="buttonAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\buttons\buttonaction.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="IconDeleteCache" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\buttonicons\icondeletecache.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ActionConfig" xml:space="preserve">
     <value>&lt;ActionConfig&gt;
 	&lt;Entity name="Album"&gt;
@@ -442,53 +246,234 @@
 	&lt;/Entity&gt;
 &lt;/ActionConfig&gt;</value>
   </data>
-  <data name="IconMinus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconMinus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="buttonAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\buttons\buttonaction.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="IconPlus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconPlus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="buttonBasic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\buttons\buttonbasic.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="buttonIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\buttons\buttonicon.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="buttonImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\buttons\buttonimage.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ctrlActionPopUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\popups\ctrlactionpopup.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ctrlCheckbox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\controls\ctrlcheckbox.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ctrlFooter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\pagesections\ctrlfooter.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ctrlHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\pagesections\ctrlheader.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ctrlPlayListAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\popups\ctrlplaylistaction.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ctrlScrollingText" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\controls\ctrlscrollingtext.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ctrlTextBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\markup\controls\controls\ctrltextbox.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="IconNew" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconNew.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconSort" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconSort.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="imageVideo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\images\icons\imagevideo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="imagePhoto" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\icons\imagePhoto.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="imagePhotoAlbum" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\icons\imagePhotoAlbum.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ctrlThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\markup\controls\controls\ctrlthumb.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="selectedMenu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttons\selectedMenu.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DisplaySettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\settingspages\displaysettings.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MusicSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\settingspages\musicsettings.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pageFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\pages\pagefolder.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="pageFooBar2000" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\markup\pages\pagefoobar2000.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="IconRepeat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconRepeat.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="pageSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\pages\pagesearch.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="IconHalfStar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconHalfStar.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="pageSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\pages\pagesettings.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="IconBorder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttons\IconBorder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SystemSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\settingspages\systemsettings.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="IconOpen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>MediaCentre\Images\buttonicons\IconOpen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="viewList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\pageviews\viewlist.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="viewStrip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\pageviews\viewstrip.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="viewThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\markup\controls\pageviews\viewthumb.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="MusicSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>mediacentre\markup\controls\settingspages\musicsettings.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="border" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\backgrounds\border.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ButtonLeftFocus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttons\buttonleftfocus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="checkSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttons\checkselected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="checkUnselected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttons\checkunselected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="defaultBackground" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\backgrounds\defaultbackground.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconaction.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconBorder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttons\iconborder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconclose.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconconfig.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconDeleteCache" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\icondeletecache.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\icondown.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconFastForward" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconfastforward.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconFavorite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconfavorite.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconGroup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\icongroup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconHalfStar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconhalfstar.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconHome" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconhome.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconMinus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconminus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconNew" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconnew.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconOpen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconopen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconPause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconpause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconPlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconplay.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconPlaylist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconplaylist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconPlus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconplus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconQueue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconqueue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconRefresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconrefresh.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconRepeat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconrepeat.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconResume" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconresume.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconRewind" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconrewind.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconsearch.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconShuffle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconshuffle.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconSkipBack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconskipback.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconSkipForward" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconskipforward.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconSort" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconsort.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconStar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconstar.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconStop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconstop.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconUnknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconunknown.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttonicons\iconview.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imageAlbum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagealbum.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imageArtist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imageartist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imageDisc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagedisc.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imageFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagefolder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imageGenre" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagegenre.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imagePlaylist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imageplaylist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imageSpinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagespinner.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imageTrack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagetrack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="imageVideo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\imagevideo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MusicBrowser2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\icons\musicbrowser2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NavPanel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\backgrounds\navpanel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nullImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\nullimage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="radioSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttons\radioselected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="radioUnselected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttons\radiounselected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="selectedMenu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\buttons\selectedmenu.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="underline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\backgrounds\underline.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

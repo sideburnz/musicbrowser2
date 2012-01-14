@@ -1,0 +1,161 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:a="assembly://MusicBrowser/MusicBrowser"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:me="Me"
+      >
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlScrollingText"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlThumb"/>
+
+  <UI Name="viewStrip">
+
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+
+      <Animation Name="Slide" Type="Move">
+        <Keyframes>
+          <PositionKeyframe Time="0" RelativeTo="Current"/>
+          <PositionKeyframe Time=".5" RelativeTo="Final"/>
+        </Keyframes>
+      </Animation>
+
+      <Command Name="CmdRefresh"/>
+      <Timer Name="RefreshTimer" AutoRepeat="True" Interval="5000" Enabled="True" />
+
+    </Properties>
+
+    <Locals>
+      <ScrollingData Name="scrollData" EndPadding="2380" BeginPadding="120" PageStep="1" /> 
+      <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
+
+      <GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" Rows="1" Columns="0" AllowWrap="true" Spacing="2,2" MinorAlignment="Center" MajorAlignment="Center" />
+    </Locals>
+
+    <Rules>
+
+      <Changed Source="[RefreshTimer.Tick]">
+        <Actions>
+          <Invoke Target="[CmdRefresh.Invoke]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdRefresh.Invoked]">
+        <Actions>
+          <Set Target="[Title.Content]" Value="[FolderModel.SelectedItem.Title]" />
+          <Set Target="[Title.Visible]" Value="[FolderModel.SelectedItem.BannerExists]">
+            <Transformer>
+              <BooleanTransformer Inverse="true" />
+            </Transformer>
+          </Set>
+          
+          <Set Target="[Banner.Content]" Value="[FolderModel.SelectedItem.Banner]" />
+          <Set Target="[Banner.Visible]" Value="[FolderModel.SelectedItem.BannerExists]" />
+         
+          <!--<Set Target="[Summary.Summary]" Value="[FolderModel.SelectedItem.Summary]" />-->
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
+        <Actions>
+          <Invoke Target="[CmdRefresh.Invoke]" />
+        </Actions>
+      </Changed>
+
+      <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
+      <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
+      <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
+      <!--<Binding Target="[Summary.Summary]" Source="[FolderModel.SelectedItem.Summary]" />-->
+      <!--<Binding Target="[Summary.Visible]" Source="[FolderModel.ShowSummary]" />-->
+
+      <Changed Source="[FolderModel.JILIndex]">
+        <Actions>
+          <Invoke Target="[scrollData.Home]"/>
+          <Invoke Target="[scrollData.Scroll]" amount="[FolderModel.JILIndex]"/>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FolderModel.ParentEntity.View]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="Strip" />
+        </Conditions>
+        <Actions>
+          <Set Target="[div_Strip.Visible]" Value="true"/>
+        </Actions>
+      </Changed>
+      <Changed Source="[FolderModel.ParentEntity.View]">
+        <Conditions>
+          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="NotEquals" Value="Strip" />
+        </Conditions>
+        <Actions>
+          <Set Target="[div_Strip.Visible]" Value="false" />
+          <!--<Set Target="[Summary.Visible]" Value="[FolderModel.ShowSummary]" />-->
+        </Actions>
+      </Changed>
+
+      <Rule>
+        <Actions>
+          <Invoke Target="[viewThumbRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" InvokePolicy="Synchronous" />
+        </Actions>
+      </Rule>
+
+      <Binding Target="[MyLayout.ReferenceSize]" Source="[FolderModel.ReferenceSize]" />
+      <Binding Target="[Scroller.MaximumSize]" Source="[FolderModel.ReferenceHeight]" />
+    </Rules>
+    
+    <Content>
+      <ColorFill Content="Transparent" Layout="Dock" Name="div_Strip" Visible="false">
+        <Layout>
+          <DockLayout SizeToChildren="true" />
+        </Layout>
+        <Children>
+          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100" MaximumSize="0,150" Navigation="ContainHorizontal">
+            <LayoutInput>
+              <DockLayoutInput Position="Bottom" Alignment="Fill" />
+            </LayoutInput>
+            <Children>
+              <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true" Layout="[MyLayout]">
+                <Animations>
+                  <Animation Animation="[Slide]" />
+                </Animations>
+              </Repeater>
+            </Children>
+          </Scroller>
+
+
+          <Panel Layout="Dock">
+            <LayoutInput>
+              <DockLayoutInput Position="Bottom" Alignment="Fill" />
+            </LayoutInput>
+            <Children>
+              <Panel Margins="0,0,10,10" Name="SummaryPanel">
+                <LayoutInput>
+                  <DockLayoutInput Alignment="Near" Position="Left" />
+                </LayoutInput>
+                <Layout>
+                  <FlowLayout Orientation="Vertical"/>
+                </Layout>
+                <Children>
+                  <Text Name="Title" Content="[FolderModel.SelectedItem.Title]" Color="White" Font="Segoe Media Center Bold, 22" WordWrap="false" Margins="10,0,10,20"/>
+                  <Graphic Name="Banner" Content="[FolderModel.SelectedItem.Banner]" MaximumSize="0,70" MaintainAspectRatio="true"/>
+                  <me:ctrlScrollingText Name="Summary" Summary="" Visible="true" />
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+
+
+        </Children>
+      </ColorFill>
+   </Content>
+
+    <Content Name="Thumb">
+      <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]" />
+    </Content>
+
+  </UI>
+
+</Mcml>

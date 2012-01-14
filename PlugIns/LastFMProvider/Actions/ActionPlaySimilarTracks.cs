@@ -6,8 +6,9 @@ using MusicBrowser.Providers;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.Actions;
 
-namespace MusicBrowser.Actions
+namespace MusicBrowser.Engines.PlugIns.Actions
 {
 
     /// <summary>
@@ -23,14 +24,14 @@ namespace MusicBrowser.Actions
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
-            Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+            //Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
         }
 
         public ActionPlaySimilarTracks()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
-            Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+            //Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
         }
 
         public override baseActionCommand NewInstance(baseEntity entity)
@@ -40,8 +41,8 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdsimilar", entity), true);
-            MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
+            //CommonTaskQueue.Enqueue(new PlaylistProvider("cmdsimilar", entity), true);
+            //MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
 
     }

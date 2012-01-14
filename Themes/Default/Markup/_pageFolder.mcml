@@ -1,0 +1,317 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:a="assembly://MusicBrowser/MusicBrowser"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:me="Me"
+      >
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlHeader"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlFooter"/>
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlActionPopUp"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumb"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewStrip"/>
+
+  <UI Name="pageMain">
+
+    <Properties>
+      <a:Application Name="Application" Application="$Required"/>
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+      <models:UINotifier Name="UINotifier" UINotifier="$Required" />
+      <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
+
+      <actions:ActionShowNowPlaying Name="ActionShowNowPlaying" />
+      
+      <actions:ActionStop Name="ActionStop" />
+      <actions:ActionPause Name="ActionPause" />
+      <actions:ActionSkipForward Name="ActionSkipForward" />
+      <actions:ActionSkipBack Name="ActionSkipBack" />
+    </Properties>
+
+    <Locals>
+      <addin:AddInHost Name="AddInHost"/>
+      <models:Clock Name="Clock"/>
+      
+      <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" Command="[ActionSkipForward]"/>
+      <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true" Command="[ActionSkipBack]" />
+      <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Bubbled" Handle="true" Command="[ActionStop]" />
+      <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Bubbled"  Handle="true" Command="[ActionPause]"/>
+      <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Bubbled" Handle="true" Command="[ActionPause]"/>
+
+      <Timer Name="BackgroundTimer" AutoRepeat="True" Interval="10000" Enabled="True" />
+
+      <EditableText Name="editableText" />
+      <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
+
+      <KeyHandler Name="HandleStarNum" Command="[ActionShowNowPlaying]" Handle="true" HandlerStage="Bubbled" Key="D8" Modifiers="Shift" />
+      <KeyHandler Name="HandleStarKey" Command="[ActionShowNowPlaying]" Handle="true" HandlerStage="Bubbled" Key="NumPad8" Modifiers="Shift" />
+    </Locals>
+
+    <Rules>
+
+      <Binding Source="[editableText]" Target="[typingHandler.EditableText]" />
+      <Binding Source="[editableText.Value]" Target="[KeyDisplay.Content]" />
+      <Changed Source="[editableText.Value]">
+        <Actions>
+          <Set Target="[FolderModel.KeyedValue]" Value="[editableText.Value]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[BackgroundTimer.Tick]">
+        <Actions>
+          <Set Value="[FolderModel.Background]" Target="[EntityBackground.Content]"/>
+        </Actions>
+      </Changed>
+
+      <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
+      <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
+      
+      <!-- these rules are all executed unconditionally -->
+      <Rule>
+        <Actions>
+          <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
+          <Invoke Target="[ViewPanel.NavigateInto]" />
+        </Actions>
+      </Rule>
+
+      <Binding Source="[FolderModel.Matches]" Target="[List_Matches.Content]" />
+      <Binding Source="[FolderModel.SelectedIndex!cor:String]" Target="[List_Counter.Content]">
+        <Transformer>
+          <MathTransformer Add="1" />
+        </Transformer>
+      </Binding>
+
+      <Changed Source="[FolderModel.SelectedIndex]">
+        <Actions>
+          <Set Target="[Footer.Entity]" Value="[FolderModel.SelectedItem]" />
+        </Actions>
+      </Changed>
+     
+      <Binding Source="[FolderModel.Busy]" Target="[imageSpinner.Visible]" />
+
+      <Changed Source="[ActionsModel.Visible]">
+        <Conditions>
+          <Equality Source="[ActionsModel.Visible]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="false" />
+          <Invoke Target="[ViewPanel.NavigateInto]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[ActionsModel.Visible]">
+        <Conditions>
+          <Equality Source="[ActionsModel.Visible]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="true" />
+          <Invoke Target="[ActionPopUp.NavigateInto]" />
+        </Actions>
+      </Changed>
+
+      <Binding Source="[ActionsModel.Visible]" Target="[ActionPopUp.Visible]" />
+    </Rules>
+    
+    <Content>
+      <ColorFill Content="Transparent" Layout="Form">
+        <Children>
+
+          <!-- POP UPS -->
+          <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
+          <me:ctrlActionPopup Name="ActionPopUp" Visible="true" Model="[ActionsModel]" />
+          
+          <!-- FADER -->
+          <Panel Visible="true">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,.0" Right="Parent,1" Bottom="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <ColorFill Name="pageFader" Visible="false" Content="Black" Alpha="0.9" Navigation="ContainAll" MouseInteractive="true"/>
+            </Children>
+          </Panel>
+
+          <!-- KEYBOARD HANDLER -->
+          <Text Name="KeyDisplay" Font="Segoe Media Center Semibold,150" Color="LightBlue">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.05" Top="Parent,.70" />
+            </LayoutInput>
+          </Text>
+
+          <!-- VIEWS -->
+          <Panel Name="ViewPanel">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.17" Bottom="Parent,0.76"  Right="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
+              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
+              <me:viewStrip Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
+            </Children>
+          </Panel>
+
+          <!-- Page Header -->
+          <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" FolderModel="[FolderModel]" ActionsModel="[ActionsModel]">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.15" Right="Parent,1"/>
+            </LayoutInput>
+          </me:ctrlHeader>
+
+          <!-- POSITION INDICATOR -->
+          <Panel>
+            <LayoutInput>
+              <FormLayoutInput Right="Parent,.985" Bottom="Parent,.99" Horizontal="Far"/>
+            </LayoutInput>
+            <Layout>
+              <FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
+            </Layout>
+            <Children>
+              <Graphic Name="imageSpinner" Content="resx://MusicBrowser/MusicBrowser.Resources/imageSpinner" MinimumSize="30,30" MaximumSize="30,30" Visible="false">
+                <Animations>
+                  <Animation Name="RotateRound" CenterPointPercent="0.5,0.5,0.5" Loop="-1">
+                    <Keyframes>
+                      <RotateKeyframe Time="0.0" Value="0deg;0,0,0" Interpolation="Linear" RelativeTo="Current" />
+                      <RotateKeyframe Time="1.0" Value="360deg;0,0,0" RelativeTo="Current" />
+                    </Keyframes>
+                  </Animation>
+                </Animations>
+              </Graphic>
+              <Panel>
+                <LayoutInput>
+                  <FormLayoutInput Right="Parent,0.89" Top="Parent,0.6"/>
+                </LayoutInput>
+                <Children>
+                  <Text Name="TimeDate" Content="" Color="White" Font="Segoe Media Center Light, 24" HorizontalAlignment="Far" Alpha="0.7" Margins="0,0,5,0"/>
+                </Children>
+              </Panel>
+              <Panel Layout="HorizontalFlow" Margins="0,0,0,0">
+                <Children>
+                  <Text Name="List_Counter" Content="0" Color="White" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
+                  <Text Name="List_Break" Content="|" Color="Gray" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
+                  <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+
+          <!-- Now Playing Pod -->
+          <me:NowPlayingElement>
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Bottom="Parent,1" />
+            </LayoutInput>
+          </me:NowPlayingElement>
+
+          <!-- FOOTER -->
+          <Panel Layout="Form">
+            <LayoutInput>
+              <FormLayoutInput Top="Parent,0.79" Left="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <me:ctrlFooter Name="Footer" Entity="[FolderModel.SelectedItem]">
+                  <LayoutInput>
+                    <FormLayoutInput Top="Parent,0.05" Left="Parent,0.165"/>
+                  </LayoutInput>
+              </me:ctrlFooter>
+              <ColorFill Content="Black" Alpha="0.33" Layout="Fill" />
+            </Children>
+          </Panel>
+
+            <!-- Background -->
+          <Graphic Name="BGOverlay" Content="resx://MusicBrowser/MusicBrowser.Resources/defaultBackground" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" />
+          <Panel Visible="true">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Top="Parent,.0" Right="Parent,1" Bottom="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <ColorFill Visible="true" Content="Black" Alpha="0.3"/>
+            </Children>
+          </Panel>
+          
+          <Graphic Name="EntityBackground" Content="[FolderModel.Background]" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true">
+            <Animations>
+              <Animation Type="ContentChangeHide">
+                <Keyframes>
+                  <AlphaKeyframe Time="0.0" Value="1" />
+                  <AlphaKeyframe Time="3" Value="0" Interpolation="SCurve" />
+                </Keyframes>
+              </Animation>
+              <Animation Type="ContentChangeShow">
+                <Keyframes>
+                  <AlphaKeyframe Time="0.0" Value="0" />
+                  <AlphaKeyframe Time="3" Value="1" Interpolation="SCurve" />
+                </Keyframes>
+              </Animation>
+            </Animations>
+          </Graphic>
+        </Children>
+      </ColorFill>
+      
+    </Content>
+
+  </UI>
+
+  <UI Name="NowPlayingElement">
+
+    <Properties>
+      <actions:ActionShowNowPlaying Name="NowPlayingAction" />
+    </Properties>
+    
+    <Locals>
+      <models:NowPlayingUI Name="NowPlayingUI"/>
+      <ClickHandler Name="Clicker" />
+      <Command Name="CmdChange" />
+    </Locals>
+
+    <Rules>
+      <Binding Target="[Frame.Visible]" Source="[NowPlayingUI.Active]" />
+      <Binding Target="[MCENowPlaying.Visible]" Source="[NowPlayingUI.Active]">
+        <Transformer>
+          <BooleanTransformer Inverse="true"/>
+        </Transformer>
+      </Binding>
+      
+      <Binding Target="[NowPlayingAction.Available]" Source="[NowPlayingUI.Active]" />
+      <Binding Target="[FooPlayingIcon.Content]" Source="[NowPlayingUI.Icon]" />
+      <Binding Target="[Clicker.Command]" Source="[CmdChange]" />
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+
+      <Changed Source="[CmdChange.Invoked]">
+        <Actions>
+          <Invoke Target="[NowPlayingAction.Invoke]" />
+        </Actions>
+      </Changed>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/IconBorder"/>
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Actions>
+          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
+        </Actions>
+      </Condition>
+    </Rules>
+    
+    <Content>
+      <ColorFill Content="Transparent">
+        <Children>
+          <NowPlaying Name="MCENowPlaying" ShowFullMetadata="Never" Visible="True" />
+          <Graphic Name="Frame" SizingPolicy="SizeToChildren" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" Margins="40,10,20,10">
+            <Children>
+              <Graphic Name="FooPlayingIcon" Content="resx://MusicBrowser/MusicBrowser.Resources/imageTrack" MaximumSize="135,135" MinimumSize="135,135" Margins="2,2,2,2"/>
+            </Children>
+          </Graphic>
+        </Children>
+      </ColorFill>
+    </Content>
+  </UI>
+  
+</Mcml>
