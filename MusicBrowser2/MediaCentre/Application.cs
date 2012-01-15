@@ -65,7 +65,7 @@ namespace MusicBrowser
         {
             Dictionary<string, object> props = new Dictionary<string, object>();
             props.Add("Model", Foobar2000.GetInstance());
-            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFooBar2000", props);
+            _session.GoToPage(Engines.Themes.Theme.FooPlaying, props);
         }
 
         public void NavigateToSettings()
@@ -81,7 +81,7 @@ namespace MusicBrowser
             props.Add("Model", new SearchModel(searchString));
             props.Add("ActionsModel", ActionsModel.GetInstance);
             props.Add("UINotifier", UINotifier.GetInstance());
-            _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSearch", props);
+            _session.GoToPage(Engines.Themes.Theme.Search, props);
         }
 
         public void Navigate(baseEntity entity)
@@ -131,8 +131,7 @@ namespace MusicBrowser
                 properties["FolderModel"] = folderModel;
                 properties["UINotifier"] = UINotifier.GetInstance();
                 properties["ActionsModel"] = ActionsModel.GetInstance;
-                //_session.GoToPage(Engines.Themes.ThemeFactory.GetTheme().HomePage(), properties);
-                _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFolder", properties);
+                _session.GoToPage(Engines.Themes.Theme.Main, properties);
             }
             catch (Exception ex)
             {

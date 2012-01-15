@@ -8,15 +8,15 @@
       xmlns:me="Me"
       >
 
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlHeader"/>
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlFooter"/>
+  <Aggregate Source="resx://DefaultTheme/DefaultTheme.Resources/ctrlHeader"/>
+  <Aggregate Source="resx://DefaultTheme/DefaultTheme.Resources/ctrlFooter"/>
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlActionPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
 
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumb"/>
-  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewStrip"/>
+  <Aggregate Source="resx://DefaultTheme/DefaultTheme.Resources/viewList"/>
+  <Aggregate Source="resx://DefaultTheme/DefaultTheme.Resources/viewThumb"/>
+  <Aggregate Source="resx://DefaultTheme/DefaultTheme.Resources/viewStrip"/>
 
   <UI Name="pageMain">
 

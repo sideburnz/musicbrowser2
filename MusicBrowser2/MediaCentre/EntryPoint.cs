@@ -44,8 +44,6 @@ namespace MusicBrowser
             _sSession = new HistoryOrientedPageSession();
             Application app = new Application(_sSession, host);
 
-            AssemblyResolver.MakeCustomAssembliesWellknown();
-
             MusicBrowser.Engines.PlugIns.LoadPlugIns.Execute();
 
             // Go to the initial screen
