@@ -8,8 +8,8 @@
     <ProjectGuid>{A2075E0C-2D45-444F-8977-88E2B1BC12F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LastFM</RootNamespace>
-    <AssemblyName>LastFM</AssemblyName>
+    <RootNamespace>LastFMProvider</RootNamespace>
+    <AssemblyName>LastFMProvider</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -17,7 +17,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -54,7 +54,12 @@
     <Compile Include="Actions\ActionPlayPopularLastFM.cs" />
     <Compile Include="Actions\ActionPlayRandomPopularLastFM.cs" />
     <Compile Include="Actions\ActionPlaySimilarTracks.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="WebServiceProviders\LastFMWebProvider.cs" />
+    <Compile Include="Services\AlbumInfoService.cs" />
+    <Compile Include="Services\ArtistInfoService.cs" />
+    <Compile Include="Services\TrackInfoService.cs" />
+    <Compile Include="Services\TrackSimilarService.cs" />
+    <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -73,8 +78,8 @@
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

@@ -5,7 +5,6 @@ using System.Linq;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Engines.Cache;
-using MusicBrowser.WebServices.Services.LastFM;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.WebServices.WebServiceProviders;
 using MusicBrowser.Engines.Transport;

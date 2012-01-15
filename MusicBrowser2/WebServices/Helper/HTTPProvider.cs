@@ -6,7 +6,7 @@ using MusicBrowser.Engines.Logging;
 
 namespace MusicBrowser.WebServices.Helper
 {
-    class HttpProvider
+    public class HttpProvider
     {
         private string _url;
         private string _body;

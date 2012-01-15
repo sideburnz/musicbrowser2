@@ -175,10 +175,11 @@
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
     <Compile Include="Engines\Cache\SQLiteHelper.cs" />
     <Compile Include="Engines\Logging\ILoggingEngine.cs" />
+    <Compile Include="Engines\Metadata\IProvider.cs" />
+    <Compile Include="Engines\Metadata\Providers.cs" />
     <Compile Include="Engines\PlugIns\IPlugIn.cs" />
     <Compile Include="Engines\PlugIns\LoadPlugIns.cs" />
-    <Compile Include="Engines\Themes\ITheme.cs" />
-    <Compile Include="Engines\Themes\ThemeFactory.cs" />
+    <Compile Include="Engines\Themes\Theme.cs" />
     <Compile Include="Engines\Transport\ITransportEngine.cs" />
     <Compile Include="Entities\baseEntity.cs" />
     <Compile Include="Entities\Collection.cs" />
@@ -200,7 +201,6 @@
     <Compile Include="Entities\Home.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Virtual.cs" />
-    <Compile Include="MediaCentre\AssemblyResolver.cs" />
     <Compile Include="MediaCentre\FirstRun.cs" />
     <Compile Include="MediaCentre\ProgressRecorder.cs" />
     <Compile Include="Models\ActionsModel.cs" />
@@ -278,8 +278,6 @@
     <Compile Include="Providers\FileSystemProvider.cs" />
     <Compile Include="Providers\FolderItems\VirtualFolderProvider.cs" />
     <Compile Include="Providers\FolderItems\IFolderItemsProvider.cs" />
-    <Compile Include="Providers\Metadata\DataProviderException.cs" />
-    <Compile Include="Providers\Metadata\IDataProvider.cs" />
     <Compile Include="Providers\ImageProvider.cs" />
     <Compile Include="Providers\Metadata\Lite\TagSharpMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\Lite\VideoFilenameMetadataProvider.cs" />
@@ -298,7 +296,6 @@
     </Compile>
     <Compile Include="Util\Helper.cs" />
     <Compile Include="WebServices\Helper\Externals.cs" />
-    <Compile Include="WebServices\Services\LastFM\TrackSimilarService.cs" />
     <Compile Include="WebServices\WebServiceProviders\HTBackdropWebProvider.cs" />
     <Compile Include="WebServices\Helper\HTTPProvider.cs" />
     <Compile Include="WebServices\Helper\Logging.cs" />
@@ -306,10 +303,6 @@
     <Compile Include="WebServices\Interfaces\WebServiceProvider.cs" />
     <Compile Include="WebServices\Services\Discogs\holding.cs" />
     <Compile Include="WebServices\Services\HTBackdrop\ArtistImagesService.cs" />
-    <Compile Include="WebServices\Services\LastFM\AlbumInfoService.cs" />
-    <Compile Include="WebServices\Services\LastFM\ArtistInfoService.cs" />
-    <Compile Include="WebServices\Services\LastFM\TrackInfoService.cs" />
-    <Compile Include="WebServices\WebServiceProviders\LastFMWebProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MediaCentre\Markup\blank.mcml" />
@@ -322,19 +315,19 @@
     <None Include="MediaCentre\Markup\Controls\Controls\ctrlTextBox.mcml" />
     <None Include="MediaCentre\Markup\Controls\Controls\ctrlThumb.mcml" />
     <None Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml" />
-    <None Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml" />
-    <None Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />
-    <None Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml" />
-    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
     <None Include="MediaCentre\Markup\Controls\PopUps\ctrlActionPopUp.mcml" />
     <None Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml" />
     <None Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml" />
     <None Include="MediaCentre\Markup\Controls\SettingsPages\MusicSettings.mcml" />
     <None Include="MediaCentre\Markup\Controls\SettingsPages\SystemSettings.mcml" />
     <None Include="MediaCentre\Markup\Pages\pageFolder.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml" />
     <None Include="MediaCentre\Markup\Pages\pageFooBar2000.mcml" />
     <None Include="MediaCentre\Markup\Pages\pageSearch.mcml" />
     <None Include="MediaCentre\Markup\Pages\pageSettings.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>

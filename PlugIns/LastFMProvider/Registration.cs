@@ -6,6 +6,7 @@ using MusicBrowser.Engines.PlugIns;
 using MusicBrowser.Actions;
 using MusicBrowser.Entities;
 using MusicBrowser.Engines.PlugIns.Actions;
+using MusicBrowser.Providers.Metadata;
 
 namespace MusicBrowser.Engines.PlugIns
 {
@@ -13,11 +14,13 @@ namespace MusicBrowser.Engines.PlugIns
     {
         public void Register()
         {
+            // Actions
             Factory.RegisterAction(new ActionPlayPopularLastFM());
             Factory.RegisterAction(new ActionPlayRandomPopularLastFM());
             Factory.RegisterAction(new ActionPlaySimilarTracks());
 
-            //metadata
+            // Metadata
+            Metadata.Providers.RegisterProvider(new LastFMMetadataProvider());
         }
     }
 }

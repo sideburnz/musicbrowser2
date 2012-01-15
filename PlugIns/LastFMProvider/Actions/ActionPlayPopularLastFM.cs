@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Providers;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
 using MusicBrowser.Actions;
-using MusicBrowser;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Engines.PlugIns.Actions
 {
     public class ActionPlayPopularLastFM : baseActionCommand
     {
         private const string LABEL = "Play Popular Last.fm";
-        privdeate const string ICON_PATH = "resx://ExternalAssembly,Version=1.0.0.0,Culture=neutral,PublicKeyToken=sdflskjdfs/LastFMProvider.Resources/IconLastFM";
+        private const string ICON_PATH = "resx://LastFMProvider/LastFMProvider.Resources/IconLastFM";
+        //,Culture=Neutral,Version=1.0.0.0,PublicKeyToken=a0d284a68f39c610
+        //resx://LastFMProvider/LastFMProvider.Properties.Resources/IconLastFM
+        //resx://LastFMProvider,Culture=Neutral,Version=1.0.0.0,PublicKeyToken=a0d284a68f39c610/LastFMProvider.Properties.Resources/IconLastFM
+        //"res://LastFMProvider,Version=1.0.0.0,Culture=neutral,PublicKeyToken=a0d284a68f39c610!IconLastFM.png";
+        
 
          public ActionPlayPopularLastFM(baseEntity entity)
         {
@@ -37,7 +36,7 @@ namespace MusicBrowser.Engines.PlugIns.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            //Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "tracks with the highest playcounts on Last.fm");
+            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "tracks with the highest playcounts on Last.fm");
             //CommonTaskQueue.Enqueue(new PlaylistProvider("cmdlastfm", entity), true);
             //MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
