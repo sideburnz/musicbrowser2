@@ -1,0 +1,59 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:a="assembly://MusicBrowser/MusicBrowser"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:me="Me"
+      >
+
+  <Aggregate Source="resx://WhiteTheme/WhiteTheme.Resources/buttonIcon"/>
+
+  <UI Name="ctrlHeader">
+
+    <Properties>
+      <entities:baseEntity Name="Entity" baseEntity="$Required" />
+      <models:FolderModel Name="FolderModel" FolderModel="$Required" />
+      <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
+    </Properties>
+
+    <Locals>
+      <actions:ActionShowSearch Name="ShowSearch" />
+      <actions:ActionShowActions Name="ShowActions" Source="Menu" Entity="[Entity]" />
+      <actions:ActionShowSettings Name="ShowSettings" />
+
+      <models:Clock Name="Clock"/>
+    </Locals>
+
+    <Rules>
+
+      <Rule>
+        <Conditions>
+          <Equality Source="[Entity.Kind]" ConditionOp="Equals" Value="Home" />
+        </Conditions>
+        <Actions>
+          <Set Target="[SettingsMenu.Visible]" Value="true" />
+        </Actions>
+      </Rule>
+
+      <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
+      <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
+
+    </Rules>
+
+    <Content>
+      <ColorFill Content="Blue" Layout="HorizontalFlow" Navigation="ContainHorizontal" Margins="0,0,20,0">
+        <LayoutInput>
+          <FormLayoutInput Right="Parent,1" Horizontal="Fill"/>
+        </LayoutInput>
+        <Children>
+          <me:buttonIcon Command="[ShowSettings]" Name="SettingsMenu" Icon="resx://WhiteTheme/WhiteTheme.Resources/settings" Margins="0,0,5,0" Visible="false" />
+          <me:buttonIcon Command="[ShowActions]" Name="ActionsMenu" Icon="resx://WhiteTheme/WhiteTheme.Resources/action" Margins="0,0,5,0" />
+          <me:buttonIcon Command="[ShowSearch]" Name="Search" Icon="resx://WhiteTheme/WhiteTheme.Resources/search" Margins="0,0,5,0" />
+          <Text Content="|" Color="Black" Font="Segoe Media Center Light, 24" />
+          <Text Name="TimeDate" Content="" Color="Black" Font="Segoe Media Center Light, 24" Alpha="0.7" Margins="0,0,5,0"/>
+        </Children>
+      </ColorFill>
+    </Content>
+  </UI>
+</Mcml>

@@ -165,7 +165,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                if (SelectedIndex < 0) { SelectedIndex = 0; }
+                if (SelectedIndex < 0) { SelectedIndex = 1; }
                 if (SelectedIndex > _keyboard.DataSet.Count) { SelectedIndex = _keyboard.DataSet.Count; }
 
                 if (_keyboard.DataSet.Count == 0)
