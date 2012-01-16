@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LastFMProvider", "PlugIns\L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTBackdropProvider", "PlugIns\HTBackdropProvider\HTBackdropProvider.csproj", "{9D18333B-14FE-4DC0-BEFA-6131D70898B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultTheme", "PlugIns\DefaultTheme\DefaultTheme.csproj", "{BBBE0CD9-B3A3-4712-8BB5-7B27C8DC1205}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiteTheme", "PlugIns\WhiteTheme\WhiteTheme.csproj", "{BBBE0CD9-B3A3-4712-8BB5-7B27C8DC1205}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

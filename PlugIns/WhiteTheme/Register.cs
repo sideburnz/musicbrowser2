@@ -9,9 +9,12 @@ namespace MusicBrowser.Engines.PlugIns
 {
     public class Registration : IPlugIn
     {
+        private const string ThemeName = "White";
+
         public void Register()
         {
-            Theme.SetScreen(ThemeScreens.Main, "default", "resx://DefaultTheme/DefaultTheme.Resources/pageFolder");
+            Theme.SetScreen(ThemeScreens.Main, ThemeName, "resx://WhiteTheme/WhiteTheme.Resources/WhiteTheme");
+            Theme.Views = new List<string>() { "list" };
         }
     }
 }

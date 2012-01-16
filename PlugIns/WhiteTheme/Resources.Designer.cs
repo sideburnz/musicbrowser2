@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DefaultTheme {
+namespace WhiteTheme {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace DefaultTheme {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DefaultTheme.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WhiteTheme.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,6 +60,20 @@ namespace DefaultTheme {
             }
         }
         
+        public static System.Drawing.Bitmap action {
+            get {
+                object obj = ResourceManager.GetObject("action", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static byte[] buttonIcon {
+            get {
+                object obj = ResourceManager.GetObject("buttonIcon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         public static byte[] ctrlFooter {
             get {
                 object obj = ResourceManager.GetObject("ctrlFooter", resourceCulture);
@@ -74,10 +88,17 @@ namespace DefaultTheme {
             }
         }
         
-        public static byte[] pageFolder {
+        public static System.Drawing.Bitmap search {
             get {
-                object obj = ResourceManager.GetObject("pageFolder", resourceCulture);
-                return ((byte[])(obj));
+                object obj = ResourceManager.GetObject("search", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap settings {
+            get {
+                object obj = ResourceManager.GetObject("settings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -88,16 +109,9 @@ namespace DefaultTheme {
             }
         }
         
-        public static byte[] viewStrip {
+        public static byte[] WhiteTheme {
             get {
-                object obj = ResourceManager.GetObject("viewStrip", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        public static byte[] viewThumb {
-            get {
-                object obj = ResourceManager.GetObject("viewThumb", resourceCulture);
+                object obj = ResourceManager.GetObject("WhiteTheme", resourceCulture);
                 return ((byte[])(obj));
             }
         }

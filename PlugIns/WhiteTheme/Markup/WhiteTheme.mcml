@@ -8,15 +8,13 @@
       xmlns:me="Me"
       >
 
-  <Aggregate Source="resx://DefaultTheme/DefaultTheme.Resources/ctrlHeader"/>
-  <Aggregate Source="resx://DefaultTheme/DefaultTheme.Resources/ctrlFooter"/>
+  <Aggregate Source="resx://WhiteTheme/WhiteTheme.Resources/ctrlHeader"/>
+  <Aggregate Source="resx://WhiteTheme/WhiteTheme.Resources/ctrlFooter"/>
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlActionPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
 
-  <Aggregate Source="resx://DefaultTheme/DefaultTheme.Resources/viewList"/>
-  <Aggregate Source="resx://DefaultTheme/DefaultTheme.Resources/viewThumb"/>
-  <Aggregate Source="resx://DefaultTheme/DefaultTheme.Resources/viewStrip"/>
+  <Aggregate Source="resx://WhiteTheme/WhiteTheme.Resources/viewList"/>
 
   <UI Name="pageMain">
 
@@ -36,7 +34,6 @@
 
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
-      <models:Clock Name="Clock"/>
       
       <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" Command="[ActionSkipForward]"/>
       <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true" Command="[ActionSkipBack]" />
@@ -63,20 +60,18 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[BackgroundTimer.Tick]">
+      <!--<Changed Source="[BackgroundTimer.Tick]">
         <Actions>
           <Set Value="[FolderModel.Background]" Target="[EntityBackground.Content]"/>
         </Actions>
-      </Changed>
-
-      <Binding Source="[Clock.Time]" Target="[TimeDate.Content]" />
-      <Binding Source="[FolderModel.ShowClock]" Target="[TimeDate.Visible]" />
+      </Changed>-->
       
       <!-- these rules are all executed unconditionally -->
       <Rule>
         <Actions>
-          <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="AudioAnimated"/>
           <Invoke Target="[ViewPanel.NavigateInto]" />
+          <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="Color"/>
+          <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundColor2]" Value="White"/>
         </Actions>
       </Rule>
 
@@ -125,14 +120,14 @@
           <!-- POP UPS -->
           <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
           <me:ctrlActionPopup Name="ActionPopUp" Visible="true" Model="[ActionsModel]" />
-          
+
           <!-- FADER -->
           <Panel Visible="true">
             <LayoutInput>
               <FormLayoutInput Left="Parent,0" Top="Parent,.0" Right="Parent,1" Bottom="Parent,1"/>
             </LayoutInput>
             <Children>
-              <ColorFill Name="pageFader" Visible="false" Content="Black" Alpha="0.9" Navigation="ContainAll" MouseInteractive="true"/>
+              <ColorFill Name="pageFader" Visible="false" Content="White" Alpha="0.9" Navigation="ContainAll" MouseInteractive="true"/>
             </Children>
           </Panel>
 
@@ -144,21 +139,16 @@
           </Text>
 
           <!-- VIEWS -->
-          <Panel Name="ViewPanel">
+          <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" Name="ViewPanel">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.0" Top="Parent,.17" Bottom="Parent,0.76"  Right="Parent,1"/>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.1" Bottom="Parent,0.8"  Right="Parent,1"/>
             </LayoutInput>
-            <Children>
-              <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
-              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
-              <me:viewStrip Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
-            </Children>
-          </Panel>
+          </me:viewList>
 
           <!-- Page Header -->
           <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" FolderModel="[FolderModel]" ActionsModel="[ActionsModel]">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.15" Right="Parent,1"/>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.06" Right="Parent,1"/>
             </LayoutInput>
           </me:ctrlHeader>
 
@@ -181,14 +171,6 @@
                   </Animation>
                 </Animations>
               </Graphic>
-              <Panel>
-                <LayoutInput>
-                  <FormLayoutInput Right="Parent,0.89" Top="Parent,0.6"/>
-                </LayoutInput>
-                <Children>
-                  <Text Name="TimeDate" Content="" Color="White" Font="Segoe Media Center Light, 24" HorizontalAlignment="Far" Alpha="0.7" Margins="0,0,5,0"/>
-                </Children>
-              </Panel>
               <Panel Layout="HorizontalFlow" Margins="0,0,0,0">
                 <Children>
                   <Text Name="List_Counter" Content="0" Color="White" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
@@ -209,46 +191,26 @@
           <!-- FOOTER -->
           <Panel Layout="Form">
             <LayoutInput>
-              <FormLayoutInput Top="Parent,0.79" Left="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+              <FormLayoutInput Top="Parent,0.81" Left="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
             </LayoutInput>
             <Children>
               <me:ctrlFooter Name="Footer" Entity="[FolderModel.SelectedItem]">
-                  <LayoutInput>
-                    <FormLayoutInput Top="Parent,0.05" Left="Parent,0.165"/>
-                  </LayoutInput>
+                <LayoutInput>
+                  <FormLayoutInput Top="Parent,0.05" Left="Parent,0.165"/>
+                </LayoutInput>
               </me:ctrlFooter>
               <ColorFill Content="Black" Alpha="0.33" Layout="Fill" />
             </Children>
           </Panel>
 
-            <!-- Background -->
-          <Graphic Name="BGOverlay" Content="resx://MusicBrowser/MusicBrowser.Resources/defaultBackground" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" />
-          <Panel Visible="true">
+          <!-- Background -->
+          <Graphic Content="[FolderModel.Background]" Alpha="0.8">
             <LayoutInput>
               <FormLayoutInput Left="Parent,0" Top="Parent,.0" Right="Parent,1" Bottom="Parent,1"/>
             </LayoutInput>
-            <Children>
-              <ColorFill Visible="true" Content="Black" Alpha="0.3"/>
-            </Children>
-          </Panel>
-          
-          <Graphic Name="EntityBackground" Content="[FolderModel.Background]" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true">
-            <Animations>
-              <Animation Type="ContentChangeHide">
-                <Keyframes>
-                  <AlphaKeyframe Time="0.0" Value="1" />
-                  <AlphaKeyframe Time="3" Value="0" Interpolation="SCurve" />
-                </Keyframes>
-              </Animation>
-              <Animation Type="ContentChangeShow">
-                <Keyframes>
-                  <AlphaKeyframe Time="0.0" Value="0" />
-                  <AlphaKeyframe Time="3" Value="1" Interpolation="SCurve" />
-                </Keyframes>
-              </Animation>
-            </Animations>
           </Graphic>
-        </Children>
+        
+      </Children>
       </ColorFill>
       
     </Content>

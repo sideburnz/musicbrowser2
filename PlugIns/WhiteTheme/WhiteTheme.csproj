@@ -8,8 +8,8 @@
     <ProjectGuid>{BBBE0CD9-B3A3-4712-8BB5-7B27C8DC1205}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DefaultTheme</RootNamespace>
-    <AssemblyName>DefaultTheme</AssemblyName>
+    <RootNamespace>WhiteTheme</RootNamespace>
+    <AssemblyName>WhiteTheme</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -40,9 +40,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -68,19 +68,28 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Markup\pageFolder.mcml" />
+    <None Include="Markup\buttonIcon.mcml" />
+    <None Include="Markup\WhiteTheme.mcml" />
     <None Include="Markup\PageSections\ctrlFooter.mcml" />
     <None Include="Markup\PageSections\ctrlHeader.mcml" />
     <None Include="Markup\PageViews\viewList.mcml" />
-    <None Include="Markup\PageViews\viewStrip.mcml" />
-    <None Include="Markup\PageViews\viewThumb.mcml" />
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\action.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\settings.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"G:\Code\MusicBrowser2\PlugIns\WhiteTheme\Markup"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
