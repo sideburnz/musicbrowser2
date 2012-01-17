@@ -71,10 +71,13 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="Markup\buttonIcon.mcml" />
-    <None Include="Markup\WhiteTheme.mcml" />
-    <None Include="Markup\PageSections\ctrlFooter.mcml" />
+    <None Include="Markup\WhiteTheme.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Markup\PageSections\ctrlHeader.mcml" />
-    <None Include="Markup\PageViews\viewList.mcml" />
+    <None Include="Markup\PageViews\viewList.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -88,7 +91,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"G:\Code\MusicBrowser2\PlugIns\WhiteTheme\Markup"</PostBuildEvent>
+    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"G:\Code\MusicBrowser2\MusicBrowser2\bin\Debug" -directory:"G:\Code\MusicBrowser2\PlugIns\WhiteTheme\Markup"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

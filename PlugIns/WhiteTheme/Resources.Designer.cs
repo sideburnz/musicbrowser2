@@ -74,13 +74,6 @@ namespace WhiteTheme {
             }
         }
         
-        public static byte[] ctrlFooter {
-            get {
-                object obj = ResourceManager.GetObject("ctrlFooter", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
         public static byte[] ctrlHeader {
             get {
                 object obj = ResourceManager.GetObject("ctrlHeader", resourceCulture);

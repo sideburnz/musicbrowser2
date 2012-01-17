@@ -9,7 +9,6 @@
       >
 
   <Aggregate Source="resx://WhiteTheme/WhiteTheme.Resources/ctrlHeader"/>
-  <Aggregate Source="resx://WhiteTheme/WhiteTheme.Resources/ctrlFooter"/>
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlActionPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
@@ -34,14 +33,13 @@
 
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
+      <models:RatingUI Name="RatingIcons" />
       
       <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" Command="[ActionSkipForward]"/>
       <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true" Command="[ActionSkipBack]" />
       <ShortcutHandler Name="hStop" Shortcut="Stop" HandlerStage="Bubbled" Handle="true" Command="[ActionStop]" />
       <ShortcutHandler Name="hPlayPause" Shortcut="PlayPause" HandlerStage="Bubbled"  Handle="true" Command="[ActionPause]"/>
       <ShortcutHandler Name="hPause" Shortcut="Pause" HandlerStage="Bubbled" Handle="true" Command="[ActionPause]"/>
-
-      <Timer Name="BackgroundTimer" AutoRepeat="True" Interval="10000" Enabled="True" />
 
       <EditableText Name="editableText" />
       <TypingHandler Name="typingHandler" HandlerStage="Bubbled" TypingPolicy="TripleTap" />
@@ -59,12 +57,6 @@
           <Set Target="[FolderModel.KeyedValue]" Value="[editableText.Value]" />
         </Actions>
       </Changed>
-
-      <!--<Changed Source="[BackgroundTimer.Tick]">
-        <Actions>
-          <Set Value="[FolderModel.Background]" Target="[EntityBackground.Content]"/>
-        </Actions>
-      </Changed>-->
       
       <!-- these rules are all executed unconditionally -->
       <Rule>
@@ -72,6 +64,7 @@
           <Invoke Target="[ViewPanel.NavigateInto]" />
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundMode]" Value="Color"/>
           <Set Target="[AddInHost.MediaCenterEnvironment.BackgroundColor2]" Value="White"/>
+          <Set Target="[FolderModel.ParentEntity.ThumbSize]" Value="215"/>
         </Actions>
       </Rule>
 
@@ -81,14 +74,6 @@
           <MathTransformer Add="1" />
         </Transformer>
       </Binding>
-
-      <Changed Source="[FolderModel.SelectedIndex]">
-        <Actions>
-          <Set Target="[Footer.Entity]" Value="[FolderModel.SelectedItem]" />
-        </Actions>
-      </Changed>
-     
-      <Binding Source="[FolderModel.Busy]" Target="[imageSpinner.Visible]" />
 
       <Changed Source="[ActionsModel.Visible]">
         <Conditions>
@@ -111,6 +96,15 @@
       </Changed>
 
       <Binding Source="[ActionsModel.Visible]" Target="[ActionPopUp.Visible]" />
+
+      <Changed Source="[FolderModel.SelectedIndex]">
+        <Actions>
+          <Set Target="[RatingIcons.Rating]" Value="[FolderModel.SelectedItem.Rating]" />
+          <Set Target="[Title.Content]" Value="[FolderModel.SelectedItem.Title]" />
+        </Actions>
+      </Changed>
+
+      <Binding Target="[IconRepeater.Source]" Source="[RatingIcons.Stars]" />
     </Rules>
     
     <Content>
@@ -141,70 +135,58 @@
           <!-- VIEWS -->
           <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" Name="ViewPanel">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.0" Top="Parent,.1" Bottom="Parent,0.8"  Right="Parent,1"/>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.72" Bottom="Parent,1"  Right="Parent,1"/>
             </LayoutInput>
           </me:viewList>
 
           <!-- Page Header -->
           <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" FolderModel="[FolderModel]" ActionsModel="[ActionsModel]">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.06" Right="Parent,1"/>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.25" Right="Parent,1"/>
             </LayoutInput>
           </me:ctrlHeader>
 
-          <!-- POSITION INDICATOR -->
-          <Panel>
+          <ColorFill Content="Transparent" MaximumSize="320,225" MinimumSize="320,225" Layout="VerticalFlow" Padding="10,0,10,0">
             <LayoutInput>
-              <FormLayoutInput Right="Parent,.985" Bottom="Parent,.99" Horizontal="Far"/>
+              <FormLayoutInput Left="Parent,0" Bottom="Parent,.99" />
             </LayoutInput>
-            <Layout>
-              <FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
-            </Layout>
             <Children>
-              <Graphic Name="imageSpinner" Content="resx://MusicBrowser/MusicBrowser.Resources/imageSpinner" MinimumSize="30,30" MaximumSize="30,30" Visible="false">
-                <Animations>
-                  <Animation Name="RotateRound" CenterPointPercent="0.5,0.5,0.5" Loop="-1">
-                    <Keyframes>
-                      <RotateKeyframe Time="0.0" Value="0deg;0,0,0" Interpolation="Linear" RelativeTo="Current" />
-                      <RotateKeyframe Time="1.0" Value="360deg;0,0,0" RelativeTo="Current" />
-                    </Keyframes>
-                  </Animation>
-                </Animations>
-              </Graphic>
+              <Text Name="Title" Font="Segoe Media Center Light, 24" Color="White"/>
+                  <Repeater Name="IconRepeater" Navigation="ContainAll" Margins="10,10,0,0">
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+                    </Layout>
+                    <Content>
+                      <Graphic Content="[RepeatedItem!Image]" Margins="5,0,0,0" MaximumSize="25,25" MinimumSize="25,25" Alpha="0.8" />
+                    </Content>
+                  </Repeater>
               <Panel Layout="HorizontalFlow" Margins="0,0,0,0">
                 <Children>
-                  <Text Name="List_Counter" Content="0" Color="White" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
-                  <Text Name="List_Break" Content="|" Color="Gray" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
-                  <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
+                  <Text Name="List_Counter" Content="0" Color="Gray" Font="Segoe Media Center, 14, Bold" HorizontalAlignment="Far" />
+                  <Text Name="List_Break" Content="|" Color="Gray" Font="Segoe Media Center, 14, Bold" HorizontalAlignment="Far" />
+                  <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="Gray" Font="Segoe Media Center, 14" HorizontalAlignment="Far" Margins="0,0,5,0" />
                 </Children>
               </Panel>
             </Children>
-          </Panel>
+          </ColorFill>
 
-          <!-- Now Playing Pod -->
-          <me:NowPlayingElement>
+          <ColorFill Content="Transparent">
             <LayoutInput>
-              <FormLayoutInput Left="Parent,0" Bottom="Parent,1" />
-            </LayoutInput>
-          </me:NowPlayingElement>
-
-          <!-- FOOTER -->
-          <Panel Layout="Form">
-            <LayoutInput>
-              <FormLayoutInput Top="Parent,0.81" Left="Parent,0" Bottom="Parent,1" Right="Parent,1"/>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.64" Bottom="Parent,0.7"  Right="Parent,1"/>
             </LayoutInput>
             <Children>
-              <me:ctrlFooter Name="Footer" Entity="[FolderModel.SelectedItem]">
-                <LayoutInput>
-                  <FormLayoutInput Top="Parent,0.05" Left="Parent,0.165"/>
-                </LayoutInput>
-              </me:ctrlFooter>
-              <ColorFill Content="Black" Alpha="0.33" Layout="Fill" />
+              <Text Content="[FolderModel.ParentEntity.Title]" Font="Segoe Media Center Light, 32" Color="White" Margins="10,-10,0,0" />
             </Children>
-          </Panel>
+          </ColorFill>
+
+          <ColorFill Content="Black" Alpha="0.8">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.635" Bottom="Parent,1"  Right="Parent,1"/>
+            </LayoutInput>
+          </ColorFill>
 
           <!-- Background -->
-          <Graphic Content="[FolderModel.Background]" Alpha="0.8">
+          <Graphic Content="[FolderModel.Background]" Alpha="1">
             <LayoutInput>
               <FormLayoutInput Left="Parent,0" Top="Parent,.0" Right="Parent,1" Bottom="Parent,1"/>
             </LayoutInput>
