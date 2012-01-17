@@ -41,18 +41,9 @@
     </Rules>
 
     <Content>
-      <Panel Layout="Dock" Name="div_ListText" Visible="true" MouseInteractive="true">
-        <Layout>
-          <FlowLayout Orientation="Vertical"/>
-        </Layout>
-        <Children>
-          
-          <Scroller FocusOrder="0" Orientation="Horizontal" FadeSize="-10" Margins="25,0,0,0" Name="viewListScroller" ScrollingData="[scrollData]" >
-            <LayoutInput>
-              <DockLayoutInput Alignment="Fill"  Position="Client"  />
-            </LayoutInput>
+      <Scroller FocusOrder="0" Orientation="Horizontal" FadeSize="-10" Margins="330,-10,0,0" Name="viewListScroller" ScrollingData="[scrollData]" >
             <Children>
-              <Repeater Layout="Fill" Name="viewListRepeater" Navigation="RememberFocus">
+              <Repeater Name="viewListRepeater" Navigation="RememberFocus">
                 <Animations>
                   <Animation Type="Move">
                     <Keyframes>
@@ -65,29 +56,19 @@
                   <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
                 </Layout>
                 <Content>
-                  <me:buttonEntity Entity="[RepeatedItem!entities:baseEntity]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]"/>
+                  <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]"/>
                 </Content>
               </Repeater>
             </Children>
           </Scroller>
-          <me:ctrlScrollingText Name="Summary" Summary="" Font="Segoe Media Center Light, 22" />
-        </Children>
-      </Panel>
     </Content>
 
   </UI>
-  
-  <UI Name="buttonEntity">
 
+  <UI Name="ctrlThumb">
     <Properties>
       <entities:baseEntity Name="Entity" baseEntity="$Required" />
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
-
-      <Size Name="Size" Size="150,150" />
-      <Size Name="MinSize" Size="150,150" />
-      <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
-      <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
-
       <Index Name="Index" Index="$Required" />
     </Properties>
     <Locals>
@@ -107,53 +88,31 @@
       <Binding Target="[PlayHandler.Command]" Source="[PlayAction]" />
       <Binding Target="[PlayPauseHandler.Command]" Source="[PlayAction]" />
       <Binding Target="[Clicker.Command]" Source="[EnterAction]" />
-      
-      <Binding Source="[Entity.Thumb]" Target="[graphicBullet.Content]" />
-      <Binding Source="[Entity.Description]" Target="[Label.Content]" />
-      <Default Target="[Input.KeyInteractive]" Value="true" />
 
+      <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
-          <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
-          <Set Target="[Label.Alpha]" Value="1"/>
-          <Set Target="[FolderModel.SelectedIndex]" Value="[Index.Value]"/>
+          <Set Target="[FolderModel.SelectedIndex]" Value="[Index.SourceValue]"/>
+          <Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/border" />
         </Actions>
       </Condition>
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Equality ConditionOp="Equals" Source="[Input.KeyFocus]" Value="false" />
-          <Equality ConditionOp="Equals" Source="[Entity.Played]" Value="true" />
-        </Conditions>
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
         <Actions>
-          <Set Target="[Label.Alpha]" Value="0.25"/>
+          <Set Target="[Wrapper.Content]" Value="null" />
+          <Set Target="[Wrapper.Padding]" Value="0,0,0,0" />
         </Actions>
-      </Rule>
-      <Rule ConditionLogicalOp="And">
-        <Conditions>
-          <Equality ConditionOp="Equals" Source="[Input.KeyFocus]" Value="false" />
-          <Equality ConditionOp="Equals" Source="[Entity.Played]" Value="false" />
-        </Conditions>
-        <Actions>
-          <Set Target="[Label.Alpha]" Value="0.5"/>
-        </Actions>
-      </Rule>
+      </Condition>
+
+      <Binding Source="[Entity.Thumb]" Target="[Background.Content]" />
+      <Binding Source="[FolderModel.ReferenceSize]" Target="[Wrapper.MaximumSize]" />
+      <Binding Source="[FolderModel.ReferenceSize]" Target="[Wrapper.MinimumSize]" />
     </Rules>
-
     <Content>
-      <Panel Name="EntityButtonFace">
+      <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" Name="Wrapper" CenterPointPercent=".5,.5,.5" >
         <Children>
-          <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[MinSize]" MaximumSize="[MinSize]" Layout="HorizontalFlow">
-            <Children>
-              <Graphic Name="graphicBullet" Content="[Entity.Thumb]" Margins="5,5,0,5" MaximumSize="0,47" MinimumSize="0,47" MaintainAspectRatio="true" Visible="true" />
-              <Text Name="Label" Color="Black" MinimumSize="0,30" Margins="10,7,0,0" Visible="true" FadeSize="5" Font="Segoe Media Center Light, 20" HorizontalAlignment="Near" MaximumSize="[Size]" />
-            </Children>
-          </Graphic>
+          <Graphic Content="[Entity.Thumb]" Name="Background" Layout="Fill" Margins="3,3,3,3"/>
         </Children>
-      </Panel>
+      </Graphic>
     </Content>
-  </UI>
-
-  <Image Name="ButtonLeftFocus"         Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
-  <Image Name="ButtonNoFocus"           Source="resx://MusicBrowser/MusicBrowser.Resources/nullImage"           NineGrid="7,7,7,7" />
-  
+  </UI>  
 </Mcml>

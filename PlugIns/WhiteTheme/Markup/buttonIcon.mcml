@@ -5,43 +5,36 @@
     <Properties>
       <Image Name="Icon" Image="null"/>
       <ICommand Name="Command" ICommand="$Required"/>
-      <cor:String Name="Text" String="" />
-      <Inset Name="TextMargins" Inset="2,3,5,0"/>
     </Properties>
     
     <Locals>
       <ClickHandler Name="Clicker" Command="[Command]"/>
     </Locals>
     <Rules>
-      <Binding Source="[Text]" Target="[Label.Content]" />
       <Default Target="[Input.KeyInteractive]" Value="true" />
       <Condition Source="[Input.KeyFocus]"  SourceValue="true">
         <Actions>
           <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/IconBorder"/>
-          <Set Target="[Label.Alpha]" Value="1" />
         </Actions>
       </Condition>
       <Condition Source="[Input.KeyFocus]"  SourceValue="false">
         <Actions>
           <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
-          <Set Target="[Label.Alpha]" Value="0.5" />
         </Actions>
       </Condition>
     </Rules>
+    
     <Content>
-      <Panel>
-        <Layout>
-          <FlowLayout Orientation="Horizontal"/>
-        </Layout>
+      <ColorFill Content="White">
         <Children>
           <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/IconBorder" Name="ButtonBack" MinimumSize="35,35" MaximumSize="35,35" Margins="0,0,0,0">
             <Children>
-              <Graphic Content="[Icon]" Name="ButtonFace" MinimumSize="25,25" MaximumSize="25,25" Margins="5,5,5,5"/>
+              <Graphic Content="[Icon]" Name="ButtonFace" MinimumSize="25,25" MaximumSize="25,25" Margins="5,5,5,5" />
             </Children>
           </Graphic>
-          <Text Name="Label" Content="[Text]" Color="Black" Font="Segoe Media Center Bold, 18" Margins="[TextMargins]" />
         </Children>
-      </Panel>
+      </ColorFill>
     </Content>
+    
   </UI>
 </Mcml>
