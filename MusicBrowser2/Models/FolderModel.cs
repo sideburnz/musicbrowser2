@@ -114,6 +114,8 @@ namespace MusicBrowser.Models
             }
         }
 
+        public Microsoft.MediaCenter
+
         /// <summary>
         /// This is used to display the information in the page header
         /// </summary>

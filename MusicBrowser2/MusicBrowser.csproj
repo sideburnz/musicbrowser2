@@ -313,7 +313,9 @@
     <None Include="MediaCentre\Markup\Controls\Controls\ctrlCheckbox.mcml" />
     <None Include="MediaCentre\Markup\Controls\Controls\ctrlScrollingText.mcml" />
     <None Include="MediaCentre\Markup\Controls\Controls\ctrlTextBox.mcml" />
-    <None Include="MediaCentre\Markup\Controls\Controls\ctrlThumb.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Controls\ctrlThumb.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml">
       <SubType>Designer</SubType>
     </None>

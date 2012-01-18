@@ -4,11 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Data.SQLite;
 using System.IO;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Engines.Cache
 {
     static class SQLiteHelper
     {
+        private static bool LoadDLL = Loaded();
+
+        private static bool Is64Bit
+        {
+            get { return IntPtr.Size == 8; }
+        }
+
+        private static bool Loaded()
+        {
+            string dllfile = Path.Combine(Helper.PlugInFolder, String.Format("System.Data.SQLite.DLL"));
+            if (!File.Exists(dllfile))
+            {
+                string sourceFile = Path.Combine(Helper.PlugInFolder, String.Format("System.Data.SQLite.DLL.{0}", Is64Bit ? 64 : 32));
+                if (File.Exists(sourceFile))
+                {
+                    File.Copy(sourceFile, dllfile);
+                    System.Reflection.Assembly.LoadFile(dllfile);
+                }
+            }
+            return true;
+        }
 
         public static bool EstablishDatabase(string file, string createSQL)
         {

@@ -30,6 +30,7 @@ namespace MusicBrowser.Engines.Transport
             ExecuteCommand("Browse", file);
             if (!queue)
             {
+                System.Threading.Thread.Sleep(100);
                 ExecuteCommand("StartNext");
             }
         }
@@ -47,6 +48,7 @@ namespace MusicBrowser.Engines.Transport
             }
             if (!queue)
             {
+                System.Threading.Thread.Sleep(100);
                 ExecuteCommand("StartNext");
             }
         }
@@ -155,12 +157,12 @@ namespace MusicBrowser.Engines.Transport
 
         public void JumpForward()
         {
-            ExecuteCommand("SeekDelta", "10");
+            ExecuteCommand("SeekDelta", "20");
         }
 
         public void JumpBack()
         {
-            ExecuteCommand("SeekDelta", "-10");
+            ExecuteCommand("SeekDelta", "-20");
         }
     }
 }

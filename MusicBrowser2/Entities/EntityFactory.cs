@@ -152,6 +152,8 @@ namespace MusicBrowser.Entities
                         // ignore metadata folders
                         if (entity.Name.ToLower() == "metadata") { return null; }
 
+                        int movies = 0;
+
                         IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
                         foreach (FileSystemItem item in items)
                         {
@@ -190,8 +192,13 @@ namespace MusicBrowser.Entities
                                     return EntityKind.Season;
                                 case EntityKind.Season:
                                     return EntityKind.Show;
+                                case EntityKind.Movie:
+                                    if ((item.Attributes & FileAttributes.Directory) != FileAttributes.Directory) { movies++; }
+                                    break;
                             }
                         }
+
+                        if (movies > 0) { return EntityKind.Movie; }
                         return EntityKind.Folder;
                     }
                 case Helper.knownType.Track:
