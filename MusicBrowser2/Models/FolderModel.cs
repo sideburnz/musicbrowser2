@@ -185,7 +185,7 @@ namespace MusicBrowser.Models
                 case "showclock":
                     FirePropertyChanged("ShowClock");
                     break;
-                case "Views.IsHorizontal":
+                case "views.ishorizontal":
                     FirePropertyChanged("IsHorizontal");
                     break;
             }
