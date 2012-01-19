@@ -49,10 +49,10 @@ namespace MusicBrowser.Util
                 { "Extensions.Ignore", ".xml|.cue|.txt|.nfo" },
                 { "Extensions.Image", ".png|.jpg|.jpeg" },
  
-                { "Views.Thumbs.IsHorizontal", true.ToString() },
+                { "Views.IsHorizontal", true.ToString() },
                 { "Views.List.ShowSummary", true.ToString() },
                 { "Views.Strip.ShowSummary", true.ToString() },
-                { "Views.ThumbSize", "240" },
+                { "Views.ThumbSize", "160" },
 
                 { "Theme", "default" },
 

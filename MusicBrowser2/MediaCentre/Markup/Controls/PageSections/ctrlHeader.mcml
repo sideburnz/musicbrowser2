@@ -23,6 +23,8 @@
       <actions:ActionShowSettings Name="ShowSettings" />
       <actions:ActionCycleViews Name="CycleViews" Entity="[Entity]" />
 
+      <actions:ActionCycleOrientation Name="CycleOrientation" />
+
       <actions:ActionDecreaseThumbSize Name="BigThumb" Entity="[Entity]" />
       <actions:ActionIncreaseThumbSize Name="SmallThumb" Entity="[Entity]" />
     </Locals>
@@ -109,6 +111,7 @@
                   <me:buttonIcon Command="[BigThumb]" Name="bBigThumb" Text="[BigThumb.Label]" Icon="[BigThumb.Icon]" Margins="0,0,5,0" />
                   <me:buttonIcon Command="[SmallThumb]" Name="bSmallThumb" Text="[SmallThumb.Label]" Icon="[SmallThumb.Icon]" Margins="0,0,5,0" />
 
+                  <me:buttonIcon Command="[CycleOrientation]" Name="bActionCycleOrientation" Text="[CycleOrientation.Label]" Icon="[CycleOrientation.Icon]" Margins="0,0,5,0" />
                 </Children>
               </ColorFill>
 

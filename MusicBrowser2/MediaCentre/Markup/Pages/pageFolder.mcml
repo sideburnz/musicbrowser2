@@ -92,8 +92,14 @@
           <Set Target="[Footer.Entity]" Value="[FolderModel.SelectedItem]" />
         </Actions>
       </Changed>
-     
-      <Binding Source="[FolderModel.Busy]" Target="[imageSpinner.Visible]" />
+
+      <Changed Source="[FolderModel.IsHorizontal]">
+        <Actions>
+          <Invoke Target="[thumbs.ForceRefresh]" />
+        </Actions>
+      </Changed>
+
+        <Binding Source="[FolderModel.Busy]" Target="[imageSpinner.Visible]" />
 
       <Changed Source="[ActionsModel.Visible]">
         <Conditions>
@@ -150,7 +156,7 @@
             </LayoutInput>
             <Children>
               <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
-              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
+              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" Name="thumbs"/>
               <me:viewStrip Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
             </Children>
           </Panel>
