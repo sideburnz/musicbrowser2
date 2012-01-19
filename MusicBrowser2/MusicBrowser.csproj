@@ -166,6 +166,7 @@
     <Compile Include="Actions\ActionJumpForward.cs" />
     <Compile Include="Actions\ActionCleanCache.cs" />
     <Compile Include="Actions\ActionToggleWatched.cs" />
+    <Compile Include="Actions\ActionCycleOrientation.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\Extensions.cs" />
@@ -335,7 +336,9 @@
     <None Include="MediaCentre\Markup\Pages\pageSettings.mcml" />
     <None Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />
     <None Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml" />
-    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MusicBrowser.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -393,6 +396,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"C:\ProgramData\MusicBrowser\Themes"</PostBuildEvent>
+    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"G:\Code\MusicBrowser2\MusicBrowser2\MediaCentre\Markup"</PostBuildEvent>
   </PropertyGroup>
 </Project>

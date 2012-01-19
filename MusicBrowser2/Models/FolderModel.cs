@@ -30,6 +30,7 @@ namespace MusicBrowser.Models
             Busy = CommonTaskQueue.Busy;
 
             _parentEntity.OnPropertyChanged += new baseEntity.ChangedPropertyHandler(_parentEntity_OnPropertyChanged);
+            Config.OnSettingUpdate += new Config.SettingsChangedHandler(Config_OnSettingUpdate);
 
             int i = 0;
 
@@ -114,8 +115,6 @@ namespace MusicBrowser.Models
             }
         }
 
-        public Microsoft.MediaCenter
-
         /// <summary>
         /// This is used to display the information in the page header
         /// </summary>
@@ -179,9 +178,27 @@ namespace MusicBrowser.Models
             }
         }
 
+        void Config_OnSettingUpdate(string Key)
+        {
+            switch (Key.ToLower())
+            {
+                case "showclock":
+                    FirePropertyChanged("ShowClock");
+                    break;
+                case "Views.IsHorizontal":
+                    FirePropertyChanged("IsHorizontal");
+                    break;
+            }
+        }
+
         public static bool ShowClock
         {
             get { return Config.GetInstance().GetBooleanSetting("ShowClock"); }
+        }
+
+        public bool IsHorizontal
+        {
+            get { return Config.GetInstance().GetBooleanSetting("Views.IsHorizontal"); }
         }
 
         public bool Busy { get; set; }

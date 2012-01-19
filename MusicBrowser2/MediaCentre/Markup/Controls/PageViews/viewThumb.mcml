@@ -28,7 +28,11 @@
       <ScrollingData Name="scrollData" EndPadding="50" BeginPadding="50" PageStep="1" />
       <ScrollingHandler Name="scrollHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
 
-      <GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" Orientation="Vertical" AllowWrap="true" Spacing="3,3" MinorAlignment="Center" MajorAlignment="Center" />
+      <GridLayout Name="MyLayout" Repeat="WhenTooBig" RepeatGap="100" AllowWrap="true" Spacing="3,3" MinorAlignment="Center" MajorAlignment="Center" />
+
+      <FormLayoutInput Name="VerticalLayout" Bottom="Parent,0.99" Top="Parent,0.01" Left="Parent,0" Right="Parent,1" Horizontal="Center" Vertical="Fill"/>
+      <FormLayoutInput Name="HorizontalLayout" Bottom="Parent,0.99" Top="Parent,0.01" Left="Parent,0" Right="Parent,1" Horizontal="Fill" Vertical="Center"/>
+
     </Locals>
 
     <Rules> 
@@ -75,14 +79,38 @@
         </Actions>
       </Rule>
 
+      <Changed Source="[FolderModel.IsHorizontal]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.IsHorizontal]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[MyLayout.Repeat]" Value="WhenTooBig" />
+          <Set Target="[Scroller.Orientation]" Value="Horizontal" />
+          <Set Target="[MyLayout.Orientation]" Value="Vertical" />
+          <Set Target="[Scroller.LayoutInput]" Value="[HorizontalLayout]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FolderModel.IsHorizontal]" InitialEvaluate="true">
+        <Conditions>
+          <Equality Source="[FolderModel.IsHorizontal]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[MyLayout.Repeat]" Value="Never" />
+          <Set Target="[Scroller.Orientation]" Value="Vertical" />
+          <Set Target="[MyLayout.Orientation]" Value="Horizontal" />
+          <Set Target="[Scroller.LayoutInput]" Value="[VerticalLayout]" />
+        </Actions>
+      </Changed>
+      
     </Rules>
-    
+
     <Content>
       <ColorFill Content="Transparent" Layout="Form" Name="div_ListThumb" Visible="false">
-        <Children> 
-          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100" Navigation="ContainHorizontal">
+        <Children>
+          <Scroller Name="Scroller" ScrollingData="[scrollData]" FadeSize="100" Navigation="ContainHorizontal">
             <LayoutInput>
-              <FormLayoutInput Bottom="Parent,0.99" Top="Parent,0.01" Left="Parent,0" Right="Parent,1" Horizontal="Fill" Vertical="Center"/>
+              <FormLayoutInput Name="Layout" Bottom="Parent,0.99" Top="Parent,0.01" Left="Parent,0" Right="Parent,1" Horizontal="Center" Vertical="Center"/>
             </LayoutInput>
             <Children>
               <Repeater Name="viewThumbRepeater" ContentName="Thumb" Visible="true" Layout="[MyLayout]">
@@ -99,7 +127,7 @@
     <Content Name="Thumb">
       <me:ctrlThumb Entity="[RepeatedItem!entities:baseEntity]" Application="[Application]" FolderModel="[FolderModel]" Index="[RepeatedItemIndex]" />
     </Content>
-
+    
   </UI>
 
 </Mcml>
