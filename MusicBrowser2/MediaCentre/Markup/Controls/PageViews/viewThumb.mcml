@@ -36,7 +36,7 @@
     </Locals>
 
     <Rules> 
-      <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
+      
       <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
       <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
 
@@ -66,6 +66,7 @@
       
       <Rule>
         <Actions>
+          <Set Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/>
           <Invoke Target="[viewThumbRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" InvokePolicy="Synchronous" />
         </Actions>
       </Rule>
