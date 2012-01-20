@@ -11,6 +11,8 @@ namespace MusicBrowser.Util
         private readonly XmlDocument _xml;
         private readonly string[,] _defaults = { 
 
+                { "LastRunVersion", "0.0.0.0" },
+
                 { "EnableFanArt", true.ToString() },
                 { "UseFolderImageForTracks", true.ToString() },
                 { "ShowClock", true.ToString() },

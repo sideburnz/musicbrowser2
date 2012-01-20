@@ -104,8 +104,8 @@
                 </LayoutInput>
                 <Children>
                   <me:buttonIcon Command="[ShowSettings]" Name="SettingsMenu" Text="" Icon="[ShowSettings.Icon]" Margins="0,0,5,0" Visible="false" />
-                  <me:buttonIcon Command="[ShowActions]" Name="ActionsMenu" Text="Actions" Icon="[ShowActions.Icon]" Margins="0,0,5,0" />
-                  <me:buttonIcon Command="[ShowSearch]" Name="Search" Text="[ShowSearch.Label]" Icon="[ShowSearch.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[ShowActions]" Name="ActionsMenu" Text="" Icon="[ShowActions.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[ShowSearch]" Name="Search" Text="" Icon="[ShowSearch.Icon]" Margins="0,0,5,0" />
                   <me:buttonIcon Command="[CycleViews]" Name="ViewMenu" Text="[FolderModel.ParentEntity.View]" Icon="[CycleViews.Icon]" Margins="0,0,5,0" />
 
                   <me:buttonIcon Command="[BigThumb]" Name="bBigThumb" Text="[BigThumb.Label]" Icon="[BigThumb.Icon]" Margins="0,0,5,0" />

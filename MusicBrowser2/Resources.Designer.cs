@@ -62,27 +62,29 @@ namespace MusicBrowser {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;ActionConfig&gt;
-        ///	&lt;Entity name=&quot;Album&quot;&gt;
-        ///		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
-        ///		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
+        ///
+        ///	&lt;Entity name=&quot;baseEntity&quot;&gt;
+        ///		&lt;OnStar&gt;ShowActions&lt;/OnStar&gt;
         ///		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
+        ///	&lt;/Entity&gt;
+        ///
+        ///	&lt;Entity name=&quot;Item&quot;&gt;
+        ///		&lt;OnEnter&gt;ShowActions&lt;/OnEnter&gt;
+        ///		&lt;OnPlay&gt;Play&lt;/OnPlay&gt;
         ///		&lt;MenuItems&gt;
         ///			&lt;Item&gt;Play&lt;/Item&gt;
-        ///			&lt;Item&gt;Queue&lt;/Item&gt;
         ///			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
         ///		&lt;/MenuItems&gt;
         ///	&lt;/Entity&gt;
-        ///	&lt;Entity name=&quot;Artist&quot;&gt;
+        ///
+        ///	&lt;Entity name=&quot;Container&quot;&gt;
         ///		&lt;OnEnter&gt;Open&lt;/OnEnter&gt;
         ///		&lt;OnPlay&gt;ShowActions&lt;/OnPlay&gt;
-        ///		&lt;OnRecord&gt;RefreshMetadata&lt;/OnRecord&gt;
         ///		&lt;MenuItems&gt;
         ///			&lt;Item&gt;Play&lt;/Item&gt;
-        ///			&lt;Item&gt;Queue&lt;/Item&gt;
-        ///			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
-        ///		&lt;/MenuItems&gt;
-        ///	&lt;/Entity&gt;
-        ///	&lt;Entit [rest of string was truncated]&quot;;.
+        ///			&lt;Item&gt;Shuffle&lt;/Item&gt;
+        ///			&lt;Item&gt;Open&lt;/Item&gt;
+        ///			&lt;Item&gt;RefreshMetadata&lt;/ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ActionConfig {
             get {
