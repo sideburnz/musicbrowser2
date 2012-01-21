@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using MusicBrowser.Util;
 using System.IO;
+using MusicBrowser.Providers.FolderItems;
 
-namespace MusicBrowser.MediaCentre
+namespace MusicBrowser
 {
-    class FirstRun
+    static class FirstRun
     {
 
-        static void Initialize()
+        public static void Initialize()
         {
             switch(Config.GetInstance().GetStringSetting("LastRunVersion"))
             {
@@ -22,22 +23,35 @@ namespace MusicBrowser.MediaCentre
 
         private static void LastVersion0000()
         {
-            try
-            {
                 // delete actions.config
-                string actionsFile = Path.Combine(Util.Helper.AppFolder, "actions.config"));
+                string actionsFile = Path.Combine(Util.Helper.AppFolder, "actions.config");
                 if (File.Exists(actionsFile))
                 {
                     File.Delete(actionsFile);
                 }
 
-                // delete musicbrowser.config
-                // move musiclibrary to the Collections folder
-                // delete the filesystem cache from the dsic
+                // move the old library file, otherwise create one
+                string libraryfile = Path.Combine(Util.Helper.AppFolder, "MusicLibrary.vf");
+                string collectionfile = Path.Combine(Util.Helper.AppFolder, @"Collections\Music.vf");
+                if (File.Exists(libraryfile) && !File.Exists(collectionfile))
+                {
+                    string targettype = VirtualFolderProvider.GetTargetType(libraryfile);
+                    if (string.IsNullOrEmpty(targettype))
+                    {
+                        targettype = "music";
+                    }
+
+                    VirtualFolderProvider.WriteVF(collectionfile,
+                        VirtualFolderProvider.GetFolders(libraryfile),
+                        VirtualFolderProvider.GetLibraries(libraryfile),
+                        VirtualFolderProvider.GetImage(libraryfile),
+                        targettype,
+                        VirtualFolderProvider.GetSortOrder(libraryfile));
+
+                    File.Delete(libraryfile);
+                }               
 
                 Config.GetInstance().SetSetting("LastRunVersion", Application.Version);
-            }
-            catch {}
         }
 
     }

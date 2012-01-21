@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MusicBrowser.Models;
 
 namespace MusicBrowser.Engines.Themes
 {
@@ -12,12 +13,25 @@ namespace MusicBrowser.Engines.Themes
         FooPlaying
     }
 
-    public static class Theme
+    public class Theme
     {
         private static string _mainscreen = "resx://MusicBrowser/MusicBrowser.Resources/pageFolder";
         private static string _searchscreen = "resx://MusicBrowser/MusicBrowser.Resources/pageSearch";
         private static string _fooplaying = "resx://MusicBrowser/MusicBrowser.Resources/pageFooBar2000";
         private static List<string> _availableViews = new List<string>() { "list", "thumb", "strip" };
+        private static List<string> _themes = new List<string>() { "Default" };
+
+        public Theme() { }
+
+        public static void AddTheme(string themeName)
+        {
+            _themes.Add(themeName);
+        }
+
+        public static List<string> Themes
+        {
+            get { return _themes; }
+        }
 
         public static void SetScreen(ThemeScreens screen, string theme, string URL)
         {

@@ -1,0 +1,22 @@
+Key: 5jqzgtvn8nvkvta54bu8698f
+
+Application:MusicBrowser 2 Key: 5jqzgtvn8nvkvta54bu8698f Status: active Registered: 2 seconds ago
+Key Rate Limits
+2	Calls per second
+1,500	Calls per day
+
+
+
+Parameter	Value	Description
+id	string(optional)	Chart spec(format) id - this can be retrieved by spec service
+sdate	string(optional)	Chart issue date range start
+edate	string(optional)	Chart issue date range end
+artist	string(optional)	Artist name to search
+song	string(optional)	Song name to search
+
+
+returns peak position for a song
+http://api.billboard.com/apisvc/chart/v1/list?sdate=1900-01-01&edate=2011-12-13&artist=nirvana&id=379&song=smells like teen spirit&api_key=5jqzgtvn8nvkvta54bu8698f
+
+returns peak position for an album
+http://api.billboard.com/apisvc/chart/v1/list?sdate=1900-01-01&edate=2011-12-13&artist=nirvana&id=305&song=nevermind&api_key=5jqzgtvn8nvkvta54bu8698f

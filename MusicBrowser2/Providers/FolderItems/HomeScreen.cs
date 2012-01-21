@@ -44,7 +44,7 @@ namespace MusicBrowser.Providers.FolderItems
             if (entity == null)
             {
                 string targetType = VirtualFolderProvider.GetTargetType(vf.FullPath);
-                switch (targetType)
+                switch (targetType.ToLower())
                 {
                     case "music":
                         entity = new MusicCollection(); break;

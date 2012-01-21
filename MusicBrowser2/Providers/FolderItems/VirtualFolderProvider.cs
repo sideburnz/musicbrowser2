@@ -12,7 +12,9 @@ using System.IO;
 //image: C:\Program Files (x86)\MediaBrowser\MediaBrowser\Application.png
 //folder: \\192.168.1.10\Media\Videos\TV
 //folder: G:\RIPPED
+//library: music
 //sortorder: 000
+//optimizefor: Music
 
 namespace MusicBrowser.Providers.FolderItems
 {
@@ -46,7 +48,7 @@ namespace MusicBrowser.Providers.FolderItems
 
                 if (line.StartsWith("folder:"))
                 {
-                    string thisPath = line.Substring(8).Trim();
+                    string thisPath = line.Substring(7).Trim();
                     if (Directory.Exists(thisPath))
                     {
                         foreach (FileSystemItem p in FileSystemProvider.GetFolderContents(thisPath))
@@ -118,7 +120,43 @@ namespace MusicBrowser.Providers.FolderItems
                     return line.Substring(12).Trim();
                 }
             }
-            return null;
+            return string.Empty;
+        }
+
+        public static IEnumerable<string> GetFolders(string uri)
+        {
+            if (Path.GetExtension(uri) != ".vf")
+            {
+                uri += ".vf";
+            }
+            List<string> ret = new List<string>();
+            foreach (string line in GetFileContents(uri))
+            {
+                if (line.Length < 9) { continue; }
+                if (line.StartsWith("folder:"))
+                {
+                    ret.Add(line.Substring(7).Trim());
+                }
+            }
+            return ret;
+        }
+
+        public static IEnumerable<string> GetLibraries(string uri)
+        {
+            if (Path.GetExtension(uri) != ".vf")
+            {
+                uri += ".vf";
+            }
+            List<string> ret = new List<string>();
+            foreach (string line in GetFileContents(uri))
+            {
+                if (line.Length < 9) { continue; }
+                if (line.StartsWith("library:"))
+                {
+                    ret.Add(line.Substring(8).Trim());
+                }
+            }
+            return ret;
         }
 
         public static string GetSortOrder(string uri)
@@ -152,12 +190,28 @@ namespace MusicBrowser.Providers.FolderItems
             return rval;
         }
 
-        public static void WriteVF(string vfPath, IEnumerable<string> paths)
+        public static void WriteVF(string vfPath, IEnumerable<string> paths, IEnumerable<string> libraries, string image, string optimizefor, string sortorder)
         {
             StreamWriter fs = File.CreateText(vfPath);
+            if (!string.IsNullOrEmpty(image))
+            {
+                fs.WriteLine("image: " + image);
+            }
             foreach (string path in paths)
             {
                 fs.WriteLine("folder: " + path);
+            }
+            foreach (string library in libraries)
+            {
+                fs.WriteLine("library: " + library);
+            }
+            if (!string.IsNullOrEmpty(optimizefor))
+            {
+                fs.WriteLine("optimizefor: " + optimizefor);
+            }
+            if (!string.IsNullOrEmpty(sortorder))
+            {
+                fs.WriteLine("sortorder: " + sortorder);
             }
             fs.Flush();
             fs.Close();

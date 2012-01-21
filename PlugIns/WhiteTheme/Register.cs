@@ -15,6 +15,7 @@ namespace MusicBrowser.Engines.PlugIns
         {
             Theme.SetScreen(ThemeScreens.Main, ThemeName, "resx://WhiteTheme/WhiteTheme.Resources/WhiteTheme");
             Theme.Views = new List<string>() { "list" };
+            Theme.AddTheme("White");
         }
     }
 }
