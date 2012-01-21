@@ -167,6 +167,7 @@
     <Compile Include="Actions\ActionCleanCache.cs" />
     <Compile Include="Actions\ActionToggleWatched.cs" />
     <Compile Include="Actions\ActionCycleOrientation.cs" />
+    <Compile Include="Actions\ActionSetOptionList.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\Extensions.cs" />
@@ -176,7 +177,9 @@
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
     <Compile Include="Engines\Cache\SQLiteHelper.cs" />
     <Compile Include="Engines\Logging\ILoggingEngine.cs" />
+    <Compile Include="Engines\Metadata\baseMetadataProvider.cs" />
     <Compile Include="Engines\Metadata\IProvider.cs" />
+    <Compile Include="Engines\Metadata\MetadataProviderList.cs" />
     <Compile Include="Engines\Metadata\Providers.cs" />
     <Compile Include="Engines\PlugIns\IPlugIn.cs" />
     <Compile Include="Engines\PlugIns\LoadPlugIns.cs" />

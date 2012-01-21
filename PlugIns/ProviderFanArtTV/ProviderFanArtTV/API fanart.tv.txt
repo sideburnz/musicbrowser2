@@ -1,0 +1,91 @@
+
+http://fanart.tv/api/music.php?id=musicbrainz-id
+
+http://fanart.tv/api/music.php?id=f181961b-20f7-459e-89de-920ef03c7ed0
+
+<music id="f181961b-20f7-459e-89de-920ef03c7ed0" name="The Strokes">
+<backgrounds>
+<background>
+http://fanart.tv/music/f181961b-20f7-459e-89de-920ef03c7ed0/artistbackground/the-strokes-4df60f6c3a799.jpg
+</background>
+</backgrounds>
+<clearlogos>
+<clearlogo>
+http://fanart.tv/music/f181961b-20f7-459e-89de-920ef03c7ed0/musiclogo/the-strokes-4df5d9ed4bbed.png
+</clearlogo>
+</clearlogos>
+<albums>
+<album id="1e9db573-5671-301f-87fc-846a605fe35b">
+<cover>
+http://fanart.tv/music/f181961b-20f7-459e-89de-920ef03c7ed0/albumcover/room-on-fire-4ee335ee99275.jpg
+</cover>
+</album>
+<album id="efea26d1-a016-30f6-b8e2-bc8c02336b0a">
+<cdart disc="1" size="1000">
+http://fanart.tv/music/f181961b-20f7-459e-89de-920ef03c7ed0/cdart/is-this-it-4de4c2f07e9f2.png
+</cdart>
+<cover>
+http://fanart.tv/music/f181961b-20f7-459e-89de-920ef03c7ed0/albumcover/is-this-it-4ee335eeaabb4.jpg
+</cover>
+</album>
+<album id="5ef51a9b-55eb-3400-99a8-47b892e11df7">
+<cover>
+http://fanart.tv/music/f181961b-20f7-459e-89de-920ef03c7ed0/albumcover/first-impressions-of-earth-4e3d45a3345ec.jpg
+</cover>
+</album>
+<album id="82534223-127b-489c-9e52-45091d425208">
+<cover>
+http://fanart.tv/music/f181961b-20f7-459e-89de-920ef03c7ed0/albumcover/angles-4ee335eea888c.jpg
+</cover>
+</album>
+</albums>
+</music>
+
+
+
+
+
+http://fanart.tv/api/fanart.php?id=<thetvdb_id>[&type=type][&sort=sortby][&v=version]
+http://fanart.tv/api/fanart.php?id=75978
+
+
+<fanart show="Family Guy">
+<clearlogos>
+<clearlogo url="http://fanart.tv/fanart/75978/clearlogo/FamilyGuy-75978.png"/>
+<clearlogo url="http://fanart.tv/fanart/75978/clearlogo/FamilyGuy-75978-2.png"/>
+</clearlogos>
+<cleararts>
+<clearart url="http://fanart.tv/fanart/75978/clearart/F_75978.png"/>
+<clearart url="http://fanart.tv/fanart/75978/clearart/F_75978 (3).png"/>
+<clearart url="http://fanart.tv/fanart/75978/clearart/F_75978 (2).png"/>
+<clearart url="http://fanart.tv/fanart/75978/clearart/FamilyGuy-75978-6.png"/>
+<clearart url="http://fanart.tv/fanart/75978/clearart/FamilyGuy-75978-5.png"/>
+<clearart url="http://fanart.tv/fanart/75978/clearart/FamilyGuy-75978-4.png"/>
+</cleararts>
+<tvthumbs>
+<tvthumb url="http://fanart.tv/fanart/75978/tvthumb/F_75978.jpg"/>
+<tvthumb url="http://fanart.tv/fanart/75978/tvthumb/F_75978 (2).jpg"/>
+<tvthumb url="http://fanart.tv/fanart/75978/tvthumb/F_75978 (0).jpg"/>
+</tvthumbs>
+<seasonthumbs>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/F_75978.jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/F_75978 (4).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/F_75978 (3).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/F_75978 (2).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/family-guy-4ea5e19164e56.jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy.jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (9).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (8).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (7).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (6).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (5).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (4).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (3).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (2).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (14).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (13).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (12).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (11).jpg"/>
+<seasonthumb url="http://fanart.tv/fanart/75978/seasonthumb/Family Guy (10).jpg"/>
+</seasonthumbs>
+</fanart>

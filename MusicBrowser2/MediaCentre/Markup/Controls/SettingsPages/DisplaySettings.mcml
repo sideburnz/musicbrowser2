@@ -2,6 +2,8 @@
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:me="Me"
       xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:theme="assembly://MusicBrowser/MusicBrowser.Engines.Themes"
+      xmlns:jil="assembly://MusicBrowser/MusicBrowser.Models.Keyboard" 
       xmlns:cor="assembly://MSCorLib/System">
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonImage"/>
@@ -9,13 +11,20 @@
 
   <UI Name="DisplaySettings">
 
+    <Properties>
+      <theme:Theme Name="theme" />
+      <jil:KeyboardHandlerFactory Name="jil" />
+    </Properties>
+    
     <Locals>
       <actions:ActionSetBooleanSetting Name="CmdShowFanArt" Key="EnableFanArt" />
       <actions:ActionSetBooleanSetting Name="CmdUpdateShowClock" Key="ShowClock" />
 
       <actions:ActionSetBooleanSetting Name="CmdStripShowSummary" Key="Views.Strip.ShowSummary" />
       <actions:ActionSetBooleanSetting Name="CmdListShowSummary" Key="Views.List.ShowSummary" />
-      <actions:ActionSetBooleanSetting Name="CmdHorizontalThumbs" Key="Views.Thumbs.IsHorizontal" />
+
+      <actions:ActionSetOptionList Name="CmdTheme" Key="Theme" Options="[theme.Themes]" />
+      <actions:ActionSetOptionList Name="CmdJIL" Key="KeyboardAction" Options="[jil.Actions]" />
     </Locals>
 
     <Content>
@@ -28,12 +37,80 @@
           <Text Content="View Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Show summary on the List view" Action="[CmdListShowSummary]" />
           <me:ctrlCheckbox Label="Show summary on the Strip view" Action="[CmdStripShowSummary]" />
-          <me:ctrlCheckbox Label="Scroll Thumb view across the page" Action="[CmdHorizontalThumbs]" />
-          
+
+          <me:ctrlListSpinner Label="Theme (requires restart)" Action="[CmdTheme]" />
+          <me:ctrlListSpinner Label="Typing action" Action="[CmdJIL]" />
         </Children>
       </ColorFill>
     </Content>
 
+  </UI>
+
+  <UI Name="ctrlListSpinner">
+
+    <Properties>
+      <actions:ActionSetOptionList Name="Action" ActionSetOptionList="$Required" />
+      <cor:String Name="Label" String="$Required" />
+    </Properties>
+
+    <Locals>
+      <Command Name="CmdIncrement" />
+      <Command Name="CmdDecrement" />
+
+      <Command Name="OnFocus" />
+      <Command Name="LostFocus" />
+    </Locals>
+
+    <Rules>
+      <Binding Target="[txtValue.Content]" Source="[Action.SelectedItem]" />
+      <Changed Source="[CmdIncrement.Invoked]">
+        <Actions>
+          <Invoke Target="[Action.Increment]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdDecrement.Invoked]">
+        <Actions>
+          <Invoke Target="[Action.Decrement]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[OnFocus.Invoked]">
+        <Actions>
+          <Set Target="[thisControl.Alpha]" Value="1"/>
+          <Set Target="[Underline.Alpha]" Value="0.5" />
+        </Actions>
+      </Changed>
+      <Changed Source="[LostFocus.Invoked]">
+        <Actions>
+          <Set Target="[thisControl.Alpha]" Value="0.5"/>
+          <Set Target="[Underline.Alpha]" Value="0" />
+        </Actions>
+      </Changed>
+    </Rules>
+
+    <Content>
+
+      <Panel Name="thisControl">
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+        </Layout>
+        <Children>
+          <ColorFill Content="Transparent" Layout="Anchor">
+            <Children>
+              <Text Name="txtLabel" Content="[Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,15,10" />
+              <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" Alpha="0" Margins="5,0,0,0">
+                <LayoutInput>
+                  <AnchorLayoutInput Left="txtLabel,0" Right="txtLabel,1,-12" Bottom="txtLabel,1,-8"/>
+                </LayoutInput>
+              </Graphic>
+            </Children>
+          </ColorFill>
+          <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconMinus" Command="[CmdDecrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
+          <Text Name="txtValue" Content="[Action.SelectedItem]" Color="White" Font="Segoe Media Center, 22" Margins="5,3,5,10" />
+          <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlus" Command="[CmdIncrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
+        </Children>
+      </Panel>
+    </Content>
   </UI>
 
   <UI Name="ctrlSpinner">

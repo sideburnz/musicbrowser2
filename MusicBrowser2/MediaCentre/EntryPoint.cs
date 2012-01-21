@@ -46,10 +46,13 @@ namespace MusicBrowser
 
             MusicBrowser.Engines.PlugIns.LoadPlugIns.Execute();
 
+            FirstRun.Initialize();
+
             // Go to the initial screen
             baseEntity firstScreen = new Home();
             firstScreen.Path = "home";
             app.Navigate(firstScreen);
+
         }     
     } 
 } 

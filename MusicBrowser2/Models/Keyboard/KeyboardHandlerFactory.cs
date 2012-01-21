@@ -5,8 +5,16 @@ using System.Text;
 
 namespace MusicBrowser.Models.Keyboard
 {
-    static class KeyboardHandlerFactory
+    public class KeyboardHandlerFactory
     {
+        public static List<string> Actions
+        {
+            get
+            {
+                return new List<string>() { "Jump", "Search", "Filter" };
+            }
+        }
+
         public static IKeyboardHandler GetHandler()
         {
             switch (Util.Config.GetInstance().GetStringSetting("KeyboardAction").ToLower())
