@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MusicBrowser.Engines.Logging;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.Engines.Metadata;
 using MusicBrowser.Entities;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers.Background;
@@ -55,7 +56,7 @@ namespace MusicBrowser.Providers
                     baseEntity entity = EntityFactory.GetItem(item);
                     if (entity == null) { continue; }
                     // fire off the metadata providers
-                    //CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
+                    CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
                     entity.UpdateCache();
                 }
                 catch (Exception e)

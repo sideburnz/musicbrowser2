@@ -150,6 +150,24 @@ namespace MusicBrowser.Util
             }
         }
 
+        static string _componentFolder;
+        public static string ComponentFolder
+        {
+            get
+            {
+                if (_componentFolder == null)
+                {
+                    var e = Path.Combine(AppFolder, "Components");
+                    if (!Directory.Exists(e))
+                    {
+                        Directory.CreateDirectory(e);
+                    }
+                    _componentFolder = e;
+                }
+                return _componentFolder;
+            }
+        }
+
         #endregion
 
         #region file identifiers

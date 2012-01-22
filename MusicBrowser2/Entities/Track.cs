@@ -167,6 +167,65 @@ namespace MusicBrowser.Entities
         }
         private IEnumerable<string> _genres;
 
+
+
+        [DataMember]
+        public string SampleRate
+        {
+            get { return _samplerate; }
+            set
+            {
+                if (value != _samplerate)
+                {
+                    _samplerate = value;
+                    DataChanged("SampleRate");
+                }
+            }
+        }
+        private string _samplerate;
+        [DataMember]
+        public string Channels
+        {
+            get { return _channels; }
+            set
+            {
+                if (value != _channels)
+                {
+                    _channels = value;
+                    DataChanged("Channels");
+                }
+            }
+        }
+        private string _channels;
+        [DataMember]
+        public string Resolution
+        {
+            get { return _resolution; }
+            set
+            {
+                if (value != _resolution)
+                {
+                    _resolution = value;
+                    DataChanged("Resolution");
+                }
+            }
+        }
+        private string _resolution;
+
+
+
+        public override string Information
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(Artist))
+                {
+                    return TokenSubstitution("[artist]  ([duration])");
+                }
+                return base.Information;
+            }
+        }
+
         public override string TokenSubstitution(string input)
         {
             string output = input;

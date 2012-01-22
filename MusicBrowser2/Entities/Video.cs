@@ -11,7 +11,7 @@ using System.Linq;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    abstract class Video : Item
+    public abstract class Video : Item
     {
         public override void Play(bool queue, bool shuffle)
         {
