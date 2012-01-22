@@ -18,6 +18,7 @@ namespace MusicBrowser.Models
         private string _searchScope;
         private readonly EditableText _remoteFilter = new EditableText();
         private readonly ICacheEngine _engine = CacheEngineFactory.GetEngine();
+        private Dictionary<string, int> _hitsByType = new Dictionary<string, int>();
 
         public SearchModel(string initialSearchString)
         {            
@@ -70,9 +71,11 @@ namespace MusicBrowser.Models
                     {
                         dataset.Add(_engine.Fetch(item));
                     }
+                    _hitsByType = _engine.HitsByType(_remoteFilter.Value);
                     return new EntityVirtualList(dataset, "[Title:sort]");
                 }
 
+                _hitsByType = _engine.HitsByType(String.Empty);
                 return new EntityVirtualList(new EntityCollection(), string.Empty);
             }
         }
@@ -80,7 +83,6 @@ namespace MusicBrowser.Models
         void RemoteFilterPropertyChanged(IPropertyObject sender, string property)
         {
             FirePropertyChanged("ResultSet");
-            FirePropertyChanged("MatchedArtists");
         }
 
         public EditableText KeyboardHandler
@@ -120,10 +122,9 @@ namespace MusicBrowser.Models
 
         private string FormatLabel(string type)
         {
-            int hits = _engine.Search(type, _remoteFilter.Value).Count();
-            if (hits > 0)
+            if (_hitsByType.ContainsKey(type))
             {
-                return String.Format("{0}s ({1})", type, hits);
+               return String.Format("{0}s ({1})", type, _hitsByType[type]);
             }
             return String.Empty;
         }

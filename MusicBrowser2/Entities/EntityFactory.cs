@@ -70,10 +70,11 @@ namespace MusicBrowser.Entities
             }
             #endregion
 
-
             // don't waste time trying to determine a known not entity
             if (Util.Helper.getKnownType(item) == Helper.knownType.Other) { return null; }
             if (item.Name.ToLower() == "metadata") { return null; }
+
+            Engines.Logging.LoggerEngineFactory.Debug("Manufacturing " + item.FullPath);
 
             Statistics.Hit("factory.hit");
 
