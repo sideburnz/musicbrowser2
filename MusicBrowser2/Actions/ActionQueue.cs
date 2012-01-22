@@ -16,7 +16,7 @@ namespace MusicBrowser.Actions
 
         public ActionQueue(baseEntity entity)
         {
-            Label = LABEL;
+            Label = LABEL + " " + entity.Kind;
             IconPath = ICON_PATH;
             Entity = entity;
             Available = !Util.Helper.InheritsFrom<Video>(entity); // videos can be queued

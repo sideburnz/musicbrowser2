@@ -20,10 +20,10 @@ namespace MusicBrowser.Engines.Cache
             return null;
         }
 
-        public void Update(baseEntity entity) 
+        public void Update(baseEntity entity)
         { }
 
-        public bool Exists(string key) 
+        public bool Exists(string key)
         {
             return false;
         }
@@ -37,6 +37,11 @@ namespace MusicBrowser.Engines.Cache
         public IEnumerable<string> Search(string kind, string predicate)
         {
             return new List<string>();
+        }
+
+        public Dictionary<string, int> HitsByType(string criteria)
+        {
+            return new Dictionary<string, int>();
         }
     }
 }

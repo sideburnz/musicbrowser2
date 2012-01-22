@@ -17,6 +17,7 @@ namespace MusicBrowser.Engines.Cache
         void Compress();
         void Clear();
 
-        IEnumerable<string> Search(string kind, string predicate);
+        IEnumerable<string> Search(string kind, string criteria);
+        Dictionary<string, int> HitsByType(string criteria);
     }
 }

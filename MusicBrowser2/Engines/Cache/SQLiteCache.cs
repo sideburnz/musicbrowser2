@@ -18,9 +18,10 @@ namespace MusicBrowser.Engines.Cache
         private const string SQL_SELECT = "SELECT [kind], [value] FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_EXISTS = "SELECT COUNT([key]) FROM [t_Cache] WHERE [key]=@1";
         private const string SQL_CLEAR = "DELETE FROM [t_Cache]";
-        private const string SQL_SEARCH = @"SELECT [key] FROM [t_Cache] WHERE [kind] = @1 AND ([title] LIKE @2 OR [title] LIKE @3 OR [title] LIKE @4 OR [title] LIKE @5)";
+        private const string SQL_SEARCH = "SELECT [key] FROM [t_Cache] WHERE [kind] = @1 AND ([title] LIKE @2 OR [title] LIKE @3)";
         private const string SQL_SCAVENGE = "SELECT [value] FROM [t_Cache]";
         private const string SQL_COMPRESS = "VACUUM";
+        private const string SQL_TYPEHITS = "SELECT [kind], COUNT([key]) AS hits FROM [t_Cache] WHERE ([title] LIKE @1 OR [title] LIKE @2) GROUP BY [kind]"; 
 
         private object _lock = new object();
         private static string _file = Path.Combine(Config.GetInstance().GetStringSetting("Cache.Path"), "entities.db");
@@ -141,11 +142,32 @@ namespace MusicBrowser.Engines.Cache
             cnn.Open();
             IEnumerable<string> results = SQLiteHelper.ExecuteQuery<string>(SQL_SEARCH, cnn, kind, 
                 criteria + "%", 
-                "the " + criteria + "%",
-                "a " + criteria + "%",
-                "an " + criteria + "%");
+                "% " + criteria + "%");
             cnn.Close();
             return results;
+        }
+
+        public Dictionary<string, int> HitsByType(string criteria)
+        {
+            SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
+            cnn.Open();
+
+            SQLiteCommand mycommand = new SQLiteCommand(cnn);
+            mycommand.CommandText = SQL_TYPEHITS;
+            mycommand.Parameters.AddWithValue("@1", criteria + "%");
+            mycommand.Parameters.AddWithValue("@2", "% " + criteria + "%");
+
+            SQLiteDataReader reader = mycommand.ExecuteReader();
+            Dictionary<string, int> ret = new Dictionary<string, int>();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    ret.Add(reader.GetString(0), reader.GetInt32(1));
+                }
+            }
+            reader.Close();
+            return ret;
         }
     }
 }
