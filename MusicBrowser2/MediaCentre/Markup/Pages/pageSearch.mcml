@@ -417,7 +417,7 @@
     <Content>
       <Panel Name="EntityButtonFace">
         <Children>
-          <ColorFill Name="isNotSelected" Content="Transparent" MinimumSize="840,57" MaximumSize="840,57">
+          <ColorFill Name="isNotSelected" Content="Transparent" MinimumSize="900,57" MaximumSize="900,57">
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
@@ -427,7 +427,7 @@
             </Children>
           </ColorFill>
           
-          <Graphic Name="isSelected" Content="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus" MinimumSize="875,120" MaximumSize="875,120" Visible="false" Margins="-30,0,0,0">
+          <Graphic Name="isSelected" Content="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus" MinimumSize="920,120" MaximumSize="920,120" Visible="false" Margins="-30,0,0,0">
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>

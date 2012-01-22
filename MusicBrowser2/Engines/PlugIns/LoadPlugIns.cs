@@ -22,9 +22,16 @@ namespace MusicBrowser.Engines.PlugIns
 
             foreach (FileSystemItem item in FileSystemProvider.GetFolderContents(libraryFolder))
             {
-                if (item.Name.ToLower().EndsWith(".plugin"))
+                if (item.Name.ToLower().EndsWith(".dll"))
                 {
-                    string pluginfile = Path.Combine(@"C:\Windows\eHome", item.Name.Replace(".plugin", ".dll"));
+                    string pluginfile = Path.Combine(@"C:\Windows\eHome", item.Name);
+
+                    try
+                    {
+                        File.Copy(item.FullPath, pluginfile);
+                    }
+                    catch { }
+
                     if (File.Exists(pluginfile))
                     {
                         Logging.LoggerEngineFactory.Info("Loading " + item.Name);

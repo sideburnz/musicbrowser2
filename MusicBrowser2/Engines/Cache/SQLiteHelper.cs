@@ -19,10 +19,10 @@ namespace MusicBrowser.Engines.Cache
 
         private static bool Loaded()
         {
-            string dllfile = Path.Combine(Helper.PlugInFolder, String.Format("System.Data.SQLite.DLL"));
+            string dllfile = Path.Combine(Helper.ComponentFolder, String.Format("System.Data.SQLite.DLL"));
             if (!File.Exists(dllfile))
             {
-                string sourceFile = Path.Combine(Helper.PlugInFolder, String.Format("System.Data.SQLite.DLL.{0}", Is64Bit ? 64 : 32));
+                string sourceFile = Path.Combine(Helper.ComponentFolder, String.Format("System.Data.SQLite.DLL.{0}", Is64Bit ? 64 : 32));
                 if (File.Exists(sourceFile))
                 {
                     File.Copy(sourceFile, dllfile);
@@ -50,10 +50,9 @@ namespace MusicBrowser.Engines.Cache
             StringBuilder sb = new StringBuilder();
 
             sb.Append("Data Source=" + file + ";");
-            sb.Append("PRAGMA main.cache_size=500;");
+            sb.Append("PRAGMA main.cache_size=-32;");
             sb.Append("PRAGMA main.temp_store = MEMORY;");
             sb.Append("PRAGMA main.page_size = 4096;");
-            sb.Append("PRAGMA main.locking_mode=EXCLUSIVE;");
             sb.Append("PRAGMA main.synchronous=OFF;");
             sb.Append("PRAGMA main.journal_mode=MEMORY;");
 

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using MusicBrowser.Engines.Logging;
 using MusicBrowser.Models;
-
+using System;
+using System.IO;
 
 // this controls the playback via Foobar2000
 
@@ -75,6 +76,18 @@ namespace MusicBrowser.Engines.Transport
 
         public void Open()
         {
+            // delete running file... makes foobar show a pop-up if the app crashed last time it was run
+            string running = Path.Combine(Environment.GetEnvironmentVariable("APPDATA"), @"foobar2000\running");
+            if (File.Exists(running))
+            {
+                try
+                {
+                    File.Delete(running);
+                }
+                catch { }
+            }
+
+            // send a request to foobar to open it
             HideFoobar();
         }
 
