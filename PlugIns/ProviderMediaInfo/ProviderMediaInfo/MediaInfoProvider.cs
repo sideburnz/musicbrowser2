@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using MusicBrowser.Util;
 using MusicBrowser.Entities;
+using MusicBrowser.Providers;
 
 namespace MusicBrowser.Engines.Metadata
 {
@@ -118,8 +119,7 @@ namespace MusicBrowser.Engines.Metadata
                 if (i != 0)
                 {
                     // sample rate
-                    string audioSampleRate = mediaInfo.Get(StreamKind.Audio, 0, "SamplingRate/String");
-                    dto.SampleRate = audioSampleRate;
+                    dto.SampleRate = mediaInfo.Get(StreamKind.Audio, 0, "SamplingRate/String");
 
                     // channels
                     int audioChannels;
@@ -134,8 +134,7 @@ namespace MusicBrowser.Engines.Metadata
                     }
 
                     // sample resolution
-                    string audioResolution = mediaInfo.Get(StreamKind.Audio, 0, "Resolution/String");
-                    dto.Resolution = audioResolution;
+                    dto.Resolution = mediaInfo.Get(StreamKind.Audio, 0, "Resolution/String");
 
                     // track rating
                     int Rating;
@@ -153,9 +152,89 @@ namespace MusicBrowser.Engines.Metadata
             return ret;
         }
 
-        private bool DoWorkVideo(baseEntity dto)
+        private bool DoWorkVideo(Video dto)
         {
-            return true;
+            bool ret = true;
+            string path = dto.Path;
+
+            //TODO: DVDs need the IFO loading
+
+            if (Directory.Exists(path))
+            {
+                // if it's a folder, get the details from the first item we find that's a video file
+                IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(path);
+                foreach (FileSystemItem item in items)
+                {
+                    if (Helper.getKnownType(item) == Helper.knownType.Video)
+                    {
+                        path = item.FullPath;
+                        continue;
+                    }
+                }
+                return false;
+            }
+
+            try
+            {
+                MediaInfo mediaInfo = new MediaInfo();
+                int i = mediaInfo.Open(path);
+                if (i != 0)
+                {
+                    int j = 0;
+
+                    // general
+                    dto.Container = mediaInfo.Get(StreamKind.General, 0, "Format");
+                    if (Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Duration"), out j))
+                    {
+                        if (j > 0)
+                        {
+                            dto.Duration = (int)(j / 1000.00);
+                        }
+                        else
+                        {
+                            dto.Duration = j;
+                        }
+                    }
+                    else
+                    {
+                        dto.Duration = 0;
+                    }
+
+                    // video
+                    dto.VideoCodec = mediaInfo.Get(StreamKind.Video, 0, "Format");
+                    dto.AspectRatio = mediaInfo.Get(StreamKind.Video, 0, "DisplayAspectRatio/String");
+
+                    dto.Subtitles = !String.IsNullOrEmpty(mediaInfo.Get(StreamKind.Text, 0, "Format"));
+
+                    //audio
+                    dto.AudioCodec = mediaInfo.Get(StreamKind.Audio, 0, "Format");
+                    if (Int32.TryParse(mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)"), out j))
+                    {
+                        dto.AudioChannels = j;
+                    }
+                    else
+                    {
+                        dto.AudioChannels = 0;
+                    }
+
+                    // track rating
+                    if (Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Rating"), out j))
+                    {
+                        dto.Rating = j;
+                    }
+                    else
+                    {
+                        dto.Rating = 0;
+                    }
+                }
+                mediaInfo.Close();
+            }
+            catch
+            {
+                ret = false;
+            }
+            return ret;
+
         }
     }
 }

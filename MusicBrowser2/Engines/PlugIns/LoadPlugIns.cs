@@ -28,7 +28,7 @@ namespace MusicBrowser.Engines.PlugIns
 
                     try
                     {
-                        File.Copy(item.FullPath, pluginfile);
+                        File.Copy(item.FullPath, pluginfile, true);
                     }
                     catch { }
 

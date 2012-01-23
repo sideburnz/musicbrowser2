@@ -11,6 +11,7 @@ namespace MusicBrowser.Engines.Cache
     static class SQLiteHelper
     {
         private static bool LoadDLL = Loaded();
+        private static readonly Dictionary<string, SQLiteConnection> _connections = new Dictionary<string, SQLiteConnection>();
 
         private static bool Is64Bit
         {
@@ -38,15 +39,26 @@ namespace MusicBrowser.Engines.Cache
             {
                 SQLiteConnection.CreateFile(file);
                 SQLiteConnection cnn = GetConnection(file);
-                cnn.Open();
                 ExecuteNonQuery(createSQL, cnn);
-                cnn.Close();
             }
             return true; // established
         }
 
         public static SQLiteConnection GetConnection(string file)
         {
+            SQLiteConnection cnn;
+
+            // cache connections, decrease file open/close activities to try to get better performance out of SQLite
+            if (_connections.ContainsKey(file))
+            {
+                cnn = _connections[file];
+                if (cnn.State == System.Data.ConnectionState.Broken || cnn.State == System.Data.ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+                return cnn;
+            }
+
             StringBuilder sb = new StringBuilder();
 
             sb.Append("Data Source=" + file + ";");
@@ -56,8 +68,10 @@ namespace MusicBrowser.Engines.Cache
             sb.Append("PRAGMA main.synchronous=OFF;");
             sb.Append("PRAGMA main.journal_mode=MEMORY;");
 
-            SQLiteConnection cnn = new SQLiteConnection(sb.ToString());
-                            
+            cnn = new SQLiteConnection(sb.ToString());
+            cnn.Open();
+
+            _connections.Add(file, cnn);
             return cnn;
         }
 

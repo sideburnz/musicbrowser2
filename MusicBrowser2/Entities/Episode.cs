@@ -77,7 +77,7 @@ namespace MusicBrowser.Entities
             {
                 if (!String.IsNullOrEmpty(ShowName))
                 {
-                    return ShowName + ", Season " + SeasonNumber;
+                    return ShowName + ", Season " + SeasonNumber + " > " + base.Information;
                 }
                 return base.Information;
             }
