@@ -26,6 +26,7 @@ namespace MusicBrowser.Entities
         private int _thumbSize;
         private List<string> _backgroundPaths;
         private DateTime _lastPlayed;
+        private int _duration;
         #endregion
 
         #region cached attributes
@@ -195,6 +196,19 @@ namespace MusicBrowser.Entities
             {
                 _backgroundPaths = value;
                 DataChanged("BackgroundPaths");
+            }
+        }
+        [DataMember]
+        public int Duration
+        {
+            get { return _duration; }
+            set
+            {
+                if (value != _duration)
+                {
+                    _duration = value;
+                    DataChanged("Duration");
+                }
             }
         }
 
@@ -371,6 +385,23 @@ namespace MusicBrowser.Entities
                         }
                         output = output.Replace("[" + token + "]", "");
                         break;
+                    case "Duration":
+                    case "duration":
+                        TimeSpan t = TimeSpan.FromSeconds(Duration);
+                        string length;
+                        if (t.Hours == 0)
+                        {
+                            length = string.Format("{0}:{1:D2}", (Int32)Math.Floor(t.TotalMinutes), t.Seconds);
+                        }
+                        else
+                        {
+                            length = string.Format("{0}:{1:D2}:{2:D2}", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds);
+                        }
+                        output = output.Replace("[" + token + "]", length);
+                        break;
+                    case "Duration:sort":
+                    case "duration:sort":
+                        output = output.Replace("[" + token + "]", Duration.ToString("D10")); break;
                 }
             }
             return output.Trim();

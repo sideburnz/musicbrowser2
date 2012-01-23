@@ -8,10 +8,12 @@ namespace MusicBrowser.Engines.Cache
 {
     public static class Extensions
     {
-        private static ICacheEngine _engine = CacheEngineFactory.GetEngine();
+        private static readonly ICacheEngine _engine = CacheEngineFactory.GetEngine();
+        private static readonly InMemoryCache _memory = InMemoryCache.GetInstance();
 
         public static void UpdateCache(this baseEntity entity)
         {
+            _memory.Update(entity);
             _engine.Update(entity);
         }
 

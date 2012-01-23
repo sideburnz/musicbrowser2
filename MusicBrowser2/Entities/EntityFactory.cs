@@ -110,7 +110,6 @@ namespace MusicBrowser.Entities
             }
 
             entity.UpdateCache();
-            _MemCache.Update(entity);
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose("Factory.getItem(" + item.FullPath + ") = " + entity.Kind + " - first principles", "finish");
 #endif

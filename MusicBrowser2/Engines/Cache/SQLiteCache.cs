@@ -35,24 +35,16 @@ namespace MusicBrowser.Engines.Cache
         {
             string SQL = SQL_DELETE.Replace("@1", "'" + key + "'");
             SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
-            cnn.Open();
             SQLiteHelper.ExecuteNonQuery(SQL, cnn);
-            cnn.Close();
         }
 
         public baseEntity Fetch(string key)
         {
-            if (Exists(key))
-            {
-                string SQL = SQL_SELECT.Replace("@1", "'" + key + "'");
-                SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
-                cnn.Open();
-                Dictionary<string, object> res = SQLiteHelper.ExecuteRowQuery(SQL, cnn);
-                cnn.Close();
-                if (res == null) { return null; }
-                return EntityPersistance.Deserialize((string)res["kind"], (string)res["value"]);
-            }
-            return null;
+            string SQL = SQL_SELECT.Replace("@1", "'" + key + "'");
+            SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
+            Dictionary<string, object> res = SQLiteHelper.ExecuteRowQuery(SQL, cnn);
+            if (res == null) { return null; }
+            return EntityPersistance.Deserialize((string)res["kind"], (string)res["value"]);
         }
 
         public void Update(baseEntity e)
@@ -65,19 +57,16 @@ namespace MusicBrowser.Engines.Cache
             if (Exists(key))
             {
                 SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
-                cnn.Open();
                 SQLiteCommand cmdU = cnn.CreateCommand();
                 cmdU.CommandText = SQL_UPDATE;
                 cmdU.Parameters.AddWithValue("@2", key);
                 cmdU.Parameters.AddWithValue("@1", value);
                 cmdU.Parameters.AddWithValue("@3", title);
                 cmdU.ExecuteNonQuery();
-                cnn.Close();
             }
             else
             {
                 SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
-                cnn.Open();
                 SQLiteCommand cmdI = cnn.CreateCommand();
                 cmdI.CommandText = SQL_INSERT;
                 cmdI.Parameters.AddWithValue("@1", key);
@@ -85,7 +74,6 @@ namespace MusicBrowser.Engines.Cache
                 cmdI.Parameters.AddWithValue("@3", kind);
                 cmdI.Parameters.AddWithValue("@4", title);
                 cmdI.ExecuteNonQuery();
-                cnn.Close();
             }
         }
 
@@ -94,9 +82,7 @@ namespace MusicBrowser.Engines.Cache
             string SQL = SQL_EXISTS.Replace("@1", "'" + key + "'");
             Int64 rows;
             SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
-            cnn.Open();
             rows = SQLiteHelper.ExecuteScalar<Int64>(SQL, cnn);
-            cnn.Close();
             return rows != 0;
         }
 
@@ -122,35 +108,28 @@ namespace MusicBrowser.Engines.Cache
         {
             string SQL = SQL_CLEAR;
             SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
-            cnn.Open();
             SQLiteHelper.ExecuteNonQuery(SQL, cnn);
-            cnn.Close();
         }
 
         public void Compress()
         {
             string SQL = SQL_COMPRESS;
             SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
-            cnn.Open();
             SQLiteHelper.ExecuteNonQuery(SQL, cnn);
-            cnn.Close();
         }
 
         public IEnumerable<String> Search(string kind, string criteria)
         {
             SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
-            cnn.Open();
             IEnumerable<string> results = SQLiteHelper.ExecuteQuery<string>(SQL_SEARCH, cnn, kind, 
                 criteria + "%", 
                 "% " + criteria + "%");
-            cnn.Close();
             return results;
         }
 
         public Dictionary<string, int> HitsByType(string criteria)
         {
             SQLiteConnection cnn = SQLiteHelper.GetConnection(_file);
-            cnn.Open();
 
             SQLiteCommand mycommand = new SQLiteCommand(cnn);
             mycommand.CommandText = SQL_TYPEHITS;

@@ -54,7 +54,6 @@ namespace MusicBrowser.Engines.Metadata
             if (requiresUpdate)
             {
                 entity.UpdateCache();
-                InMemoryCache.GetInstance().Update(entity);
             }
         }
 

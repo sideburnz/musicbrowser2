@@ -121,20 +121,6 @@ namespace MusicBrowser.Entities
         }
         private string _codec;
         [DataMember]
-        public int Duration 
-        {
-            get { return _duration; }
-            set
-            {
-                if (value != _duration)
-                {
-                    _duration = value;
-                    DataChanged("Duration");
-                }
-            }
-        }
-        private int _duration;
-        [DataMember]
         public string MusicBrainzID 
         {
             get { return _musicbrainzID; }
@@ -220,7 +206,7 @@ namespace MusicBrowser.Entities
             {
                 if (!String.IsNullOrEmpty(Artist))
                 {
-                    return TokenSubstitution("[artist]  ([duration])");
+                    return TokenSubstitution("[artist]  ([codec]  [channels]  [samplerate]   [resolution]  [duration])");
                 }
                 return base.Information;
             }
@@ -304,24 +290,21 @@ namespace MusicBrowser.Entities
                     case "Codec:sort":
                     case "codec:sort":
                         output = output.Replace("[" + token + "]", Codec); break;
-
-                    case "Duration":
-                    case "duration":
-                        TimeSpan t = TimeSpan.FromSeconds(Duration);
-                        string length;
-                        if (t.Hours == 0)
-                        {
-                            length = string.Format("{0}:{1:D2}", (Int32)Math.Floor(t.TotalMinutes), t.Seconds);
-                        }
-                        else
-                        {
-                            length = string.Format("{0}:{1:D2}:{2:D2}", (Int32)Math.Floor(t.TotalHours), t.Minutes, t.Seconds);
-                        }
-                        output = output.Replace("[" + token + "]", length);
-                        break;
-                    case "Duration:sort":
-                    case "duration:sort":
-                         output = output.Replace("[" + token + "]", TrackNumber.ToString("D6")); break;
+                    case "samplerate":
+                    case "SampleRate":
+                    case "samplerate:sort":
+                    case "SampleRate:sort":
+                        output = output.Replace("[" + token + "]", SampleRate); break;
+                    case "resolution":
+                    case "Resolution":
+                    case "resolution:sort":
+                    case "Resolution:sort":
+                        output = output.Replace("[" + token + "]", Resolution); break;
+                    case "channels":
+                    case "Channels":
+                    case "channels:sort":
+                    case "Channels:sort":
+                        output = output.Replace("[" + token + "]", Channels); break;
                 }
             }
 
