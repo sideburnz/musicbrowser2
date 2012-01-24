@@ -20,6 +20,14 @@ namespace MusicBrowser.Entities
             get { return "[Track#:sort]"; }
         }
 
+        public override string Information
+        {
+            get
+            {
+                return CalculateInformation("", "Track");
+            }
+        }
+
         public override void Play(bool queue, bool shuffle)
         {
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(Path);

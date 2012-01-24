@@ -25,13 +25,16 @@ namespace MusicBrowser.Engines.PlugIns
                 if (item.Name.ToLower().EndsWith(".dll"))
                 {
                     string pluginfile = Path.Combine(@"C:\Windows\eHome", item.Name);
-
                     try
                     {
                         File.Copy(item.FullPath, pluginfile, true);
+                        string debug = item.FullPath.Replace(".dll", ".pdb");
+                        if (File.Exists(debug))
+                        {
+                            File.Copy(debug, pluginfile.Replace(".dll", ".pdb"), true);
+                        }
                     }
                     catch { }
-
                     if (File.Exists(pluginfile))
                     {
                         Logging.LoggerEngineFactory.Info("Loading " + item.Name);

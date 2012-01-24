@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_HTBackdrop", "PlugIns\HTBa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "White", "PlugIns\WhiteTheme\White.csproj", "{BBBE0CD9-B3A3-4712-8BB5-7B27C8DC1205}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_FileSystem", "PlugIns\ProviderFileSystem\ProviderFileSystem\_FileSystem.csproj", "{B97F7407-E50C-4C74-BA3D-27036AC4BB59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystem", "PlugIns\ProviderFileSystem\ProviderFileSystem\FileSystem.csproj", "{B97F7407-E50C-4C74-BA3D-27036AC4BB59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "+MediaInfo", "PlugIns\ProviderMediaInfo\ProviderMediaInfo\+MediaInfo.csproj", "{C36280CF-69FA-4114-B6EA-69402EADBE21}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInfo", "PlugIns\ProviderMediaInfo\ProviderMediaInfo\MediaInfo.csproj", "{C36280CF-69FA-4114-B6EA-69402EADBE21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_FanArt.tv", "PlugIns\ProviderFanArtTV\ProviderFanArtTV\_FanArt.tv.csproj", "{2645C8D7-AA61-41B9-9349-B6A1AD248404}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Themes", "Themes", "{F3C75285-1BEF-4CE0-94CD-41F42C49DE7F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{E52DE077-7877-424C-A6C0-A430C2E3034B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaBrowserXMLReader", "PlugIns\MediaBrowserXMLReader\MediaBrowserXMLReader.csproj", "{3B78D676-996A-4955-B8AC-67342E05E510}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +115,16 @@ Global
 		{390D7670-433E-4BCF-B84C-00925346EC09}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{390D7670-433E-4BCF-B84C-00925346EC09}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{390D7670-433E-4BCF-B84C-00925346EC09}.Release|x86.ActiveCfg = Release|Any CPU
+		{3B78D676-996A-4955-B8AC-67342E05E510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B78D676-996A-4955-B8AC-67342E05E510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B78D676-996A-4955-B8AC-67342E05E510}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3B78D676-996A-4955-B8AC-67342E05E510}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3B78D676-996A-4955-B8AC-67342E05E510}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3B78D676-996A-4955-B8AC-67342E05E510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B78D676-996A-4955-B8AC-67342E05E510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B78D676-996A-4955-B8AC-67342E05E510}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3B78D676-996A-4955-B8AC-67342E05E510}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3B78D676-996A-4955-B8AC-67342E05E510}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +136,7 @@ Global
 		{2645C8D7-AA61-41B9-9349-B6A1AD248404} = {E52DE077-7877-424C-A6C0-A430C2E3034B}
 		{390D7670-433E-4BCF-B84C-00925346EC09} = {E52DE077-7877-424C-A6C0-A430C2E3034B}
 		{A2075E0C-2D45-444F-8977-88E2B1BC12F4} = {E52DE077-7877-424C-A6C0-A430C2E3034B}
+		{3B78D676-996A-4955-B8AC-67342E05E510} = {E52DE077-7877-424C-A6C0-A430C2E3034B}
 		{BBBE0CD9-B3A3-4712-8BB5-7B27C8DC1205} = {F3C75285-1BEF-4CE0-94CD-41F42C49DE7F}
 	EndGlobalSection
 EndGlobal

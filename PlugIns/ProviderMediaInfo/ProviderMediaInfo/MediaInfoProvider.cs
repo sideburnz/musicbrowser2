@@ -27,23 +27,14 @@ namespace MusicBrowser.Engines.Metadata
             RefreshPercentage = 5;
         }
 
-        public override bool CompatibleWith(string type)
+        public override bool CompatibleWith(baseEntity dto)
         {
-            switch (type.ToLower())
-            {
-                case "track":
-                case "episode":
-                case "video":
-                    return true;
-                default:
-                    return false;
-            }
+            return (Helper.InheritsFrom<Track>(dto) || Helper.InheritsFrom<Video>(dto));
         }
 
         public override bool AskKillerQuestions(Entities.baseEntity dto)
         {
-            if (!CompatibleWith(dto.Kind)) { return false; }
-            if (!System.IO.File.Exists(dto.Path)) { return false; }
+            if (!CompatibleWith(dto)) { return false; }
             if (!Enabled()) { return false; }
 
             return true;
@@ -152,26 +143,54 @@ namespace MusicBrowser.Engines.Metadata
             return ret;
         }
 
+        private long FileSize(string filename)
+        {
+            FileInfo f = new FileInfo(filename);
+            return f.Length;
+        }
+
         private bool DoWorkVideo(Video dto)
         {
             bool ret = true;
-            string path = dto.Path;
+            string path = string.Empty;
 
-            //TODO: DVDs need the IFO loading
-
-            if (Directory.Exists(path))
+            if (Directory.Exists(dto.Path))
             {
-                // if it's a folder, get the details from the first item we find that's a video file
-                IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(path);
-                foreach (FileSystemItem item in items)
+                if (Helper.IsDVD(dto.Path))
                 {
-                    if (Helper.getKnownType(item) == Helper.knownType.Video)
+                    IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(dto.Path);
+                    FileSystemItem selected = items
+                        .Where(item => item.Name.ToLower().EndsWith(".vob"))
+                        .OrderBy(item => FileSize(item.FullPath))
+                        .Reverse()
+                        .FirstOrDefault();
+                    path = selected.FullPath.Replace(".vob", ".ifo");
+
+                    Logging.LoggerEngineFactory.Info("DVD path: " + path);
+
+                    if (!File.Exists(path))
                     {
-                        path = item.FullPath;
-                        continue;
+                        path = string.Empty;
                     }
                 }
-                return false;
+                else
+                {
+                    // if it's a folder, get the details from the first item we find that's a video file
+                    IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(dto.Path);
+                    foreach (FileSystemItem item in items)
+                    {
+                        if (Helper.getKnownType(item) == Helper.knownType.Video)
+                        {
+                            path = item.FullPath;
+                            continue;
+                        }
+                    }
+                }
+
+                if (string.IsNullOrEmpty(path))
+                {
+                    return false;
+                }
             }
 
             try

@@ -27,7 +27,7 @@ namespace MusicBrowser.Providers
             // refresh the current item
             Engines.Cache.InMemoryCache.GetInstance().Remove(_parent.CacheKey);
             Engines.Cache.CacheEngineFactory.GetEngine().Delete(_parent.CacheKey);
-            //new Metadata.MetadataProviderList(_parent, true).Execute();
+            new Engines.Metadata.MetadataProviderList(_parent, true).Execute();
 
             // refresh the children item
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parent.Path);
@@ -37,7 +37,7 @@ namespace MusicBrowser.Providers
                 if (e == null) { continue; }
                 Engines.Cache.InMemoryCache.GetInstance().Remove(e.CacheKey);
                 Engines.Cache.CacheEngineFactory.GetEngine().Delete(e.CacheKey);
-                //new Metadata.MetadataProviderList(e, true).Execute();
+                new Engines.Metadata.MetadataProviderList(e, true).Execute();
             }
         }
     }

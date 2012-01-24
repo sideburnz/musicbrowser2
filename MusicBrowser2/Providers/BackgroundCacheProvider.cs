@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using MusicBrowser.Engines.Logging;
 using MusicBrowser.Engines.Cache;
@@ -45,6 +46,18 @@ namespace MusicBrowser.Providers
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
 #endif
+
+            // process the item in context
+            baseEntity e = EntityFactory.GetItem(_path);
+            if (e != null)
+            {
+                // fire off the metadata providers
+                CommonTaskQueue.Enqueue(new MetadataProviderList(e));
+            }
+
+            // don't waste time doing anything else if the current item isn't a folder
+            if (!Directory.Exists(_path)) { return; }
+
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path);
             //IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
 
@@ -57,11 +70,10 @@ namespace MusicBrowser.Providers
                     if (entity == null) { continue; }
                     // fire off the metadata providers
                     CommonTaskQueue.Enqueue(new MetadataProviderList(entity));
-                    entity.UpdateCache();
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    LoggerEngineFactory.Error(e);
+                    LoggerEngineFactory.Error(ex);
                 }
             }
 #if DEBUG

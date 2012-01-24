@@ -62,13 +62,13 @@
       <Changed Source="[FolderModel.SelectedIndex]" InitialEvaluate="true">
         <Actions>
           <Invoke Target="[CmdRefresh.Invoke]" />
+          <Set Target="[Summary.Summary]" Value="[FolderModel.SelectedItem.Overview]" />
         </Actions>
       </Changed>
 
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewThumbRepeater]"/>
       <Binding Target="[viewThumbRepeater.Source]" Source="[FolderModel.EntityList]" />
-      <!--<Binding Target="[Summary.Summary]" Source="[FolderModel.SelectedItem.Summary]" />-->
       <!--<Binding Target="[Summary.Visible]" Source="[FolderModel.ShowSummary]" />-->
 
       <Changed Source="[FolderModel.JILIndex]">

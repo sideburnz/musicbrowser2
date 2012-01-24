@@ -18,7 +18,7 @@ namespace MusicBrowser.Engines.Metadata
     {
         ProviderOutcome Fetch(baseEntity dto);
         string FriendlyName();
-        bool CompatibleWith(string type);
+        bool CompatibleWith(baseEntity dto);
         bool isStale(DateTime lastAccess);
     }
 }

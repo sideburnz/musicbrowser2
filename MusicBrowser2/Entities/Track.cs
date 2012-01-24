@@ -65,20 +65,6 @@ namespace MusicBrowser.Entities
         }
         private string _albumArtist;
         [DataMember]
-        public DateTime ReleaseDate 
-        {
-            get { return _releaseDate; }
-            set
-            {
-                if (value != _releaseDate)
-                {
-                    _releaseDate = value;
-                    DataChanged("ReleaseDate");
-                }
-            }
-        }
-        private DateTime _releaseDate;
-        [DataMember]
         public int DiscNumber 
         {
             get { return _discNumber; }
@@ -206,7 +192,8 @@ namespace MusicBrowser.Entities
             {
                 if (!String.IsNullOrEmpty(Artist))
                 {
-                    return TokenSubstitution("[artist]  ([codec]  [channels]  [samplerate]   [resolution]  [duration])");
+                    return TokenSubstitution("[artist]  ([codec]  [channels]  [samplerate]   [resolution]  [duration])  ") + 
+                        (Played ? "" : "*");
                 }
                 return base.Information;
             }
@@ -239,35 +226,6 @@ namespace MusicBrowser.Entities
                     case "AlbumArtist:sort":
                     case "albumartist:sort":
                         output = output.Replace("[" + token + "]", HandleIgnoreWords(AlbumArtist)); break;
-                    case "ReleaseDate":
-                    case "releasedate":
-                        if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
-                        {
-                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("dd mmm yyyy"));
-                            break;
-                        }
-                        output = output.Replace("[" + token + "]", "");
-                        break;
-                    case "ReleaseDate:sort":
-                    case "releaserate:sort":
-                        if (ReleaseDate > DateTime.Parse("01-JAN-1000")) 
-                        {
-                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("yyyymmdd hhMMss")); 
-                            break; 
-                        }
-                        output = output.Replace("[" + token + "]", ""); 
-                        break;
-                    case "ReleaseYear":
-                    case "releaseyear":
-                    case "ReleaseYear:sort":
-                    case "releaseyear:sort":
-                        if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
-                        {
-                            output = output.Replace("[" + token + "]", ReleaseDate.Year.ToString());
-                            break;
-                        }
-                        output = output.Replace("[" + token + "]", "");
-                        break;
                     case "Disc#":
                     case "disc#":
                     case "Disc#:sort":

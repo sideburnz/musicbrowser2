@@ -7,8 +7,6 @@
 
     <Properties>
       <entities:baseEntity Name="Entity" baseEntity="$Required" />
-      <Command Name="CmdRefresh"/>
-      <Timer Name="RefreshTimer" AutoRepeat="True" Interval="5000" Enabled="True" />
     </Properties>
 
     <Locals>
@@ -17,28 +15,11 @@
 
     <Rules>
 
-      <Changed Source="[CmdRefresh.Invoked]" InitialEvaluate="true">
-        <Actions>
-          <Set Target="[Desc.Content]" Value="[Entity.Title]" />
-          <Set Target="[RatingIcons.Rating]" Value="[Entity.Rating]" />
-          <Set Target="[RatingIcons.Loved]" Value="[Entity.Loved]" />
-          <Set Target="[Logo.Content]" Value="[Entity.Logo]" />
-          <Set Target="[InfoBar.Content]" Value="[Entity.Information]" />
-          <!--<Set Target="[Summary2.Content]" Value="[Entity.ShortSummaryLine2]" />-->
-        </Actions>
-      </Changed>
-
-      <Changed Source="[RefreshTimer.Tick]">
-        <Actions>
-          <Invoke Target="[CmdRefresh.Invoke]" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[Entity]">
-        <Actions>
-          <Invoke Target="[CmdRefresh.Invoke]" />
-        </Actions>
-      </Changed>
+      <Binding Target="[Desc.Content]" Source="[Entity.Title]" />
+      <Binding Target="[RatingIcons.Rating]" Source="[Entity.Rating]" />
+      <Binding Target="[RatingIcons.Loved]" Source="[Entity.Loved]" />
+      <Binding Target="[Logo.Content]" Source="[Entity.Logo]" />
+      <Binding Target="[InfoBar.Content]" Source="[Entity.Information]" />
 
       <Binding Target="[IconRepeater.Source]" Source="[RatingIcons.Stars]" />
       
@@ -47,7 +28,7 @@
     <Content>
       <Panel Margins="0,15,0,0">
         <Children>
-          <Graphic Name="Logo" Margins="0,10,0,0" Alpha="0.1" MaximumSize="0,100" MinimumSize="0,100" MaintainAspectRatio="true" />
+          <Graphic Name="Logo" Margins="0,10,0,0" Alpha="0.06" MaximumSize="0,100" MinimumSize="0,100" MaintainAspectRatio="true" />
           <Panel>
             <Layout>
               <FlowLayout Orientation="Vertical"/>

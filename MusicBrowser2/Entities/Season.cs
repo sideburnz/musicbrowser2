@@ -13,5 +13,13 @@ namespace MusicBrowser.Entities
         {
             get { return "[Episode#:sort]"; }
         }
+
+        public override string Information
+        {
+            get
+            {
+                return CalculateInformation("", "Episode");
+            }
+        }
     }
 }

@@ -15,6 +15,14 @@ namespace MusicBrowser.Entities
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageArtist"; }
         }
 
+        public override string Information
+        {
+            get
+            {
+                return CalculateInformation("", "Album", "Track");
+            }
+        }
+
         public override void Play(bool queue, bool shuffle)
         {
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(Path);

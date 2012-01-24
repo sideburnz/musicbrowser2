@@ -7,7 +7,14 @@ using System.Runtime.Serialization;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    class Show : Folder
+    public class Show : Folder
     {
+        public override string Information
+        {
+            get
+            {
+                return CalculateInformation("", "Season", "Episode");
+            }
+        }
     }
 }

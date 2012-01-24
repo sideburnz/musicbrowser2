@@ -16,7 +16,7 @@ namespace MusicBrowser.Engines.Metadata
 
         private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
 
-        public abstract bool CompatibleWith(string type);
+        public abstract bool CompatibleWith(baseEntity dto);
 
         public string FriendlyName()
         {
@@ -49,11 +49,7 @@ namespace MusicBrowser.Engines.Metadata
                 // ask the killer questions
                 if (!AskKillerQuestions(dto))
                 {
-                    // if there's any problems report them back
-                    if (ret == ProviderOutcome.Success)
-                    {
-                        ret = ProviderOutcome.SystemError;
-                    }
+                    ret = ProviderOutcome.SystemError;
                     return ret;
                 }
 
