@@ -13,6 +13,7 @@ namespace MusicBrowser.Entities
     [DataContract]
     public abstract class Video : Item
     {
+        [DataMember]
         public string Container
         {
             get { return _container; }
@@ -26,7 +27,7 @@ namespace MusicBrowser.Entities
             }
         }
         private string _container;
-
+        [DataMember]
         public string AudioCodec
         {
             get { return _audiocodec; }
@@ -40,23 +41,70 @@ namespace MusicBrowser.Entities
             }
         }
         private string _audiocodec;
-
-        public int AudioChannels { get; set; }
-
-        public bool Subtitles { get; set; }
-
-        public string VideoCodec { get; set; }
-        public string AspectRatio { get; set; }
-
+        [DataMember]
+        public int AudioChannels
+        {
+            get { return _audiochannels; }
+            set
+            {
+                if (value != _audiochannels)
+                {
+                    _audiochannels = value;
+                    DataChanged("AudioChannels");
+                }
+            }
+        }
+        private int _audiochannels;
+        [DataMember]
+        public bool Subtitles
+        {
+            get { return _subtitles; }
+            set
+            {
+                if (value != _subtitles)
+                {
+                    _subtitles = value;
+                    DataChanged("Subtitles");
+                }
+            }
+        }
+        private bool _subtitles;
+        [DataMember]
+        public string VideoCodec
+        {
+            get { return _videocodec; }
+            set
+            {
+                if (value != _videocodec)
+                {
+                    _videocodec = value;
+                    DataChanged("VideoCodec");
+                }
+            }
+        }
+        private string _videocodec;
+        [DataMember]
+        public string AspectRatio
+        {
+            get { return _aspectratio; }
+            set
+            {
+                if (value != _aspectratio)
+                {
+                    _aspectratio = value;
+                    DataChanged("AspectRatio");
+                }
+            }
+        }
+        private string _aspectratio;
 
         public override string Information
         {
             get
             {
-                return "container:" + Container + "," + TokenSubstitution("[duration]") + "," + Duration +
-                    "  audio: " + AudioCodec + "," + AudioChannels +
-                    "  video: " + VideoCodec + "," + AspectRatio +
-                    "  subs: " + Subtitles.ToString();
+                return "(" + Container + "   " + VideoCodec + "  " + AudioCodec + "  "
+                    + (Subtitles ? "subs  " : "") + TokenSubstitution("[duration]") + ")"
+                    + (Played ? "" : "*");
             }
         }
 
@@ -77,6 +125,8 @@ namespace MusicBrowser.Entities
                     List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path).
                         OrderBy(item => item.Name).
                         ToList();
+
+                    if (shuffle) { Util.Helper.ShuffleList<FileSystemItem>(candidateitems); }
 
                     foreach (FileSystemItem item in candidateitems)
                     {

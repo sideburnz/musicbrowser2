@@ -44,6 +44,10 @@ namespace MusicBrowser.Entities
             Engines.Logging.LoggerEngineFactory.Verbose("Factory.getItem(" + item.FullPath + ")", "start");
 #endif
 
+            // don't waste time trying to determine a known not entity
+            if (item.Name.ToLower() == "metadata") { return null; }
+            if (Util.Helper.getKnownType(item) == Helper.knownType.Other) { return null; }
+
             string key = Util.Helper.GetCacheKey(item.FullPath);
             baseEntity entity;
 
@@ -69,10 +73,6 @@ namespace MusicBrowser.Entities
                 Statistics.Hit("factory.missorexpired");
             }
             #endregion
-
-            // don't waste time trying to determine a known not entity
-            if (Util.Helper.getKnownType(item) == Helper.knownType.Other) { return null; }
-            if (item.Name.ToLower() == "metadata") { return null; }
 
             Engines.Logging.LoggerEngineFactory.Debug("Manufacturing " + item.FullPath);
 

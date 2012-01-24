@@ -338,7 +338,9 @@
     <None Include="MediaCentre\Markup\Pages\pageSearch.mcml" />
     <None Include="MediaCentre\Markup\Pages\pageSettings.mcml" />
     <None Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />
-    <None Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MediaCentre\Markup\Controls\PageViews\viewThumb.mcml">
       <SubType>Designer</SubType>
     </None>

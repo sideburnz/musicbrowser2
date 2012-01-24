@@ -20,7 +20,7 @@ namespace MusicBrowser.Engines.PlugIns
             Factory.RegisterAction(new ActionPlaySimilarTracks());
 
             // Metadata
-            Metadata.Providers.RegisterProvider(new LastFMMetadataProvider());
+            //Metadata.Providers.RegisterProvider(new LastFMMetadataProvider());
         }
     }
 }

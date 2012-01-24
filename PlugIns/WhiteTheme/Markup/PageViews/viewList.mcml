@@ -41,7 +41,7 @@
     </Rules>
 
     <Content>
-      <Scroller FocusOrder="0" Orientation="Horizontal" FadeSize="-10" Margins="330,-10,0,0" Name="viewListScroller" ScrollingData="[scrollData]" >
+      <Scroller FocusOrder="0" Orientation="Horizontal" FadeSize="-10" Margins="400,-10,0,0" Name="viewListScroller" ScrollingData="[scrollData]" >
             <Children>
               <Repeater Name="viewListRepeater" Navigation="RememberFocus">
                 <Animations>

@@ -28,7 +28,7 @@ namespace MusicBrowser.Engines.Metadata
                 try
                 {
                     //DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
-                    if (!provider.CompatibleWith(entity.Kind)) { continue; }
+                    if (!provider.CompatibleWith(entity)) { continue; }
                     //if (!Forced && !provider.isStale(lastAccess)) { continue; }
 
                     // execute the payload

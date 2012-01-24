@@ -27,6 +27,8 @@ namespace MusicBrowser.Entities
         private List<string> _backgroundPaths;
         private DateTime _lastPlayed;
         private int _duration;
+        private string _overview;
+        private DateTime _releaseDate;
         #endregion
 
         #region cached attributes
@@ -208,6 +210,32 @@ namespace MusicBrowser.Entities
                 {
                     _duration = value;
                     DataChanged("Duration");
+                }
+            }
+        }
+        [DataMember]
+        public string Overview
+        {
+            get { return _overview; }
+            set
+            {
+                if (value != _overview)
+                {
+                    _overview = value;
+                    DataChanged("Overview");
+                }
+            }
+        }
+        [DataMember]
+        public DateTime ReleaseDate
+        {
+            get { return _releaseDate; }
+            set
+            {
+                if (value != _releaseDate)
+                {
+                    _releaseDate = value;
+                    DataChanged("ReleaseDate");
                 }
             }
         }
@@ -402,6 +430,36 @@ namespace MusicBrowser.Entities
                     case "Duration:sort":
                     case "duration:sort":
                         output = output.Replace("[" + token + "]", Duration.ToString("D10")); break;
+                    case "ReleaseDate":
+                    case "releasedate":
+                        if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
+                        {
+                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("dd mmm yyyy"));
+                            break;
+                        }
+                        output = output.Replace("[" + token + "]", "");
+                        break;
+                    case "ReleaseDate:sort":
+                    case "releaserate:sort":
+                        if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
+                        {
+                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("yyyymmdd hhMMss"));
+                            break;
+                        }
+                        output = output.Replace("[" + token + "]", "");
+                        break;
+                    case "ReleaseYear":
+                    case "releaseyear":
+                    case "ReleaseYear:sort":
+                    case "releaseyear:sort":
+                        if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
+                        {
+                            output = output.Replace("[" + token + "]", ReleaseDate.Year.ToString());
+                            break;
+                        }
+                        output = output.Replace("[" + token + "]", "");
+                        break;
+
                 }
             }
             return output.Trim();

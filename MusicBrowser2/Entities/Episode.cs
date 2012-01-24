@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    class Episode : Video
+    public class Episode : Video
     {
         public override string DefaultThumbPath
         {
@@ -77,7 +77,7 @@ namespace MusicBrowser.Entities
             {
                 if (!String.IsNullOrEmpty(ShowName))
                 {
-                    return ShowName + ", Season " + SeasonNumber + " > " + base.Information;
+                    return ShowName + ", Season " + SeasonNumber + "  " + base.Information + "  (" + TokenSubstitution("[ReleaseYear]") + ")";
                 }
                 return base.Information;
             }

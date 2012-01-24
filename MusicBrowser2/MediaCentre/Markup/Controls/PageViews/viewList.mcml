@@ -25,7 +25,7 @@
       <Binding Target="[viewListRepeater.Source]" Source="[FolderModel.EntityList]" />
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewListRepeater]"/>
-      <!--<Binding Target="[Summary.Summary]" Source="[FolderModel.ParentEntity.Summary]" />-->
+      <Binding Target="[Summary.Summary]" Source="[FolderModel.ParentEntity.Overview]" />
       <!--<Binding Target="[Summary.Visible]" Source="[FolderModel.ShowSummary]" />-->
 
       <Changed Source="[FolderModel.JILIndex]">

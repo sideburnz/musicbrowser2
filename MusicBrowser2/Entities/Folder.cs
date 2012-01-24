@@ -13,7 +13,7 @@ using System.IO;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    class Folder : Container
+    public class Folder : Container
     {
         public override string DefaultThumbPath
         {

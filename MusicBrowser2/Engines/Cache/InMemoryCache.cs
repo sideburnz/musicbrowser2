@@ -9,7 +9,7 @@ using System.Data;
 using System.IO;
 using MusicBrowser.Providers.Background;
 
-// in memory caching, intended to allow faster searches
+// in memory caching, once populated makes browsing faster
 namespace MusicBrowser.Engines.Cache
 {
     public sealed class InMemoryCache
@@ -74,14 +74,14 @@ namespace MusicBrowser.Engines.Cache
 
         public baseEntity Fetch(string key)
         {
-            if (!_cache.ContainsKey(key))
+            if (_cache.ContainsKey(key))
             {
-                Statistics.Hit("MemCache.Miss");
-                return null;
+                baseEntity e = _cache[key];
+                Statistics.Hit("MemCache.Hit");
+                return e;
             }
-            baseEntity e = _cache[key];
-            Statistics.Hit("MemCache.Hit");
-            return e;
+            Statistics.Hit("MemCache.Miss");
+            return null;
         }
 
         public void Remove(string key)

@@ -15,7 +15,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return "Video Collection";
+                return CalculateInformation("Video Collection", "Movie", "Show");
             }
         }
 

@@ -13,5 +13,13 @@ namespace MusicBrowser.Entities
         {
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageGenre"; }
         }
+
+        public override string Information
+        {
+            get
+            {
+                return CalculateInformation("", "Artist", "Album", "Track");
+            }
+        }
     }
 }
