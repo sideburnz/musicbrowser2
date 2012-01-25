@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using Microsoft.MediaCenter;
 using MusicBrowser.Providers;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
@@ -24,9 +25,10 @@ namespace MusicBrowser.Entities
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
             MediaCollection collection = new MediaCollection();
 
-            List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path).
-                OrderBy(item => item.Name).
-                ToList();
+            List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path)
+                .FilterDVDFiles()
+                .OrderBy(item => item.Name)
+                .ToList();
 
             foreach (FileSystemItem item in candidateitems)
             {

@@ -25,8 +25,6 @@
       <Binding Target="[viewListRepeater.Source]" Source="[FolderModel.EntityList]" />
       <Default Target="[scrollHandler.ScrollingData]" Value="[scrollData]"/> 
       <Default Target="[scrollData.Repeater]" Value="[viewListRepeater]"/>
-      <Binding Target="[Summary.Summary]" Source="[FolderModel.ParentEntity.Overview]" />
-      <!--<Binding Target="[Summary.Visible]" Source="[FolderModel.ShowSummary]" />-->
 
       <Changed Source="[FolderModel.JILIndex]">
         <Actions>
@@ -41,7 +39,6 @@
         </Conditions>
         <Actions>
           <Set Target="[div_ListText.Visible]" Value="true" />
-          <!--<Set Target="[Summary.Visible]" Value="[FolderModel.ShowSummary]" />-->
         </Actions>
       </Changed>
       <Changed Source="[FolderModel.ParentEntity.View]">
@@ -52,6 +49,13 @@
           <Set Target="[div_ListText.Visible]" Value="false" />
         </Actions>
       </Changed>
+
+      <Changed Source="[FolderModel.SelectedIndex]">
+        <Actions>
+          <Set Target="[Summary.Summary]" Value="[FolderModel.SelectedItem.Overview]" />
+        </Actions>
+      </Changed>
+
       <Rule>
         <Actions>
           <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[FolderModel.SelectedIndex]" />

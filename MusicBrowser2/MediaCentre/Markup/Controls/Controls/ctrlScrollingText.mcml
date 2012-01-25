@@ -20,17 +20,17 @@
       <Binding Source="[TextScrollingData.TotalPages!cor:String]" Target="[TotalPages.Content]" />
       <Binding Source="[TextScrollingData.CurrentPage!cor:String]" Target="[CurrentPage.Content]" />
 
-      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+      <!--<Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
           <Set Target="[Body.Alpha]" Value="1"/>
         </Actions>
-      </Condition>
+      </Condition>-->
     
-      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+      <!--<Condition Source="[Input.KeyFocus]" SourceValue="false">
         <Actions>
           <Set Target="[Body.Alpha]" Value="0.7"/>
         </Actions>
-      </Condition>
+      </Condition>-->
 
       <Changed Source="[TextScrollingData.TotalPages]" InitialEvaluate="true">
         <Conditions>

@@ -9,6 +9,7 @@ using MusicBrowser.Interfaces;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.FolderItems;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Providers
 {
@@ -58,7 +59,7 @@ namespace MusicBrowser.Providers
             // don't waste time doing anything else if the current item isn't a folder
             if (!Directory.Exists(_path)) { return; }
 
-            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path);
+            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path).FilterDVDFiles();
             //IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
 
             foreach (FileSystemItem item in items)
