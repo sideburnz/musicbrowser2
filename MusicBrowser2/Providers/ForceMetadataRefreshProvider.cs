@@ -5,16 +5,19 @@ using System.Text;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Providers;
 using MusicBrowser.Entities;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Providers
 {
     class ForceMetadataRefreshProvider : IBackgroundTaskable
     {
         private baseEntity _parent;
+        private bool _recurse;
 
-        public ForceMetadataRefreshProvider(baseEntity parent)
+        public ForceMetadataRefreshProvider(baseEntity parent, bool recurse)
         {
             _parent = parent;
+            _recurse = recurse;
         }
 
         public string Title
@@ -29,15 +32,18 @@ namespace MusicBrowser.Providers
             Engines.Cache.CacheEngineFactory.GetEngine().Delete(_parent.CacheKey);
             new Engines.Metadata.MetadataProviderList(_parent, true).Execute();
 
-            // refresh the children item
-            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parent.Path);
-            foreach (FileSystemItem item in items)
+            if (_recurse)
             {
-                baseEntity e = EntityFactory.GetItem(item);
-                if (e == null) { continue; }
-                Engines.Cache.InMemoryCache.GetInstance().Remove(e.CacheKey);
-                Engines.Cache.CacheEngineFactory.GetEngine().Delete(e.CacheKey);
-                new Engines.Metadata.MetadataProviderList(e, true).Execute();
+                // refresh the children item
+                IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parent.Path).FilterDVDFiles();
+                foreach (FileSystemItem item in items)
+                {
+                    baseEntity e = EntityFactory.GetItem(item);
+                    if (e == null) { continue; }
+                    Engines.Cache.InMemoryCache.GetInstance().Remove(e.CacheKey);
+                    Engines.Cache.CacheEngineFactory.GetEngine().Delete(e.CacheKey);
+                    new Engines.Metadata.MetadataProviderList(e, true).Execute();
+                }
             }
         }
     }

@@ -176,7 +176,7 @@ namespace MusicBrowser.Engines.Metadata
                 else
                 {
                     // if it's a folder, get the details from the first item we find that's a video file
-                    IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(dto.Path);
+                    IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(dto.Path).FilterDVDFiles();
                     foreach (FileSystemItem item in items)
                     {
                         if (Helper.getKnownType(item) == Helper.knownType.Video)
@@ -192,6 +192,10 @@ namespace MusicBrowser.Engines.Metadata
                     return false;
                 }
             }
+            else
+            {
+                path = dto.Path;
+            }
 
             try
             {
@@ -202,6 +206,7 @@ namespace MusicBrowser.Engines.Metadata
                     int j = 0;
 
                     // general
+                    dto.Subtitles = !String.IsNullOrEmpty(mediaInfo.Get(StreamKind.Text, 0, "Format"));
                     dto.Container = mediaInfo.Get(StreamKind.General, 0, "Format");
                     if (Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Duration"), out j))
                     {
@@ -223,7 +228,11 @@ namespace MusicBrowser.Engines.Metadata
                     dto.VideoCodec = mediaInfo.Get(StreamKind.Video, 0, "Format");
                     dto.AspectRatio = mediaInfo.Get(StreamKind.Video, 0, "DisplayAspectRatio/String");
 
-                    dto.Subtitles = !String.IsNullOrEmpty(mediaInfo.Get(StreamKind.Text, 0, "Format"));
+                    j = 0;
+                    if (Int32.TryParse(mediaInfo.Get(StreamKind.Video, 0, "Height"), out j))
+                    {
+                        dto.HiDef = j > 719;
+                    }
 
                     //audio
                     dto.AudioCodec = mediaInfo.Get(StreamKind.Audio, 0, "Format");

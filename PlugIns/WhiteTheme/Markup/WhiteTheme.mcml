@@ -101,6 +101,7 @@
         <Actions>
           <Set Target="[RatingIcons.Rating]" Value="[FolderModel.SelectedItem.Rating]" />
           <Set Target="[Title.Content]" Value="[FolderModel.SelectedItem.Title]" />
+          <Set Target="[Summary.Content]" Value="[FolderModel.SelectedItem.Overview]" />
         </Actions>
       </Changed>
 
@@ -152,7 +153,7 @@
             </LayoutInput>
             <Children>
               <Text Name="Title" Font="Segoe Media Center Light, 22" Color="White" Margins="0,0,0,-5"/>
-              <Text Font="Segoe Media Center Light, 15" Color="White" Alpha="0.8" WordWrap="true" Content="The server at go.microsoft.com can't be found because the DNS look-up failed. DNS is the network service that translates a website's name to its Internet address. This error is most often caused by having no connection to the Internet or a misconfigured network. It can also be caused by an unresponsive DNS server or a firewall preventing Google Chrome from accessing the network."/>
+              <Text Font="Segoe Media Center Light, 15" Color="White" Alpha="0.8" WordWrap="true" Name="Summary"/>
             </Children>
           </ColorFill>
 

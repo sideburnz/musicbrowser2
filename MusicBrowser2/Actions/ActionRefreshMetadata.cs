@@ -7,6 +7,7 @@ using MusicBrowser.Entities;
 using MusicBrowser.Models;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Background;
+using Microsoft.MediaCenter;
 
 namespace MusicBrowser.Actions
 {
@@ -35,8 +36,34 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            Models.UINotifier.GetInstance().Message = String.Format("refreshing metadata for {0}", entity.Title);
-            CommonTaskQueue.Enqueue(new ForceMetadataRefreshProvider(entity), true);
+            bool confirmation = false;
+
+            if (Util.Helper.InheritsFrom<Container>(entity))
+            {
+                try
+                {
+                    IList<DialogButtons> buttons = new List<DialogButtons>();
+                    buttons.Add(DialogButtons.Yes);
+                    buttons.Add(DialogButtons.No);
+
+                    DialogResult response =
+                       Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog
+                            ("Fresh child metadata aswell",
+                            "Refresh Metadata",
+                            buttons,
+                            30,
+                            true,
+                            "");
+
+                    confirmation = (response == DialogResult.Yes);
+                }
+                catch
+                {
+                    confirmation = true;
+                }
+            }
+
+            CommonTaskQueue.Enqueue(new ForceMetadataRefreshProvider(entity, confirmation), true);
         }
     }
 }

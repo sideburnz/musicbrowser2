@@ -7,6 +7,7 @@ using MusicBrowser.Providers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
@@ -97,13 +98,29 @@ namespace MusicBrowser.Entities
             }
         }
         private string _aspectratio;
+        [DataMember]
+        public bool HiDef
+        {
+            get { return _hd; }
+            set
+            {
+                if (value != _hd)
+                {
+                    _hd = value;
+                    DataChanged("HiDef");
+                }
+            }
+        }
+        private bool _hd;
 
         public override string Information
         {
             get
             {
                 return "(" + Container + "   " + VideoCodec + "  " + AudioCodec + "  "
-                    + (Subtitles ? "subs  " : "") + TokenSubstitution("[duration]") + ")"
+                    + (Subtitles ? "subs  " : "") 
+                    + (HiDef ? "HD  " : "")
+                    + TokenSubstitution("[duration]") + ")"
                     + (Played ? "" : "*");
             }
         }
@@ -122,9 +139,10 @@ namespace MusicBrowser.Entities
                     MediaCollection collection = new MediaCollection();
                     string lastitem = string.Empty;
 
-                    List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path).
-                        OrderBy(item => item.Name).
-                        ToList();
+                    List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path)
+                        .FilterDVDFiles()
+                        .OrderBy(item => item.Name)
+                        .ToList();
 
                     if (shuffle) { Util.Helper.ShuffleList<FileSystemItem>(candidateitems); }
 

@@ -75,6 +75,13 @@ namespace MusicBrowser.Engines.Metadata
                 data.Load(datafile);
 
                 dto.Overview = Helper.ReadXmlNode(data, @"Series/Overview");
+                dto.Title = Helper.ReadXmlNode(data, @"Series/SeriesName");
+
+                double r;
+                if (Double.TryParse(Helper.ReadXmlNode(data, @"Series/Rating"), out r))
+                {
+                    dto.Rating = (int)(r * 10);
+                }
 
                 return true;
             }
@@ -87,8 +94,19 @@ namespace MusicBrowser.Engines.Metadata
 
         private bool DoWorkEpisode(Episode dto)
         {
-            string datapath = Path.Combine(Path.GetDirectoryName(dto.Path), "metadata");
-            string datafile = Path.Combine(datapath, Path.GetFileNameWithoutExtension(dto.Path) + ".xml");
+            string datapath;
+            string datafile;
+
+            if (File.Exists(dto.Path))
+            {
+                datapath = Path.Combine(Path.GetDirectoryName(dto.Path), "metadata");
+                datafile = Path.Combine(datapath, Path.GetFileNameWithoutExtension(dto.Path) + ".xml");
+            }
+            else
+            {
+                datapath = Path.Combine(Directory.GetParent(dto.Path).FullName, "metadata");
+                datafile = Path.Combine(datapath, Path.GetFileName(dto.Path) + ".xml");
+            }
 
             if (!File.Exists(datafile)) { return false; }
 
@@ -123,6 +141,12 @@ namespace MusicBrowser.Engines.Metadata
                 if (File.Exists(s))
                 {
                     dto.ThumbPath = s;
+                }
+
+                double r;
+                if (Double.TryParse(Helper.ReadXmlNode(data, @"Item/Rating"), out r))
+                {
+                    dto.Rating = (int)(r * 10);
                 }
 
                 return true;
@@ -170,6 +194,12 @@ namespace MusicBrowser.Engines.Metadata
                 if (DateTime.TryParse(s, out d))
                 {
                     dto.ReleaseDate = d;
+                }
+
+                double r;
+                if (Double.TryParse(Helper.ReadXmlNode(data, @"Title/IMDBrating"), out r))
+                {
+                    dto.Rating = (int)(r * 10);
                 }
 
                 return true;

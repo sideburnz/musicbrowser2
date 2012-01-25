@@ -409,22 +409,6 @@ namespace MusicBrowser.Util
             return false;
         }
 
-        public static void ShuffleList<TE>(IList<TE> list)
-        {
-            if (list.Count > 1)
-            {
-                for (int i = list.Count - 1; i >= 0; i--)
-                {
-                    TE tmp = list[i];
-                    int randomIndex = Random.Next(i + 1);
-                    //Swap elements
-                    list[i] = list[randomIndex];
-                    list[randomIndex] = tmp;
-                }
-            }
-        }
-
-
         public static bool InheritsFrom<T>(object e)
         {
             return typeof(T).IsAssignableFrom(e.GetType());
@@ -449,6 +433,28 @@ namespace MusicBrowser.Util
                 return new Microsoft.MediaCenter.UI.Image("file://" + path);
             }
             return new Microsoft.MediaCenter.UI.Image("resx://MusicBrowser/MusicBrowser.Resources/nullImage");
+        }
+
+        public static IEnumerable<FileSystemItem> FilterDVDFiles(this IEnumerable<FileSystemItem> raw)
+        {
+            return raw.Where(item => !item.FullPath.Contains(@"\VIDEO_TS\"));
+        }
+
+        public static IList<TE> ShuffleList<TE>(this IList<TE> list)
+        {
+            IList<TE> temp = list;
+            if (temp.Count > 1)
+            {
+                for (int i = temp.Count - 1; i >= 0; i--)
+                {
+                    TE tmp = temp[i];
+                    int randomIndex = Random.Next(i + 1);
+                    //Swap elements
+                    temp[i] = temp[randomIndex];
+                    temp[randomIndex] = tmp;
+                }
+            }
+            return temp;
         }
     }
 }
