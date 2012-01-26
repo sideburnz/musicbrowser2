@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Actions
 {
@@ -16,7 +17,7 @@ namespace MusicBrowser.Actions
 
         public ActionToggleWatched(baseEntity entity)
         {
-            if (Util.Helper.InheritsFrom<Music>(entity))
+            if (entity.InheritsFrom<Music>())
             {
                 Label = "Toggle Listened Status";
             }

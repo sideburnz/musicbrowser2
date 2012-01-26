@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Engines.Transport;
+using MusicBrowser.Util;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Models
 {
@@ -15,7 +17,7 @@ namespace MusicBrowser.Models
         public NowPlayingUI()
         {
             ITransportEngine transport = TransportEngineFactory.GetEngine();
-            _enabled = (Util.Helper.InheritsFrom<Foobar2000Transport>(transport));
+            _enabled = (transport.InheritsFrom<Foobar2000Transport>());
             if (_enabled)
             {
                 _model = Foobar2000.GetInstance();

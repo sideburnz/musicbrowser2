@@ -27,9 +27,9 @@ namespace MusicBrowser.Engines.Metadata
             {
                 try
                 {
-                    //DateTime lastAccess = entity.ProviderTimeStamps.ContainsKey(provider.FriendlyName()) ? entity.ProviderTimeStamps[provider.FriendlyName()] : DateTime.MinValue;
                     if (!provider.CompatibleWith(entity)) { continue; }
-                    //if (!Forced && !provider.isStale(lastAccess)) { continue; }
+                    DateTime lastAccess = entity.MetadataStamps.ContainsKey(provider.FriendlyName()) ? entity.MetadataStamps[provider.FriendlyName()] : DateTime.MinValue;
+                    if (!Forced && !provider.isStale(lastAccess)) { continue; }
 
                     // execute the payload
                     ProviderOutcome outcome = provider.Fetch(entity);
@@ -37,11 +37,11 @@ namespace MusicBrowser.Engines.Metadata
                     if (outcome == ProviderOutcome.Success)
                     {
                         requiresUpdate = true;
-                        //entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
+                        entity.MetadataStamps[provider.FriendlyName()] = DateTime.Now;
                     }
                     else if (outcome != ProviderOutcome.NoData) // no data is a warning, ignore it and move on
                     {
-//                        entity.ProviderTimeStamps[provider.FriendlyName()] = DateTime.Now;
+                        entity.MetadataStamps[provider.FriendlyName()] = DateTime.Now;
                     }
                 }
                 catch (Exception e)

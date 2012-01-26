@@ -20,7 +20,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
         public static void FetchLite(baseEntity entity)
         {
             #region killer questions
-            if (!Helper.InheritsFrom<Episode>(entity)) { return; }
+            if (!entity.InheritsFrom<Episode>()) { return; }
             #endregion
 
             Episode episode = (Episode)entity;

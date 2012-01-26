@@ -159,6 +159,7 @@
           <Set Target="[Label.Alpha]" Value="0.5"/>
         </Actions>
       </Rule>
+      <Binding Target="[graphicBullet.Visible]" Source="[FolderModel.ShowThumbs]" />
     </Rules>
 
     <Content>

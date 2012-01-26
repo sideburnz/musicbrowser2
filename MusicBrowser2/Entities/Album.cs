@@ -9,7 +9,7 @@ using MusicBrowser.Util;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    class Album : Folder
+    public class Album : Folder
     {
         public override string DefaultThumbPath
         {

@@ -63,7 +63,7 @@ namespace MusicBrowser.Models
                 }
                 catch 
                 {
-                    if (Util.Helper.InheritsFrom<Video>(e))
+                    if (e.InheritsFrom<Video>())
                     {
                         i++;
                         ratio2to3++;
@@ -194,6 +194,11 @@ namespace MusicBrowser.Models
         public static bool ShowClock
         {
             get { return Config.GetInstance().GetBooleanSetting("ShowClock"); }
+        }
+
+        public bool ShowThumbs
+        {
+            get { return Config.GetInstance().GetBooleanSetting("ShowThumbs"); ; }
         }
 
         public bool IsHorizontal

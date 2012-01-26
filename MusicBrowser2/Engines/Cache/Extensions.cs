@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MusicBrowser.Entities;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Engines.Cache
 {
@@ -30,7 +31,7 @@ namespace MusicBrowser.Engines.Cache
 
         public static void SetProgress(this baseEntity entity, int progress)
         {
-            if (Util.Helper.InheritsFrom<Item>(entity))
+            if (entity.InheritsFrom<Item>())
             {
                 ((Video)entity).Progress = progress;
                 if (progress == 0)
