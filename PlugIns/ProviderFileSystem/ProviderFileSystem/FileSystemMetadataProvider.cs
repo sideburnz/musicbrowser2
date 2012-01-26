@@ -23,7 +23,7 @@ namespace MusicBrowser.Engines.Metadata
 
         public override bool CompatibleWith(baseEntity type)
         {
-            return Util.Helper.InheritsFrom<Folder>(type);
+            return type.InheritsFrom<Folder>();
         }
         
         public override bool AskKillerQuestions(baseEntity dto)
@@ -47,7 +47,7 @@ namespace MusicBrowser.Engines.Metadata
                 baseEntity e = EntityFactory.GetItem(item);
                 if (e == null) { continue; }
 
-                if (Helper.InheritsFrom<Video>(e) || Helper.InheritsFrom<Music>(e))
+                if (e.InheritsFrom<Video>() || e.InheritsFrom<Music>())
                 {
                     duration += e.Duration;
                 }

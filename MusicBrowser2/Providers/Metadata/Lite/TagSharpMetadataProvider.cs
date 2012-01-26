@@ -16,7 +16,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
             // this is meant to be as quick as possible to not hold up the UI
 
             #region killer questions
-            if (!Helper.InheritsFrom<Track>(entity)) { return; }
+            if (!entity.InheritsFrom<Track>()) { return; }
             #endregion
 
             Track track = (Track)entity;

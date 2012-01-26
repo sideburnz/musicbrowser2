@@ -409,11 +409,6 @@ namespace MusicBrowser.Util
             return false;
         }
 
-        public static bool InheritsFrom<T>(object e)
-        {
-            return typeof(T).IsAssignableFrom(e.GetType());
-        }
-
         public static Microsoft.MediaCenter.UI.Image GetImage(string path)
         {
             if (String.IsNullOrEmpty(path))

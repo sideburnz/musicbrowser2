@@ -29,7 +29,7 @@ namespace MusicBrowser.Engines.Metadata
 
         public override bool CompatibleWith(baseEntity dto)
         {
-            return (Helper.InheritsFrom<Track>(dto) || Helper.InheritsFrom<Video>(dto));
+            return (dto.InheritsFrom<Track>() || dto.InheritsFrom<Video>());
         }
 
         public override bool AskKillerQuestions(Entities.baseEntity dto)
@@ -43,7 +43,7 @@ namespace MusicBrowser.Engines.Metadata
 
         public override ProviderOutcome DoWork(baseEntity dto)
         {
-            if (Helper.InheritsFrom<Track>(dto))
+            if (dto.InheritsFrom<Track>())
             {
                 if (DoWorkMusic((Track)dto)) 
                 { 
@@ -51,7 +51,7 @@ namespace MusicBrowser.Engines.Metadata
                 }
                 return ProviderOutcome.SystemError;
             }
-            if (Helper.InheritsFrom<Video>(dto))
+            if (dto.InheritsFrom<Video>())
             {
                 if (DoWorkVideo((Video)dto)) 
                 { 

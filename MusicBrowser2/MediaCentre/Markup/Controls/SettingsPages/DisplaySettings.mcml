@@ -20,8 +20,7 @@
       <actions:ActionSetBooleanSetting Name="CmdShowFanArt" Key="EnableFanArt" />
       <actions:ActionSetBooleanSetting Name="CmdUpdateShowClock" Key="ShowClock" />
 
-      <actions:ActionSetBooleanSetting Name="CmdStripShowSummary" Key="Views.Strip.ShowSummary" />
-      <actions:ActionSetBooleanSetting Name="CmdListShowSummary" Key="Views.List.ShowSummary" />
+      <actions:ActionSetBooleanSetting Name="CmdShowThumbs" Key="ShowThumbs" />
 
       <actions:ActionSetOptionList Name="CmdTheme" Key="Theme" Options="[theme.Themes]" />
       <actions:ActionSetOptionList Name="CmdJIL" Key="KeyboardAction" Options="[jil.Actions]" />
@@ -31,15 +30,14 @@
       <ColorFill Content="Transparent" Layout="VerticalFlow">
         <Children>
           <Text Content="General Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
-          <me:ctrlCheckbox Label="Enable background images" Action="[CmdShowFanArt]" />
-          <me:ctrlCheckbox Label="Show clock" Action="[CmdUpdateShowClock]" />
+          <me:ctrlListSpinner Label="Typing action" Action="[CmdJIL]" />
 
           <Text Content="View Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
-          <me:ctrlCheckbox Label="Show summary on the List view" Action="[CmdListShowSummary]" />
-          <me:ctrlCheckbox Label="Show summary on the Strip view" Action="[CmdStripShowSummary]" />
-
+          <me:ctrlCheckbox Label="Show Thumbs" Action="[CmdShowThumbs]" />
+          <me:ctrlCheckbox Label="Show background images" Action="[CmdShowFanArt]" />
+          <me:ctrlCheckbox Label="Show clock" Action="[CmdUpdateShowClock]" />
           <me:ctrlListSpinner Label="Theme (requires restart)" Action="[CmdTheme]" />
-          <me:ctrlListSpinner Label="Typing action" Action="[CmdJIL]" />
+
         </Children>
       </ColorFill>
     </Content>

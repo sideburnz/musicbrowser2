@@ -22,6 +22,8 @@ namespace MusicBrowser.Util
                 { "PutDiscInTrackNo", true.ToString() },
                 { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
 
+                { "ShowThumbs", true.ToString() },
+
                 { "KeyboardAction", "Jump" },
 
                 { "Log.Level", "error" },

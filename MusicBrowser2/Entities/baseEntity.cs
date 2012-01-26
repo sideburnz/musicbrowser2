@@ -29,6 +29,8 @@ namespace MusicBrowser.Entities
         private int _duration;
         private string _overview;
         private DateTime _releaseDate;
+        private int _rating;
+        private Dictionary<String, DateTime> _metadata = new Dictionary<string, DateTime>();
         #endregion
 
         #region cached attributes
@@ -164,7 +166,21 @@ namespace MusicBrowser.Entities
         [DataMember]
         public int TimesPlayed { get; set; }
         [DataMember]
-        public int Rating { get; set; }
+        public int Rating 
+        {
+            get
+            {
+                return _rating;
+            }
+            set
+            {
+                if (value != _rating)
+                {
+                    _rating = value;
+                    DataChanged("Rating");
+                }
+            }
+        }
         [DataMember]
         public bool Loved { get; set; }
         [DataMember]
@@ -219,9 +235,10 @@ namespace MusicBrowser.Entities
             get { return _overview; }
             set
             {
-                if (value != _overview)
+                string cleansed = value.Replace("\r\n\r\n", "\r\n");
+                if (cleansed != _overview)
                 {
-                    _overview = value;
+                    _overview = cleansed;
                     DataChanged("Overview");
                 }
             }
@@ -239,7 +256,18 @@ namespace MusicBrowser.Entities
                 }
             }
         }
-
+        [DataMember]
+        public Dictionary<String, DateTime> MetadataStamps 
+        {
+            get
+            {
+                return _metadata;
+            }
+            set
+            {
+                _metadata = value;
+            }
+        } 
         #endregion
 
         #region private cached items
@@ -510,6 +538,11 @@ namespace MusicBrowser.Entities
                 node = node.BaseType;
             }
             return ret;
+        }
+
+        public static bool InheritsFrom<T>(this object e)
+        {
+            return typeof(T).IsAssignableFrom(e.GetType());
         }
     }
 }

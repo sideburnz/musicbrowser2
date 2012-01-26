@@ -6,6 +6,7 @@ using MusicBrowser.Providers;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Engines.Transport;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Actions
 {
@@ -19,7 +20,7 @@ namespace MusicBrowser.Actions
             Label = LABEL + " " + entity.Kind;
             IconPath = ICON_PATH;
             Entity = entity;
-            Available = !Util.Helper.InheritsFrom<Video>(entity); // videos can be queued
+            Available = !entity.InheritsFrom<Video>(); // videos can be queued
         }
 
         public ActionQueue()

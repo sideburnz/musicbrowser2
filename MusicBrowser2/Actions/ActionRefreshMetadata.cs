@@ -38,7 +38,7 @@ namespace MusicBrowser.Actions
         {
             bool confirmation = false;
 
-            if (Util.Helper.InheritsFrom<Container>(entity))
+            if (entity.InheritsFrom<Container>())
             {
                 try
                 {
@@ -48,8 +48,8 @@ namespace MusicBrowser.Actions
 
                     DialogResult response =
                        Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog
-                            ("Fresh child metadata aswell",
-                            "Refresh Metadata",
+                            ("Refresh child data too?",
+                            "Refresh Data",
                             buttons,
                             30,
                             true,
