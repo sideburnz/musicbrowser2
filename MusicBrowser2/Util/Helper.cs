@@ -311,11 +311,15 @@ namespace MusicBrowser.Util
             return hash;
         }
 
-        static public string ImageCacheFullName(string key, string imageType)
+        static public string ImageCacheFullName(string key, ImageType type, int index)
         {
-            string path = Config.GetInstance().GetStringSetting("Cache.Path") + "\\Images\\" + imageType + "\\" + key.Substring(0, 2);
+            string path = Config.GetInstance().GetStringSetting("Cache.Path") + "\\Images\\" + type.ToString() + "\\" + key.Substring(0, 2);
             Directory.CreateDirectory(path);
-            return path + "\\" + key + ".jpg";
+            if (index > 0)
+            {
+                return path + "\\" + key + ".jpg";
+            }
+            return path + "\\" + key + " - " + index + ".jpg";
         }
 
         public static string IBNPath(string category, string title)

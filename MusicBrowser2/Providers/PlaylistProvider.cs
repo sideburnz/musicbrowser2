@@ -6,7 +6,6 @@ using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.WebServices.Interfaces;
-using MusicBrowser.WebServices.WebServiceProviders;
 using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Providers

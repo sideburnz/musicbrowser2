@@ -300,13 +300,11 @@
     </Compile>
     <Compile Include="Util\Helper.cs" />
     <Compile Include="WebServices\Helper\Externals.cs" />
-    <Compile Include="WebServices\WebServiceProviders\HTBackdropWebProvider.cs" />
     <Compile Include="WebServices\Helper\HTTPProvider.cs" />
     <Compile Include="WebServices\Helper\Logging.cs" />
     <Compile Include="WebServices\Interfaces\IWebService.cs" />
     <Compile Include="WebServices\Interfaces\WebServiceProvider.cs" />
     <Compile Include="WebServices\Services\Discogs\holding.cs" />
-    <Compile Include="WebServices\Services\HTBackdrop\ArtistImagesService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MediaCentre\Markup\blank.mcml" />

@@ -33,11 +33,11 @@
  
           <Text Content="Cache Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Enable caching" Action="[CmdCacheEnable]" />
-          <me:buttonAction Action="[CmdDeleteCache]" Size="0,52" />
-          <me:buttonAction Action="[CmdCleanCache]" Size="0,52" />
+          <me:buttonAction Action="[CmdDeleteCache]" Size="0,52" FadeIconAlpha="0.5" />
+          <me:buttonAction Action="[CmdCleanCache]" Size="0,52" FadeIconAlpha="0.5" />
 
           <Text Content="New Version" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
-          <me:buttonAction Action="[CmdNewVersion]" Size="0,52" />
+          <me:buttonAction Action="[CmdNewVersion]" Size="0,52" FadeIconAlpha="0.5" />
           <Text />
         </Children>
       </ColorFill>

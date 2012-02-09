@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicBrowser", "MusicBrowse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_LastFM", "PlugIns\LastFMProvider\_LastFM.csproj", "{A2075E0C-2D45-444F-8977-88E2B1BC12F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_HTBackdrop", "PlugIns\HTBackdropProvider\_HTBackdrop.csproj", "{9D18333B-14FE-4DC0-BEFA-6131D70898B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTBackdrop", "PlugIns\HTBackdropProvider\HTBackdrop.csproj", "{9D18333B-14FE-4DC0-BEFA-6131D70898B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "White", "PlugIns\WhiteTheme\White.csproj", "{BBBE0CD9-B3A3-4712-8BB5-7B27C8DC1205}"
 EndProject

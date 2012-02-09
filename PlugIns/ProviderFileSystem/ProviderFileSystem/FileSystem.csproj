@@ -47,7 +47,6 @@
   <ItemGroup>
     <Compile Include="FileSystemMetadataProvider.cs" />
     <Compile Include="_IBNMetadataProvider.cs" />
-    <Compile Include="_InheritanceMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.cs" />
   </ItemGroup>
