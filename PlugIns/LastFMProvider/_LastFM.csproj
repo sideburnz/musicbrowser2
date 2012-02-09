@@ -54,6 +54,7 @@
     <Compile Include="Actions\ActionPlayPopularLastFM.cs" />
     <Compile Include="Actions\ActionPlayRandomPopularLastFM.cs" />
     <Compile Include="Actions\ActionPlaySimilarTracks.cs" />
+    <Compile Include="MetadataProviders\LastFMArtistMetadataProvider.cs" />
     <Compile Include="WebServiceProviders\LastFMWebProvider.cs" />
     <Compile Include="Services\AlbumInfoService.cs" />
     <Compile Include="Services\ArtistInfoService.cs" />

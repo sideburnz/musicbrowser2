@@ -8,7 +8,7 @@ using MusicBrowser.Providers;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    class Artist : Folder
+    public class Artist : Folder
     {
         public override string DefaultThumbPath
         {
@@ -22,6 +22,9 @@ namespace MusicBrowser.Entities
                 return CalculateInformation("", "Album", "Track");
             }
         }
+
+        [DataMember]
+        public string MusicBrainzID { get; set; }
 
         public override void Play(bool queue, bool shuffle)
         {

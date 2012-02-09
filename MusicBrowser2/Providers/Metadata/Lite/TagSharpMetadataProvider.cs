@@ -48,7 +48,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
                             Bitmap Thumb = ImageProvider.Convert(pic);
                             if (Thumb != null)
                             {
-                                string iconPath = Util.Helper.ImageCacheFullName(track.CacheKey, "Thumbs");
+                                string iconPath = Util.Helper.ImageCacheFullName(track.CacheKey, ImageType.Thumb, -1);
                                 if (ImageProvider.Save(ImageProvider.Resize(Thumb, ImageType.Thumb), iconPath))
                                 {
                                     track.ThumbPath = iconPath;

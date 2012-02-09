@@ -13,6 +13,7 @@
       <actions:baseActionCommand Name="Action" baseActionCommand="$Required" />
       <Size Name="Size" Size="360,52" />
       <Font Name="Font" Font="Segoe Media Center, 22" />
+      <cor:Single Name="FadeIconAlpha" Single="1" />
     </Properties>
 
     <Locals>
@@ -25,6 +26,7 @@
         <Actions>
           <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"/>
           <Set Target="[txtLabel.Alpha]" Value="1" />
+          <Set Target="[grpIcon.Alpha]" Value="1" />
         </Actions>
       </Condition>
 
@@ -32,6 +34,7 @@
         <Actions>
           <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
           <Set Target="[txtLabel.Alpha]" Value="0.5" />
+          <Set Target="[grpIcon.Alpha]" Value="[FadeIconAlpha]" />
         </Actions>
       </Condition>
 
@@ -48,8 +51,6 @@
       <Binding Target="[txtLabel.Content]" Source="[Action.Label]" />
       <Binding Target="[grpIcon.Alpha]" Source="[Action.Alpha]" />
       <Binding Target="[txtLabel.Alpha]" Source="[Action.Alpha]" />
-
-
     </Rules>
 
     <Content>
