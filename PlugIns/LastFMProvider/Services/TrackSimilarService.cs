@@ -8,9 +8,10 @@ namespace MusicBrowser.WebServices.Services.LastFM
 {
     public struct LfmTrack
     {
-        //public string mbid;
+        public string mbid;
         public string artist;
         public string track;
+        public double score;
     }
 
     public class TrackSimilarDTO : IWebServiceDTO
@@ -69,7 +70,12 @@ namespace MusicBrowser.WebServices.Services.LastFM
                     LfmTrack l = new LfmTrack();
                     l.artist = ReadXmlNode(track, "artist/name");
                     l.track = ReadXmlNode(track, "name");
-                 
+                    l.mbid = ReadXmlNode(track, "mbid");
+                    string match = ReadXmlNode(track, "match");
+                    if (!string.IsNullOrEmpty(match))
+                    {
+                        l.score = Double.Parse(match);
+                    }
                     temp.Add(l);
                 }
 
@@ -84,7 +90,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                     localDTO.Status = WebServiceStatus.Error;
                 }
 
-                //                Engines.Logging.LoggerEngineFactory.Debug(string.Format("Last.fm track lookup for \"{0}\" returned this error - {1}", localDTO.Track, localDTO.Error));
+                Engines.Logging.LoggerEngineFactory.Debug(string.Format("Last.fm track lookup for \"{0}\" returned this error - {1}", localDTO.Track, localDTO.Error));
             }
 
             return localDTO;

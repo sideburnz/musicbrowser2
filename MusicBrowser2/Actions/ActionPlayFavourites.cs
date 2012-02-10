@@ -34,7 +34,13 @@ namespace MusicBrowser.Actions
         public override void DoAction(baseEntity entity)
         {
             Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "tracks with 5 stars or marked as favourite");
-            CommonTaskQueue.Enqueue(new PlaylistProvider("cmdfavourited", entity), true);
+
+            int playlistsize = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
+            IEnumerable<string> items = Engines.Cache.InMemoryCache.GetInstance().DataSet
+                .Where(item => ((item.Kind == "Track") && (item.Rating >= 90) || (item.Loved)))
+                .Take(playlistsize)
+                .Select(item => item.Path);
+            MusicBrowser.MediaCentre.Playlist.PlayTrackList(items, false);
             MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
         }
     }

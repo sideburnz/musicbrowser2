@@ -29,6 +29,15 @@ namespace MusicBrowser.Entities
             }
         }
 
+        [DataMember]
+        public string MusicBrainzID { get; set; }
+        [DataMember]
+        public int Listeners { get; set; }
+        [DataMember]
+        public int LastFMPlayCount { get; set; }
+        [DataMember]
+        public string AlbumArtist { get; set; }
+
         public override void Play(bool queue, bool shuffle)
         {
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(Path);

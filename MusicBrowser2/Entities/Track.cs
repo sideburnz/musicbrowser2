@@ -138,6 +138,10 @@ namespace MusicBrowser.Entities
             }
         }
         private IEnumerable<string> _genres;
+        [DataMember]
+        public int Listeners { get; set; }
+        [DataMember]
+        public int LastFMPlayCount { get; set; }
 
 
 
