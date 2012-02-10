@@ -23,6 +23,7 @@ namespace MusicBrowser.Actions
 
         private static readonly List<baseActionCommand> _availableActions = GetAvailableActions();
         private static IDictionary<String, ActionConfigEntry> _actionConfig;
+        private static readonly Dictionary<string, baseActionCommand> _augmentedActions = new Dictionary<string, baseActionCommand>();
 
         public static baseActionCommand ActionFactory(String name)
         {
@@ -149,6 +150,14 @@ namespace MusicBrowser.Actions
                         {
                             ret.Add(action.NewInstance(entity));
                         }
+                        foreach(string key in _augmentedActions.Keys)
+                        {
+                            if (key.StartsWith(entity.Kind))
+                            {
+                                ret.Add(_augmentedActions[key]);
+                            }
+                        }
+                        ret.Add(new ActionCloseMenu());
                         return ret;
                     }
                 }
@@ -188,9 +197,9 @@ namespace MusicBrowser.Actions
             return ret;
         }
 
-        public static void RegisterAction(baseActionCommand action)
+        public static void RegisterAction(baseActionCommand action, string kind)
         {
-            _availableActions.Add(action);
+            _augmentedActions.Add(kind + ":" + action.Label, action);
         }
 
         private static IDictionary<String, ActionConfigEntry> GetActionConfig()
@@ -234,7 +243,6 @@ namespace MusicBrowser.Actions
                     {
                         entry.MenuOptions.Add(ActionFactory(item.InnerText));
                     }
-                    entry.MenuOptions.Add(new ActionCloseMenu());
 
                     actions.Add(node.Attributes["name"].InnerText, entry);
                 }

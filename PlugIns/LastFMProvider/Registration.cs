@@ -15,12 +15,15 @@ namespace MusicBrowser.Engines.PlugIns
         public void Register()
         {
             // Actions
-            Factory.RegisterAction(new ActionPlayPopularLastFM());
-            Factory.RegisterAction(new ActionPlayRandomPopularLastFM());
-            Factory.RegisterAction(new ActionPlaySimilarTracks());
+            Factory.RegisterAction(new ActionPlayPopularLastFM(), "MusicCollection");
+            Factory.RegisterAction(new ActionPlayRandomPopularLastFM(), "MusicCollection");
+            Factory.RegisterAction(new ActionPlaySimilarTracks(), "MusicCollection");
+            Factory.RegisterAction(new ActionPlayForgottenTracks(), "MusicCollection");
 
             // Metadata
-            //Metadata.Providers.RegisterProvider(new LastFMMetadataProvider());
+            //Metadata.Providers.RegisterProvider(new LastFMArtistMetadataProvider());
+            //Metadata.Providers.RegisterProvider(new LastFMAlbumMetadataProvider());
+            //Metadata.Providers.RegisterProvider(new LastFMTrackMetadataProvider());
         }
     }
 }

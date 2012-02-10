@@ -11,14 +11,14 @@ namespace MusicBrowser.Engines.PlugIns.Actions
 {
     public class ActionPlayRandomPopularLastFM : baseActionCommand
     {
-        private const string LABEL = "Play Random Last.fm";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconLastFM";
+        private const string LABEL = "Play Random Popular";
+        private const string ICON_PATH = "resx://LastFMProvider/LastFMProvider.Resources/IconLastFM"; 
 
         public ActionPlayRandomPopularLastFM(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
-            //Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+            Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
             Entity = entity;
         }
 
@@ -26,7 +26,7 @@ namespace MusicBrowser.Engines.PlugIns.Actions
         {
             Label = LABEL;
             IconPath = ICON_PATH;
-            //Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+            Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
         }
 
         public override baseActionCommand NewInstance(baseEntity entity)
