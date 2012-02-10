@@ -7,6 +7,7 @@ using MusicBrowser.Actions;
 using MusicBrowser.Entities;
 using MusicBrowser.Engines.PlugIns.Actions;
 using MusicBrowser.Providers.Metadata;
+using MusicBrowser.Engines.Metadata;
 
 namespace MusicBrowser.Engines.PlugIns
 {
@@ -21,9 +22,9 @@ namespace MusicBrowser.Engines.PlugIns
             Factory.RegisterAction(new ActionPlayForgottenTracks(), "MusicCollection");
 
             // Metadata
-            //Metadata.Providers.RegisterProvider(new LastFMArtistMetadataProvider());
+            Metadata.Providers.RegisterProvider(new LastFMArtistMetadataProvider());
             //Metadata.Providers.RegisterProvider(new LastFMAlbumMetadataProvider());
-            //Metadata.Providers.RegisterProvider(new LastFMTrackMetadataProvider());
+            Metadata.Providers.RegisterProvider(new LastFMTrackMetadataProvider());
         }
     }
 }
