@@ -144,7 +144,7 @@
 			&lt;Item&gt;Play&lt;/Item&gt;
 			&lt;Item&gt;Shuffle&lt;/Item&gt;
 			&lt;Item&gt;Open&lt;/Item&gt;
-			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;&lt;Item&gt;PlayFavourites&lt;/Item&gt;
+			&lt;Item&gt;RefreshMetadata&lt;/Item&gt;
 		&lt;/MenuItems&gt;
 	&lt;/Entity&gt;
 

@@ -45,7 +45,7 @@ namespace MusicBrowser.Engines.Transport
             foreach (string item in files)
             {
                 Play(true, item);
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(150);
             }
             if (!queue)
             {

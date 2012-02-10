@@ -16,7 +16,7 @@ namespace MusicBrowser.Engines.PlugIns.Actions
     /// </summary>
     public class ActionPlaySimilarTracks : baseActionCommand
     {
-        private const string LABEL = "Play Similar Tracks";
+        private const string LABEL = "Play Similar Tracks (Last.fm)";
         private const string ICON_PATH = "resx://LastFMProvider/LastFMProvider.Resources/IconLastFM"; 
 
         public ActionPlaySimilarTracks(baseEntity entity)

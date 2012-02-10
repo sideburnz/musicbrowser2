@@ -122,15 +122,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\baseActionCommand.cs" />
-    <Compile Include="Actions\ActionPlayFavourites.cs" />
     <Compile Include="Actions\ActionOpen.cs" />
     <Compile Include="Actions\ActionCloseMenu.cs" />
     <Compile Include="Actions\ActionRefreshMetadata.cs" />
     <Compile Include="Actions\ActionShowSearch.cs" />
     <Compile Include="Actions\ActionPlay.cs" />
-    <Compile Include="Actions\ActionPlayNewlyAdded.cs" />
-    <Compile Include="Actions\ActionPlayRandomPopular.cs" />
-    <Compile Include="Actions\ActionPlayEntireLibrary.cs" />
     <Compile Include="Actions\ActionQueue.cs" />
     <Compile Include="Actions\ActionShowActions.cs" />
     <Compile Include="Actions\ActionShowSettings.cs" />
@@ -149,10 +145,6 @@
     <Compile Include="Actions\ActionSkipBack.cs" />
     <Compile Include="Actions\ActionDeleteCache.cs" />
     <Compile Include="Actions\ActionSetNumericSetting.cs" />
-    <Compile Include="Actions\ActionShowGroupBy.cs" />
-    <Compile Include="Actions\ActionShowGroupAlbumsByYear.cs" />
-    <Compile Include="Actions\ActionShowGroupTracksByGenre.cs" />
-    <Compile Include="Actions\ActionPlayMostPopular.cs" />
     <Compile Include="Actions\ActionSetTextSetting.cs" />
     <Compile Include="Actions\ActionCheckForNewVersion.cs" />
     <Compile Include="Actions\ActionShowNowPlaying.cs" />

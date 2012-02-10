@@ -66,14 +66,14 @@
           <FlowLayout Orientation="Vertical"/>
         </Layout>
         <Children>
-          <Text Name="Context" Color="White" FadeSize="5" Font="Segoe Media Center Light,26" MinimumSize="360,57" MaximumSize="360,57" Margins="0,0,0,-6" />
-          <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="360,1" Alpha="0.5" Margins="0,-6,0,7"/>
+          <Text Name="Context" Color="White" FadeSize="5" Font="Segoe Media Center Light,26" MinimumSize="420,57" MaximumSize="420,57" Margins="0,0,0,-6" />
+          <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="420,1" Alpha="0.5" Margins="0,-6,0,7"/>
           <Repeater Layout="Fill" Name="viewListRepeater" Navigation="ContainAll">
             <Layout>
               <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
             </Layout>
             <Content>
-              <me:buttonAction Action="[RepeatedItem!actions:baseActionCommand]" />
+              <me:buttonAction Action="[RepeatedItem!actions:baseActionCommand]" Size="420,50" Font="Segoe Media Center, 20" FadeIconAlpha="0.66"/>
             </Content>
           </Repeater>
         </Children>

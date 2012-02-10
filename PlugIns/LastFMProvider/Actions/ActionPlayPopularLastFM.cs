@@ -11,7 +11,7 @@ namespace MusicBrowser.Engines.PlugIns.Actions
 {
     public class ActionPlayPopularLastFM : baseActionCommand, IBackgroundTaskable
     {
-        private const string LABEL = "Play Popular";
+        private const string LABEL = "Play Popular (Last.fm)";
         private const string ICON_PATH = "resx://LastFMProvider/LastFMProvider.Resources/IconLastFM";       
 
         public ActionPlayPopularLastFM(baseEntity entity)
@@ -27,6 +27,17 @@ namespace MusicBrowser.Engines.PlugIns.Actions
             Label = LABEL;
             IconPath = ICON_PATH;
             Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+        }
+
+        public override baseActionCommand NewInstance(baseEntity entity)
+        {
+            return new ActionPlayPopularLastFM(entity);
+        }
+
+        public override void DoAction(baseEntity entity)
+        {
+            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "tracks with the highest playcounts on Last.fm");
+            CommonTaskQueue.Enqueue(this, true);
         }
 
         public string Title
@@ -46,17 +57,6 @@ namespace MusicBrowser.Engines.PlugIns.Actions
 
             Playlist.PlayTrackList(items, false);
             Playlist.AutoShowNowPlaying();
-        }
-
-        public override baseActionCommand NewInstance(baseEntity entity)
-        {
-            return new ActionPlayPopularLastFM(entity);
-        }
-
-        public override void DoAction(baseEntity entity)
-        {
-            Models.UINotifier.GetInstance().Message = String.Format("playing {0}", "tracks with the highest playcounts on Last.fm");
-            CommonTaskQueue.Enqueue(this, true);
         }
     }
 }

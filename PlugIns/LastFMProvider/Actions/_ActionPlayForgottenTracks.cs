@@ -18,7 +18,7 @@ namespace MusicBrowser.Engines.PlugIns.Actions
 //What remains are your favorite artists which have not been played recently. Maybe it is time to pull that CD out from the bottom of the pile. Or maybe you can laugh at how your taste has changed.
 //=====================================
 
-        private const string LABEL = "Play Forgotten Tracks";
+        private const string LABEL = "Play Forgotten Tracks (Last.fm)";
         private const string ICON_PATH = "resx://LastFMProvider/LastFMProvider.Resources/IconLastFM"; 
 
         public ActionPlayForgottenTracks(baseEntity entity)
