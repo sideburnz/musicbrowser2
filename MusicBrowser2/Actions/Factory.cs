@@ -175,11 +175,6 @@ namespace MusicBrowser.Actions
             ret.Add(new ActionOpen());
             ret.Add(new ActionPause());
             ret.Add(new ActionPlay());
-            ret.Add(new ActionPlayEntireLibrary());
-            ret.Add(new ActionPlayFavourites());
-            ret.Add(new ActionPlayNewlyAdded());
-            ret.Add(new ActionPlayMostPopular());
-            ret.Add(new ActionPlayRandomPopular());
             ret.Add(new ActionPreviousPage());
             ret.Add(new ActionQueue());
             ret.Add(new ActionRefreshMetadata());

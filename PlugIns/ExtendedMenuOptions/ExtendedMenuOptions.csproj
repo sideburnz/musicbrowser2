@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A2075E0C-2D45-444F-8977-88E2B1BC12F4}</ProjectGuid>
+    <ProjectGuid>{5EE7FBB7-B894-4F6C-AD95-6B8D34F8DEFC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LastFMProvider</RootNamespace>
-    <AssemblyName>LastFMProvider</AssemblyName>
+    <RootNamespace>ExtendedMenuOptions</RootNamespace>
+    <AssemblyName>ExtendedMenuOptions</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -17,7 +17,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -31,12 +31,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>MusicBrowser.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.MediaCenter.UI, Version=6.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -44,50 +38,27 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions\_ActionPlayForgottenTracks.cs" />
-    <Compile Include="Actions\ActionPlayPopularLastFM.cs" />
-    <Compile Include="Actions\ActionPlayRandomPopularLastFM.cs" />
-    <Compile Include="Actions\_ActionPlaySimilarTracks.cs" />
-    <Compile Include="MetadataProviders\LastFMAlbumMetadataProvider.cs" />
-    <Compile Include="MetadataProviders\LastFMArtistMetadataProvider.cs" />
-    <Compile Include="WebServiceProviders\LastFMWebProvider.cs" />
-    <Compile Include="Services\AlbumInfoService.cs" />
-    <Compile Include="Services\ArtistInfoService.cs" />
-    <Compile Include="Services\TrackInfoService.cs" />
-    <Compile Include="Services\TrackSimilarService.cs" />
-    <Compile Include="Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Registration.cs" />
-    <Compile Include="MetadataProviders\LastFMTrackMetadataProvider.cs" />
+    <Compile Include="ActionPlayFavourites.cs" />
+    <Compile Include="ActionPlayMostPopular.cs" />
+    <Compile Include="ActionPlayNewlyAdded.cs" />
+    <Compile Include="ActionPlayRandomPopular.cs" />
+    <Compile Include="ActionShowGroupAlbumsByYear.cs" />
+    <Compile Include="ActionShowGroupBy.cs" />
+    <Compile Include="ActionShowGroupTracksByGenre.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MusicBrowser2\MusicBrowser.csproj">
       <Project>{455E3B6A-B80B-432B-BBAA-936C625FECF6}</Project>
       <Name>MusicBrowser</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="MusicBrowser.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Images\IconLastFM.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
