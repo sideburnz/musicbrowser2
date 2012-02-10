@@ -51,9 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\_ActionPlayForgottenTracks.cs" />
     <Compile Include="Actions\ActionPlayPopularLastFM.cs" />
     <Compile Include="Actions\ActionPlayRandomPopularLastFM.cs" />
-    <Compile Include="Actions\ActionPlaySimilarTracks.cs" />
+    <Compile Include="Actions\_ActionPlaySimilarTracks.cs" />
+    <Compile Include="MetadataProviders\LastFMAlbumMetadataProvider.cs" />
     <Compile Include="MetadataProviders\LastFMArtistMetadataProvider.cs" />
     <Compile Include="WebServiceProviders\LastFMWebProvider.cs" />
     <Compile Include="Services\AlbumInfoService.cs" />
@@ -66,7 +68,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Registration.cs" />
-    <Compile Include="MetadataProviders\LastFMMetadataProvider.cs" />
+    <Compile Include="MetadataProviders\LastFMTrackMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

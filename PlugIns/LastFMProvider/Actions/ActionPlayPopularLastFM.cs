@@ -6,19 +6,14 @@ namespace MusicBrowser.Engines.PlugIns.Actions
 {
     public class ActionPlayPopularLastFM : baseActionCommand
     {
-        private const string LABEL = "Play Popular Last.fm";
-        private const string ICON_PATH = "resx://LastFMProvider/LastFMProvider.Resources/IconLastFM";
-        //,Culture=Neutral,Version=1.0.0.0,PublicKeyToken=a0d284a68f39c610
-        //resx://LastFMProvider/LastFMProvider.Properties.Resources/IconLastFM
-        //resx://LastFMProvider,Culture=Neutral,Version=1.0.0.0,PublicKeyToken=a0d284a68f39c610/LastFMProvider.Properties.Resources/IconLastFM
-        //"res://LastFMProvider,Version=1.0.0.0,Culture=neutral,PublicKeyToken=a0d284a68f39c610!IconLastFM.png";
-        
+        private const string LABEL = "Play Popular";
+        private const string ICON_PATH = "resx://LastFMProvider/LastFMProvider.Resources/IconLastFM";       
 
          public ActionPlayPopularLastFM(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
-            //Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+            Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
             Entity = entity;
         }
 
@@ -26,7 +21,7 @@ namespace MusicBrowser.Engines.PlugIns.Actions
         {
             Label = LABEL;
             IconPath = ICON_PATH;
-            //Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+            Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
         }
 
         public override baseActionCommand NewInstance(baseEntity entity)
