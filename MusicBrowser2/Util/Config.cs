@@ -23,6 +23,7 @@ namespace MusicBrowser.Util
                 { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
 
                 { "ShowThumbs", true.ToString() },
+                { "Language", "en" },
 
                 { "KeyboardAction", "Jump" },
 

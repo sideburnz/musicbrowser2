@@ -21,14 +21,20 @@
       <Binding Target="[Logo.Content]" Source="[Entity.Logo]" />
       <Binding Target="[InfoBar.Content]" Source="[Entity.Information]" />
 
+      <Binding Target="[NewStar.Visible]" Source="[Entity.Played]">
+        <Transformer>
+          <BooleanTransformer Inverse="true" />
+        </Transformer>
+      </Binding>
+
       <Binding Target="[IconRepeater.Source]" Source="[RatingIcons.Stars]" />
-      
+      <Binding Target="[CodecRepeater.Source]" Source="[Entity.CodecIcons]" />
     </Rules>
 
     <Content>
-      <Panel Margins="0,15,0,0">
+      <Panel Margins="0,5,0,0">
         <Children>
-          <Graphic Name="Logo" Margins="0,10,0,0" Alpha="0.06" MaximumSize="0,100" MinimumSize="0,100" MaintainAspectRatio="true" />
+          <Graphic Name="Logo" Margins="0,15,0,0" Alpha="0.06" MaximumSize="0,100" MinimumSize="0,100" MaintainAspectRatio="true" />
           <Panel>
             <Layout>
               <FlowLayout Orientation="Vertical"/>
@@ -50,8 +56,30 @@
                   </Repeater>
                 </Children>
               </Panel>
-              <Text Name="InfoBar" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
-              <Text Name="Summary2" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
+              <Panel Margins="0,0,0,0">
+                <Layout>
+                  <FlowLayout Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Text Name="InfoBar" Color="White" Font="Segoe Media Center Light, 20" Content="" Alpha="0.6" Margins="0,-5,0,0"/>
+                  <Graphic Name="NewStar" Content="resx://MusicBrowser/MusicBrowser.Resources/IconNew" Margins="5,6,0,0" MaximumSize="20,20" MinimumSize="20,20" Alpha="0.3" />
+                </Children>
+              </Panel>
+              <Panel Margins="0,5,0,0">
+                <Layout>
+                  <FlowLayout Orientation="Horizontal"/>
+                </Layout>
+                <Children>
+                  <Repeater Name="CodecRepeater" Navigation="ContainAll" Margins="0,0,0,0">
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
+                    </Layout>
+                    <Content>
+                      <Graphic Content="[RepeatedItem!Image]" Margins="0,0,0,0" MaximumSize="0,40" MinimumSize="0,40" Alpha="0.7" MaintainAspectRatio="true" />
+                    </Content>
+                  </Repeater>
+                </Children>
+              </Panel>
             </Children>
           </Panel>
         </Children>

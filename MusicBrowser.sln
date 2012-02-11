@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicBrowser", "MusicBrowser2\MusicBrowser.csproj", "{455E3B6A-B80B-432B-BBAA-936C625FECF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_LastFM", "PlugIns\LastFMProvider\_LastFM.csproj", "{A2075E0C-2D45-444F-8977-88E2B1BC12F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LastFM", "PlugIns\LastFMProvider\LastFM.csproj", "{A2075E0C-2D45-444F-8977-88E2B1BC12F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTBackdrop", "PlugIns\HTBackdropProvider\HTBackdrop.csproj", "{9D18333B-14FE-4DC0-BEFA-6131D70898B1}"
 EndProject
@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystem", "PlugIns\Provi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInfo", "PlugIns\ProviderMediaInfo\ProviderMediaInfo\MediaInfo.csproj", "{C36280CF-69FA-4114-B6EA-69402EADBE21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_FanArt.tv", "PlugIns\ProviderFanArtTV\ProviderFanArtTV\_FanArt.tv.csproj", "{2645C8D7-AA61-41B9-9349-B6A1AD248404}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanArt.tv", "PlugIns\ProviderFanArtTV\ProviderFanArtTV\FanArt.tv.csproj", "{2645C8D7-AA61-41B9-9349-B6A1AD248404}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Billboard", "PlugIns\ProviderBillboard\ProviderBillboard\_Billboard.csproj", "{390D7670-433E-4BCF-B84C-00925346EC09}"
 EndProject

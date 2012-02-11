@@ -157,6 +157,76 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap codec_aac {
+            get {
+                object obj = ResourceManager.GetObject("codec_aac", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap codec_asf {
+            get {
+                object obj = ResourceManager.GetObject("codec_asf", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap codec_dts {
+            get {
+                object obj = ResourceManager.GetObject("codec_dts", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap codec_flac {
+            get {
+                object obj = ResourceManager.GetObject("codec_flac", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap codec_mp3 {
+            get {
+                object obj = ResourceManager.GetObject("codec_mp3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap codec_mpegaudio {
+            get {
+                object obj = ResourceManager.GetObject("codec_mpegaudio", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap codec_pcm {
+            get {
+                object obj = ResourceManager.GetObject("codec_pcm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap codec_theora {
+            get {
+                object obj = ResourceManager.GetObject("codec_theora", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap codec_vorbis {
+            get {
+                object obj = ResourceManager.GetObject("codec_vorbis", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap codec_wma {
+            get {
+                object obj = ResourceManager.GetObject("codec_wma", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static byte[] ctrlActionPopUp {
             get {
                 object obj = ResourceManager.GetObject("ctrlActionPopUp", resourceCulture);
@@ -517,6 +587,13 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap imageVideo {
             get {
                 object obj = ResourceManager.GetObject("imageVideo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap media_mkv {
+            get {
+                object obj = ResourceManager.GetObject("media_mkv", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

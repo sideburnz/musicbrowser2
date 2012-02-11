@@ -231,6 +231,17 @@
     <None Include="MediaCentre\Images\buttonicons\IconRepeat.png" />
     <None Include="MediaCentre\Images\buttons\IconBorder.png" />
     <None Include="MediaCentre\Images\buttonicons\IconOpen.png" />
+    <Content Include="MediaCentre\Images\codecs\codec_aac.png" />
+    <Content Include="MediaCentre\Images\codecs\codec_asf.png" />
+    <Content Include="MediaCentre\Images\codecs\codec_dts.png" />
+    <Content Include="MediaCentre\Images\codecs\codec_flac.png" />
+    <Content Include="MediaCentre\Images\codecs\codec_mp3.png" />
+    <Content Include="MediaCentre\Images\codecs\codec_mpegaudio.png" />
+    <Content Include="MediaCentre\Images\codecs\codec_pcm.png" />
+    <Content Include="MediaCentre\Images\codecs\codec_theora.png" />
+    <Content Include="MediaCentre\Images\codecs\codec_vorbis.png" />
+    <Content Include="MediaCentre\Images\codecs\codec_wma.png" />
+    <Content Include="MediaCentre\Images\codecs\media_mkv.png" />
     <Content Include="TextFile1.txt" />
     <None Include="MediaCentre\Images\buttonicons\IconMinus.png" />
     <None Include="MediaCentre\Images\buttonicons\IconNew.png" />

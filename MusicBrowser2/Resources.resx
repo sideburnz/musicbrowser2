@@ -419,4 +419,38 @@
   <data name="viewThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mediacentre\markup\controls\pageviews\viewthumb.mcml;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="media_mkv" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\media_mkv.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="codec_aac" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\codec_aac.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="codec_asf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\codec_asf.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="codec_dts" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\codec_dts.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="codec_flac" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\codec_flac.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="codec_mp3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\codec_mp3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="codec_mpegaudio" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\codec_mpegaudio.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="codec_pcm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\codec_pcm.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="codec_theora" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\codec_theora.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="codec_vorbis" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\codec_vorbis.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="codec_wma" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mediacentre\images\codecs\codec_wma.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

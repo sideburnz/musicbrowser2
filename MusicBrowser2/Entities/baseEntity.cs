@@ -384,6 +384,7 @@ namespace MusicBrowser.Entities
         public abstract string DefaultFormat { get; }
         public abstract string DefaultSort { get; }
         public abstract string DefaultView { get; }
+        public virtual List<Microsoft.MediaCenter.UI.Image> CodecIcons { get { return new List<Microsoft.MediaCenter.UI.Image>(); } }
         #endregion
 
         #region private helpers
@@ -487,7 +488,12 @@ namespace MusicBrowser.Entities
                         }
                         output = output.Replace("[" + token + "]", "");
                         break;
-
+                    case "timesplayed":
+                    case "TimesPlayed":
+                        output = output.Replace("[" + token + "]", TimesPlayed.ToString()); break;
+                    case "timesplayed:sort":
+                    case "TimesPlayed:sort":
+                        output = output.Replace("[" + token + "]", TimesPlayed.ToString("D6")); break;
                 }
             }
             return output.Trim();

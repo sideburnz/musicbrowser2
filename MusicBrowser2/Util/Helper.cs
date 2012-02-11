@@ -315,11 +315,11 @@ namespace MusicBrowser.Util
         {
             string path = Config.GetInstance().GetStringSetting("Cache.Path") + "\\Images\\" + type.ToString() + "\\" + key.Substring(0, 2);
             Directory.CreateDirectory(path);
-            if (index > 0)
+            if (index < 0)
             {
-                return path + "\\" + key + ".jpg";
+                return path + "\\" + key + ".png";
             }
-            return path + "\\" + key + " - " + index + ".jpg";
+            return path + "\\" + key + " - " + index + ".png";
         }
 
         public static string IBNPath(string category, string title)
