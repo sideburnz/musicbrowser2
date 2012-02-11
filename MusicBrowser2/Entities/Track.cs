@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using MusicBrowser.Models;
 using ServiceStack.Text;
 using System.Text.RegularExpressions;
+using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Entities
 {
@@ -138,13 +139,11 @@ namespace MusicBrowser.Entities
             }
         }
         private IEnumerable<string> _genres;
+
         [DataMember]
         public int Listeners { get; set; }
         [DataMember]
         public int LastFMPlayCount { get; set; }
-
-
-
         [DataMember]
         public string SampleRate
         {
@@ -188,7 +187,17 @@ namespace MusicBrowser.Entities
         }
         private string _resolution;
 
+        public override List<Image> CodecIcons 
+        {
+            get 
+            { 
+                List<Image> ret = new List<Image>();
 
+                ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + Codec));
+
+                return ret;
+            } 
+        }
 
         public override string Information
         {
@@ -196,8 +205,7 @@ namespace MusicBrowser.Entities
             {
                 if (!String.IsNullOrEmpty(Artist))
                 {
-                    return TokenSubstitution("[artist]  ([codec]  [channels]  [samplerate]   [resolution]  [duration])  ") + 
-                        (Played ? "" : "*");
+                    return TokenSubstitution("[artist]  ([channels]  [samplerate]   [resolution]  [duration]  [timesplayed])  ");
                 }
                 return base.Information;
             }
