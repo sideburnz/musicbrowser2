@@ -122,23 +122,19 @@ namespace MusicBrowser.Entities
         }
         private string _musicbrainzID;
         [DataMember]
-        public IEnumerable<string> Genres 
+        public string Genre 
         {
             get 
             {
-                if (_genres == null)
-                {
-                    return new List<string>();
-                }
-                return _genres;
+                return _genre;
             }
             set
             {
-                _genres = value;
-                DataChanged("Genres");
+                _genre = value;
+                DataChanged("Genre");
             }
         }
-        private IEnumerable<string> _genres;
+        private string _genre;
 
         [DataMember]
         public int Listeners { get; set; }
@@ -194,6 +190,8 @@ namespace MusicBrowser.Entities
                 List<Image> ret = new List<Image>();
 
                 ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + Codec));
+                ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/bit_" + Resolution)); 
+                ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/channels_" + Channels.ToLower()));
 
                 return ret;
             } 
@@ -205,7 +203,7 @@ namespace MusicBrowser.Entities
             {
                 if (!String.IsNullOrEmpty(Artist))
                 {
-                    return TokenSubstitution("[artist]  ([channels]  [samplerate]   [resolution]  [duration]  [timesplayed])  ");
+                    return TokenSubstitution("[artist]  ([samplerate]   [duration]  [timesplayed])  ");
                 }
                 return base.Information;
             }

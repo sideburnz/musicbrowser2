@@ -99,14 +99,17 @@ namespace MusicBrowser.Entities
                     entity = Factorize<Playlist>(item); break;
                 case EntityKind.Track:
                     entity = Factorize<Track>(item);
-                    TagSharpMetadataProvider.FetchLite(entity);
+                    MediaInfoProvider.FetchLite(entity);
                     break;
                 case EntityKind.Episode:
                     entity = Factorize<Episode>(item);
                     VideoFilenameMetadataProvider.FetchLite(entity);
+                    MediaInfoProvider.FetchLite(entity);
                     break;
                 case EntityKind.Movie:
-                    entity = Factorize<Movie>(item); break;
+                    entity = Factorize<Movie>(item);
+                    MediaInfoProvider.FetchLite(entity);
+                    break;
             }
 
             entity.UpdateCache();
@@ -198,7 +201,9 @@ namespace MusicBrowser.Entities
                             }
                         }
 
-                        if (movies > 0) { return EntityKind.Movie; }
+                        if (movies > 0 && movies < 3) { return EntityKind.Movie; }
+                        //TODO: introduce a "movie series" type
+                        //if (movies > 0) { return EntityKind.Folder; }
                         return EntityKind.Folder;
                     }
                 case Helper.knownType.Track:

@@ -114,11 +114,6 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
-    <Reference Include="taglib-sharp, Version=2.0.3.7, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Resource\taglib-sharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\baseActionCommand.cs" />
@@ -160,6 +155,7 @@
     <Compile Include="Actions\ActionToggleWatched.cs" />
     <Compile Include="Actions\ActionCycleOrientation.cs" />
     <Compile Include="Actions\ActionSetOptionList.cs" />
+    <Compile Include="Actions\ActionOpenVirtual.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\Extensions.cs" />
@@ -177,6 +173,8 @@
     <Compile Include="Engines\PlugIns\LoadPlugIns.cs" />
     <Compile Include="Engines\Themes\Theme.cs" />
     <Compile Include="Engines\Transport\ITransportEngine.cs" />
+    <Compile Include="Engines\Virtuals\IView.cs" />
+    <Compile Include="Engines\Virtuals\Views.cs" />
     <Compile Include="Entities\baseEntity.cs" />
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />
@@ -231,17 +229,34 @@
     <None Include="MediaCentre\Images\buttonicons\IconRepeat.png" />
     <None Include="MediaCentre\Images\buttons\IconBorder.png" />
     <None Include="MediaCentre\Images\buttonicons\IconOpen.png" />
+    <None Include="MediaCentre\Images\codecs\channels_mono.png" />
+    <None Include="MediaCentre\Images\codecs\channels_stereo.png" />
+    <None Include="MediaCentre\Images\codecs\bit_16 bits.png" />
+    <None Include="MediaCentre\Images\codecs\bit_24 bits.png" />
+    <None Include="MediaCentre\Images\codecs\bit_8 bits.png" />
     <Content Include="MediaCentre\Images\codecs\codec_aac.png" />
+    <None Include="MediaCentre\Images\codecs\codec_ac-3.png" />
     <Content Include="MediaCentre\Images\codecs\codec_asf.png" />
+    <None Include="MediaCentre\Images\codecs\codec_avc.png" />
+    <None Include="MediaCentre\Images\codecs\codec_av-3.png" />
     <Content Include="MediaCentre\Images\codecs\codec_dts.png" />
     <Content Include="MediaCentre\Images\codecs\codec_flac.png" />
     <Content Include="MediaCentre\Images\codecs\codec_mp3.png" />
+    <None Include="MediaCentre\Images\codecs\codec_mpeg video.png" />
     <Content Include="MediaCentre\Images\codecs\codec_mpegaudio.png" />
+    <None Include="MediaCentre\Images\codecs\codec_mpegvideo.png" />
     <Content Include="MediaCentre\Images\codecs\codec_pcm.png" />
     <Content Include="MediaCentre\Images\codecs\codec_theora.png" />
+    <None Include="MediaCentre\Images\codecs\codec_vc1.png" />
     <Content Include="MediaCentre\Images\codecs\codec_vorbis.png" />
     <Content Include="MediaCentre\Images\codecs\codec_wma.png" />
+    <None Include="MediaCentre\Images\codecs\container_avi.png" />
+    <None Include="MediaCentre\Images\codecs\container_dvd.png" />
+    <None Include="MediaCentre\Images\codecs\container_mkv.png" />
+    <None Include="MediaCentre\Images\codecs\HD.png" />
+    <None Include="MediaCentre\Images\codecs\container_matroska.png" />
     <Content Include="MediaCentre\Images\codecs\media_mkv.png" />
+    <None Include="MediaCentre\Images\codecs\Subs.png" />
     <Content Include="TextFile1.txt" />
     <None Include="MediaCentre\Images\buttonicons\IconMinus.png" />
     <None Include="MediaCentre\Images\buttonicons\IconNew.png" />
@@ -286,7 +301,8 @@
     <Compile Include="Providers\FolderItems\VirtualFolderProvider.cs" />
     <Compile Include="Providers\FolderItems\IFolderItemsProvider.cs" />
     <Compile Include="Providers\ImageProvider.cs" />
-    <Compile Include="Providers\Metadata\Lite\TagSharpMetadataProvider.cs" />
+    <Compile Include="Providers\Metadata\Lite\MediaInfoLib.cs" />
+    <Compile Include="Providers\Metadata\Lite\MediaInfoProvider.cs" />
     <Compile Include="Providers\Metadata\Lite\VideoFilenameMetadataProvider.cs" />
     <Compile Include="Providers\PlaylistProvider.cs" />
     <Compile Include="Providers\Statistics.cs" />
