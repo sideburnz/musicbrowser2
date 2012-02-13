@@ -56,7 +56,7 @@ namespace MusicBrowser.Entities
                 Util.Helper.ShuffleList<string>(playlist);
             }
 
-            Engines.Transport.TransportEngineFactory.GetEngine().Play(queue, playlist); 
+            MusicBrowser.MediaCentre.Playlist.PlayTrackList(playlist, queue);
         }
     }
 }

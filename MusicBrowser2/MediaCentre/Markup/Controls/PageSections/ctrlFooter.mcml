@@ -75,7 +75,7 @@
                       <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
                     </Layout>
                     <Content>
-                      <Graphic Content="[RepeatedItem!Image]" Margins="0,0,0,0" MaximumSize="0,40" MinimumSize="0,40" Alpha="0.7" MaintainAspectRatio="true" />
+                      <Graphic Content="[RepeatedItem!Image]" Margins="0,0,5,0" MaximumSize="0,50" MinimumSize="0,50" Alpha="0.7" MaintainAspectRatio="true" />
                     </Content>
                   </Repeater>
                 </Children>

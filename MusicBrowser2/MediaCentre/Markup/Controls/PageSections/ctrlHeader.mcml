@@ -23,7 +23,7 @@
       <actions:ActionShowSettings Name="ShowSettings" />
       <actions:ActionCycleViews Name="CycleViews" Entity="[Entity]" />
 
-      <actions:ActionCycleOrientation Name="CycleOrientation" />
+      <actions:ActionOpenVirtual Name="OpenVirtual" Title="MRU" />
 
       <actions:ActionDecreaseThumbSize Name="BigThumb" Entity="[Entity]" />
       <actions:ActionIncreaseThumbSize Name="SmallThumb" Entity="[Entity]" />
@@ -61,9 +61,6 @@
           <Set Target="[SettingsMenu.Visible]" Value="true" />
         </Actions>
       </Rule>
-
-      <!--<Set Target="[GroupMenu.Visible]" Value="true" />-->
-      <!--<Set Target="[Wrapper.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage" />-->
 
       <Rule>
         <Actions>
@@ -111,7 +108,7 @@
                   <me:buttonIcon Command="[BigThumb]" Name="bBigThumb" Text="[BigThumb.Label]" Icon="[BigThumb.Icon]" Margins="0,0,5,0" />
                   <me:buttonIcon Command="[SmallThumb]" Name="bSmallThumb" Text="[SmallThumb.Label]" Icon="[SmallThumb.Icon]" Margins="0,0,5,0" />
 
-                  <me:buttonIcon Command="[CycleOrientation]" Name="bActionCycleOrientation" Text="[CycleOrientation.Label]" Icon="[CycleOrientation.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[OpenVirtual]" Name="bOpenVirtual" Text="[OpenVirtual.Label]" Icon="[OpenVirtual.Icon]" Margins="0,0,5,0" />
                 </Children>
               </ColorFill>
 

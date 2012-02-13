@@ -421,7 +421,8 @@ namespace MusicBrowser.Util
             }
             if (path.StartsWith("resx://"))
             {
-                return new Microsoft.MediaCenter.UI.Image(path);
+                Microsoft.MediaCenter.UI.Image image = new Microsoft.MediaCenter.UI.Image(path);
+                if (image != null) { return image; }
             }
             if (path.StartsWith("http://"))
             {
@@ -436,7 +437,9 @@ namespace MusicBrowser.Util
 
         public static IEnumerable<FileSystemItem> FilterDVDFiles(this IEnumerable<FileSystemItem> raw)
         {
-            return raw.Where(item => !item.FullPath.Contains(@"\VIDEO_TS\"));
+            return raw
+                .Where(item => !item.FullPath.Contains(@"\VIDEO_TS"))
+                .Where(item => !item.FullPath.Contains(@"\AUDIO_TS"));
         }
 
         public static IList<TE> ShuffleList<TE>(this IList<TE> list)

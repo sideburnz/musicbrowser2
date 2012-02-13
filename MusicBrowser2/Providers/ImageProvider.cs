@@ -55,20 +55,20 @@ namespace MusicBrowser.Providers
             return ImageRatio.RatioUncommon;
         }
 
-        public static Bitmap Convert(TagLib.IPicture picture)
-        {
-            try
-            {
-                MemoryStream ms = new MemoryStream();
-                byte[] bytes = picture.Data.Data;
-                ms.Write(bytes, 0, bytes.Length);
-                return new Bitmap(ms);
-            }
-            catch
-            {
-                return null;
-            }
-        }
+        //public static Bitmap Convert(TagLib.IPicture picture)
+        //{
+        //    try
+        //    {
+        //        MemoryStream ms = new MemoryStream();
+        //        byte[] bytes = picture.Data.Data;
+        //        ms.Write(bytes, 0, bytes.Length);
+        //        return new Bitmap(ms);
+        //    }
+        //    catch
+        //    {
+        //        return null;
+        //    }
+        //}
 
         public static Bitmap Resize(Bitmap bitmap, ImageType type)
         {

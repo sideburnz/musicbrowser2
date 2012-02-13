@@ -92,6 +92,27 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap bit_16_bits {
+            get {
+                object obj = ResourceManager.GetObject("bit_16 bits", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap bit_24_bits {
+            get {
+                object obj = ResourceManager.GetObject("bit_24 bits", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap bit_8_bits {
+            get {
+                object obj = ResourceManager.GetObject("bit_8 bits", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to &lt;Settings&gt;&lt;/Settings&gt;.
         /// </summary>
@@ -143,6 +164,20 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap channels_mono {
+            get {
+                object obj = ResourceManager.GetObject("channels_mono", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap channels_stereo {
+            get {
+                object obj = ResourceManager.GetObject("channels_stereo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap checkSelected {
             get {
                 object obj = ResourceManager.GetObject("checkSelected", resourceCulture);
@@ -164,9 +199,23 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap codec_ac_3 {
+            get {
+                object obj = ResourceManager.GetObject("codec_ac-3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap codec_asf {
             get {
                 object obj = ResourceManager.GetObject("codec_asf", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap codec_avc {
+            get {
+                object obj = ResourceManager.GetObject("codec_avc", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -192,6 +241,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap codec_mpeg_video {
+            get {
+                object obj = ResourceManager.GetObject("codec_mpeg video", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap codec_mpegaudio {
             get {
                 object obj = ResourceManager.GetObject("codec_mpegaudio", resourceCulture);
@@ -213,6 +269,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap codec_vc_1 {
+            get {
+                object obj = ResourceManager.GetObject("codec_vc-1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap codec_vorbis {
             get {
                 object obj = ResourceManager.GetObject("codec_vorbis", resourceCulture);
@@ -223,6 +286,27 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap codec_wma {
             get {
                 object obj = ResourceManager.GetObject("codec_wma", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap container_avi {
+            get {
+                object obj = ResourceManager.GetObject("container_avi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap container_dvd {
+            get {
+                object obj = ResourceManager.GetObject("container_dvd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap container_matroska {
+            get {
+                object obj = ResourceManager.GetObject("container_matroska", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -294,6 +378,13 @@ namespace MusicBrowser {
             get {
                 object obj = ResourceManager.GetObject("DisplaySettings", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap HD {
+            get {
+                object obj = ResourceManager.GetObject("HD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -591,13 +682,6 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap media_mkv {
-            get {
-                object obj = ResourceManager.GetObject("media_mkv", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap MusicBrowser2 {
             get {
                 object obj = ResourceManager.GetObject("MusicBrowser2", resourceCulture);
@@ -671,6 +755,13 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap selectedMenu {
             get {
                 object obj = ResourceManager.GetObject("selectedMenu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Subs {
+            get {
+                object obj = ResourceManager.GetObject("Subs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -494,6 +494,24 @@ namespace MusicBrowser.Entities
                     case "timesplayed:sort":
                     case "TimesPlayed:sort":
                         output = output.Replace("[" + token + "]", TimesPlayed.ToString("D6")); break;
+                    case "LastPlayed:sort":
+                    case "lastplayed:sort":
+                        if (LastPlayed > DateTime.Parse("01-JAN-1000")) 
+                        {
+                            output = output.Replace("[" + token + "]", LastPlayed.ToString("yyyymmdd hhMMss")); 
+                            break; 
+                        }
+                        output = output.Replace("[" + token + "]", ""); 
+                        break;
+                    case "LastPlayed":
+                    case "lastplayed":
+                        if (LastPlayed > DateTime.Parse("01-JAN-1000"))
+                        {
+                            output = output.Replace("[" + token + "]", LastPlayed.ToString("dd mmm yyyy"));
+                            break;
+                        }
+                        output = output.Replace("[" + token + "]", "");
+                        break;
                 }
             }
             return output.Trim();
@@ -517,6 +535,7 @@ namespace MusicBrowser.Entities
             FirePropertyChanged(property);
             FirePropertyChanged("Description");
             FirePropertyChanged("Information");
+            FirePropertyChanged("CodecIcons");
             if (!(OnPropertyChanged == null))
             {
                 OnPropertyChanged(property);

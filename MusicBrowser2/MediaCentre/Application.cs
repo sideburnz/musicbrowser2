@@ -11,6 +11,7 @@ using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Models.Keyboard;
 using MusicBrowser.Engines;
+using MusicBrowser.Engines.Virtuals;
 
 // ReSharper disable CheckNamespace
 namespace MusicBrowser
@@ -105,11 +106,17 @@ namespace MusicBrowser
                         }
                     case "MusicCollection":
                     case "VideoCollection":
-                    case "PhotoCollection":
                     case "Collection":
                         {
                             IFolderItemsProvider fip = new CollectionProvider();
                             entities.AddRange(fip.GetItems(entity.Path));
+                            break;
+                        }
+                    case "Virtual":
+                        {
+                            IView view = Views.Fetch(entity.Title);
+                            entities = view.Items;
+                            entity.SortField = view.Sort;
                             break;
                         }
                     default:

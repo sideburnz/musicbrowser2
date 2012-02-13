@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MusicBrowser.Util;
+using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Entities
 {
@@ -117,11 +118,42 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return "(" + Container + "   " + VideoCodec + "  " + AudioCodec + "  "
-                    + (Subtitles ? "subs  " : "") 
-                    + (HiDef ? "HD  " : "")
-                    + TokenSubstitution("[duration]") + ")"
-                    + (Played ? "" : "*");
+                return "(" + TokenSubstitution("[duration]") + ")";
+            }
+        }
+
+        public override List<Image> CodecIcons
+        {
+            get
+            {
+                List<Image> ret = new List<Image>();
+
+                try
+                {
+
+                    if (Util.Helper.IsDVD(Path))
+                    {
+                        ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/container_dvd"));
+                    }
+                    else
+                    {
+                        ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/container_" + Container.ToLower()));
+                    }
+
+                    ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + VideoCodec.ToLower()));
+                    ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + AudioCodec.ToLower()));
+
+                    if (HiDef)
+                    {
+                        ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/HD"));
+                    }
+                    if (Subtitles)
+                    {
+                        ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/Subs"));
+                    }
+                }
+                catch { }
+                return ret;
             }
         }
 
