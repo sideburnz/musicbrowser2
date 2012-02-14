@@ -98,8 +98,9 @@ namespace MusicBrowser.WebServices.Services.LastFM
                 {
                     localDTO.Status = WebServiceStatus.Error;
                 }
-
-//                Engines.Logging.LoggerEngineFactory.Debug(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1} [{2}]", localDTO.Artist, localDTO.Error, _provider.URL));
+#if DEBUG
+                Engines.Logging.LoggerEngineFactory.Error(new Exception(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1} [{2}]", localDTO.Artist, localDTO.Error, _provider.URL)));
+#endif
             }
             return localDTO;
         }

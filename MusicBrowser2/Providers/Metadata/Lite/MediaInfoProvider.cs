@@ -9,6 +9,7 @@ using MusicBrowser.Util;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers;
 using MusicBrowser.Engines.Logging;
+using System.Drawing;
 
 namespace MusicBrowser.Providers.Metadata.Lite
 {
@@ -90,19 +91,10 @@ namespace MusicBrowser.Providers.Metadata.Lite
                 dto.SampleRate = mediaInfo.Get(StreamKind.Audio, 0, "SamplingRate/String");
 
                 // channels
-                int audioChannels;
-                if (Int32.TryParse(mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)"), out audioChannels))
-                {
-                    switch (audioChannels)
-                    {
-                        case 1: dto.Channels = "Mono"; break;
-                        case 2: dto.Channels = "Stereo"; break;
-                        default: dto.Channels = audioChannels + " channels"; break;
-                    }
-                }
+                dto.Channels = mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)");
 
                 // sample resolution
-                dto.Resolution = mediaInfo.Get(StreamKind.Audio, 0, "Resolution/String");
+                dto.Resolution = mediaInfo.Get(StreamKind.Audio, 0, "BitDepth/String");
 
                 // track rating
                 int Rating;
@@ -113,14 +105,22 @@ namespace MusicBrowser.Providers.Metadata.Lite
 
                 dto.Title = mediaInfo.Get(StreamKind.General, 0, "Track");
                 dto.Album = mediaInfo.Get(StreamKind.General, 0, "Album");
-                //TODO: if accompaniment is blank use performer
                 dto.Artist = mediaInfo.Get(StreamKind.General, 0, "Accompaniment");
+                if (String.IsNullOrEmpty(dto.Artist))
+                {
+                    dto.Artist = mediaInfo.Get(StreamKind.General, 0, "Performer");
+                }
+                dto.AlbumArtist = mediaInfo.Get(StreamKind.General, 0, "Album/Performer"); //
                 dto.Genre = mediaInfo.Get(StreamKind.General, 0, "Genre");
                 dto.Codec = mediaInfo.Get(StreamKind.Audio, 0, "Format").ToLower();
                 int pos;
                 if (Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Track/Position"), out pos))
                 {
                     dto.TrackNumber = pos;
+                }
+                if (Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Part/Position"), out pos))
+                {
+                    dto.DiscNumber = pos;
                 }
                 int duration;
                 if (Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Duration"), out duration))
@@ -138,15 +138,31 @@ namespace MusicBrowser.Providers.Metadata.Lite
                 {
                     dto.Duration = 0;
                 }
-
-
-                //track.AlbumArtist = fileTag.Tag.FirstAlbumArtist; // albumartistsort
-                //track.ReleaseDate = Convert.ToDateTime("01-JAN-" + fileTag.Tag.Year); //  Recorded_Date
-                //track.DiscNumber = Convert.ToInt32(fileTag.Tag.Disc);   // Part
-                //track.MusicBrainzID = fileTag.Tag.MusicBrainzTrackId;  // musicbrainz_trackid
-                //track.ThumbPath = iconPath;
-
-
+                string release = mediaInfo.Get(StreamKind.General, 0, "Recorded_Date");
+                if (!String.IsNullOrEmpty(release))
+                {
+                    if (release.Length == 4)
+                    {
+                        dto.ReleaseDate = Convert.ToDateTime("01-JAN-" + release);
+                    }
+                    else
+                    {
+                        dto.ReleaseDate = Convert.ToDateTime(release);
+                    }
+                }
+                dto.MusicBrainzID = mediaInfo.Get(StreamKind.General, 0, "musicbrainz/trackid");
+                if (mediaInfo.Get(StreamKind.General, 0, "Cover") == "Yes")
+                {
+                    byte[] byteArray = Convert.FromBase64String(mediaInfo.Get(StreamKind.General, 0, "Cover_Data"));
+                    if (byteArray.Length > 4)
+                    {
+                        Stream stream = new MemoryStream(byteArray);
+                        Bitmap thumb = new Bitmap(stream);
+                        thumb = ImageProvider.Resize(thumb, ImageType.Thumb);
+                        dto.ThumbPath = Util.Helper.ImageCacheFullName(dto.CacheKey, ImageType.Thumb, -1);
+                        ImageProvider.Save(thumb, dto.ThumbPath);
+                    }
+                }
             }
             mediaInfo.Close();
         }
@@ -232,6 +248,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
                 // video
                 dto.VideoCodec = mediaInfo.Get(StreamKind.Video, 0, "Format");
                 dto.AspectRatio = mediaInfo.Get(StreamKind.Video, 0, "DisplayAspectRatio/String");
+                dto.Universe = mediaInfo.Get(StreamKind.General, 0, "Domain"); 
 
                 j = 0;
                 if (Int32.TryParse(mediaInfo.Get(StreamKind.Video, 0, "Height"), out j))
@@ -241,14 +258,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
 
                 //audio
                 dto.AudioCodec = mediaInfo.Get(StreamKind.Audio, 0, "Format");
-                if (Int32.TryParse(mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)"), out j))
-                {
-                    dto.AudioChannels = j;
-                }
-                else
-                {
-                    dto.AudioChannels = 0;
-                }
+                dto.AudioChannels = mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)");
 
                 // track rating
                 if (Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Rating"), out j))

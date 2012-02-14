@@ -11,9 +11,10 @@ namespace MusicBrowser.Models
     {
         private EntityCollection _collection;
 
-        public EntityVirtualList(EntityCollection entityCollection, string field)
+        public EntityVirtualList(EntityCollection entityCollection, string field, bool ascending)
         {
             entityCollection.Sort(field);
+            if (!ascending) { entityCollection.Reverse(); }
             _collection = entityCollection;
             this.Count = _collection.Count;
             this.EnableSlowDataRequests = false;  

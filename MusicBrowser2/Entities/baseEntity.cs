@@ -23,6 +23,7 @@ namespace MusicBrowser.Entities
         private string _logoPath;
         private string _title;
         private string _sortField;
+        private bool _sortAscending = true;
         private int _thumbSize;
         private List<string> _backgroundPaths;
         private DateTime _lastPlayed;
@@ -141,6 +142,20 @@ namespace MusicBrowser.Entities
             set
             {
                 _sortField = value;
+                DataChanged("SortField");
+            }
+        }
+        [DataMember]
+        public virtual bool SortAscending
+        {
+            get
+            {
+                return _sortAscending;
+            }
+            set
+            {
+                _sortAscending = value;
+                DataChanged("SortAscending");
                 DataChanged("SortField");
             }
         }
@@ -428,7 +443,7 @@ namespace MusicBrowser.Entities
                     case "added:sort":
                         if (TimeStamp > DateTime.Parse("01-JAN-1000")) 
                         {
-                            output = output.Replace("[" + token + "]", TimeStamp.ToString("yyyymmdd hhMMss")); 
+                            output = output.Replace("[" + token + "]", TimeStamp.ToString("yyyyMMdd hhmmss")); 
                             break; 
                         }
                         output = output.Replace("[" + token + "]", ""); 
@@ -472,7 +487,7 @@ namespace MusicBrowser.Entities
                     case "releaserate:sort":
                         if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
                         {
-                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("yyyymmdd hhMMss"));
+                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("yyyyMMdd hhmmss"));
                             break;
                         }
                         output = output.Replace("[" + token + "]", "");
@@ -498,7 +513,7 @@ namespace MusicBrowser.Entities
                     case "lastplayed:sort":
                         if (LastPlayed > DateTime.Parse("01-JAN-1000")) 
                         {
-                            output = output.Replace("[" + token + "]", LastPlayed.ToString("yyyymmdd hhMMss")); 
+                            output = output.Replace("[" + token + "]", LastPlayed.ToString("yyyyMMdd hhmmss")); 
                             break; 
                         }
                         output = output.Replace("[" + token + "]", ""); 
