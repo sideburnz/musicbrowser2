@@ -234,6 +234,8 @@
     <None Include="MediaCentre\Images\codecs\bit_16 bits.png" />
     <None Include="MediaCentre\Images\codecs\bit_24 bits.png" />
     <None Include="MediaCentre\Images\codecs\bit_8 bits.png" />
+    <None Include="MediaCentre\Images\codecs\channels_2.png" />
+    <None Include="MediaCentre\Images\codecs\channels_1.png" />
     <Content Include="MediaCentre\Images\codecs\codec_aac.png" />
     <None Include="MediaCentre\Images\codecs\codec_ac-3.png" />
     <Content Include="MediaCentre\Images\codecs\codec_asf.png" />
@@ -257,6 +259,8 @@
     <None Include="MediaCentre\Images\codecs\container_matroska.png" />
     <Content Include="MediaCentre\Images\codecs\media_mkv.png" />
     <None Include="MediaCentre\Images\codecs\Subs.png" />
+    <None Include="MediaCentre\Images\codecs\rate_44.1 KHz.png" />
+    <None Include="MediaCentre\Images\codecs\rate_96 KHz.png" />
     <Content Include="TextFile1.txt" />
     <None Include="MediaCentre\Images\buttonicons\IconMinus.png" />
     <None Include="MediaCentre\Images\buttonicons\IconNew.png" />

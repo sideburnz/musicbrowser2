@@ -72,11 +72,11 @@ namespace MusicBrowser.Models
                         dataset.Add(_engine.Fetch(item));
                     }
                     _hitsByType = _engine.HitsByType(_remoteFilter.Value);
-                    return new EntityVirtualList(dataset, "[Title:sort]");
+                    return new EntityVirtualList(dataset, "[Title:sort]", true);
                 }
 
                 _hitsByType = _engine.HitsByType(String.Empty);
-                return new EntityVirtualList(new EntityCollection(), string.Empty);
+                return new EntityVirtualList(new EntityCollection(), string.Empty, true);
             }
         }
 

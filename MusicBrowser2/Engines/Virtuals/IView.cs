@@ -11,6 +11,7 @@ namespace MusicBrowser.Engines.Virtuals
         string Title { get; }
         EntityCollection Items { get; }
         string Sort { get; }
+        bool SortAscending { get; }
     }
 
     public class MostRecentlyPlayed : IView
@@ -22,7 +23,12 @@ namespace MusicBrowser.Engines.Virtuals
 
         public string Sort
         {
-            get { return "lastplayed"; }
+            get { return "[lastplayed:sort]"; }
+        }
+
+        public bool SortAscending
+        {
+            get { return false; }
         }
 
         public EntityCollection Items
@@ -32,6 +38,7 @@ namespace MusicBrowser.Engines.Virtuals
                 EntityCollection e = new EntityCollection();
                 e.AddRange(Cache.InMemoryCache.GetInstance().DataSet
                     .OrderByDescending(item => item.LastPlayed)
+                    .Where(item => item.LastPlayed > DateTime.MinValue) 
                     .Take(10)
                     .ToList());
                 return e;

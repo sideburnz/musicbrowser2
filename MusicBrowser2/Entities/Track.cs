@@ -190,7 +190,8 @@ namespace MusicBrowser.Entities
                 List<Image> ret = new List<Image>();
 
                 ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + Codec));
-                ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/bit_" + Resolution)); 
+                ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/bit_" + Resolution));
+                ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/rate_" + SampleRate)); 
                 ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/channels_" + Channels.ToLower()));
 
                 return ret;
@@ -203,7 +204,7 @@ namespace MusicBrowser.Entities
             {
                 if (!String.IsNullOrEmpty(Artist))
                 {
-                    return TokenSubstitution("[artist]  ([samplerate]   [duration]  [timesplayed])  ");
+                    return TokenSubstitution("[artist]  ([duration])  ");
                 }
                 return base.Information;
             }

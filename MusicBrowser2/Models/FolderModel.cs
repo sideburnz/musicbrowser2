@@ -147,7 +147,7 @@ namespace MusicBrowser.Models
         /// </summary>
         public EntityVirtualList EntityList
         {
-            get { return new EntityVirtualList(_keyboard.DataSet, _parentEntity.SortField); }
+            get { return new EntityVirtualList(_keyboard.DataSet, _parentEntity.SortField, _parentEntity.SortAscending); }
         }
 
         /// <summary>

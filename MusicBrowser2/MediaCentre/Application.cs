@@ -117,6 +117,7 @@ namespace MusicBrowser
                             IView view = Views.Fetch(entity.Title);
                             entities = view.Items;
                             entity.SortField = view.Sort;
+                            entity.SortAscending = view.SortAscending;
                             break;
                         }
                     default:

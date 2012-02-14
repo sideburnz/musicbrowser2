@@ -18,6 +18,16 @@ namespace MusicBrowser.Engines.Cache
             get { return IntPtr.Size == 8; }
         }
 
+        private static System.Reflection.Assembly sqliteAssembly;
+        private static System.Reflection.Assembly SqliteResolver(object sender, ResolveEventArgs args)
+        {
+            if (args.Name.StartsWith("System.Data.SQLite,"))
+            {
+                return sqliteAssembly;
+            }
+            return null;
+        }
+
         private static bool Loaded()
         {
             string dllfile = Path.Combine(Helper.ComponentFolder, String.Format("System.Data.SQLite.DLL"));
@@ -27,7 +37,8 @@ namespace MusicBrowser.Engines.Cache
                 if (File.Exists(sourceFile))
                 {
                     File.Copy(sourceFile, dllfile);
-                    System.Reflection.Assembly.LoadFile(dllfile);
+                    sqliteAssembly = System.Reflection.Assembly.LoadFile(dllfile);
+                    AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(SqliteResolver);
                 }
             }
             return true;

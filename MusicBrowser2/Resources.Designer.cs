@@ -164,16 +164,16 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap channels_mono {
+        internal static System.Drawing.Bitmap channels_1 {
             get {
-                object obj = ResourceManager.GetObject("channels_mono", resourceCulture);
+                object obj = ResourceManager.GetObject("channels_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap channels_stereo {
+        internal static System.Drawing.Bitmap channels_2 {
             get {
-                object obj = ResourceManager.GetObject("channels_stereo", resourceCulture);
+                object obj = ResourceManager.GetObject("channels_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -748,6 +748,20 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap radioUnselected {
             get {
                 object obj = ResourceManager.GetObject("radioUnselected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap rate_44_1_KHz {
+            get {
+                object obj = ResourceManager.GetObject("rate_44.1 KHz", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap rate_96_KHz {
+            get {
+                object obj = ResourceManager.GetObject("rate_96 KHz", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -44,7 +44,7 @@ namespace MusicBrowser.Entities
         }
         private string _audiocodec;
         [DataMember]
-        public int AudioChannels
+        public string AudioChannels
         {
             get { return _audiochannels; }
             set
@@ -56,7 +56,7 @@ namespace MusicBrowser.Entities
                 }
             }
         }
-        private int _audiochannels;
+        private string _audiochannels;
         [DataMember]
         public bool Subtitles
         {
@@ -113,6 +113,8 @@ namespace MusicBrowser.Entities
             }
         }
         private bool _hd;
+        [DataMember]
+        public string Universe { get; set; }
 
         public override string Information
         {
@@ -208,7 +210,7 @@ namespace MusicBrowser.Entities
             }
 
             mce.MediaExperience.GoToFullScreen();
-            this.LastPlayed = DateTime.Now;
+            this.MarkPlayed();
             ProgressRecorder.Register(this);
         }
     }
