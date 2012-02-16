@@ -46,9 +46,6 @@ namespace MusicBrowser
 
             MusicBrowser.Engines.PlugIns.LoadPlugIns.Execute();
 
-            //TODO: temp to test views
-            MusicBrowser.Engines.Virtuals.Views.RegisterView(new MusicBrowser.Engines.Virtuals.MostRecentlyPlayed());
-
             FirstRun.Initialize();
 
             // Go to the initial screen

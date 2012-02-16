@@ -12,6 +12,7 @@
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlFooter"/>
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlActionPopUp"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlViewPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
@@ -25,6 +26,7 @@
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
       <models:UINotifier Name="UINotifier" UINotifier="$Required" />
       <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
+      <models:VirtualsModel Name="VirtualsModel" VirtualsModel="$Required" />
 
       <actions:ActionShowNowPlaying Name="ActionShowNowPlaying" />
       
@@ -111,6 +113,16 @@
         </Actions>
       </Changed>
 
+      <Changed Source="[VirtualsModel.Visible]">
+        <Conditions>
+          <Equality Source="[VirtualsModel.Visible]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="false" />
+          <Invoke Target="[ViewPanel.NavigateInto]" />
+        </Actions>
+      </Changed>
+
       <Changed Source="[ActionsModel.Visible]">
         <Conditions>
           <Equality Source="[ActionsModel.Visible]" Value="true" />
@@ -121,7 +133,18 @@
         </Actions>
       </Changed>
 
+      <Changed Source="[VirtualsModel.Visible]">
+        <Conditions>
+          <Equality Source="[VirtualsModel.Visible]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="true" />
+          <Invoke Target="[ViewPopUp.NavigateInto]" />
+        </Actions>
+      </Changed>
+
       <Binding Source="[ActionsModel.Visible]" Target="[ActionPopUp.Visible]" />
+      <Binding Source="[VirtualsModel.Visible]" Target="[ViewPopUp.Visible]" />
     </Rules>
     
     <Content>
@@ -131,6 +154,7 @@
           <!-- POP UPS -->
           <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
           <me:ctrlActionPopup Name="ActionPopUp" Visible="true" Model="[ActionsModel]" />
+          <me:ctrlViewPopup Name="ViewPopUp" Visible="true" Model="[VirtualsModel]" />
           
           <!-- FADER -->
           <Panel Visible="true">

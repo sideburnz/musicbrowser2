@@ -156,6 +156,7 @@
     <Compile Include="Actions\ActionCycleOrientation.cs" />
     <Compile Include="Actions\ActionSetOptionList.cs" />
     <Compile Include="Actions\ActionOpenVirtual.cs" />
+    <Compile Include="Actions\ActionShowVirtuals.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\Extensions.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
     <Compile Include="Engines\Cache\SQLiteHelper.cs" />
+    <Compile Include="Engines\Cache\SQLiteLoader.cs" />
     <Compile Include="Engines\Logging\ILoggingEngine.cs" />
     <Compile Include="Engines\Metadata\baseMetadataProvider.cs" />
     <Compile Include="Engines\Metadata\IProvider.cs" />
@@ -198,6 +200,7 @@
     <Compile Include="MediaCentre\FirstRun.cs" />
     <Compile Include="MediaCentre\ProgressRecorder.cs" />
     <Compile Include="Models\ActionsModel.cs" />
+    <Compile Include="Models\VirtualsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Foobar2000.cs" />
@@ -344,7 +347,12 @@
     <None Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="MediaCentre\Markup\Controls\PopUps\ctrlActionPopUp.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PopUps\ctrlViewPopUp.mcml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MediaCentre\Markup\Controls\PopUps\ctrlActionPopUp.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml" />
     <None Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml" />
     <None Include="MediaCentre\Markup\Controls\SettingsPages\MusicSettings.mcml" />
