@@ -48,12 +48,8 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            baseEntity e = entity;
-            if (e == null)
-            {
-                e = new Virtual();
-                e.Title = Title;
-            }
+            baseEntity e = new Virtual();
+            e.Title = Title;
             MusicBrowser.Application.GetReference().Navigate(e);
         }
 

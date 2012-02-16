@@ -16,9 +16,6 @@ namespace MusicBrowser.Engines.PlugIns
         public void Register()
         {
             // Actions
-            Factory.RegisterAction(new ActionPlayFavourites(), "MusicCollection");
-            Factory.RegisterAction(new ActionPlayMostPopular(), "MusicCollection");
-            Factory.RegisterAction(new ActionPlayRandomPopular(), "MusicCollection");
             Factory.RegisterAction(new ActionPlayNewlyAdded(), "MusicCollection");
         }
     }

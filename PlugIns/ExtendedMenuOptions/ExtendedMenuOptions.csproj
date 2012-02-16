@@ -44,10 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionPlayFavourites.cs" />
-    <Compile Include="ActionPlayMostPopular.cs" />
     <Compile Include="ActionPlayNewlyAdded.cs" />
-    <Compile Include="ActionPlayRandomPopular.cs" />
     <Compile Include="ActionShowGroupAlbumsByYear.cs" />
     <Compile Include="ActionShowGroupBy.cs" />
     <Compile Include="ActionShowGroupTracksByGenre.cs" />

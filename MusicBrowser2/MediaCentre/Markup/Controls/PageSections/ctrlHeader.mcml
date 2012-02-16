@@ -23,10 +23,10 @@
       <actions:ActionShowSettings Name="ShowSettings" />
       <actions:ActionCycleViews Name="CycleViews" Entity="[Entity]" />
 
-      <actions:ActionOpenVirtual Name="OpenVirtual" Title="MRU" />
+      <actions:ActionShowVirtuals Name="ShowVirtuals" Entity="[Entity]" />
 
-      <actions:ActionDecreaseThumbSize Name="BigThumb" Entity="[Entity]" />
-      <actions:ActionIncreaseThumbSize Name="SmallThumb" Entity="[Entity]" />
+      <!--<actions:ActionDecreaseThumbSize Name="BigThumb" Entity="[Entity]" />
+      <actions:ActionIncreaseThumbSize Name="SmallThumb" Entity="[Entity]" />-->
     </Locals>
     
     <Rules>
@@ -105,10 +105,10 @@
                   <me:buttonIcon Command="[ShowSearch]" Name="Search" Text="" Icon="[ShowSearch.Icon]" Margins="0,0,5,0" />
                   <me:buttonIcon Command="[CycleViews]" Name="ViewMenu" Text="[FolderModel.ParentEntity.View]" Icon="[CycleViews.Icon]" Margins="0,0,5,0" />
 
-                  <me:buttonIcon Command="[BigThumb]" Name="bBigThumb" Text="[BigThumb.Label]" Icon="[BigThumb.Icon]" Margins="0,0,5,0" />
-                  <me:buttonIcon Command="[SmallThumb]" Name="bSmallThumb" Text="[SmallThumb.Label]" Icon="[SmallThumb.Icon]" Margins="0,0,5,0" />
+                  <!--<me:buttonIcon Command="[BigThumb]" Name="bBigThumb" Text="[BigThumb.Label]" Icon="[BigThumb.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[SmallThumb]" Name="bSmallThumb" Text="[SmallThumb.Label]" Icon="[SmallThumb.Icon]" Margins="0,0,5,0" />-->
 
-                  <me:buttonIcon Command="[OpenVirtual]" Name="bOpenVirtual" Text="[OpenVirtual.Label]" Icon="[OpenVirtual.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[ShowVirtuals]" Name="bShowVirtuals" Text="[ShowVirtuals.Label]" Icon="[ShowVirtuals.Icon]" Margins="0,0,5,0" />
                 </Children>
               </ColorFill>
 
