@@ -47,6 +47,7 @@ namespace MusicBrowser
             MusicBrowser.Engines.PlugIns.LoadPlugIns.Execute();
 
             FirstRun.Initialize();
+            SQLiteLoader.Load();
 
             // Go to the initial screen
             baseEntity firstScreen = new Home();

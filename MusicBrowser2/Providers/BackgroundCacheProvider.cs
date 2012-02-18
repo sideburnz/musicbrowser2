@@ -59,7 +59,7 @@ namespace MusicBrowser.Providers
             // don't waste time doing anything else if the current item isn't a folder
             if (!Directory.Exists(_path)) { return; }
 
-            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path).FilterDVDFiles();
+            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_path).FilterInternalFiles();
             //IEnumerable<IDataProvider> providers = MetadataProviderList.GetProviders();
 
             foreach (FileSystemItem item in items)

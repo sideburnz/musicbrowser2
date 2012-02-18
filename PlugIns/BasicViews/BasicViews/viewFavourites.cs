@@ -15,12 +15,12 @@ namespace MusicBrowser.Engines.Virtuals
 
         public string Sort
         {
-            get { return "[title:sort]"; }
+            get { return "[title]"; }
         }
 
         public bool SortAscending
         {
-            get { return false; }
+            get { return true; }
         }
 
         public EntityCollection Items

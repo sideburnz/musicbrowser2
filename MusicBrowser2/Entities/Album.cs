@@ -53,7 +53,7 @@ namespace MusicBrowser.Entities
 
             if (shuffle)
             {
-                Util.Helper.ShuffleList<string>(playlist);
+                Util.Helper.Shuffle<string>(playlist);
             }
 
             MusicBrowser.MediaCentre.Playlist.PlayTrackList(playlist, queue);

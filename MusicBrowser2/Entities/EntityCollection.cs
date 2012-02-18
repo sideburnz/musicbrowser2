@@ -42,9 +42,9 @@ namespace MusicBrowser.Entities
         public void Sort(string Field)
         {
             string sort = Field;
-            if (sort.IndexOf(":sort") == 0)
+            if (sort.IndexOf(":sort") < 0)
             {
-                sort.Replace("]", ":sort]");
+                sort = sort.Replace("]", ":sort]");
             }
             foreach (baseEntity e in this) 
             {

@@ -103,7 +103,7 @@ namespace MusicBrowser.Providers
             // shuffle the tracks if requested
             if (shuffle)
             {
-                Util.Helper.ShuffleList<string>(tracks);
+                Util.Helper.Shuffle(tracks);
             }
             // Kick off a new thread
             MediaCentre.Playlist.PlayTrackList(tracks, queue);

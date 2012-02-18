@@ -31,7 +31,7 @@ namespace MusicBrowser.Entities
 
             if (thisType == typeof(Folder))
             {
-                IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(Path).FilterDVDFiles();
+                IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(Path).FilterInternalFiles();
                 int music = 0;
                 int video = 0;
                 foreach (FileSystemItem item in items)

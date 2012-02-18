@@ -435,28 +435,34 @@ namespace MusicBrowser.Util
             return new Microsoft.MediaCenter.UI.Image("resx://MusicBrowser/MusicBrowser.Resources/nullImage");
         }
 
-        public static IEnumerable<FileSystemItem> FilterDVDFiles(this IEnumerable<FileSystemItem> raw)
+        public static IEnumerable<FileSystemItem> FilterInternalFiles(this IEnumerable<FileSystemItem> raw)
         {
             return raw
                 .Where(item => !item.FullPath.Contains(@"\VIDEO_TS"))
-                .Where(item => !item.FullPath.Contains(@"\AUDIO_TS"));
+                .Where(item => !item.FullPath.Contains(@"\AUDIO_TS"))
+                .Where(item => !item.FullPath.Contains(@"\metadata\"));
         }
 
-        public static IList<TE> ShuffleList<TE>(this IList<TE> list)
+        //public static IList<TE> ShuffleList<TE>(this IList<TE> list)
+        //{
+        //    IList<TE> temp = list;
+        //    if (temp.Count > 1)
+        //    {
+        //        for (int i = temp.Count - 1; i >= 0; i--)
+        //        {
+        //            TE tmp = temp[i];
+        //            int randomIndex = Random.Next(i + 1);
+        //            //Swap elements
+        //            temp[i] = temp[randomIndex];
+        //            temp[randomIndex] = tmp;
+        //        }
+        //    }
+        //    return temp;
+        //}
+
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> list)
         {
-            IList<TE> temp = list;
-            if (temp.Count > 1)
-            {
-                for (int i = temp.Count - 1; i >= 0; i--)
-                {
-                    TE tmp = temp[i];
-                    int randomIndex = Random.Next(i + 1);
-                    //Swap elements
-                    temp[i] = temp[randomIndex];
-                    temp[randomIndex] = tmp;
-                }
-            }
-            return temp;
+            return list.OrderBy(item => Random.Next());
         }
     }
 }

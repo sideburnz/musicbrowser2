@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.FolderItems;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
@@ -38,7 +39,7 @@ namespace MusicBrowser.Entities
 
             if (shuffle)
             {
-                Util.Helper.ShuffleList<string>(playlist);
+                playlist = playlist.Shuffle<string>().ToList();
             }
 
             Engines.Transport.TransportEngineFactory.GetEngine().Play(queue, playlist);

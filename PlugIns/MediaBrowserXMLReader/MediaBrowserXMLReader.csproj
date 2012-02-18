@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MediaBrowserXMLReader</RootNamespace>
-    <AssemblyName>MediaBrowserXMLReader</AssemblyName>
+    <AssemblyName>PlugIn.MediaBrowserXMLReader</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

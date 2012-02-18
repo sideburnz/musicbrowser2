@@ -23,7 +23,7 @@ namespace MusicBrowser.Engines.Virtuals
 
         static public IView Fetch(string title)
         {
-            if (title == "MRU") { return new MostRecentlyPlayed(); }
+            if (title == "Recently Played") { return new MostRecentlyPlayed(); }
             return _views[title];
         }
 

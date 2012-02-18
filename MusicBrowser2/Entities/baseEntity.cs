@@ -31,6 +31,7 @@ namespace MusicBrowser.Entities
         private string _overview;
         private DateTime _releaseDate;
         private int _rating;
+        private int _timesplayed;
         private Dictionary<String, DateTime> _metadata = new Dictionary<string, DateTime>();
         #endregion
 
@@ -179,7 +180,22 @@ namespace MusicBrowser.Entities
         [DataMember]
         public DateTime FirstPlayed { get; set; }
         [DataMember]
-        public int TimesPlayed { get; set; }
+        public int TimesPlayed 
+        {
+            get
+            {
+                return _timesplayed;
+            }
+            set
+            {
+                if (value != _timesplayed)
+                {
+                    _timesplayed = value;
+                    DataChanged("TimesPlayed");
+                    DataChanged("Played");
+                }
+            }
+        }
         [DataMember]
         public int Rating 
         {
@@ -365,7 +381,13 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public bool Played { get { return LastPlayed > DateTime.Parse("1000-01-01"); } }
+        public bool Played 
+        { 
+            get 
+            {
+                return (LastPlayed > DateTime.Parse("1000-01-01")) || (TimesPlayed > 0); 
+            } 
+        }
 
         public Microsoft.MediaCenter.UI.Color Color
         {
@@ -478,7 +500,7 @@ namespace MusicBrowser.Entities
                     case "releasedate":
                         if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
                         {
-                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("dd mmm yyyy"));
+                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("dd MMMM yyyy"));
                             break;
                         }
                         output = output.Replace("[" + token + "]", "");
@@ -487,7 +509,7 @@ namespace MusicBrowser.Entities
                     case "releaserate:sort":
                         if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
                         {
-                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("yyyyMMdd hhmmss"));
+                            output = output.Replace("[" + token + "]", ReleaseDate.ToString("yyyy-MM-dd HH:mm:ss:fff"));
                             break;
                         }
                         output = output.Replace("[" + token + "]", "");
@@ -513,7 +535,7 @@ namespace MusicBrowser.Entities
                     case "lastplayed:sort":
                         if (LastPlayed > DateTime.Parse("01-JAN-1000")) 
                         {
-                            output = output.Replace("[" + token + "]", LastPlayed.ToString("yyyyMMdd hhmmss")); 
+                            output = output.Replace("[" + token + "]", LastPlayed.ToString("yyyy-MM-dd HH:mm:ss:fff")); 
                             break; 
                         }
                         output = output.Replace("[" + token + "]", ""); 
@@ -522,7 +544,7 @@ namespace MusicBrowser.Entities
                     case "lastplayed":
                         if (LastPlayed > DateTime.Parse("01-JAN-1000"))
                         {
-                            output = output.Replace("[" + token + "]", LastPlayed.ToString("dd mmm yyyy"));
+                            output = output.Replace("[" + token + "]", LastPlayed.ToString("dd MMMM yyyy"));
                             break;
                         }
                         output = output.Replace("[" + token + "]", "");

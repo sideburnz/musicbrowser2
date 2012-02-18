@@ -92,6 +92,7 @@
       <Changed Source="[FolderModel.SelectedIndex]">
         <Actions>
           <Set Target="[Footer.Entity]" Value="[FolderModel.SelectedItem]" />
+          <Set Target="[SortValue.Content]" Value="[FolderModel.SelectedItem.SortName]" />
         </Actions>
       </Changed>
 
@@ -201,6 +202,7 @@
               <FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
             </Layout>
             <Children>
+              <Text Name="SortValue"  Color="White" Font="Segoe Media Center, 20" />
               <Graphic Name="imageSpinner" Content="resx://MusicBrowser/MusicBrowser.Resources/imageSpinner" MinimumSize="30,30" MaximumSize="30,30" Visible="false">
                 <Animations>
                   <Animation Name="RotateRound" CenterPointPercent="0.5,0.5,0.5" Loop="-1">
@@ -221,9 +223,9 @@
               </Panel>
               <Panel Layout="HorizontalFlow" Margins="0,0,0,0">
                 <Children>
-                  <Text Name="List_Counter" Content="0" Color="White" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
-                  <Text Name="List_Break" Content="|" Color="Gray" Font="Segoe Media Center, 20, Bold" HorizontalAlignment="Far" />
-                  <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="Gray" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
+                  <Text Name="List_Counter" Content="0" Color="White" Font="Segoe Media Center, 20" HorizontalAlignment="Far" />
+                  <Text Name="List_Break" Content="|" Color="White" Font="Segoe Media Center, 20" HorizontalAlignment="Far" />
+                  <Text Name="List_Matches" Content="[FolderModel.Matches]" Color="White" Font="Segoe Media Center, 20" HorizontalAlignment="Far" Margins="0,0,5,0" />
                 </Children>
               </Panel>
             </Children>

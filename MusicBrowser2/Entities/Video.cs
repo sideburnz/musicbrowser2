@@ -174,11 +174,11 @@ namespace MusicBrowser.Entities
                     string lastitem = string.Empty;
 
                     List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path)
-                        .FilterDVDFiles()
+                        .FilterInternalFiles()
                         .OrderBy(item => item.Name)
                         .ToList();
 
-                    if (shuffle) { Util.Helper.ShuffleList<FileSystemItem>(candidateitems); }
+                    if (shuffle) { Util.Helper.Shuffle<FileSystemItem>(candidateitems); }
 
                     foreach (FileSystemItem item in candidateitems)
                     {
