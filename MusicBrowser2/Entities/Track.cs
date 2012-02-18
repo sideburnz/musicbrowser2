@@ -274,6 +274,12 @@ namespace MusicBrowser.Entities
                     case "channels:sort":
                     case "Channels:sort":
                         output = output.Replace("[" + token + "]", Channels); break;
+                    case "lastfmplaycount":
+                    case "LastfmPlayCount":
+                        output = output.Replace("[" + token + "]", LastFMPlayCount.ToString()); break;
+                    case "lastfmplaycount:sort":
+                    case "LastfmPlayCount:sort":
+                        output = output.Replace("[" + token + "]", LastFMPlayCount.ToString("D9")); break;
                 }
             }
 

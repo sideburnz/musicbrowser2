@@ -17,16 +17,10 @@ namespace MusicBrowser.Actions
 
         public ActionToggleWatched(baseEntity entity)
         {
-            if (entity.InheritsFrom<Music>())
-            {
-                Label = "Toggle Listened Status";
-            }
-            else
-            {
-                Label = LABEL;
-            }
+            Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
+            Available = !entity.InheritsFrom<Music>();
         }
 
         public ActionToggleWatched()
@@ -50,6 +44,7 @@ namespace MusicBrowser.Actions
             {
                 entity.LastPlayed = DateTime.Parse("2000-01-01");
             }
+            entity.TimesPlayed = 0;
             entity.UpdateCache();
         }
 

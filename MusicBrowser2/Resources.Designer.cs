@@ -234,9 +234,9 @@ namespace MusicBrowser {
             }
         }
         
-        internal static System.Drawing.Bitmap codec_mp3 {
+        internal static System.Drawing.Bitmap codec_mpeg_audio {
             get {
-                object obj = ResourceManager.GetObject("codec_mp3", resourceCulture);
+                object obj = ResourceManager.GetObject("codec_mpeg audio", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -244,13 +244,6 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap codec_mpeg_video {
             get {
                 object obj = ResourceManager.GetObject("codec_mpeg video", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap codec_mpegaudio {
-            get {
-                object obj = ResourceManager.GetObject("codec_mpegaudio", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -293,6 +286,13 @@ namespace MusicBrowser {
         internal static System.Drawing.Bitmap container_avi {
             get {
                 object obj = ResourceManager.GetObject("container_avi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap container_bdav {
+            get {
+                object obj = ResourceManager.GetObject("container_bdav", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

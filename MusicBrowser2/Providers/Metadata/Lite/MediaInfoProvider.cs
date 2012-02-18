@@ -199,7 +199,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
                 else
                 {
                     // if it's a folder, get the details from the first item we find that's a video file
-                    IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(dto.Path).FilterDVDFiles();
+                    IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(dto.Path).FilterInternalFiles();
                     foreach (FileSystemItem item in items)
                     {
                         if (Helper.getKnownType(item) == Helper.knownType.Video)

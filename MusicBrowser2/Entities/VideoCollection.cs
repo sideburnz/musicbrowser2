@@ -26,9 +26,14 @@ namespace MusicBrowser.Entities
             MediaCollection collection = new MediaCollection();
 
             List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path)
-                .FilterDVDFiles()
+                .FilterInternalFiles()
                 .OrderBy(item => item.Name)
                 .ToList();
+
+            if (shuffle)
+            {
+                candidateitems = candidateitems.Shuffle<FileSystemItem>().ToList();
+            }
 
             foreach (FileSystemItem item in candidateitems)
             {
@@ -37,11 +42,6 @@ namespace MusicBrowser.Entities
                     collection.AddItem(item.FullPath);
                     collection[collection.Count - 1].FriendlyData.Add("Title", System.IO.Path.GetFileNameWithoutExtension(item.Name));
                 }
-            }
-
-            if (shuffle)
-            {
-                Util.Helper.ShuffleList<FileSystemItem>(candidateitems);
             }
 
             mce.PlayMedia(MediaType.MediaCollection, collection, false);

@@ -28,7 +28,6 @@ namespace MusicBrowser.Engines.Cache
 
         public SQLiteCache()
         {
-            SQLiteLoader.Load();
             SQLiteHelper.EstablishDatabase(_file, SQL_CREATE_TABLE);
         }
 

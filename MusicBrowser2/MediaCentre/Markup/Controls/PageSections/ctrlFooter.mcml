@@ -56,7 +56,7 @@
                   </Repeater>
                 </Children>
               </Panel>
-              <Panel Margins="0,0,0,0">
+              <Panel Margins="0,5,0,0">
                 <Layout>
                   <FlowLayout Orientation="Horizontal"/>
                 </Layout>
@@ -65,7 +65,7 @@
                   <Graphic Name="NewStar" Content="resx://MusicBrowser/MusicBrowser.Resources/IconNew" Margins="5,6,0,0" MaximumSize="20,20" MinimumSize="20,20" Alpha="0.3" />
                 </Children>
               </Panel>
-              <Panel Margins="0,5,0,0">
+              <Panel Margins="-2,5,0,0">
                 <Layout>
                   <FlowLayout Orientation="Horizontal"/>
                 </Layout>
@@ -75,7 +75,7 @@
                       <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
                     </Layout>
                     <Content>
-                      <Graphic Content="[RepeatedItem!Image]" Margins="0,0,5,0" MaximumSize="0,50" MinimumSize="0,50" Alpha="0.7" MaintainAspectRatio="true" />
+                      <Graphic Content="[RepeatedItem!Image]" Margins="0,0,5,0" MaximumSize="0,55" MinimumSize="0,55" Alpha="0.7" MaintainAspectRatio="true" />
                     </Content>
                   </Repeater>
                 </Children>

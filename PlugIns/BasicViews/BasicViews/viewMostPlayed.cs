@@ -15,7 +15,7 @@ namespace MusicBrowser.Engines.Virtuals
 
         public string Sort
         {
-            get { return "[timesplayed:sort]"; }
+            get { return "[timesplayed]"; }
         }
 
         public bool SortAscending

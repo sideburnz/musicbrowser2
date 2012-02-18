@@ -1,0 +1,85 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:me="Me"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
+      xmlns:views="assembly://MusicBrowser/MusicBrowser.Engines.Virtuals"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonAction"/>
+  
+  <UI Name="ctrlViewPopup">
+    
+    <Properties>
+      <models:VirtualsModel Name="Model" VirtualsModel="$Required" />
+
+      <Command Name="CmdClose"/>
+      <Command Name="CmdHome" />
+      <Command Name="CmdEnd" />
+    </Properties>
+
+    <Locals>
+      <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[CmdClose]"/>
+      <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[CmdClose]"/>
+
+      <KeyHandler Name="PageUp" Handle="true" Key="PageUp" HandlerStage="Bubbled" Command="[CmdHome]"/>
+      <KeyHandler Name="PageDown" Handle="true" Key="PageDown" HandlerStage="Bubbled" Command="[CmdEnd]"/>
+      <ShortcutHandler Name="ChannelUp" Handle="true" Shortcut="ChannelUp" HandlerStage="Bubbled" Command="[CmdHome]"/>
+      <ShortcutHandler Name="ChannelDown" Handle="true" Shortcut="ChannelDown" HandlerStage="Bubbled" Command="[CmdEnd]"/>
+
+      <cor:Int32 Name="ListSize" />
+    </Locals>
+
+    <Rules>
+      <Default Target="[Input.MakeTopmostOnFocus]" Value="true"/>
+      <Default Target="[Input.CreateInterestOnFocus]" Value="true" />
+
+      <Binding Target="[viewListRepeater.Source]" Source="[Model.Virtuals]" />
+      <Binding Target="[ListSize]" Source="[Model.Virtuals.Count]">
+        <Transformer>
+          <MathTransformer Add="-1" />
+        </Transformer>
+      </Binding>
+
+      <Changed Source="[CmdClose.Invoked]">
+        <Actions>
+          <Set Target="[Model.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[CmdHome.Invoked]">
+        <Actions>
+          <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="0" />
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdEnd.Invoked]">
+        <Actions>
+          <Invoke Target="[viewListRepeater.NavigateIntoIndex]" index="[ListSize]" />
+        </Actions>
+      </Changed>
+
+      <Binding Target="[Context.Content]" Source="[Model.Context.Title]" />
+    </Rules>
+
+    <Content>
+      <ColorFill Content="Transparent" Navigation="ContainAll" Name="ActionPopUp" Layout="Fill">
+        <Layout>
+          <FlowLayout Orientation="Vertical"/>
+        </Layout>
+        <Children>
+          <Text Name="Context" Color="White" FadeSize="5" Font="Segoe Media Center Light,26" MinimumSize="420,57" MaximumSize="420,57" Margins="0,0,0,-6" />
+          <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="420,1" Alpha="0.5" Margins="0,-6,0,7"/>
+          <Repeater Layout="Fill" Name="viewListRepeater" Navigation="ContainAll">
+            <Layout>
+              <FlowLayout Orientation="Vertical" ItemAlignment="Center"/>
+            </Layout>
+            <Content>
+              <me:buttonAction Action="[RepeatedItem!actions:baseActionCommand]" Size="420,50" Font="Segoe Media Center, 20" FadeIconAlpha="0.66"/>
+            </Content>
+          </Repeater>
+        </Children>
+      </ColorFill>
+    </Content>
+  </UI>
+
+</Mcml>

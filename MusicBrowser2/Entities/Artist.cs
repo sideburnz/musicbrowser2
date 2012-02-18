@@ -45,7 +45,7 @@ namespace MusicBrowser.Entities
 
             if (shuffle)
             {
-                Util.Helper.ShuffleList<string>(playlist);
+                Util.Helper.Shuffle<string>(playlist);
             }
 
             Engines.Transport.TransportEngineFactory.GetEngine().Play(queue, playlist);

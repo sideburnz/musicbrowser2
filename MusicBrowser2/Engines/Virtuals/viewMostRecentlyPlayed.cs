@@ -6,16 +6,16 @@ using MusicBrowser.Entities;
 
 namespace MusicBrowser.Engines.Virtuals
 {
-    public class viewRecentlyAddedVideo : IView
+    public class MostRecentlyPlayed : IView
     {
         public string Title
         {
-            get { return "Recently Added Video"; }
+            get { return "Recently Played"; }
         }
 
         public string Sort
         {
-            get { return "[added]"; }
+            get { return "[lastplayed]"; }
         }
 
         public bool SortAscending
@@ -25,17 +25,15 @@ namespace MusicBrowser.Engines.Virtuals
 
         public EntityCollection Items
         {
-            get
+            get 
             {
-                int playlistsize = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
-
                 EntityCollection e = new EntityCollection();
-                e.AddRange(Engines.Cache.InMemoryCache.GetInstance().DataSet
-                    .Where(item => item.Kind == "Episode" || item.Kind == "Movie")
-                    .OrderByDescending(item => item.TimeStamp)
-                    .Take(playlistsize)
+                DateTime epoch = DateTime.Parse("2000-JAN-01");
+                e.AddRange(Cache.InMemoryCache.GetInstance().DataSet
+                    .OrderByDescending(item => item.LastPlayed)
+                    .Where(item => item.LastPlayed > epoch) 
+                    .Take(10)
                     .ToList());
-
                 return e;
             }
         }

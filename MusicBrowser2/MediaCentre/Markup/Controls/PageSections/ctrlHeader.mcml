@@ -108,7 +108,7 @@
                   <!--<me:buttonIcon Command="[BigThumb]" Name="bBigThumb" Text="[BigThumb.Label]" Icon="[BigThumb.Icon]" Margins="0,0,5,0" />
                   <me:buttonIcon Command="[SmallThumb]" Name="bSmallThumb" Text="[SmallThumb.Label]" Icon="[SmallThumb.Icon]" Margins="0,0,5,0" />-->
 
-                  <me:buttonIcon Command="[ShowVirtuals]" Name="bShowVirtuals" Text="[ShowVirtuals.Label]" Icon="[ShowVirtuals.Icon]" Margins="0,0,5,0" />
+                  <me:buttonIcon Command="[ShowVirtuals]" Name="bShowVirtuals" Text="" Icon="[ShowVirtuals.Icon]" Margins="0,0,5,0" />
                 </Children>
               </ColorFill>
 

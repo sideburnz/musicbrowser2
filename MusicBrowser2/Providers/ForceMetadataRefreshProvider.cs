@@ -35,7 +35,7 @@ namespace MusicBrowser.Providers
             if (_recurse)
             {
                 // refresh the children item
-                IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parent.Path).FilterDVDFiles();
+                IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parent.Path).FilterInternalFiles();
                 foreach (FileSystemItem item in items)
                 {
                     baseEntity e = EntityFactory.GetItem(item);

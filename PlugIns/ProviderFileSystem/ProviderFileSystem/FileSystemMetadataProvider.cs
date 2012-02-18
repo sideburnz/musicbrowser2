@@ -41,7 +41,7 @@ namespace MusicBrowser.Engines.Metadata
             int duration = 0;
             Dictionary<string, int> children = new Dictionary<string, int>();
 
-            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(dto.Path).FilterDVDFiles();
+            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(dto.Path).FilterInternalFiles();
             foreach (FileSystemItem item in items)
             {
                 baseEntity e = EntityFactory.GetItem(item);
