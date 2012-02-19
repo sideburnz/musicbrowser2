@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MusicBrowser.Entities;
 
-namespace MusicBrowser.Engines.Virtuals
+namespace MusicBrowser.Engines.Views
 {
     public class MostRecentlyPlayed : IView
     {
@@ -27,12 +27,14 @@ namespace MusicBrowser.Engines.Virtuals
         {
             get 
             {
+                int playlistsize = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
                 EntityCollection e = new EntityCollection();
                 DateTime epoch = DateTime.Parse("2000-JAN-01");
+
                 e.AddRange(Cache.InMemoryCache.GetInstance().DataSet
                     .OrderByDescending(item => item.LastPlayed)
-                    .Where(item => item.LastPlayed > epoch) 
-                    .Take(10)
+                    .Where(item => item.LastPlayed > epoch)
+                    .Take(playlistsize)
                     .ToList());
                 return e;
             }

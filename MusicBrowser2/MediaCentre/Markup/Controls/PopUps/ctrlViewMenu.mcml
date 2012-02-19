@@ -1,0 +1,49 @@
+﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:me="Me"
+      xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:cor="assembly://MSCorLib/System">
+
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonAction"/>
+
+  <UI Name="ctrlViewMenu">
+
+    <Properties>
+      <models:ViewMenuModel Name="Model" ViewMenuModel="$Required" />
+
+      <!--<Command Name="CmdClose"/>-->
+      <actions:ActionCloseMenu Name="cmdClose" />
+    </Properties>
+
+    <Locals>
+      <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[cmdClose]"/>
+      <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[cmdClose]"/>
+    </Locals>
+
+    <Rules>
+      <Changed Source="[cmdClose.Invoked]">
+        <Actions>
+          <Set Target="[Model.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+    </Rules>
+
+    <Content>
+      <Panel Layout="VerticalFlow">
+        <Children>
+          <Text Content="View" Color="White" Font="Segoe Media Center, 20"/>
+          <Text Content="Scroll" Color="White" Font="Segoe Media Center, 20"/>
+
+          <me:buttonAction Action="[cmdClose]" Size="420,50" Font="Segoe Media Center, 20" FadeIconAlpha="0.66"/>
+        </Children>
+        <!-- View [+] [-] -->
+        <!-- [ ] Vertical Scroll -->
+        <!-- Thumb Size [+] [-] -->
+        <!-- [ ] Show Thumbs -->
+        <!-- Sort by [+] [-] -->
+      </Panel>
+    </Content>
+
+  </UI>
+
+</Mcml>

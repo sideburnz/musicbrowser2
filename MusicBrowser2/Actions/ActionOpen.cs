@@ -39,7 +39,7 @@ namespace MusicBrowser.Actions
             }
             else
             {
-                Available = InheritsFrom<Container>(entity);
+                Available = !entity.InheritsFrom<View>() && InheritsFrom<Container>(entity);
             }
         }
 

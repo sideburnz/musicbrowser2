@@ -25,7 +25,7 @@ namespace MusicBrowser.Engines.PlugIns
             Metadata.Providers.RegisterProvider(new LastFMTrackMetadataProvider());
 
             //Views
-            Virtuals.Views.RegisterView(new Virtuals.viewPopular(), "MusicCollection");
+            Views.Views.RegisterView(new Views.viewPopular(), "MusicCollection");
         }
     }
 }

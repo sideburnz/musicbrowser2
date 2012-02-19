@@ -168,6 +168,31 @@ namespace MusicBrowser.Util
             }
         }
 
+        static string _apiCacheFolder;
+        public static string APICacheFolder
+        {
+            get
+            {
+                if (_apiCacheFolder == null)
+                {
+                    var e = Path.Combine(CachePath, "API");
+                    if (!Directory.Exists(e))
+                    {
+                        try
+                        {
+                            Directory.CreateDirectory(e);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("API Cache folder for MusicBrowser is missing: " + e, ex);
+                        }
+                    }
+                    _apiCacheFolder = e;
+                }
+                return _apiCacheFolder;
+            }
+        }
+
         #endregion
 
         #region file identifiers

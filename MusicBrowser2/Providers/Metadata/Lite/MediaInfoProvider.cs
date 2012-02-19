@@ -109,6 +109,10 @@ namespace MusicBrowser.Providers.Metadata.Lite
                 if (String.IsNullOrEmpty(dto.Artist))
                 {
                     dto.Artist = mediaInfo.Get(StreamKind.General, 0, "Performer");
+                    if (dto.Artist.IndexOf('/') > 0)
+                    {
+                        dto.Artist = dto.Artist.Substring(0, dto.Artist.IndexOf('/')).Trim();
+                    }
                 }
                 dto.AlbumArtist = mediaInfo.Get(StreamKind.General, 0, "Album/Performer"); //
                 dto.Genre = mediaInfo.Get(StreamKind.General, 0, "Genre");

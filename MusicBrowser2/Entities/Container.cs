@@ -43,6 +43,10 @@ namespace MusicBrowser.Entities
             get { return "[Title]"; }
         }
 
+        public override bool Playable
+        {
+            get { return false; }
+        }
 
         protected string CalculateInformation(string header, params string[] fields)
         {

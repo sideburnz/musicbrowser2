@@ -21,6 +21,24 @@
       <Binding Target="[Logo.Content]" Source="[Entity.Logo]" />
       <Binding Target="[InfoBar.Content]" Source="[Entity.Information]" />
 
+      <Rule>
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[Entity.Playable]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[NewStar.Alpha]" Value="0"/>
+        </Actions>
+      </Rule>
+
+      <Rule>
+        <Conditions>
+          <Equality ConditionOp="Equals" Source="[Entity.Playable]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[NewStar.Alpha]" Value="0.3"/>
+        </Actions>
+      </Rule>
+      
       <Binding Target="[NewStar.Visible]" Source="[Entity.Played]">
         <Transformer>
           <BooleanTransformer Inverse="true" />

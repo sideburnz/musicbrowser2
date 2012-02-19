@@ -11,7 +11,7 @@ using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Providers.Background;
 using MusicBrowser.Models.Keyboard;
 using MusicBrowser.Engines;
-using MusicBrowser.Engines.Virtuals;
+using MusicBrowser.Engines.Views;
 
 // ReSharper disable CheckNamespace
 namespace MusicBrowser
@@ -112,7 +112,7 @@ namespace MusicBrowser
                             entities.AddRange(fip.GetItems(entity.Path));
                             break;
                         }
-                    case "Virtual":
+                    case "View":
                         {
                             IView view = Views.Fetch(entity.Title);
                             entities = view.Items;
@@ -137,7 +137,8 @@ namespace MusicBrowser
                 FolderModel folderModel = new FolderModel(entity, entities, KeyboardHandlerFactory.GetHandler());
                 folderModel.application = this;
                 properties["FolderModel"] = folderModel;
-                properties["VirtualsModel"] = VirtualsModel.GetInstance;
+                properties["ViewsModel"] = ViewsModel.GetInstance;
+                properties["ViewMenuModel"] = ViewMenuModel.GetInstance;
                 properties["UINotifier"] = UINotifier.GetInstance();
                 properties["ActionsModel"] = ActionsModel.GetInstance;
                 _session.GoToPage(Engines.Themes.Theme.Main, properties);

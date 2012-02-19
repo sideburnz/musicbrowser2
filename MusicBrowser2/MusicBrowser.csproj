@@ -157,6 +157,7 @@
     <Compile Include="Actions\ActionSetOptionList.cs" />
     <Compile Include="Actions\ActionOpenVirtual.cs" />
     <Compile Include="Actions\ActionShowVirtuals.cs" />
+    <Compile Include="Actions\ActionShowViewMenu.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\Extensions.cs" />
@@ -175,13 +176,14 @@
     <Compile Include="Engines\PlugIns\LoadPlugIns.cs" />
     <Compile Include="Engines\Themes\Theme.cs" />
     <Compile Include="Engines\Transport\ITransportEngine.cs" />
-    <Compile Include="Engines\Virtuals\viewMostRecentlyPlayed.cs" />
-    <Compile Include="Engines\Virtuals\IView.cs" />
-    <Compile Include="Engines\Virtuals\Views.cs" />
+    <Compile Include="Engines\Views\viewMostRecentlyPlayed.cs" />
+    <Compile Include="Engines\Views\IView.cs" />
+    <Compile Include="Engines\Views\Views.cs" />
     <Compile Include="Entities\baseEntity.cs" />
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />
     <Compile Include="Entities\Album.cs" />
+    <Compile Include="Entities\View.cs" />
     <Compile Include="Entities\VideoCollection.cs" />
     <Compile Include="Entities\MusicCollection.cs" />
     <Compile Include="Entities\Movie.cs" />
@@ -201,7 +203,8 @@
     <Compile Include="MediaCentre\FirstRun.cs" />
     <Compile Include="MediaCentre\ProgressRecorder.cs" />
     <Compile Include="Models\ActionsModel.cs" />
-    <Compile Include="Models\VirtualsModel.cs" />
+    <Compile Include="Models\ViewMenuModel.cs" />
+    <Compile Include="Models\ViewsModel.cs" />
     <Compile Include="Models\EntityVirtualList.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Foobar2000.cs" />
@@ -350,6 +353,7 @@
     <None Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="MediaCentre\Markup\Controls\PopUps\ctrlViewMenu.mcml" />
     <None Include="MediaCentre\Markup\Controls\PopUps\ctrlViewPopUp.mcml">
       <SubType>Designer</SubType>
     </None>

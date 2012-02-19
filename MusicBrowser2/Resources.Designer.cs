@@ -367,6 +367,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static byte[] ctrlViewMenu {
+            get {
+                object obj = ResourceManager.GetObject("ctrlViewMenu", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] ctrlViewPopUp {
             get {
                 object obj = ResourceManager.GetObject("ctrlViewPopUp", resourceCulture);

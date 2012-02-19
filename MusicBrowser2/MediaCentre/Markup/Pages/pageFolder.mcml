@@ -14,7 +14,8 @@
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlActionPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlViewPopUp"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlPlayListAction"/>
-
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlViewMenu"/>
+  
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewList"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewThumb"/>
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/viewStrip"/>
@@ -26,7 +27,8 @@
       <models:FolderModel Name="FolderModel" FolderModel="$Required" />
       <models:UINotifier Name="UINotifier" UINotifier="$Required" />
       <models:ActionsModel Name="ActionsModel" ActionsModel="$Required" />
-      <models:VirtualsModel Name="VirtualsModel" VirtualsModel="$Required" />
+      <models:ViewsModel Name="ViewsModel" ViewsModel="$Required" />
+      <models:ViewMenuModel Name="ViewMenuModel" ViewMenuModel="$Required" />
 
       <actions:ActionShowNowPlaying Name="ActionShowNowPlaying" />
       
@@ -114,9 +116,19 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[VirtualsModel.Visible]">
+      <Changed Source="[ViewsModel.Visible]">
         <Conditions>
-          <Equality Source="[VirtualsModel.Visible]" Value="false" />
+          <Equality Source="[ViewsModel.Visible]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="false" />
+          <Invoke Target="[ViewPanel.NavigateInto]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[ViewMenuModel.Visible]">
+        <Conditions>
+          <Equality Source="[ViewMenuModel.Visible]" Value="false" />
         </Conditions>
         <Actions>
           <Set Target="[pageFader.Visible]" Value="false" />
@@ -134,9 +146,19 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[VirtualsModel.Visible]">
+      <Changed Source="[ViewsModel.Visible]">
         <Conditions>
-          <Equality Source="[VirtualsModel.Visible]" Value="true" />
+          <Equality Source="[ViewsModel.Visible]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[pageFader.Visible]" Value="true" />
+          <Invoke Target="[ViewPopUp.NavigateInto]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[ViewMenuModel.Visible]">
+        <Conditions>
+          <Equality Source="[ViewMenuModel.Visible]" Value="true" />
         </Conditions>
         <Actions>
           <Set Target="[pageFader.Visible]" Value="true" />
@@ -145,7 +167,8 @@
       </Changed>
 
       <Binding Source="[ActionsModel.Visible]" Target="[ActionPopUp.Visible]" />
-      <Binding Source="[VirtualsModel.Visible]" Target="[ViewPopUp.Visible]" />
+      <Binding Source="[ViewsModel.Visible]" Target="[ViewPopUp.Visible]" />
+      <Binding Source="[ViewMenuModel.Visible]" Target="[ViewMenu.Visible]" />
     </Rules>
     
     <Content>
@@ -155,7 +178,8 @@
           <!-- POP UPS -->
           <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
           <me:ctrlActionPopup Name="ActionPopUp" Visible="true" Model="[ActionsModel]" />
-          <me:ctrlViewPopup Name="ViewPopUp" Visible="true" Model="[VirtualsModel]" />
+          <me:ctrlViewPopup Name="ViewPopUp" Visible="true" Model="[ViewsModel]" />
+          <me:ctrlViewMenu Name="ViewMenu" Visible="true" Model="[ViewMenuModel]"/>
           
           <!-- FADER -->
           <Panel Visible="true">
@@ -202,7 +226,9 @@
               <FlowLayout Orientation="Vertical" ItemAlignment="Far"/>
             </Layout>
             <Children>
-              <Text Name="SortValue"  Color="White" Font="Segoe Media Center, 20" />
+              <!-- DEBUG -->
+              <Text Name="SortValue"  Color="White" Font="Segoe Media Center, 20" Visible="false" />
+              <!--/DEBUG -->
               <Graphic Name="imageSpinner" Content="resx://MusicBrowser/MusicBrowser.Resources/imageSpinner" MinimumSize="30,30" MaximumSize="30,30" Visible="false">
                 <Animations>
                   <Animation Name="RotateRound" CenterPointPercent="0.5,0.5,0.5" Loop="-1">
