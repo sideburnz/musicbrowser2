@@ -27,5 +27,10 @@ namespace MusicBrowser.Entities
         {
             get { return "[Title]"; }
         }
+
+        public override bool Playable
+        {
+            get { return true; }
+        }
     }
 }

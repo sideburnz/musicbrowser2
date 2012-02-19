@@ -38,7 +38,7 @@ namespace MusicBrowser.WebServices.Helper
 
             if (UrlEscape(strData, strTemp, ref pos, UrlEscapePercent + URL_ESCAPE_SEGMENT_ONLY) == UrlSuccess)
             {
-                return strTemp.Substring(0, Int32.Parse(pos.ToString()));
+                return strTemp.Substring(0, Int32.Parse(pos.ToString())).Replace("+", "%2B");
             }
             return string.Empty;
         }

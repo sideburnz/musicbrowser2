@@ -1,7 +1,7 @@
 ﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
       xmlns:me="Me"
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
-      xmlns:views="assembly://MusicBrowser/MusicBrowser.Engines.Virtuals"
+      xmlns:views="assembly://MusicBrowser/MusicBrowser.Engines.Views"
       xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:cor="assembly://MSCorLib/System">
@@ -11,7 +11,7 @@
   <UI Name="ctrlViewPopup">
     
     <Properties>
-      <models:VirtualsModel Name="Model" VirtualsModel="$Required" />
+      <models:ViewsModel Name="Model" ViewsModel="$Required" />
 
       <Command Name="CmdClose"/>
       <Command Name="CmdHome" />

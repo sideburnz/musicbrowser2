@@ -381,13 +381,15 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public bool Played 
+        public virtual bool Played 
         { 
             get 
             {
                 return (LastPlayed > DateTime.Parse("1000-01-01")) || (TimesPlayed > 0); 
             } 
         }
+
+        public abstract bool Playable { get; }
 
         public Microsoft.MediaCenter.UI.Color Color
         {

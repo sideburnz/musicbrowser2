@@ -3,7 +3,7 @@ using MusicBrowser.Models;
 
 namespace MusicBrowser.Actions
 {
-    class ActionCloseMenu : baseActionCommand
+    public class ActionCloseMenu : baseActionCommand
     {
         private const string LABEL = "Cancel";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconClose";

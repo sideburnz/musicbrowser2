@@ -74,9 +74,13 @@ namespace MusicBrowser.Actions
                 {
                     ActionsModel.GetInstance.Visible = KeepMenuShowingAfterExecution;
                 }
-                if (VirtualsModel.GetInstance.Visible)
+                if (ViewsModel.GetInstance.Visible)
                 {
-                    VirtualsModel.GetInstance.Visible = KeepMenuShowingAfterExecution;
+                    ViewsModel.GetInstance.Visible = KeepMenuShowingAfterExecution;
+                }
+                if (ViewMenuModel.GetInstance.Visible)
+                {
+                    ViewMenuModel.GetInstance.Visible = KeepMenuShowingAfterExecution;
                 }
             }
             catch(Exception e)

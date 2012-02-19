@@ -145,6 +145,7 @@
         <Conditions>
           <Equality ConditionOp="Equals" Source="[Input.KeyFocus]" Value="false" />
           <Equality ConditionOp="Equals" Source="[Entity.Played]" Value="true" />
+          <Equality ConditionOp="Equals" Source="[Entity.Playable]" Value="true" />
         </Conditions>
         <Actions>
           <Set Target="[Label.Alpha]" Value="0.25"/>

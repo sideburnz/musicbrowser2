@@ -21,38 +21,15 @@
       <actions:ActionShowSearch Name="ShowSearch" />
       <actions:ActionShowActions Name="ShowActions" Source="Menu" Entity="[Entity]" />
       <actions:ActionShowSettings Name="ShowSettings" />
-      <actions:ActionCycleViews Name="CycleViews" Entity="[Entity]" />
-
-      <actions:ActionShowVirtuals Name="ShowVirtuals" Entity="[Entity]" />
-
-      <!--<actions:ActionDecreaseThumbSize Name="BigThumb" Entity="[Entity]" />
-      <actions:ActionIncreaseThumbSize Name="SmallThumb" Entity="[Entity]" />-->
+      <actions:ActionShowViewMenu Name="ShowViewMenu" />
+      <actions:ActionShowViews Name="ShowVirtuals" Entity="[Entity]" />
     </Locals>
     
     <Rules>
       <Binding Target="[icon.Content]" Source="[Entity.Thumb]" />
       <Binding Target="[banner.Content]" Source="[Entity.Banner]" />
       <Binding Target="[PageName.Content]" Source="[Entity.Title]" />
-      
 
-      <Changed Source="[FolderModel.ParentEntity.View]" InitialEvaluate="true">
-        <Conditions>
-          <Equality Source="[FolderModel.ParentEntity.View]" Value="ThumbsDown" />
-        </Conditions>
-        <Actions>
-          <Set Target="[ViewMenu.Text]" Value="Thumb" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[FolderModel.ParentEntity.View]">
-        <Conditions>
-          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="NotEquals" Value="ThumbsDown" />
-        </Conditions>
-        <Actions>
-          <Set Target="[ViewMenu.Text]" Value="[FolderModel.ParentEntity.View]" />
-        </Actions>
-      </Changed>
-      
       <Rule>
         <Conditions>
           <Equality Source="[Entity.Kind]" ConditionOp="Equals" Value="Home" />
@@ -103,11 +80,7 @@
                   <me:buttonIcon Command="[ShowSettings]" Name="SettingsMenu" Text="" Icon="[ShowSettings.Icon]" Margins="0,0,5,0" Visible="false" />
                   <me:buttonIcon Command="[ShowActions]" Name="ActionsMenu" Text="" Icon="[ShowActions.Icon]" Margins="0,0,5,0" />
                   <me:buttonIcon Command="[ShowSearch]" Name="Search" Text="" Icon="[ShowSearch.Icon]" Margins="0,0,5,0" />
-                  <me:buttonIcon Command="[CycleViews]" Name="ViewMenu" Text="[FolderModel.ParentEntity.View]" Icon="[CycleViews.Icon]" Margins="0,0,5,0" />
-
-                  <!--<me:buttonIcon Command="[BigThumb]" Name="bBigThumb" Text="[BigThumb.Label]" Icon="[BigThumb.Icon]" Margins="0,0,5,0" />
-                  <me:buttonIcon Command="[SmallThumb]" Name="bSmallThumb" Text="[SmallThumb.Label]" Icon="[SmallThumb.Icon]" Margins="0,0,5,0" />-->
-
+                  <me:buttonIcon Command="[ShowViewMenu]" Name="bShowViewMenu" Text="[ShowViewMenu.Label]" Icon="[ShowViewMenu.Icon]" Margins="0,0,5,0" />
                   <me:buttonIcon Command="[ShowVirtuals]" Name="bShowVirtuals" Text="" Icon="[ShowVirtuals.Icon]" Margins="0,0,5,0" />
                 </Children>
               </ColorFill>

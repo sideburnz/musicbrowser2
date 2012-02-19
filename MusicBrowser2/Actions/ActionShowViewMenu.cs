@@ -8,12 +8,12 @@ using MusicBrowser.Models;
 
 namespace MusicBrowser.Actions
 {
-    public class ActionShowViews : baseActionCommand
+    public class ActionShowViewMenu : baseActionCommand
     {
-        private const string LABEL = "Preconfigured Views";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconOpen";
+        private const string LABEL = "View Menu";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconView";
 
-        public ActionShowViews(baseEntity entity)
+        public ActionShowViewMenu(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -21,7 +21,7 @@ namespace MusicBrowser.Actions
             KeepMenuShowingAfterExecution = true;
         }
 
-        public ActionShowViews()
+        public ActionShowViewMenu()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -30,13 +30,14 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(baseEntity entity)
         {
-            return new ActionShowViews(entity);
+            return new ActionShowViewMenu(entity);
         }
+
+        public string Source { get; set; }
 
         public override void DoAction(baseEntity entity)
         {
-            Models.ViewsModel.GetInstance.Context = entity;
-            Models.ViewsModel.GetInstance.Visible = true;
+            ViewMenuModel.GetInstance.Visible = true;
         }
     }
 }

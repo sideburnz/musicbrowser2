@@ -3,19 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.MediaCenter.UI;
-using MusicBrowser.Engines.Virtuals;
+using MusicBrowser.Engines.Views;
 using MusicBrowser.Entities;
 using MusicBrowser.Actions;
 
 namespace MusicBrowser.Models
 {
-    public class VirtualsModel : BaseModel
+    public class ViewsModel : BaseModel
     {
         #region singleton
-        static VirtualsModel _instance;
+        static ViewsModel _instance;
         static readonly object _lock = new object();
 
-        public static VirtualsModel GetInstance
+        public static ViewsModel GetInstance
         {
             get
             {
@@ -24,7 +24,7 @@ namespace MusicBrowser.Models
                 {
                     if (_instance == null)
                     {
-                        _instance = new VirtualsModel();
+                        _instance = new ViewsModel();
                     }
                     return _instance;
                 }
@@ -73,7 +73,7 @@ namespace MusicBrowser.Models
 
                 foreach(IView view in Views.GetViews(Context.Kind))
                 {
-                    ActionOpenVirtual action = new ActionOpenVirtual(Context);
+                    ActionOpenView action = new ActionOpenView(Context);
                     action.Title = view.Title;
                     commands.Add(action);
                 }

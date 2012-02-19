@@ -8,21 +8,21 @@ using System.Collections.Generic;
 
 namespace MusicBrowser.Actions
 {
-    public class ActionOpenVirtual : baseActionCommand
+    public class ActionOpenView : baseActionCommand
     {
         private const string LABEL = "Open";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconOpen";
 
         private string _title;
 
-        public ActionOpenVirtual(baseEntity entity)
+        public ActionOpenView(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionOpenVirtual()
+        public ActionOpenView()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -43,12 +43,12 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(baseEntity entity)
         {
-            return new ActionOpenVirtual(entity);
+            return new ActionOpenView(entity);
         }
 
         public override void DoAction(baseEntity entity)
         {
-            baseEntity e = new Virtual();
+            baseEntity e = new View();
             e.Title = Title;
             MusicBrowser.Application.GetReference().Navigate(e);
         }

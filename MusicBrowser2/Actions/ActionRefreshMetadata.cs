@@ -21,6 +21,7 @@ namespace MusicBrowser.Actions
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
+            Available = !entity.InheritsFrom<View>();
         }
 
         public ActionRefreshMetadata()

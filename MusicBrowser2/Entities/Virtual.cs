@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using ServiceStack.Text;
-using MusicBrowser.Engines.Virtuals;
+using MusicBrowser.Engines.Views;
 using MusicBrowser.Models;
 using MusicBrowser.Util;
 using Microsoft.MediaCenter;
@@ -12,7 +12,7 @@ using Microsoft.MediaCenter;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    class Virtual : Container
+    public class Virtual : Container
     {
         public override string DefaultThumbPath
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MusicBrowser.Entities;
 
-namespace MusicBrowser.Engines.Virtuals
+namespace MusicBrowser.Engines.Views
 {
     public class viewMostPlayed : IView
     {

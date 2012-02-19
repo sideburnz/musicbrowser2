@@ -63,20 +63,26 @@ namespace MusicBrowser.Models
         {
             get
             {
+                string value;
                 if (!String.IsNullOrEmpty(_remoteFilter.Value))
                 {
-                    EntityCollection dataset = new EntityCollection();
-                    IEnumerable<string> searchResults = _engine.Search(_searchScope, _remoteFilter.Value);
-                    foreach (string item in searchResults)
-                    {
-                        dataset.Add(_engine.Fetch(item));
-                    }
-                    _hitsByType = _engine.HitsByType(_remoteFilter.Value);
-                    return new EntityVirtualList(dataset, "[Title:sort]", true);
+                    value = _remoteFilter.Value;
+                    _hitsByType = _engine.HitsByType(value);
+                }
+                else
+                {
+                    value = String.Empty;
+                    _hitsByType = _engine.HitsByType(String.Empty);
                 }
 
-                _hitsByType = _engine.HitsByType(String.Empty);
-                return new EntityVirtualList(new EntityCollection(), string.Empty, true);
+                EntityCollection dataset = new EntityCollection();
+                IEnumerable<string> searchResults = _engine.Search(_searchScope, value);
+                foreach (string item in searchResults)
+                {
+                    dataset.Add(_engine.Fetch(item));
+                }
+
+                return new EntityVirtualList(dataset, "[Title]", true);
             }
         }
 
