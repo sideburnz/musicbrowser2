@@ -18,7 +18,7 @@ namespace MusicBrowser.Engines.Themes
         private static string _mainscreen = "resx://MusicBrowser/MusicBrowser.Resources/pageFolder";
         private static string _searchscreen = "resx://MusicBrowser/MusicBrowser.Resources/pageSearch";
         private static string _fooplaying = "resx://MusicBrowser/MusicBrowser.Resources/pageFooBar2000";
-        private static List<string> _availableViews = new List<string>() { "list", "thumb", "strip" };
+        private static List<string> _availableViews = new List<string>() { "List", "Thumb", "Strip" };
         private static List<string> _themes = new List<string>() { "Default" };
 
         public Theme() { }

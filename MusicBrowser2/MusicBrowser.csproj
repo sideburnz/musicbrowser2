@@ -127,7 +127,6 @@
     <Compile Include="Actions\ActionShowSettings.cs" />
     <Compile Include="Actions\ActionShowKeyboard.cs" />
     <Compile Include="Actions\ActionPreviousPage.cs" />
-    <Compile Include="Actions\ActionCycleViews.cs" />
     <Compile Include="Actions\ActionSetSetting.cs" />
     <Compile Include="Actions\ActionOnEnter.cs" />
     <Compile Include="Actions\ActionOnPlay.cs" />
@@ -147,13 +146,10 @@
     <Compile Include="Actions\ActionPlaybackShuffle.cs" />
     <Compile Include="Actions\ActionPlaybackRepeat.cs" />
     <Compile Include="Actions\ActionShuffle.cs" />
-    <Compile Include="Actions\ActionIncreaseThumbSize.cs" />
-    <Compile Include="Actions\ActionDecreaseThumbSize.cs" />
     <Compile Include="Actions\ActionJumpBack.cs" />
     <Compile Include="Actions\ActionJumpForward.cs" />
     <Compile Include="Actions\ActionCleanCache.cs" />
     <Compile Include="Actions\ActionToggleWatched.cs" />
-    <Compile Include="Actions\ActionCycleOrientation.cs" />
     <Compile Include="Actions\ActionSetOptionList.cs" />
     <Compile Include="Actions\ActionOpenVirtual.cs" />
     <Compile Include="Actions\ActionShowVirtuals.cs" />
@@ -353,7 +349,9 @@
     <None Include="MediaCentre\Markup\Controls\PageSections\ctrlFooter.mcml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="MediaCentre\Markup\Controls\PopUps\ctrlViewMenu.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PopUps\ctrlViewMenu.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MediaCentre\Markup\Controls\PopUps\ctrlViewPopUp.mcml">
       <SubType>Designer</SubType>
     </None>
