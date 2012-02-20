@@ -162,7 +162,7 @@
         </Conditions>
         <Actions>
           <Set Target="[pageFader.Visible]" Value="true" />
-          <Invoke Target="[ViewPopUp.NavigateInto]" />
+          <Invoke Target="[ViewMenu.NavigateInto]" />
         </Actions>
       </Changed>
 
@@ -179,7 +179,7 @@
           <me:ctrlPlayListAction Visible="true" UINotifier="[UINotifier]" />
           <me:ctrlActionPopup Name="ActionPopUp" Visible="true" Model="[ActionsModel]" />
           <me:ctrlViewPopup Name="ViewPopUp" Visible="true" Model="[ViewsModel]" />
-          <me:ctrlViewMenu Name="ViewMenu" Visible="true" Model="[ViewMenuModel]"/>
+          <me:ctrlViewMenu Name="ViewMenu" Visible="true" Model="[ViewMenuModel]" Entity="[FolderModel.ParentEntity]"/>
           
           <!-- FADER -->
           <Panel Visible="true">

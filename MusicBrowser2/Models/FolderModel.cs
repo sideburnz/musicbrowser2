@@ -188,6 +188,10 @@ namespace MusicBrowser.Models
                 case "views.ishorizontal":
                     FirePropertyChanged("IsHorizontal");
                     break;
+                case "showthumbs":
+                    FirePropertyChanged("ShowThumbs");
+                    break;
+
             }
         }
 

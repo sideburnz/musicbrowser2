@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MusicBrowser.Entities;
+using MusicBrowser.Engines.Cache;
 
 namespace MusicBrowser.Models
 {
@@ -43,6 +45,41 @@ namespace MusicBrowser.Models
                     FirePropertyChanged("Visible");
                 }
             }
+        }
+
+        public baseEntity Entity { get; set; }
+
+        public List<string> Views
+        {
+            get
+            {
+                return Engines.Themes.Theme.Views;
+            }
+        }
+
+        public void DecreaseThumb()
+        {
+            Entity.ThumbSize -= 10;
+            if (Entity.ThumbSize < 80)
+            {
+                Entity.ThumbSize = 80;
+            }
+            Entity.UpdateCache();
+        }
+
+        public void IncreaseThumb()
+        {
+            Entity.ThumbSize += 10;
+            if (Entity.ThumbSize > 300)
+            {
+                Entity.ThumbSize = 300;
+            }
+            Entity.UpdateCache();
+        }
+
+        public void CommitChanges()
+        {
+            Entity.UpdateCache();
         }
     }
 }

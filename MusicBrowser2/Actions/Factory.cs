@@ -170,7 +170,6 @@ namespace MusicBrowser.Actions
             List<baseActionCommand> ret = new List<baseActionCommand>();
 
             ret.Add(new ActionCloseMenu());
-            ret.Add(new ActionCycleViews());
             ret.Add(new ActionNoOperation()); // AKA Do Nothing
             ret.Add(new ActionOpen());
             ret.Add(new ActionPause());

@@ -37,9 +37,6 @@ namespace MusicBrowser.Actions
             {
                 _key = value;
                 _index = 0;
-
-                //_options = Engines.Themes.Theme.Themes;
-                //_options.IndexOf(_config.GetStringSetting("Theme"));
             }
         }
 
@@ -49,7 +46,7 @@ namespace MusicBrowser.Actions
             {
                 _options.Clear();
                 _options.AddRange(value);
-                _index = _options.IndexOf(_config.GetStringSetting(_key));
+                if (!string.IsNullOrEmpty(Key)) { _index = _options.IndexOf(_config.GetStringSetting(Key)); }
                 if (_index < 0) { _index = 0; }
                 FirePropertyChanged("SelectedItem");
             }
@@ -67,8 +64,11 @@ namespace MusicBrowser.Actions
             {
                 _index = 0;
             }
-            Util.Config.GetInstance().SetSetting(_key, SelectedItem);
-            FirePropertyChanged("SelectedItem");
+            if (!string.IsNullOrEmpty(Key))
+            {
+                Util.Config.GetInstance().SetSetting(_key, SelectedItem);
+            }
+            Invoke();
         }
 
         public void Decrement()
@@ -78,8 +78,11 @@ namespace MusicBrowser.Actions
             {
                 _index = _options.Count - 1;
             }
-            Util.Config.GetInstance().SetSetting(_key, SelectedItem);
-            FirePropertyChanged("SelectedItem");
+            if (!string.IsNullOrEmpty(Key))
+            {
+                Util.Config.GetInstance().SetSetting(_key, SelectedItem);
+            }
+            Invoke();
         }
 
         public string SelectedItem
@@ -88,11 +91,16 @@ namespace MusicBrowser.Actions
             {
                 return _options[_index];
             }
+            set
+            {
+                _index = _options.IndexOf(value);
+                if (_index < 0) { _index = 0; }
+            }
         }
 
         public override void DoAction(baseEntity entity)
         {
-            Util.Config.GetInstance().SetSetting(_key, SelectedItem);
+            FirePropertyChanged("SelectedItem");
         }
     }
 }

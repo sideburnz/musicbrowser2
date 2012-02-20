@@ -2,48 +2,231 @@
       xmlns:me="Me"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:cor="assembly://MSCorLib/System">
 
   <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/buttonAction"/>
+  <Aggregate Source="resx://MusicBrowser/MusicBrowser.Resources/ctrlCheckbox"/>
 
   <UI Name="ctrlViewMenu">
 
     <Properties>
       <models:ViewMenuModel Name="Model" ViewMenuModel="$Required" />
-
-      <!--<Command Name="CmdClose"/>-->
+      <entities:baseEntity Name="Entity" baseEntity="$Required" />
       <actions:ActionCloseMenu Name="cmdClose" />
     </Properties>
 
     <Locals>
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[cmdClose]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[cmdClose]"/>
+
+      <actions:ActionSetOptionList Name="cmdView" Options="[Model.Views]" KeepMenuShowingAfterExecution="true" SelectedItem="[Entity.View]" />
+      <actions:ActionSetBooleanSetting Name="cmdShowThumbs" Key="ShowThumbs" KeepMenuShowingAfterExecution="true" />
+      <actions:ActionSetBooleanSetting Name="cmdVerticalScroll" Key="Views.IsHorizontal" KeepMenuShowingAfterExecution="true" />
     </Locals>
 
-    <Rules>
+    <Rules>      
       <Changed Source="[cmdClose.Invoked]">
         <Actions>
           <Set Target="[Model.Visible]" Value="false" />
         </Actions>
       </Changed>
+      <Changed Source="[cmdView.SelectedItem]">
+        <Actions>
+          <Set Target="[Entity.View]" Value="[cmdView.SelectedItem]" />
+          <Invoke Target="[Model.CommitChanges]" />
+        </Actions>
+      </Changed>
+      <Rule>
+        <Actions>
+          <Set Target="[Model.Entity]" Value="[Entity]" />
+        </Actions>
+      </Rule>
     </Rules>
 
     <Content>
-      <Panel Layout="VerticalFlow">
+      <Panel Layout="VerticalFlow" Navigation="ContainAll">
         <Children>
-          <Text Content="View" Color="White" Font="Segoe Media Center, 20"/>
-          <Text Content="Scroll" Color="White" Font="Segoe Media Center, 20"/>
-
+          <Text Content="View Menu" Color="White" FadeSize="5" Font="Segoe Media Center Light,26" MinimumSize="420,57" MaximumSize="420,57" Margins="0,0,0,-6" />
+          <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="420,1" Alpha="0.5" Margins="0,-6,0,7"/>
+          
+          <me:ctrlListSpinner Label="View" Action="[cmdView]" />
+          <me:ctrlCheckbox Label="Vertical Scroll" Action="[cmdVerticalScroll]" />
+          <me:ctrlSpinner Label="Thumb Size" Model="[Model]"/>
+          <me:ctrlCheckbox Label="Show Thumbs" Action="[cmdShowThumbs]" />
+          <!-- Sort by [+] [-] -->
           <me:buttonAction Action="[cmdClose]" Size="420,50" Font="Segoe Media Center, 20" FadeIconAlpha="0.66"/>
         </Children>
-        <!-- View [+] [-] -->
-        <!-- [ ] Vertical Scroll -->
-        <!-- Thumb Size [+] [-] -->
-        <!-- [ ] Show Thumbs -->
-        <!-- Sort by [+] [-] -->
       </Panel>
     </Content>
 
+  </UI>
+
+
+  <UI Name="ctrlListSpinner">
+
+    <Properties>
+      <actions:ActionSetOptionList Name="Action" ActionSetOptionList="$Required" />
+      <cor:String Name="Label" String="$Required" />
+    </Properties>
+
+    <Locals>
+      <Command Name="CmdIncrement" />
+      <Command Name="CmdDecrement" />
+
+      <Command Name="OnFocus" />
+      <Command Name="LostFocus" />
+    </Locals>
+
+    <Rules>
+      <Binding Target="[txtValue.Content]" Source="[Action.SelectedItem]" />
+      <Changed Source="[CmdIncrement.Invoked]">
+        <Actions>
+          <Invoke Target="[Action.Increment]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdDecrement.Invoked]">
+        <Actions>
+          <Invoke Target="[Action.Decrement]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[OnFocus.Invoked]">
+        <Actions>
+          <Set Target="[thisControl.Alpha]" Value="1"/>
+          <Set Target="[Underline.Alpha]" Value="0.5" />
+        </Actions>
+      </Changed>
+      <Changed Source="[LostFocus.Invoked]">
+        <Actions>
+          <Set Target="[thisControl.Alpha]" Value="0.5"/>
+          <Set Target="[Underline.Alpha]" Value="0" />
+        </Actions>
+      </Changed>
+    </Rules>
+
+    <Content>
+
+      <Panel Name="thisControl">
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+        </Layout>
+        <Children>
+          <ColorFill Content="Transparent" Layout="Anchor">
+            <Children>
+              <Text Name="txtLabel" Content="[Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,15,10" />
+              <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" Alpha="0" Margins="5,0,0,0">
+                <LayoutInput>
+                  <AnchorLayoutInput Left="txtLabel,0" Right="txtLabel,1,-12" Bottom="txtLabel,1,-8"/>
+                </LayoutInput>
+              </Graphic>
+            </Children>
+          </ColorFill>
+          <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconMinus" Command="[CmdDecrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
+          <Text Name="txtValue" Content="[Action.SelectedItem]" Color="White" Font="Segoe Media Center, 22" Margins="5,3,5,10" />
+          <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlus" Command="[CmdIncrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+  <UI Name="ctrlSpinner">
+
+    <Properties>
+      <cor:String Name="Label" String="$Required" />
+      <models:ViewMenuModel Name="Model" ViewMenuModel="$Required" />
+    </Properties>
+
+    <Locals>
+      <Command Name="CmdIncrement" />
+      <Command Name="CmdDecrement" />
+
+      <Command Name="OnFocus" />
+      <Command Name="LostFocus" />
+    </Locals>
+
+    <Rules>
+      <Changed Source="[CmdIncrement.Invoked]">
+        <Actions>
+          <Invoke Target="[Model.IncreaseThumb]" />
+        </Actions>
+      </Changed>
+      <Changed Source="[CmdDecrement.Invoked]">
+        <Actions>
+          <Invoke Target="[Model.DecreaseThumb]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[OnFocus.Invoked]">
+        <Actions>
+          <Set Target="[thisControl.Alpha]" Value="1"/>
+          <Set Target="[Underline.Alpha]" Value="0.5" />
+        </Actions>
+      </Changed>
+      <Changed Source="[LostFocus.Invoked]">
+        <Actions>
+          <Set Target="[thisControl.Alpha]" Value="0.5"/>
+          <Set Target="[Underline.Alpha]" Value="0" />
+        </Actions>
+      </Changed>
+    </Rules>
+
+    <Content>
+
+      <Panel Name="thisControl">
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
+        </Layout>
+        <Children>
+          <ColorFill Content="Transparent" Layout="Anchor">
+            <Children>
+              <Text Name="txtLabel" Content="[Label]" Color="White" FadeSize="5" Font="Segoe Media Center, 22" Margins="10,3,15,10" />
+              <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" Alpha="0" Margins="5,0,0,0">
+                <LayoutInput>
+                  <AnchorLayoutInput Left="txtLabel,0" Right="txtLabel,1,-12" Bottom="txtLabel,1,-8"/>
+                </LayoutInput>
+              </Graphic>
+            </Children>
+          </ColorFill>
+          <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconMinus" Command="[CmdDecrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
+          <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlus" Command="[CmdIncrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+  <UI Name="SpinnerButton">
+    <Properties>
+      <Command Name="Command" Command="$Required" />
+      <Command Name="OnFocus" Command="$Required" />
+      <Command Name="LostFocus" Command="$Required" />
+      <Image Name="Icon" Image="null"/>
+    </Properties>
+    <Locals>
+      <ClickHandler Name="Clicker" Command="[Command]"/>
+    </Locals>
+    <Rules>
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Condition Source="[Input.KeyFocus]"  SourceValue="true">
+        <Actions>
+          <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/IconBorder"/>
+          <Invoke Target="[OnFocus.Invoke]" />
+        </Actions>
+      </Condition>
+      <Condition Source="[Input.KeyFocus]"  SourceValue="false">
+        <Actions>
+          <Set Target="[ButtonBack.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
+          <Invoke Target="[LostFocus.Invoke]" />
+        </Actions>
+      </Condition>
+    </Rules>
+    <Content>
+      <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/IconBorder" Name="ButtonBack" MinimumSize="35,35" MaximumSize="35,35" Margins="0,0,0,0">
+        <Children>
+          <Graphic Content="[Icon]" Name="ButtonFace" MinimumSize="25,25" MaximumSize="25,25" Margins="5,5,5,5"/>
+        </Children>
+      </Graphic>
+    </Content>
   </UI>
 
 </Mcml>
