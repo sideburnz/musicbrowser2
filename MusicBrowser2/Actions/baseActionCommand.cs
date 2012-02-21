@@ -92,6 +92,7 @@ namespace MusicBrowser.Actions
             {
                 Invoked(this, new EventArgs());
             }
+            FirePropertyChanged("Invoked");
         }
 
         /// <summary>

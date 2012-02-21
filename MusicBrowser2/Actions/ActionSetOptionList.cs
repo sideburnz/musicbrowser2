@@ -40,14 +40,26 @@ namespace MusicBrowser.Actions
             }
         }
 
+        private void SetOption(string item)
+        {
+            int index = _options.IndexOf(item);
+            if (item.Equals(item, System.StringComparison.Ordinal))
+            {
+                _index = index;
+                FirePropertyChanged("SelectedItem");
+            }
+        }
+
         public List<string> Options
         {
             set
             {
                 _options.Clear();
                 _options.AddRange(value);
-                if (!string.IsNullOrEmpty(Key)) { _index = _options.IndexOf(_config.GetStringSetting(Key)); }
-                if (_index < 0) { _index = 0; }
+                if (!string.IsNullOrEmpty(Key))
+                {
+                    SetOption(_config.GetStringSetting(Key));
+                }
                 FirePropertyChanged("SelectedItem");
             }
         }
@@ -89,12 +101,20 @@ namespace MusicBrowser.Actions
         {
             get 
             {
-                return _options[_index];
+                string ret;
+                try
+                {
+                    ret = _options[_index];
+                }
+                catch
+                {
+                    ret = _options[0];
+                }
+                return ret;
             }
             set
             {
-                _index = _options.IndexOf(value);
-                if (_index < 0) { _index = 0; }
+                SetOption(value);
             }
         }
 

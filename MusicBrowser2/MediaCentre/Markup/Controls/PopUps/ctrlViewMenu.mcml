@@ -50,7 +50,7 @@
           <Text Content="View Menu" Color="White" FadeSize="5" Font="Segoe Media Center Light,26" MinimumSize="420,57" MaximumSize="420,57" Margins="0,0,0,-6" />
           <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="420,1" Alpha="0.5" Margins="0,-6,0,7"/>
           
-          <me:ctrlListSpinner Label="View" Action="[cmdView]" />
+          <me:ctrlListSpinner Label="Layout" Action="[cmdView]" />
           <me:ctrlCheckbox Label="Vertical Scroll" Action="[cmdVerticalScroll]" />
           <me:ctrlSpinner Label="Thumb Size" Model="[Model]"/>
           <me:ctrlCheckbox Label="Show Thumbs" Action="[cmdShowThumbs]" />
@@ -123,7 +123,7 @@
             </Children>
           </ColorFill>
           <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconMinus" Command="[CmdDecrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
-          <Text Name="txtValue" Content="[Action.SelectedItem]" Color="White" Font="Segoe Media Center, 22" Margins="5,3,5,10" />
+          <Text Name="txtValue" Content="[Action.SelectedItem]" Color="White" Font="Segoe Media Center, 22" Margins="5,3,5,10" MinimumSize="100,0"/>
           <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlus" Command="[CmdIncrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
         </Children>
       </Panel>

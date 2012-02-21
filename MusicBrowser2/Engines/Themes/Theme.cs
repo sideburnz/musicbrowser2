@@ -60,6 +60,14 @@ namespace MusicBrowser.Engines.Themes
             }
         }
 
+        public static void SetLayouts(string theme, IEnumerable<string> layouts)
+        {
+            // test that this is the current theme
+            if (theme.ToLower() != Util.Config.GetInstance().GetStringSetting("Theme").ToLower()) { return; }
+            _availableViews.Clear();
+            _availableViews.AddRange(layouts);
+        }
+
         public static string Main 
         { 
             get
@@ -101,11 +109,6 @@ namespace MusicBrowser.Engines.Themes
             get
             {
                 return _availableViews;
-            }
-            set
-            {
-                _availableViews.Clear();
-                _availableViews.AddRange(value);
             }
         }
     }
