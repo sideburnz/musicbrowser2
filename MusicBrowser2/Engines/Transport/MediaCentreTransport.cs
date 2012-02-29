@@ -5,6 +5,8 @@ using Microsoft.MediaCenter;
 using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 
+//TODO: test to make sure we have a context before trying to control it
+
 namespace MusicBrowser.Engines.Transport
 {
     class MediaCentreTransport : ITransportEngine
