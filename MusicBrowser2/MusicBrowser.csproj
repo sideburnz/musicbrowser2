@@ -91,11 +91,10 @@
   <ItemGroup>
     <Reference Include="Microsoft.MediaCenter, Version=6.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\ehome\Microsoft.MediaCenter.dll</HintPath>
+      <HintPath>..\Resource\Microsoft.MediaCenter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.MediaCenter.UI, Version=6.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\ehome\Microsoft.MediaCenter.UI.dll</HintPath>
+      <HintPath>..\Resource\Microsoft.MediaCenter.UI.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=2.2.2.30888, Culture=neutral, PublicKeyToken=a0d284a68f39c610, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -435,6 +434,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>%25windir%25\eHome\McmlVerifier.exe -verbose -assemblyredirect:"$(FullyQualifiedOutputPath)" -directory:"G:\Code\MusicBrowser2\MusicBrowser2\MediaCentre\Markup"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

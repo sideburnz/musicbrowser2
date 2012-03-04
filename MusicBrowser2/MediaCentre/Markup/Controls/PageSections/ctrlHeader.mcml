@@ -62,7 +62,7 @@
           <ColorFill Content="Transparent" Layout="Dock">
             <Children>
 
-              <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/border" Name="Wrapper" SizingPolicy="SizeToChildren" Padding="1,1,1,1" Margins="25,10,10,10">
+              <Panel Name="Wrapper" Margins="25,10,10,10">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Right" />
                 </LayoutInput>
@@ -70,7 +70,7 @@
                   <Graphic Name="icon" Content="[Entity.Thumb]" MaintainAspectRatio="true" MaximumSize="0,96" />
                   <Graphic Name="banner" Content="[Entity.Banner]" MaintainAspectRatio="true" MaximumSize="0,96" />
                 </Children>
-              </Graphic>
+              </Panel>
 
               <ColorFill Content="Transparent" Layout="HorizontalFlow" Navigation="ContainHorizontal" Margins="50,70,0,0">
                 <LayoutInput>

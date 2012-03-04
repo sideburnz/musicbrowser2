@@ -8,7 +8,9 @@
     <EnableSQLServerDebugging>true</EnableSQLServerDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartArguments>-load:"file://G:\Code\MusicBrowser2\MusicBrowser2\Markup\Pages\pageMain.mcml" -assemblyredirect:"G:\Code\MusicBrowser2\MusicBrowser2\bin\Debug" -markupredirect:"resx://MusicBrowser/MusicBrowser.Resources/,file://G:\Code\MusicBrowser2\MusicBrowser2\Markup\,. mcml"</StartArguments>
+    <StartArguments>
+    </StartArguments>
+    <StartProgram />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <StartProgram>C:\Windows\ehome\ehshell.exe</StartProgram>
