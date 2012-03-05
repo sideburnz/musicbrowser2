@@ -45,17 +45,31 @@
     </Rules>
 
     <Content>
-      <Panel Layout="VerticalFlow" Navigation="ContainAll">
+      <Panel Layout="Dock">
         <Children>
-          <Text Content="View Menu" Color="White" FadeSize="5" Font="Segoe Media Center Light,26" MinimumSize="420,57" MaximumSize="420,57" Margins="0,0,0,-6" />
-          <Graphic Name="Underline" Content="resx://MusicBrowser/MusicBrowser.Resources/underline" MaintainAspectRatio="false" MinimumSize="420,1" Alpha="0.5" Margins="0,-6,0,7"/>
-          
-          <me:ctrlListSpinner Label="Layout" Action="[cmdView]" />
-          <me:ctrlCheckbox Label="Vertical Scroll" Action="[cmdVerticalScroll]" />
-          <me:ctrlSpinner Label="Thumb Size" Model="[Model]"/>
-          <me:ctrlCheckbox Label="Show Thumbs" Action="[cmdShowThumbs]" />
-          <!-- Sort by [+] [-] -->
-          <me:buttonAction Action="[cmdClose]" Size="420,50" Font="Segoe Media Center, 20" FadeIconAlpha="0.66"/>
+          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" MinimumSize="330,750">
+            <LayoutInput>
+              <DockLayoutInput Alignment="Near" Position="Right" />
+            </LayoutInput>
+            <Children>
+
+              <Panel Layout="VerticalFlow" Navigation="ContainAll" Padding="10,25,10,25" >
+                <Children>
+                  <Text Content="View Menu" Color="White" Font="Segoe Media Center Light, 32" Margins="17,0,0,25" />
+                  
+                  <me:ctrlListSpinner Label="Layout" Action="[cmdView]" />
+                  <me:ctrlCheckbox Label="Vertical Scroll" Action="[cmdVerticalScroll]" />
+                  <me:ctrlSpinner Label="Thumb Size" Model="[Model]"/>
+                  <me:ctrlCheckbox Label="Show Thumbs" Action="[cmdShowThumbs]" />
+                  <!-- Sort by [+] [-] -->
+                  <me:buttonAction Action="[cmdClose]" Size="310,50" Font="Segoe Media Center, 20" FadeIconAlpha="0.66"/>
+                </Children>
+              </Panel>
+
+              <ColorFill Content="Black" Alpha="1" Layout="Fill" />
+
+            </Children>
+          </Graphic>
         </Children>
       </Panel>
     </Content>
