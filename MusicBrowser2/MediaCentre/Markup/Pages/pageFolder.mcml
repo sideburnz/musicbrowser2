@@ -131,7 +131,7 @@
           <Equality Source="[ViewMenuModel.Visible]" Value="false" />
         </Conditions>
         <Actions>
-          <Set Target="[pageFader.Visible]" Value="false" />
+          <!--<Set Target="[pageFader.Visible]" Value="false" />-->
           <Invoke Target="[ViewPanel.NavigateInto]" />
         </Actions>
       </Changed>
@@ -161,7 +161,7 @@
           <Equality Source="[ViewMenuModel.Visible]" Value="true" />
         </Conditions>
         <Actions>
-          <Set Target="[pageFader.Visible]" Value="true" />
+          <!--<Set Target="[pageFader.Visible]" Value="true" />-->
           <Invoke Target="[ViewMenu.NavigateInto]" />
         </Actions>
       </Changed>
