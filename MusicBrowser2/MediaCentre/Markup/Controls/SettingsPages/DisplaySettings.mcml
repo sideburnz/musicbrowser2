@@ -2,6 +2,7 @@
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:me="Me"
       xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:util="assembly://MusicBrowser/MusicBrowser.Util"
       xmlns:theme="assembly://MusicBrowser/MusicBrowser.Engines.Themes"
       xmlns:jil="assembly://MusicBrowser/MusicBrowser.Models.Keyboard" 
       xmlns:cor="assembly://MSCorLib/System">
@@ -14,16 +15,17 @@
     <Properties>
       <theme:Theme Name="theme" />
       <jil:KeyboardHandlerFactory Name="jil" />
+      <util:Localization Name="local" />
     </Properties>
     
     <Locals>
       <actions:ActionSetBooleanSetting Name="CmdShowFanArt" Key="EnableFanArt" />
       <actions:ActionSetBooleanSetting Name="CmdUpdateShowClock" Key="ShowClock" />
 
-
-
       <actions:ActionSetOptionList Name="CmdTheme" Key="Theme" Options="[theme.Themes]" />
       <actions:ActionSetOptionList Name="CmdJIL" Key="KeyboardAction" Options="[jil.Actions]" />
+
+      <actions:ActionSetOptionList Name="CmdLang" Key="Language" Options="[local.LanguageNames]" />
     </Locals>
 
     <Content>
@@ -31,6 +33,7 @@
         <Children>
           <Text Content="General Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlListSpinner Label="Typing action" Action="[CmdJIL]" />
+          <me:ctrlListSpinner Label="Language (partial support)" Action="[CmdLang]" />
 
           <Text Content="View Options" Color="White" Font="Segoe Media Center, 22" Margins="-20,10,0,5"/>
           <me:ctrlCheckbox Label="Show background images" Action="[CmdShowFanArt]" />

@@ -326,6 +326,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Util\Helper.cs" />
+    <Compile Include="Util\Localization.cs" />
     <Compile Include="WebServices\Helper\Externals.cs" />
     <Compile Include="WebServices\Helper\HTTPProvider.cs" />
     <Compile Include="WebServices\Helper\Logging.cs" />
