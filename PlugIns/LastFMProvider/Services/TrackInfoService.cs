@@ -11,6 +11,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
         //IN
         public string Username { get; set; }
         public DateTime lastAccessed { get; set; }
+        public string Language { get; set; }
 
         //DUAL
         public string MusicBrainzID { get; set; }
@@ -55,6 +56,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
             // Last.fm appears to have a defect with MusicBrainzID for tracks
             parms.Add("artist", localDTO.Artist);
             parms.Add("track", localDTO.Track);
+            parms.Add("lang", localDTO.Language);
 
             // this is a dummy URL for logging
             _provider.URL = "last.fm - track info - track=" + localDTO.Track + "  artist=" + localDTO.Artist;

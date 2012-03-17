@@ -43,6 +43,7 @@ namespace MusicBrowser.Engines.Metadata
             albumDTO.MusicBrainzID = workingDTO.MusicBrainzID;
             albumDTO.Artist = workingDTO.AlbumArtist;
             albumDTO.Username = (Util.Config.GetInstance().GetStringSetting("Internet.LastFMUserName"));
+            albumDTO.Language = Util.Localization.LanguageNameToCode(Util.Config.GetInstance().GetStringSetting("Language"));
             if (dto.MetadataStamps.ContainsKey(FriendlyName()))
             {
                 albumDTO.lastAccessed = dto.MetadataStamps[FriendlyName()];

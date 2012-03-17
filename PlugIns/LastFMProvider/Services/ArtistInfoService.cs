@@ -12,6 +12,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
         //IN
         public string Username { get; set; }
         public DateTime lastAccessed { get; set; }
+        public string Language { get; set; }
 
         //DUAL
         public string MusicBrainzID { get; set; }
@@ -23,6 +24,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
         public int TotalPlays { get; set; }
         public string Summary { get; set; }
         public string Image { get; set; }
+
 
         #region interface
         public WebServiceStatus Status { get; set; }
@@ -48,6 +50,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
             parms.Add("method", "artist.getInfo");
             parms.Add("autocorrect", "1");
             parms.Add("username", localDTO.Username);
+            parms.Add("lang", localDTO.Language);
 
             if (String.IsNullOrEmpty(localDTO.MusicBrainzID))
             {
