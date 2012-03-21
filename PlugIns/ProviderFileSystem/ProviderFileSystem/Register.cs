@@ -11,6 +11,7 @@ namespace MusicBrowser.Engines.PlugIns
         void IPlugIn.Register()
         {
             Metadata.Providers.RegisterProvider(new MusicBrowser.Engines.Metadata.FileSystemMetadataProvider());
+            Metadata.Providers.RegisterProvider(new MusicBrowser.Engines.Metadata.InheritanceMetadataProvider());
         }
     }
 }

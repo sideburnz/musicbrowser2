@@ -73,7 +73,7 @@
 
       <Rule>
         <Conditions>
-          <Equality Source="[FolderModel.EntityList.Count]" ConditionOp="LessThanOrEquals"  Value="6" />
+          <Equality Source="[FolderModel.EntityList.Count]" ConditionOp="LessThanOrEquals"  Value="5" />
         </Conditions>
         <Actions>
           <Set Target="[MyLayout.Rows]" Value="1" />

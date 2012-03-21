@@ -489,5 +489,12 @@ namespace MusicBrowser.Util
         {
             return list.OrderBy(item => Random.Next());
         }
+
+        private static Regex _EpisodeRegEx = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
+
+        public static bool IsEpisode(string path)
+        {
+            return _EpisodeRegEx.Match(path).Success;
+        }
     }
 }
