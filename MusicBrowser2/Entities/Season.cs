@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    class Season : Folder
+    public class Season : Folder
     {
         public override string DefaultSort
         {
@@ -18,8 +18,16 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return CalculateInformation("", "Episode");
+                string head = String.Empty;
+                if (!String.IsNullOrEmpty(Show))
+                {
+                    head = Show + ",";
+                }
+                return CalculateInformation(head, "Episode");
             }
         }
+
+        [DataMember]
+        public string Show { get; set; }
     }
 }

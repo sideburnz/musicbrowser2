@@ -30,9 +30,6 @@ namespace MusicBrowser.Engines.Metadata
         {
             if (!CompatibleWith(dto)) { return false; }
             if (!Directory.Exists(dto.Path)) { return false; }
-
-            //TODO: mediainfo must run before this
-
             return true;
         }
 

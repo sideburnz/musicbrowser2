@@ -175,7 +175,7 @@ namespace MusicBrowser.Entities
                                 case "season.xml":
                                     return EntityKind.Season;
                                 case "video_ts":
-                                    if (IsEpisode(entity.Name))
+                                    if (Util.Helper.IsEpisode(entity.Name))
                                     {
                                         return EntityKind.Episode;
                                     }
@@ -216,7 +216,7 @@ namespace MusicBrowser.Entities
                     }
                 case Helper.knownType.Video:
                     {
-                        if (IsEpisode(entity.Name))
+                        if (Util.Helper.IsEpisode(entity.Name))
                         {
                             return EntityKind.Episode;
                         }
@@ -224,13 +224,6 @@ namespace MusicBrowser.Entities
                     }
             }
             return null;
-        }
-
-        private static Regex _EpisodeRegEx = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
-
-        private static bool IsEpisode(string path)
-        {
-            return _EpisodeRegEx.Match(path).Success;
         }
 
         // works out where the metadata file is (if there is one)

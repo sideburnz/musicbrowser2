@@ -23,6 +23,7 @@
       <actions:ActionShowSettings Name="ShowSettings" />
       <actions:ActionShowViewMenu Name="ShowViewMenu" />
       <actions:ActionShowViews Name="ShowVirtuals" Entity="[Entity]" />
+      <actions:ActionPlay Name="cmdPlay" Entity="[Entity]" />
     </Locals>
     
     <Rules>
@@ -72,11 +73,12 @@
                 </Children>
               </Panel>
 
-              <ColorFill Content="Transparent" Layout="HorizontalFlow" Navigation="ContainHorizontal" Margins="50,70,0,0">
+              <ColorFill Content="Transparent" Layout="HorizontalFlow" Navigation="ContainHorizontal" Margins="100,70,0,0">
                 <LayoutInput>
                   <FormLayoutInput Bottom="Parent,1" Left="Parent,0"/>
                 </LayoutInput>
                 <Children>
+                  <me:buttonIcon Command="[cmdPlay]" Name="PlayMenu" Text="Play" Icon="[cmdPlay.Icon]" Margins="0,0,5,0" />
                   <me:buttonIcon Command="[ShowSettings]" Name="SettingsMenu" Text="" Icon="[ShowSettings.Icon]" Margins="0,0,5,0" Visible="false" />
                   <me:buttonIcon Command="[ShowActions]" Name="ActionsMenu" Text="" Icon="[ShowActions.Icon]" Margins="0,0,5,0" />
                   <me:buttonIcon Command="[ShowSearch]" Name="Search" Text="" Icon="[ShowSearch.Icon]" Margins="0,0,5,0" />
