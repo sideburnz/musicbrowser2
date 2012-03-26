@@ -38,11 +38,6 @@ namespace MusicBrowser.Entities
             get { return "[Title:sort]"; }
         }
 
-        public override string DefaultFormat
-        {
-            get { return "[Title]"; }
-        }
-
         public override bool Playable
         {
             get { return false; }

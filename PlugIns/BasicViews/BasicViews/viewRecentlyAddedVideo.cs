@@ -32,7 +32,7 @@ namespace MusicBrowser.Engines.Views
                 EntityCollection e = new EntityCollection();
                 e.AddRange(Engines.Cache.InMemoryCache.GetInstance().DataSet
                     .Where(item => item.Kind == "Episode" || item.Kind == "Movie")
-                    .OrderByDescending(item => item.TimeStamp)
+                    .OrderByDescending(item => item.LastUpdated)
                     .Take(playlistsize)
                     .ToList());
 

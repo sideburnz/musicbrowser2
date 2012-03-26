@@ -420,10 +420,25 @@ namespace MusicBrowser.Entities
 
         #region abstract attributes
         public abstract string DefaultThumbPath { get; }
-        public abstract string DefaultFormat { get; }
         public abstract string DefaultSort { get; }
         public abstract string DefaultView { get; }
         public virtual List<Microsoft.MediaCenter.UI.Image> CodecIcons { get { return new List<Microsoft.MediaCenter.UI.Image>(); } }
+        public virtual string DefaultFormat 
+        {
+            get
+            {
+                Config c = Config.GetInstance();
+                foreach (string kind in this.Tree())
+                {
+                    string key = String.Format("Entity.{0}.Format", kind);
+                    if (!String.IsNullOrEmpty(c.GetSetting(key)))
+                    {
+                        return c.GetStringSetting(key);
+                    }
+                }
+                return "[Title]";
+            }
+        }
         #endregion
 
         #region private helpers
