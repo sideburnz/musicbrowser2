@@ -18,11 +18,6 @@ namespace MusicBrowser.Entities
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageTrack"; }
         }
 
-        public override string DefaultFormat
-        {
-            get { return "[Track#] - [Title]"; }
-        }
-
         [DataMember]
         public string Artist 
         {

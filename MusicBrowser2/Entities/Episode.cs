@@ -17,11 +17,6 @@ namespace MusicBrowser.Entities
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageVideo"; }
         }
 
-        public override string DefaultFormat
-        {
-            get { return "[Episode#] - [Title]"; }
-        }
-
         public override string Serialize()
         {
             return this.ToJson();

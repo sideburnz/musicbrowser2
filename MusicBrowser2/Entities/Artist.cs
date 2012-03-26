@@ -23,6 +23,11 @@ namespace MusicBrowser.Entities
             }
         }
 
+        public override string DefaultSort
+        {
+            get { return "[ReleaseDate:sort]"; }
+        }
+
         [DataMember]
         public string MusicBrainzID { get; set; }
         [DataMember]

@@ -32,7 +32,11 @@ namespace MusicBrowser.Util
                 { "Log.File", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
 
                 { "Entity.View.Home", "Thumb" },
-                { "Entity.Track.DisplayFormat", "[Track#] - [Title]" },
+                { "Entity.Track.Format", "[Track#] - [Title]" },
+                { "Entity.Album.Format", "([ReleaseYear]) [Title]" },
+                { "Entity.Episode.Format", "[Episode#] - [Title]" },
+                { "Entity.Item.Format", "[Title]" },
+                { "Entity.Container.Format", "[Title]" },
 
                 { "Internet.UseProviders", true.ToString() } ,
                 { "Internet.LastFMUserName", String.Empty },
@@ -111,7 +115,7 @@ namespace MusicBrowser.Util
         public bool Exists(string key)
         {
             string xpathString = string.Format("Settings/{0}", key.Replace('.', '/'));
-            return (_xml.SelectNodes(xpathString).Count > 0);            
+            return  (_xml.SelectNodes(xpathString).Count > 0);            
         }
 
         public string GetSetting(string key)
