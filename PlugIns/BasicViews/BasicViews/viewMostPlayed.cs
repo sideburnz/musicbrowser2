@@ -33,7 +33,10 @@ namespace MusicBrowser.Engines.Views
                 e.AddRange(Engines.Cache.InMemoryCache.GetInstance().DataSet
                     .Where(item => item.Kind == "Track" && item.TimesPlayed > 0)
                     .OrderByDescending(item => item.TimesPlayed)
+                    .Select(item => (Track)item)
+                    .DedupeTracks<Track>()
                     .Take(playlistsize)
+                    .Select(item => (baseEntity)item)
                     .ToList());
                 return e;
             }

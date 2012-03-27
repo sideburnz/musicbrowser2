@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using MusicBrowser.Util;
 using System.Text.RegularExpressions;
@@ -622,6 +623,13 @@ namespace MusicBrowser.Entities
         public static bool InheritsFrom<T>(this object e)
         {
             return typeof(T).IsAssignableFrom(e.GetType());
+        }
+
+        public static IEnumerable<Track> DedupeTracks<T>(this IEnumerable<Track> list)
+        {
+            return list
+                .GroupBy(item => new { item.Title, item.Artist })
+                .Select(item => item.First());
         }
     }
 }

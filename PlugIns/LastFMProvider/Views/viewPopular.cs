@@ -32,8 +32,11 @@ namespace MusicBrowser.Engines.Views
                 EntityCollection e = new EntityCollection();
                 e.AddRange(Engines.Cache.InMemoryCache.GetInstance().DataSet
                     .Where(item => item.Kind == "Track")
-                    .OrderByDescending(item => ((Track)item).LastFMPlayCount)
+                    .Select(item => (Track)item)
+                    .DedupeTracks<Track>()
+                    .OrderByDescending(item => item.LastFMPlayCount)
                     .Take(playlistsize)
+                    .Select(item => (baseEntity)item)
                     .ToList());
 
                 return e;

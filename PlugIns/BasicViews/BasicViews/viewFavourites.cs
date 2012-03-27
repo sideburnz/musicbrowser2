@@ -30,6 +30,9 @@ namespace MusicBrowser.Engines.Views
                 EntityCollection e = new EntityCollection();
                 e.AddRange(Engines.Cache.InMemoryCache.GetInstance().DataSet
                     .Where(item => ((item.Kind == "Track") && (item.Rating >= 90) || (item.Loved)))
+                    .Select(item => (Track)item)
+                    .DedupeTracks<Track>()
+                    .Select(item => (baseEntity)item)
                     .ToList());
                 return e;
             }
