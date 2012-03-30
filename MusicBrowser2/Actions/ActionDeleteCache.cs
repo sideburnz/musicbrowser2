@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.MediaCenter;
-using MusicBrowser.Providers;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
-using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Actions
 {
@@ -36,7 +30,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            bool confirmation = false;
+            bool confirmation;
 
             try
             {

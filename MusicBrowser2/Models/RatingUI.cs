@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Models
@@ -12,7 +10,7 @@ namespace MusicBrowser.Models
         private const string ICON_HALFSTAR = "resx://MusicBrowser/MusicBrowser.Resources/IconHalfStar";
         private const string ICON_LOVED = "resx://MusicBrowser/MusicBrowser.Resources/IconFavorite";
 
-        private int _rating = 0;
+        private int _rating;
         public int Rating
         {
             get
@@ -27,7 +25,7 @@ namespace MusicBrowser.Models
             }
         }
 
-        private bool _loved = false;
+        private bool _loved;
         public bool Loved
         {
             get

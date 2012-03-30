@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using MusicBrowser.Util;
-using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Engines.Logging
 {

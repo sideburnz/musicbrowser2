@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.MediaCenter.UI;
 using MusicBrowser.Entities;
 
 namespace MusicBrowser.Models.Keyboard
@@ -10,7 +6,7 @@ namespace MusicBrowser.Models.Keyboard
     // for this to work the page needs to feed the data into the dataset here and then from here into the list shown on the scren
     public abstract class IKeyboardHandler
     {
-        private int _index = 0;
+        private int _index;
         private EntityCollection _rawdata;
         private EntityCollection _processeddata;
         private string _value = String.Empty;
@@ -24,7 +20,7 @@ namespace MusicBrowser.Models.Keyboard
             set
             {
                 _index = value;
-                if (!(OnDataChanged == null))
+                if (OnDataChanged != null)
                 {
                     OnDataChanged("Index");
                 }
@@ -37,7 +33,7 @@ namespace MusicBrowser.Models.Keyboard
             {
                 _rawdata = value;
                 _processeddata = value;
-                if (!(OnDataChanged == null))
+                if (OnDataChanged != null)
                 {
                     OnDataChanged("DataSet");
                 }
@@ -61,7 +57,7 @@ namespace MusicBrowser.Models.Keyboard
             protected set
             {
                 _processeddata = value;
-                if (!(OnDataChanged == null))
+                if (OnDataChanged != null)
                 {
                     OnDataChanged("DataSet");
                 }
@@ -78,7 +74,7 @@ namespace MusicBrowser.Models.Keyboard
             {
                 _value = value;
                 DoService();
-                if (!(OnDataChanged == null))
+                if (OnDataChanged != null)
                 {
                     OnDataChanged("Value");
                 }

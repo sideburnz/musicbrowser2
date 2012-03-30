@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Entities;
+﻿using System.Collections.Generic;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Models
 {
@@ -11,14 +8,14 @@ namespace MusicBrowser.Models
     {
         #region singleton
         static ViewMenuModel _instance;
-        static readonly object _lock = new object();
+        static readonly object Lock = new object();
 
         public static ViewMenuModel GetInstance
         {
             get
             {
                 if (_instance != null) return _instance;
-                lock (_lock)
+                lock (Lock)
                 {
                     if (_instance == null)
                     {
@@ -30,7 +27,7 @@ namespace MusicBrowser.Models
         }
         #endregion
 
-        public bool _visible = false;
+        public bool _visible;
         public bool Visible
         {
             get

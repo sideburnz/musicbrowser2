@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Providers.Background;
-using MusicBrowser.Providers;
+﻿using System.Collections.Generic;
 using MusicBrowser.Entities;
+using MusicBrowser.Providers.Background;
 using MusicBrowser.Util;
 
 namespace MusicBrowser.Providers
 {
     class ForceMetadataRefreshProvider : IBackgroundTaskable
     {
-        private baseEntity _parent;
-        private bool _recurse;
+        private readonly baseEntity _parent;
+        private readonly bool _recurse;
 
         public ForceMetadataRefreshProvider(baseEntity parent, bool recurse)
         {

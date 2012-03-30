@@ -230,7 +230,7 @@ namespace MusicBrowser.Util
             }
             _xml.Save(configFile);
 
-            if (!(OnSettingUpdate == null))
+            if (OnSettingUpdate != null)
             {
                 OnSettingUpdate(key);
             }

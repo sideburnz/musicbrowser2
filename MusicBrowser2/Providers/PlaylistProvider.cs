@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers.Background;
-using MusicBrowser.Engines.Cache;
-using MusicBrowser.WebServices.Interfaces;
-using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Providers
 {
@@ -14,7 +9,6 @@ namespace MusicBrowser.Providers
     {
         private readonly string _action;
         private readonly baseEntity _entity;
-        private static readonly Random Random = new Random();
 
         public PlaylistProvider(string action, baseEntity entity)
         {
@@ -89,13 +83,7 @@ namespace MusicBrowser.Providers
 #if DEBUG
                 Engines.Logging.LoggerEngineFactory.Verbose("PlaylistProvider.CreatePlaylist(" + path + ", " + queue + ", " + shuffle + ")", "loop");
 #endif
-                foreach (FileSystemItem item in FileSystemProvider.GetAllSubPaths(path))
-                {
-                    if (Util.Helper.getKnownType(item) == Util.Helper.knownType.Track)
-                    {
-                        tracks.Add(item.FullPath);
-                    }
-                }
+                tracks.AddRange(from item in FileSystemProvider.GetAllSubPaths(path) where Util.Helper.GetKnownType(item) == Util.Helper.KnownType.Track select item.FullPath);
 
                 //dedupe the list
                 tracks = tracks.Distinct().ToList();
@@ -185,17 +173,14 @@ namespace MusicBrowser.Providers
 
         public void Execute()
         {
-            IEnumerable<string> paths;
             if (_entity.GetType() == typeof(Home)) 
             { 
                 //TODO: fix
-                paths = null; // Providers.FolderItems.HomePathProvider.Paths; 
             }
             else
             {
                 List<string> pathList = new List<string>();
                 pathList.Add(_entity.Path);
-                paths = pathList;
             }
 
             switch (_action)

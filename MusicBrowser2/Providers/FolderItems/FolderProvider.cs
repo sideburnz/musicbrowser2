@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MusicBrowser.Providers.FolderItems
 {
@@ -9,10 +7,7 @@ namespace MusicBrowser.Providers.FolderItems
     {
         public IEnumerable<string> GetItems(string uri)
         {
-            foreach (FileSystemItem item in FileSystemProvider.GetFolderContents(uri))
-            {
-                yield return item.FullPath;
-            }
+            return FileSystemProvider.GetFolderContents(uri).Select(item => item.FullPath);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using MusicBrowser.Interfaces;
-
-namespace MusicBrowser.Engines.Transport
+﻿namespace MusicBrowser.Engines.Transport
 {
     static class TransportEngineFactory
     {

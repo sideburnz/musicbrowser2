@@ -1,6 +1,5 @@
 ﻿using System;
 using MusicBrowser.Entities;
-using MusicBrowser.WebServices.Helper;
 
 namespace MusicBrowser.Actions
 {

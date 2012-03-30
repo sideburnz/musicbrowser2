@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Util;
 using System.IO;
-using MusicBrowser.Providers.FolderItems;
+using System.Linq;
 using MusicBrowser.Providers;
+using MusicBrowser.Providers.FolderItems;
+using MusicBrowser.Util;
 
 namespace MusicBrowser
 {
     static class FirstRun
     {
 
-        private static string collectionPath = Path.Combine(Util.Helper.AppFolder, @"Collections");
+        private static readonly string CollectionPath = Path.Combine(Helper.AppFolder, @"Collections");
 
         public static void Initialize()
         {
-            Directory.CreateDirectory(collectionPath);
+            Directory.CreateDirectory(CollectionPath);
 
             switch(Config.GetInstance().GetStringSetting("LastRunVersion"))
             {
@@ -33,24 +32,17 @@ namespace MusicBrowser
 
         private static bool CollectionExists()
         {
-            IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(collectionPath);
-            foreach(FileSystemItem item in items)
-            {
-                if (Path.GetExtension(item.Name).ToLower() == ".vf")
-                {
-                    return true;
-                }
-            }
-            return false;
+            IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(CollectionPath);
+            return items.Any(item => Path.GetExtension(item.Name).ToLower() == ".vf");
         }
 
         private static void CreateCollection()
         {
-            string collectionfile = Path.Combine(collectionPath, "Music.vf");
+            string collectionfile = Path.Combine(CollectionPath, "Music.vf");
 
             VirtualFolderProvider.WriteVF(collectionfile,
                 new List<string>(),
-                new List<string>() { "music" },
+                new List<string> { "music" },
                 String.Empty,
                 "music",
                 "000");
@@ -59,15 +51,15 @@ namespace MusicBrowser
         private static void LastVersion0000()
         {
                 // delete actions.config
-                string actionsFile = Path.Combine(Util.Helper.AppFolder, "actions.config");
+                string actionsFile = Path.Combine(Helper.AppFolder, "actions.config");
                 if (File.Exists(actionsFile))
                 {
                     File.Delete(actionsFile);
                 }
 
                 // move the old library file, otherwise create one
-                string libraryfile = Path.Combine(Util.Helper.AppFolder, "MusicLibrary.vf");
-                string collectionfile = Path.Combine(collectionPath, "Music.vf");
+                string libraryfile = Path.Combine(Helper.AppFolder, "MusicLibrary.vf");
+                string collectionfile = Path.Combine(CollectionPath, "Music.vf");
                 if (File.Exists(libraryfile) && !File.Exists(collectionfile))
                 {
                     string targettype = VirtualFolderProvider.GetTargetType(libraryfile);

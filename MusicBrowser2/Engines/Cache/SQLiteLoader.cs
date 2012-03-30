@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using MusicBrowser.Util;
 
@@ -9,7 +6,7 @@ namespace MusicBrowser.Engines.Cache
 {
     class SQLiteLoader
     {
-        private static bool LoadDLL = Loaded();
+        private static bool _loadDll = Loaded();
 
         public static System.Reflection.Assembly sqliteAssembly;
         public static System.Reflection.Assembly SqliteResolver(object sender, ResolveEventArgs args)
@@ -38,7 +35,7 @@ namespace MusicBrowser.Engines.Cache
                 }
             }
             sqliteAssembly = System.Reflection.Assembly.LoadFile(dllfile);
-            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(SqliteResolver);
+            AppDomain.CurrentDomain.AssemblyResolve += SqliteResolver;
             return true;
         }
 

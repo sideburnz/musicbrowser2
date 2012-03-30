@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.MediaCenter.UI;
+﻿using Microsoft.MediaCenter.UI;
 using MusicBrowser.Engines.Transport;
-using MusicBrowser.Util;
 using MusicBrowser.Entities;
 
 namespace MusicBrowser.Models
 {
     public class NowPlayingUI : BaseModel
     {
-        private Foobar2000 _model = null;
-        private bool _enabled = false;
+        private readonly Foobar2000 _model;
+        private readonly bool _enabled;
 
         public NowPlayingUI()
         {
@@ -21,7 +16,7 @@ namespace MusicBrowser.Models
             if (_enabled)
             {
                 _model = Foobar2000.GetInstance();
-                _model.PropertyChanged += new PropertyChangedEventHandler(_model_PropertyChanged);
+                _model.PropertyChanged += _model_PropertyChanged;
 
                 _model_PropertyChanged(null, "CurrentTrack");
                 _model_PropertyChanged(null, "IsPlaying");
@@ -51,7 +46,7 @@ namespace MusicBrowser.Models
             }
         }
 
-        private bool _active = false;
+        private bool _active;
         public bool Active
         {
             get

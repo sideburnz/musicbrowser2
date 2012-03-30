@@ -67,7 +67,7 @@ namespace MusicBrowser.Engines.Metadata
                 IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(dto.Path).FilterInternalFiles();
                 foreach (FileSystemItem item in items)
                 {
-                    if (Helper.getKnownType(item) == Helper.knownType.Track)
+                    if (Helper.GetKnownType(item) == Helper.KnownType.Track)
                     {
                         Track t = (Track)EntityFactory.GetItem(item);
                         if (!String.IsNullOrEmpty(t.AlbumArtist))

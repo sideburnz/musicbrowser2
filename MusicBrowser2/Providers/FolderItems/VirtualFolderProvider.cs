@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 /******************************************************************************
  * 
@@ -33,7 +34,7 @@ namespace MusicBrowser.Providers.FolderItems
         public IEnumerable<string> GetItems(string uri)
         {
 #if DEBUG
-            Engines.Logging.LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
+            Engines.Logging.LoggerEngineFactory.Verbose(GetType().ToString(), "start");
 #endif
             List<string> res = new List<string>();
 
@@ -51,13 +52,7 @@ namespace MusicBrowser.Providers.FolderItems
                     string thisPath = line.Substring(7).Trim();
                     if (Directory.Exists(thisPath))
                     {
-                        foreach (FileSystemItem p in FileSystemProvider.GetFolderContents(thisPath))
-                        {
-                            if ((p.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
-                            {
-                                res.Add(p.FullPath);
-                            }
-                        }
+                        res.AddRange(from p in FileSystemProvider.GetFolderContents(thisPath) where (p.Attributes & FileAttributes.Directory) == FileAttributes.Directory select p.FullPath);
                     }
                 }
                 if (line.StartsWith("library:"))
@@ -67,13 +62,7 @@ namespace MusicBrowser.Providers.FolderItems
                         string library = line.Substring(8).Trim();
                         WindowsLibraryProvider libProvider = new WindowsLibraryProvider();
                         IEnumerable<string> libLines = libProvider.GetItems(library);
-                        foreach (string libLine in libLines)
-                        {
-                            if (Directory.Exists(libLine))
-                            {
-                                res.Add(libLine);
-                            }
-                        }
+                        res.AddRange(libLines.Where(Directory.Exists));
                     }
                     catch { }
                 }
@@ -129,16 +118,7 @@ namespace MusicBrowser.Providers.FolderItems
             {
                 uri += ".vf";
             }
-            List<string> ret = new List<string>();
-            foreach (string line in GetFileContents(uri))
-            {
-                if (line.Length < 9) { continue; }
-                if (line.StartsWith("folder:"))
-                {
-                    ret.Add(line.Substring(7).Trim());
-                }
-            }
-            return ret;
+            return (from line in GetFileContents(uri) where line.Length >= 9 where line.StartsWith("folder:") select line.Substring(7).Trim()).ToList();
         }
 
         public static IEnumerable<string> GetLibraries(string uri)
@@ -147,16 +127,7 @@ namespace MusicBrowser.Providers.FolderItems
             {
                 uri += ".vf";
             }
-            List<string> ret = new List<string>();
-            foreach (string line in GetFileContents(uri))
-            {
-                if (line.Length < 9) { continue; }
-                if (line.StartsWith("library:"))
-                {
-                    ret.Add(line.Substring(8).Trim());
-                }
-            }
-            return ret;
+            return (from line in GetFileContents(uri) where line.Length >= 9 where line.StartsWith("library:") select line.Substring(8).Trim()).ToList();
         }
 
         public static string GetSortOrder(string uri)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.MediaCenter;
-using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 
 //TODO: test to make sure we have a context before trying to control it
@@ -39,13 +38,16 @@ namespace MusicBrowser.Engines.Transport
         {
             // set up
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+            List<string> tracks = files.ToList();
+
             // handle the first track
             if (mce.MediaExperience == null && queue) queue = false;
-            mce.PlayMedia(MediaType.Audio, files.First(), queue);
+            mce.PlayMedia(MediaType.Audio, tracks.First(), queue);
+            tracks.RemoveAt(0);
             // enqueue the rest of the tracks
-            for (int i = 1; i < files.Count(); i++)
+            foreach (var track in tracks)
             {
-                mce.PlayMedia(MediaType.Audio, files.ElementAt(i), true);
+                mce.PlayMedia(MediaType.Audio, track, true);   
             }
         }
 
@@ -98,13 +100,7 @@ namespace MusicBrowser.Engines.Transport
             if (System.IO.Directory.Exists(path))
             {
                 IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(path);
-                foreach (FileSystemItem item in items)
-                {
-                    if (Util.Helper.getKnownType(item) == Util.Helper.knownType.Track)
-                    {
-                        ret.Add(item.FullPath);
-                    }
-                }
+                ret.AddRange(from item in items where Util.Helper.GetKnownType(item) == Util.Helper.KnownType.Track select item.FullPath);
             }
             else
             {

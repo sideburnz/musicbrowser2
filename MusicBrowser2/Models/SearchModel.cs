@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.MediaCenter.UI;
-using MusicBrowser.Entities;
 using MusicBrowser.Engines.Cache;
-using MusicBrowser.Providers;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Models
 {
@@ -55,7 +52,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                return _searchScope.ToString() + "s";
+                return _searchScope + "s";
             }
         }
 

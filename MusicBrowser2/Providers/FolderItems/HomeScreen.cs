@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using MusicBrowser.Engines.Logging;
-using MusicBrowser.Util;
-using MusicBrowser.Entities;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.Entities;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Providers.FolderItems
 {
@@ -35,12 +33,11 @@ namespace MusicBrowser.Providers.FolderItems
 
         public static Collection CollectionFactory(FileSystemItem vf)
         {
-            Collection entity;
             string key = Helper.GetCacheKey(vf.FullPath);
 
             #region persistent cache
             // get the value from persistent cache
-            entity = (Collection)CacheEngineFactory.GetEngine().Fetch(key);
+            Collection entity = (Collection)CacheEngineFactory.GetEngine().Fetch(key);
             if (entity == null)
             {
                 string targetType = VirtualFolderProvider.GetTargetType(vf.FullPath);

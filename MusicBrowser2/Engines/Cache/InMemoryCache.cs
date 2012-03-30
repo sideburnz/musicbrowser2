@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Interfaces;
+﻿using System.Collections.Generic;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers;
-using System.Data;
-using System.IO;
-using MusicBrowser.Providers.Background;
 
 // in memory caching, once populated makes browsing faster
 namespace MusicBrowser.Engines.Cache
@@ -15,7 +8,7 @@ namespace MusicBrowser.Engines.Cache
     public sealed class InMemoryCache
     {
         private Dictionary<string, baseEntity> _cache = new Dictionary<string, baseEntity>(1000);
-        private static readonly object _obj = new object();
+        private static readonly object Obj = new object();
         
         #region singleton
         static InMemoryCache _instance;
@@ -26,7 +19,7 @@ namespace MusicBrowser.Engines.Cache
             {
                 return _instance;
             }
-            lock (_obj)
+            lock (Obj)
             {
                 if (_instance == null)
                 {
@@ -51,7 +44,7 @@ namespace MusicBrowser.Engines.Cache
 
         public void Clear()
         {
-            lock (_obj)
+            lock (Obj)
             {
                 _cache = new Dictionary<string, baseEntity>();
             }
@@ -59,7 +52,7 @@ namespace MusicBrowser.Engines.Cache
 
         public void Update(baseEntity entity)
         {
-            lock (_obj)
+            lock (Obj)
             {
                 if (_cache.ContainsKey(entity.CacheKey))
                 {
@@ -86,7 +79,7 @@ namespace MusicBrowser.Engines.Cache
 
         public void Remove(string key)
         {
-            lock (_obj)
+            lock (Obj)
             {
                 if (_cache.ContainsKey(key))
                 {

@@ -34,7 +34,7 @@ namespace MusicBrowser.Engines.Views
                     .Where(item => item.Kind == "Track" && item.TimesPlayed > 0)
                     .OrderByDescending(item => item.TimesPlayed)
                     .Select(item => (Track)item)
-                    .DedupeTracks<Track>()
+                    .DedupeTracks()
                     .Take(playlistsize)
                     .Select(item => (baseEntity)item)
                     .ToList());

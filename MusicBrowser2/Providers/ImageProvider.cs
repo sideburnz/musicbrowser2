@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using MusicBrowser.Util;
-using System.Drawing.Drawing2D;
 
 namespace MusicBrowser.Providers
 {
@@ -33,7 +33,7 @@ namespace MusicBrowser.Providers
 
         public static ImageRatio Ratio(Bitmap bitmap)
         {
-            double ratio = (double)bitmap.Height / (double)bitmap.Width;
+            double ratio = bitmap.Height / (double)bitmap.Width;
 
             if (ratio < 0.35)
             {
@@ -66,7 +66,7 @@ namespace MusicBrowser.Providers
 
             try
             {
-                Graphics g = Graphics.FromImage((Image)b);
+                Graphics g = Graphics.FromImage(b);
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 g.DrawImage(bitmap, 0, 0, Thumbsize, Thumbsize);
                 g.Dispose();
@@ -83,7 +83,7 @@ namespace MusicBrowser.Providers
             {
                 // this fails on rare occassions for reasons I don't know
                 // if that happens just don't save and let the item refresh in due course
-                bitmap.ToBitmap().Save(filename, System.Drawing.Imaging.ImageFormat.Png);
+                bitmap.ToBitmap().Save(filename, ImageFormat.Png);
                 return true;
             }
             catch
@@ -100,7 +100,7 @@ namespace MusicBrowser.Providers
             {
                 // this fails on rare occassions for reasons I don't know
                 // if that happens just don't save and let the item refresh in due course
-                bitmap.Save(filename, System.Drawing.Imaging.ImageFormat.Png);
+                bitmap.Save(filename, ImageFormat.Png);
                 return true;
             }
             catch 
@@ -197,36 +197,33 @@ namespace MusicBrowser.Providers
         {
             int width = bm.Width;
             int height = bm.Height;
-            int red = 0;
-            int green = 0;
-            int blue = 0;
-            int minDiversion = 15; // drop pixels that do not differ by at least minDiversion between color values (white, gray or black)
+            const int minDiversion = 15; // drop pixels that do not differ by at least minDiversion between color values (white, gray or black)
             int dropped = 0; // keep track of dropped pixels
             long[] totals = new long[] { 0, 0, 0 };
-            int bppModifier = bm.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb ? 3 : 4; // cutting corners, will fail on anything else but 32 and 24 bit images
+            int bppModifier = bm.PixelFormat == PixelFormat.Format24bppRgb ? 3 : 4; // cutting corners, will fail on anything else but 32 and 24 bit images
 
-            BitmapData srcData = bm.LockBits(new System.Drawing.Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, bm.PixelFormat);
+            BitmapData srcData = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, bm.PixelFormat);
             int stride = srcData.Stride;
-            IntPtr Scan0 = srcData.Scan0;
+            IntPtr scan0 = srcData.Scan0;
             
             int count = width * height - dropped;
             if (count == 0) 
             {
-                return System.Drawing.Color.FromArgb(128, 128, 128);
+                return Color.FromArgb(128, 128, 128);
             }
 
             unsafe
             {
-                byte* p = (byte*)(void*)Scan0;
+                byte* p = (byte*)(void*)scan0;
 
                 for (int y = 0; y < height; y++)
                 {
                     for (int x = 0; x < width; x++)
                     {
                         int idx = (y * stride) + x * bppModifier;
-                        red = p[idx + 2];
-                        green = p[idx + 1];
-                        blue = p[idx];
+                        int red = p[idx + 2];
+                        int green = p[idx + 1];
+                        int blue = p[idx];
                         if (Math.Abs(red - green) > minDiversion || Math.Abs(red - blue) > minDiversion || Math.Abs(green - blue) > minDiversion)
                         {
                             totals[2] += red;
@@ -245,7 +242,7 @@ namespace MusicBrowser.Providers
             int avgG = (int)(totals[1] / count);
             int avgB = (int)(totals[0] / count);
 
-            return System.Drawing.Color.FromArgb(avgR, avgG, avgB);
+            return Color.FromArgb(avgR, avgG, avgB);
         }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
-using MusicBrowser.Models;
 using MusicBrowser.Engines.Cache;
-using MusicBrowser.MediaCentre;
 using MusicBrowser.Engines.Transport;
 
 namespace MusicBrowser.Entities
@@ -27,7 +22,7 @@ namespace MusicBrowser.Entities
 
             this.MarkPlayed();
             TransportEngineFactory.GetEngine().Play(queue, Path);
-            MusicBrowser.MediaCentre.Playlist.AutoShowNowPlaying();
+            MediaCentre.Playlist.AutoShowNowPlaying();
         }
     }
 }

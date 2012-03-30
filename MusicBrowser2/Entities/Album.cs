@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 using MusicBrowser.Providers;
-using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
@@ -41,22 +38,14 @@ namespace MusicBrowser.Entities
         public override void Play(bool queue, bool shuffle)
         {
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(Path);
-            List<string> playlist = new List<string>();
-
-            foreach (FileSystemItem item in items)
-            {
-                if (Util.Helper.getKnownType(item) == Util.Helper.knownType.Track)
-                {
-                    playlist.Add(item.FullPath);
-                }
-            }
+            List<string> playlist = (from item in items where Util.Helper.GetKnownType(item) == Util.Helper.KnownType.Track select item.FullPath).ToList();
 
             if (shuffle)
             {
-                Util.Helper.Shuffle<string>(playlist);
+                Util.Helper.Shuffle(playlist);
             }
 
-            MusicBrowser.MediaCentre.Playlist.PlayTrackList(playlist, queue);
+            MediaCentre.Playlist.PlayTrackList(playlist, queue);
         }
     }
 }

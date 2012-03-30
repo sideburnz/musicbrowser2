@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MusicBrowser.Entities;
-using MusicBrowser.Util;
 
 namespace MusicBrowser.Engines.Cache
 {
     public static class Extensions
     {
-        private static readonly ICacheEngine _engine = CacheEngineFactory.GetEngine();
-        private static readonly InMemoryCache _memory = InMemoryCache.GetInstance();
+        private static readonly ICacheEngine Engine = CacheEngineFactory.GetEngine();
+        private static readonly InMemoryCache Memory = InMemoryCache.GetInstance();
 
         public static void UpdateCache(this baseEntity entity)
         {
-            _memory.Update(entity);
-            _engine.Update(entity);
+            Memory.Update(entity);
+            Engine.Update(entity);
         }
 
         public static void MarkPlayed(this baseEntity entity)

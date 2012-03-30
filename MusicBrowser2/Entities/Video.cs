@@ -1,14 +1,12 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.MediaCenter;
+using Microsoft.MediaCenter.UI;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.MediaCentre;
 using MusicBrowser.Providers;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using MusicBrowser.Util;
-using Microsoft.MediaCenter.UI;
 
 namespace MusicBrowser.Entities
 {
@@ -133,25 +131,25 @@ namespace MusicBrowser.Entities
                 try
                 {
 
-                    if (Util.Helper.IsDVD(Path))
+                    if (Helper.IsDVD(Path))
                     {
-                        ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/container_dvd"));
+                        ret.Add(Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/container_dvd"));
                     }
                     else
                     {
-                        ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/container_" + Container.ToLower()));
+                        ret.Add(Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/container_" + Container.ToLower()));
                     }
 
-                    ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + VideoCodec.ToLower()));
-                    ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + AudioCodec.ToLower()));
+                    ret.Add(Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + VideoCodec.ToLower()));
+                    ret.Add(Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + AudioCodec.ToLower()));
 
                     if (HiDef)
                     {
-                        ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/HD"));
+                        ret.Add(Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/HD"));
                     }
                     if (Subtitles)
                     {
-                        ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/Subs"));
+                        ret.Add(Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/Subs"));
                     }
                 }
                 catch { }
@@ -164,7 +162,7 @@ namespace MusicBrowser.Entities
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
             if (System.IO.Directory.Exists(Path))
             {
-                if (Util.Helper.IsDVD(Path))
+                if (Helper.IsDVD(Path))
                 {
                     mce.PlayMedia(MediaType.Dvd, Path, false);
                 }
@@ -178,12 +176,12 @@ namespace MusicBrowser.Entities
                         .OrderBy(item => item.Name)
                         .ToList();
 
-                    if (shuffle) { Util.Helper.Shuffle<FileSystemItem>(candidateitems); }
+                    if (shuffle) { candidateitems.Shuffle(); }
 
                     foreach (FileSystemItem item in candidateitems)
                     {
-                        var t = Util.Helper.getKnownType(item);
-                        if (t == Util.Helper.knownType.Video)
+                        var t = Helper.GetKnownType(item);
+                        if (t == Helper.KnownType.Video)
                         {
                             collection.AddItem(item.FullPath);
                             collection[collection.Count - 1].FriendlyData.

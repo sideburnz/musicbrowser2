@@ -1,10 +1,7 @@
-﻿using MusicBrowser.Entities;
+﻿using System.Collections.Generic;
 using System.IO;
+using MusicBrowser.Entities;
 using MusicBrowser.Providers;
-using MusicBrowser.Providers.Background;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace MusicBrowser.Actions
 {
@@ -25,7 +22,7 @@ namespace MusicBrowser.Actions
                 int hits = 0;
                 foreach (FileSystemItem item in items)
                 {
-                    if (Util.Helper.getKnownType(item) == Util.Helper.knownType.Video)
+                    if (Util.Helper.GetKnownType(item) == Util.Helper.KnownType.Video)
                     {
                         hits++;
                         if (hits > 1)
@@ -56,7 +53,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            MusicBrowser.Application.GetReference().Navigate(entity);
+            Application.GetReference().Navigate(entity);
         }
 
     }

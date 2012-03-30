@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.MediaCenter;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers;
 using MusicBrowser.Engines.Transport;
+using MusicBrowser.Entities;
 using MusicBrowser.Util;
 
 namespace MusicBrowser.MediaCentre

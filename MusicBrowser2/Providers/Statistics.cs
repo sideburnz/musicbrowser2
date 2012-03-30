@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System;
 using System.Text;
 using System.Xml;
 using MusicBrowser.Util;
-using System.Net;
-using MusicBrowser.WebServices.Helper;
 
 namespace MusicBrowser.Providers
 {
     public static class Statistics
     {
-        private static readonly Dictionary<string, int> _stats = new Dictionary<string, int>();
-        private static readonly DateTime _starttime = DateTime.Now;
+        private static readonly Dictionary<string, int> Stats = new Dictionary<string, int>();
+        private static readonly DateTime Starttime = DateTime.Now;
 
         public static void Hit(string key)
         {
@@ -21,13 +19,13 @@ namespace MusicBrowser.Providers
 
         public static void Hit(string key, int incrementor)
         {
-            if (_stats.ContainsKey(key))
+            if (Stats.ContainsKey(key))
             {
-                _stats[key] += incrementor;
+                Stats[key] += incrementor;
             }
             else
             {
-                _stats.Add(key, incrementor);
+                Stats.Add(key, incrementor);
             }
         }
 
@@ -40,13 +38,13 @@ namespace MusicBrowser.Providers
             writer.WriteStartElement("Statistics");
             writer.WriteAttributeString("ID", Config.GetInstance().GetStringSetting("Telemetry.ID"));
             writer.WriteAttributeString("Version", Application.Version);
-            writer.WriteAttributeString("ExecutionTime", Math.Truncate(DateTime.Now.Subtract(_starttime).TotalSeconds).ToString());
+            writer.WriteAttributeString("ExecutionTime", Math.Truncate(DateTime.Now.Subtract(Starttime).TotalSeconds).ToString());
 
-            foreach (string item in _stats.Keys)
+            foreach (string item in Stats.Keys)
             {
                 writer.WriteStartElement("Action");
                 writer.WriteAttributeString("key", item);
-                writer.WriteAttributeString("value", _stats[item].ToString());
+                writer.WriteAttributeString("value", Stats[item].ToString());
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();

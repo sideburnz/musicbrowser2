@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Xml;
+using Microsoft.MediaCenter.UI;
+using MusicBrowser.Engines.Transport;
 using MusicBrowser.Entities;
 using MusicBrowser.Util;
-using MusicBrowser.Engines.Transport;
-using Microsoft.MediaCenter.UI;
-using System.Xml;
 
 namespace MusicBrowser.Models
 {
@@ -58,7 +55,7 @@ namespace MusicBrowser.Models
     {
         private readonly Timer _timer;
         
-        private static Foobar2000 _instance = new Foobar2000();
+        private static readonly Foobar2000 _instance = new Foobar2000();
 
         public static Foobar2000 GetInstance()
         {
@@ -93,7 +90,7 @@ namespace MusicBrowser.Models
             }
         }
 
-        private int _playlistpage = 0;
+        private int _playlistpage;
         public int PlaylistPage 
         {
             get
@@ -109,7 +106,7 @@ namespace MusicBrowser.Models
                 }
             }
         }
-        private int _playlistPages = 0;
+        private int _playlistPages;
         public int PlaylistPages 
         {
             get
@@ -125,7 +122,7 @@ namespace MusicBrowser.Models
                 }
             }
         }
-        private int _playlistLength = 0;
+        private int _playlistLength;
         public int PlaylistLength
         {
             get
@@ -141,7 +138,7 @@ namespace MusicBrowser.Models
                 }
             }
         }
-        private int _playlistItem = 0;
+        private int _playlistItem;
         public int PlaylistItem
         {
             get
@@ -174,7 +171,7 @@ namespace MusicBrowser.Models
             }
         }
 
-        private bool _isPlaying = false;
+        private bool _isPlaying;
         public bool IsPlaying
         {
             get
@@ -191,7 +188,7 @@ namespace MusicBrowser.Models
             }
         }
 
-        private bool _isPaused = false;
+        private bool _isPaused;
         public bool IsPaused
         {
             get
@@ -209,7 +206,7 @@ namespace MusicBrowser.Models
         }
 
         // context information
-        private Track _currentTrack = null;
+        private Track _currentTrack;
         public Track CurrentTrack 
         {
             get
@@ -218,7 +215,7 @@ namespace MusicBrowser.Models
                 {
                     return _currentTrack;
                 }
-                return new Track() { Path = "placeholder" };
+                return new Track { Path = "placeholder" };
             }
             protected set
             {
@@ -240,7 +237,7 @@ namespace MusicBrowser.Models
             }
         }
 
-        private int _position = 0;
+        private int _position;
         public int Position 
         { 
             get
@@ -266,7 +263,7 @@ namespace MusicBrowser.Models
 
         public double PercentComplete { get; set; }
 
-        private int _reportedLength = 0;
+        private int _reportedLength;
         public int ReportedLength
         {
             get 
@@ -313,11 +310,11 @@ namespace MusicBrowser.Models
             {
                 XmlDocument xmldoc = new XmlDocument();
                 xmldoc.LoadXml(xml);
-                result.isPaused = (Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/state/IS_PAUSED", "0") == "1");
-                result.isPlaying = (Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/state/IS_PLAYING", "0") == "1");
+                result.isPaused = (Helper.ReadXmlNode(xmldoc, "/foobar2000/state/IS_PAUSED", "0") == "1");
+                result.isPlaying = (Helper.ReadXmlNode(xmldoc, "/foobar2000/state/IS_PLAYING", "0") == "1");
 
-                int i = 0;
-                if (Int32.TryParse(Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/state/PLAYBACK_ORDER", "0"), out i))
+                int i;
+                if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/state/PLAYBACK_ORDER", "0"), out i))
                 {
                     FoobarInternalPlaybackStyles fbs = (FoobarInternalPlaybackStyles)i;
                     switch (fbs)
@@ -353,9 +350,7 @@ namespace MusicBrowser.Models
                 }
 
 
-
-                i = 0;
-                if (Int32.TryParse(Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/item/ITEM_PLAYING_POS", "0"), out i))
+                if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/item/ITEM_PLAYING_POS", "0"), out i))
                 {
                     result.playingTrackProgress = i;
                 }
@@ -364,8 +359,7 @@ namespace MusicBrowser.Models
                     result.playingTrackProgress = 0;
                 }
 
-                i = 0;
-                if (Int32.TryParse(Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/item/ITEM_PLAYING_LEN", "0"), out i))
+                if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/item/ITEM_PLAYING_LEN", "0"), out i))
                 {
                     result.playingTrackLength = i;
                 }
@@ -374,10 +368,9 @@ namespace MusicBrowser.Models
                     result.playingTrackLength = 0;
                 }
 
-                result.playingTrackPath = Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/item/path", String.Empty);
+                result.playingTrackPath = Helper.ReadXmlNode(xmldoc, "/foobar2000/item/path", String.Empty);
 
-                i = 0;
-                if (Int32.TryParse(Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_PLAYING_ITEMS_COUNT", "0"), out i))
+                if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_PLAYING_ITEMS_COUNT", "0"), out i))
                 {
                     result.playlistSize = i;
                 }
@@ -386,8 +379,7 @@ namespace MusicBrowser.Models
                     result.playlistSize = 0;
                 }
 
-                i = 0;
-                if (Int32.TryParse(Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_ITEM_PLAYING", "0"), out i))
+                if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_ITEM_PLAYING", "0"), out i))
                 {
                     result.playlistItemPlaying = i;
                 }
@@ -396,7 +388,7 @@ namespace MusicBrowser.Models
                     result.playlistItemPlaying = 0;
                 }
 
-                result.playlistDuration = Util.Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_TOTAL_TIME", "0:00");
+                result.playlistDuration = Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_TOTAL_TIME", "0:00");
 
             }
             catch { }
@@ -422,7 +414,7 @@ namespace MusicBrowser.Models
             PlaybackStyle = info.playbackStyle;
 
             PlaylistPage = info.playlistCurrentPage;
-            PlaylistPages = (int)Math.Ceiling((double)info.playlistSize / (double)info.playlistPageSize);
+            PlaylistPages = (int)Math.Ceiling(info.playlistSize / (double)info.playlistPageSize);
 
             Position = info.playingTrackProgress;
 
@@ -445,7 +437,7 @@ namespace MusicBrowser.Models
         private void DataChanged(string property)
         {
             FirePropertyChanged(property);
-            if(!(OnPropertyChanged == null)) 
+            if(OnPropertyChanged != null) 
             {
                 OnPropertyChanged(property); 
             }
@@ -458,9 +450,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                Size s = new Size();
-                s.Height = 30;
-                s.Width = (int)(PercentComplete * 4);
+                Size s = new Size {Height = 30, Width = (int) (PercentComplete*4)};
                 return s;
             }
         }

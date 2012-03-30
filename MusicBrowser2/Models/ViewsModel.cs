@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.MediaCenter.UI;
+using MusicBrowser.Actions;
 using MusicBrowser.Engines.Views;
 using MusicBrowser.Entities;
-using MusicBrowser.Actions;
 
 namespace MusicBrowser.Models
 {
@@ -32,7 +29,7 @@ namespace MusicBrowser.Models
         }
         #endregion
 
-        public bool _visible = false;
+        public bool _visible;
         public baseEntity _context;
 
         public bool Visible
@@ -69,14 +66,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                List<baseActionCommand> commands = new List<baseActionCommand>();
-
-                foreach(IView view in Views.GetViews(Context.Kind))
-                {
-                    ActionOpenView action = new ActionOpenView(Context);
-                    action.Title = view.Title;
-                    commands.Add(action);
-                }
+                List<baseActionCommand> commands = Views.GetViews(Context.Kind).Select(view => new ActionOpenView(Context) {Title = view.Title}).Cast<baseActionCommand>().ToList();
 
                 commands.Add(new ActionCloseMenu());
 

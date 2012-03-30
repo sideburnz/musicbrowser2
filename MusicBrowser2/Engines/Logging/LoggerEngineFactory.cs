@@ -1,7 +1,6 @@
 ﻿using MusicBrowser.Util;
 using System.Diagnostics;
 using System;
-using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Engines.Logging
 {

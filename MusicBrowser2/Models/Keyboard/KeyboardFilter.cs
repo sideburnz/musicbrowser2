@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using MusicBrowser.Entities;
 
 namespace MusicBrowser.Models.Keyboard
 {
     class KeyboardFilter : IKeyboardHandler
     {
-        private static IEnumerable<string> _sortIgnore = Util.Config.GetInstance().GetListSetting("SortReplaceWords");
+        private static readonly IEnumerable<string> SortIgnore = Util.Config.GetInstance().GetListSetting("SortReplaceWords");
 
         private static string HandleIgnoreWords(string value)
         {
-            foreach (string item in _sortIgnore)
+            foreach (string item in SortIgnore)
             {
                 if (value.ToLower().StartsWith(item + " ")) { return value.Substring(item.Length + 1).Replace(" ", ""); }
             }

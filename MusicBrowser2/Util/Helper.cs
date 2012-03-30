@@ -1,14 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Text.RegularExpressions;
 using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
 using Microsoft.Win32;
 using MusicBrowser.Providers;
-using MusicBrowser.Entities;
 
 namespace MusicBrowser.Util
 {
@@ -197,7 +196,7 @@ namespace MusicBrowser.Util
 
         #region file identifiers
 
-        public enum knownType
+        public enum KnownType
         {
             Track,
             Playlist,
@@ -205,9 +204,9 @@ namespace MusicBrowser.Util
             Video,
             Other
         }
-        public static Dictionary<string, knownType> perceivedTypeCache = getKnownTypes();
+        public static Dictionary<string, KnownType> PerceivedTypeCache = GetKnownTypes();
 
-        private static knownType determineType(string extension)
+        private static KnownType DetermineType(string extension)
         {
             try
             {
@@ -228,18 +227,18 @@ namespace MusicBrowser.Util
                 }
                 pt = pt.ToLower();
 
-                lock (perceivedTypeCache)
+                lock (PerceivedTypeCache)
                 {
                     switch (pt)
                     {
                         case "video":
-                            perceivedTypeCache.Add(extension, knownType.Video);
+                            PerceivedTypeCache.Add(extension, KnownType.Video);
                             break;
                         case "audio":
-                            perceivedTypeCache.Add(extension, knownType.Track);
+                            PerceivedTypeCache.Add(extension, KnownType.Track);
                             break;
                         default:
-                            perceivedTypeCache.Add(extension, knownType.Other);
+                            PerceivedTypeCache.Add(extension, KnownType.Other);
                             break;
                     }
                 }
@@ -247,58 +246,52 @@ namespace MusicBrowser.Util
             catch
             {
                 // if there's a problem, return an unknown type
-                return knownType.Other;
+                return KnownType.Other;
             }
-            return perceivedTypeCache[extension];
+            return PerceivedTypeCache[extension];
         }
 
-        public static knownType getKnownType(FileSystemItem item)
+        public static KnownType GetKnownType(FileSystemItem item)
         {
             // if it's a folder, don't worry about the type cache
             if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
             {
-                return knownType.Folder;
+                return KnownType.Folder;
             }
 
-            string extension = System.IO.Path.GetExtension(item.Name).ToLower();
-            knownType itemType;
+            string extension = Path.GetExtension(item.Name).ToLower();
+            KnownType itemType;
             // try to get the item from the type cache
-            if (perceivedTypeCache.TryGetValue(extension, out itemType))
+            if (PerceivedTypeCache.TryGetValue(extension, out itemType))
             {
                 return itemType;
             }
-            return determineType(extension);
+            return DetermineType(extension);
         }
 
-        private static Dictionary<string, knownType> getKnownTypes()
+        private static Dictionary<string, KnownType> GetKnownTypes()
         {
-            Dictionary<string,knownType> retVal = new Dictionary<string,knownType>();
-            IEnumerable<string> extentions;
-
-            extentions = Config.GetInstance().GetListSetting("Extensions.Playlist");
-            foreach (string extention in extentions)
-            {
-                retVal.Add(extention, knownType.Playlist);
-            }
+            IEnumerable<string> extentions = Config.GetInstance().GetListSetting("Extensions.Playlist");
+            Dictionary<string,KnownType> retVal = extentions.ToDictionary(extention => extention, extention => KnownType.Playlist);
 
             extentions = Config.GetInstance().GetListSetting("Extensions.Ignore");
             foreach (string extention in extentions)
             {
-                retVal.Add(extention, knownType.Other);
+                retVal.Add(extention, KnownType.Other);
             }
             // special circumstance
-            retVal.Add(String.Empty, knownType.Other);
+            retVal.Add(String.Empty, KnownType.Other);
 
             return retVal;
         }
 
-        public static string outputTypes()
+        public static string OutputTypes()
         {
             StringBuilder s = new StringBuilder();
             s.AppendLine("Known File Types: ");
-            foreach (string k in perceivedTypeCache.Keys)
+            foreach (string k in PerceivedTypeCache.Keys)
             {
-                s.AppendLine(k + " " + perceivedTypeCache[k].ToString());
+                s.AppendLine(k + " " + PerceivedTypeCache[k].ToString());
             }
             return s.ToString();
         }
@@ -349,7 +342,7 @@ namespace MusicBrowser.Util
 
         public static string IBNPath(string category, string title)
         {
-            return System.IO.Path.Combine(System.IO.Path.Combine(Util.Config.GetInstance().GetStringSetting("ImagesByName"), category), title);
+            return Path.Combine(Path.Combine(Config.GetInstance().GetStringSetting("ImagesByName"), category), title);
  
         }
 
@@ -447,13 +440,13 @@ namespace MusicBrowser.Util
             if (path.StartsWith("resx://"))
             {
                 Microsoft.MediaCenter.UI.Image image = new Microsoft.MediaCenter.UI.Image(path);
-                if (image != null) { return image; }
+                return image;
             }
             if (path.StartsWith("http://"))
             {
                 return new Microsoft.MediaCenter.UI.Image(path);
             }
-            if (System.IO.File.Exists(path))
+            if (File.Exists(path))
             {
                 return new Microsoft.MediaCenter.UI.Image("file://" + path);
             }
@@ -490,11 +483,11 @@ namespace MusicBrowser.Util
             return list.OrderBy(item => Random.Next());
         }
 
-        private static Regex _EpisodeRegEx = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
+        private static readonly Regex EpisodeRegEx = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
 
         public static bool IsEpisode(string path)
         {
-            return _EpisodeRegEx.Match(path).Success;
+            return EpisodeRegEx.Match(path).Success;
         }
     }
 }

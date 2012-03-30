@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System;
-using System.Linq;
-using MusicBrowser.Engines.Cache;
 using MusicBrowser.Providers;
 
 namespace MusicBrowser.Entities
 {
-    public class EntityCollection : List<baseEntity>, IEnumerable<baseEntity>
+    public class EntityCollection : List<baseEntity>
     {
         public void AddRange(IEnumerable<FileSystemItem> items)
         {
@@ -36,12 +33,12 @@ namespace MusicBrowser.Entities
 
         public void Add(IEnumerable<baseEntity> entities)
         {
-            base.AddRange(entities);
+            AddRange(entities);
         }
 
-        public void Sort(string Field)
+        public void Sort(string field)
         {
-            string sort = Field;
+            string sort = field;
             if (sort.IndexOf(":sort") < 0)
             {
                 sort = sort.Replace("]", ":sort]");
@@ -50,12 +47,12 @@ namespace MusicBrowser.Entities
             {
                 e.SortName = e.TokenSubstitution(sort);
             }
-            base.Sort(new EntityCollectionSorter());
+            Sort(new EntityCollectionSorter());
         }
 
         protected static bool InheritsFrom<T>(baseEntity e)
         {
-            return typeof(T).IsAssignableFrom(e.GetType());
+            return e is T;
         }
 
     }

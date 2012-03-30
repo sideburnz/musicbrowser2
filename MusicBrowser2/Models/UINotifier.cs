@@ -25,7 +25,7 @@ namespace MusicBrowser.Models
 
         private string _message = "no message";
         private readonly System.Timers.Timer _timer;
-        private bool _active = false;
+        private bool _active;
 
         private UINotifier()
         {

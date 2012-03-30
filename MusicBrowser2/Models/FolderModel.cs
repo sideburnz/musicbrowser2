@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.MediaCenter.UI;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
-using MusicBrowser.Util;
 using MusicBrowser.Actions;
+using MusicBrowser.Entities;
 using MusicBrowser.Models.Keyboard;
 using MusicBrowser.Providers;
+using MusicBrowser.Providers.Background;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Models
 {
@@ -14,13 +13,13 @@ namespace MusicBrowser.Models
     {
         private readonly baseEntity _parentEntity;
         private Int32 _selectedIndex;
-        private IKeyboardHandler _keyboard;
-        private static readonly Random _rnd = new Random(DateTime.Now.Millisecond);
+        private readonly IKeyboardHandler _keyboard;
+        private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
 
         public FolderModel(baseEntity parentEntity, EntityCollection entities, IKeyboardHandler keyboard)
         {
 #if DEBUG
-            Engines.Logging.LoggerEngineFactory.Verbose("FolderModel(kind: " + parentEntity.Kind.ToString() + ", size: " + entities.Count + ")", "start");  
+            Engines.Logging.LoggerEngineFactory.Verbose("FolderModel(kind: " + parentEntity.Kind + ", size: " + entities.Count + ")", "start");  
 #endif
             _keyboard = keyboard;
             _keyboard.RawDataSet = entities;
@@ -29,8 +28,8 @@ namespace MusicBrowser.Models
             CommonTaskQueue.OnStateChanged += BusyStateChanged;
             Busy = CommonTaskQueue.Busy;
 
-            _parentEntity.OnPropertyChanged += new baseEntity.ChangedPropertyHandler(_parentEntity_OnPropertyChanged);
-            Config.OnSettingUpdate += new Config.SettingsChangedHandler(Config_OnSettingUpdate);
+            _parentEntity.OnPropertyChanged += _parentEntity_OnPropertyChanged;
+            Config.OnSettingUpdate += Config_OnSettingUpdate;
 
             int i = 0;
 
@@ -281,14 +280,14 @@ namespace MusicBrowser.Models
             {
                 if (_parentEntity.BackgroundPaths == null || _parentEntity.BackgroundPaths.Count == 0)
                 {
-                    return Util.Helper.GetImage(String.Empty);
+                    return Helper.GetImage(String.Empty);
                 }
                 if (_parentEntity.BackgroundPaths.Count == 1)
                 {
-                    return Util.Helper.GetImage(_parentEntity.BackgroundPaths[0]);
+                    return Helper.GetImage(_parentEntity.BackgroundPaths[0]);
                 }
-                int i = _rnd.Next(_parentEntity.BackgroundPaths.Count);
-                return Util.Helper.GetImage(_parentEntity.BackgroundPaths[i]);
+                int i = Rnd.Next(_parentEntity.BackgroundPaths.Count);
+                return Helper.GetImage(_parentEntity.BackgroundPaths[i]);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using MusicBrowser.Engines.Logging;
 
@@ -19,7 +20,7 @@ namespace MusicBrowser.Providers.Background
     public class BackgroundTaskQueueProvider : IDisposable
     {
         private readonly List<IBackgroundTaskable> _queue;
-        private Thread[] _threadPool;
+        private readonly Thread[] _threadPool;
         private readonly object _obj = new object();
         private readonly int _maximumThreads;
         private readonly bool[] _threadStates;
@@ -30,7 +31,7 @@ namespace MusicBrowser.Providers.Background
             _queue = new List<IBackgroundTaskable>();
 
             // spin up the threads - two per logical CPU
-            _maximumThreads = System.Environment.ProcessorCount * 2;
+            _maximumThreads = Environment.ProcessorCount * 2;
 #if DEBUG
             // if we're debugging, multithreading is a pain in the ass
             _maximumThreads = 1;
@@ -72,7 +73,7 @@ namespace MusicBrowser.Providers.Background
             {
                 if (!_threadStates[i] & Sleeping(i))
                 {
-                    if (AllAsleep() && !(OnStateChanged == null)) { OnStateChanged(true); }
+                    if (AllAsleep() && OnStateChanged != null) { OnStateChanged(true); }
                     _threadStates[i] = true;
                     _threadPool[i].Interrupt();
                     break;
@@ -97,9 +98,9 @@ namespace MusicBrowser.Providers.Background
                             _queue.RemoveAt(0);
                         }
 #if DEBUG
-                        Engines.Logging.LoggerEngineFactory.Verbose("Thread " + id.ToString() + " " + task.Title, "thread start");
+                        LoggerEngineFactory.Verbose("Thread " + id + " " + task.Title, "thread start");
 #endif
-                        System.Threading.Thread.Sleep(100);
+                        Thread.Sleep(100);
                         task.Execute();
                     }
                     catch (Exception e)
@@ -107,7 +108,7 @@ namespace MusicBrowser.Providers.Background
                         LoggerEngineFactory.Error(new Exception(string.Format("Thread {0} failed whilst running {1}\r", id, task.Title), e));
                     }
 #if DEBUG
-                    Engines.Logging.LoggerEngineFactory.Verbose(String.Format("Thread {0} finished {1}. {2} jobs pending", id, task.Title, _queue.Count), "thread finish");
+                    LoggerEngineFactory.Verbose(String.Format("Thread {0} finished {1}. {2} jobs pending", id, task.Title, _queue.Count), "thread finish");
 #endif
                 }
                 else
@@ -115,16 +116,16 @@ namespace MusicBrowser.Providers.Background
                     try
                     {
 #if DEBUG
-                        Engines.Logging.LoggerEngineFactory.Verbose(String.Format("Thread {0} is being suspended, {1} jobs pending", id, _queue.Count), "thread asleep");
+                        LoggerEngineFactory.Verbose(String.Format("Thread {0} is being suspended, {1} jobs pending", id, _queue.Count), "thread asleep");
 #endif
                         _threadStates[id] = false;
-                        if (AllAsleep() && !(OnStateChanged == null)) { OnStateChanged(false); }
+                        if (AllAsleep() && OnStateChanged != null) { OnStateChanged(false); }
                         Thread.Sleep(Timeout.Infinite);
                     }
-                    catch (ThreadInterruptedException e)
+                    catch (ThreadInterruptedException)
                     {
 #if DEBUG
-                        Engines.Logging.LoggerEngineFactory.Verbose("Thread " + id.ToString() + " awakened", "thread awake");
+                        LoggerEngineFactory.Verbose("Thread " + id + " awakened", "thread awake");
 #endif
                     }
                 }
@@ -150,11 +151,7 @@ namespace MusicBrowser.Providers.Background
 
         public bool AllAsleep()
         {
-            foreach (bool a in _threadStates)
-            {
-                if (a) { return false; }
-            }
-            return true;
+            return _threadStates.All(a => !a);
         }
 
         public delegate void ChangedEventHandler(bool busy);
