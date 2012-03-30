@@ -278,7 +278,14 @@ namespace MusicBrowser.Entities
         [DataMember]
         public DateTime ReleaseDate
         {
-            get { return _releaseDate; }
+            get 
+            {
+                if (_releaseDate.Year < 1500)
+                {
+                    return DateTime.MinValue;
+                }
+                return _releaseDate;
+            }
             set
             {
                 if (value != _releaseDate)
@@ -628,8 +635,26 @@ namespace MusicBrowser.Entities
         public static IEnumerable<Track> DedupeTracks<T>(this IEnumerable<Track> list)
         {
             return list
-                .GroupBy(item => new { item.Title, item.Artist })
+                .GroupBy(item => item, new TrackDedupeComparer())
                 .Select(item => item.First());
+        }
+    }
+
+    public class TrackDedupeComparer : IEqualityComparer<Track>
+    {
+        static string Key(Track a)
+        {
+            return (a.Artist + ":" + a.Title).ToLower();
+        }
+
+        public bool Equals(Track x, Track y)
+        {
+            return (Key(x) == Key(y));
+        }
+
+        public int GetHashCode(Track obj)
+        {
+            return Key(obj).GetHashCode();
         }
     }
 }
