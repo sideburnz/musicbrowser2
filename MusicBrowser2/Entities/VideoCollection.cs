@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 using Microsoft.MediaCenter;
 using MusicBrowser.Providers;
@@ -32,12 +30,12 @@ namespace MusicBrowser.Entities
 
             if (shuffle)
             {
-                candidateitems = candidateitems.Shuffle<FileSystemItem>().ToList();
+                candidateitems = candidateitems.Shuffle().ToList();
             }
 
             foreach (FileSystemItem item in candidateitems)
             {
-                if (Util.Helper.getKnownType(item) == Util.Helper.knownType.Video)
+                if (Helper.GetKnownType(item) == Helper.KnownType.Video)
                 {
                     collection.AddItem(item.FullPath);
                     collection[collection.Count - 1].FriendlyData.Add("Title", System.IO.Path.GetFileNameWithoutExtension(item.Name));

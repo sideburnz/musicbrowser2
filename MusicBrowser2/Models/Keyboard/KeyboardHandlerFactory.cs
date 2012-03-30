@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MusicBrowser.Models.Keyboard
 {
@@ -11,7 +8,7 @@ namespace MusicBrowser.Models.Keyboard
         {
             get
             {
-                return new List<string>() { "Jump", "Search", "Filter" };
+                return new List<string> { "Jump", "Search", "Filter" };
             }
         }
 
@@ -23,7 +20,6 @@ namespace MusicBrowser.Models.Keyboard
                     return new KeyboardSearch();
                 case "filter":
                     return new KeyboardFilter();
-                case "jump":
                 default: // JIL
                     return new KeyboardJIL();
             }

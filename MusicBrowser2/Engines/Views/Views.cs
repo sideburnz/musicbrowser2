@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MusicBrowser.Engines.Views
 {
     public class Views
     {
-        static Dictionary<string, IView> _views = new Dictionary<string, IView>();
-        static Dictionary<string, IView> _kinds = new Dictionary<string, IView>();
+        static readonly Dictionary<string, IView> _views = new Dictionary<string, IView>();
+        static readonly Dictionary<string, IView> Kinds = new Dictionary<string, IView>();
 
         public static void RegisterView(IView view, string kind)
         {
             _views.Add(view.Title, view);
-            _kinds.Add(kind + ":" + view.Title, view);
+            Kinds.Add(kind + ":" + view.Title, view);
         }
 
         static public bool Exists(string title)
@@ -33,13 +31,7 @@ namespace MusicBrowser.Engines.Views
 
             try
             {
-                foreach (string item in _kinds.Keys)
-                {
-                    if (item.StartsWith(kind + ":"))
-                    {
-                        ret.Add(_kinds[item]);
-                    }
-                }
+                ret.AddRange(from item in Kinds.Keys where item.StartsWith(kind + ":") select Kinds[item]);
             }
             catch { }
 

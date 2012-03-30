@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Providers;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
-using MusicBrowser.Engines.Transport;
+﻿using MusicBrowser.Entities;
 using MusicBrowser.Models;
 
 namespace MusicBrowser.Actions
@@ -53,14 +46,7 @@ namespace MusicBrowser.Actions
         {
             if (prop == "PlaybackStyle")
             {
-                if (Value)
-                {
-                    Alpha = 1;
-                }
-                else
-                {
-                    Alpha = 0.2F;
-                }
+                Alpha = Value ? 1 : 0.2F;
                 FirePropertyChanged("Value");
             }
         }
@@ -71,17 +57,7 @@ namespace MusicBrowser.Actions
             {
                 return (_model.PlaybackStyle == PlaybackStyles.Shuffle);
             }
-            set
-            {
-                if (value)
-                {
-                    _model.SetPlaybackStyle(PlaybackStyles.Shuffle);
-                }
-                else
-                {
-                    _model.SetPlaybackStyle(PlaybackStyles.Default);
-                }
-            }
+            set { _model.SetPlaybackStyle(value ? PlaybackStyles.Shuffle : PlaybackStyles.Default); }
         }
 
         public override void DoAction(baseEntity entity)

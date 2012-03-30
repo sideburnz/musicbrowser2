@@ -1,7 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
-using System.Collections.Generic;
 
 namespace MusicBrowser.Engines.Cache
 {

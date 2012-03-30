@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MusicBrowser.Entities;
 
 namespace MusicBrowser.Engines.Metadata
@@ -40,9 +37,9 @@ namespace MusicBrowser.Engines.Metadata
         public ProviderOutcome Fetch(baseEntity dto)
         {
 #if DEBUG
-            MusicBrowser.Engines.Logging.LoggerEngineFactory.Verbose(Name + ": " + dto.Path, "start");
+            Logging.LoggerEngineFactory.Verbose(Name + ": " + dto.Path, "start");
 #endif
-            ProviderOutcome ret = ProviderOutcome.Success;
+            ProviderOutcome ret;
 
             try
             {

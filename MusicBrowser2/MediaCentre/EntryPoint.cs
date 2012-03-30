@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.MediaCenter.Hosting;
 using MusicBrowser.Engines.Cache;
-using MusicBrowser.Engines.Logging;
+using MusicBrowser.Engines.Transport;
 using MusicBrowser.Entities;
 using MusicBrowser.Providers;
-using MusicBrowser.Providers.Background;
-using MusicBrowser.Engines.Transport;
  
 // taken from the SDK example, I've changed the namespace and classname
 
@@ -27,7 +25,7 @@ namespace MusicBrowser
             {
                 Statistics.Send();
 #if DEBUG
-                Engines.Logging.LoggerEngineFactory.Verbose(Util.Helper.outputTypes(), "stats");
+                Engines.Logging.LoggerEngineFactory.Verbose(Util.Helper.OutputTypes(), "stats");
 #endif
             }
         }
@@ -35,7 +33,7 @@ namespace MusicBrowser
         public void Launch(AddInHost host)         
         {
 #if DEBUG
-            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog("Attach debugger and hit ok", "debug", Microsoft.MediaCenter.DialogButtons.Ok, 100, true);
+            AddInHost.Current.MediaCenterEnvironment.Dialog("Attach debugger and hit ok", "debug", Microsoft.MediaCenter.DialogButtons.Ok, 100, true);
 #endif
             if (host != null && host.ApplicationContext != null)
             {
@@ -44,7 +42,7 @@ namespace MusicBrowser
             _sSession = new HistoryOrientedPageSession();
             Application app = new Application(_sSession, host);
 
-            MusicBrowser.Engines.PlugIns.LoadPlugIns.Execute();
+            Engines.PlugIns.LoadPlugIns.Execute();
 
             FirstRun.Initialize();
             SQLiteLoader.Load();

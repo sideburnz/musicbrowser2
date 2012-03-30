@@ -1,5 +1,4 @@
-﻿using System;
-using MusicBrowser.Entities;
+﻿using MusicBrowser.Entities;
 
 namespace MusicBrowser.Actions
 {

@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using MusicBrowser.Engines.Cache;
-using MusicBrowser.Interfaces;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata.Lite;
 using MusicBrowser.Util;
-using System.Text.RegularExpressions;
-using System.Xml;
 
 namespace MusicBrowser.Entities
 {
     public static class EntityFactory
     {
-        private static ICacheEngine _cacheEngine = CacheEngineFactory.GetEngine();
-        private static InMemoryCache _MemCache = InMemoryCache.GetInstance();
+        private static readonly ICacheEngine CacheEngine = CacheEngineFactory.GetEngine();
+        private static readonly InMemoryCache MemCache = InMemoryCache.GetInstance();
 
         private enum EntityKind
         {
@@ -25,8 +21,6 @@ namespace MusicBrowser.Entities
             Playlist = 105,
             Track = 106,
             Genre = 107,
-
-            Video = 201,
             Episode = 202,
             Movie = 203,
             Season = 204,
@@ -46,14 +40,13 @@ namespace MusicBrowser.Entities
 
             // don't waste time trying to determine a known not entity
             if (item.Name.ToLower() == "metadata") { return null; }
-            if (Util.Helper.getKnownType(item) == Helper.knownType.Other) { return null; }
+            if (Helper.GetKnownType(item) == Helper.KnownType.Other) { return null; }
 
-            string key = Util.Helper.GetCacheKey(item.FullPath);
-            baseEntity entity;
+            string key = Helper.GetCacheKey(item.FullPath);
 
             #region InMemoryCache
             // get from the Mem cache if it's cached there, this is the fastest cache
-            entity = _MemCache.Fetch(key);
+            baseEntity entity = MemCache.Fetch(key);
             if (entity != null)
             {
                 return entity;
@@ -62,16 +55,14 @@ namespace MusicBrowser.Entities
 
             #region persistent cache
             // get the value from persistent cache
-            entity = _cacheEngine.Fetch(key);
+            entity = CacheEngine.Fetch(key);
             if (entity != null && entity.TimeStamp > item.LastUpdated)
             {
-                _MemCache.Update(entity);
+                MemCache.Update(entity);
                 return entity;
             }
-            else
-            {
-                Statistics.Hit("factory.missorexpired");
-            }
+            Statistics.Hit("factory.missorexpired");
+
             #endregion
 
             Engines.Logging.LoggerEngineFactory.Debug("Manufacturing " + item.FullPath);
@@ -144,13 +135,13 @@ namespace MusicBrowser.Entities
             return e;
         }
 
-        private static Nullable<EntityKind> DetermineKind(FileSystemItem entity)
+        private static EntityKind? DetermineKind(FileSystemItem entity)
         {
-            Helper.knownType type = Helper.getKnownType(entity);
+            Helper.KnownType type = Helper.GetKnownType(entity);
 
             switch (type)
             {
-                case Helper.knownType.Folder:
+                case Helper.KnownType.Folder:
                     {
                         // ignore metadata folders
                         if (entity.Name.ToLower() == "metadata") { return null; }
@@ -175,7 +166,7 @@ namespace MusicBrowser.Entities
                                 case "season.xml":
                                     return EntityKind.Season;
                                 case "video_ts":
-                                    if (Util.Helper.IsEpisode(entity.Name))
+                                    if (Helper.IsEpisode(entity.Name))
                                     {
                                         return EntityKind.Episode;
                                     }
@@ -206,17 +197,17 @@ namespace MusicBrowser.Entities
                         //if (movies > 0) { return EntityKind.Folder; }
                         return EntityKind.Folder;
                     }
-                case Helper.knownType.Track:
+                case Helper.KnownType.Track:
                     {
                         return EntityKind.Track;
                     }
-                case Helper.knownType.Playlist:
+                case Helper.KnownType.Playlist:
                     {
                         return EntityKind.Playlist;
                     }
-                case Helper.knownType.Video:
+                case Helper.KnownType.Video:
                     {
-                        if (Util.Helper.IsEpisode(entity.Name))
+                        if (Helper.IsEpisode(entity.Name))
                         {
                             return EntityKind.Episode;
                         }

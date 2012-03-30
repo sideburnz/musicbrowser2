@@ -1,10 +1,4 @@
 ﻿using MusicBrowser.Entities;
-using System.IO;
-using MusicBrowser.Providers;
-using MusicBrowser.Providers.Background;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace MusicBrowser.Actions
 {
@@ -50,7 +44,7 @@ namespace MusicBrowser.Actions
         {
             baseEntity e = new View();
             e.Title = Title;
-            MusicBrowser.Application.GetReference().Navigate(e);
+            Application.GetReference().Navigate(e);
         }
 
     }

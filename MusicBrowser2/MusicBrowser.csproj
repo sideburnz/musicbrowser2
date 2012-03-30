@@ -214,7 +214,6 @@
     <Compile Include="Providers\Background\BackgroundTaskQueueProvider.cs" />
     <Compile Include="Entities\EntityCollection.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
-    <Compile Include="Entities\Entity.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
     <Content Include="Entities\Entity Structure.txt" />

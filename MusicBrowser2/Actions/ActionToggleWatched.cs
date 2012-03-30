@@ -1,12 +1,6 @@
-﻿using MusicBrowser.Entities;
-using System.IO;
-using MusicBrowser.Providers;
-using MusicBrowser.Providers.Background;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using MusicBrowser.Engines.Cache;
-using MusicBrowser.Util;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Actions
 {

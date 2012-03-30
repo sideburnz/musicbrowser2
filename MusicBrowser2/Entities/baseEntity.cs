@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
 using System.Runtime.Serialization;
-using MusicBrowser.Util;
 using System.Text.RegularExpressions;
 using MusicBrowser.Models;
-using Microsoft.MediaCenter.UI;
-using MusicBrowser.Engines.Cache;
 using MusicBrowser.Providers;
-using System.Drawing;
-using ServiceStack.Text;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
@@ -385,7 +380,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return this.GetType().Name;
+                return GetType().Name;
             }
         }
 
@@ -401,19 +396,13 @@ namespace MusicBrowser.Entities
 
         public Microsoft.MediaCenter.UI.Color Color
         {
-            /// <summary>
-            /// Provides a MediaCenter compatible "average" color for the image
-            /// </summary>
             get
             {
                 if (System.IO.File.Exists(ThumbPath))
                 {
                     Bitmap image = new Bitmap(ThumbPath);
-                    System.Drawing.Color baseColor = ImageProvider.CalculateAverageColor(image);
-                    if (baseColor != null)
-                    {
-                        return new Microsoft.MediaCenter.UI.Color(baseColor.R, baseColor.G, baseColor.B);
-                    }
+                    Color baseColor = ImageProvider.CalculateAverageColor(image);
+                    return new Microsoft.MediaCenter.UI.Color(baseColor.R, baseColor.G, baseColor.B);
                 }
                 return new Microsoft.MediaCenter.UI.Color(128, 128, 128);
             }
@@ -582,10 +571,10 @@ namespace MusicBrowser.Entities
 
         #region protected helpers
 
-        private static IEnumerable<string> _sortIgnore = Util.Config.GetInstance().GetListSetting("SortReplaceWords");
+        private static readonly IEnumerable<string> SortIgnore = Config.GetInstance().GetListSetting("SortReplaceWords");
         protected static string HandleIgnoreWords(string value)
         {
-            foreach (string item in _sortIgnore)
+            foreach (string item in SortIgnore)
             {
                 if (value.ToLower().StartsWith(item + " ")) { return value.Substring(item.Length + 1); }
             }
@@ -598,7 +587,7 @@ namespace MusicBrowser.Entities
             FirePropertyChanged("Description");
             FirePropertyChanged("Information");
             FirePropertyChanged("CodecIcons");
-            if (!(OnPropertyChanged == null))
+            if (OnPropertyChanged != null)
             {
                 OnPropertyChanged(property);
             }
@@ -629,10 +618,10 @@ namespace MusicBrowser.Entities
 
         public static bool InheritsFrom<T>(this object e)
         {
-            return typeof(T).IsAssignableFrom(e.GetType());
+            return e is T;
         }
 
-        public static IEnumerable<Track> DedupeTracks<T>(this IEnumerable<Track> list)
+        public static IEnumerable<Track> DedupeTracks(this IEnumerable<Track> list)
         {
             return list
                 .GroupBy(item => item, new TrackDedupeComparer())

@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.IO;
-using MusicBrowser.Engines.Cache;
-using MusicBrowser.Entities;
-using MusicBrowser.Interfaces;
-using MusicBrowser.Util;
 using System.Text.RegularExpressions;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Providers.Metadata.Lite
 {
     class VideoFilenameMetadataProvider
     {
-        private static readonly Regex[] episodeExpressions = new Regex[] {
+        private static readonly Regex[] EpisodeExpressions = new[] {
             new Regex(@"(?:.*[^\\])\\(?<seriesname>.*[^\\])\\(?:.*[^\\])\\[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<episodenumber>\d{1,3})\W*(?<episodename>.*)\.(?:.*)"), // S01E02 blah.avi, S01xE01 blah.avi
             new Regex(@"(?:.*[^\\])\\(?<seriesname>.*[^\\])\\(?:.*[^\\])\\[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<episodenumber>\d{1,3})\W*(?<episodename>.*)")          // DVDs
         };
@@ -25,12 +19,12 @@ namespace MusicBrowser.Providers.Metadata.Lite
 
             Episode episode = (Episode)entity;
 
-            foreach (Regex r in episodeExpressions)
+            foreach (Regex r in EpisodeExpressions)
             {
                 Match m = r.Match(entity.Path);
                 if (m.Success)
                 {
-                    int i = 0;
+                    int i;
                     if (int.TryParse(m.Groups["episodenumber"].Value, out i))
                     {
                         episode.EpisodeNumber = i;
@@ -46,7 +40,6 @@ namespace MusicBrowser.Providers.Metadata.Lite
                     }
                     episode.ShowName = m.Groups["seriesname"].Value.Trim();
 
-                    entity = episode;
                     return;
                 }
             }

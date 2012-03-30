@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MusicBrowser.Interfaces
+namespace MusicBrowser.Engines.Logging
 {
     public interface ILoggingEngine
     {

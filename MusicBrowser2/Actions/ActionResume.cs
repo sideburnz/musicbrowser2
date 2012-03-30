@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Providers;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
-using MusicBrowser.Engines.Transport;
-using MusicBrowser.Engines.Cache;
 using Microsoft.MediaCenter;
-using Microsoft.MediaCenter.Hosting;
-using Microsoft.MediaCenter.UI;
+using MusicBrowser.Engines.Cache;
+using MusicBrowser.Entities;
 using MusicBrowser.MediaCentre;
 
 namespace MusicBrowser.Actions

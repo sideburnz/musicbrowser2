@@ -1,6 +1,4 @@
-﻿using MusicBrowser.Entities;
-
-namespace MusicBrowser.Engines.PlugIns
+﻿namespace MusicBrowser.Engines.PlugIns
 {
     public interface IPlugIn
     {

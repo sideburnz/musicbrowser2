@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using Microsoft.Win32;
-using System.Drawing;
 
 /******************************************************************************
  * 
@@ -19,7 +19,7 @@ namespace MusicBrowser.Providers.FolderItems
         public System.Collections.Generic.IEnumerable<string> GetItems(string lib)
         {
 #if DEBUG
-            Engines.Logging.LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
+            Engines.Logging.LoggerEngineFactory.Verbose(GetType().ToString(), "start");
 #endif
 
             bool runningOnExtender = Environment.UserName.ToLower().StartsWith("mcx");
@@ -50,14 +50,7 @@ namespace MusicBrowser.Providers.FolderItems
 
             XmlNodeList nodes = libraryDfn.SelectNodes("lib:libraryDescription/lib:searchConnectorDescriptionList/lib:searchConnectorDescription/lib:simpleLocation/lib:url", nsMgr);
 
-            foreach (XmlNode node in nodes)
-            {
-                string path = node.InnerText;
-                if (Directory.Exists(path))
-                {
-                    yield return path;
-                }
-            }
+            return nodes.Cast<XmlNode>().Select(node => node.InnerText).Where(Directory.Exists);
         }
 
         private static string GetLibraryLocation(string lib)

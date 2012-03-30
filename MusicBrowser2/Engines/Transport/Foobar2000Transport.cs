@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Engines.Logging;
-using MusicBrowser.Models;
-using System;
 using System.IO;
+using System.Text;
+using MusicBrowser.Models;
 
 // this controls the playback via Foobar2000
 
@@ -13,8 +11,6 @@ namespace MusicBrowser.Engines.Transport
 {
     public class Foobar2000Transport : BaseModel, ITransportEngine
     {
-        private const int BATCH_SIZE = 10;
-
         #region ITransport Members
 
         public void PlayPause()
@@ -128,7 +124,7 @@ namespace MusicBrowser.Engines.Transport
 
             if (command != "RefreshPlayingInfo")
             {
-                Logging.LoggerEngineFactory.Debug("Foo: " + sb.ToString() + " => " + h.Status);
+                Logging.LoggerEngineFactory.Debug("Foo: " + sb + " => " + h.Status);
             }
 
             if (h.Status != "200")

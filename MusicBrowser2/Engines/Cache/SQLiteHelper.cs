@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
-using MusicBrowser.Util;
+using System.Text;
 
 namespace MusicBrowser.Engines.Cache
 {
     static class SQLiteHelper
     {
-        private static readonly Dictionary<string, SQLiteConnection> _connections = new Dictionary<string, SQLiteConnection>();
+        private static readonly Dictionary<string, SQLiteConnection> Connections = new Dictionary<string, SQLiteConnection>();
 
-
-
-        public static bool EstablishDatabase(string file, string createSQL)
+        public static bool EstablishDatabase(string file, string createSql)
         {
             if (!File.Exists(file))
             {
                 SQLiteConnection.CreateFile(file);
                 SQLiteConnection cnn = GetConnection(file);
-                ExecuteNonQuery(createSQL, cnn);
+                ExecuteNonQuery(createSql, cnn);
             }
             return true; // established
         }
@@ -30,9 +25,9 @@ namespace MusicBrowser.Engines.Cache
             SQLiteConnection cnn;
 
             // cache connections, decrease file open/close activities to try to get better performance out of SQLite
-            if (_connections.ContainsKey(file))
+            if (Connections.ContainsKey(file))
             {
-                cnn = _connections[file];
+                cnn = Connections[file];
                 if (cnn.State == System.Data.ConnectionState.Broken || cnn.State == System.Data.ConnectionState.Closed)
                 {
                     cnn.Open();
@@ -52,34 +47,31 @@ namespace MusicBrowser.Engines.Cache
             cnn = new SQLiteConnection(sb.ToString());
             cnn.Open();
 
-            _connections.Add(file, cnn);
+            Connections.Add(file, cnn);
             return cnn;
         }
 
         public static int ExecuteNonQuery(string sql, SQLiteConnection cnn)
         {
-            SQLiteCommand mycommand = new SQLiteCommand(cnn);
-            mycommand.CommandText = sql;
+            SQLiteCommand mycommand = new SQLiteCommand(cnn) {CommandText = sql};
             int rowsUpdated = mycommand.ExecuteNonQuery();
             return rowsUpdated;
         }
 
-        public static t ExecuteScalar<t>(string sql, SQLiteConnection cnn)
+        public static TT ExecuteScalar<TT>(string sql, SQLiteConnection cnn)
         {
-            SQLiteCommand mycommand = new SQLiteCommand(cnn);
-            mycommand.CommandText = sql;
+            SQLiteCommand mycommand = new SQLiteCommand(cnn) {CommandText = sql};
             object value = mycommand.ExecuteScalar();
             if (value != null)
             {
-                return (t)value;
+                return (TT)value;
             }
-            return default(t);
+            return default(TT);
         }
 
         public static Dictionary<string, object> ExecuteRowQuery(string sql, SQLiteConnection cnn)
         {
-            SQLiteCommand mycommand = new SQLiteCommand(cnn);
-            mycommand.CommandText = sql;
+            SQLiteCommand mycommand = new SQLiteCommand(cnn) {CommandText = sql};
             SQLiteDataReader reader = mycommand.ExecuteReader();
             Dictionary<string, object> ret = null;
             if (reader.HasRows)

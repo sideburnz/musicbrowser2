@@ -31,7 +31,7 @@ namespace MusicBrowser.Engines.Views
                 e.AddRange(Engines.Cache.InMemoryCache.GetInstance().DataSet
                     .Where(item => ((item.Kind == "Track") && (item.Rating >= 90) || (item.Loved)))
                     .Select(item => (Track)item)
-                    .DedupeTracks<Track>()
+                    .DedupeTracks()
                     .Select(item => (baseEntity)item)
                     .ToList());
                 return e;

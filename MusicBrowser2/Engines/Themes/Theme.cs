@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Models;
 
 namespace MusicBrowser.Engines.Themes
 {
@@ -18,8 +15,8 @@ namespace MusicBrowser.Engines.Themes
         private static string _mainscreen = "resx://MusicBrowser/MusicBrowser.Resources/pageFolder";
         private static string _searchscreen = "resx://MusicBrowser/MusicBrowser.Resources/pageSearch";
         private static string _fooplaying = "resx://MusicBrowser/MusicBrowser.Resources/pageFooBar2000";
-        private static List<string> _availableViews = new List<string>() { "List", "Thumb", "Strip" };
-        private static List<string> _themes = new List<string>() { "Default" };
+        private static readonly List<string> AvailableViews = new List<string>() { "List", "Thumb", "Strip" };
+        private static readonly List<string> _themes = new List<string>() { "Default" };
 
         public Theme() { }
 
@@ -33,7 +30,7 @@ namespace MusicBrowser.Engines.Themes
             get { return _themes; }
         }
 
-        public static void SetScreen(ThemeScreens screen, string theme, string URL)
+        public static void SetScreen(ThemeScreens screen, string theme, string url)
         {
             // test that this is the current theme
             if (theme.ToLower() != Util.Config.GetInstance().GetStringSetting("Theme").ToLower()) { return; }
@@ -44,17 +41,17 @@ namespace MusicBrowser.Engines.Themes
             {
                 case ThemeScreens.Main:
                     {
-                        Main = URL;
+                        Main = url;
                         break;
                     }
                 case ThemeScreens.FooPlaying:
                     {
-                        FooPlaying = URL;
+                        FooPlaying = url;
                         break;
                     }
                 case ThemeScreens.Search:
                     {
-                        Search = URL;
+                        Search = url;
                         break;
                     }
             }
@@ -64,8 +61,8 @@ namespace MusicBrowser.Engines.Themes
         {
             // test that this is the current theme
             if (theme.ToLower() != Util.Config.GetInstance().GetStringSetting("Theme").ToLower()) { return; }
-            _availableViews.Clear();
-            _availableViews.AddRange(layouts);
+            AvailableViews.Clear();
+            AvailableViews.AddRange(layouts);
         }
 
         public static string Main 
@@ -108,7 +105,7 @@ namespace MusicBrowser.Engines.Themes
         {
             get
             {
-                return _availableViews;
+                return AvailableViews;
             }
         }
     }

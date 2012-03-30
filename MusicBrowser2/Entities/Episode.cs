@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
-using MusicBrowser.Models;
-using ServiceStack.Text;
 using System.Text.RegularExpressions;
+using ServiceStack.Text;
 
 namespace MusicBrowser.Entities
 {

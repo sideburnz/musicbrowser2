@@ -17,10 +17,10 @@ namespace MusicBrowser.Actions
     /// </summary>
     public abstract class baseActionCommand : BaseModel, ICommand
     {
-        public baseActionCommand()
+        protected baseActionCommand()
         {
             IconPath = "resx://MusicBrowser/MusicBrowser.Resources/nullImage";
-            Label = this.GetType().Name;
+            Label = GetType().Name;
             Available = true;
         }
 
@@ -148,7 +148,7 @@ namespace MusicBrowser.Actions
 
         protected static bool InheritsFrom<T>(baseEntity e)
         {
-            return typeof(T).IsAssignableFrom(e.GetType());
+            return e is T;
         }
     }
 }

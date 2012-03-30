@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using System;
 
 /******************************************************************************
  * 
@@ -11,7 +10,7 @@ namespace MusicBrowser.Providers.Background
 {
     public static class CommonTaskQueue
     {
-        private static readonly object _lock = new object();
+        private static readonly object Lock = new object();
         private static readonly BackgroundTaskQueueProvider Queue = CreateQueue();
 
         public static void Enqueue(IBackgroundTaskable task)
@@ -26,7 +25,7 @@ namespace MusicBrowser.Providers.Background
 
         private static BackgroundTaskQueueProvider CreateQueue()
         {
-            lock (_lock)
+            lock (Lock)
             {
                 BackgroundTaskQueueProvider ret = new BackgroundTaskQueueProvider(ThreadPriority.Lowest);
                 ret.OnStateChanged += StateChanged;
@@ -37,7 +36,7 @@ namespace MusicBrowser.Providers.Background
 
         private static void StateChanged(bool busy)
         {
-            if (!(OnStateChanged == null)) { OnStateChanged(busy); }
+            if (OnStateChanged != null) { OnStateChanged(busy); }
         }
 
         public static bool Busy

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.MediaCenter.UI;
+﻿using System.Collections.Generic;
 using MusicBrowser.Actions;
 using MusicBrowser.Entities;
 
@@ -12,14 +8,14 @@ namespace MusicBrowser.Models
     {
         #region singleton
         static ActionsModel _instance;
-        static readonly object _lock = new object();
+        static readonly object Lock = new object();
         
         public static ActionsModel GetInstance
         {
             get
             {
                 if (_instance != null) return _instance;
-                lock (_lock)
+                lock (Lock)
                 {
                     if (_instance == null)
                     {

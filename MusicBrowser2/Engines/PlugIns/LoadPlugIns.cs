@@ -40,7 +40,7 @@ namespace MusicBrowser.Engines.PlugIns
             try
             {
                 //Assembly pluginAssembly = Assembly.LoadFile(libraryPath);
-                Assembly pluginAssembly = Assembly.Load(System.IO.File.ReadAllBytes(libraryPath));
+                Assembly pluginAssembly = Assembly.Load(File.ReadAllBytes(libraryPath));
                 IPlugIn plugin = (IPlugIn)Activator.CreateInstance(pluginAssembly.GetType("MusicBrowser.Engines.PlugIns.Registration"));
                 plugin.Register();
             }

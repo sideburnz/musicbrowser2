@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.FolderItems;
@@ -22,24 +20,12 @@ namespace MusicBrowser.Entities
 
         public override void Play(bool queue, bool shuffle)
         {
-            List<string> playlist = new List<string>();
-
             IFolderItemsProvider fip = new CollectionProvider();
-            foreach (string path in fip.GetItems(Path))
-            {
-                IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(path);
-                foreach (FileSystemItem item in items)
-                {
-                    if (Util.Helper.getKnownType(item) == Util.Helper.knownType.Track)
-                    {
-                        playlist.Add(item.FullPath);
-                    }
-                }
-            }
+            List<string> playlist = (from path in fip.GetItems(Path) from item in FileSystemProvider.GetAllSubPaths(path) where Helper.GetKnownType(item) == Helper.KnownType.Track select item.FullPath).ToList();
 
             if (shuffle)
             {
-                playlist = playlist.Shuffle<string>().ToList();
+                playlist = playlist.Shuffle().ToList();
             }
 
             Engines.Transport.TransportEngineFactory.GetEngine().Play(queue, playlist);

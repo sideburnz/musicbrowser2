@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using MusicBrowser.Util;
-using MusicBrowser.Interfaces;
 
 namespace MusicBrowser.Engines.Logging
 {
@@ -146,7 +145,8 @@ namespace MusicBrowser.Engines.Logging
                     fs.Close();
                 }
             }
-            catch {}
+            catch
+            {}
         }
     }
 }

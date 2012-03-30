@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.Hosting;
-using MusicBrowser.Engines.Cache;
 using MusicBrowser.Engines.Logging;
+using MusicBrowser.Engines.Views;
 using MusicBrowser.Entities;
 using MusicBrowser.Models;
-using MusicBrowser.Providers;
-using MusicBrowser.Providers.FolderItems;
-using MusicBrowser.Providers.Background;
 using MusicBrowser.Models.Keyboard;
-using MusicBrowser.Engines;
-using MusicBrowser.Engines.Views;
+using MusicBrowser.Providers;
+using MusicBrowser.Providers.Background;
+using MusicBrowser.Providers.FolderItems;
 
 // ReSharper disable CheckNamespace
 namespace MusicBrowser
@@ -64,24 +62,25 @@ namespace MusicBrowser
 
         public void NavigateToFoo()
         {
-            Dictionary<string, object> props = new Dictionary<string, object>();
-            props.Add("Model", Foobar2000.GetInstance());
+            Dictionary<string, object> props = new Dictionary<string, object> {{"Model", Foobar2000.GetInstance()}};
             _session.GoToPage(Engines.Themes.Theme.FooPlaying, props);
         }
 
         public void NavigateToSettings()
         {
-            Dictionary<string, object> props = new Dictionary<string, object>();
-            props.Add("VersionString", "Version: " + Application.Version);
+            Dictionary<string, object> props = new Dictionary<string, object>
+                                                   {{"VersionString", "Version: " + Version}};
             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSettings", props);
         }
 
         public void NavigateToSearch(string searchString, baseEntity entity)
         {
-            Dictionary<string, object> props = new Dictionary<string, object>();
-            props.Add("Model", new SearchModel(searchString));
-            props.Add("ActionsModel", ActionsModel.GetInstance);
-            props.Add("UINotifier", UINotifier.GetInstance());
+            Dictionary<string, object> props = new Dictionary<string, object>
+                                                   {
+                                                       {"Model", new SearchModel(searchString)},
+                                                       {"ActionsModel", ActionsModel.GetInstance},
+                                                       {"UINotifier", UINotifier.GetInstance()}
+                                                   };
             _session.GoToPage(Engines.Themes.Theme.Search, props);
         }
 
@@ -135,8 +134,8 @@ namespace MusicBrowser
                 }
 
                 properties["Application"] = this;
-                FolderModel folderModel = new FolderModel(entity, entities, KeyboardHandlerFactory.GetHandler());
-                folderModel.application = this;
+                FolderModel folderModel = new FolderModel(entity, entities, KeyboardHandlerFactory.GetHandler())
+                                              {application = this};
                 properties["FolderModel"] = folderModel;
                 properties["ViewsModel"] = ViewsModel.GetInstance;
                 properties["ViewMenuModel"] = ViewMenuModel.GetInstance;

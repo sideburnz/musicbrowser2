@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MusicBrowser.Actions;
 
 namespace MusicBrowser.Models.Keyboard
@@ -14,8 +11,7 @@ namespace MusicBrowser.Models.Keyboard
             {
                 return;
             }
-            ActionShowSearch action = new ActionShowSearch();
-            action.SearchString = Value;
+            ActionShowSearch action = new ActionShowSearch {SearchString = Value};
             action.Invoke();
             Value = String.Empty;
         }

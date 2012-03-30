@@ -1,7 +1,5 @@
-﻿using MusicBrowser.Entities;
-using System.Collections;
-using System.Collections.Generic;
-using MusicBrowser.Engines.Themes;
+﻿using System.Collections.Generic;
+using MusicBrowser.Entities;
 using MusicBrowser.Util;
 
 namespace MusicBrowser.Actions
@@ -78,7 +76,7 @@ namespace MusicBrowser.Actions
             }
             if (!string.IsNullOrEmpty(Key))
             {
-                Util.Config.GetInstance().SetSetting(_key, SelectedItem);
+                Config.GetInstance().SetSetting(_key, SelectedItem);
             }
             Invoke();
         }
@@ -92,7 +90,7 @@ namespace MusicBrowser.Actions
             }
             if (!string.IsNullOrEmpty(Key))
             {
-                Util.Config.GetInstance().SetSetting(_key, SelectedItem);
+                Config.GetInstance().SetSetting(_key, SelectedItem);
             }
             Invoke();
         }

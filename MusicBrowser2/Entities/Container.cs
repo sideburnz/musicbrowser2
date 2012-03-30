@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
-using MusicBrowser.Models;
+using System.Text;
 
 namespace MusicBrowser.Entities
 {
@@ -74,15 +72,15 @@ namespace MusicBrowser.Entities
             {
                 if (String.IsNullOrEmpty(header))
                 {
-                    return sb.ToString() + "(" + TokenSubstitution("[Duration]") + ")";
+                    return sb + "(" + TokenSubstitution("[Duration]") + ")";
                 }
-                return header + "  " + sb.ToString() + "(" + TokenSubstitution("[Duration]") + ")";
+                return header + "  " + sb + "(" + TokenSubstitution("[Duration]") + ")";
             }
             if (String.IsNullOrEmpty(header))
             {
                 return sb.ToString();
             }
-            return header + "  " + sb.ToString();
+            return header + "  " + sb;
 
         }
     }

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
-using ServiceStack.Text;
+using Microsoft.MediaCenter;
 using MusicBrowser.Engines.Views;
 using MusicBrowser.Models;
 using MusicBrowser.Util;
-using Microsoft.MediaCenter;
+using ServiceStack.Text;
 
 namespace MusicBrowser.Entities
 {
@@ -29,30 +27,30 @@ namespace MusicBrowser.Entities
             IView view = Views.Fetch(Title);
             EntityCollection entities = view.Items;
 
-            List<baseEntity> Tracks = new List<baseEntity>();
-            List<baseEntity> Videos = new List<baseEntity>();
+            List<baseEntity> tracks = new List<baseEntity>();
+            List<baseEntity> videos = new List<baseEntity>();
 
             foreach (baseEntity entity in entities)
             {
-                if (entity.InheritsFrom<Track>()) { Tracks.Add(entity); }
-                if (entity.InheritsFrom<Video>()) { Videos.Add(entity); }
+                if (entity.InheritsFrom<Track>()) { tracks.Add(entity); }
+                if (entity.InheritsFrom<Video>()) { videos.Add(entity); }
             }
 
-            if (Tracks.Count > 0 && Videos.Count == 0)
+            if (tracks.Count > 0 && videos.Count == 0)
             {
                 if (shuffle)
                 {
-                    Tracks = Tracks.Shuffle<baseEntity>().ToList();
+                    tracks = tracks.Shuffle().ToList();
                 }
-                Engines.Transport.TransportEngineFactory.GetEngine().Play(false, Tracks.Select(item => item.Path));
+                Engines.Transport.TransportEngineFactory.GetEngine().Play(false, tracks.Select(item => item.Path));
 
                 return;
             }
-            if (Tracks.Count == 0 && Videos.Count > 0)
+            if (tracks.Count == 0 && videos.Count > 0)
             {
                 MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
                 MediaCollection collection = new MediaCollection();
-                foreach (baseEntity e in Videos)
+                foreach (baseEntity e in videos)
                 {
                     collection.AddItem(e.Path);
                     collection[collection.Count - 1].FriendlyData.Add("Title", System.IO.Path.GetFileNameWithoutExtension(e.Path));

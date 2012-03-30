@@ -1,13 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using MusicBrowser.Engines.Logging;
-using MusicBrowser.Engines.Cache;
 using MusicBrowser.Engines.Metadata;
 using MusicBrowser.Entities;
-using MusicBrowser.Interfaces;
 using MusicBrowser.Providers.Background;
-using MusicBrowser.Providers;
 using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Util;
 
@@ -45,7 +42,7 @@ namespace MusicBrowser.Providers
             if (String.IsNullOrEmpty(_path)) { return; }
 
 #if DEBUG
-            Engines.Logging.LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
+            LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
 #endif
 
             // process the item in context

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Providers;
-using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
-using MusicBrowser.Engines.Transport;
-using MusicBrowser.Util;
+﻿using MusicBrowser.Entities;
 
 namespace MusicBrowser.Actions
 {

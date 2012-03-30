@@ -22,7 +22,7 @@ namespace MusicBrowser.Providers.FolderItems.InterOp
         {
             public readonly FileAttributes dwFileAttributes;
             internal System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime;
-            private System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime;
+            private readonly System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime;
             internal System.Runtime.InteropServices.ComTypes.FILETIME ftLastWriteTime;
             private readonly int nFileSizeHigh;
             private readonly int nFileSizeLow;

@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.MediaCenter.UI;
+﻿using System.Collections.Generic;
 using Microsoft.MediaCenter;
-using MusicBrowser.Entities;
+using Microsoft.MediaCenter.UI;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.MediaCentre
 {
     static class ProgressRecorder
     {
-        private static MediaCenterEnvironment _mce = null;
-        private static List<baseEntity> _registered = new List<baseEntity>();
+        private static MediaCenterEnvironment _mce;
+        private static readonly List<baseEntity> Registered = new List<baseEntity>();
 
         public static void Register(baseEntity e)
         {
             if (_mce == null)
             {
                 _mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                _mce.MediaExperience.Transport.PropertyChanged += new PropertyChangedEventHandler(TransportPropertyChanged);
+                _mce.MediaExperience.Transport.PropertyChanged += TransportPropertyChanged;
             }
-            _registered.Add(e);
+            Registered.Add(e);
 
             Engines.Logging.LoggerEngineFactory.Debug("PROGRESS: registered " + e.Title);
 
@@ -42,9 +39,9 @@ namespace MusicBrowser.MediaCentre
             if (property.ToLower() == "playstate")
             {
                 MediaTransport transport = (MediaTransport)sender;
-                if (transport.PlayState == Microsoft.MediaCenter.PlayState.Stopped)
+                if (transport.PlayState == PlayState.Stopped)
                 {
-                    foreach(baseEntity e in _registered)
+                    foreach(baseEntity e in Registered)
                     {
                         if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
                         {
@@ -52,9 +49,9 @@ namespace MusicBrowser.MediaCentre
                         }
                     }
                 }
-                else if(transport.PlayState == Microsoft.MediaCenter.PlayState.Finished)
+                else if(transport.PlayState == PlayState.Finished)
                 {
-                    foreach (baseEntity e in _registered)
+                    foreach (baseEntity e in Registered)
                     {
                         if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
                         {
