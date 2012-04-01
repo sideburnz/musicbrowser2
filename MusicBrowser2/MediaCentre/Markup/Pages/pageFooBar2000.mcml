@@ -24,7 +24,6 @@
 
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
-      <models:RatingUI Name="RatingIcons" />
 
       <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" Command="[Next]"/>
       <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true" Command="[Back]" />
@@ -53,8 +52,6 @@
         </Transformer>
       </Binding>
 
-      <Binding Target="[RatingIcons.Rating]" Source="[Model.CurrentTrack.Rating]" />
-      <Binding Target="[RatingIcons.Loved]" Source="[Model.CurrentTrack.Loved]" />
       <Binding Target="[IconRepeater.Source]" Source="[RatingIcons.Stars]" />
 
       <Binding Target="[PlaylistDuration.Content]" Source="[Model.PlaylistDuration]" />
@@ -152,15 +149,6 @@
                   <Text Color="White" Name="Year" Content="(2010)" Margins="10,0,0,0" Font="Segoe Media Center Light, 20" />
                 </Children>
               </Panel>
-
-              <Repeater Name="IconRepeater" Navigation="ContainAll">
-                <Layout>
-                  <FlowLayout Orientation="Horizontal" ItemAlignment="Center"/>
-                </Layout>
-                <Content>
-                  <Graphic Content="[RepeatedItem!Image]" Margins="5,10,0,0" MaximumSize="35,35" MinimumSize="35,35" Alpha="0.8" />
-                </Content>
-              </Repeater>
 
               <Panel Margins="0,25,0,0">
                 <Layout>
