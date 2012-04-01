@@ -117,9 +117,11 @@ namespace MusicBrowser.Engines.Transport
                 i++;
             }
 
-            WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider();
-            h.Method = WebServices.Helper.HttpProvider.HttpMethod.Get;
-            h.Url = sb.ToString();
+            WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider
+                                                    {
+                                                        Method = WebServices.Helper.HttpProvider.HttpMethod.Get,
+                                                        Url = sb.ToString()
+                                                    };
             h.DoService();
 
             if (command != "RefreshPlayingInfo")
@@ -137,14 +139,16 @@ namespace MusicBrowser.Engines.Transport
 
         protected void ExecuteCommandLine(string command, params string[] parameters)
         {
-            ProcessStartInfo externalProc = new ProcessStartInfo();
-            externalProc.FileName = FooPath;
-            externalProc.Arguments = command;
-            externalProc.UseShellExecute = false;
-            externalProc.LoadUserProfile = false;
-            externalProc.CreateNoWindow = true;
-            externalProc.RedirectStandardInput = true;
-            externalProc.WindowStyle = ProcessWindowStyle.Hidden;
+            ProcessStartInfo externalProc = new ProcessStartInfo
+                                                {
+                                                    FileName = FooPath,
+                                                    Arguments = command,
+                                                    UseShellExecute = false,
+                                                    LoadUserProfile = false,
+                                                    CreateNoWindow = true,
+                                                    RedirectStandardInput = true,
+                                                    WindowStyle = ProcessWindowStyle.Hidden
+                                                };
             Process.Start(externalProc);
         }
 

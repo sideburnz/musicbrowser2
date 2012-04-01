@@ -20,46 +20,46 @@ namespace MusicBrowser.Models
     public enum FoobarInternalPlaybackStyles
     {
         Default = 0,
-        Repeat_playlist = 1,
-        Repeat_track = 2,
+        RepeatPlaylist = 1,
+        RepeatTrack = 2,
         Random = 3,
-        Shuffle_tracks = 4,
-        Shuffle_albums = 5,
-        Shuffle_folders = 6
+        ShuffleTracks = 4,
+        ShuffleAlbums = 5,
+        ShuffleFolders = 6
     }
 
     public struct PlayerInformation
     {
-        public bool isPlaying;
-        public bool isPaused;
-        public PlaybackStyles playbackStyle;
+        public bool IsPlaying;
+        public bool IsPaused;
+        public PlaybackStyles PlaybackStyle;
 
-        public int playlistSize;
-        public int playlistCurrentPage;
-        public int playlistPageSize;
-        public string playlistDuration;
-        public int playlistItemPlaying;
+        public int PlaylistSize;
+        public int PlaylistCurrentPage;
+        public int PlaylistPageSize;
+        public string PlaylistDuration;
+        public int PlaylistItemPlaying;
 
-        public string playingTrackArtist;
-        public string playingTrackName;
-        public string playingTrackNumber;
-        public string playingTrackAlbumArtist;
-        public string playingTrackAlbumName;
-        public string playingTrackPath;
+        public string PlayingTrackArtist;
+        public string PlayingTrackName;
+        public string PlayingTrackNumber;
+        public string PlayingTrackAlbumArtist;
+        public string PlayingTrackAlbumName;
+        public string PlayingTrackPath;
 
-        public int playingTrackProgress;
-        public int playingTrackLength;
+        public int PlayingTrackProgress;
+        public int PlayingTrackLength;
     }
 
     public class Foobar2000 : Foobar2000Transport
     {
         private readonly Timer _timer;
         
-        private static readonly Foobar2000 _instance = new Foobar2000();
+        private static readonly Foobar2000 Instance = new Foobar2000();
 
         public static Foobar2000 GetInstance()
         {
-            return _instance;
+            return Instance;
         }
 
         private Foobar2000()
@@ -68,7 +68,7 @@ namespace MusicBrowser.Models
             {
                 Interval = 1000,
                 AutoRepeat = true,
-                Enabled = true
+                Enabled = (Config.GetInstance().GetStringSetting("Player.Engine").ToLower() == "foobar2000")
             };
             _timer.Tick += delegate { OnTick(); };
         }
@@ -246,18 +246,16 @@ namespace MusicBrowser.Models
             }
             set
             {
-                if (value != _position)
+                if (value == _position) return;
+                _position = value;
+                if (ReportedLength > 0)
                 {
-                    _position = value;
-                    if (ReportedLength > 0)
-                    {
-                        PercentComplete = (100.00 * _position) / ReportedLength;
-                    }
-                    
-                    DataChanged("Position");
-                    DataChanged("PercentComplete");
-                    DataChanged("ProgressBar");
+                    PercentComplete = (100.00 * _position) / ReportedLength;
                 }
+                    
+                DataChanged("Position");
+                DataChanged("PercentComplete");
+                DataChanged("ProgressBar");
             }
         }
 
@@ -272,11 +270,9 @@ namespace MusicBrowser.Models
             }
             set
             {
-                if (value != _reportedLength)
-                {
-                    _reportedLength = value;                    
-                    DataChanged("ReportedLength");
-                }
+                if (value == _reportedLength) return;
+                _reportedLength = value;                    
+                DataChanged("ReportedLength");
             }
         }
 
@@ -310,8 +306,8 @@ namespace MusicBrowser.Models
             {
                 XmlDocument xmldoc = new XmlDocument();
                 xmldoc.LoadXml(xml);
-                result.isPaused = (Helper.ReadXmlNode(xmldoc, "/foobar2000/state/IS_PAUSED", "0") == "1");
-                result.isPlaying = (Helper.ReadXmlNode(xmldoc, "/foobar2000/state/IS_PLAYING", "0") == "1");
+                result.IsPaused = (Helper.ReadXmlNode(xmldoc, "/foobar2000/state/IS_PAUSED", "0") == "1");
+                result.IsPlaying = (Helper.ReadXmlNode(xmldoc, "/foobar2000/state/IS_PLAYING", "0") == "1");
 
                 int i;
                 if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/state/PLAYBACK_ORDER", "0"), out i))
@@ -321,74 +317,74 @@ namespace MusicBrowser.Models
                     {
                         case FoobarInternalPlaybackStyles.Default:
                             {
-                                result.playbackStyle = PlaybackStyles.Default;
+                                result.PlaybackStyle = PlaybackStyles.Default;
                                 break;
                             }
                         case FoobarInternalPlaybackStyles.Random:
-                        case FoobarInternalPlaybackStyles.Shuffle_albums:
-                        case FoobarInternalPlaybackStyles.Shuffle_folders:
-                        case FoobarInternalPlaybackStyles.Shuffle_tracks:
+                        case FoobarInternalPlaybackStyles.ShuffleAlbums:
+                        case FoobarInternalPlaybackStyles.ShuffleFolders:
+                        case FoobarInternalPlaybackStyles.ShuffleTracks:
                             {
-                                result.playbackStyle = PlaybackStyles.Shuffle;
+                                result.PlaybackStyle = PlaybackStyles.Shuffle;
                                 break;
                             }
-                        case FoobarInternalPlaybackStyles.Repeat_playlist:
+                        case FoobarInternalPlaybackStyles.RepeatPlaylist:
                             {
-                                result.playbackStyle = PlaybackStyles.RepeatPlaylist;
+                                result.PlaybackStyle = PlaybackStyles.RepeatPlaylist;
                                 break;
                             }
-                        case FoobarInternalPlaybackStyles.Repeat_track:
+                        case FoobarInternalPlaybackStyles.RepeatTrack:
                             {
-                                result.playbackStyle = PlaybackStyles.RepeatTrack;
+                                result.PlaybackStyle = PlaybackStyles.RepeatTrack;
                                 break;
                             }
                     }
                 }
                 else
                 {
-                    result.playbackStyle = PlaybackStyles.Default;
+                    result.PlaybackStyle = PlaybackStyles.Default;
                 }
 
 
                 if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/item/ITEM_PLAYING_POS", "0"), out i))
                 {
-                    result.playingTrackProgress = i;
+                    result.PlayingTrackProgress = i;
                 }
                 else
                 {
-                    result.playingTrackProgress = 0;
+                    result.PlayingTrackProgress = 0;
                 }
 
                 if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/item/ITEM_PLAYING_LEN", "0"), out i))
                 {
-                    result.playingTrackLength = i;
+                    result.PlayingTrackLength = i;
                 }
                 else
                 {
-                    result.playingTrackLength = 0;
+                    result.PlayingTrackLength = 0;
                 }
 
-                result.playingTrackPath = Helper.ReadXmlNode(xmldoc, "/foobar2000/item/path", String.Empty);
+                result.PlayingTrackPath = Helper.ReadXmlNode(xmldoc, "/foobar2000/item/path", String.Empty);
 
                 if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_PLAYING_ITEMS_COUNT", "0"), out i))
                 {
-                    result.playlistSize = i;
+                    result.PlaylistSize = i;
                 }
                 else
                 {
-                    result.playlistSize = 0;
+                    result.PlaylistSize = 0;
                 }
 
                 if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_ITEM_PLAYING", "0"), out i))
                 {
-                    result.playlistItemPlaying = i;
+                    result.PlaylistItemPlaying = i;
                 }
                 else
                 {
-                    result.playlistItemPlaying = 0;
+                    result.PlaylistItemPlaying = 0;
                 }
 
-                result.playlistDuration = Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_TOTAL_TIME", "0:00");
+                result.PlaylistDuration = Helper.ReadXmlNode(xmldoc, "/foobar2000/playlist/PLAYLIST_TOTAL_TIME", "0:00");
 
             }
             catch { }
@@ -411,27 +407,27 @@ namespace MusicBrowser.Models
                 info = new PlayerInformation();
             }
 
-            PlaybackStyle = info.playbackStyle;
+            PlaybackStyle = info.PlaybackStyle;
 
-            PlaylistPage = info.playlistCurrentPage;
-            PlaylistPages = (int)Math.Ceiling(info.playlistSize / (double)info.playlistPageSize);
+            PlaylistPage = info.PlaylistCurrentPage;
+            PlaylistPages = (int)Math.Ceiling(info.PlaylistSize / (double)info.PlaylistPageSize);
 
-            Position = info.playingTrackProgress;
+            Position = info.PlayingTrackProgress;
 
-            if (_path != info.playingTrackPath)
+            if (_path != info.PlayingTrackPath)
             {
-                CurrentTrack = (Track)EntityFactory.GetItem(info.playingTrackPath);
-                _path = info.playingTrackPath;
+                CurrentTrack = (Track)EntityFactory.GetItem(info.PlayingTrackPath);
+                _path = info.PlayingTrackPath;
             }
 
-            IsPaused = info.isPaused;
-            IsPlaying = info.isPlaying;
+            IsPaused = info.IsPaused;
+            IsPlaying = info.IsPlaying;
 
-            PlaylistDuration = info.playlistDuration;
-            PlaylistLength = info.playlistSize;
-            PlaylistItem = info.playlistItemPlaying + 1;
+            PlaylistDuration = info.PlaylistDuration;
+            PlaylistLength = info.PlaylistSize;
+            PlaylistItem = info.PlaylistItemPlaying + 1;
 
-            ReportedLength = info.playingTrackLength;
+            ReportedLength = info.PlayingTrackLength;
         }
 
         private void DataChanged(string property)

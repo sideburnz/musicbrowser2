@@ -59,6 +59,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <UseVSHostingProcess>true</UseVSHostingProcess>
@@ -367,7 +368,9 @@
     <None Include="MediaCentre\Markup\Controls\PageSections\ctrlHeader.mcml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="MediaCentre\Markup\Pages\pageFooBar2000.mcml" />
+    <None Include="MediaCentre\Markup\Pages\pageFooBar2000.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MediaCentre\Markup\Pages\pageSearch.mcml" />
     <None Include="MediaCentre\Markup\Pages\pageSettings.mcml" />
     <None Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />

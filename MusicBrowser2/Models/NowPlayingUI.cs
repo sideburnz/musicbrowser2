@@ -13,18 +13,16 @@ namespace MusicBrowser.Models
         {
             ITransportEngine transport = TransportEngineFactory.GetEngine();
             _enabled = (transport.InheritsFrom<Foobar2000Transport>());
-            if (_enabled)
-            {
-                _model = Foobar2000.GetInstance();
-                _model.PropertyChanged += _model_PropertyChanged;
+            if (!_enabled) return;
+            _model = Foobar2000.GetInstance();
+            _model.PropertyChanged += ModelPropertyChanged;
 
-                _model_PropertyChanged(null, "CurrentTrack");
-                _model_PropertyChanged(null, "IsPlaying");
-                _model_PropertyChanged(null, "IsPaused");
-            }
+            ModelPropertyChanged(null, "CurrentTrack");
+            ModelPropertyChanged(null, "IsPlaying");
+            ModelPropertyChanged(null, "IsPaused");
         }
 
-        void _model_PropertyChanged(IPropertyObject sender, string property)
+        void ModelPropertyChanged(IPropertyObject sender, string property)
         {
             switch (property)
             {
