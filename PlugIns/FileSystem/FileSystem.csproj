@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{64053125-A87D-49A3-BE0B-0A4F7C5D38FD}</ProjectGuid>
+    <ProjectGuid>{B97F7407-E50C-4C74-BA3D-27036AC4BB59}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BasicViews</RootNamespace>
-    <AssemblyName>PlugIn.BasicViews</AssemblyName>
+    <RootNamespace>ProviderFileSystem</RootNamespace>
+    <AssemblyName>PlugIn.FileSystem</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -43,16 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="viewRecentlyAddedVideo.cs" />
-    <Compile Include="viewRecentlyAddedMusic.cs" />
-    <Compile Include="Registration.cs" />
+    <Compile Include="FileSystemMetadataProvider.cs" />
+    <Compile Include="InheritanceMetadataProvider.cs" />
+    <Compile Include="_IBNMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="viewFavourites.cs" />
-    <Compile Include="viewMostPlayed.cs" />
-    <Compile Include="viewRecentlyAdded.cs" />
+    <Compile Include="Register.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MusicBrowser2\MusicBrowser.csproj">
+    <ProjectReference Include="..\..\MusicBrowser2\MusicBrowser.csproj">
       <Project>{455E3B6A-B80B-432B-BBAA-936C625FECF6}</Project>
       <Name>MusicBrowser</Name>
     </ProjectReference>

@@ -37,6 +37,7 @@
         </Conditions>
         <Actions>
           <Set Target="[SettingsMenu.Visible]" Value="true" />
+          <Set Target="[PlayMenu.Visible]" Value="false" />
         </Actions>
       </Rule>
 

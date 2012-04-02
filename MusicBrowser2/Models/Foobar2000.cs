@@ -250,16 +250,28 @@ namespace MusicBrowser.Models
                 _position = value;
                 if (ReportedLength > 0)
                 {
-                    PercentComplete = (100.00 * _position) / ReportedLength;
+                    PercentComplete = (100.00*_position)/ReportedLength;
                 }
-                    
+
+                TimeSpan t = TimeSpan.FromSeconds(_position);
+                if (t.Hours == 0)
+                {
+                    ProgressText = string.Format("{0}:{1:D2}", (Int32) Math.Floor(t.TotalMinutes), t.Seconds);
+                }
+                else
+                {
+                    ProgressText = string.Format("{0}:{1:D2}:{2:D2}", (Int32) Math.Floor(t.TotalHours), t.Minutes, t.Seconds);
+                }
+
                 DataChanged("Position");
                 DataChanged("PercentComplete");
                 DataChanged("ProgressBar");
+                DataChanged("ProgressText");
             }
         }
 
         public double PercentComplete { get; set; }
+        public string ProgressText { get; set; }
 
         private int _reportedLength;
         public int ReportedLength
