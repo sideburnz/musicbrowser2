@@ -44,6 +44,8 @@
       <Binding Target="[Cover.Content]" Source="[Model.CurrentTrack.Thumb]"/>
 
       <Binding Target="[Track.Content]" Source="[Model.CurrentTrack.Title]"/>
+      <Binding Target="[Duration.Content]" Source="[Model.CurrentTrack.DurationString]" />
+      <Binding Target="[ProgressText.Content]" Source="[Model.ProgressText]" />
       <Binding Target="[Artist.Content]" Source="[Model.CurrentTrack.Artist]"/>
       <Binding Target="[Album.Content]" Source="[Model.CurrentTrack.Album]"/>
       <Binding Target="[Year.Content]" Source="[Model.CurrentTrack.ReleaseDate.Year!cor:String]">
@@ -51,8 +53,6 @@
           <FormatTransformer Format="({0})" />
         </Transformer>
       </Binding>
-
-      <Binding Target="[IconRepeater.Source]" Source="[RatingIcons.Stars]" />
 
       <Binding Target="[PlaylistDuration.Content]" Source="[Model.PlaylistDuration]" />
       <Binding Target="[PlaylistSize.Content]" Source="[Model.PlaylistLength!cor:String]" />
@@ -139,8 +139,8 @@
               <DockLayoutInput Alignment="Near" Position="Left" />
             </LayoutInput>
             <Children>
-              <Graphic Name="Cover" MinimumSize="200,200" MaximumSize="200,200" />
-              <Text Color="White" Name="Track" Content="Track" Margins="0,15,0,0" Font="Segoe Media Center Light, 32" />
+              <Graphic Name="Cover" MinimumSize="250,250" MaximumSize="250,250" />
+              <Text Color="White" Name="Track" Content="Track" Margins="0,25,0,0" Font="Segoe Media Center Light, 32" />
               <Text Color="White" Name="Artist" Content="Artist" Margins="0,5,0,0" Font="Segoe Media Center Light, 20" />
 
               <Panel Layout="HorizontalFlow" Margins="0,5,0,0">
@@ -155,12 +155,22 @@
                   <AnchorLayout />
                 </Layout>
                 <Children>
-                  <ColorFill Content="White" Alpha="0.1" MinimumSize="400,30" MaximumSize="400,30">
+                  <Text Color="White" Name="Duration" Content="2:34" Font="Segoe Media Center Light, 18" Margins="4,2,4,4">
+                    <LayoutInput>
+                      <AnchorLayoutInput Right="FullPlay, 1" />
+                    </LayoutInput>
+                  </Text>
+                  <Text Color="White" Name="ProgressText" Content="2:34" Font="Segoe Media Center Light, 18" Margins="6,2,4,4">
+                    <LayoutInput>
+                      <AnchorLayoutInput Left="FullPlay, 0" />
+                    </LayoutInput>
+                  </Text>
+                  <ColorFill Name="FullPlay" Content="White" Alpha="0.05" MinimumSize="400,32" MaximumSize="400,32">
                     <LayoutInput>
                       <AnchorLayoutInput Left="Parent, 0" />
                     </LayoutInput>
                   </ColorFill>
-                  <ColorFill Name="ProgressBar" Content="White" Alpha="0.8">
+                  <ColorFill Name="ProgressBar" Content="White" Alpha="0.5">
                     <LayoutInput>
                       <AnchorLayoutInput Left="Parent, 0" />
                     </LayoutInput>
@@ -189,9 +199,9 @@
                 <Children>
                   <me:button Action="[Shuffle]" Margins="0,0,0,0"/>
                   <me:button Action="[Repeat]" Margins="10,0,0,0"/>
-                  <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" Margins="20,18,20,0" MaximumSize="10,10" MinimumSize="10,10" Alpha="0.6" />
+                  <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" Margins="15,18,15,0" MaximumSize="10,10" MinimumSize="10,10" Alpha="0.6" />
                   <Text Color="White" Name="PlaylistDuration" Content="01:20" Margins="0,2,0,0" Font="Segoe Media Center Light, 20" Alpha="0.6" />
-                  <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" Margins="20,18,20,0" MaximumSize="10,10" MinimumSize="10,10" Alpha="0.6" />
+                  <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/radioSelected" Margins="15,18,15,0" MaximumSize="10,10" MinimumSize="10,10" Alpha="0.6" />
                   <Text Color="White" Name="PlaylistItem" Content="12" Margins="0,2,0,0" Font="Segoe Media Center Light, 20" Alpha="0.6" />
                   <Text Color="White" Content="|" Margins="5,2,0,0" Font="Segoe Media Center Light, 20" Alpha="0.6" />
                   <Text Color="White" Name="PlaylistSize" Content="100" Margins="5,2,0,0" Font="Segoe Media Center Light, 20" Alpha="0.6" />

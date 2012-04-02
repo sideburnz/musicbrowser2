@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using ServiceStack.Text;
 
 namespace MusicBrowser.Entities
 {
@@ -26,5 +27,11 @@ namespace MusicBrowser.Entities
 
         [DataMember]
         public string Show { get; set; }
+
+
+        public override string Serialize()
+        {
+            return this.ToJson();
+        }
     }
 }

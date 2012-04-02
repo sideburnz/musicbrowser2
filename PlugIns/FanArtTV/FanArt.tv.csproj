@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B97F7407-E50C-4C74-BA3D-27036AC4BB59}</ProjectGuid>
+    <ProjectGuid>{2645C8D7-AA61-41B9-9349-B6A1AD248404}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProviderFileSystem</RootNamespace>
-    <AssemblyName>PlugIn.FileSystem</AssemblyName>
+    <RootNamespace>ProviderFanArtTV</RootNamespace>
+    <AssemblyName>ProviderFanArtTV</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -37,20 +37,24 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileSystemMetadataProvider.cs" />
-    <Compile Include="InheritanceMetadataProvider.cs" />
-    <Compile Include="_IBNMetadataProvider.cs" />
+    <Compile Include="ArtistImagesService.cs" />
+    <Compile Include="ArtistFanArtMetadataProvider.cs" />
+    <Compile Include="FanArtWebProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MusicBrowser2\MusicBrowser.csproj">
+    <Content Include="API fanart.tv.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MusicBrowser2\MusicBrowser.csproj">
       <Project>{455E3B6A-B80B-432B-BBAA-936C625FECF6}</Project>
       <Name>MusicBrowser</Name>
     </ProjectReference>

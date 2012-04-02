@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using ServiceStack.Text;
 
 namespace MusicBrowser.Entities
 {
@@ -15,6 +16,11 @@ namespace MusicBrowser.Entities
             {
                 return CalculateInformation("", "Season", "Episode");
             }
+        }
+
+        public override string Serialize()
+        {
+            return this.ToJson();
         }
     }
 }

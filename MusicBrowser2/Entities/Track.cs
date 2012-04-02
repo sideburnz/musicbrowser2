@@ -179,15 +179,21 @@ namespace MusicBrowser.Entities
         {
             get 
             { 
-                List<Image> ret = new List<Image>();
-
-                ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + Codec));
-                ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/bit_" + Resolution));
-                ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/rate_" + SampleRate)); 
-                ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/channels_" + Channels.ToLower()));
+                List<Image> ret = new List<Image>
+                                      {
+                                          Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + Codec),
+                                          Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/bit_" + Resolution),
+                                          Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/rate_" + SampleRate),
+                                          Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/channels_" + Channels.ToLower())
+                                      };
 
                 return ret;
             } 
+        }
+
+        public string DurationString
+        {
+            get { return TokenSubstitution("[Duration]"); }
         }
 
         public override string Information
