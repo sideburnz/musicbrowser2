@@ -25,18 +25,17 @@ namespace MusicBrowser.Engines.Cache
             entity.UpdateCache();
         }
 
-        public static void SetProgress(this baseEntity entity, int progress)
+        public static void SetProgress(this Video entity, int progress)
         {
-            if (entity.InheritsFrom<Item>())
+            Logging.LoggerEngineFactory.Debug(String.Format("Video {0} progress recorded as {1}", entity.Title, progress));
+            entity.Progress = progress;
+            if (progress == 0)
             {
-                ((Video)entity).Progress = progress;
-                if (progress == 0)
-                {
-                    entity.LastPlayed = DateTime.Now;
-                    entity.TimesPlayed++;
-                }
-                entity.UpdateCache();
+                entity.LastPlayed = DateTime.Now;
+                entity.TimesPlayed++;
             }
+            entity.UpdateCache();
         }
     }
 }
+

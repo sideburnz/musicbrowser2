@@ -9,9 +9,9 @@ namespace MusicBrowser.MediaCentre
     static class ProgressRecorder
     {
         private static MediaCenterEnvironment _mce;
-        private static readonly List<baseEntity> Registered = new List<baseEntity>();
+        private static readonly List<Video> Registered = new List<Video>();
 
-        public static void Register(baseEntity e)
+        public static void Register(Video e)
         {
             if (_mce == null)
             {
@@ -41,22 +41,35 @@ namespace MusicBrowser.MediaCentre
                 MediaTransport transport = (MediaTransport)sender;
                 if (transport.PlayState == PlayState.Stopped)
                 {
-                    foreach(baseEntity e in Registered)
+                    foreach(Video e in Registered)
                     {
                         if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
-                        {
-                            e.SetProgress((int)transport.Position.TotalSeconds);
+                        {                     
+                            // avoid divide by 0
+                            if (e.Duration == 0) { return; }
+
+                            int pos = (int)transport.Position.TotalSeconds;
+                            int per = (pos * 20) / e.Duration;
+                            if (per > 1 && per < 19)
+                            {
+                                e.SetProgress(pos);
+                                return;
+                            }
+                            e.SetProgress(0);
                         }
                     }
                 }
                 else if(transport.PlayState == PlayState.Finished)
                 {
-                    foreach (baseEntity e in Registered)
+                    foreach (Video e in Registered)
                     {
                         if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
                         {
+#if (Util.Helper.IsDVD(e.Path))
+                            {
+                                Application.GetReference().Session().BackPage();
+                            }
                             e.SetProgress(0);
-                            e.UpdateCache();
                         }
                     } 
                 }

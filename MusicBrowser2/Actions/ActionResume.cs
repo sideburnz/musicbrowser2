@@ -32,6 +32,8 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
+            Video v = (Video) entity;
+
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
             if (System.IO.Directory.Exists(entity.Path))
             {
@@ -39,18 +41,18 @@ namespace MusicBrowser.Actions
                 {
                     entity.MarkPlayed();
                     mce.PlayMedia(MediaType.Dvd, entity.Path, false);
-                    mce.MediaExperience.Transport.Position = new TimeSpan(0, 0, ((Video)entity).Progress);
+                    mce.MediaExperience.Transport.Position = new TimeSpan(0, 0, v.Progress);
                 }
             }
             else
             {
                 entity.MarkPlayed();
                 mce.PlayMedia(MediaType.Video, entity.Path, false);
-                mce.MediaExperience.Transport.Position = new TimeSpan(0, 0, ((Video)entity).Progress);
+                mce.MediaExperience.Transport.Position = new TimeSpan(0, 0, v.Progress);
             }
 
             mce.MediaExperience.GoToFullScreen();
-            ProgressRecorder.Register(entity);
+            ProgressRecorder.Register(v);
         }
     }
 }

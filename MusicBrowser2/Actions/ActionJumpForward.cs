@@ -3,19 +3,19 @@ using MusicBrowser.Entities;
 
 namespace MusicBrowser.Actions
 {
-    public class ActionJumpBack : baseActionCommand
+    public class ActionJumpForward : baseActionCommand
     {
-        private const string LABEL = "Jump Back";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconRewind";
+        private const string LABEL = "Jump Forward";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconFastForward";
 
-        public ActionJumpBack(baseEntity entity)
+        public ActionJumpForward(baseEntity entity)
         {
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
         }
 
-        public ActionJumpBack()
+        public ActionJumpForward()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -23,12 +23,12 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(baseEntity entity)
         {
-            return new ActionJumpBack(entity);
+            return new ActionJumpForward(entity);
         }
 
         public override void DoAction(baseEntity entity)
         {
-            TransportEngineFactory.GetEngine().JumpBack();
+            TransportEngineFactory.GetEngine().JumpForward();
         }
     }
 }

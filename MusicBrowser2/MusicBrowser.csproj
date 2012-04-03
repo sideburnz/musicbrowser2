@@ -146,8 +146,8 @@
     <Compile Include="Actions\ActionPlaybackShuffle.cs" />
     <Compile Include="Actions\ActionPlaybackRepeat.cs" />
     <Compile Include="Actions\ActionShuffle.cs" />
-    <Compile Include="Actions\ActionJumpBack.cs" />
     <Compile Include="Actions\ActionJumpForward.cs" />
+    <Compile Include="Actions\ActionJumpBack.cs" />
     <Compile Include="Actions\ActionCleanCache.cs" />
     <Compile Include="Actions\ActionToggleWatched.cs" />
     <Compile Include="Actions\ActionSetOptionList.cs" />
