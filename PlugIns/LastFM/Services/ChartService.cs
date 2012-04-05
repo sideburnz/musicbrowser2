@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using MusicBrowser.Engines.Logging;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.WebServices.WebServiceProviders;
 
@@ -9,11 +8,11 @@ namespace MusicBrowser.WebServices.Services.LastFM
 {
     public enum ChartPeriod
     {
-        overall,
-        sevenday,
-        threemonth,
-        sixmonth,
-        twelvemonth,
+        Overall,
+        Sevenday,
+        Threemonth,
+        Sixmonth,
+        Twelvemonth,
     }
 
     public class ChartServiceDTO : IWebServiceDTO
@@ -56,15 +55,15 @@ namespace MusicBrowser.WebServices.Services.LastFM
 
             switch (localDTO.Period)
             {
-                case ChartPeriod.overall:
+                case ChartPeriod.Overall:
                     parms.Add("period", "overall"); break;
-                case ChartPeriod.sevenday:
+                case ChartPeriod.Sevenday:
                     parms.Add("period", "7day"); break;
-                case ChartPeriod.sixmonth:
+                case ChartPeriod.Sixmonth:
                     parms.Add("period", "6month"); break;
-                case ChartPeriod.threemonth:
+                case ChartPeriod.Threemonth:
                     parms.Add("period", "3month"); break;
-                case ChartPeriod.twelvemonth:
+                case ChartPeriod.Twelvemonth:
                     parms.Add("period", "12month"); break;
             }
 
@@ -84,10 +83,12 @@ namespace MusicBrowser.WebServices.Services.LastFM
 
                 foreach (XmlNode track in xmlDoc.SelectNodes("/lfm/toptracks/track"))
                 {
-                    LfmTrack l = new LfmTrack();
-                    l.artist = ReadXmlNode(track, "artist/name");
-                    l.track = ReadXmlNode(track, "name");
-                    l.mbid = ReadXmlNode(track, "mbid");
+                    LfmTrack l = new LfmTrack
+                                     {
+                                         Artist = ReadXmlNode(track, "artist/name"),
+                                         Track = ReadXmlNode(track, "name"),
+                                         Mbid = ReadXmlNode(track, "mbid")
+                                     };
                     temp.Add(l);
                 }
 

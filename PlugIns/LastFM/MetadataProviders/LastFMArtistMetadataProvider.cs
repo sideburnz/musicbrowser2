@@ -19,7 +19,7 @@ namespace MusicBrowser.Engines.Metadata
             RefreshPercentage = 10;
         }
 
-        public override bool AskKillerQuestions(Entities.baseEntity dto)
+        public override bool AskKillerQuestions(baseEntity dto)
         {
             if (!CompatibleWith(dto)) { return false; }
             if (!Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders")) { return false; }
@@ -27,12 +27,12 @@ namespace MusicBrowser.Engines.Metadata
             return true;
         }
 
-        public override bool CompatibleWith(Entities.baseEntity dto)
+        public override bool CompatibleWith(baseEntity dto)
         {
             return dto.InheritsFrom<Artist>();
         }
 
-        public override ProviderOutcome DoWork(Entities.baseEntity dto)
+        public override ProviderOutcome DoWork(baseEntity dto)
         {
             Artist workingDTO = (Artist)dto;
             WebServiceProvider lfmProvider = new LastFMWebProvider();
@@ -44,9 +44,9 @@ namespace MusicBrowser.Engines.Metadata
             artistDTO.Language = Util.Localization.LanguageNameToCode(Util.Config.GetInstance().GetStringSetting("Language"));
             if (dto.MetadataStamps.ContainsKey(FriendlyName()))
             {
-                artistDTO.lastAccessed = dto.MetadataStamps[FriendlyName()];
+                artistDTO.LastAccessed = dto.MetadataStamps[FriendlyName()];
             }
-            else { artistDTO.lastAccessed = DateTime.Parse("01-01-1000"); }
+            else { artistDTO.LastAccessed = DateTime.Parse("01-01-1000"); }
 
             ArtistInfoService artistService = new ArtistInfoService();
             artistService.SetProvider(lfmProvider);

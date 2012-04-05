@@ -1,11 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using MusicBrowser.Engines.Cache;
 using MusicBrowser.Entities;
-using MusicBrowser.Util;
 using MusicBrowser.Providers;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Engines.Metadata
 {

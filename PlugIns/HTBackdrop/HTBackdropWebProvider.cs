@@ -23,14 +23,12 @@ namespace MusicBrowser.WebServices.WebServiceProviders
         public override void Execute()
         {
 #if DEBUG
-            Engines.Logging.LoggerEngineFactory.Verbose("HTBackdropWebProvider.Execute(" + base.URL + ")", "start");
+            LoggerEngineFactory.Verbose("HTBackdropWebProvider.Execute(" + base.URL + ")", "start");
 #endif
 
             try
             {
-                HttpProvider http = new HttpProvider();
-                http.Url = URL;
-                http.Method = HttpProvider.HttpMethod.Get;
+                HttpProvider http = new HttpProvider {Url = URL, Method = HttpProvider.HttpMethod.Get};
 
                 if (!String.IsNullOrEmpty(RequestBody))
                 {

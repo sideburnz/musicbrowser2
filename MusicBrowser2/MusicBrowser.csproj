@@ -112,7 +112,6 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +154,7 @@
     <Compile Include="Actions\ActionShowVirtuals.cs" />
     <Compile Include="Actions\ActionShowViewMenu.cs" />
     <Compile Include="Actions\Factory.cs" />
+    <Compile Include="Application.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
     <Compile Include="Engines\Cache\Extensions.cs" />
     <Compile Include="Engines\Cache\ICacheEngine.cs" />
@@ -179,6 +179,8 @@
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />
     <Compile Include="Entities\Album.cs" />
+    <Compile Include="Entities\Extensions.cs" />
+    <Compile Include="Entities\TrackDedupeComparer.cs" />
     <Compile Include="Entities\View.cs" />
     <Compile Include="Entities\VideoCollection.cs" />
     <Compile Include="Entities\MusicCollection.cs" />
@@ -196,7 +198,8 @@
     <Compile Include="Entities\Home.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Virtual.cs" />
-    <Compile Include="MediaCentre\FirstRun.cs" />
+    <Compile Include="EntryPoint.cs" />
+    <Compile Include="FirstRun.cs" />
     <Compile Include="MediaCentre\ProgressRecorder.cs" />
     <Compile Include="Models\ActionsModel.cs" />
     <Compile Include="Models\ViewMenuModel.cs" />
@@ -298,8 +301,6 @@
     <Compile Include="Engines\Logging\FileLogger.cs" />
     <Compile Include="Engines\Logging\LoggerEngineFactory.cs" />
     <Compile Include="Providers\FolderItems\InterOp\FileSystem.cs" />
-    <Compile Include="MediaCentre\Application.cs" />
-    <Compile Include="MediaCentre\EntryPoint.cs" />
     <Compile Include="MediaCentre\Playlist.cs" />
     <Compile Include="Models\Clock.cs" />
     <Compile Include="Models\FolderModel.cs" />
@@ -312,7 +313,6 @@
     <Compile Include="Providers\Metadata\Lite\MediaInfoLib.cs" />
     <Compile Include="Providers\Metadata\Lite\MediaInfoProvider.cs" />
     <Compile Include="Providers\Metadata\Lite\VideoFilenameMetadataProvider.cs" />
-    <Compile Include="Providers\PlaylistProvider.cs" />
     <Compile Include="Providers\Statistics.cs" />
     <Compile Include="Engines\Transport\Foobar2000Transport.cs" />
     <Compile Include="Engines\Transport\MediaCentreTransport.cs" />

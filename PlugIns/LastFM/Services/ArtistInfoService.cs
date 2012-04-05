@@ -11,7 +11,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
     {
         //IN
         public string Username { get; set; }
-        public DateTime lastAccessed { get; set; }
+        public DateTime LastAccessed { get; set; }
         public string Language { get; set; }
 
         //DUAL
@@ -42,7 +42,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
         public IWebServiceDTO Fetch(IWebServiceDTO dto)
         {
 #if DEBUG
-            Engines.Logging.LoggerEngineFactory.Verbose("LastFM.ArtistInfoService", "start");
+            LoggerEngineFactory.Verbose("LastFM.ArtistInfoService", "start");
 #endif
             ArtistInfoServiceDTO localDTO = (ArtistInfoServiceDTO)dto;
             SortedDictionary<string, string> parms = new SortedDictionary<string, string>();
@@ -71,14 +71,14 @@ namespace MusicBrowser.WebServices.Services.LastFM
 
             if (_provider.ResponseStatus == "200")
             {
-                string lfmMBID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/mbid", localDTO.MusicBrainzID);
+                string lfmMbid = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/mbid", localDTO.MusicBrainzID);
                 string lfmArtistName = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/name", localDTO.Artist);
 
                 // is what was returned what we sent, allow minor differences for corrections (e.g. Beyonce => Beyoncé)
-                if ((localDTO.MusicBrainzID == lfmMBID) || 
+                if ((localDTO.MusicBrainzID == lfmMbid) || 
                     (Util.Helper.Levenshtein(localDTO.Artist, lfmArtistName) < 3))
                 {
-                    localDTO.MusicBrainzID = lfmMBID;
+                    localDTO.MusicBrainzID = lfmMbid;
                     localDTO.Artist = lfmArtistName;
                     localDTO.Summary = Util.Helper.StripHTML(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/bio/summary", localDTO.Summary));
                     localDTO.Image = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/artist/image[@size='large']").Replace("126", "174s");
@@ -102,7 +102,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                     localDTO.Status = WebServiceStatus.Error;
                 }
 #if DEBUG
-                Engines.Logging.LoggerEngineFactory.Error(new Exception(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1} [{2}]", localDTO.Artist, localDTO.Error, _provider.URL)));
+                LoggerEngineFactory.Error(new Exception(string.Format("Last.fm artist look up for \"{0}\" returned this error - {1} [{2}]", localDTO.Artist, localDTO.Error, _provider.URL)));
 #endif
             }
             return localDTO;

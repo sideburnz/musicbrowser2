@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Web;
 using System.Xml;
 using MusicBrowser.WebServices.Interfaces;
 
@@ -119,7 +118,7 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
 
             if (String.IsNullOrEmpty(dto.ArtistMusicBrainzID))
             {
-                url.Append("keywords=" + MusicBrowser.WebServices.Helper.Externals.EncodeURL(dto.ArtistName));
+                url.Append("keywords=" + Helper.Externals.EncodeURL(dto.ArtistName));
             }
             else
             {
