@@ -11,7 +11,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
     {
         //IN
         public string Username { get; set; }
-        public DateTime lastAccessed { get; set; }
+        public DateTime LastAccessed { get; set; }
         public string Language { get; set; }
 
         //DUAL
@@ -42,7 +42,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
         public IWebServiceDTO Fetch(IWebServiceDTO dto)
         {
 #if DEBUG
-            Engines.Logging.LoggerEngineFactory.Verbose("LastFM.AlbumInfoService", "start");
+            LoggerEngineFactory.Verbose("LastFM.AlbumInfoService", "start");
 #endif
             AlbumInfoServiceDTO localDTO = (AlbumInfoServiceDTO)dto;
             SortedDictionary<string,string> parms = new SortedDictionary<string,string>();
@@ -74,14 +74,14 @@ namespace MusicBrowser.WebServices.Services.LastFM
             if (_provider.ResponseStatus == "200")
             {
 
-                string lfmMBID = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/mbid", localDTO.MusicBrainzID);
+                string lfmMbid = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/mbid", localDTO.MusicBrainzID);
                 string lfmAlbumName = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/name", localDTO.Artist);
 
-                if ((localDTO.MusicBrainzID == lfmMBID) || (Util.Helper.Levenshtein(localDTO.Album, lfmAlbumName) < 3))
+                if ((localDTO.MusicBrainzID == lfmMbid) || (Util.Helper.Levenshtein(localDTO.Album, lfmAlbumName) < 3))
                 {
                     localDTO.Album = lfmAlbumName;
                     localDTO.Artist = Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/artist", localDTO.Artist);
-                    localDTO.MusicBrainzID = lfmMBID;
+                    localDTO.MusicBrainzID = lfmMbid;
 
                     DateTime rel;
                     DateTime.TryParse(Util.Helper.ReadXmlNode(xmlDoc, "/lfm/album/releasedate"), out rel);

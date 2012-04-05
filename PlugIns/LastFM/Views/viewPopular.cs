@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using MusicBrowser.Entities;
 
 namespace MusicBrowser.Engines.Views
@@ -30,7 +27,7 @@ namespace MusicBrowser.Engines.Views
                 int playlistsize = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
 
                 EntityCollection e = new EntityCollection();
-                e.AddRange(Engines.Cache.InMemoryCache.GetInstance().DataSet
+                e.AddRange(Cache.InMemoryCache.GetInstance().DataSet
                     .Where(item => item.Kind == "Track")
                     .Select(item => (Track)item)
                     .DedupeTracks()

@@ -34,10 +34,14 @@ namespace MusicBrowser.Providers
                 IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(_parent.Path).FilterInternalFiles();
                 foreach (FileSystemItem item in items)
                 {
+                    string key = Helper.GetCacheKey(item.FullPath);
+
+                    Engines.Cache.InMemoryCache.GetInstance().Remove(key);
+                    Engines.Cache.CacheEngineFactory.GetEngine().Delete(key);
+
                     baseEntity e = EntityFactory.GetItem(item);
                     if (e == null) { continue; }
-                    Engines.Cache.InMemoryCache.GetInstance().Remove(e.CacheKey);
-                    Engines.Cache.CacheEngineFactory.GetEngine().Delete(e.CacheKey);
+                    
                     new Engines.Metadata.MetadataProviderList(e, true).Execute();
                 }
             }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using MusicBrowser.WebServices.Helper;
 using MusicBrowser.WebServices.Interfaces;
 
@@ -25,8 +24,8 @@ namespace MusicBrowser.WebServices.WebServiceProviders
                                                     { 'í', 'i' },
                                                     { 'ř', 'r' },
                                                     { 'á', 'a' },
-                                                    { 'Å', 'a' },
-                                               };
+                                                    { 'Å', 'a' }
+                                            };
 
         public void SetParameters(IDictionary<string, string> parms)
         {
@@ -100,58 +99,12 @@ namespace MusicBrowser.WebServices.WebServiceProviders
             ResponseStatus = "System Error";
 
             // last.fm has a policy which is no more than 5 hits per second
-            do { } while (!LFMThrottler.Hit());
+            do { } while (!LfmThrottler.Hit());
 
             http.DoService();
 
             ResponseStatus = http.Status;
             ResponseBody = http.Response;
-        }
-    }
-
-    /// <summary>
-    /// Last.fm has rules about how much you can hammer their servers,
-    /// this little class is meant to ensure that no more than five 
-    /// requests per second are sent.
-    /// 
-    /// this updated version will allow refreshes of data (upto about 1500 requests)
-    /// to happen faster by allowing requests to be loaded to earlier in the 5 minute window
-    /// for refreshes
-    /// </summary>
-    static class LFMThrottler
-    {
-        // actual limit is 5
-        private const int MaxHitsPerSecond = 4;
-        private static long hits = 0;
-        private const int MsBetweenHits = 1000 / MaxHitsPerSecond;
-
-        static DateTime _nextHit = DateTime.Now;
-        private readonly static DateTime _start = DateTime.Now;
-
-        public static bool Hit()
-        {
-            try
-            {
-                // allow the first few minutes to pump through requests quickly in order
-                // for regular refreshes to happen quickly
-                TimeSpan elapsed = DateTime.Now.Subtract(_start);
-                if (elapsed.TotalMinutes < 3 && hits < 900) { hits++; return true; }
-
-                // throttle longer sets of requests (longer than 3 mins or 900 requests)
-                if (DateTime.Now <= _nextHit)
-                {
-                    System.Threading.Thread.Sleep(MsBetweenHits);
-                    return false;
-                }
-                _nextHit = DateTime.Now.AddMilliseconds(MsBetweenHits);
-
-                return true;
-            }
-            catch 
-            {
-                // thread.interrupt from the Background processor can cause the Sleep function here to throw an exception
-                return false;
-            }
         }
     }
 }

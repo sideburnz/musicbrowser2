@@ -19,7 +19,7 @@ namespace MusicBrowser.Engines.Metadata
             RefreshPercentage = 10;
         }
 
-        public override bool AskKillerQuestions(Entities.baseEntity dto)
+        public override bool AskKillerQuestions(baseEntity dto)
         {
             if (!CompatibleWith(dto)) { return false; }
             if (!Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders")) { return false; }
@@ -28,7 +28,7 @@ namespace MusicBrowser.Engines.Metadata
             return true;
         }
 
-        public override bool CompatibleWith(Entities.baseEntity dto)
+        public override bool CompatibleWith(baseEntity dto)
         {
             return dto.InheritsFrom<Album>();
         }
@@ -46,9 +46,9 @@ namespace MusicBrowser.Engines.Metadata
             albumDTO.Language = Util.Localization.LanguageNameToCode(Util.Config.GetInstance().GetStringSetting("Language"));
             if (dto.MetadataStamps.ContainsKey(FriendlyName()))
             {
-                albumDTO.lastAccessed = dto.MetadataStamps[FriendlyName()];
+                albumDTO.LastAccessed = dto.MetadataStamps[FriendlyName()];
             }
-            else { albumDTO.lastAccessed = DateTime.Parse("01-01-1000"); }
+            else { albumDTO.LastAccessed = DateTime.Parse("01-01-1000"); }
 
             AlbumInfoService albumService = new AlbumInfoService();
             albumService.SetProvider(lfmProvider);

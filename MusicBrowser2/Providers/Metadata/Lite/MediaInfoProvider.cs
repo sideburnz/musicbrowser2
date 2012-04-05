@@ -103,15 +103,15 @@ namespace MusicBrowser.Providers.Metadata.Lite
 
                 dto.Title = mediaInfo.Get(StreamKind.General, 0, "Track");
                 dto.Album = mediaInfo.Get(StreamKind.General, 0, "Album");
-                dto.Artist = mediaInfo.Get(StreamKind.General, 0, "Accompaniment");
-                if (String.IsNullOrEmpty(dto.Artist))
-                {
+                //dto.Artist = mediaInfo.Get(StreamKind.General, 0, "Accompaniment");
+                //if (String.IsNullOrEmpty(dto.Artist))
+                //{
                     dto.Artist = mediaInfo.Get(StreamKind.General, 0, "Performer");
                     if (dto.Artist.IndexOf('/') > 0)
                     {
                         dto.Artist = dto.Artist.Substring(0, dto.Artist.IndexOf('/')).Trim();
                     }
-                }
+                //}
                 dto.AlbumArtist = mediaInfo.Get(StreamKind.General, 0, "Album/Performer"); //
                 dto.Genre = mediaInfo.Get(StreamKind.General, 0, "Genre");
                 dto.Codec = mediaInfo.Get(StreamKind.Audio, 0, "Format").ToLower();

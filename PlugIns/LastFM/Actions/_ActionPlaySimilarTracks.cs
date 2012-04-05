@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Providers;
+﻿using MusicBrowser.Actions;
 using MusicBrowser.Entities;
-using MusicBrowser.Providers.Background;
-using MusicBrowser.Engines.Cache;
-using MusicBrowser.Actions;
 
 namespace MusicBrowser.Engines.PlugIns.Actions
 {
@@ -24,14 +17,14 @@ namespace MusicBrowser.Engines.PlugIns.Actions
             Label = LABEL;
             IconPath = ICON_PATH;
             Entity = entity;
-            Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+            Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
         }
 
         public ActionPlaySimilarTracks()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
-            Available = MusicBrowser.Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
+            Available = Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders");
         }
 
         public override baseActionCommand NewInstance(baseEntity entity)

@@ -10,7 +10,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
     {
         //IN
         public string Username { get; set; }
-        public DateTime lastAccessed { get; set; }
+        public DateTime LastAccessed { get; set; }
         public string Language { get; set; }
 
         //DUAL

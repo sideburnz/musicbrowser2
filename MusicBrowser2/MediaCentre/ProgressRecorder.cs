@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.MediaCenter;
+using Microsoft.MediaCenter.Hosting;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.Entities;
@@ -15,7 +16,7 @@ namespace MusicBrowser.MediaCentre
         {
             if (_mce == null)
             {
-                _mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+                _mce = AddInHost.Current.MediaCenterEnvironment;
                 _mce.MediaExperience.Transport.PropertyChanged += TransportPropertyChanged;
             }
             Registered.Add(e);
@@ -65,10 +66,11 @@ namespace MusicBrowser.MediaCentre
                     {
                         if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
                         {
-#if (Util.Helper.IsDVD(e.Path))
-                            {
-                                Application.GetReference().Session().BackPage();
-                            }
+                            //if (Util.Helper.IsDVD(e.Path))
+                            //{
+                                AddInHost.Current.ApplicationContext.ReturnToApplication();
+                            Application.GetReference().Session().BackPage();
+                            //}
                             e.SetProgress(0);
                         }
                     } 

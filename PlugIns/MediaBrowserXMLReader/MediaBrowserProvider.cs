@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
 using System.IO;
+using System.Linq;
 using System.Xml;
-using MusicBrowser.Util;
 using MusicBrowser.Entities;
-using MusicBrowser.Providers;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Engines.Metadata
 {
@@ -119,14 +115,14 @@ namespace MusicBrowser.Engines.Metadata
                 dto.Title = Helper.ReadXmlNode(data, @"Item/EpisodeName", dto.Title);
 
                 string s = Helper.ReadXmlNode(data, @"Item/EpisodeNumber", dto.EpisodeNumber.ToString());
-                int i = 0;
+                int i;
                 if (Int32.TryParse(s, out i))
                 {
                     dto.EpisodeNumber = i;
                 }
 
                 s = Helper.ReadXmlNode(data, @"Item/FirstAired", dto.ReleaseDate.ToString("yyyy-nn-dd"));
-                DateTime d = DateTime.MinValue;
+                DateTime d;
                 if (DateTime.TryParse(s, out d))
                 {
                     dto.ReleaseDate = d;
@@ -160,20 +156,10 @@ namespace MusicBrowser.Engines.Metadata
 
         private bool DoWorkMovie(Movie dto)
         {
-            string datafile;
-            string datapath;
-            
-            if (Directory.Exists(dto.Path))
-            {
-                datapath = dto.Path;
-            }
-            else
-            {
-                datapath = Path.GetDirectoryName(dto.Path);
-            }
+            string datapath = Directory.Exists(dto.Path) ? dto.Path : Path.GetDirectoryName(dto.Path);
 
             // mymovies.xml is being phased out - look for movie.xml first
-            datafile = Path.Combine(datapath, "movie.xml");
+            string datafile = Path.Combine(datapath, "movie.xml");
             if (!File.Exists(datafile))
             {
                 datafile = Path.Combine(datapath, "mymovies.xml");
@@ -190,7 +176,7 @@ namespace MusicBrowser.Engines.Metadata
                 dto.Title = Helper.ReadXmlNode(data, @"Title/LocalTitle", dto.Title);
 
                 string s = Helper.ReadXmlNode(data, @"Title/ProductionYear", dto.ReleaseDate.Year.ToString()) + "-01-01";
-                DateTime d = DateTime.MinValue;
+                DateTime d;
                 if (DateTime.TryParse(s, out d))
                 {
                     dto.ReleaseDate = d;

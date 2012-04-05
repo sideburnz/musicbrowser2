@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Drawing;
 using MusicBrowser.Entities;
-using MusicBrowser.Providers;
 using MusicBrowser.WebServices.Interfaces;
 using MusicBrowser.WebServices.Services.LastFM;
 using MusicBrowser.WebServices.WebServiceProviders;
@@ -19,7 +17,7 @@ namespace MusicBrowser.Engines.Metadata
             RefreshPercentage = 10;
         }
 
-        public override bool AskKillerQuestions(Entities.baseEntity dto)
+        public override bool AskKillerQuestions(baseEntity dto)
         {
             if (!CompatibleWith(dto)) { return false; }
             if (!Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders")) { return false; }
@@ -27,7 +25,7 @@ namespace MusicBrowser.Engines.Metadata
             return true;
         }
 
-        public override bool CompatibleWith(Entities.baseEntity dto)
+        public override bool CompatibleWith(baseEntity dto)
         {
             return dto.InheritsFrom<Track>();
         }
@@ -45,9 +43,9 @@ namespace MusicBrowser.Engines.Metadata
             trackDTO.Language = Util.Localization.LanguageNameToCode(Util.Config.GetInstance().GetStringSetting("Language"));
             if (workingDTO.MetadataStamps.ContainsKey(FriendlyName()))
             {
-                trackDTO.lastAccessed = dto.MetadataStamps[FriendlyName()];
+                trackDTO.LastAccessed = dto.MetadataStamps[FriendlyName()];
             }
-            else { trackDTO.lastAccessed = DateTime.Parse("01-01-1000"); }
+            else { trackDTO.LastAccessed = DateTime.Parse("01-01-1000"); }
 
             TrackInfoService trackService = new TrackInfoService();
             trackService.SetProvider(lfmProvider);

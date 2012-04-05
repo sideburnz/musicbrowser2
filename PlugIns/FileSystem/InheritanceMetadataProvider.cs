@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.IO;
-using MusicBrowser.Engines.Cache;
-using MusicBrowser.Entities;
-using MusicBrowser.Util;
-using MusicBrowser.Providers;
 using System.Linq;
+using MusicBrowser.Entities;
+using MusicBrowser.Providers;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Engines.Metadata
 {
@@ -142,7 +140,7 @@ namespace MusicBrowser.Engines.Metadata
 
                 foreach (FileSystemItem item in items)
                 {
-                    if (Util.Helper.IsEpisode(item.Name))
+                    if (Helper.IsEpisode(item.Name))
                     {
                         Episode e = (Episode)EntityFactory.GetItem(item);
                         if (!String.IsNullOrEmpty(e.ShowName))
