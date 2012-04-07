@@ -27,7 +27,7 @@ namespace MusicBrowser.Engines.Cache
 
         public static void SetProgress(this Video entity, int progress)
         {
-            Logging.LoggerEngineFactory.Debug(String.Format("Video {0} progress recorded as {1}", entity.Title, progress));
+            Logging.LoggerEngineFactory.Debug("Cache.Extensions", String.Format("Video {0} progress recorded as {1}", entity.Title, progress));
             entity.Progress = progress;
             if (progress == 0)
             {

@@ -58,7 +58,6 @@ namespace MusicBrowser.Engines.Logging
                 sb.Append(DateTime.Now.ToShortDateString() + ", ");
                 sb.Append(DateTime.Now.ToString("HH:mm:ss.ff") + ", ");
                 sb.Append("Error, ");
-
                 sb.Append(ex.Source + ", ");
                 sb.Append(ex.GetType() + ", ");
                 sb.Append("\"" + ex.Message + "\"");
@@ -78,7 +77,7 @@ namespace MusicBrowser.Engines.Logging
             }
         }
 
-        void ILoggingEngine.LogInfo(string message)
+        void ILoggingEngine.LogInfo(string className, string message)
         {
             if (_logInfo)
             {
@@ -86,12 +85,13 @@ namespace MusicBrowser.Engines.Logging
                 sb.Append(DateTime.Now.ToShortDateString() + ", ");
                 sb.Append(DateTime.Now.ToString("HH:mm:ss.ff") + ", ");
                 sb.Append("Info, ");
+                sb.Append(className + ",");
                 sb.Append("\"" + message + "\"");
                 InnerLog(sb.ToString());
             }
         }
 
-        void ILoggingEngine.LogDebug(string message)
+        void ILoggingEngine.LogDebug(string className, string message)
         {
             if (_logDebug)
             {
@@ -99,6 +99,7 @@ namespace MusicBrowser.Engines.Logging
                 sb.Append(DateTime.Now.ToShortDateString() + ", ");
                 sb.Append(DateTime.Now.ToString("HH:mm:ss.ff") + ", ");
                 sb.Append("Debug, ");
+                sb.Append(className + ",");
                 sb.Append("\"" + message + "\"");
                 InnerLog(sb.ToString());
             }
@@ -106,9 +107,9 @@ namespace MusicBrowser.Engines.Logging
 
         void ILoggingEngine.LogVerbose(string className, string endPoint)
         {
+#if DEBUG
             if (_logVerbose)
             {
-#if DEBUG
                 StringBuilder sb = new StringBuilder();
                 sb.Append(DateTime.Now.ToShortDateString() + ", ");
                 sb.Append(DateTime.Now.ToString("HH:mm:ss.ff") + ", ");
@@ -116,8 +117,8 @@ namespace MusicBrowser.Engines.Logging
                 sb.Append(className + ",");
                 sb.Append(endPoint);
                 InnerLog(sb.ToString());
-#endif
             }
+#endif
         }
 
         void ILoggingEngine.LogStats(string stats)

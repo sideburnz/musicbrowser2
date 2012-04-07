@@ -321,7 +321,7 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public virtual string CacheKey
+        public string CacheKey
         {
             get
             {

@@ -150,7 +150,7 @@
                 </Children>
               </Panel>
 
-              <Panel Margins="0,25,0,0">
+              <Panel Margins="0,20,0,0">
                 <Layout>
                   <AnchorLayout />
                 </Layout>
@@ -165,7 +165,7 @@
                       <AnchorLayoutInput Left="FullPlay, 0" />
                     </LayoutInput>
                   </Text>
-                  <ColorFill Name="FullPlay" Content="White" Alpha="0.05" MinimumSize="400,32" MaximumSize="400,32">
+                  <ColorFill Name="FullPlay" Content="White" Alpha="0.1" MinimumSize="500,34" MaximumSize="500,34">
                     <LayoutInput>
                       <AnchorLayoutInput Left="Parent, 0" />
                     </LayoutInput>
@@ -178,7 +178,7 @@
                 </Children>
               </Panel>
 
-              <Panel Margins="0,15,0,0">
+              <Panel Margins="0,20,0,0">
                 <Layout>
                   <FlowLayout Orientation="Horizontal"/>
                 </Layout>

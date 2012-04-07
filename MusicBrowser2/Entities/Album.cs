@@ -18,6 +18,19 @@ namespace MusicBrowser.Entities
             get { return "[Track#:sort]"; }
         }
 
+        public override string DefaultFormat
+        {
+            get
+            {
+                string title = Util.Config.GetInstance().GetStringSetting("Entity.Album.Format");
+                if (string.IsNullOrEmpty(title))
+                {
+                    return "([ReleaseYear]) [Title]";
+                }
+                return base.DefaultFormat;
+            }
+        }
+
         public override string Information
         {
             get

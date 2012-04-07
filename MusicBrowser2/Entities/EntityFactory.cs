@@ -65,7 +65,7 @@ namespace MusicBrowser.Entities
 
             #endregion
 
-            Engines.Logging.LoggerEngineFactory.Debug("Manufacturing " + item.FullPath);
+            Engines.Logging.LoggerEngineFactory.Debug("EntityFactory", "Manufacturing " + item.FullPath);
 
             Statistics.Hit("factory.hit");
 

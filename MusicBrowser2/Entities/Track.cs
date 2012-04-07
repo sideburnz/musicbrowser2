@@ -15,6 +15,19 @@ namespace MusicBrowser.Entities
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageTrack"; }
         }
 
+        public override string  DefaultFormat
+        {
+            get
+            {
+                string title = Util.Config.GetInstance().GetStringSetting("Entity.Track.Format");
+                if (string.IsNullOrEmpty(title))
+                {
+                    return "[Track#] - [Title]";
+                }
+                return base.DefaultFormat;
+            }
+        }
+
         [DataMember]
         public string Artist 
         {

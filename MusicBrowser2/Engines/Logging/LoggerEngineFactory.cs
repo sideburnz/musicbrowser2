@@ -9,8 +9,8 @@ namespace MusicBrowser.Engines.Logging
         static ILoggingEngine _logger;
 
         public static void Error(Exception ex) { GetEngine().LogError(ex); }
-        public static void Info(string message) { GetEngine().LogInfo(message); }
-        public static void Debug(string message) { GetEngine().LogDebug(message); }
+        public static void Info(string className, string message) { GetEngine().LogInfo(className, message); }
+        public static void Debug(string className, string message) { GetEngine().LogDebug(className, message); }
         public static void Verbose(string className, string endPoint) { GetEngine().LogVerbose(className, endPoint); }
         public static void Stats(string stats) { GetEngine().LogStats(stats); }
 

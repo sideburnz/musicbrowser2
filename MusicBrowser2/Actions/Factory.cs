@@ -206,7 +206,7 @@ namespace MusicBrowser.Actions
             {
                 if (File.Exists(configFile))
                 {
-                    LoggerEngineFactory.Debug("using actions override file");
+                    LoggerEngineFactory.Debug("ActionsFactory", "using actions override file");
                     xml.Load(configFile);
                 }
                 else

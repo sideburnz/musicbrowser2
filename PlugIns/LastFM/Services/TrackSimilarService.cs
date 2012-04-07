@@ -92,7 +92,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                     localDTO.Status = WebServiceStatus.Error;
                 }
 
-                Engines.Logging.LoggerEngineFactory.Debug(string.Format("Last.fm track lookup for \"{0}\" returned this error - {1}", localDTO.Track, localDTO.Error));
+                Engines.Logging.LoggerEngineFactory.Debug("TrackSimilarService", String.Format("Last.fm track lookup for \"{0}\" returned this error - {1}", localDTO.Track, localDTO.Error));
             }
 
             return localDTO;

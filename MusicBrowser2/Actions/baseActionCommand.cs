@@ -57,7 +57,7 @@ namespace MusicBrowser.Actions
                 kind = Entity.Kind;
             }
 
-            LoggerEngineFactory.Debug(String.Format("Action: {0}, Entity: {1} [{2}] ({3})", Label, title, kind, Available));
+            LoggerEngineFactory.Debug("baseActionCommand", String.Format("Action: {0}, Entity: {1} [{2}] ({3})", Label, title, kind, Available));
 
             // if the action isn't enabled, do run it
             if (!Available)

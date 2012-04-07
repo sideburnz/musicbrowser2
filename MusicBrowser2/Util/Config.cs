@@ -31,13 +31,6 @@ namespace MusicBrowser.Util
                 { "Log.Destination", "file" },
                 { "Log.File", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
 
-                { "Entity.View.Home", "Thumb" },
-                { "Entity.Track.Format", "[Track#] - [Title]" },
-                { "Entity.Album.Format", "([ReleaseYear]) [Title]" },
-                { "Entity.Episode.Format", "[Episode#] - [Title]" },
-                { "Entity.Item.Format", "[Title]" },
-                { "Entity.Container.Format", "[Title]" },
-
                 { "Internet.UseProviders", true.ToString() } ,
                 { "Internet.LastFMUserName", String.Empty },
 
@@ -63,7 +56,7 @@ namespace MusicBrowser.Util
                 { "Views.Strip.ShowSummary", true.ToString() },
                 { "Views.ThumbSize", "160" },
 
-                { "Theme", "default" },
+                { "ThemeLoader", "default" },
 
                 { "Language", "" }
 
@@ -148,7 +141,7 @@ namespace MusicBrowser.Util
                         break;
                     }
                 }
-                if (!found) { LoggerEngineFactory.Error(new InvalidDataException("No setting found for '" + key + "'")); }
+                if (!found) { LoggerEngineFactory.Debug("Config", "No setting found for '" + key + "'"); }
             }
             // cache the setting on read
             _settingCache[key] = retval;

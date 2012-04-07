@@ -21,7 +21,7 @@ namespace MusicBrowser.MediaCentre
             }
             Registered.Add(e);
 
-            Engines.Logging.LoggerEngineFactory.Debug("PROGRESS: registered " + e.Title);
+            Engines.Logging.LoggerEngineFactory.Debug("ProgressRecorder", "registered " + e.Title);
 
         }
 
@@ -31,7 +31,7 @@ namespace MusicBrowser.MediaCentre
             string comparerpath = path.Replace('\\', '/');
             string mediapath = WebServices.Helper.Externals.DecodeURL(uri);
             bool res = mediapath.EndsWith(comparerpath) || mediapath.EndsWith(comparerpath);
-            Engines.Logging.LoggerEngineFactory.Debug("PROGRESS: testing " + comparerpath + " with " + uri + " : " + res);
+            Engines.Logging.LoggerEngineFactory.Debug("ProgressRecorder", "testing " + comparerpath + " with " + uri + " : " + res);
             return res;
         }
 
@@ -51,6 +51,13 @@ namespace MusicBrowser.MediaCentre
 
                             int pos = (int)transport.Position.TotalSeconds;
                             int per = (pos * 20) / e.Duration;
+
+                            // show the app, otherwise DVDs show a blank screen when they end
+                            if (Util.Helper.IsDVD(e.Path))
+                            {
+                                AddInHost.Current.ApplicationContext.ReturnToApplication();
+                            }
+                            
                             if (per > 1 && per < 19)
                             {
                                 e.SetProgress(pos);
@@ -66,11 +73,6 @@ namespace MusicBrowser.MediaCentre
                     {
                         if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
                         {
-                            //if (Util.Helper.IsDVD(e.Path))
-                            //{
-                                AddInHost.Current.ApplicationContext.ReturnToApplication();
-                            Application.GetReference().Session().BackPage();
-                            //}
                             e.SetProgress(0);
                         }
                     } 
