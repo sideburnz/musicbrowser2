@@ -126,7 +126,7 @@ namespace MusicBrowser.Engines.Transport
 
             if (command != "RefreshPlayingInfo")
             {
-                Logging.LoggerEngineFactory.Debug("Foo: " + sb + " => " + h.Status);
+                Logging.LoggerEngineFactory.Debug("Foobar2000Transport", sb + " => " + h.Status);
             }
 
             if (h.Status != "200")

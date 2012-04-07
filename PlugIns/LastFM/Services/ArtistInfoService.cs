@@ -90,7 +90,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                 {
                     localDTO.Status = WebServiceStatus.Error;
                     localDTO.Error = "Match not close enough";
-                    LoggerEngineFactory.Debug(string.Format("Last.fm artist look up for \"{0}\" but matched \"{1}\" instead", localDTO.Artist, lfmArtistName));
+                    LoggerEngineFactory.Debug("ArtistInfoService", String.Format("Last.fm artist look up for \"{0}\" but matched \"{1}\" instead", localDTO.Artist, lfmArtistName));
                 }
             }
             else

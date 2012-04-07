@@ -5,9 +5,22 @@ namespace MusicBrowser.Entities
     [DataContract]
     class Home : Virtual
     {
+        public Home()
+        {
+            Path = "home";
+        }
+
         public override string Title
         {
-            get { return "MusicBrowser 2"; }
+            get
+            {
+                string title = Util.Config.GetInstance().GetStringSetting("Entity.Home.Format");
+                if (string.IsNullOrEmpty(title))
+                {
+                    return "MusicBrowser 2";
+                }
+                return TokenSubstitution(title);
+            }
             set { }
         }
 
@@ -20,11 +33,5 @@ namespace MusicBrowser.Entities
         {
             get { return "[SortOrder:sort]"; }
         }
-
-        public override string CacheKey
-        {
-            get { return "home"; }
-        }
-
     }
 }

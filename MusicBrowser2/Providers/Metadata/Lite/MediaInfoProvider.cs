@@ -184,7 +184,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
                         .FirstOrDefault();
                     path = selected.FullPath.Replace(".vob", ".ifo");
 
-                    LoggerEngineFactory.Info("DVD path: " + path);
+                    LoggerEngineFactory.Info("MediaInfoProvider", "DVD path: " + path);
 
                     if (!File.Exists(path))
                     {

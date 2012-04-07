@@ -42,7 +42,7 @@ namespace MusicBrowser
             _sSession = new HistoryOrientedPageSession();
             Application app = new Application(_sSession, host);
 
-            Engines.PlugIns.LoadPlugIns.Execute();
+            Engines.PlugIns.PlugInLoader.Execute();
 
             FirstRun.Initialize();
             SQLiteLoader.Load();

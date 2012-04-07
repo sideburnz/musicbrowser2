@@ -13,6 +13,19 @@ namespace MusicBrowser.Entities
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageVideo"; }
         }
 
+        public override string DefaultFormat
+        {
+            get
+            {
+                string title = Util.Config.GetInstance().GetStringSetting("Entity.Episode.Format");
+                if (string.IsNullOrEmpty(title))
+                {
+                    return "[Episode#] - [Title]";
+                }
+                return base.DefaultFormat;
+            }
+        }
+
         public override string Serialize()
         {
             return this.ToJson();

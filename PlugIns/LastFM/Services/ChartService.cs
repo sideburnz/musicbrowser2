@@ -103,7 +103,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                     localDTO.Status = WebServiceStatus.Error;
                 }
 
-                Engines.Logging.LoggerEngineFactory.Debug(string.Format("Last.fm chart lookup for \"{0}\" returned this error - {1}", localDTO.Period.ToString(), localDTO.Error));
+                Engines.Logging.LoggerEngineFactory.Debug("ChartService", String.Format("Last.fm chart lookup for \"{0}\" returned this error - {1}", localDTO.Period.ToString(), localDTO.Error));
             }
 
             return localDTO;

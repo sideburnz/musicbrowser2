@@ -458,7 +458,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                Size s = new Size {Height = 30, Width = (int) (PercentComplete*4)};
+                Size s = new Size {Height = 32, Width = (int)(PercentComplete*5)};
                 return s;
             }
         }

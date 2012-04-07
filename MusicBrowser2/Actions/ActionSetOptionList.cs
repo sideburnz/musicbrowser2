@@ -8,7 +8,7 @@ namespace MusicBrowser.Actions
 
     public class ActionSetOptionList : baseActionCommand
     {
-        private const string LABEL = "Set Theme";
+        private const string LABEL = "Set ThemeLoader";
         private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconConfig";
 
         private int _index;

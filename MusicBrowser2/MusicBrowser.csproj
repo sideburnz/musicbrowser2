@@ -169,8 +169,9 @@
     <Compile Include="Engines\Metadata\MetadataProviderList.cs" />
     <Compile Include="Engines\Metadata\Providers.cs" />
     <Compile Include="Engines\PlugIns\IPlugIn.cs" />
-    <Compile Include="Engines\PlugIns\LoadPlugIns.cs" />
-    <Compile Include="Engines\Themes\Theme.cs" />
+    <Compile Include="Engines\PlugIns\PlugInLoader.cs" />
+    <Compile Include="Engines\Themes\ThemeLoader.cs" />
+    <Compile Include="Engines\Themes\ThemeScreens.cs" />
     <Compile Include="Engines\Transport\ITransportEngine.cs" />
     <Compile Include="Engines\Views\viewMostRecentlyPlayed.cs" />
     <Compile Include="Engines\Views\IView.cs" />

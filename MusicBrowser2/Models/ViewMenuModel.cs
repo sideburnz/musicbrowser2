@@ -50,7 +50,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                return Engines.Themes.Theme.Views;
+                return Engines.Themes.ThemeLoader.Views;
             }
         }
 

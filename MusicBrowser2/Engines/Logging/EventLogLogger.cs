@@ -73,7 +73,7 @@ namespace MusicBrowser.Engines.Logging
             }
         }
 
-        void ILoggingEngine.LogInfo(string message)
+        void ILoggingEngine.LogInfo(string className, string message)
         {
             if (_logInfo)
             {
@@ -81,7 +81,7 @@ namespace MusicBrowser.Engines.Logging
             }
         }
 
-        void ILoggingEngine.LogDebug(string message)
+        void ILoggingEngine.LogDebug(string className, string message)
         {
             if (_logDebug)
             {

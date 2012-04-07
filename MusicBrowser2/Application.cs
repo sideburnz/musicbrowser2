@@ -26,7 +26,7 @@ namespace MusicBrowser
             _session = session; 
             _host = host;
 
-            LoggerEngineFactory.Info("Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+            LoggerEngineFactory.Info("Application", "Starting MusicBrowser 2 - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
 
             _application = this;
         }
@@ -61,7 +61,7 @@ namespace MusicBrowser
         public void NavigateToFoo()
         {
             Dictionary<string, object> props = new Dictionary<string, object> {{"Model", Foobar2000.GetInstance()}};
-            _session.GoToPage(Engines.Themes.Theme.FooPlaying, props);
+            _session.GoToPage(Engines.Themes.ThemeLoader.FooPlaying, props);
         }
 
         public void NavigateToSettings()
@@ -79,12 +79,12 @@ namespace MusicBrowser
                                                        {"ActionsModel", ActionsModel.GetInstance},
                                                        {"UINotifier", UINotifier.GetInstance()}
                                                    };
-            _session.GoToPage(Engines.Themes.Theme.Search, props);
+            _session.GoToPage(Engines.Themes.ThemeLoader.Search, props);
         }
 
         public void Navigate(baseEntity entity)
         {
-            LoggerEngineFactory.Info(String.Format("Navigating to {0} [{1}]", entity.Title, entity.Kind));
+            LoggerEngineFactory.Info("Application", String.Format("Navigating to {0} [{1}]", entity.Title, entity.Kind));
             try
             {
                 Dictionary<string, object> properties = new Dictionary<string, object>();
@@ -139,7 +139,7 @@ namespace MusicBrowser
                 properties["ViewMenuModel"] = ViewMenuModel.GetInstance;
                 properties["UINotifier"] = UINotifier.GetInstance();
                 properties["ActionsModel"] = ActionsModel.GetInstance;
-                _session.GoToPage(Engines.Themes.Theme.Main, properties);
+                _session.GoToPage(Engines.Themes.ThemeLoader.Main, properties);
             }
             catch (Exception ex)
             {

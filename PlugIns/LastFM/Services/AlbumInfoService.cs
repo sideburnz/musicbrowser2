@@ -103,7 +103,7 @@ namespace MusicBrowser.WebServices.Services.LastFM
                 {
                     localDTO.Status = WebServiceStatus.Warning;
                     localDTO.Error = "Match not close enough";
-                    LoggerEngineFactory.Debug(string.Format("Last.fm album look up for \"{0}\" by \"{1}\" but matched \"{2}\" instead", localDTO.Album, localDTO.Artist, lfmAlbumName));
+                    LoggerEngineFactory.Debug("AlbumInfoService", String.Format("Last.fm album look up for \"{0}\" by \"{1}\" but matched \"{2}\" instead", localDTO.Album, localDTO.Artist, lfmAlbumName));
                 }
             }
             else
