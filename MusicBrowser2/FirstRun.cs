@@ -21,7 +21,7 @@ namespace MusicBrowser
             {
                 case "0.0.0.0":
                     LastVersion0000();
-                    break;
+                    break;                    
             }
 
             if (!CollectionExists())

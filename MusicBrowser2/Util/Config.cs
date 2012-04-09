@@ -22,6 +22,9 @@ namespace MusicBrowser.Util
                 { "PutDiscInTrackNo", true.ToString() },
                 { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
 
+                { "PlaylistLimit", "1" },
+                { "EnableMoviePlaylists", true.ToString() },
+
                 { "ShowThumbs", true.ToString() },
                 { "Language", "English" },
 

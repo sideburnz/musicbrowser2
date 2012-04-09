@@ -135,8 +135,13 @@ namespace MusicBrowser.Entities
             return e;
         }
 
+        private static int _maxMovieParts = Config.GetInstance().GetIntSetting("PlaylistLimit");
+        private static bool _allowMoviePlaylists = Config.GetInstance().GetBooleanSetting("EnableMoviePlaylists");
+
         private static EntityKind? DetermineKind(FileSystemItem entity)
         {
+            
+
             Helper.KnownType type = Helper.GetKnownType(entity);
 
             switch (type)
@@ -192,9 +197,15 @@ namespace MusicBrowser.Entities
                             }
                         }
 
-                        if (movies > 0 && movies < 3) { return EntityKind.Movie; }
-                        //TODO: introduce a "movie series" type
-                        //if (movies > 0) { return EntityKind.Folder; }
+                        // assimilates mulitple movie files into a single movie
+                        if (_allowMoviePlaylists)
+                        {
+                            if (movies > 0 && movies <= _maxMovieParts)
+                            {
+                                return EntityKind.Movie;
+                            }
+                        }
+
                         return EntityKind.Folder;
                     }
                 case Helper.KnownType.Track:

@@ -13,7 +13,6 @@
     <Locals>
       <actions:ActionSetTextSetting Name="CmdLastfmUserName" Key="Internet.LastFMUserName" />
 
-
       <actions:ActionSetBooleanSetting Name="CmdShowFanArt" Key="EnableFanArt" />
       <actions:ActionSetBooleanSetting Name="CmdUpdateShowClock" Key="ShowClock" />
 
