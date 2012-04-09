@@ -27,14 +27,18 @@ namespace MusicBrowser.Engines.Cache
             try
             {
                 string dllfile = Path.Combine("C:\\Windows\\eHome", String.Format("System.Data.SQLite.DLL"));
-                if (!File.Exists(dllfile))
+                if (File.Exists(dllfile))
                 {
-                    string sourceFile = Path.Combine(Helper.ComponentFolder, String.Format("System.Data.SQLite.DLL.{0}", Is64Bit ? 64 : 32));
-                    if (File.Exists(sourceFile))
-                    {
-                        File.Copy(sourceFile, dllfile);
-                    }
+                    File.Delete(dllfile);
                 }
+
+                string sourceFile = Path.Combine(Helper.ComponentFolder,
+                                                 String.Format("System.Data.SQLite.DLL.{0}", Is64Bit ? 64 : 32));
+                if (File.Exists(sourceFile))
+                {
+                    File.Copy(sourceFile, dllfile);
+                }
+
                 SqliteAssembly = Assembly.Load(dllfile);
                 AppDomain.CurrentDomain.AssemblyResolve += SqliteResolver;
             }
