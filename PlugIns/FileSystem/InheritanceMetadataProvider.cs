@@ -67,7 +67,7 @@ namespace MusicBrowser.Engines.Metadata
                 {
                     if (Helper.GetKnownType(item) == Helper.KnownType.Track)
                     {
-                        Track t = (Track)EntityFactory.GetItem(item);
+                        Track t = (Track)Factory.GetItem(item);
                         if (!String.IsNullOrEmpty(t.AlbumArtist))
                         {
                             if (albumartists.ContainsKey(t.AlbumArtist))
@@ -142,7 +142,7 @@ namespace MusicBrowser.Engines.Metadata
                 {
                     if (Helper.IsEpisode(item.Name))
                     {
-                        Episode e = (Episode)EntityFactory.GetItem(item);
+                        Episode e = (Episode)Factory.GetItem(item);
                         if (!String.IsNullOrEmpty(e.ShowName))
                         {
                             if (stats.ContainsKey(e.ShowName))

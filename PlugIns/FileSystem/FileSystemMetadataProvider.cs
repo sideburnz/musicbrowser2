@@ -38,7 +38,7 @@ namespace MusicBrowser.Engines.Metadata
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(dto.Path).FilterInternalFiles();
             foreach (FileSystemItem item in items)
             {
-                baseEntity e = EntityFactory.GetItem(item);
+                baseEntity e = Factory.GetItem(item);
                 if (e == null) { continue; }
 
                 if (e.InheritsFrom<Video>() || e.InheritsFrom<Music>())

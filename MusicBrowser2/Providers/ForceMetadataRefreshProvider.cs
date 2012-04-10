@@ -39,7 +39,7 @@ namespace MusicBrowser.Providers
                     Engines.Cache.InMemoryCache.GetInstance().Remove(key);
                     Engines.Cache.CacheEngineFactory.GetEngine().Delete(key);
 
-                    baseEntity e = EntityFactory.GetItem(item);
+                    baseEntity e = Factory.GetItem(item);
                     if (e == null) { continue; }
                     
                     new Engines.Metadata.MetadataProviderList(e, true).Execute();

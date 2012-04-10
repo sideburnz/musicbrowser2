@@ -10,14 +10,14 @@ namespace MusicBrowser.Models
     {
         #region singleton
         static ViewsModel _instance;
-        static readonly object _lock = new object();
+        static readonly object Lock = new object();
 
         public static ViewsModel GetInstance
         {
             get
             {
                 if (_instance != null) return _instance;
-                lock (_lock)
+                lock (Lock)
                 {
                     if (_instance == null)
                     {
@@ -29,8 +29,8 @@ namespace MusicBrowser.Models
         }
         #endregion
 
-        public bool _visible;
-        public baseEntity _context;
+        private bool _visible;
+        private baseEntity _context;
 
         public bool Visible
         {
@@ -67,9 +67,7 @@ namespace MusicBrowser.Models
             get
             {
                 List<baseActionCommand> commands = Views.GetViews(Context.Kind).Select(view => new ActionOpenView(Context) {Title = view.Title}).Cast<baseActionCommand>().ToList();
-
                 commands.Add(new ActionCloseMenu());
-
                 return commands;
             }
         }

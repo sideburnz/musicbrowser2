@@ -204,7 +204,8 @@ namespace MusicBrowser.Util
             Video,
             Other
         }
-        public static Dictionary<string, KnownType> PerceivedTypeCache = GetKnownTypes();
+
+        private static readonly Dictionary<string, KnownType> PerceivedTypeCache = GetKnownTypes();
 
         private static KnownType DetermineType(string extension)
         {
@@ -285,17 +286,6 @@ namespace MusicBrowser.Util
             return retVal;
         }
 
-        public static string OutputTypes()
-        {
-            StringBuilder s = new StringBuilder();
-            s.AppendLine("Known File Types: ");
-            foreach (string k in PerceivedTypeCache.Keys)
-            {
-                s.AppendLine(k + " " + PerceivedTypeCache[k].ToString());
-            }
-            return s.ToString();
-        }
-        
         #endregion
 
         public static XmlNode CreateXmlNode(XmlDocument parent, string name, string value)
@@ -406,7 +396,7 @@ namespace MusicBrowser.Util
             return d[n, m];
         }
 
-        public static string Cleanse(string raw)
+        private static string Cleanse(string raw)
         {
             string a = raw.ToLower();
             if (a.StartsWith("the ")) { return a.Substring(4).Trim(); }
@@ -416,19 +406,7 @@ namespace MusicBrowser.Util
         public static bool IsDVD (string path)
         {
             IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(path);
-            if (items.Count() > 10) 
-            { 
-                // don't cycle through a long list of files
-                return false; 
-            }
-            foreach (FileSystemItem item in items)
-            {
-                if (item.Name.ToLower() == "video_ts")
-                {
-                    return true;
-                }
-            }
-            return false;
+            return items.Any(item => item.Name.ToLower() == "video_ts");
         }
 
         public static Microsoft.MediaCenter.UI.Image GetImage(string path)

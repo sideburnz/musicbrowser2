@@ -33,10 +33,10 @@ namespace MusicBrowser.Models
 
             int i = 0;
 
-            int ratio1to1 = 0;
-            int ratio11to2 = 0;
-            int ratio16to9 = 0;
-            int ratio2to3 = 0;
+            int ratio1To1 = 0;
+            int ratio11To2 = 0;
+            int ratio16To9 = 0;
+            int ratio2To3 = 0;
 
             foreach (baseEntity e in entities)
             {
@@ -48,14 +48,14 @@ namespace MusicBrowser.Models
                         i++;
                         switch (r)
                         {
-                            case ImageRatio.Ratio11to2:
-                                ratio11to2++; break;
-                            case ImageRatio.Ratio16to9:
-                                ratio16to9++; break;
-                            case ImageRatio.Ratio2to3:
-                                ratio2to3++; break;
-                            case ImageRatio.Ratio1to1:
-                                ratio1to1++; break;
+                            case ImageRatio.Ratio11To2:
+                                ratio11To2++; break;
+                            case ImageRatio.Ratio16To9:
+                                ratio16To9++; break;
+                            case ImageRatio.Ratio2To3:
+                                ratio2To3++; break;
+                            case ImageRatio.Ratio1To1:
+                                ratio1To1++; break;
                         }
 
                     }
@@ -65,7 +65,7 @@ namespace MusicBrowser.Models
                     if (e.InheritsFrom<Video>())
                     {
                         i++;
-                        ratio2to3++;
+                        ratio2To3++;
                     }
                 }
                 if (i > 10)
@@ -74,19 +74,19 @@ namespace MusicBrowser.Models
                 }
             }
 
-            if (ratio1to1 > ratio2to3 && ratio1to1 > ratio16to9 && ratio1to1 > ratio11to2)
+            if (ratio1To1 > ratio2To3 && ratio1To1 > ratio16To9 && ratio1To1 > ratio11To2)
             {
                 ReferenceRatio = 1;
             }
-            else if (ratio2to3 > ratio1to1 && ratio2to3 > ratio16to9 && ratio2to3 > ratio11to2)
+            else if (ratio2To3 > ratio1To1 && ratio2To3 > ratio16To9 && ratio2To3 > ratio11To2)
             {
                 ReferenceRatio = 2 / 3.00;
             }
-            else if (ratio16to9 > ratio1to1 && ratio16to9 > ratio2to3 && ratio16to9 > ratio11to2)
+            else if (ratio16To9 > ratio1To1 && ratio16To9 > ratio2To3 && ratio16To9 > ratio11To2)
             {
                 ReferenceRatio = 16 / 9.00;
             }
-            else if (ratio11to2 > ratio1to1 && ratio11to2 > ratio2to3 && ratio11to2 > ratio16to9)
+            else if (ratio11To2 > ratio1To1 && ratio11To2 > ratio2To3 && ratio11To2 > ratio16To9)
             {
                 ReferenceRatio = 11 / 2.00;
             }
@@ -144,9 +144,21 @@ namespace MusicBrowser.Models
         /// <summary>
         /// This is the list of items to display on the page
         /// </summary>
+        /// 
+        private EntityVirtualList _entityVirtualList = null;
+        private bool _entityVirtualListExpired = true;
+
         public EntityVirtualList EntityList
         {
-            get { return new EntityVirtualList(_keyboard.DataSet, _parentEntity.SortField, _parentEntity.SortAscending); }
+            get
+            {
+                if (_entityVirtualList == null || _entityVirtualListExpired)
+                {
+                    _entityVirtualList = new EntityVirtualList(_keyboard.DataSet, _parentEntity.SortField, _parentEntity.SortAscending);
+                    _entityVirtualListExpired = false;
+                }
+                return _entityVirtualList;
+            }
         }
 
         /// <summary>
@@ -223,6 +235,7 @@ namespace MusicBrowser.Models
         {
             if (key.Equals("DataSet", StringComparison.InvariantCultureIgnoreCase))
             {
+                _entityVirtualListExpired = true;
                 FirePropertyChanged("EntityList");
             }
             if (key.Equals("Value", StringComparison.InvariantCultureIgnoreCase))

@@ -17,17 +17,13 @@ namespace MusicBrowser.Models
                 if (_instance != null) return _instance;
                 lock (Lock)
                 {
-                    if (_instance == null)
-                    {
-                        _instance = new ViewMenuModel();
-                    }
-                    return _instance;
+                    return _instance ?? (_instance = new ViewMenuModel());
                 }
             }
         }
         #endregion
 
-        public bool _visible;
+        private bool _visible;
         public bool Visible
         {
             get

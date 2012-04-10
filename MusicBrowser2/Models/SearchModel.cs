@@ -127,7 +127,7 @@ namespace MusicBrowser.Models
         {
             if (_hitsByType.ContainsKey(type))
             {
-               return String.Format("{0}s ({1})", type, _hitsByType[type]);
+               return String.Format("{0}s [{1}]", type, _hitsByType[type]);
             }
             return String.Empty;
         }

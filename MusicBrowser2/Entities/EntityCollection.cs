@@ -9,7 +9,7 @@ namespace MusicBrowser.Entities
         {
             foreach (FileSystemItem item in items)
             {
-                baseEntity entity = EntityFactory.GetItem(item);
+                baseEntity entity = Factory.GetItem(item);
                 Add(entity);
             }
         }
@@ -18,7 +18,7 @@ namespace MusicBrowser.Entities
         {
             foreach (string item in items)
             {
-                baseEntity entity = EntityFactory.GetItem(item);
+                baseEntity entity = Factory.GetItem(item);
                 Add(entity);
             }
         }
@@ -29,11 +29,6 @@ namespace MusicBrowser.Entities
             {
                 base.Add(e);
             }
-        }
-
-        public void Add(IEnumerable<baseEntity> entities)
-        {
-            AddRange(entities);
         }
 
         public void Sort(string field)
@@ -49,23 +44,5 @@ namespace MusicBrowser.Entities
             }
             Sort(new EntityCollectionSorter());
         }
-
-        protected static bool InheritsFrom<T>(baseEntity e)
-        {
-            return e is T;
-        }
-
     }
-
-    #region Folder Sorter
-
-    sealed class EntityCollectionSorter : IComparer<baseEntity>
-    {
-        public int Compare(baseEntity x, baseEntity y)
-        {
-            return string.Compare(x.SortName, y.SortName, true);
-        }
-    }
-
-    #endregion
 }
