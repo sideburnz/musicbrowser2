@@ -46,7 +46,7 @@ namespace MusicBrowser.Providers
 #endif
 
             // process the item in context
-            baseEntity e = EntityFactory.GetItem(_path);
+            baseEntity e = Factory.GetItem(_path);
             if (e != null)
             {
                 // fire off the metadata providers
@@ -64,7 +64,7 @@ namespace MusicBrowser.Providers
                 try
                 {
                     // process the item in context
-                    baseEntity entity = EntityFactory.GetItem(item);
+                    baseEntity entity = Factory.GetItem(item);
                     if (entity == null) { continue; }
                     // fire off the metadata providers
                     CommonTaskQueue.Enqueue(new MetadataProviderList(entity));

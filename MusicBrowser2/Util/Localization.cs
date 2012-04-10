@@ -9,7 +9,7 @@ namespace MusicBrowser.Util
         {
         }
 
-        static public Dictionary<string, string> Langs = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> Langs = new Dictionary<string, string>
                                                              { 
                 { "en", "English" },
                 { "fr", "French" },

@@ -29,14 +29,28 @@ namespace MusicBrowser.Engines.Cache
                 string dllfile = Path.Combine("C:\\Windows\\eHome", String.Format("System.Data.SQLite.DLL"));
                 if (File.Exists(dllfile))
                 {
-                    File.Delete(dllfile);
+                    try
+                    {
+                        File.Delete(dllfile);
+                    }
+                    catch (Exception)
+                    {
+                        Logging.LoggerEngineFactory.Debug("SQLiteLoader", "failed to remove old SQLite DLL");
+                    }
                 }
 
                 string sourceFile = Path.Combine(Helper.ComponentFolder,
                                                  String.Format("System.Data.SQLite.DLL.{0}", Is64Bit ? 64 : 32));
                 if (File.Exists(sourceFile))
                 {
-                    File.Copy(sourceFile, dllfile);
+                    try
+                    {
+                        File.Copy(sourceFile, dllfile);
+                    }
+                    catch (Exception)
+                    {
+                        Logging.LoggerEngineFactory.Debug("SQLiteLoader", "failed to copy new SQLite DLL");
+                    }
                 }
 
                 SqliteAssembly = Assembly.Load(dllfile);

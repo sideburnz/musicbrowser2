@@ -30,7 +30,7 @@ namespace MusicBrowser.Entities
         public static IEnumerable<Track> DedupeTracks(this IEnumerable<Track> list)
         {
             return list
-                .GroupBy(item => item, new TrackDedupeComparer())
+                .GroupBy(item => item, new TrackComparer())
                 .Select(item => item.First());
         }
     }

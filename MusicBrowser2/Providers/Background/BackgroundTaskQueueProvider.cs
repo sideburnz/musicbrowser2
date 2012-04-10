@@ -47,14 +47,6 @@ namespace MusicBrowser.Providers.Background
             }
         }
 
-        public void Enqueue(IBackgroundTaskable task)
-        {
-            lock (_obj)
-            {
-                AddTask(task, false);
-            }
-        }
-
         public void Enqueue(IBackgroundTaskable task, bool urgent)
         {
             lock (_obj)

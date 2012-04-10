@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Engines.PlugIns;
+﻿using System.Collections.Generic;
 using MusicBrowser.Engines.Themes;
 
 namespace MusicBrowser.Engines.PlugIns

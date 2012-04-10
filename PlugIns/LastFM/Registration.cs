@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Engines.PlugIns;
-using MusicBrowser.Actions;
-using MusicBrowser.Entities;
-using MusicBrowser.Engines.PlugIns.Actions;
-using MusicBrowser.Providers.Metadata;
-using MusicBrowser.Engines.Metadata;
+﻿using MusicBrowser.Engines.Metadata;
 
 namespace MusicBrowser.Engines.PlugIns
 {

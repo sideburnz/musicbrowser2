@@ -180,8 +180,9 @@
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />
     <Compile Include="Entities\Album.cs" />
+    <Compile Include="Entities\EntityCollectionSorter.cs" />
     <Compile Include="Entities\Extensions.cs" />
-    <Compile Include="Entities\TrackDedupeComparer.cs" />
+    <Compile Include="Entities\TrackComparer.cs" />
     <Compile Include="Entities\View.cs" />
     <Compile Include="Entities\VideoCollection.cs" />
     <Compile Include="Entities\MusicCollection.cs" />
@@ -218,7 +219,7 @@
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Providers\Background\BackgroundTaskQueueProvider.cs" />
     <Compile Include="Entities\EntityCollection.cs" />
-    <Compile Include="Entities\EntityFactory.cs" />
+    <Compile Include="Entities\Factory.cs" />
     <Compile Include="Providers\Background\IBackgroundTaskable.cs" />
     <Compile Include="Providers\Background\CommonTaskQueue.cs" />
     <Content Include="Entities\Entity Structure.txt" />
@@ -361,7 +362,9 @@
     </None>
     <None Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml" />
     <None Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml" />
-    <None Include="MediaCentre\Markup\Controls\SettingsPages\MusicSettings.mcml" />
+    <None Include="MediaCentre\Markup\Controls\SettingsPages\MusicSettings.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MediaCentre\Markup\Controls\SettingsPages\SystemSettings.mcml" />
     <None Include="MediaCentre\Markup\Pages\pageFolder.mcml">
       <SubType>Designer</SubType>

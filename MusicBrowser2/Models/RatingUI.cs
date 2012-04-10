@@ -6,9 +6,9 @@ namespace MusicBrowser.Models
 {
     public class RatingUI : BaseModel
     {
-        private const string ICON_STAR = "resx://MusicBrowser/MusicBrowser.Resources/IconStar";
-        private const string ICON_HALFSTAR = "resx://MusicBrowser/MusicBrowser.Resources/IconHalfStar";
-        private const string ICON_LOVED = "resx://MusicBrowser/MusicBrowser.Resources/IconFavorite";
+        private const string IconStar = "resx://MusicBrowser/MusicBrowser.Resources/IconStar";
+        private const string IconHalfstar = "resx://MusicBrowser/MusicBrowser.Resources/IconHalfStar";
+        private const string IconLoved = "resx://MusicBrowser/MusicBrowser.Resources/IconFavorite";
 
         private int _rating;
         public int Rating
@@ -48,17 +48,17 @@ namespace MusicBrowser.Models
 
                     for (int i = 0; i < Math.Floor(_rating / 20.00); i++)
                     {
-                        res.Add(new Image(ICON_STAR));
+                        res.Add(new Image(IconStar));
                     }
 
                 if((int)Math.Floor(_rating / 10.00) % 2 == 1)
                 {
-                    res.Add(new Image(ICON_HALFSTAR));
+                    res.Add(new Image(IconHalfstar));
                 }
 
                 if (Loved)
                 {
-                    res.Add(new Image(ICON_LOVED));
+                    res.Add(new Image(IconLoved));
                 }
 
                 return res;

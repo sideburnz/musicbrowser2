@@ -14,16 +14,15 @@ namespace MusicBrowser.Providers
         Thumb,
         Backdrop,
         Banner,
-        Logo,
-        Other
+        Logo
     }
 
     public enum ImageRatio
     {
-        Ratio2to3,
-        Ratio1to1,
-        Ratio16to9,
-        Ratio11to2,
+        Ratio2To3,
+        Ratio1To1,
+        Ratio16To9,
+        Ratio11To2,
         RatioUncommon
     }
 
@@ -37,19 +36,19 @@ namespace MusicBrowser.Providers
 
             if (ratio < 0.35)
             {
-                return ImageRatio.Ratio11to2; // 0.1818181818181818
+                return ImageRatio.Ratio11To2; // 0.1818181818181818
             }
             if (ratio >= 0.35 && ratio < 0.75) 
             {
-                return ImageRatio.Ratio16to9; // 0.5625
+                return ImageRatio.Ratio16To9; // 0.5625
             }
             if (ratio >= 0.75 && ratio < 1.25)
             {
-                return ImageRatio.Ratio1to1; // 1
+                return ImageRatio.Ratio1To1; // 1
             }
             if (ratio >= 1.25 && ratio < 1.75)
             {
-                return ImageRatio.Ratio2to3;  // 1.5
+                return ImageRatio.Ratio2To3;  // 1.5
             }
 
             return ImageRatio.RatioUncommon;
@@ -75,49 +74,30 @@ namespace MusicBrowser.Providers
             return b;
         }
 
-        public static bool Save(Icon bitmap, string filename)
+        public static void Save(Image bitmap, string filename)
         {
-            if (bitmap == null) { return false; }
-
-            try
-            {
-                // this fails on rare occassions for reasons I don't know
-                // if that happens just don't save and let the item refresh in due course
-                bitmap.ToBitmap().Save(filename, ImageFormat.Png);
-                return true;
+            if (bitmap == null) {
+                return;
             }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public static bool Save(Image bitmap, string filename)
-        {
-            if (bitmap == null) { return false; }
 
             try
             {
                 // this fails on rare occassions for reasons I don't know
                 // if that happens just don't save and let the item refresh in due course
                 bitmap.Save(filename, ImageFormat.Png);
-                return true;
             }
-            catch 
-            {
-                return false;
-            }
+            catch {}
         }
 
         static IEnumerable<string> _images;
 
         public static string LocateFanArt(string path, ImageType type)
         {
-            if (type == ImageType.Backdrop) { return internalFanArtSearch(path, "backdrop"); }
-            if (type == ImageType.Banner) { return internalFanArtSearch(path, "banner"); }
+            if (type == ImageType.Backdrop) { return InternalFanArtSearch(path, "backdrop"); }
+            if (type == ImageType.Banner) { return InternalFanArtSearch(path, "banner"); }
             if (type == ImageType.Logo)
             {
-                string logoPath = internalFanArtSearch(path, "logo");
+                string logoPath = InternalFanArtSearch(path, "logo");
                 if (logoPath.ToLower().EndsWith(@"\logo.png"))
                 {
                     return logoPath;
@@ -126,10 +106,10 @@ namespace MusicBrowser.Providers
             }
             if (type == ImageType.Thumb)
             {
-                string iconPath = internalFanArtSearch(path, "folder");
+                string iconPath = InternalFanArtSearch(path, "folder");
                 if (string.IsNullOrEmpty(iconPath)) 
                 {
-                    iconPath = internalFanArtSearch(path, "cover");
+                    iconPath = InternalFanArtSearch(path, "cover");
                 }
                 return iconPath;
             }
@@ -140,20 +120,20 @@ namespace MusicBrowser.Providers
         {
             List<string> backs = new List<string>();
 
-            string iconPath = internalFanArtSearch(path, "backdrop");
+            string iconPath = InternalFanArtSearch(path, "backdrop");
             if (String.IsNullOrEmpty(iconPath)) { return backs; }
             backs.Add(iconPath);
 
             for (int i = 1; i < 99; i++)
             {
-                iconPath = internalFanArtSearch(path, "backdrop" + i);
+                iconPath = InternalFanArtSearch(path, "backdrop" + i);
                 if (String.IsNullOrEmpty(iconPath)) { return backs; }
                 backs.Add(iconPath);
             }
             return backs;
         }
 
-        private static string internalFanArtSearch(string path, string filename)
+        private static string InternalFanArtSearch(string path, string filename)
         {
             if (_images == null) { _images = Config.GetInstance().GetListSetting("Extensions.Image"); }
             foreach (string item in _images)
@@ -174,18 +154,6 @@ namespace MusicBrowser.Providers
                 stream.Flush();
                 stream.Close();
                 return Resize(bitmap, type);
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public static Bitmap Load(string path)
-        {
-            try
-            {
-                return new Bitmap(path);
             }
             catch
             {

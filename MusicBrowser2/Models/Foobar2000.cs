@@ -40,11 +40,6 @@ namespace MusicBrowser.Models
         public string PlaylistDuration;
         public int PlaylistItemPlaying;
 
-        public string PlayingTrackArtist;
-        public string PlayingTrackName;
-        public string PlayingTrackNumber;
-        public string PlayingTrackAlbumArtist;
-        public string PlayingTrackAlbumName;
         public string PlayingTrackPath;
 
         public int PlayingTrackProgress;
@@ -428,7 +423,7 @@ namespace MusicBrowser.Models
 
             if (_path != info.PlayingTrackPath)
             {
-                CurrentTrack = (Track)EntityFactory.GetItem(info.PlayingTrackPath);
+                CurrentTrack = (Track)Factory.GetItem(info.PlayingTrackPath);
                 _path = info.PlayingTrackPath;
             }
 

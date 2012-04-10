@@ -108,12 +108,6 @@ namespace MusicBrowser.Util
 
         readonly Dictionary<string, string> _settingCache = new Dictionary<string, string>();
 
-        public bool Exists(string key)
-        {
-            string xpathString = string.Format("Settings/{0}", key.Replace('.', '/'));
-            return  (_xml.SelectNodes(xpathString).Count > 0);            
-        }
-
         public string GetSetting(string key)
         {
             // see if we've already cached the setting
@@ -232,18 +226,7 @@ namespace MusicBrowser.Util
             }
         }
 
-        public delegate void SettingsChangedHandler(String Key);
+        public delegate void SettingsChangedHandler(String key);
         public static event SettingsChangedHandler OnSettingUpdate;
-
-        public void ResetSettings()
-        {
-            string configFile = Helper.AppConfigFile;
-            if (File.Exists(configFile))
-            {
-                File.Delete(configFile);
-            }
-            // reset the cache too
-            _settingCache.Clear();
-        }
     }
 }
