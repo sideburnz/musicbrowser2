@@ -24,9 +24,6 @@ namespace MusicBrowser
             if (Util.Config.GetInstance().GetBooleanSetting("Telemetry.Participate"))
             {
                 Statistics.Send();
-#if DEBUG
-                Engines.Logging.LoggerEngineFactory.Verbose(Util.Helper.OutputTypes(), "stats");
-#endif
             }
         }
         

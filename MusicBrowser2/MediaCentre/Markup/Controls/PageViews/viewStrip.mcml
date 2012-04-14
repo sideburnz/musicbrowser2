@@ -108,7 +108,8 @@
           <DockLayout SizeToChildren="true" />
         </Layout>
         <Children>
-          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="100" MaximumSize="0,150" Navigation="ContainHorizontal">
+          
+          <Scroller Orientation="Horizontal" Name="Scroller" ScrollingData="[scrollData]" FadeSize="1" MaximumSize="0,0" Navigation="ContainHorizontal">
             <LayoutInput>
               <DockLayoutInput Position="Bottom" Alignment="Fill" />
             </LayoutInput>
@@ -121,13 +122,12 @@
             </Children>
           </Scroller>
 
-
           <Panel Layout="Dock">
             <LayoutInput>
-              <DockLayoutInput Position="Bottom" Alignment="Fill" />
+              <DockLayoutInput Position="Bottom"  />
             </LayoutInput>
             <Children>
-              <Panel Margins="0,0,10,10" Name="SummaryPanel">
+              <Panel Margins="0,0,10,25" Name="SummaryPanel">
                 <LayoutInput>
                   <DockLayoutInput Alignment="Near" Position="Left" />
                 </LayoutInput>
@@ -137,12 +137,11 @@
                 <Children>
                   <Text Name="Title" Content="[FolderModel.SelectedItem.Title]" Color="White" Font="Segoe Media Center Bold, 22" WordWrap="false" Margins="10,0,10,20"/>
                   <Graphic Name="Banner" Content="[FolderModel.SelectedItem.Banner]" MaximumSize="0,70" MaintainAspectRatio="true" Margins="10,0,10,20"/>
-                  <me:ctrlScrollingText Name="Summary" Summary="" Visible="true" />
+                  <me:ctrlScrollingText Name="Summary" Summary="" Visible="true" Margins="0,0,0,0" />
                 </Children>
               </Panel>
             </Children>
           </Panel>
-
 
         </Children>
       </ColorFill>
