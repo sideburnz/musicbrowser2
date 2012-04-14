@@ -10,60 +10,114 @@
     
     <Locals>
       <ScrollingHandler Name="TextScrollingHandler" HandleDirectionalKeys="true" HandleHomeEndKeys="true" HandleMouseWheel="true" HandlePageCommands="true" HandlePageKeys="true" HandlerStage="Bubbled"/>
-      <ScrollingData Name="TextScrollingData" EndPadding="100" PageStep="0.5" />
+      <ScrollingData Name="TextScrollingData" PageStep="1"/>
+
+      <cor:Boolean Name="Ticker" Boolean="true" />
     </Locals>
     
     <Rules>
 
       <Default Target="[TextScrollingHandler.ScrollingData]" Value="[TextScrollingData]"/>
       <Binding Source="[Summary]" Target="[Body.Content]" />
-      <Binding Source="[TextScrollingData.TotalPages!cor:String]" Target="[TotalPages.Content]" />
-      <Binding Source="[TextScrollingData.CurrentPage!cor:String]" Target="[CurrentPage.Content]" />
 
-      <!--<Condition Source="[Input.KeyFocus]" SourceValue="true">
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
           <Set Target="[Body.Alpha]" Value="1"/>
+          <Set Target="[SelectedIndicator.Alpha]" Value="1" />
         </Actions>
-      </Condition>-->
+      </Condition>
     
-      <!--<Condition Source="[Input.KeyFocus]" SourceValue="false">
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
         <Actions>
-          <Set Target="[Body.Alpha]" Value="0.7"/>
+          <Set Target="[Body.Alpha]" Value="0.8"/>
+          <Set Target="[SelectedIndicator.Alpha]" Value="0" />
         </Actions>
-      </Condition>-->
+      </Condition>
 
-      <Changed Source="[TextScrollingData.TotalPages]" InitialEvaluate="true">
+      <Changed Source="[Summary]">
+        <Actions>
+          <Set Target="[Ticker]" Value="[Ticker]">
+            <Transformer>
+              <BooleanTransformer Inverse="true" />
+            </Transformer>
+          </Set>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[TextScrollingData.TotalPages]">
+        <Actions>
+          <Set Target="[Ticker]" Value="[Ticker]">
+            <Transformer>
+              <BooleanTransformer Inverse="true" />
+            </Transformer>
+          </Set>
+        </Actions>
+      </Changed>
+
+      <Changed Source="[TextScrollingData.CurrentPage]">
+        <Actions>
+          <Set Target="[Ticker]" Value="[Ticker]">
+            <Transformer>
+              <BooleanTransformer Inverse="true" />
+            </Transformer>
+          </Set>
+        </Actions>
+      </Changed>
+      
+      
+      
+      <Changed Source="[Ticker]">
         <Conditions>
           <Equality Source="[TextScrollingData.TotalPages]" ConditionOp="GreaterThan" Value="0" />
         </Conditions>
         <Actions>
-          <Set Target="[ProgressPanel.Visible]" Value="true" />
           <Set Target="[Input.KeyInteractive]" Value="true" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Ticker]">
+        <Conditions>
+          <Equality Source="[TextScrollingData.TotalPages]" ConditionOp="Equals" Value="0" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Input.KeyInteractive]" Value="false" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Ticker]">
+        <Conditions>
+          <Equality Source="[TextScrollingData.TotalPages]" ConditionOp="Equals" Value="[TextScrollingData.CurrentPage]" />
+        </Conditions>
+        <Actions>
+          <Set Target="[MoreIndicator.Visible]" Value="false" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[Ticker]">
+        <Conditions>
+          <Equality Source="[TextScrollingData.TotalPages]" ConditionOp="NotEquals" Value="[TextScrollingData.CurrentPage]" />
+        </Conditions>
+        <Actions>
+          <Set Target="[MoreIndicator.Visible]" Value="true" />
         </Actions>
       </Changed>
 
     </Rules>
 
     <Content>
-      <Panel Name="SummaryPanel" Layout="Dock" Visible="true">
+      <Panel Name="SummaryPanel" Layout="Dock" Visible="true" Margins="10,0,0,0">
         <Children>
-          <Panel Name="ProgressPanel" Margins="0,5,5,-20" Visible="false">
+          <Text Name="MoreIndicator" Content="..." Color="White" Margins="0,0,0,0" Font="Segoe Media Center Bold, 12" Visible="false">
             <LayoutInput>
-              <DockLayoutInput Alignment="Far" Position="Bottom" />
+              <DockLayoutInput Position="Bottom"  Alignment="Far" />
             </LayoutInput>
-            <Layout>
-              <FlowLayout Orientation="Horizontal"/>
-            </Layout>
-            <Children>
-              <Text Name="CurrentPage" Color="White" Font="Segoe Media Center Light, 18" />
-              <Text Content="|" Color="White" Font="Segoe Media Center Light, 16" />
-              <Text Name="TotalPages" Color="White" Font="Segoe Media Center Light, 18" />
-            </Children>
-          </Panel>
-          <Scroller Name="TextScroller" Orientation="Vertical" FadeSize="-5" ScrollingData="[TextScrollingData]" Navigation="Column, ContainVertical" Margins="10,-10,5,0">
+          </Text>
+          <ColorFill Name="SelectedIndicator" Content="White" MinimumSize="5,0" MaximumSize="5,0" Layout="Fill" Margins="10,0,0,0">
             <LayoutInput>
-              <DockLayoutInput Alignment="Fill" Position="Top" />
+              <DockLayoutInput Position="Right" />
             </LayoutInput>
+          </ColorFill>
+          <Scroller Name="TextScroller" Orientation="Vertical" FadeSize="1" Margins="0,0,0,0" ScrollingData="[TextScrollingData]" Navigation="Column, ContainVertical">
             <Children>
               <Text Name="Body" Color="White" Font="[Font]" WordWrap="true" />
             </Children>

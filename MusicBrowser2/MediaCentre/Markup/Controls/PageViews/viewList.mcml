@@ -69,7 +69,7 @@
           <FlowLayout Orientation="Horizontal"/>
         </Layout>
         <Children>
-          <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="-10" Margins="25,0,0,0" Name="viewListScroller" ScrollingData="[scrollData]" >
+          <Scroller FocusOrder="0" Orientation="Vertical" FadeSize="1" Margins="25,0,0,0" Name="viewListScroller" ScrollingData="[scrollData]" >
             <LayoutInput>
               <DockLayoutInput Alignment="Fill"  Position="Client"  />
             </LayoutInput>
@@ -92,7 +92,7 @@
               </Repeater>
             </Children>
           </Scroller>
-          <me:ctrlScrollingText Name="Summary" Summary="" Font="Segoe Media Center Light, 22" />
+          <me:ctrlScrollingText Name="Summary" Summary="" Font="Segoe Media Center Light, 22" Margins="0,0,5,0" />
         </Children>
       </Panel>
     </Content>
