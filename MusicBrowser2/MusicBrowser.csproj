@@ -177,6 +177,9 @@
     <Compile Include="Engines\Views\IView.cs" />
     <Compile Include="Engines\Views\Views.cs" />
     <Compile Include="Entities\baseEntity.cs" />
+    <Compile Include="Entities\BlankPlayState.cs" />
+    <Compile Include="Entities\IPlayState.cs" />
+    <Compile Include="Entities\PlayState.cs" />
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />
     <Compile Include="Entities\Album.cs" />
@@ -343,7 +346,9 @@
     <None Include="MediaCentre\Markup\Controls\Buttons\buttonIcon.mcml" />
     <None Include="MediaCentre\Markup\Controls\Buttons\buttonImage.mcml" />
     <None Include="MediaCentre\Markup\Controls\Controls\ctrlCheckbox.mcml" />
-    <None Include="MediaCentre\Markup\Controls\Controls\ctrlScrollingText.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Controls\ctrlScrollingText.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MediaCentre\Markup\Controls\Controls\ctrlTextBox.mcml" />
     <None Include="MediaCentre\Markup\Controls\Controls\ctrlThumb.mcml">
       <SubType>Designer</SubType>

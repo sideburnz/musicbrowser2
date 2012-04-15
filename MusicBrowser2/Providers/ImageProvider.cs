@@ -74,10 +74,10 @@ namespace MusicBrowser.Providers
             return b;
         }
 
-        public static void Save(Image bitmap, string filename)
+        public static bool Save(Image bitmap, string filename)
         {
             if (bitmap == null) {
-                return;
+                return false;
             }
 
             try
@@ -85,8 +85,10 @@ namespace MusicBrowser.Providers
                 // this fails on rare occassions for reasons I don't know
                 // if that happens just don't save and let the item refresh in due course
                 bitmap.Save(filename, ImageFormat.Png);
+                return true;
             }
             catch {}
+            return false;
         }
 
         static IEnumerable<string> _images;
@@ -159,58 +161,6 @@ namespace MusicBrowser.Providers
             {
                 return null;
             }
-        }
-
-        public static Color CalculateAverageColor(Bitmap bm)
-        {
-            int width = bm.Width;
-            int height = bm.Height;
-            const int minDiversion = 15; // drop pixels that do not differ by at least minDiversion between color values (white, gray or black)
-            int dropped = 0; // keep track of dropped pixels
-            long[] totals = new long[] { 0, 0, 0 };
-            int bppModifier = bm.PixelFormat == PixelFormat.Format24bppRgb ? 3 : 4; // cutting corners, will fail on anything else but 32 and 24 bit images
-
-            BitmapData srcData = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, bm.PixelFormat);
-            int stride = srcData.Stride;
-            IntPtr scan0 = srcData.Scan0;
-            
-            int count = width * height - dropped;
-            if (count == 0) 
-            {
-                return Color.FromArgb(128, 128, 128);
-            }
-
-            unsafe
-            {
-                byte* p = (byte*)(void*)scan0;
-
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++)
-                    {
-                        int idx = (y * stride) + x * bppModifier;
-                        int red = p[idx + 2];
-                        int green = p[idx + 1];
-                        int blue = p[idx];
-                        if (Math.Abs(red - green) > minDiversion || Math.Abs(red - blue) > minDiversion || Math.Abs(green - blue) > minDiversion)
-                        {
-                            totals[2] += red;
-                            totals[1] += green;
-                            totals[0] += blue;
-                        }
-                        else
-                        {
-                            dropped++;
-                        }
-                    }
-                }
-            }
-
-            int avgR = (int)(totals[2] / count);
-            int avgG = (int)(totals[1] / count);
-            int avgB = (int)(totals[0] / count);
-
-            return Color.FromArgb(avgR, avgG, avgB);
         }
     }
 }

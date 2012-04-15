@@ -21,12 +21,10 @@ namespace MusicBrowser.Entities
         private bool _sortAscending = true;
         private int _thumbSize;
         private List<string> _backgroundPaths;
-        private DateTime _lastPlayed;
         private int _duration;
         private string _overview;
         private DateTime _releaseDate;
         private int _rating;
-        private int _timesplayed;
         private Dictionary<String, DateTime> _metadata = new Dictionary<string, DateTime>();
         #endregion
 
@@ -156,42 +154,6 @@ namespace MusicBrowser.Entities
             }
         }
         [DataMember]
-        public DateTime LastPlayed 
-        {
-            get
-            {
-                return _lastPlayed;
-            }
-            set
-            {
-                if (value != _lastPlayed)
-                {
-                    _lastPlayed = value;
-                    DataChanged("LastPlayed");
-                    DataChanged("Played");
-                }
-            }
-        }
-        [DataMember]
-        public DateTime FirstPlayed { get; set; }
-        [DataMember]
-        public int TimesPlayed 
-        {
-            get
-            {
-                return _timesplayed;
-            }
-            set
-            {
-                if (value != _timesplayed)
-                {
-                    _timesplayed = value;
-                    DataChanged("TimesPlayed");
-                    DataChanged("Played");
-                }
-            }
-        }
-        [DataMember]
         public int Rating 
         {
             get
@@ -300,7 +262,7 @@ namespace MusicBrowser.Entities
             {
                 _metadata = value;
             }
-        } 
+        }
         #endregion
 
         #region private cached items
@@ -309,6 +271,7 @@ namespace MusicBrowser.Entities
         #endregion
 
         #region non-cached attributes
+
         public new string Description
         {
             get
@@ -387,25 +350,12 @@ namespace MusicBrowser.Entities
         { 
             get 
             {
-                return (LastPlayed > DateTime.Parse("1000-01-01")) || (TimesPlayed > 0); 
+                return (PlayState.Played); 
             } 
         }
 
         public abstract bool Playable { get; }
 
-        public Microsoft.MediaCenter.UI.Color Color
-        {
-            get
-            {
-                if (System.IO.File.Exists(ThumbPath))
-                {
-                    Bitmap image = new Bitmap(ThumbPath);
-                    Color baseColor = ImageProvider.CalculateAverageColor(image);
-                    return new Microsoft.MediaCenter.UI.Color(baseColor.R, baseColor.G, baseColor.B);
-                }
-                return new Microsoft.MediaCenter.UI.Color(128, 128, 128);
-            }
-        }
         #endregion
 
         #region abstract methods
@@ -415,11 +365,13 @@ namespace MusicBrowser.Entities
         #endregion
 
         #region abstract attributes
+        public abstract IPlayState PlayState { get; }
         public abstract string DefaultThumbPath { get; }
-        public abstract string DefaultSort { get; }
-        public abstract string DefaultView { get; }
+        protected abstract string DefaultSort { get; }
+        protected abstract string DefaultView { get; }
         public virtual List<Microsoft.MediaCenter.UI.Image> CodecIcons { get { return new List<Microsoft.MediaCenter.UI.Image>(); } }
-        public virtual string DefaultFormat 
+
+        protected virtual string DefaultFormat 
         {
             get
             {
@@ -540,24 +492,24 @@ namespace MusicBrowser.Entities
                         break;
                     case "timesplayed":
                     case "TimesPlayed":
-                        output = output.Replace("[" + token + "]", TimesPlayed.ToString()); break;
+                        output = output.Replace("[" + token + "]", PlayState.TimesPlayed.ToString()); break;
                     case "timesplayed:sort":
                     case "TimesPlayed:sort":
-                        output = output.Replace("[" + token + "]", TimesPlayed.ToString("D6")); break;
+                        output = output.Replace("[" + token + "]", PlayState.TimesPlayed.ToString("D6")); break;
                     case "LastPlayed:sort":
                     case "lastplayed:sort":
-                        if (LastPlayed > DateTime.Parse("01-JAN-1000")) 
+                        if (PlayState.LastPlayed > DateTime.Parse("01-JAN-1000")) 
                         {
-                            output = output.Replace("[" + token + "]", LastPlayed.ToString("yyyy-MM-dd HH:mm:ss:fff")); 
+                            output = output.Replace("[" + token + "]", PlayState.LastPlayed.ToString("yyyy-MM-dd HH:mm:ss:fff")); 
                             break; 
                         }
                         output = output.Replace("[" + token + "]", ""); 
                         break;
                     case "LastPlayed":
                     case "lastplayed":
-                        if (LastPlayed > DateTime.Parse("01-JAN-1000"))
+                        if (PlayState.LastPlayed > DateTime.Parse("01-JAN-1000"))
                         {
-                            output = output.Replace("[" + token + "]", LastPlayed.ToString("dd MMMM yyyy"));
+                            output = output.Replace("[" + token + "]", PlayState.LastPlayed.ToString("dd MMMM yyyy"));
                             break;
                         }
                         output = output.Replace("[" + token + "]", "");

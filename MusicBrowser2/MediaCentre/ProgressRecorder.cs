@@ -4,6 +4,7 @@ using Microsoft.MediaCenter.Hosting;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.Entities;
+using PlayState = Microsoft.MediaCenter.PlayState;
 
 namespace MusicBrowser.MediaCentre
 {

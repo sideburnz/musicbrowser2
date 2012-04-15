@@ -155,7 +155,11 @@ namespace MusicBrowser.Providers.Metadata.Lite
                         Bitmap thumb = new Bitmap(stream);
                         thumb = ImageProvider.Resize(thumb, ImageType.Thumb);
                         dto.ThumbPath = Helper.ImageCacheFullName(dto.CacheKey, ImageType.Thumb, -1);
-                        ImageProvider.Save(thumb, dto.ThumbPath);
+                        if (!ImageProvider.Save(thumb, dto.ThumbPath))
+                        {
+                            // if the save fails, forget this ever happened
+                            dto.ThumbPath = String.Empty;
+                        }
                     }
                 }
             }

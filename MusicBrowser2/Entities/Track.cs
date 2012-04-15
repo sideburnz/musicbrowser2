@@ -15,7 +15,7 @@ namespace MusicBrowser.Entities
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageTrack"; }
         }
 
-        public override string  DefaultFormat
+        protected override string  DefaultFormat
         {
             get
             {

@@ -24,12 +24,12 @@ namespace MusicBrowser.Entities
             set { }
         }
 
-        public override string DefaultView
+        protected override string DefaultView
         {
             get { return "Thumb"; }
         }
 
-        public override string DefaultSort
+        protected override string DefaultSort
         {
             get { return "[SortOrder:sort]"; }
         }
