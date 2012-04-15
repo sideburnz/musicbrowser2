@@ -1,0 +1,1 @@
+DEVINSTALL /u
