@@ -1,0 +1,51 @@
+﻿- handle DVDs better, be a little more intelligent about which IFO to read
+
+- fix search
+
+- sort should be configurable and albums default to to release date
+
+- genre fails, looking for a .vf
+
+- play should default to resume & restart should be an option if resume is an option
+
+- http://www.last.fm/api/show/chart.getTopTracks
+
+- sort and view config for entities
+
+- background images should be 1080
+
+- year on albums appears to be transient?
+
+- installer needs admin rights
+
+- split installer into 32bit and 64 bit
+
+- if the last run version is before 2.3.0.5, delete the mediainfo and sqllite libraries
+
+- rewrite IBN code
+
+- fix backgrounds... this is an odd one
+
+- basic views of by genre and by year, by decade
+
+- use folder image for tracks isn't working
+
+- scavenger isn't working
+
+- Flatten the list view (no fade)
+
+- move the counter on the strip view, don't hide it
+
+- find out why the summary isn't scrolling in list/strip
+
+- * shows foo playing even if nothing playing
+
+- play should press stop if music is playing
+
+- album titles should inherit, to correct substitutions
+
+- put the play count, progress, first played, last played etc into a seperate library
+
+- white theme isn't loading
+
+- settings isn't loading, think it's the theme config

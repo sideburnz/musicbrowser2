@@ -1,0 +1,14 @@
+﻿<application title="MusicBrowser 2" 
+	id="{46572B5B-2B75-40B3-B48A-F7A308846CB7}"
+  Title="MusicBrowser 2" 
+  CompanyName="joocer"
+  StartMenuStripTitle="MusicBrowser 2"
+  StartMenuStripCategory="Custom Start Menu\MusicBrowser 2">
+	<entrypoint id="49233D7D-3063-4B89-801E-C038ADEE6EF9" 
+                    addin="MusicBrowser.EntryPoint, MusicBrowser,Culture=Neutral,Version=2.3.0.5,PublicKeyToken=a0d284a68f39c610"               
+                    title="MusicBrowser 2" 
+	            description="browse your music"               
+                    ImageUrl="Application.png">    
+		<category category="Custom Start Menu\MusicBrowser 2"/>
+	</entrypoint>
+</application>

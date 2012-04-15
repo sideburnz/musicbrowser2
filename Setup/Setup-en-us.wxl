@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+
+	<String Id="LaunchCondition_AdminPrivs">You must have Administrative rights on this machine to install [ProductName].</String>
+	<String Id="LaunchCondition_LaterVersion">A later version of [ProductName] is already installed.</String>
+	<String Id="LaunchCondition_WrongOSVersion">[ProductName] can only be installed on Windows 7.</String>
+	<String Id="LaunchCondition_NewerVersion">A newer version of [ProductName] is already installed.</String>
+
+	<String Id="Property_ArpHelpLink">http://groups.google.com/group/musicbrowser2-support</String>
+	<String Id="Property_ArpUrlInfoAbout">http://www.musicbrowser2.com/</String>
+	<String Id="Property_ProductLanguage">1033</String>
+	<String Id="Property_ProductName">MusicBrowser 2</String>
+	<String Id="Property_CompanyName">Joocer</String>
+
+	<String Id="Package_Description">MusicBrowser 2</String>
+	<String Id="Package_Comments">This Installer database contains the logic and data required to install MusicBrowser 2.</String>
+
+</WixLocalization>
