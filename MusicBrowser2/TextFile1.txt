@@ -1,51 +1,43 @@
-﻿- handle DVDs better, be a little more intelligent about which IFO to read
+﻿- handle DVDs better, be a little more intelligent about which IFO to read to get the length of the movie correct
 
-- fix search
+- fix search, it is stuck on "Nothing Searched For" on some computers
 
-- sort should be configurable and albums default to to release date
+- Sort should be configurable (make albums default to to release date)
 
-- genre fails, looking for a .vf
+- View should be configurable, also, store view settings (view, thumbsize etc) into another file
 
-- play should default to resume & restart should be an option if resume is an option
+- Genre play all fails, appears to be looking for a .vf
 
-- http://www.last.fm/api/show/chart.getTopTracks
+- Rethink the play and resume Actions; Play should default to resume & restart should be an option if resume is an option
 
-- sort and view config for entities
+- Background images should be 1080 pixels high
 
-- background images should be 1080
+- Year on albums appears to appear and disappear without intervention
 
-- year on albums appears to be transient?
+- Installer needs admin rights, otherwise it will fail due to UAC
 
-- installer needs admin rights
+- Split installer into 32bit and 64 bit, put the copying of SQLite and MediaInfo into the installer
 
-- split installer into 32bit and 64 bit
+- If the last run version is before 2.3.0.5, delete the mediainfo and sqllite libraries
 
-- if the last run version is before 2.3.0.5, delete the mediainfo and sqllite libraries
+- Rewrite IBN code, FileSystemProvider
 
-- rewrite IBN code
+- Rewrite views of by genre and by year (by decade) BasicViews plug-in
 
-- fix backgrounds... this is an odd one
+- Use folder image for tracks isn't working, this should also work backwards, use track images for the folder
+ 
+- Cache scavenger is reportedly not working
 
-- basic views of by genre and by year, by decade
+- Pressing * shows foo playing even if nothing playing
 
-- use folder image for tracks isn't working
+- Playing movies should stop music if some is playing
+ 
+- Album titles should inherit, to correct substitutions due to filesystem constraints
 
-- scavenger isn't working
+- White theme isn't loading
 
-- Flatten the list view (no fade)
+- Settings isn't loading, think it's the theme config
 
-- move the counter on the strip view, don't hide it
+- Playback should be in the display order rather than filesystem order, unless randomized
 
-- find out why the summary isn't scrolling in list/strip
-
-- * shows foo playing even if nothing playing
-
-- play should press stop if music is playing
-
-- album titles should inherit, to correct substitutions
-
-- put the play count, progress, first played, last played etc into a seperate library
-
-- white theme isn't loading
-
-- settings isn't loading, think it's the theme config
+- Page up and PageDown on  text scroller doesn't work if the text is only one line too long

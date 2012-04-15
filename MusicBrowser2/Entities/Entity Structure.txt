@@ -5,14 +5,12 @@
 			collection
 				music collection
 				video collection
-				photo collection
 		folder
 			artist
 			album
 			genre
 			show
 			season
-			gallery
 	item
 		music
 			track
@@ -20,4 +18,3 @@
 		video
 			episode
 			movie
-		photo

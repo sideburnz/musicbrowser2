@@ -10,35 +10,35 @@ namespace MusicBrowser.Engines.Cache
 {
     public class SQLiteCache : ICacheEngine
     {
-        private const string SQL_CREATE_TABLE = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [value] TEXT NULL, [kind] Character(12), [title] TEXT)";
-        private const string SQL_INSERT = "INSERT INTO [t_Cache] ([key], [value], [kind], [title]) VALUES(@1, @2, @3, @4)";
-        private const string SQL_UPDATE = "UPDATE [t_Cache] SET [value] = @1, [title] = @3 WHERE [key] = @2";
-        private const string SQL_DELETE = "DELETE FROM [t_Cache] WHERE [key]=@1";
-        private const string SQL_SELECT = "SELECT [kind], [value] FROM [t_Cache] WHERE [key]=@1";
-        private const string SQL_EXISTS = "SELECT COUNT([key]) FROM [t_Cache] WHERE [key]=@1";
-        private const string SQL_CLEAR = "DELETE FROM [t_Cache]";
-        private const string SQL_SEARCH = "SELECT [key] FROM [t_Cache] WHERE [kind] = @1 AND ([title] LIKE @2 OR [title] LIKE @3)";
-        private const string SQL_SCAVENGE = "SELECT [value] FROM [t_Cache]";
-        private const string SQL_COMPRESS = "VACUUM";
-        private const string SQL_TYPEHITS = "SELECT [kind], COUNT([key]) AS hits FROM [t_Cache] WHERE ([title] LIKE @1 OR [title] LIKE @2) GROUP BY [kind]";
+        private const string SqlCreateTable = "CREATE TABLE [t_Cache] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [value] TEXT NULL, [kind] Character(12), [title] TEXT)";
+        private const string SqlInsert = "INSERT INTO [t_Cache] ([key], [value], [kind], [title]) VALUES(@1, @2, @3, @4)";
+        private const string SqlUpdate = "UPDATE [t_Cache] SET [value] = @1, [title] = @3 WHERE [key] = @2";
+        private const string SqlDelete = "DELETE FROM [t_Cache] WHERE [key]=@1";
+        private const string SqlSelect = "SELECT [kind], [value] FROM [t_Cache] WHERE [key]=@1";
+        private const string SqlExists = "SELECT COUNT([key]) FROM [t_Cache] WHERE [key]=@1";
+        private const string SqlClear = "DELETE FROM [t_Cache]";
+        private const string SqlSearch = "SELECT [key] FROM [t_Cache] WHERE [kind] = @1 AND ([title] LIKE @2 OR [title] LIKE @3)";
+        private const string SqlScavenge = "SELECT [value] FROM [t_Cache]";
+        private const string SqlCompress = "VACUUM";
+        private const string SqlTypehits = "SELECT [kind], COUNT([key]) AS hits FROM [t_Cache] WHERE ([title] LIKE @1 OR [title] LIKE @2) GROUP BY [kind]";
 
         private static readonly string File = Path.Combine(Config.GetInstance().GetStringSetting("Cache.Path"), "entities.db");
 
         public SQLiteCache()
         {
-            SQLiteHelper.EstablishDatabase(File, SQL_CREATE_TABLE);
+            SQLiteHelper.EstablishDatabase(File, SqlCreateTable);
         }
 
         public void Delete(string key)
         {
-            string sql = SQL_DELETE.Replace("@1", "'" + key + "'");
+            string sql = SqlDelete.Replace("@1", "'" + key + "'");
             SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
             SQLiteHelper.ExecuteNonQuery(sql, cnn);
         }
 
         public baseEntity Fetch(string key)
         {
-            string sql = SQL_SELECT.Replace("@1", "'" + key + "'");
+            string sql = SqlSelect.Replace("@1", "'" + key + "'");
             SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
             Dictionary<string, object> res = SQLiteHelper.ExecuteRowQuery(sql, cnn);
             if (res == null) { return null; }
@@ -56,7 +56,7 @@ namespace MusicBrowser.Engines.Cache
             {
                 SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
                 SQLiteCommand cmdU = cnn.CreateCommand();
-                cmdU.CommandText = SQL_UPDATE;
+                cmdU.CommandText = SqlUpdate;
                 cmdU.Parameters.AddWithValue("@2", key);
                 cmdU.Parameters.AddWithValue("@1", value);
                 cmdU.Parameters.AddWithValue("@3", title);
@@ -66,7 +66,7 @@ namespace MusicBrowser.Engines.Cache
             {
                 SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
                 SQLiteCommand cmdI = cnn.CreateCommand();
-                cmdI.CommandText = SQL_INSERT;
+                cmdI.CommandText = SqlInsert;
                 cmdI.Parameters.AddWithValue("@1", key);
                 cmdI.Parameters.AddWithValue("@2", value);
                 cmdI.Parameters.AddWithValue("@3", kind);
@@ -77,7 +77,7 @@ namespace MusicBrowser.Engines.Cache
 
         public bool Exists(string key)
         {
-            string sql = SQL_EXISTS.Replace("@1", "'" + key + "'");
+            string sql = SqlExists.Replace("@1", "'" + key + "'");
             SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
             long rows = SQLiteHelper.ExecuteScalar<Int64>(sql, cnn);
             return rows != 0;
@@ -87,7 +87,7 @@ namespace MusicBrowser.Engines.Cache
         {
             SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
             cnn.Open();
-            IEnumerable<string> results = SQLiteHelper.ExecuteQuery<string>(SQL_SCAVENGE, cnn);
+            IEnumerable<string> results = SQLiteHelper.ExecuteQuery<string>(SqlScavenge, cnn);
             cnn.Close();
             foreach (string result in results)
             {
@@ -104,19 +104,19 @@ namespace MusicBrowser.Engines.Cache
         public void Clear()
         {
             SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
-            SQLiteHelper.ExecuteNonQuery(SQL_CLEAR, cnn);
+            SQLiteHelper.ExecuteNonQuery(SqlClear, cnn);
         }
 
         public void Compress()
         {
             SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
-            SQLiteHelper.ExecuteNonQuery(SQL_COMPRESS, cnn);
+            SQLiteHelper.ExecuteNonQuery(SqlCompress, cnn);
         }
 
         public IEnumerable<String> Search(string kind, string criteria)
         {
             SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
-            IEnumerable<string> results = SQLiteHelper.ExecuteQuery<string>(SQL_SEARCH, cnn, kind, 
+            IEnumerable<string> results = SQLiteHelper.ExecuteQuery<string>(SqlSearch, cnn, kind, 
                 criteria + "%", 
                 "% " + criteria + "%");
             return results;
@@ -127,7 +127,7 @@ namespace MusicBrowser.Engines.Cache
             SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
 
             SQLiteCommand mycommand = new SQLiteCommand(cnn);
-            mycommand.CommandText = SQL_TYPEHITS;
+            mycommand.CommandText = SqlTypehits;
             mycommand.Parameters.AddWithValue("@1", criteria + "%");
             mycommand.Parameters.AddWithValue("@2", "% " + criteria + "%");
 

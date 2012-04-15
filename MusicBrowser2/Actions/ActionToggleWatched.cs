@@ -30,16 +30,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            if (entity.LastPlayed > DateTime.Parse("1000-01-01"))
-            {
-                entity.LastPlayed = DateTime.Parse("1000-01-01").AddDays(-1.00);
-            }
-            else
-            {
-                entity.LastPlayed = DateTime.Parse("2000-01-01");
-            }
-            entity.TimesPlayed = 0;
-            entity.UpdateCache();
+            entity.PlayState.Played = !entity.PlayState.Played;
         }
 
     }

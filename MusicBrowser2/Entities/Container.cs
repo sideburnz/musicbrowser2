@@ -26,12 +26,12 @@ namespace MusicBrowser.Entities
         }
         private Dictionary<string, int> _children = new Dictionary<string, int>();
 
-        public override string DefaultView
+        protected override string DefaultView
         {
             get { return "List"; }
         }
 
-        public override string DefaultSort
+        protected override string DefaultSort
         {
             get { return "[Title:sort]"; }
         }
@@ -82,6 +82,11 @@ namespace MusicBrowser.Entities
             }
             return header + "  " + sb;
 
+        }
+
+        public override IPlayState PlayState
+        {
+            get { return new BlankPlayState(); }
         }
     }
 }

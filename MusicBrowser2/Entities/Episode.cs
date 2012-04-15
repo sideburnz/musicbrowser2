@@ -13,7 +13,7 @@ namespace MusicBrowser.Entities
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageVideo"; }
         }
 
-        public override string DefaultFormat
+        protected override string DefaultFormat
         {
             get
             {

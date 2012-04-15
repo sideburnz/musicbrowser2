@@ -5,15 +5,17 @@ namespace MusicBrowser.Entities
     [DataContract]
     public abstract class Item : baseEntity
     {
+        private PlayState _playState;
+
         [DataMember]
         public int Progress { get; set; }
 
-        public override string DefaultView
+        protected override string DefaultView
         {
             get { return "List"; }
         }
 
-        public override string DefaultSort
+        protected override string DefaultSort
         {
             get { return "[Title:sort]"; }
         }
@@ -21,6 +23,11 @@ namespace MusicBrowser.Entities
         public override bool Playable
         {
             get { return true; }
+        }
+
+        public override IPlayState PlayState
+        {
+            get { return _playState ?? (_playState = new PlayState(CacheKey)); }
         }
     }
 }

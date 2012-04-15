@@ -13,12 +13,12 @@ namespace MusicBrowser.Entities
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageAlbum"; }
         }
 
-        public override string DefaultSort
+        protected override string DefaultSort
         {
             get { return "[Track#:sort]"; }
         }
 
-        public override string DefaultFormat
+        protected override string DefaultFormat
         {
             get
             {

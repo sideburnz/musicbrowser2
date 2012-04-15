@@ -21,7 +21,7 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public override string DefaultSort
+        protected override string DefaultSort
         {
             get { return "[ReleaseDate:sort]"; }
         }

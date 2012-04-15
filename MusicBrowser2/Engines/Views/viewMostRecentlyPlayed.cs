@@ -27,11 +27,10 @@ namespace MusicBrowser.Engines.Views
             {
                 int playlistsize = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
                 EntityCollection e = new EntityCollection();
-                DateTime epoch = DateTime.Parse("2000-JAN-01");
 
                 e.AddRange(Cache.InMemoryCache.GetInstance().DataSet
-                    .OrderByDescending(item => item.LastPlayed)
-                    .Where(item => item.LastPlayed > epoch)
+                    .Where(item => (item.Playable) && (item.InheritsFrom<Item>()) && (item.PlayState.Played))
+                    .OrderByDescending(item => item.PlayState.LastPlayed)
                     .Take(playlistsize)
                     .ToList());
                 return e;
