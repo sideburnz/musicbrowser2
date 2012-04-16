@@ -5,11 +5,10 @@ namespace MusicBrowser.Engines.Metadata
 {
     public abstract class baseMetadataProvider : IProvider
     {
-        public int MinDaysBetweenHits { get; set; }
-        public int MaxDaysBetweenHits { get; set; }
-        public int RefreshPercentage { get; set; }
-
-        public string Name { get; set; }
+        protected int MinDaysBetweenHits { private get; set; }
+        protected int MaxDaysBetweenHits { private get; set; }
+        protected int RefreshPercentage { private get; set; }
+        protected string Name { private get; set; }
 
         private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
 
@@ -51,7 +50,7 @@ namespace MusicBrowser.Engines.Metadata
                 }
 
                 // log the statistic for telemetry
-                MusicBrowser.Providers.Statistics.Hit(Name + ".hit");
+                MusicBrowser.Providers.Telemetry.Hit(Name + ".hit");
 
                 // do the payload
                 ret = DoWork(dto);
@@ -63,8 +62,8 @@ namespace MusicBrowser.Engines.Metadata
             return ret;
         }
 
-        public abstract ProviderOutcome DoWork(baseEntity dto);
+        protected abstract ProviderOutcome DoWork(baseEntity dto);
 
-        public abstract bool AskKillerQuestions(baseEntity dto);
+        protected abstract bool AskKillerQuestions(baseEntity dto);
     }
 }

@@ -11,15 +11,13 @@ namespace MusicBrowser.Providers
         public readonly string Name;
         public readonly FileAttributes Attributes;
         public readonly DateTime LastUpdated;
-        public readonly DateTime Created;
 
-        internal FileSystemItem(string fullPath, string name, FileAttributes attributes, DateTime lastUpdated, DateTime created)
+        internal FileSystemItem(string fullPath, string name, FileAttributes attributes, DateTime lastUpdated)
         {
             FullPath = fullPath;
             Name = name;
             Attributes = attributes;
             LastUpdated = lastUpdated;
-            Created = created;
         }
     }
 
@@ -29,7 +27,7 @@ namespace MusicBrowser.Providers
         {
             IntPtr invalidHandleValue = new IntPtr(-1);
             IntPtr findHandle = invalidHandleValue;
-            FileSystemItem info = new FileSystemItem(String.Empty,String.Empty,0,DateTime.MinValue,DateTime.MinValue);
+            FileSystemItem info = new FileSystemItem(String.Empty,String.Empty,0,DateTime.MinValue);
 
             try
             {
@@ -40,8 +38,7 @@ namespace MusicBrowser.Providers
                     FileSystemItem fsi = new FileSystemItem(path,
                                                             findData.cFileName,
                                                             findData.dwFileAttributes,
-                                                            ToDateTime(findData.ftLastWriteTime),
-                                                            ToDateTime(findData.ftCreationTime));
+                                                            ToDateTime(findData.ftLastWriteTime));
                     info = fsi;
                 }
             }
@@ -78,8 +75,7 @@ namespace MusicBrowser.Providers
                         FileSystemItem fsi = new FileSystemItem(fullpath,
                                                                 findData.cFileName,
                                                                 findData.dwFileAttributes,
-                                                                ToDateTime(findData.ftLastWriteTime),
-                                                                ToDateTime(findData.ftCreationTime));
+                                                                ToDateTime(findData.ftLastWriteTime));
                         info.Add(fsi);
                     }
                     while (FileSystem.FindNextFile(findHandle, out findData));

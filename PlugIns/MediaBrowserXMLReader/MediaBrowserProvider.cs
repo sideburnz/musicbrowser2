@@ -24,13 +24,13 @@ namespace MusicBrowser.Engines.Metadata
                 || dto.InheritsFrom<Show>());
         }
 
-        public override bool AskKillerQuestions(baseEntity dto)
+        protected override bool AskKillerQuestions(baseEntity dto)
         {
             if (!CompatibleWith(dto)) { return false; }
             return true;
         }
 
-        public override ProviderOutcome DoWork(baseEntity dto)
+        protected override ProviderOutcome DoWork(baseEntity dto)
         {
             if (dto.InheritsFrom<Show>())
             {

@@ -23,7 +23,7 @@ namespace MusicBrowser
             TransportEngineFactory.GetEngine().Close();
             if (Util.Config.GetInstance().GetBooleanSetting("Telemetry.Participate"))
             {
-                Statistics.Send();
+                Telemetry.Send();
             }
         }
         

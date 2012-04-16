@@ -1,11 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicBrowser.Entities;
 using MusicBrowser.Engines.Logging;
+using MusicBrowser.Entities;
 
 namespace MusicBrowser.Actions
 {
@@ -21,13 +19,13 @@ namespace MusicBrowser.Actions
             public IList<baseActionCommand> MenuOptions;
         }
 
-        private static readonly List<baseActionCommand> _availableActions = GetAvailableActions();
+        private static readonly List<baseActionCommand> AvailableActions = GetAvailableActions();
         private static IDictionary<String, ActionConfigEntry> _actionConfig;
-        private static readonly Dictionary<string, baseActionCommand> _augmentedActions = new Dictionary<string, baseActionCommand>();
+        private static readonly Dictionary<string, baseActionCommand> AugmentedActions = new Dictionary<string, baseActionCommand>();
 
-        public static baseActionCommand ActionFactory(String name)
+        private static baseActionCommand ActionFactory(String name)
         {
-            foreach (baseActionCommand action in _availableActions)
+            foreach (baseActionCommand action in AvailableActions)
             {
                 if (action.ToString().EndsWith(".action" + name, StringComparison.OrdinalIgnoreCase))
                 {
@@ -38,7 +36,7 @@ namespace MusicBrowser.Actions
             return new ActionNoOperation();
         }
 
-        public static baseActionCommand ActionFactory(XmlNode node)
+        private static baseActionCommand ActionFactory(XmlNode node)
         {
             if (node != null)
             {
@@ -150,11 +148,11 @@ namespace MusicBrowser.Actions
                         {
                             ret.Add(action.NewInstance(entity));
                         }
-                        foreach(string key in _augmentedActions.Keys)
+                        foreach(string key in AugmentedActions.Keys)
                         {
                             if (key.StartsWith(entity.Kind))
                             {
-                                ret.Add(_augmentedActions[key]);
+                                ret.Add(AugmentedActions[key]);
                             }
                         }
                         ret.Add(new ActionCloseMenu());
@@ -193,7 +191,7 @@ namespace MusicBrowser.Actions
 
         public static void RegisterAction(baseActionCommand action, string kind)
         {
-            _augmentedActions.Add(kind + ":" + action.Label, action);
+            AugmentedActions.Add(kind + ":" + action.Label, action);
         }
 
         private static IDictionary<String, ActionConfigEntry> GetActionConfig()
@@ -243,7 +241,7 @@ namespace MusicBrowser.Actions
                 catch (Exception e)
                 {
                     LoggerEngineFactory.Error(e);
-                    throw e;
+                    throw;
                 }
             }
 

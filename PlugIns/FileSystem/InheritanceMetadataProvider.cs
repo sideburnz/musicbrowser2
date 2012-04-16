@@ -28,14 +28,14 @@ namespace MusicBrowser.Engines.Metadata
             return dto.InheritsFrom<Album>() || dto.InheritsFrom<Season>();
         }
 
-        public override bool AskKillerQuestions(baseEntity dto)
+        protected override bool AskKillerQuestions(baseEntity dto)
         {
             if (!CompatibleWith(dto)) { return false; }
             if (!Directory.Exists(dto.Path)) { return false; }
             return true;
         }
 
-        public override ProviderOutcome DoWork(baseEntity dto)
+        protected override ProviderOutcome DoWork(baseEntity dto)
         {
             if (dto.InheritsFrom<Album>())
             {

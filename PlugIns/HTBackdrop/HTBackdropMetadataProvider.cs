@@ -24,7 +24,7 @@ namespace MusicBrowser.Engines.Metadata
             return dto.InheritsFrom<Artist>();
         }
 
-        public override bool AskKillerQuestions(baseEntity dto)
+        protected override bool AskKillerQuestions(baseEntity dto)
         {
             if (!CompatibleWith(dto)) { return false; }
             if (!Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders")) { return false; }
@@ -34,7 +34,7 @@ namespace MusicBrowser.Engines.Metadata
             return true;
         }
 
-        public override ProviderOutcome DoWork(baseEntity dto)
+        protected override ProviderOutcome DoWork(baseEntity dto)
         {
             // set up the web service classes
             ArtistImageServiceDTO serviceDTO = new ArtistImageServiceDTO();

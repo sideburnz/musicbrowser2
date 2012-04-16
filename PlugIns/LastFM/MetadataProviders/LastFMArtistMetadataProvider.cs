@@ -19,7 +19,7 @@ namespace MusicBrowser.Engines.Metadata
             RefreshPercentage = 10;
         }
 
-        public override bool AskKillerQuestions(baseEntity dto)
+        protected override bool AskKillerQuestions(baseEntity dto)
         {
             if (!CompatibleWith(dto)) { return false; }
             if (!Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders")) { return false; }
@@ -32,7 +32,7 @@ namespace MusicBrowser.Engines.Metadata
             return dto.InheritsFrom<Artist>();
         }
 
-        public override ProviderOutcome DoWork(baseEntity dto)
+        protected override ProviderOutcome DoWork(baseEntity dto)
         {
             Artist workingDTO = (Artist)dto;
             WebServiceProvider lfmProvider = new LastFMWebProvider();
