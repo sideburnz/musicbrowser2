@@ -30,9 +30,9 @@ namespace MusicBrowser.Engines.Views
                 int playlistsize = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
 
                 EntityCollection e = new EntityCollection();
-                e.AddRange(Engines.Cache.InMemoryCache.GetInstance().DataSet
-                    .Where(item => item.Kind == "Track" && item.TimesPlayed > 0)
-                    .OrderByDescending(item => item.TimesPlayed)
+                e.AddRange(Cache.InMemoryCache.GetInstance().DataSet
+                    .Where(item => item.Kind == "Track" && item.PlayState.Played)
+                    .OrderByDescending(item => item.PlayState.TimesPlayed)
                     .Select(item => (Track)item)
                     .DedupeTracks()
                     .Take(playlistsize)

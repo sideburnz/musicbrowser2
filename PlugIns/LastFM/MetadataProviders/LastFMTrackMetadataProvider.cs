@@ -61,9 +61,9 @@ namespace MusicBrowser.Engines.Metadata
                 return ProviderOutcome.NoData;
             }
 
-            if (trackDTO.Plays > workingDTO.TimesPlayed)
+            if (trackDTO.Plays > workingDTO.PlayState.TimesPlayed)
             {
-                workingDTO.TimesPlayed = trackDTO.Plays;
+                workingDTO.PlayState.TimesPlayed = trackDTO.Plays;
             }
             workingDTO.Listeners = trackDTO.Listeners;
             workingDTO.LastFMPlayCount = trackDTO.TotalPlays;
