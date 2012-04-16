@@ -63,7 +63,11 @@ namespace MusicBrowser.Engines.Metadata
             {
                 Bitmap thumb = ImageProvider.Download(serviceDTO.ThumbList.First(), ImageType.Thumb);
                 dto.ThumbPath = Util.Helper.ImageCacheFullName(dto.CacheKey, ImageType.Thumb, -1);
-                ImageProvider.Save(thumb, dto.ThumbPath);
+                if (!ImageProvider.Save(thumb, dto.ThumbPath))
+                {
+                    // if the save fails, forget this ever happened
+                    dto.ThumbPath = String.Empty;
+                }
                 doneSomething = true;
             }
 
@@ -79,9 +83,12 @@ namespace MusicBrowser.Engines.Metadata
                         if (i != null)
                         {
                             string path = Util.Helper.ImageCacheFullName(dto.CacheKey, ImageType.Backdrop, dto.BackgroundPaths.Count);
-                            ImageProvider.Save(i, path);
-                            dto.BackgroundPaths.Add(path);
-                            doneSomething = true;
+                            if (ImageProvider.Save(i, path))
+                            {
+                                // if the save fails, don't add to the list of paths
+                                dto.BackgroundPaths.Add(path);
+                                doneSomething = true;
+                            }
                         }
                     }
                     catch { }

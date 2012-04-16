@@ -12,6 +12,8 @@ copy D:\Code\MusicBrowser2\PlugIns\FileSystem\bin\Release\plugin.*.dll %target%
 copy D:\Code\MusicBrowser2\PlugIns\TheTVDB\bin\Release\plugin.*.dll %target%
 copy D:\Code\MusicBrowser2\PlugIns\WhiteTheme\bin\Release\theme.*.dll %target%
 
+copy %target%\*.dll "C:\ProgramData\MusicBrowser\PlugIn"
+
 
 
 pause

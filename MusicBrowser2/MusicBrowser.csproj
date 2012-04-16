@@ -273,7 +273,6 @@
     <None Include="MediaCentre\Images\codecs\Subs.png" />
     <None Include="MediaCentre\Images\codecs\rate_44.1 KHz.png" />
     <None Include="MediaCentre\Images\codecs\rate_96 KHz.png" />
-    <Content Include="TextFile1.txt" />
     <None Include="MediaCentre\Images\buttonicons\IconMinus.png" />
     <None Include="MediaCentre\Images\buttonicons\IconNew.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconPlaylist.png" />

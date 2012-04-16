@@ -62,9 +62,9 @@ namespace MusicBrowser.Engines.Metadata
                 return ProviderOutcome.InvalidInput;
             }
 
-            if (artistDTO.Plays > workingDTO.TimesPlayed)
+            if (artistDTO.Plays > workingDTO.PlayState.TimesPlayed)
             {
-                workingDTO.TimesPlayed = artistDTO.Plays;
+                workingDTO.PlayState.TimesPlayed = artistDTO.Plays;
             }
             workingDTO.Listeners = artistDTO.Listeners;
             workingDTO.LastFMPlayCount = artistDTO.TotalPlays;
@@ -77,7 +77,11 @@ namespace MusicBrowser.Engines.Metadata
             {
                 Bitmap thumb = ImageProvider.Download(artistDTO.Image, ImageType.Thumb);
                 workingDTO.ThumbPath = Util.Helper.ImageCacheFullName(workingDTO.CacheKey, ImageType.Thumb, -1);
-                ImageProvider.Save(thumb, dto.ThumbPath);
+                if (!ImageProvider.Save(thumb, dto.ThumbPath))
+                {
+                    // if the save fails, forget this ever happened
+                    dto.ThumbPath = String.Empty;
+                }
             }
 
             dto = workingDTO;
