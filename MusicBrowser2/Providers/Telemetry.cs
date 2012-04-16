@@ -7,7 +7,7 @@ using MusicBrowser.Util;
 
 namespace MusicBrowser.Providers
 {
-    public static class Statistics
+    public static class Telemetry
     {
         private static readonly Dictionary<string, int> Stats = new Dictionary<string, int>();
         private static readonly DateTime Starttime = DateTime.Now;
@@ -29,13 +29,13 @@ namespace MusicBrowser.Providers
             }
         }
 
-        public static string GetReport()
+        private static string GetReport()
         {
             StringBuilder sb = new StringBuilder();
             TextWriter text = new StringWriter(sb);
             XmlWriter writer = new XmlTextWriter(text);
 
-            writer.WriteStartElement("Statistics");
+            writer.WriteStartElement("Telemetry");
             writer.WriteAttributeString("ID", Config.GetInstance().GetStringSetting("Telemetry.ID"));
             writer.WriteAttributeString("Version", Application.Version);
             writer.WriteAttributeString("ExecutionTime", Math.Truncate(DateTime.Now.Subtract(Starttime).TotalSeconds).ToString());

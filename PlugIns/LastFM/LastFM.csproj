@@ -48,17 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions\_ActionPlayForgottenTracks.cs" />
-    <Compile Include="Actions\_ActionPlaySimilarTracks.cs" />
     <Compile Include="MetadataProviders\LastFMAlbumMetadataProvider.cs" />
     <Compile Include="MetadataProviders\LastFMArtistMetadataProvider.cs" />
-    <Compile Include="Services\ChartService.cs" />
     <Compile Include="Views\viewPopular.cs" />
     <Compile Include="WebServiceProviders\LastFMWebProvider.cs" />
     <Compile Include="Services\AlbumInfoService.cs" />
     <Compile Include="Services\ArtistInfoService.cs" />
     <Compile Include="Services\TrackInfoService.cs" />
-    <Compile Include="Services\TrackSimilarService.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

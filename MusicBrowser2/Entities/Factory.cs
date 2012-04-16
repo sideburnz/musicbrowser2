@@ -61,13 +61,13 @@ namespace MusicBrowser.Entities
                 MemCache.Update(entity);
                 return entity;
             }
-            Statistics.Hit("factory.missorexpired");
+            Telemetry.Hit("factory.missorexpired");
 
             #endregion
 
             Engines.Logging.LoggerEngineFactory.Debug("Factory", "Manufacturing " + item.FullPath);
 
-            Statistics.Hit("factory.hit");
+            Telemetry.Hit("factory.hit");
 
             EntityKind? kind = DetermineKind(item);
             if (kind == null) { return null; }
@@ -114,13 +114,13 @@ namespace MusicBrowser.Entities
         private static T Factorize<T>(FileSystemItem item) where T : baseEntity, new()
         {
             T e = new T();
-            if ((item.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
+            if ((item.Attributes & FileAttributes.Directory) != FileAttributes.Directory)
             {
-                e.Title = item.Name;
+                e.Title = Path.GetFileNameWithoutExtension(item.Name);
             }
             else
             {
-                e.Title = Path.GetFileNameWithoutExtension(item.Name);
+                e.Title = item.Name;
             }
             e.Path = item.FullPath;
             e.LastUpdated = item.LastUpdated;

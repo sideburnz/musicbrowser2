@@ -317,7 +317,7 @@
     <Compile Include="Providers\Metadata\Lite\MediaInfoLib.cs" />
     <Compile Include="Providers\Metadata\Lite\MediaInfoProvider.cs" />
     <Compile Include="Providers\Metadata\Lite\VideoFilenameMetadataProvider.cs" />
-    <Compile Include="Providers\Statistics.cs" />
+    <Compile Include="Providers\Telemetry.cs" />
     <Compile Include="Engines\Transport\Foobar2000Transport.cs" />
     <Compile Include="Engines\Transport\MediaCentreTransport.cs" />
     <Compile Include="Engines\Transport\TransportEngineFactory.cs" />
@@ -336,7 +336,6 @@
     <Compile Include="WebServices\Helper\Logging.cs" />
     <Compile Include="WebServices\Interfaces\IWebService.cs" />
     <Compile Include="WebServices\Interfaces\WebServiceProvider.cs" />
-    <Compile Include="WebServices\Services\Discogs\holding.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MediaCentre\Markup\blank.mcml" />

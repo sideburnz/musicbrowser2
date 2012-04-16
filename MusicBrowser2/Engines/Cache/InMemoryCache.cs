@@ -70,10 +70,10 @@ namespace MusicBrowser.Engines.Cache
             if (_cache.ContainsKey(key))
             {
                 baseEntity e = _cache[key];
-                Statistics.Hit("MemCache.Hit");
+                Telemetry.Hit("MemCache.Hit");
                 return e;
             }
-            Statistics.Hit("MemCache.Miss");
+            Telemetry.Hit("MemCache.Miss");
             return null;
         }
 

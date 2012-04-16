@@ -32,7 +32,7 @@ namespace MusicBrowser.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            Providers.Statistics.Hit("ActionTrigger." + Source);
+            Providers.Telemetry.Hit("ActionTrigger." + Source);
             ActionsModel.GetInstance.Context = entity;
             ActionsModel.GetInstance.Visible = true;
         }

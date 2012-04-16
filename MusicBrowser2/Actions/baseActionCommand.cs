@@ -65,7 +65,7 @@ namespace MusicBrowser.Actions
                 return;
             }
 
-            Statistics.Hit("Action." + Label.Replace(" ", ""));
+            Telemetry.Hit("Action." + Label.Replace(" ", ""));
 
             try
             {
