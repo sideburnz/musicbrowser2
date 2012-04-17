@@ -13,7 +13,7 @@
   <UI Name="DisplaySettings">
 
     <Properties>
-      <theme:Theme Name="theme" />
+      <theme:ThemeLoader Name="theme" />
       <jil:KeyboardHandlerFactory Name="jil" />
       <util:Localization Name="local" />
     </Properties>
