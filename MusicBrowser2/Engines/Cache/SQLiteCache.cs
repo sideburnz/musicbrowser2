@@ -86,15 +86,12 @@ namespace MusicBrowser.Engines.Cache
         public void Scavenge()
         {
             SQLiteConnection cnn = SQLiteHelper.GetConnection(File);
-            cnn.Open();
             IEnumerable<string> results = SQLiteHelper.ExecuteQuery<string>(SqlScavenge, cnn);
-            cnn.Close();
             foreach (string result in results)
             {
-                // not everything is a folder, but everything should be able to be deserialized into a folder
+                // not everything is a folder, but everything can be able to be deserialized into a folder
                 baseEntity e = EntityPersistance.Deserialize("Folder", result);
-                FileSystemItem i = FileSystemProvider.GetItemDetails(e.Path);
-                if (i.Attributes == 0)
+                if (!Directory.Exists(e.Path) && !System.IO.File.Exists(e.Path))
                 {
                     Delete(e.CacheKey);
                 }
