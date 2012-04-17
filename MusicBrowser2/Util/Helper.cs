@@ -313,7 +313,7 @@ namespace MusicBrowser.Util
         static public string GetCacheKey(string seed)
         {
             // keys are 64 bytes
-            byte[] buffer = Encoding.ASCII.GetBytes(seed.ToLower());
+            byte[] buffer = Encoding.Unicode.GetBytes(seed.ToLowerInvariant());
             SHA256CryptoServiceProvider cryptoTransform = new SHA256CryptoServiceProvider();
             string hash = BitConverter.ToString(cryptoTransform.ComputeHash(buffer)).Replace("-", String.Empty);
             return hash;

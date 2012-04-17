@@ -364,7 +364,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="MediaCentre\Markup\Controls\PopUps\ctrlPlayListAction.mcml" />
-    <None Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml" />
+    <None Include="MediaCentre\Markup\Controls\SettingsPages\DisplaySettings.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MediaCentre\Markup\Controls\SettingsPages\MusicSettings.mcml">
       <SubType>Designer</SubType>
     </None>
