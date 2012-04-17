@@ -2,7 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Xml;
+using Microsoft.MediaCenter.ListMaker;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 /******************************************************************************
  * 
@@ -14,9 +17,35 @@ namespace MusicBrowser.Providers.FolderItems
 {
     public class WindowsLibraryProvider : IFolderItemsProvider
     {
+
+        //[DllImport(@"c:\Windows\ehome\ehuihlp.dll", CharSet = CharSet.Unicode)]
+        //static extern int EhGetLocationsForLibrary(ref Guid knownFolderGuid, [MarshalAs(UnmanagedType.SafeArray)] out string[] locations);
+
+        [DllImport("shell32.dll")]
+        static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, IntPtr hToken, out IntPtr pszPath);
+
+        //Guid RecordedTVLibrary = new Guid("1A6FDBA2-F42D-4358-A798-B74D745926C5");
+        //Guid MusicLibrary = new Guid("{2112AB0A-C86A-4ffe-A368-0DE96E47012E}");
+        //Guid PicturesLibrary = new Guid("a990ae9f-a03b-4e80-94bc-9912d7504104");
+        //Guid VideosLibrary = new Guid("491e922f-5643-4af4-a7eb-4e7a138d8174");
+
+        private static string getpathKnown(Guid rfid)
+        {
+            IntPtr pPath;
+            if (SHGetKnownFolderPath(rfid, 0, IntPtr.Zero, out pPath) == 0)
+            {
+                string s = System.Runtime.InteropServices.Marshal.PtrToStringUni(pPath);
+                System.Runtime.InteropServices.Marshal.FreeCoTaskMem(pPath);
+
+                return s;
+            }
+            else return string.Empty;
+        }
+
+
         #region IFolderItemsProvider Members
 
-        public System.Collections.Generic.IEnumerable<string> GetItems(string lib)
+        public IEnumerable<string> GetItems(string lib)
         {
 #if DEBUG
             Engines.Logging.LoggerEngineFactory.Verbose(GetType().ToString(), "start");
@@ -50,7 +79,22 @@ namespace MusicBrowser.Providers.FolderItems
 
             XmlNodeList nodes = libraryDfn.SelectNodes("lib:libraryDescription/lib:searchConnectorDescriptionList/lib:searchConnectorDescription/lib:simpleLocation/lib:url", nsMgr);
 
-            return nodes.Cast<XmlNode>().Select(node => node.InnerText).Where(Directory.Exists);
+            List<string> res = new List<string>();
+
+            foreach (XmlNode node in nodes)
+            {
+                string item = node.InnerText;
+                if (item.StartsWith("knownfolder:"))
+                {
+                    item = getpathKnown(new Guid(item.Substring(12)));
+                }
+                if (Directory.Exists(item))
+                {
+                    res.Add(item);
+                }
+            }
+
+            return res;
         }
 
         private static string GetLibraryLocation(string lib)
