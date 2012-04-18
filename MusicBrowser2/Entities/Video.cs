@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.Engines.Transport;
 using MusicBrowser.MediaCentre;
 using MusicBrowser.Providers;
 using MusicBrowser.Util;
@@ -207,6 +208,9 @@ namespace MusicBrowser.Entities
                 mce.PlayMedia(MediaType.Video, Path, false);
             }
 
+            // if something is playing, stop it
+            TransportEngineFactory.GetEngine().Stop();
+            
             mce.MediaExperience.GoToFullScreen();
             this.MarkPlayed();
             ProgressRecorder.Register(this);

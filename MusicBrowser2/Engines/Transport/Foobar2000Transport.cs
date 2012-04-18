@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Microsoft.MediaCenter;
 using MusicBrowser.Models;
 
 // this controls the playback via Foobar2000
@@ -20,6 +21,12 @@ namespace MusicBrowser.Engines.Transport
 
         public void Play(bool queue, string file)
         {
+            MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+            if (mce != null)
+            {
+                mce.MediaExperience.Transport.PlayRate = 0;
+            }
+
             if (!queue)
             {
                 ExecuteCommand("EmptyPlaylist");
