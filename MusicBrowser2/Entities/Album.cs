@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using MusicBrowser.Providers;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
 {
@@ -50,15 +51,27 @@ namespace MusicBrowser.Entities
 
         public override void Play(bool queue, bool shuffle)
         {
-            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(Path);
-            List<string> playlist = (from item in items where Util.Helper.GetKnownType(item) == Util.Helper.KnownType.Track select item.FullPath).ToList();
+            // get a list of all of the tracks in contect
+            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(Path)
+                .FilterInternalFiles()
+                .Where(item => Helper.GetKnownType(item) == Helper.KnownType.Track);
 
+            // convert them to entities so they can be sorted
+            EntityCollection entityCollection = new EntityCollection();
+            entityCollection.AddRange(items);
+
+            // shuffle or sort
             if (shuffle)
             {
-                Util.Helper.Shuffle(playlist);
+                entityCollection.Shuffle();
+            }
+            else
+            {
+                entityCollection.Sort(SortField);
             }
 
-            MediaCentre.Playlist.PlayTrackList(playlist, queue);
+            // play
+            Engines.Transport.TransportEngineFactory.GetEngine().Play(queue, entityCollection.Select(item => item.Path));
         }
     }
 }

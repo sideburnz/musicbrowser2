@@ -35,6 +35,7 @@ namespace MusicBrowser.Entities
                     if (type == Helper.KnownType.Track) { music++; }
                     else if (type == Helper.KnownType.Video) { video++; }
                 }
+                // if there's more music than videos, treat is as album, otherwise a season of a show
                 thisType = music >= video ? typeof(Album) : typeof(Season);
             }
 

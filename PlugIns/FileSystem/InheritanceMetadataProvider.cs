@@ -54,7 +54,7 @@ namespace MusicBrowser.Engines.Metadata
             return ProviderOutcome.InvalidInput;
         }
 
-        public bool DoWorkAlbum(Album dto)
+        private bool DoWorkAlbum(Album dto)
         {
             Dictionary<string, int> artists = new Dictionary<string, int>();
             Dictionary<string, int> albumartists = new Dictionary<string, int>();
@@ -126,7 +126,7 @@ namespace MusicBrowser.Engines.Metadata
         }
 
         // - show name populates seasons
-        public bool DoWorkSeason(Season dto)
+        private bool DoWorkSeason(Season dto)
         {
             if (!String.IsNullOrEmpty(dto.Show))
             {

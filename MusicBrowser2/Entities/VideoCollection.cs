@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.MediaCenter;
 using MusicBrowser.Providers;
+using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
@@ -23,23 +25,34 @@ namespace MusicBrowser.Entities
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
             MediaCollection collection = new MediaCollection();
 
-            List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path)
-                .FilterInternalFiles()
-                .OrderBy(item => item.Name)
-                .ToList();
+            List<string> playlist;
+
+            if (Directory.Exists(Path))
+            {
+                // if we're dealing with a path, get all the tracks under the path
+                playlist = FileSystemProvider.GetAllSubPaths(Path)
+                    .FilterInternalFiles()
+                    .Where(item => Helper.GetKnownType(item) == Helper.KnownType.Track)
+                    .Select(item => item.FullPath)
+                    .ToList();
+            }
+            else
+            {
+                // we're probably dealing with a .VF, so try to read the path info from it
+                IFolderItemsProvider fip = new CollectionProvider();
+                playlist = (from path in fip.GetItems(Path) from item in FileSystemProvider.GetAllSubPaths(path) where Helper.GetKnownType(item) == Helper.KnownType.Track select item.FullPath).ToList();
+            }
 
             if (shuffle)
             {
-                candidateitems = candidateitems.Shuffle().ToList();
+                playlist = playlist.Shuffle().ToList();
             }
 
-            foreach (FileSystemItem item in candidateitems)
+            foreach (string item in playlist)
             {
-                if (Helper.GetKnownType(item) == Helper.KnownType.Video)
-                {
-                    collection.AddItem(item.FullPath);
-                    collection[collection.Count - 1].FriendlyData.Add("Title", System.IO.Path.GetFileNameWithoutExtension(item.Name));
-                }
+                collection.AddItem(item);
+                collection[collection.Count - 1].FriendlyData.Add("Title",
+                                                                  System.IO.Path.GetFileNameWithoutExtension(item));
             }
 
             mce.PlayMedia(MediaType.MediaCollection, collection, false);
