@@ -34,7 +34,7 @@ namespace MusicBrowser.Entities
         public void Sort(string field)
         {
             string sort = field;
-            if (sort.IndexOf(":sort") < 0)
+            if (sort.IndexOf(":sort", System.StringComparison.Ordinal) < 0)
             {
                 sort = sort.Replace("]", ":sort]");
             }

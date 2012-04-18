@@ -58,6 +58,10 @@ namespace MusicBrowser.Util
                     try
                     {
                         Directory.CreateDirectory(e);
+                        Directory.CreateDirectory(e + "\\Images");
+                        Directory.CreateDirectory(e + "\\Images\\Backgrounds");
+                        Directory.CreateDirectory(e + "\\Images\\Covers");
+                        Directory.CreateDirectory(e + "\\Images\\Thumbs");
                     }
                     catch (Exception ex)
                     {
@@ -66,44 +70,6 @@ namespace MusicBrowser.Util
                 }
                 return e; 
             }
-        }
-
-        public static void BuildCachePath(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                try
-                {
-                    Directory.CreateDirectory(path);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Cache folder for MusicBrowser is missing: " + path, ex);
-                }
-            }
-            try
-            {
-                Directory.CreateDirectory(path + "\\Images");
-                Directory.CreateDirectory(path + "\\Images\\Backgrounds");
-                Directory.CreateDirectory(path + "\\Images\\Covers");
-                Directory.CreateDirectory(path + "\\Images\\Thumbs");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Image cache folder for MusicBrowser is missing: " + path + "\\Images", ex);
-            }
-            if (!Directory.Exists(path + "\\Entities"))
-            {
-                try
-                {
-                    Directory.CreateDirectory(path + "\\Entities");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Entity cache folder for MusicBrowser is missing: " + path + "\\Entities", ex);
-                }
-            }
-
         }
 
         static string _appLogFolder;
@@ -164,31 +130,6 @@ namespace MusicBrowser.Util
                     _componentFolder = e;
                 }
                 return _componentFolder;
-            }
-        }
-
-        static string _apiCacheFolder;
-        public static string APICacheFolder
-        {
-            get
-            {
-                if (_apiCacheFolder == null)
-                {
-                    var e = Path.Combine(CachePath, "API");
-                    if (!Directory.Exists(e))
-                    {
-                        try
-                        {
-                            Directory.CreateDirectory(e);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("API Cache folder for MusicBrowser is missing: " + e, ex);
-                        }
-                    }
-                    _apiCacheFolder = e;
-                }
-                return _apiCacheFolder;
             }
         }
 
@@ -288,12 +229,14 @@ namespace MusicBrowser.Util
 
         #endregion
 
+/*
         public static XmlNode CreateXmlNode(XmlDocument parent, string name, string value)
         {
             XmlNode node = parent.CreateNode(XmlNodeType.Element, name, "");
             node.InnerText = value;
             return node;
         }
+*/
 
         public static string ReadXmlNode(XmlDocument parent, string xPath)
         {
@@ -310,12 +253,14 @@ namespace MusicBrowser.Util
             return defaultValue;
         }
 
+        // moved so it isn't instatiated for every call to the cache key code
+        private static readonly SHA256CryptoServiceProvider Sha256Provider = new SHA256CryptoServiceProvider();
+
         static public string GetCacheKey(string seed)
         {
             // keys are 64 bytes
             byte[] buffer = Encoding.Unicode.GetBytes(seed.ToLowerInvariant());
-            SHA256CryptoServiceProvider cryptoTransform = new SHA256CryptoServiceProvider();
-            string hash = BitConverter.ToString(cryptoTransform.ComputeHash(buffer)).Replace("-", String.Empty);
+            string hash = BitConverter.ToString(Sha256Provider.ComputeHash(buffer)).Replace("-", String.Empty);
             return hash;
         }
 
