@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.MediaCenter;
+using MusicBrowser.Engines.Transport;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Util;
@@ -54,6 +55,9 @@ namespace MusicBrowser.Entities
                 collection[collection.Count - 1].FriendlyData.Add("Title",
                                                                   System.IO.Path.GetFileNameWithoutExtension(item));
             }
+
+            // if something is playing, stop it
+            TransportEngineFactory.GetEngine().Stop();
 
             mce.PlayMedia(MediaType.MediaCollection, collection, false);
             mce.MediaExperience.GoToFullScreen();
