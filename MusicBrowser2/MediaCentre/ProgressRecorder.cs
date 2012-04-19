@@ -11,22 +11,28 @@ namespace MusicBrowser.MediaCentre
     static class ProgressRecorder
     {
         private static MediaCenterEnvironment _mce;
-        private static readonly List<Video> Registered = new List<Video>();
+        private static readonly List<baseEntity> WatchList = new List<baseEntity>();
 
-        public static void Register(Video e)
+        public static void Register(baseEntity e)
         {
+            // killer questions
+            if (!e.InheritsFrom<Video>()) { return; }
+            if (WatchList.Contains(e)) { return; }
+
+            // add the item to the watch list
+            WatchList.Add(e);
+
+            // make sure we're listening for stop events
             if (_mce == null)
             {
                 _mce = AddInHost.Current.MediaCenterEnvironment;
                 _mce.MediaExperience.Transport.PropertyChanged += TransportPropertyChanged;
             }
-            Registered.Add(e);
 
             Engines.Logging.LoggerEngineFactory.Debug("ProgressRecorder", "registered " + e.Title);
-
         }
 
-        //not perfect
+        // clumsy but works for everything I've thrown at it
         private static bool ComparePathToURI(string path, string uri)
         {
             string comparerpath = path.Replace('\\', '/');
@@ -41,42 +47,55 @@ namespace MusicBrowser.MediaCentre
             if (property.ToLower() == "playstate")
             {
                 MediaTransport transport = (MediaTransport)sender;
-                if (transport.PlayState == PlayState.Stopped)
-                {
-                    foreach(Video e in Registered)
-                    {
-                        if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
-                        {                     
-                            // avoid divide by 0
-                            if (e.Duration == 0) { return; }
+                string media = (string) _mce.MediaExperience.MediaMetadata["Uri"];
 
-                            int pos = (int)transport.Position.TotalSeconds;
-                            int per = (pos * 20) / e.Duration;
-
-                            // show the app, otherwise DVDs show a blank screen when they end
-                            if (Util.Helper.IsDVD(e.Path))
-                            {
-                                AddInHost.Current.ApplicationContext.ReturnToApplication();
-                            }
-                            
-                            if (per > 1 && per < 19)
-                            {
-                                e.SetProgress(pos);
-                                return;
-                            }
-                            e.SetProgress(0);
-                        }
-                    }
-                }
-                else if(transport.PlayState == PlayState.Finished)
+                switch (transport.PlayState)
                 {
-                    foreach (Video e in Registered)
-                    {
-                        if (ComparePathToURI(e.Path, (string)_mce.MediaExperience.MediaMetadata["Uri"]))
+                    case PlayState.Stopped:
+
+                        // show the app, otherwise DVDs show a blank screen when they end
+                        if (Util.Helper.IsDVD(media))
                         {
-                            e.SetProgress(0);
+                            AddInHost.Current.ApplicationContext.ReturnToApplication();
                         }
-                    } 
+
+                        foreach(Video e in WatchList)
+                        {
+                            if (ComparePathToURI(e.Path, media))
+                            {                     
+                                // avoid divide by 0
+                                if (e.Duration == 0) { return; }
+
+                                int pos = (int)transport.Position.TotalSeconds;
+                                int per = (pos * 20) / e.Duration;
+                            
+                                // don't set the progress if it's the first or last 5% of the video
+                                if (per > 1 && per < 19)
+                                {
+                                    e.SetProgress(pos);
+                                    return;
+                                }
+                                e.SetProgress(0);
+                            }
+                        }
+                        break;
+                    case PlayState.Finished:
+
+                        // show the app, otherwise DVDs show a blank screen when they end
+                        if (Util.Helper.IsDVD(media))
+                        {
+                            AddInHost.Current.ApplicationContext.ReturnToApplication();
+                        }
+
+                        foreach (Video e in WatchList)
+                        {
+                            if (ComparePathToURI(e.Path, media))
+                            {
+                                // remove the progress indicator
+                                e.SetProgress(0);
+                            }
+                        }
+                        break;
                 }
             }
         }

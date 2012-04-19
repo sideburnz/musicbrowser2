@@ -7,9 +7,6 @@ namespace MusicBrowser.Entities
     {
         private PlayState _playState;
 
-        [DataMember]
-        public int Progress { get; set; }
-
         protected override string DefaultView
         {
             get { return "List"; }

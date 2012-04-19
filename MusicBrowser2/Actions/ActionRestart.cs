@@ -4,24 +4,22 @@ using MusicBrowser.Engines.Cache;
 using MusicBrowser.Entities;
 using MusicBrowser.MediaCentre;
 
-// this is a wrapper action around the specific Play actions, this allows config to just say Play
-// and for the code for the play actions to be simple
-
 namespace MusicBrowser.Actions
 {
-    public class ActionPlay : baseActionCommand
+    public class ActionRestart : baseActionCommand
     {
-        private const string LABEL = "Play";
-        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconPlay";
+        private const string LABEL = "Restart";
+        private const string ICON_PATH = "resx://MusicBrowser/MusicBrowser.Resources/IconRestart";
 
-        public ActionPlay(baseEntity entity)
+        public ActionRestart(baseEntity entity)
         {
             Label = LABEL + " " + entity.Kind;
             IconPath = ICON_PATH;
             Entity = entity;
+            Available = entity.InheritsFrom<Video>() && entity.PlayState.Progress > 0;
         }
 
-        public ActionPlay()
+        public ActionRestart()
         {
             Label = LABEL;
             IconPath = ICON_PATH;
@@ -29,22 +27,22 @@ namespace MusicBrowser.Actions
 
         public override baseActionCommand NewInstance(baseEntity entity)
         {
-            return new ActionPlay(entity);
+            return new ActionRestart(entity);
         }
 
         public override void DoAction(baseEntity entity)
         {
+            // we're restarting, make sure any existing progress indicator is removed
+            entity.SetProgress(0);
+
             // play the item
             entity.Play(false, false);
 
-            // if we have a progress indicator, use it to "resume" play
-            if (entity.PlayState.Progress > 0)
+            // make sure it plays from the beginning
+            MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+            if (mce != null)
             {
-                MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                if (mce != null)
-                {
-                    mce.MediaExperience.Transport.Position = new TimeSpan(0, 0, (int)entity.PlayState.Progress);
-                }
+                mce.MediaExperience.Transport.Position = new TimeSpan(0, 0, 0);
             }
 
             // register for progress recording

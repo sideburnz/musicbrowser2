@@ -20,9 +20,12 @@ namespace MusicBrowser.Entities
                 Models.UINotifier.GetInstance().Message = String.Format("playing {0}", Title);
             }
 
-            this.MarkPlayed();
             TransportEngineFactory.GetEngine().Play(queue, Path);
             MediaCentre.Playlist.AutoShowNowPlaying();
+            
+            //these aren't critical, so wait to do these
+            PlayState.Play();
+            this.UpdateCache();
         }
     }
 }

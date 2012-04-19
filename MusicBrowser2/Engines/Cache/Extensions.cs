@@ -14,15 +14,11 @@ namespace MusicBrowser.Engines.Cache
             Engine.Update(entity);
         }
 
-        public static void MarkPlayed(this baseEntity entity)
-        {
-            entity.PlayState.Play();
-        }
-
-        public static void SetProgress(this Video entity, int progress)
+        public static void SetProgress(this baseEntity entity, int progress)
         {
             Logging.LoggerEngineFactory.Debug("Cache.Extensions", String.Format("Video {0} progress recorded as {1}", entity.Title, progress));
             entity.PlayState.Progress = progress;
+            entity.UpdateCache();
         }
     }
 }
