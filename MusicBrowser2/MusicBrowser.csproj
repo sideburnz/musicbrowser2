@@ -141,7 +141,6 @@
     <Compile Include="Actions\ActionSetTextSetting.cs" />
     <Compile Include="Actions\ActionCheckForNewVersion.cs" />
     <Compile Include="Actions\ActionShowNowPlaying.cs" />
-    <Compile Include="Actions\ActionResume.cs" />
     <Compile Include="Actions\ActionPlaybackShuffle.cs" />
     <Compile Include="Actions\ActionPlaybackRepeat.cs" />
     <Compile Include="Actions\ActionShuffle.cs" />
@@ -153,6 +152,7 @@
     <Compile Include="Actions\ActionOpenVirtual.cs" />
     <Compile Include="Actions\ActionShowVirtuals.cs" />
     <Compile Include="Actions\ActionShowViewMenu.cs" />
+    <Compile Include="Actions\ActionRestart.cs" />
     <Compile Include="Actions\Factory.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Engines\Cache\CacheEngineFactory.cs" />
@@ -246,6 +246,7 @@
     <None Include="MediaCentre\Images\codecs\bit_8 bits.png" />
     <None Include="MediaCentre\Images\codecs\channels_2.png" />
     <None Include="MediaCentre\Images\codecs\channels_1.png" />
+    <Content Include="MediaCentre\Images\buttonicons\IconRestart.png" />
     <Content Include="MediaCentre\Images\codecs\codec_aac.png" />
     <None Include="MediaCentre\Images\codecs\codec_ac-3.png" />
     <Content Include="MediaCentre\Images\codecs\codec_asf.png" />
@@ -406,7 +407,6 @@
     <Content Include="MediaCentre\Images\buttonicons\IconQueue.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconResume.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconShuffle.png" />
-    <Content Include="MediaCentre\Images\icons\imageDisc.png" />
     <Content Include="MediaCentre\Images\buttons\ButtonLeftFocus.png" />
     <Content Include="MediaCentre\Images\backgrounds\defaultBackground.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconClose.png" />

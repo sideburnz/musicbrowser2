@@ -160,6 +160,9 @@ namespace MusicBrowser.Entities
 
         public override void Play(bool queue, bool shuffle)
         {
+            // if something is playing, stop it
+            TransportEngineFactory.GetEngine().Stop();
+
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
             if (System.IO.Directory.Exists(Path))
             {
@@ -207,13 +210,8 @@ namespace MusicBrowser.Entities
             {
                 mce.PlayMedia(MediaType.Video, Path, false);
             }
-
-            // if something is playing, stop it
-            TransportEngineFactory.GetEngine().Stop();
             
             mce.MediaExperience.GoToFullScreen();
-            this.MarkPlayed();
-            ProgressRecorder.Register(this);
         }
     }
 }

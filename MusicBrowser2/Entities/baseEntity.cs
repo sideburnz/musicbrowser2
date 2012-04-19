@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using MusicBrowser.Models;
-using MusicBrowser.Providers;
 using MusicBrowser.Util;
 
 namespace MusicBrowser.Entities
