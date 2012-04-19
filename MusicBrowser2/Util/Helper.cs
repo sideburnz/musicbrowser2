@@ -253,14 +253,12 @@ namespace MusicBrowser.Util
             return defaultValue;
         }
 
-        // moved so it isn't instatiated for every call to the cache key code
-        private static readonly SHA256CryptoServiceProvider Sha256Provider = new SHA256CryptoServiceProvider();
-
         static public string GetCacheKey(string seed)
         {
             // keys are 64 bytes
             byte[] buffer = Encoding.Unicode.GetBytes(seed.ToLowerInvariant());
-            string hash = BitConverter.ToString(Sha256Provider.ComputeHash(buffer)).Replace("-", String.Empty);
+            SHA256CryptoServiceProvider cryptoTransform = new SHA256CryptoServiceProvider();
+            string hash = BitConverter.ToString(cryptoTransform.ComputeHash(buffer)).Replace("-", String.Empty);
             return hash;
         }
 
