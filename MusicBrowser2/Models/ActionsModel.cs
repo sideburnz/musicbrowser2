@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MusicBrowser.Actions;
+using MusicBrowser.Engines.Actions;
 using MusicBrowser.Entities;
-using Factory = MusicBrowser.Actions.Factory;
+using Factory = MusicBrowser.Engines.Actions.Factory;
 
 namespace MusicBrowser.Models
 {

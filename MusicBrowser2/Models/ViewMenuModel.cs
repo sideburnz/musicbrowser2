@@ -52,22 +52,24 @@ namespace MusicBrowser.Models
 
         public void DecreaseThumb()
         {
-            Entity.ThumbSize -= 10;
-            if (Entity.ThumbSize < 80)
+            int thumbSize = Entity.ViewState.ThumbSize;
+            thumbSize -= 10;
+            if (thumbSize < 80)
             {
-                Entity.ThumbSize = 80;
+                thumbSize = 80;
             }
-            Entity.UpdateCache();
+            Entity.ViewState.SetThumbSize(thumbSize);
         }
 
         public void IncreaseThumb()
         {
-            Entity.ThumbSize += 10;
-            if (Entity.ThumbSize > 300)
+            int thumbSize = Entity.ViewState.ThumbSize;
+            thumbSize += 10;
+            if (thumbSize > 300)
             {
-                Entity.ThumbSize = 300;
+                thumbSize = 300;
             }
-            Entity.UpdateCache();
+            Entity.ViewState.SetThumbSize(thumbSize);
         }
 
         public void CommitChanges()

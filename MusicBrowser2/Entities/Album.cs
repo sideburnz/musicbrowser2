@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using MusicBrowser.Engines.ViewState;
 using MusicBrowser.Providers;
 using MusicBrowser.Util;
 
@@ -14,10 +15,16 @@ namespace MusicBrowser.Entities
             get { return "resx://MusicBrowser/MusicBrowser.Resources/imageAlbum"; }
         }
 
-        protected override string DefaultSort
+        public override IViewState ViewState
         {
-            get { return "[Track#:sort]"; }
+            get
+            {
+                IViewState view = base.ViewState;
+                view.DefaultSort = "[Track#:sort]";
+                return view;
+            }
         }
+
 
         protected override string DefaultFormat
         {
@@ -67,7 +74,7 @@ namespace MusicBrowser.Entities
             }
             else
             {
-                entityCollection.Sort(SortField);
+                entityCollection.Sort(ViewState.SortField);
             }
 
             // play

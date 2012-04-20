@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using MusicBrowser.Engines.ViewState;
 using MusicBrowser.Providers;
 
 namespace MusicBrowser.Entities
@@ -21,9 +22,14 @@ namespace MusicBrowser.Entities
             }
         }
 
-        protected override string DefaultSort
+        public override IViewState ViewState
         {
-            get { return "[ReleaseDate:sort]"; }
+            get
+            {
+                IViewState view = base.ViewState;
+                view.DefaultSort = "[ReleaseDate:sort]";
+                return view;
+            }
         }
 
         [DataMember]

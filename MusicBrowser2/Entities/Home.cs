@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using MusicBrowser.Engines.ViewState;
 
 namespace MusicBrowser.Entities
 {
@@ -24,14 +25,15 @@ namespace MusicBrowser.Entities
             set { }
         }
 
-        protected override string DefaultView
+        public override IViewState ViewState
         {
-            get { return "Thumb"; }
-        }
-
-        protected override string DefaultSort
-        {
-            get { return "[SortOrder:sort]"; }
+            get
+            {
+                IViewState view = base.ViewState;
+                view.DefaultSort = "[SortOrder:sort]";
+                view.DefaultView = "Thumb";
+                return view;
+            }
         }
     }
 }

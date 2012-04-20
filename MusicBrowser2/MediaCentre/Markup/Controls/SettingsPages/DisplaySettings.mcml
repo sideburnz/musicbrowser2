@@ -1,7 +1,7 @@
 ﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:me="Me"
-      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Engines.Actions"
       xmlns:util="assembly://MusicBrowser/MusicBrowser.Util"
       xmlns:theme="assembly://MusicBrowser/MusicBrowser.Engines.Themes"
       xmlns:jil="assembly://MusicBrowser/MusicBrowser.Models.Keyboard" 
