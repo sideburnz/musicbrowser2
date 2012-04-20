@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using MusicBrowser.Engines.PlayState;
 
 namespace MusicBrowser.Entities
 {

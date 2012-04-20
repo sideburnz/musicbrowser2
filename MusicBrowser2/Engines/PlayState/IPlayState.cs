@@ -1,6 +1,6 @@
 using System;
 
-namespace MusicBrowser.Entities
+namespace MusicBrowser.Engines.PlayState
 {
     public interface IPlayState
     {

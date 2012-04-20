@@ -190,18 +190,21 @@ namespace MusicBrowser.Entities
 
         public override List<Image> CodecIcons 
         {
-            get 
-            { 
-                List<Image> ret = new List<Image>
-                                      {
-                                          Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + Codec),
-                                          Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/bit_" + Resolution),
-                                          Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/rate_" + SampleRate),
-                                          Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/channels_" + Channels.ToLower())
-                                      };
+            get
+            {
+                List<Image> ret = new List<Image>();
+
+                try
+                {
+                    ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/codec_" + Codec));
+                    ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/bit_" + Resolution));
+                    ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/rate_" + SampleRate));
+                    ret.Add(Util.Helper.GetImage("resx://MusicBrowser/MusicBrowser.Resources/channels_" + Channels.ToLower()));
+                }
+                catch { }
 
                 return ret;
-            } 
+            }
         }
 
         public string DurationString
