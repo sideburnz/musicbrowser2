@@ -4,7 +4,7 @@
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
       xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting"
-      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Engines.Actions"
       xmlns:me="Me"
       >
 

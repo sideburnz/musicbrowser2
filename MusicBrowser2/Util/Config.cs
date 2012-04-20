@@ -22,6 +22,7 @@ namespace MusicBrowser.Util
                 { "PutDiscInTrackNo", true.ToString() },
                 { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
                 { "PlayStateDatabase", Path.Combine(Helper.CachePath, "PlayState.db") },
+                { "ViewStateDatabase", Path.Combine(Helper.CachePath, "ViewState.db") },
 
                 { "PlaylistLimit", "1" },
                 { "EnableMoviePlaylists", true.ToString() },

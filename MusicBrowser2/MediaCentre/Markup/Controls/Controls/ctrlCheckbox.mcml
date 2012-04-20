@@ -1,6 +1,6 @@
 <Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
       xmlns:cor="assembly://MSCorLib/System"
-      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Engines.Actions"
       xmlns:me="Me">
 
   <UI Name="ctrlCheckbox">

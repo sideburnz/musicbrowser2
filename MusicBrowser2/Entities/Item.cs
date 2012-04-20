@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using MusicBrowser.Engines.PlayState;
+using MusicBrowser.Engines.ViewState;
 
 namespace MusicBrowser.Entities
 {
@@ -8,16 +9,11 @@ namespace MusicBrowser.Entities
     {
         private PlayState _playState;
 
-        protected override string DefaultView
+        public override IViewState ViewState
         {
-            get { return "List"; }
+            get { return new ItemViewState("item"); }
         }
-
-        protected override string DefaultSort
-        {
-            get { return "[Title:sort]"; }
-        }
-
+    
         public override bool Playable
         {
             get { return true; }

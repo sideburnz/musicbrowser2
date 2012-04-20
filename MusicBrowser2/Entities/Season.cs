@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using MusicBrowser.Engines.ViewState;
 using ServiceStack.Text;
 
 namespace MusicBrowser.Entities
@@ -7,9 +8,14 @@ namespace MusicBrowser.Entities
     [DataContract]
     public class Season : Folder
     {
-        protected override string DefaultSort
+        public override IViewState ViewState
         {
-            get { return "[Episode#:sort]"; }
+            get
+            {
+                IViewState view = base.ViewState;
+                view.DefaultSort = "[Episode#:sort]";
+                return view;
+            }
         }
 
         public override string Information
@@ -27,7 +33,6 @@ namespace MusicBrowser.Entities
 
         [DataMember]
         public string Show { get; set; }
-
 
         public override string Serialize()
         {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using MusicBrowser.Engines.Cache;
-using MusicBrowser.Entities;
 
 namespace MusicBrowser.Engines.PlayState
 {

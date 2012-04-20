@@ -1,5 +1,5 @@
 ﻿using System;
-using MusicBrowser.Actions;
+using MusicBrowser.Engines.Actions;
 
 namespace MusicBrowser.Models.Keyboard
 {

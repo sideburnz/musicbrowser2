@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.MediaCenter.UI;
-using MusicBrowser.Actions;
+using MusicBrowser.Engines.Actions;
 using MusicBrowser.Entities;
 using MusicBrowser.Models.Keyboard;
 using MusicBrowser.Providers;
@@ -154,7 +154,7 @@ namespace MusicBrowser.Models
             {
                 if (_entityVirtualList == null || _entityVirtualListExpired)
                 {
-                    _entityVirtualList = new EntityVirtualList(_keyboard.DataSet, _parentEntity.SortField, _parentEntity.SortAscending);
+                    _entityVirtualList = new EntityVirtualList(_keyboard.DataSet, _parentEntity.ViewState.SortField, _parentEntity.ViewState.SortAscending);
                     _entityVirtualListExpired = false;
                 }
                 return _entityVirtualList;
@@ -272,7 +272,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                int i = _parentEntity.ThumbSize;
+                int i = _parentEntity.ViewState.ThumbSize;
                 return new Size((int)(i * ReferenceRatio), i);
             }
         }
@@ -282,7 +282,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                return new Size(0, _parentEntity.ThumbSize);
+                return new Size(0, _parentEntity.ViewState.ThumbSize);
             }
         }
 

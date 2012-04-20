@@ -3,7 +3,7 @@
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
-      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Engines.Actions"
       xmlns:me="Me"
       >
 
@@ -75,17 +75,17 @@
         </Actions>
       </Changed>
 
-      <Changed Source="[FolderModel.ParentEntity.View]" InitialEvaluate="true">
+      <Changed Source="[FolderModel.ParentEntity.ViewState.View]" InitialEvaluate="true">
         <Conditions>
-          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="Equals" Value="Strip" />
+          <Equality Source="[FolderModel.ParentEntity.ViewState.View]" ConditionOp="Equals" Value="Strip" />
         </Conditions>
         <Actions>
           <Set Target="[div_Strip.Visible]" Value="true"/>
         </Actions>
       </Changed>
-      <Changed Source="[FolderModel.ParentEntity.View]">
+      <Changed Source="[FolderModel.ParentEntity.ViewState.View]">
         <Conditions>
-          <Equality Source="[FolderModel.ParentEntity.View]" ConditionOp="NotEquals" Value="Strip" />
+          <Equality Source="[FolderModel.ParentEntity.ViewState.View]" ConditionOp="NotEquals" Value="Strip" />
         </Conditions>
         <Actions>
           <Set Target="[div_Strip.Visible]" Value="false" />

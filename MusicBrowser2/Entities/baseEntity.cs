@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using MusicBrowser.Engines.PlayState;
+using MusicBrowser.Engines.ViewState;
 using MusicBrowser.Models;
 using MusicBrowser.Util;
 
@@ -96,63 +97,6 @@ namespace MusicBrowser.Entities
         [DataMember]
         public DateTime LastUpdated { get; set; }
         [DataMember]
-        public virtual String View
-        {
-            get
-            {
-                // if view is overriden for this single entity, use its setting
-                if (!String.IsNullOrEmpty(_view))
-                {
-                    return _view;
-                }
-                if (!String.IsNullOrEmpty(DefaultView))
-                {
-                    return DefaultView;
-                }
-                return "List";
-            }
-            set
-            {
-                _view = value;
-                DataChanged("View");
-            }
-        }
-        [DataMember]
-        public virtual String SortField
-        {
-            get
-            {
-                if (!String.IsNullOrEmpty(_sortField))
-                {
-                    return _sortField;
-                }
-                if (!String.IsNullOrEmpty(DefaultSort))
-                {
-                    return DefaultSort;
-                }
-                return "[Title:sort]";
-            }
-            set
-            {
-                _sortField = value;
-                DataChanged("SortField");
-            }
-        }
-        [DataMember]
-        public virtual bool SortAscending
-        {
-            get
-            {
-                return _sortAscending;
-            }
-            set
-            {
-                _sortAscending = value;
-                DataChanged("SortAscending");
-                DataChanged("SortField");
-            }
-        }
-        [DataMember]
         public int Rating 
         {
             get
@@ -170,26 +114,6 @@ namespace MusicBrowser.Entities
         }
         [DataMember]
         public bool Loved { get; set; }
-        [DataMember]
-        public int ThumbSize
-        {
-            get
-            {
-                if (_thumbSize == 0)
-                {
-                    return Config.GetInstance().GetIntSetting("Views.ThumbSize");
-                }
-                return _thumbSize;
-            }
-            set
-            {
-                if (_thumbSize != value)
-                {
-                    _thumbSize = value;
-                    DataChanged("ThumbSize");
-                }
-            }
-        }
         [DataMember]
         public List<String> BackgroundPaths 
         {
@@ -262,11 +186,6 @@ namespace MusicBrowser.Entities
                 _metadata = value;
             }
         }
-        #endregion
-
-        #region private cached items
-        [DataMember]
-        private String _view = String.Empty;
         #endregion
 
         #region non-cached attributes
@@ -364,9 +283,8 @@ namespace MusicBrowser.Entities
 
         #region abstract attributes
         public abstract IPlayState PlayState { get; }
+        public abstract IViewState ViewState { get; }
         public abstract string DefaultThumbPath { get; }
-        protected abstract string DefaultSort { get; }
-        protected abstract string DefaultView { get; }
         public virtual List<Microsoft.MediaCenter.UI.Image> CodecIcons { get { return new List<Microsoft.MediaCenter.UI.Image>(); } }
 
         protected virtual string DefaultFormat 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MusicBrowser.Actions;
+using MusicBrowser.Engines.Actions;
 using MusicBrowser.Engines.Views;
 using MusicBrowser.Entities;
 

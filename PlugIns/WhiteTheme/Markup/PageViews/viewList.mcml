@@ -3,7 +3,7 @@
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:a="assembly://MusicBrowser/MusicBrowser"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
-      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Engines.Actions"
       xmlns:me="Me"
       >
 

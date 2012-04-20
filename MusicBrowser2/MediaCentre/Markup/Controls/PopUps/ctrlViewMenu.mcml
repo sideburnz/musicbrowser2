@@ -1,7 +1,7 @@
 ﻿<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
       xmlns:me="Me"
       xmlns:models="assembly://MusicBrowser/MusicBrowser.Models"
-      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Actions"
+      xmlns:actions="assembly://MusicBrowser/MusicBrowser.Engines.Actions"
       xmlns:entities="assembly://MusicBrowser/MusicBrowser.Entities"
       xmlns:cor="assembly://MSCorLib/System">
 
@@ -20,7 +20,7 @@
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[cmdClose]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[cmdClose]"/>
 
-      <actions:ActionSetOptionList Name="cmdView" Options="[Model.Views]" KeepMenuShowingAfterExecution="true" SelectedItem="[Entity.View]" />
+      <actions:ActionSetOptionList Name="cmdView" Options="[Model.Views]" KeepMenuShowingAfterExecution="true" SelectedItem="[Entity.ViewState.View]" />
       <actions:ActionSetBooleanSetting Name="cmdShowThumbs" Key="ShowThumbs" KeepMenuShowingAfterExecution="true" />
       <actions:ActionSetBooleanSetting Name="cmdVerticalScroll" Key="Views.IsHorizontal" KeepMenuShowingAfterExecution="true" />
     </Locals>
@@ -33,8 +33,7 @@
       </Changed>
       <Changed Source="[cmdView.SelectedItem]">
         <Actions>
-          <Set Target="[Entity.View]" Value="[cmdView.SelectedItem]" />
-          <Invoke Target="[Model.CommitChanges]" />
+          <Invoke Target="[Entity.ViewState.SetView]" view="[cmdView.SelectedItem]" />
         </Actions>
       </Changed>
       <Rule>
