@@ -177,9 +177,9 @@
     <Compile Include="Engines\Views\IView.cs" />
     <Compile Include="Engines\Views\Views.cs" />
     <Compile Include="Entities\baseEntity.cs" />
-    <Compile Include="Entities\BlankPlayState.cs" />
-    <Compile Include="Entities\IPlayState.cs" />
-    <Compile Include="Entities\PlayState.cs" />
+    <Compile Include="Engines\PlayState\BlankPlayState.cs" />
+    <Compile Include="Engines\PlayState\IPlayState.cs" />
+    <Compile Include="Engines\PlayState\PlayState.cs" />
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />
     <Compile Include="Entities\Album.cs" />
@@ -331,6 +331,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Util\Helper.cs" />
+    <Compile Include="Util\EntityResolver.cs" />
     <Compile Include="Util\Localization.cs" />
     <Compile Include="WebServices\Helper\Externals.cs" />
     <Compile Include="WebServices\Helper\HTTPProvider.cs" />

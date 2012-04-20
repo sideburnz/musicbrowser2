@@ -14,14 +14,8 @@ namespace MusicBrowser.Engines.Transport
 
         public void PlayPause()
         {
-            if (Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayState == PlayState.Playing)
-            {
-                Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 1;
-            }
-            else
-            {
-                Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 2;
-            }
+            MediaExperience mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience;
+            mce.Transport.PlayRate = mce.Transport.PlayState == Microsoft.MediaCenter.PlayState.Playing ? 1 : 2;
         }
 
         // unlike other transport providers, Media Center needs to be passed individual files

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.Engines.Logging;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.Metadata.Lite;
 using MusicBrowser.Util;
@@ -12,20 +12,6 @@ namespace MusicBrowser.Entities
     {
         private static readonly ICacheEngine CacheEngine = CacheEngineFactory.GetEngine();
         private static readonly InMemoryCache MemCache = InMemoryCache.GetInstance();
-
-        private enum EntityKind
-        {
-            Album = 101,
-            Artist = 102,
-            Folder = 103,
-            Playlist = 105,
-            Track = 106,
-            Genre = 107,
-            Episode = 202,
-            Movie = 203,
-            Season = 204,
-            Show = 205
-        }
 
         public static baseEntity GetItem(string item)
         {
@@ -65,39 +51,39 @@ namespace MusicBrowser.Entities
 
             #endregion
 
-            Engines.Logging.LoggerEngineFactory.Debug("Factory", "Manufacturing " + item.FullPath);
+            LoggerEngineFactory.Debug("Factory", "Manufacturing " + item.FullPath);
 
             Telemetry.Hit("factory.hit");
 
-            EntityKind? kind = DetermineKind(item);
+            EntityResolver.EntityKind? kind = EntityResolver.Resolve(item);
             if (kind == null) { return null; }
 
             switch (kind)
             {
-                case EntityKind.Album:
+                case EntityResolver.EntityKind.Album:
                     entity = Factorize<Album>(item); break;
-                case EntityKind.Artist:
+                case EntityResolver.EntityKind.Artist:
                     entity = Factorize<Artist>(item); break;
-                case EntityKind.Folder:
+                case EntityResolver.EntityKind.Folder:
                     entity = Factorize<Folder>(item); break;
-                case EntityKind.Genre:
+                case EntityResolver.EntityKind.Genre:
                     entity = Factorize<Genre>(item); break;
-                case EntityKind.Season:
+                case EntityResolver.EntityKind.Season:
                     entity = Factorize<Season>(item); break;
-                case EntityKind.Show:
+                case EntityResolver.EntityKind.Show:
                     entity = Factorize<Show>(item); break;
-                case EntityKind.Playlist:
+                case EntityResolver.EntityKind.Playlist:
                     entity = Factorize<Playlist>(item); break;
-                case EntityKind.Track:
+                case EntityResolver.EntityKind.Track:
                     entity = Factorize<Track>(item);
                     MediaInfoProvider.FetchLite(entity);
                     break;
-                case EntityKind.Episode:
+                case EntityResolver.EntityKind.Episode:
                     entity = Factorize<Episode>(item);
                     VideoFilenameMetadataProvider.FetchLite(entity);
                     MediaInfoProvider.FetchLite(entity);
                     break;
-                case EntityKind.Movie:
+                case EntityResolver.EntityKind.Movie:
                     entity = Factorize<Movie>(item);
                     MediaInfoProvider.FetchLite(entity);
                     break;
@@ -135,98 +121,9 @@ namespace MusicBrowser.Entities
             return e;
         }
 
-        private static int _maxMovieParts = Config.GetInstance().GetIntSetting("PlaylistLimit");
-        private static bool _allowMoviePlaylists = Config.GetInstance().GetBooleanSetting("EnableMoviePlaylists");
 
-        private static EntityKind? DetermineKind(FileSystemItem entity)
-        {
-            
 
-            Helper.KnownType type = Helper.GetKnownType(entity);
 
-            switch (type)
-            {
-                case Helper.KnownType.Folder:
-                    {
-                        // ignore metadata folders
-                        if (entity.Name.ToLower() == "metadata") { return null; }
-
-                        int movies = 0;
-
-                        IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(entity.FullPath);
-                        foreach (FileSystemItem item in items)
-                        {
-                            switch (item.Name.ToLower())
-                            {
-                                case "series.xml":
-                                    return EntityKind.Show;
-                                case "movie.xml":
-                                    return EntityKind.Movie;
-                                case "genre.xml":
-                                    return EntityKind.Genre;
-                                case "album.xml":
-                                    return EntityKind.Album;
-                                case "artist.xml":
-                                    return EntityKind.Artist;
-                                case "season.xml":
-                                    return EntityKind.Season;
-                                case "video_ts":
-                                    if (Helper.IsEpisode(entity.Name))
-                                    {
-                                        return EntityKind.Episode;
-                                    }
-                                    return EntityKind.Movie;
-                            }
-
-                            EntityKind? e = DetermineKind(item);
-                            switch (e)
-                            {
-                                case EntityKind.Track:
-                                    return EntityKind.Album;
-                                case EntityKind.Album:
-                                    return EntityKind.Artist;
-                                case EntityKind.Artist:
-                                    return EntityKind.Genre;
-                                case EntityKind.Episode:
-                                    return EntityKind.Season;
-                                case EntityKind.Season:
-                                    return EntityKind.Show;
-                                case EntityKind.Movie:
-                                    if ((item.Attributes & FileAttributes.Directory) != FileAttributes.Directory) { movies++; }
-                                    break;
-                            }
-                        }
-
-                        // assimilates mulitple movie files into a single movie
-                        if (_allowMoviePlaylists)
-                        {
-                            if (movies > 0 && movies <= _maxMovieParts)
-                            {
-                                return EntityKind.Movie;
-                            }
-                        }
-
-                        return EntityKind.Folder;
-                    }
-                case Helper.KnownType.Track:
-                    {
-                        return EntityKind.Track;
-                    }
-                case Helper.KnownType.Playlist:
-                    {
-                        return EntityKind.Playlist;
-                    }
-                case Helper.KnownType.Video:
-                    {
-                        if (Helper.IsEpisode(entity.Name))
-                        {
-                            return EntityKind.Episode;
-                        }
-                        return EntityKind.Movie;
-                    }
-            }
-            return null;
-        }
 
         // works out where the metadata file is (if there is one)
         //private static string MetadataPath(string item)
@@ -250,6 +147,5 @@ namespace MusicBrowser.Entities
         //    }
         //    return String.Empty;
         //}
-
     }
 }

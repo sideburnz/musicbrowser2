@@ -193,6 +193,7 @@ namespace MusicBrowser.Util
             return PerceivedTypeCache[extension];
         }
 
+
         public static KnownType GetKnownType(FileSystemItem item)
         {
             // if it's a folder, don't worry about the type cache
@@ -209,7 +210,7 @@ namespace MusicBrowser.Util
                 return itemType;
             }
             return DetermineType(extension);
-        }
+        } 
 
         private static Dictionary<string, KnownType> GetKnownTypes()
         {
@@ -225,6 +226,20 @@ namespace MusicBrowser.Util
             retVal.Add(String.Empty, KnownType.Other);
 
             return retVal;
+        }
+
+        private static readonly Regex EpisodeRegEx = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
+
+        public static bool IsEpisode(string path)
+        {
+            return EpisodeRegEx.Match(path).Success;
+        }
+
+
+        public static bool IsDVD(string path)
+        {
+            IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(path);
+            return items.Any(item => item.Name.ToLower() == "video_ts");
         }
 
         #endregion
@@ -257,7 +272,7 @@ namespace MusicBrowser.Util
         {
             // keys are 64 bytes
             byte[] buffer = Encoding.Unicode.GetBytes(seed.ToLowerInvariant());
-            SHA256CryptoServiceProvider cryptoTransform = new SHA256CryptoServiceProvider();
+            SHA256CryptoServiceProvider cryptoTransform = new SHA256CryptoServiceProvider(); // needs to be instantiated every time
             string hash = BitConverter.ToString(cryptoTransform.ComputeHash(buffer)).Replace("-", String.Empty);
             return hash;
         }
@@ -346,12 +361,6 @@ namespace MusicBrowser.Util
             return a;
         }
 
-        public static bool IsDVD (string path)
-        {
-            IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(path);
-            return items.Any(item => item.Name.ToLower() == "video_ts");
-        }
-
         public static Microsoft.MediaCenter.UI.Image GetImage(string path)
         {
             if (String.IsNullOrEmpty(path))
@@ -382,33 +391,10 @@ namespace MusicBrowser.Util
                 .Where(item => !item.FullPath.Contains(@"\metadata\"));
         }
 
-        //public static IList<TE> ShuffleList<TE>(this IList<TE> list)
-        //{
-        //    IList<TE> temp = list;
-        //    if (temp.Count > 1)
-        //    {
-        //        for (int i = temp.Count - 1; i >= 0; i--)
-        //        {
-        //            TE tmp = temp[i];
-        //            int randomIndex = Random.Next(i + 1);
-        //            //Swap elements
-        //            temp[i] = temp[randomIndex];
-        //            temp[randomIndex] = tmp;
-        //        }
-        //    }
-        //    return temp;
-        //}
-
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> list)
         {
             return list.OrderBy(item => Random.Next());
         }
 
-        private static readonly Regex EpisodeRegEx = new Regex(@"^[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<epnumber>\d{1,3})");
-
-        public static bool IsEpisode(string path)
-        {
-            return EpisodeRegEx.Match(path).Success;
-        }
     }
 }

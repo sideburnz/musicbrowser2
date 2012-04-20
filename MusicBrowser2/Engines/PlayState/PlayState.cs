@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using MusicBrowser.Engines.Cache;
+using MusicBrowser.Entities;
 
-namespace MusicBrowser.Entities
+namespace MusicBrowser.Engines.PlayState
 {
     /// <summary>
     /// stores playstate (times played, progress etc) into a seperate file to the main cache which

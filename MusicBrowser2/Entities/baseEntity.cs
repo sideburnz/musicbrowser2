@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using MusicBrowser.Engines.PlayState;
 using MusicBrowser.Models;
 using MusicBrowser.Util;
 
@@ -270,6 +271,14 @@ namespace MusicBrowser.Entities
 
         #region non-cached attributes
 
+        public bool Played
+        {
+            get
+            {
+                return (PlayState.Played);
+            }
+        }
+
         public new string Description
         {
             get
@@ -344,22 +353,13 @@ namespace MusicBrowser.Entities
             }
         }
 
-        public virtual bool Played 
-        { 
-            get 
-            {
-                return (PlayState.Played); 
-            } 
-        }
-
-        public abstract bool Playable { get; }
-
         #endregion
 
         #region abstract methods
         public abstract string Serialize();
         public abstract void Play(bool queue, bool shuffle);
         public virtual string Information { get { return Kind; } }
+        public abstract bool Playable { get; }
         #endregion
 
         #region abstract attributes

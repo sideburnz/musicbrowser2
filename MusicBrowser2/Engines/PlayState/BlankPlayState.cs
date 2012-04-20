@@ -1,6 +1,7 @@
 ﻿using System;
+using MusicBrowser.Entities;
 
-namespace MusicBrowser.Entities
+namespace MusicBrowser.Engines.PlayState
 {
     // empty implementation of the playstate
     public class BlankPlayState : IPlayState

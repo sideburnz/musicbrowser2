@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using MusicBrowser.Entities;
-using MusicBrowser.Providers;
 using MusicBrowser.Util;
 
 namespace MusicBrowser.Engines.Cache
