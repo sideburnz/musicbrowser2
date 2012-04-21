@@ -12,6 +12,7 @@ namespace MusicBrowser.Engines.ViewState
         private string _view = String.Empty;
         private string _sortField = String.Empty;
         private readonly string _key;
+        private bool _sortAsc = true; // 
 
         protected BaseViewState(string key)
         {
@@ -30,7 +31,12 @@ namespace MusicBrowser.Engines.ViewState
 
         public int ThumbSize { get; protected set; }
 
-        public virtual bool SortAscending { get; protected set; }
+        // not an auto property because it needs to be defaulted to true
+        public virtual bool SortAscending 
+        {
+            get { return _sortAsc; }
+            protected set { _sortAsc = value; } 
+        }
 
 
         public virtual String View
@@ -86,6 +92,10 @@ namespace MusicBrowser.Engines.ViewState
 
         public virtual void SetSortField(string field)
         {
+            if (!field.StartsWith("["))
+            {
+                field = "[" + field + ":sort]";
+            }
             if (_sortField != field)
             {
                 _sortField = field;

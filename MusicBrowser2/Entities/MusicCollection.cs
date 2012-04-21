@@ -46,5 +46,6 @@ namespace MusicBrowser.Entities
 
             Engines.Transport.TransportEngineFactory.GetEngine().Play(queue, playlist);
         }
+
     }
 }

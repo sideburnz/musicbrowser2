@@ -20,6 +20,7 @@
       <ShortcutHandler Name="BackHandler" Handle="true" Shortcut="Back" HandlerStage="Bubbled" Command="[cmdClose]"/>
       <KeyHandler Name="EscHandler" Handle="true" Key="Escape" HandlerStage="Bubbled" Command="[cmdClose]"/>
 
+      <actions:ActionSetOptionList Name="cmdSort" Options="[Entity.SortFields]" KeepMenuShowingAfterExecution="true" SelectedItem="[Entity.ViewState.SortField]" />
       <actions:ActionSetOptionList Name="cmdView" Options="[Model.Views]" KeepMenuShowingAfterExecution="true" SelectedItem="[Entity.ViewState.View]" />
       <actions:ActionSetBooleanSetting Name="cmdShowThumbs" Key="ShowThumbs" KeepMenuShowingAfterExecution="true" />
       <actions:ActionSetBooleanSetting Name="cmdVerticalScroll" Key="Views.IsHorizontal" KeepMenuShowingAfterExecution="true" />
@@ -36,6 +37,11 @@
           <Invoke Target="[Entity.ViewState.SetView]" view="[cmdView.SelectedItem]" />
         </Actions>
       </Changed>
+      <Changed Source="[cmdSort.SelectedItem]">
+        <Actions>
+          <Invoke Target="[Entity.ViewState.SetSortField]" field="[cmdSort.SelectedItem]" />
+        </Actions>
+      </Changed>
       <Rule>
         <Actions>
           <Set Target="[Model.Entity]" Value="[Entity]" />
@@ -46,7 +52,7 @@
     <Content>
       <Panel Layout="Dock">
         <Children>
-          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" MinimumSize="330,750">
+          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" MinimumSize="370,750">
             <LayoutInput>
               <DockLayoutInput Alignment="Near" Position="Right" />
             </LayoutInput>
@@ -57,10 +63,11 @@
                   <Text Content="View Menu" Color="White" Font="Segoe Media Center Light, 32" Margins="17,0,0,25" />
                   
                   <me:ctrlListSpinner Label="Layout" Action="[cmdView]" />
-                  <me:ctrlCheckbox Label="Vertical Scroll" Action="[cmdVerticalScroll]" />
+                  <me:ctrlListSpinner Label="Order" Action="[cmdSort]" />
                   <me:ctrlSpinner Label="Thumb Size" Model="[Model]"/>
-                  <me:ctrlCheckbox Label="Show Thumbs" Action="[cmdShowThumbs]" />
-                  <!-- Sort by [+] [-] -->
+                  
+                  <me:ctrlCheckbox Label="Vertical Scroll *" Action="[cmdVerticalScroll]" />
+                  <me:ctrlCheckbox Label="Show Thumbs *" Action="[cmdShowThumbs]" />
                   <me:buttonAction Action="[cmdClose]" Size="310,50" Font="Segoe Media Center, 20" FadeIconAlpha="0.66"/>
                 </Children>
               </Panel>

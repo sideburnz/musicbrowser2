@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using MusicBrowser.Engines.ViewState;
 using ServiceStack.Text;
@@ -37,6 +38,21 @@ namespace MusicBrowser.Entities
         public override string Serialize()
         {
             return this.ToJson();
+        }
+
+        public override List<string> SortFields
+        {
+            get
+            {
+                return new List<string>
+                           {
+                               "Episode#",
+                               "Title",
+                               "Filename",
+                               "Added",
+                               "Duration"
+                           };
+            }
         }
     }
 }

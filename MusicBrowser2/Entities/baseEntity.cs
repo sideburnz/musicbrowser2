@@ -272,6 +272,14 @@ namespace MusicBrowser.Entities
             }
         }
 
+        public virtual List<string> SortFields
+        {
+            get
+            {
+                return new List<string> { "Title", "Filename" };
+            }
+        }
+
         #endregion
 
         #region abstract methods
@@ -286,7 +294,6 @@ namespace MusicBrowser.Entities
         public abstract IViewState ViewState { get; }
         public abstract string DefaultThumbPath { get; }
         public virtual List<Microsoft.MediaCenter.UI.Image> CodecIcons { get { return new List<Microsoft.MediaCenter.UI.Image>(); } }
-
         protected virtual string DefaultFormat 
         {
             get

@@ -80,5 +80,21 @@ namespace MusicBrowser.Entities
             // play
             Engines.Transport.TransportEngineFactory.GetEngine().Play(queue, entityCollection.Select(item => item.Path));
         }
+
+        public override List<string> SortFields
+        {
+            get
+            {
+                return new List<string>
+                           {
+                               "Track#",
+                               "Title",
+                               "Filename",
+                               "Added",
+                               "TimesPlayed",
+                               "Duration",
+                           };
+            }
+        }
     }
 }
