@@ -51,5 +51,20 @@ namespace MusicBrowser.Entities
 
             Engines.Transport.TransportEngineFactory.GetEngine().Play(queue, playlist);
         }
+
+        public override List<string> SortFields
+        {
+            get
+            {
+                return new List<string>
+                           {
+                               "ReleaseDate",
+                               "Title",
+                               "Filename",
+                               "Added",
+                               "Duration",
+                           };
+            }
+        }
     }
 }

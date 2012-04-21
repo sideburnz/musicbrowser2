@@ -166,6 +166,12 @@
         </Actions>
       </Changed>
 
+      <Changed Source="[FolderModel.ParentEntity.ViewState.SortField]">
+        <Actions>
+          <Invoke Target="[FolderModel.RedrawItems]" />
+        </Actions>
+      </Changed>
+
       <Binding Source="[ActionsModel.Visible]" Target="[ActionPopUp.Visible]" />
       <Binding Source="[ViewsModel.Visible]" Target="[ViewPopUp.Visible]" />
       <Binding Source="[ViewMenuModel.Visible]" Target="[ViewMenu.Visible]" />

@@ -145,19 +145,17 @@ namespace MusicBrowser.Models
         /// This is the list of items to display on the page
         /// </summary>
         /// 
-        private EntityVirtualList _entityVirtualList = null;
-        private bool _entityVirtualListExpired = true;
+
+        public void RedrawItems()
+        {
+            FirePropertyChanged("EntityList");
+        }
 
         public EntityVirtualList EntityList
         {
             get
             {
-                if (_entityVirtualList == null || _entityVirtualListExpired)
-                {
-                    _entityVirtualList = new EntityVirtualList(_keyboard.DataSet, _parentEntity.ViewState.SortField, _parentEntity.ViewState.SortAscending);
-                    _entityVirtualListExpired = false;
-                }
-                return _entityVirtualList;
+                return new EntityVirtualList(_keyboard.DataSet, _parentEntity.ViewState.SortField, _parentEntity.ViewState.SortAscending);
             }
         }
 
@@ -235,7 +233,6 @@ namespace MusicBrowser.Models
         {
             if (key.Equals("DataSet", StringComparison.InvariantCultureIgnoreCase))
             {
-                _entityVirtualListExpired = true;
                 FirePropertyChanged("EntityList");
             }
             if (key.Equals("Value", StringComparison.InvariantCultureIgnoreCase))

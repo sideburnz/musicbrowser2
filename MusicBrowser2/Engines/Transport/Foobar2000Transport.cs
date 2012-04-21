@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Xml;
 using Microsoft.MediaCenter;
 using MusicBrowser.Models;
+using MusicBrowser.Util;
 
 // this controls the playback via Foobar2000
 
@@ -13,6 +15,22 @@ namespace MusicBrowser.Engines.Transport
     public class Foobar2000Transport : BaseModel, ITransportEngine
     {
         #region ITransport Members
+
+        // avoid calling this, it's too inefficient for regular calls
+        public bool IsPlaying
+        {
+            get
+            {
+                string xml = ExecuteCommand("RefreshPlayingInfo");
+                if (!String.IsNullOrEmpty(xml))
+                {
+                    XmlDocument xmldoc = new XmlDocument();
+                    xmldoc.LoadXml(xml);
+                    return (Helper.ReadXmlNode(xmldoc, "/foobar2000/state/IS_PLAYING", "0") == "1");
+                }
+                return false;
+            }
+        }
 
         public void PlayPause()
         {
@@ -173,7 +191,6 @@ namespace MusicBrowser.Engines.Transport
         {
             get { return true; }
         }
-
 
         public void JumpForward()
         {

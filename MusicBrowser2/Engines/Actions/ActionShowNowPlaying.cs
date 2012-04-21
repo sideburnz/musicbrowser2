@@ -30,7 +30,8 @@ namespace MusicBrowser.Engines.Actions
         public override void DoAction(baseEntity entity)
         {
             ITransportEngine t = TransportEngineFactory.GetEngine();
-            if (t.HasBespokeNowPlaying)
+            // only show the bespoke now playing if something is playing
+            if (t.HasBespokeNowPlaying && t.IsPlaying)
             {
                 if (TransportEngineFactory.GetEngine().ShowNowPlaying())
                 {

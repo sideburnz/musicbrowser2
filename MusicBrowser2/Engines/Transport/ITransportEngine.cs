@@ -24,5 +24,7 @@ namespace MusicBrowser.Engines.Transport
         bool ShowNowPlaying();
 
         bool HasBespokeNowPlaying { get; }
+
+        bool IsPlaying { get; }
     }
 }
