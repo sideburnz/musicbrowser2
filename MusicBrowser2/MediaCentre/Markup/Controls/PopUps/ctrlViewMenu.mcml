@@ -52,7 +52,7 @@
     <Content>
       <Panel Layout="Dock">
         <Children>
-          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" MinimumSize="400,767">
+          <Graphic Content="resx://MusicBrowser/MusicBrowser.Resources/NavPanel" MinimumSize="370,750">
             <LayoutInput>
               <DockLayoutInput Alignment="Near" Position="Right" />
             </LayoutInput>
@@ -60,20 +60,15 @@
 
               <Panel Layout="VerticalFlow" Navigation="ContainAll" Padding="10,25,10,25" >
                 <Children>
-                  <Text Content="View Menu" Color="White" Font="Segoe Media Center Light, 32" Margins="17,0,0,0" />
-
-                  <Text Content="Item Options" Color="White" Font="Segoe Media Center, 20" Margins="10,25,0,10" />
-
+                  <Text Content="View Menu" Color="White" Font="Segoe Media Center Light, 32" Margins="17,0,0,25" />
+                  
                   <me:ctrlListSpinner Label="Layout" Action="[cmdView]" />
                   <me:ctrlListSpinner Label="Order" Action="[cmdSort]" />
                   <me:ctrlSpinner Label="Thumb Size" Model="[Model]"/>
-
-                  <Text Content="Global Options" Color="White" Font="Segoe Media Center, 20" Margins="10,25,0,10" />
-
-                  <me:ctrlCheckbox Label="Vertical Scroll" Action="[cmdVerticalScroll]" />
-                  <me:ctrlCheckbox Label="Show Thumbs" Action="[cmdShowThumbs]" />
                   
-                  <me:buttonAction Action="[cmdClose]" Size="380,50" Font="Segoe Media Center, 20" FadeIconAlpha="0.66" Margins="0,10,0,0"/>
+                  <me:ctrlCheckbox Label="Vertical Scroll *" Action="[cmdVerticalScroll]" />
+                  <me:ctrlCheckbox Label="Show Thumbs *" Action="[cmdShowThumbs]" />
+                  <me:buttonAction Action="[cmdClose]" Size="310,50" Font="Segoe Media Center, 20" FadeIconAlpha="0.66"/>
                 </Children>
               </Panel>
 
@@ -148,7 +143,7 @@
             </Children>
           </ColorFill>
           <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconMinus" Command="[CmdDecrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
-          <Text Name="txtValue" Content="[Action.SelectedItem]" Color="White" Font="Segoe Media Center, 22" Margins="5,3,5,10" MinimumSize="150,0"/>
+          <Text Name="txtValue" Content="[Action.SelectedItem]" Color="White" Font="Segoe Media Center, 22" Margins="5,3,5,10" MinimumSize="100,0"/>
           <me:SpinnerButton Icon="resx://MusicBrowser/MusicBrowser.Resources/IconPlus" Command="[CmdIncrement]" OnFocus="[OnFocus]" LostFocus="[LostFocus]" Margins="0,3,0,10" />
         </Children>
       </Panel>
