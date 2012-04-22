@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MusicBrowser.Entities;
 using MusicBrowser.Util;
 
@@ -14,6 +15,7 @@ namespace MusicBrowser.Engines.Actions
         private int _index;
         private readonly List<string> _options = new List<string>();
         private readonly Config _config = Config.GetInstance();
+        private string _selectedValue;
 
         private string _key;
 
@@ -40,12 +42,19 @@ namespace MusicBrowser.Engines.Actions
 
         private void SetOption(string item)
         {
-            int index = _options.IndexOf(item);
-            if (item.Equals(item, System.StringComparison.Ordinal))
+            for (int index = 0; index < _options.Count; index++) 
             {
-                _index = index;
-                FirePropertyChanged("SelectedItem");
+                if (item.Equals(item, StringComparison.OrdinalIgnoreCase))
+                {
+                    _index = index;
+                    _selectedValue = item;
+                    FirePropertyChanged("SelectedItem");
+                    return;
+                }
             }
+            _index = 0;
+            _selectedValue = String.Empty;
+            FirePropertyChanged("SelectedItem");
         }
 
         public List<string> Options
@@ -54,7 +63,12 @@ namespace MusicBrowser.Engines.Actions
             {
                 _options.Clear();
                 _options.AddRange(value);
-                if (!string.IsNullOrEmpty(Key))
+
+                if (!String.IsNullOrEmpty(_selectedValue))
+                {
+                    SetOption(_selectedValue);
+                }
+                else if (!string.IsNullOrEmpty(Key))
                 {
                     SetOption(_config.GetStringSetting(Key));
                 }
@@ -113,6 +127,7 @@ namespace MusicBrowser.Engines.Actions
             set
             {
                 SetOption(value);
+                _selectedValue = value;
             }
         }
 
