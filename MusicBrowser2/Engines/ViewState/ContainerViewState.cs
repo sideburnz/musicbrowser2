@@ -28,7 +28,7 @@ namespace MusicBrowser.Engines.ViewState
                 View = (string)res["view"];
                 ThumbSize = (int)(long)res["thumbsize"];
                 SortField = (string)res["sortfield"];
-                SortAscending = ((long)res["ascending"]) == 1;
+                SortAscending = (bool)res["ascending"];
             }
             catch (Exception) { }
         }
