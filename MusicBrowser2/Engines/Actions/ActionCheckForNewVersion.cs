@@ -31,7 +31,7 @@ namespace MusicBrowser.Engines.Actions
             string message = "No new version available";
             WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider();
             h.Method = WebServices.Helper.HttpProvider.HttpMethod.Get;
-            h.Url = "http://stats.musicbrowser2.com:8080/version.asp?version=" + Application.Version;
+            h.Url = "http://api.musicbrowser2.com/simple/version.asp?version=" + Application.Version;
             h.DoService();
             if (h.Status != "200")
             {
@@ -39,7 +39,7 @@ namespace MusicBrowser.Engines.Actions
             }
             if (!String.IsNullOrEmpty(h.Response.Trim()))
             {
-                message = "New version is available";
+                message = h.Response.Trim();
             }
 
             Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.Dialog

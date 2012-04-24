@@ -167,7 +167,7 @@ namespace MusicBrowser.Models
         }
 
         private bool _isPlaying;
-        public bool IsPlaying
+        public new bool IsPlaying
         {
             get
             {

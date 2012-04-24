@@ -38,7 +38,6 @@ namespace MusicBrowser.Engines.ViewState
             protected set { _sortAsc = value; } 
         }
 
-
         public virtual String View
         {
             get
@@ -79,7 +78,6 @@ namespace MusicBrowser.Engines.ViewState
                 _sortField = value;
             }
         }
-
 
         public virtual void SetThumbSize(int size)
         {

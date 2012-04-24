@@ -26,7 +26,7 @@ namespace MusicBrowser.Engines.Themes
         public static void SetScreen(ThemeScreens screen, string theme, string url)
         {
             // test that this is the current theme
-            if (theme.ToLower() != Util.Config.GetInstance().GetStringSetting("ThemeLoader").ToLower()) { return; }
+            if (theme.ToLower() != Util.Config.GetInstance().GetStringSetting("Theme").ToLower()) { return; }
 
             Logging.LoggerEngineFactory.Info("ThemeLoader", String.Format("Loading {0} screen from {1} theme", screen.ToString(), theme));
 
@@ -53,7 +53,7 @@ namespace MusicBrowser.Engines.Themes
         public static void SetLayouts(string theme, IEnumerable<string> layouts)
         {
             // test that this is the current theme
-            if (theme.ToLower() != Util.Config.GetInstance().GetStringSetting("ThemeLoader").ToLower()) { return; }
+            if (theme.ToLower() != Util.Config.GetInstance().GetStringSetting("Theme").ToLower()) { return; }
             AvailableViews.Clear();
             AvailableViews.AddRange(layouts);
         }

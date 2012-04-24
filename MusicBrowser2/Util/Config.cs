@@ -9,7 +9,8 @@ namespace MusicBrowser.Util
     public class Config
     {
         private readonly XmlDocument _xml;
-        private readonly string[,] _defaults = { 
+        private readonly static object obj = new object();
+        private static readonly string[,] Defaults = { 
 
                 { "LastRunVersion", "0.0.0.0" },
 
@@ -21,8 +22,8 @@ namespace MusicBrowser.Util
                 { "SortReplaceWords", "the|a|an" },
                 { "PutDiscInTrackNo", true.ToString() },
                 { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
-                { "PlayStateDatabase", Path.Combine(Helper.CachePath, "PlayState.db") },
-                { "ViewStateDatabase", Path.Combine(Helper.CachePath, "ViewState.db") },
+                { "PlayStateDatabase", Path.Combine(Path.Combine(Helper.AppFolder, "Cache"), "PlayState.db") },
+                { "ViewStateDatabase", Path.Combine(Path.Combine(Helper.AppFolder, "Cache"), "ViewState.db") },
 
                 { "PlaylistLimit", "1" },
                 { "EnableMoviePlaylists", true.ToString() },
@@ -41,7 +42,7 @@ namespace MusicBrowser.Util
 
                 { "Collections.Folder",  Path.Combine(Helper.AppFolder, "Collections") },
 
-                { "Cache.Path", Helper.CachePath },
+                { "Cache.Path", Path.Combine(Helper.AppFolder, "Cache") },
                 { "Cache.Enable", true.ToString() },
                                         
                 { "Telemetry.Participate", false.ToString() },
@@ -97,9 +98,15 @@ namespace MusicBrowser.Util
 
         public static Config GetInstance()
         {
-            if (_instance != null) return _instance;
-            _instance = new Config();
-            return _instance;
+            lock (obj)
+            {
+                if (_instance == null)
+                {
+                    _instance = new Config();
+                    return _instance;
+                }
+                return _instance;
+            }
         }
         #endregion
 
@@ -129,12 +136,12 @@ namespace MusicBrowser.Util
             if (String.IsNullOrEmpty(retval))
             {
                 bool found = false;
-                for (int x = 0; x < _defaults.GetLength(0); x++ )
+                for (int x = 0; x < Defaults.GetLength(0); x++ )
                 {
-                    if (_defaults[x, 0] == key)
+                    if (Defaults[x, 0] == key)
                     {
                         //save the value to the XML
-                        retval = _defaults[x, 1];
+                        retval = Defaults[x, 1];
                         SetSetting(key, retval);
                         found = true;
                         break;
