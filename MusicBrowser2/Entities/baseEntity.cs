@@ -17,9 +17,6 @@ namespace MusicBrowser.Entities
         private string _bannerPath;
         private string _logoPath;
         private string _title;
-        private string _sortField;
-        private bool _sortAscending = true;
-        private int _thumbSize;
         private List<string> _backgroundPaths;
         private int _duration;
         private string _overview;

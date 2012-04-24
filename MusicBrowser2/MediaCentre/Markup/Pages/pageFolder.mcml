@@ -104,7 +104,25 @@
         </Actions>
       </Changed>
 
-        <Binding Source="[FolderModel.Busy]" Target="[imageSpinner.Visible]" />
+      <Changed Source="[FolderModel.ParentEntity.ViewState.ThumbSize]">
+        <Actions>
+          <Invoke Target="[FolderModel.RedrawItems]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FolderModel.ParentEntity.ViewState.SortField]">
+        <Actions>
+          <Invoke Target="[FolderModel.RedrawItems]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[FolderModel.ParentEntity.ViewState.SortAscending]">
+        <Actions>
+          <Invoke Target="[FolderModel.RedrawItems]" />
+        </Actions>
+      </Changed>
+
+      <Binding Source="[FolderModel.Busy]" Target="[imageSpinner.Visible]" />
 
       <Changed Source="[ActionsModel.Visible]">
         <Conditions>
@@ -163,12 +181,6 @@
         <Actions>
           <!--<Set Target="[pageFader.Visible]" Value="true" />-->
           <Invoke Target="[ViewMenu.NavigateInto]" />
-        </Actions>
-      </Changed>
-
-      <Changed Source="[FolderModel.ParentEntity.ViewState.SortField]">
-        <Actions>
-          <Invoke Target="[FolderModel.RedrawItems]" />
         </Actions>
       </Changed>
 

@@ -100,12 +100,6 @@ namespace MusicBrowser.Models
         {
             switch (property.ToLower())
             {
-                case "thumbsize":
-                    {
-                        FirePropertyChanged("ReferenceSize");
-                        FirePropertyChanged("ReferenceHeight");
-                        break;
-                    }
                 case "backgroundpaths":
                     {
                         FirePropertyChanged("Background");
@@ -149,6 +143,8 @@ namespace MusicBrowser.Models
         public void RedrawItems()
         {
             FirePropertyChanged("EntityList");
+            FirePropertyChanged("ReferenceSize");
+            FirePropertyChanged("ReferenceHeight");
         }
 
         public EntityVirtualList EntityList

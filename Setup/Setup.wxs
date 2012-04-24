@@ -9,7 +9,7 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="$(var.Property_ProductCode)" UpgradeCode="$(var.Property_UpgradeCode)" Name="!(loc.Property_ProductName)" Language="!(loc.Property_ProductLanguage)" Version="$(var.Property_ProductVersion)" Manufacturer="!(loc.Property_CompanyName)">
-    <Package Id='*' Description="!(loc.Package_Description)" Comments="!(loc.Package_Comments)" InstallerVersion="200" Compressed="yes" />
+    <Package Id='*' Description="!(loc.Package_Description)" Comments="!(loc.Package_Comments)" InstallerVersion="200" Compressed="yes" InstallPrivileges="elevated" />
         <!-- This information enables Windows Installer major upgrade functionality so users can seamlessly  -->
         <!-- install a new version of the product and have the old version automatically uninstall behind    -->
         <!-- the scenes. See the following topic in the MSDN Library for additional information:             -->

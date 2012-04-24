@@ -44,14 +44,20 @@ namespace MusicBrowser.Engines.Actions
             get { return _value; } 
             set
             {
-                _value = value;
-                FirePropertyChanged("Value");
+                if (value != _value)
+                {
+                    _value = value;
+                    FirePropertyChanged("Value");
+                }
             } 
         }
 
         public override void DoAction(baseEntity entity)
         {
-            Util.Config.GetInstance().SetSetting(Key, Value.ToString());
+            if (!string.IsNullOrEmpty(Key))
+            {
+                Util.Config.GetInstance().SetSetting(Key, Value.ToString());
+            }
         }
     }
 }

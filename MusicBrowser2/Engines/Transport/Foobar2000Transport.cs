@@ -39,11 +39,15 @@ namespace MusicBrowser.Engines.Transport
 
         public void Play(bool queue, string file)
         {
-            MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-            if (mce != null)
+            try
             {
-                mce.MediaExperience.Transport.PlayRate = 0;
+                MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
+                if (mce != null)
+                {
+                    mce.MediaExperience.Transport.PlayRate = 0;
+                }
             }
+            catch { }
 
             if (!queue)
             {

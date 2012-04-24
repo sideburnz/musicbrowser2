@@ -52,7 +52,7 @@ namespace MusicBrowser.Util
         {
             get 
             {
-                string e = Path.Combine(AppFolder, "Cache");
+                string e = Config.GetInstance().GetStringSetting("Cache.Path");
                 if (!Directory.Exists(e))
                 {
                     try
