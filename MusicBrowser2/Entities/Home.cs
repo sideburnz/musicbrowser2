@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MusicBrowser.Engines.ViewState;
 
 namespace MusicBrowser.Entities
@@ -33,6 +34,19 @@ namespace MusicBrowser.Entities
                 view.DefaultSort = "[SortOrder:sort]";
                 view.DefaultView = "Thumb";
                 return view;
+            }
+        }
+
+        public override List<string> SortFields
+        {
+            get
+            {
+                return new List<string>
+                           {
+                               "SortOrder",
+                               "Title",
+                               "Filename"
+                           };
             }
         }
     }
