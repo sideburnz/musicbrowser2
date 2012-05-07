@@ -218,7 +218,7 @@ namespace MusicBrowser.Entities
             {
                 if (!String.IsNullOrEmpty(Artist))
                 {
-                    return TokenSubstitution("[artist]  ([duration])  ");
+                    return TokenSubstitution("[artist],  [album]  ([duration])  ");
                 }
                 return base.Information;
             }

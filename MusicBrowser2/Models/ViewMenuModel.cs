@@ -46,7 +46,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                return Engines.Themes.ThemeLoader.Views;
+                return new List<string>{ "Thumb", "List", "Strip" };
             }
         }
 
@@ -65,9 +65,9 @@ namespace MusicBrowser.Models
         {
             int thumbSize = Entity.ViewState.ThumbSize;
             thumbSize += 10;
-            if (thumbSize > 300)
+            if (thumbSize > 350)
             {
-                thumbSize = 300;
+                thumbSize = 350;
             }
             Entity.ViewState.SetThumbSize(thumbSize);
         }

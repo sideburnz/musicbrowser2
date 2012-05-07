@@ -97,6 +97,7 @@ goto unregister
     ECHO.Register the DLL with the global assembly cache
     "%ProgramFilesPath%\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "%ProgramFilesPath%\%CompanyName%\%DirName%\%AssemblyName%.dll"
     "%ProgramFilesPath%\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "%ProgramFilesPath%\%CompanyName%\%DirName%\ServiceStack.Text.dll"
+    "%ProgramFilesPath%\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "C:\ProgramData\MusicBrowser\Components\System.Data.SQLite.dll"
     ECHO.
 
     ECHO.Register the application with Windows Media Center

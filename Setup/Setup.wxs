@@ -147,10 +147,6 @@
           <Component Id="PlugIn.LastFMProvider.dll" Guid="B61BD5EE-48C3-444B-9E51-0AC5E9022425" DiskId="1">
             <File Id="PlugIn.LastFMProvider.dll" Name="PlugIn.LastFMProvider.dll" KeyPath="yes" Source="..\resource\plugins\PlugIn.LastFMProvider.dll" Checksum="yes" Vital="no" />
           </Component>
-
-          <Component Id="Theme.White.dll" Guid="07230CD4-390F-401A-BA0D-3F4C7C84BAAE" DiskId="1">
-            <File Id="Theme.White.dll" Name="Theme.White.dll" KeyPath="yes" Source="..\resource\plugins\Theme.White.dll" Checksum="yes" Vital="no" />
-          </Component>
         </DirectoryRef>
 
         <!-- This is a list of features that are installed as a part of this product. In this case, there is -->
@@ -178,7 +174,6 @@
             <ComponentRef Id="PlugIn.HTBackdrop.dll" />
             <ComponentRef Id="PlugIn.LastFMProvider.dll" />
           
-            <ComponentRef Id="Theme.White.dll" />
             <!--<ComponentRef Id="OptionalStartmenuFolderShortcut" />-->
         </Feature>
         <!-- The media table defines the location that the MSI will look to find source files during         -->
