@@ -55,11 +55,6 @@
     <Compile Include="Services\AlbumInfoService.cs" />
     <Compile Include="Services\ArtistInfoService.cs" />
     <Compile Include="Services\TrackInfoService.cs" />
-    <Compile Include="Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Registration.cs" />
     <Compile Include="MetadataProviders\LastFMTrackMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,15 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MusicBrowser.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Images\IconLastFM.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

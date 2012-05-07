@@ -24,17 +24,13 @@
     <Rules>
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
-          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"/>
-          <Set Target="[txtLabel.Alpha]" Value="1" />
-          <Set Target="[grpIcon.Alpha]" Value="1" />
+          <Set Target="[Frame.Content]" Value="DimGray" />
         </Actions>
       </Condition>
 
       <Condition Source="[Input.KeyFocus]" SourceValue="false">
         <Actions>
-          <Set Target="[Frame.Content]" Value="resx://MusicBrowser/MusicBrowser.Resources/nullImage"/>
-          <Set Target="[txtLabel.Alpha]" Value="0.5" />
-          <Set Target="[grpIcon.Alpha]" Value="[FadeIconAlpha]" />
+          <Set Target="[Frame.Content]" Value="Transparent" />
         </Actions>
       </Condition>
 
@@ -54,7 +50,7 @@
     </Rules>
 
     <Content>
-      <Graphic Name="Frame" MinimumSize="[Size]" MaximumSize="[Size]" Content="resx://MusicBrowser/MusicBrowser.Resources/nullImage" Visible="[Action.Available]">
+      <ColorFill Name="Frame" MinimumSize="[Size]" MaximumSize="[Size]" Visible="[Action.Available]">
         <Layout>
           <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
         </Layout>
@@ -77,7 +73,7 @@
           </Graphic>
           <Text Name="txtLabel" Content="[Action.Label]" Color="White" FadeSize="5" Font="[Font]" Margins="4,7,15,0" />
         </Children>
-      </Graphic>
+      </ColorFill>
     </Content>
 
   </UI>

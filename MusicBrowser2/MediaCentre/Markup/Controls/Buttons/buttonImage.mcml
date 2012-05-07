@@ -14,8 +14,6 @@
       <cor:String Name="Text" String="" />
       <Size Name="MinSize" Size="57,57" />
       <Image Name="Icon" Image="$Required" />
-      <Image Name="ImageFocus" Image="image://me:ButtonLeftFocus" />
-      <Image Name="ImageNoFocus" Image="image://me:ButtonNoFocus" />
       <Inset Name="TextMargins" Inset="4,10,0,0" />
       <Inset Name="ImageMargins" Inset="12,16,3,0" />
     </Properties>
@@ -56,27 +54,15 @@
 
       <Condition Source="[Input.KeyFocus]" SourceValue="true">
         <Actions>
-          <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
-          <Set Target="[Label.Color]" Value="White"/>
+          <Set Target="[imgButton.Content]" Value="DimGray"/>
         </Actions>
       </Condition>
 
       <Condition Source="[Input.KeyFocus]" SourceValue="false">
         <Actions>
-          <!--<Set Target="[imgButton.Content]" Value="[ImageFocus]"/>-->
-          <Set Target="[Label.Color]" Value="Gray"/>
+          <Set Target="[imgButton.Content]" Value="Transparent"/>
         </Actions>
       </Condition>
-
-      <!--<Condition Source="[Input.MouseFocus]" SourceValue="true">
-        <Conditions>
-          <Equality Source="[Command.Available]" ConditionOp="Equals" Value="true" />
-        </Conditions>
-        <Actions>
-          <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
-          <Set Target="[Label.Visible]" Value="true" />
-        </Actions>
-      </Condition>-->
 
       <Condition Source="[LeftAlign]" ConditionOp="Equals" SourceValue="true">
         <Actions>
@@ -102,7 +88,7 @@
     <Content>
       <Panel Name="button">
         <Children>
-          <Graphic Name="imgButton" Content="[ImageNoFocus]" MinimumSize="[MinSize]" MaximumSize="[MinSize]" >
+          <ColorFill Name="imgButton" Content="Transparent" MinimumSize="[MinSize]" MaximumSize="[MinSize]" >
             <Layout>
               <FlowLayout Orientation="Horizontal" ItemAlignment="Near" />
             </Layout>
@@ -126,14 +112,11 @@
               <!-- The label to display. -->
               <Text Name="Label" Color="White" Margins="[TextMargins]" Visible="[DisplayText]" FadeSize="5" Font="[Font]" HorizontalAlignment="Center" />
             </Children>
-          </Graphic>
+          </ColorFill>
         </Children>
       </Panel>
     </Content>
   </UI>
-
-  <Image Name="ButtonLeftFocus"         Source="resx://MusicBrowser/MusicBrowser.Resources/ButtonLeftFocus"         NineGrid="7,7,7,7" />
-  <Image Name="ButtonNoFocus"           Source="resx://MusicBrowser/MusicBrowser.Resources/nullImage"           NineGrid="7,7,7,7" />
  
 </Mcml>
 

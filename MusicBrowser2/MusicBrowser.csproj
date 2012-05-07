@@ -162,7 +162,6 @@
     <Compile Include="Engines\Cache\InMemoryCache.cs" />
     <Compile Include="Engines\Cache\SQLiteCache.cs" />
     <Compile Include="Engines\Cache\SQLiteHelper.cs" />
-    <Compile Include="Engines\Cache\SQLiteLoader.cs" />
     <Compile Include="Engines\Logging\ILoggingEngine.cs" />
     <Compile Include="Engines\Metadata\baseMetadataProvider.cs" />
     <Compile Include="Engines\Metadata\IProvider.cs" />
@@ -170,8 +169,6 @@
     <Compile Include="Engines\Metadata\Providers.cs" />
     <Compile Include="Engines\PlugIns\IPlugIn.cs" />
     <Compile Include="Engines\PlugIns\PlugInLoader.cs" />
-    <Compile Include="Engines\Themes\ThemeLoader.cs" />
-    <Compile Include="Engines\Themes\ThemeScreens.cs" />
     <Compile Include="Engines\Transport\ITransportEngine.cs" />
     <Compile Include="Engines\ViewState\BaseViewState.cs" />
     <Compile Include="Engines\ViewState\ContainerViewState.cs" />
@@ -236,6 +233,7 @@
     <Content Include="MediaCentre\Images\buttonicons\IconDown.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconFastForward.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconFavorite.png" />
+    <None Include="MediaCentre\Images\buttonicons\IconLastFM.png" />
     <Content Include="Music.ico" />
     <None Include="MediaCentre\Images\buttonicons\IconHalfStar.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
@@ -346,7 +344,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MediaCentre\Markup\blank.mcml" />
-    <None Include="MediaCentre\Markup\Controls\Buttons\buttonAction.mcml" />
+    <None Include="MediaCentre\Markup\Controls\Buttons\buttonAction.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MediaCentre\Markup\Controls\Buttons\buttonBasic.mcml" />
     <None Include="MediaCentre\Markup\Controls\Buttons\buttonIcon.mcml" />
     <None Include="MediaCentre\Markup\Controls\Buttons\buttonImage.mcml" />
@@ -389,7 +389,9 @@
     </None>
     <None Include="MediaCentre\Markup\Pages\pageSearch.mcml" />
     <None Include="MediaCentre\Markup\Pages\pageSettings.mcml" />
-    <None Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml" />
+    <None Include="MediaCentre\Markup\Controls\PageViews\viewList.mcml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MediaCentre\Markup\Controls\PageViews\viewStrip.mcml">
       <SubType>Designer</SubType>
     </None>

@@ -43,7 +43,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return CalculateInformation("", "Track");
+                return CalculateInformation(AlbumArtist, "Track");
             }
         }
 

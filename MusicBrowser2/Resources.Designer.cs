@@ -479,6 +479,13 @@ namespace MusicBrowser {
             }
         }
         
+        internal static System.Drawing.Bitmap IconLastFM {
+            get {
+                object obj = ResourceManager.GetObject("IconLastFM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconMinus {
             get {
                 object obj = ResourceManager.GetObject("IconMinus", resourceCulture);
