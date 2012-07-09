@@ -1,4 +1,3 @@
-ECHO OFF
 ECHO.
 ECHO.Usage: DevInstall.cmd [/u][/debug]
 ECHO.
@@ -6,7 +5,6 @@ ECHO.This script requires Administrative privileges to run properly.
 ECHO.Start > All Programs > Accessories> Right-Click Command Prompt > Select 'Run As Administrator'
 ECHO.
  
-REM net use d: \\vboxsvr\d_drive
 CD "D:\Code\MusicBrowser2"
 D:
 
@@ -43,7 +41,7 @@ goto unregister
 
     ECHO.Remove the DLL from the Global Assembly cache
     "%ProgramFilesPath%\Microsoft SDKs\Windows\v7.0A\bin\gacutil.exe" /u "%AssemblyName%"
-    "%ProgramFilesPath%\Microsoft SDKs\Windows\v7.0A\bin\gacutil.exe" /u "ServiceStack.Text.dll"
+    "%ProgramFilesPath%\Microsoft SDKs\Windows\v7.0A\bin\gacutil.exe" /u "ServiceStack.Text"
   
     ECHO.
 
@@ -97,7 +95,7 @@ goto unregister
     ECHO.Register the DLL with the global assembly cache
     "%ProgramFilesPath%\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "%ProgramFilesPath%\%CompanyName%\%DirName%\%AssemblyName%.dll"
     "%ProgramFilesPath%\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "%ProgramFilesPath%\%CompanyName%\%DirName%\ServiceStack.Text.dll"
-    "%ProgramFilesPath%\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "C:\ProgramData\MusicBrowser\Components\System.Data.SQLite.dll"
+REM    "%ProgramFilesPath%\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "C:\ProgramData\MusicBrowser\Components\System.Data.SQLite.dll"
     ECHO.
 
     ECHO.Register the application with Windows Media Center

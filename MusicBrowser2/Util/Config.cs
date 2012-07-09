@@ -131,7 +131,7 @@ namespace MusicBrowser.Util
                 string xpathString = string.Format("Settings/{0}", key.Replace('.', '/'));
                 retval = _xml.SelectSingleNode(xpathString).InnerText;
             }
-            catch { }
+            catch { } //BUG: this is rethrowing
             // if we've not got a value from the XML (usually the first run) get the default value
             if (String.IsNullOrEmpty(retval))
             {
