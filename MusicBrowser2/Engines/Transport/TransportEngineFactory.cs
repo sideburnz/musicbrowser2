@@ -8,7 +8,7 @@
         {
             if (_transport == null)
             {
-                switch (Util.Config.GetInstance().GetStringSetting("Player.Engine").ToLower())
+                switch (Util.Config.GetStringSetting("Player.Engine").ToLower())
                 {
                     case "foobar2000":
                         {

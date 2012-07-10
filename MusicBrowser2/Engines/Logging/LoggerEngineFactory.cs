@@ -20,7 +20,7 @@ namespace MusicBrowser.Engines.Logging
             {
                 if (_logger == null)
                 {
-                    string logDestination = Config.GetInstance().GetStringSetting("Log.Destination");
+                    string logDestination = Config.GetStringSetting("Log.Destination");
                     switch (logDestination)
                     {
                         case "file":

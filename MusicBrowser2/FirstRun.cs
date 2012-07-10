@@ -11,13 +11,13 @@ namespace MusicBrowser
     static class FirstRun
     {
 
-        private static readonly string CollectionPath = Path.Combine(Helper.AppFolder, @"Collections");
+        private static readonly string CollectionPath = Path.Combine(Config.AppFolder, @"Collections");
 
         public static void Initialize()
         {
             Directory.CreateDirectory(CollectionPath);
 
-            switch(Config.GetInstance().GetStringSetting("LastRunVersion"))
+            switch(Config.GetStringSetting("LastRunVersion"))
             {
                 case "0.0.0.0":
                     LastVersion0000();
@@ -51,14 +51,14 @@ namespace MusicBrowser
         private static void LastVersion0000()
         {
                 // delete actions.config
-                string actionsFile = Path.Combine(Helper.AppFolder, "actions.config");
+                string actionsFile = Path.Combine(Config.AppFolder, "actions.config");
                 if (File.Exists(actionsFile))
                 {
                     File.Delete(actionsFile);
                 }
 
                 // move the old library file, otherwise create one
-                string libraryfile = Path.Combine(Helper.AppFolder, "MusicLibrary.vf");
+                string libraryfile = Path.Combine(Config.AppFolder, "MusicLibrary.vf");
                 string collectionfile = Path.Combine(CollectionPath, "Music.vf");
                 if (File.Exists(libraryfile) && !File.Exists(collectionfile))
                 {
@@ -78,7 +78,7 @@ namespace MusicBrowser
                     File.Delete(libraryfile);
                 }               
 
-                Config.GetInstance().SetSetting("LastRunVersion", Application.Version);
+                Config.SetSetting("LastRunVersion", Application.Version);
         }
 
     }

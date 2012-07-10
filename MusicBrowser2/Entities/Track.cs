@@ -19,7 +19,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                string title = Util.Config.GetInstance().GetStringSetting("Entity.Track.Format");
+                string title = Util.Config.GetStringSetting("Entity.Track.Format");
                 if (string.IsNullOrEmpty(title))
                 {
                     return "[Track#] - [Title]";
@@ -260,7 +260,7 @@ namespace MusicBrowser.Entities
                     case "track#":
                     case "Track#:sort":
                     case "track#:sort":
-                        if (Util.Config.GetInstance().GetBooleanSetting("PutDiscInTrackNo") && DiscNumber > 0)
+                        if (Util.Config.GetBooleanSetting("PutDiscInTrackNo") && DiscNumber > 0)
                         {
                             output = output.Replace("[" + token + "]", DiscNumber.ToString() + "." + TrackNumber.ToString("D2")); break;
                         }

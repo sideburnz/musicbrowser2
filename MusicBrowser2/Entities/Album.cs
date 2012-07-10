@@ -30,7 +30,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                string title = Util.Config.GetInstance().GetStringSetting("Entity.Album.Format");
+                string title = Util.Config.GetStringSetting("Entity.Album.Format");
                 if (string.IsNullOrEmpty(title))
                 {
                     return "([ReleaseYear]) [Title]";

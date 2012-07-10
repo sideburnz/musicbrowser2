@@ -101,7 +101,7 @@ namespace MusicBrowser.Engines.Transport
 
         public void Open()
         {
-            // delete running file... makes foobar show a pop-up if the app crashed last time it was run
+            // delete running file.. makes foobar show a pop-up if the app crashed last time it was run
             string running = Path.Combine(Environment.GetEnvironmentVariable("APPDATA"), @"foobar2000\running");
             if (File.Exists(running))
             {
@@ -120,12 +120,12 @@ namespace MusicBrowser.Engines.Transport
 
         private string FooPath
         {
-            get { return Util.Config.GetInstance().GetStringSetting("Player.Paths.foobar2000"); }
+            get { return Util.Config.GetStringSetting("Player.Paths.foobar2000"); }
         }
 
         private string FooURL
         {
-            get { return Util.Config.GetInstance().GetStringSetting("Player.URLs.foobar2000"); }
+            get { return Util.Config.GetStringSetting("Player.URLs.foobar2000"); }
         }
 
         private void HideFoobar()

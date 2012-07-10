@@ -13,7 +13,7 @@ namespace MusicBrowser.Engines.ViewState
         private const string SqlInsert = "INSERT INTO [t_ViewState] ([key], [view], [thumbsize], [sortfield], [ascending]) VALUES(@1, @2, @3, @4, @5)";
         private const string SqlDelete = "DELETE FROM [t_ViewState] WHERE [key]=@1";
 
-        private static readonly string ViewStateFile = Config.GetInstance().GetStringSetting("ViewStateDatabase");
+        private static readonly string ViewStateFile = Config.GetStringSetting("ViewStateDatabase");
         private static readonly bool Loaded = SQLiteHelper.EstablishDatabase(ViewStateFile, SqlCreateTable);
 
         public ContainerViewState(string key) : base(key)

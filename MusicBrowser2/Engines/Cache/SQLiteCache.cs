@@ -21,7 +21,7 @@ namespace MusicBrowser.Engines.Cache
         private const string SqlCompress = "VACUUM";
         private const string SqlTypehits = "SELECT [kind], COUNT([key]) AS hits FROM [t_Cache] WHERE ([title] LIKE @1 OR [title] LIKE @2) GROUP BY [kind]";
 
-        private static readonly string File = Path.Combine(Config.GetInstance().GetStringSetting("Cache.Path"), "entities.db");
+        private static readonly string File = Path.Combine(Config.CachePath, "entities.db");
 
         public SQLiteCache()
         {

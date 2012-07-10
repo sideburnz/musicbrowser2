@@ -36,7 +36,7 @@ namespace MusicBrowser.Providers
             XmlWriter writer = new XmlTextWriter(text);
 
             writer.WriteStartElement("Telemetry");
-            writer.WriteAttributeString("ID", Config.GetInstance().GetStringSetting("Telemetry.ID"));
+            writer.WriteAttributeString("ID", Config.GetStringSetting("Telemetry.ID"));
             writer.WriteAttributeString("Version", Application.Version);
             writer.WriteAttributeString("ExecutionTime", Math.Truncate(DateTime.Now.Subtract(Starttime).TotalSeconds).ToString());
 
@@ -55,11 +55,11 @@ namespace MusicBrowser.Providers
 
         public static void Send()
         {
-            if (Config.GetInstance().GetBooleanSetting("Telemetry.Participate"))
+            if (Config.GetBooleanSetting("Telemetry.Participate"))
             {
                 string data = GetReport();
 
-                StreamWriter fs = File.CreateText(Path.Combine(Helper.AppLogFolder, "telemetry.xml"));
+                StreamWriter fs = File.CreateText(Path.Combine(Config.AppLogFolder, "telemetry.xml"));
                 fs.WriteLine(data);
                 fs.Flush();
                 fs.Close();

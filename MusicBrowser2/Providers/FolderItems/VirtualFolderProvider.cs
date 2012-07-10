@@ -85,7 +85,7 @@ namespace MusicBrowser.Providers.FolderItems
                 if (line.StartsWith("image:"))
                 {
                     string thisPath = line.Substring(6).Trim();
-                    thisPath = Path.Combine(Util.Config.GetInstance().GetStringSetting("Collections.Folder"), thisPath);
+                    thisPath = Path.Combine(Util.Config.GetStringSetting("Collections.Folder"), thisPath);
                     if (File.Exists(thisPath))
                     {
                         return thisPath;

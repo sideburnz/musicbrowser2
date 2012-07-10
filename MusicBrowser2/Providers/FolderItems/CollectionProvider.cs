@@ -12,7 +12,7 @@ namespace MusicBrowser.Providers.FolderItems
         public IEnumerable<string> GetItems(string uri)
         {
             IFolderItemsProvider vf = new VirtualFolderProvider();
-            string file = Path.Combine(Config.GetInstance().GetStringSetting("Collections.Folder"), uri);
+            string file = Path.Combine(Config.GetStringSetting("Collections.Folder"), uri);
             IEnumerable<string> collection = vf.GetItems(file);
             int count = collection.Count();
             if (count == 1)

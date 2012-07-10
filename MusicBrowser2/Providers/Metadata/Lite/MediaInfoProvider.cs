@@ -62,11 +62,11 @@ namespace MusicBrowser.Providers.Metadata.Lite
 
         private static bool CheckForLib()
         {
-            string mediaInfoPath = Path.Combine(Helper.ComponentFolder, "MediaInfo.dll");
+            string mediaInfoPath = Path.Combine(Config.ComponentFolder, "MediaInfo.dll");
 
             if (!File.Exists(mediaInfoPath))
             {
-                string sourceFile = Path.Combine(Helper.ComponentFolder, String.Format("mediainfo.dll.{0}", Is64Bit ? 64 : 32));
+                string sourceFile = Path.Combine(Config.ComponentFolder, String.Format("mediainfo.dll.{0}", Is64Bit ? 64 : 32));
                 if (!File.Exists(sourceFile)) { return false; }
                 File.Copy(sourceFile, mediaInfoPath);
             }

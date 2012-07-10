@@ -15,126 +15,6 @@ namespace MusicBrowser.Util
     {
         private static readonly Random Random = new Random();
 
-        #region application folders
-
-        static string _appFolder;
-        public static string AppFolder
-        {
-            get
-            {
-                if (_appFolder == null)
-                {
-                    var e = Path.Combine(Environment.GetEnvironmentVariable("ProgramData"), "MusicBrowser");
-                    if (!Directory.Exists(e))
-                    {
-                        try
-                        {
-                            Directory.CreateDirectory(e);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("Application folder for MusicBrowser is missing: " + e, ex);
-                        }
-                    }
-                    _appFolder = e;
-                }
-                return _appFolder;
-            }
-        }
-
-        static string _appConfigFile; 
-        public static string AppConfigFile
-        {
-            get { return _appConfigFile ?? (_appConfigFile = Path.Combine(AppFolder, "MusicBrowser.config")); }
-        }
-
-        public static string CachePath
-        {
-            get 
-            {
-                string e = Config.GetInstance().GetStringSetting("Cache.Path");
-                if (!Directory.Exists(e))
-                {
-                    try
-                    {
-                        Directory.CreateDirectory(e);
-                        Directory.CreateDirectory(e + "\\Images");
-                        Directory.CreateDirectory(e + "\\Images\\Backgrounds");
-                        Directory.CreateDirectory(e + "\\Images\\Covers");
-                        Directory.CreateDirectory(e + "\\Images\\Thumbs");
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("Cache folder for MusicBrowser is missing: " + e, ex);
-                    }
-                }
-                return e; 
-            }
-        }
-
-        static string _appLogFolder;
-        public static string AppLogFolder
-        {
-            get
-            {
-                if (_appLogFolder == null)
-                {
-                    var e = Path.Combine(AppFolder, "Logs");
-                    if (!Directory.Exists(e))
-                    {
-                        try
-                        {
-                            Directory.CreateDirectory(e);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("Log folder for MusicBrowser is missing: " + e, ex);
-                        }
-                    }
-                    _appLogFolder = e;
-                }
-                return _appLogFolder;
-            }
-        }
-
-        static string _plugInFolder;
-        public static string PlugInFolder
-        {
-            get
-            {
-                if (_plugInFolder == null)
-                {
-                    var e = Path.Combine(AppFolder, "PlugIn");
-                    if (!Directory.Exists(e))
-                    {
-                        Directory.CreateDirectory(e);
-                    }
-                    _plugInFolder = e;
-                }
-                return _plugInFolder;
-            }
-        }
-
-        static string _componentFolder;
-        public static string ComponentFolder
-        {
-            get
-            {
-                if (_componentFolder == null)
-                {
-                    var e = Path.Combine(AppFolder, "Components");
-                    if (!Directory.Exists(e))
-                    {
-                        Directory.CreateDirectory(e);
-                    }
-                    _componentFolder = e;
-                }
-                return _componentFolder;
-            }
-        }
-
-        #endregion
-
         #region file identifiers
 
         public enum KnownType
@@ -214,10 +94,10 @@ namespace MusicBrowser.Util
 
         private static Dictionary<string, KnownType> GetKnownTypes()
         {
-            IEnumerable<string> extentions = Config.GetInstance().GetListSetting("Extensions.Playlist");
+            IEnumerable<string> extentions = Config.GetListSetting("Extensions.Playlist");
             Dictionary<string,KnownType> retVal = extentions.ToDictionary(extention => extention, extention => KnownType.Playlist);
 
-            extentions = Config.GetInstance().GetListSetting("Extensions.Ignore");
+            extentions = Config.GetListSetting("Extensions.Ignore");
             foreach (string extention in extentions)
             {
                 retVal.Add(extention, KnownType.Other);
@@ -279,7 +159,7 @@ namespace MusicBrowser.Util
 
         static public string ImageCacheFullName(string key, ImageType type, int index)
         {
-            string path = Config.GetInstance().GetStringSetting("Cache.Path") + "\\Images\\" + type.ToString() + "\\" + key.Substring(0, 2);
+            string path = Config.GetStringSetting("Cache.Path") + "\\Images\\" + type.ToString() + "\\" + key.Substring(0, 2);
             Directory.CreateDirectory(path);
             if (index < 0)
             {
@@ -290,7 +170,7 @@ namespace MusicBrowser.Util
 
         public static string IBNPath(string category, string title)
         {
-            return Path.Combine(Path.Combine(Config.GetInstance().GetStringSetting("ImagesByName"), category), title);
+            return Path.Combine(Path.Combine(Config.GetStringSetting("ImagesByName"), category), title);
  
         }
 

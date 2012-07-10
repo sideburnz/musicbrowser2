@@ -4,7 +4,7 @@ using MusicBrowser.Entities;
 
 namespace MusicBrowser.Providers.Metadata.Lite
 {
-    class VideoFilenameMetadataProvider
+    static class VideoFilenameMetadataProvider
     {
         private static readonly Regex[] EpisodeExpressions = new[] {
             new Regex(@"(?:.*[^\\])\\(?<seriesname>.*[^\\])\\(?:.*[^\\])\\[s|S](?<seasonnumber>\d{1,2})x?[e|E](?<episodenumber>\d{1,3})\W*(?<episodename>.*)\.(?:.*)"), // S01E02 blah.avi, S01xE01 blah.avi

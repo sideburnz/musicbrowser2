@@ -76,17 +76,18 @@ namespace MusicBrowser.Entities
                     entity = Factorize<Playlist>(item); break;
                 case EntityResolver.EntityKind.Track:
                     entity = Factorize<Track>(item);
-                    MediaInfoProvider.FetchLite(entity);
+                    MusicFilenameMetadataProvider.FetchLite(entity);
                     break;
                 case EntityResolver.EntityKind.Episode:
                     entity = Factorize<Episode>(item);
                     VideoFilenameMetadataProvider.FetchLite(entity);
-                    MediaInfoProvider.FetchLite(entity);
                     break;
                 case EntityResolver.EntityKind.Movie:
                     entity = Factorize<Movie>(item);
                     MediaInfoProvider.FetchLite(entity);
                     break;
+                case EntityResolver.EntityKind.MovieSeries:
+                    entity = Factorize<MovieSeries>(item); break;
             }
 
             entity.UpdateCache();

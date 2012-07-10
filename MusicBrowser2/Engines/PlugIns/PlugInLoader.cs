@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using MusicBrowser.Providers;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Engines.PlugIns
 {
@@ -9,7 +10,7 @@ namespace MusicBrowser.Engines.PlugIns
     {
         public static void Execute()
         {
-            string libraryFolder = Util.Helper.PlugInFolder;
+            string libraryFolder = Config.PlugInFolder;
 
             foreach (FileSystemItem item in FileSystemProvider.GetFolderContents(libraryFolder))
             {

@@ -13,7 +13,7 @@ namespace MusicBrowser.Providers.FolderItems
             get
             {
                 EntityCollection ret = new EntityCollection();
-                string path = Config.GetInstance().GetStringSetting("Collections.Folder");
+                string path = Config.GetStringSetting("Collections.Folder");
                 IEnumerable<FileSystemItem> items = FileSystemProvider.GetFolderContents(path);
                 
                 foreach (FileSystemItem item in items)

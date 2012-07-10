@@ -13,7 +13,6 @@ namespace MusicBrowser.Engines.Actions
 
         private int _index;
         private readonly List<string> _options = new List<string>();
-        private readonly Config _config = Config.GetInstance();
 
         private string _key;
 
@@ -56,7 +55,7 @@ namespace MusicBrowser.Engines.Actions
                 _options.AddRange(value);
                 if (!string.IsNullOrEmpty(Key))
                 {
-                    SetOption(_config.GetStringSetting(Key));
+                    SetOption(Config.GetStringSetting(Key));
                 }
                 FirePropertyChanged("SelectedItem");
             }
@@ -76,7 +75,7 @@ namespace MusicBrowser.Engines.Actions
             }
             if (!string.IsNullOrEmpty(Key))
             {
-                Config.GetInstance().SetSetting(_key, SelectedItem);
+                Config.SetSetting(_key, SelectedItem);
             }
             Invoke();
         }
@@ -90,7 +89,7 @@ namespace MusicBrowser.Engines.Actions
             }
             if (!string.IsNullOrEmpty(Key))
             {
-                Config.GetInstance().SetSetting(_key, SelectedItem);
+                Config.SetSetting(_key, SelectedItem);
             }
             Invoke();
         }

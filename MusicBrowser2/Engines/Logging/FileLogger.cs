@@ -19,7 +19,7 @@ namespace MusicBrowser.Engines.Logging
         public FileLogger()
         {
             // cache the logging level information
-            string logLevel = Config.GetInstance().GetStringSetting("Log.Level").ToLower();
+            string logLevel = Config.GetStringSetting("Log.Level").ToLower();
             // error is the default
             if (logLevel == "error")
             {
@@ -44,7 +44,7 @@ namespace MusicBrowser.Engines.Logging
                 _logErrors = true;
                 _logVerbose = true;
             }
-            _logFile = Config.GetInstance().GetStringSetting("Log.File");
+            _logFile = Config.GetStringSetting("Log.File");
         }
         #endregion
 

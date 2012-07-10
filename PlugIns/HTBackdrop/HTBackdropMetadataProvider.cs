@@ -27,8 +27,8 @@ namespace MusicBrowser.Engines.Metadata
         protected override bool AskKillerQuestions(baseEntity dto)
         {
             if (!CompatibleWith(dto)) { return false; }
-            if (!Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders")) { return false; }
-            if (!Util.Config.GetInstance().GetBooleanSetting("EnableFanArt")) { return false; }
+            if (!Util.Config.GetBooleanSetting("Internet.UseProviders")) { return false; }
+            if (!Util.Config.GetBooleanSetting("EnableFanArt")) { return false; }
             if ((dto.ThumbPath != dto.DefaultThumbPath) && (dto.BackgroundPaths.Count > 0)) { return false; }
             if (String.IsNullOrEmpty(dto.Title)) { return false; }
             return true;
