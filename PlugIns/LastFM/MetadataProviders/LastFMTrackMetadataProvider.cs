@@ -20,7 +20,7 @@ namespace MusicBrowser.Engines.Metadata
         protected override bool AskKillerQuestions(baseEntity dto)
         {
             if (!CompatibleWith(dto)) { return false; }
-            if (!Util.Config.GetInstance().GetBooleanSetting("Internet.UseProviders")) { return false; }
+            if (!Util.Config.GetBooleanSetting("Internet.UseProviders")) { return false; }
             if (String.IsNullOrEmpty(dto.Title)) { return false; }
             return true;
         }
@@ -39,8 +39,8 @@ namespace MusicBrowser.Engines.Metadata
             trackDTO.Track = workingDTO.Title;
             trackDTO.Artist = workingDTO.Artist;
             //trackDTO.MusicBrainzID = workingDTO.MusicBrainzID;
-            trackDTO.Username = (Util.Config.GetInstance().GetStringSetting("Internet.LastFMUserName"));
-            trackDTO.Language = Util.Localization.LanguageNameToCode(Util.Config.GetInstance().GetStringSetting("Language"));
+            trackDTO.Username = (Util.Config.GetStringSetting("Internet.LastFMUserName"));
+            trackDTO.Language = Util.Localization.LanguageNameToCode(Util.Config.GetStringSetting("Language"));
             if (workingDTO.MetadataStamps.ContainsKey(FriendlyName()))
             {
                 trackDTO.LastAccessed = dto.MetadataStamps[FriendlyName()];

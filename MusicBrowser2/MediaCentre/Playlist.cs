@@ -21,7 +21,7 @@ namespace MusicBrowser.MediaCentre
 
         public static void AutoShowNowPlaying()
         {
-            if (Config.GetInstance().GetBooleanSetting("AutoLoadNowPlaying"))
+            if (Config.GetBooleanSetting("AutoLoadNowPlaying"))
             {
                 ITransportEngine t = TransportEngineFactory.GetEngine();
                 if (t.HasBespokeNowPlaying)

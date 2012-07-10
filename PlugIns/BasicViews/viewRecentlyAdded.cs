@@ -27,7 +27,7 @@ namespace MusicBrowser.Engines.Views
         {
             get
             {
-                int playlistsize = Util.Config.GetInstance().GetIntSetting("AutoPlaylistSize");
+                int playlistsize = Util.Config.GetIntSetting("AutoPlaylistSize");
 
                 EntityCollection e = new EntityCollection();
                 e.AddRange(Engines.Cache.InMemoryCache.GetInstance().DataSet

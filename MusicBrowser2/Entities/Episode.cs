@@ -17,7 +17,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                string title = Util.Config.GetInstance().GetStringSetting("Entity.Episode.Format");
+                string title = Util.Config.GetStringSetting("Entity.Episode.Format");
                 if (string.IsNullOrEmpty(title))
                 {
                     return "[Episode#] - [Title]";

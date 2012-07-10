@@ -5,25 +5,14 @@ using MusicBrowser.Engines.ViewState;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    class Home : Virtual
+    class MovieSeries : VideoCollection
     {
-        public Home()
-        {
-            Path = "home";
-        }
-
-        public override string Title
+        public override string Information
         {
             get
             {
-                string title = Util.Config.GetStringSetting("Entity.Home.Format");
-                if (string.IsNullOrEmpty(title))
-                {
-                    return "MusicBrowser 2";
-                }
-                return TokenSubstitution(title);
+                return CalculateInformation("Movie Series", "Movie");
             }
-            set { }
         }
 
         public override IViewState ViewState
@@ -31,8 +20,7 @@ namespace MusicBrowser.Entities
             get
             {
                 IViewState view = base.ViewState;
-                view.DefaultSort = "[SortOrder:sort]";
-                view.DefaultView = "Thumb";
+                view.DefaultSort = "[ReleaseDate#:sort]";
                 return view;
             }
         }
@@ -43,7 +31,7 @@ namespace MusicBrowser.Entities
             {
                 return new List<string>
                            {
-                               "SortOrder",
+                               "ReleaseDate",
                                "Title",
                                "Filename"
                            };

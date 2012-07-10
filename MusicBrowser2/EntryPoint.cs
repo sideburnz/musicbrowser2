@@ -21,7 +21,7 @@ namespace MusicBrowser
         public void Uninitialize()         
         {
             TransportEngineFactory.GetEngine().Close();
-            if (Util.Config.GetInstance().GetBooleanSetting("Telemetry.Participate"))
+            if (Util.Config.GetBooleanSetting("Telemetry.Participate"))
             {
                 Telemetry.Send();
             }

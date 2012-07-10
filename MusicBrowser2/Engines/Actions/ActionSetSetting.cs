@@ -34,7 +34,7 @@ namespace MusicBrowser.Engines.Actions
             set
             {
                 _key = value;
-                Value = Util.Config.GetInstance().GetSetting(_key);
+                Value = Util.Config.GetSetting(_key);
                 FirePropertyChanged("Value");
             }
         }
@@ -51,7 +51,7 @@ namespace MusicBrowser.Engines.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            Util.Config.GetInstance().SetSetting(Key, Value);
+            Util.Config.SetSetting(Key, Value);
         }
     }
 }

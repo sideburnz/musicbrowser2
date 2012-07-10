@@ -295,13 +295,12 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                Config c = Config.GetInstance();
                 foreach (string kind in this.Tree())
                 {
                     string key = String.Format("Entity.{0}.Format", kind);
-                    if (!String.IsNullOrEmpty(c.GetSetting(key)))
+                    if (!String.IsNullOrEmpty(Config.GetSetting(key)))
                     {
-                        return c.GetStringSetting(key);
+                        return Config.GetStringSetting(key);
                     }
                 }
                 return "[Title]";
@@ -442,7 +441,7 @@ namespace MusicBrowser.Entities
 
         #region protected helpers
 
-        private static readonly IEnumerable<string> SortIgnore = Config.GetInstance().GetListSetting("SortReplaceWords");
+        private static readonly IEnumerable<string> SortIgnore = Config.GetListSetting("SortReplaceWords");
         protected static string HandleIgnoreWords(string value)
         {
             foreach (string item in SortIgnore)

@@ -137,7 +137,7 @@ namespace MusicBrowser.Providers
 
         private static string InternalFanArtSearch(string path, string filename)
         {
-            if (_images == null) { _images = Config.GetInstance().GetListSetting("Extensions.Image"); }
+            if (_images == null) { _images = Config.GetListSetting("Extensions.Image"); }
             foreach (string item in _images)
             {
                 string tmp = string.Concat(path, "\\", filename, item);

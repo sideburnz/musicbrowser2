@@ -202,17 +202,17 @@ namespace MusicBrowser.Models
 
         public static bool ShowClock
         {
-            get { return Config.GetInstance().GetBooleanSetting("ShowClock"); }
+            get { return Config.GetBooleanSetting("ShowClock"); }
         }
 
         public bool ShowThumbs
         {
-            get { return Config.GetInstance().GetBooleanSetting("ShowThumbs"); ; }
+            get { return Config.GetBooleanSetting("ShowThumbs"); ; }
         }
 
         public bool IsHorizontal
         {
-            get { return Config.GetInstance().GetBooleanSetting("Views.IsHorizontal"); }
+            get { return Config.GetBooleanSetting("Views.IsHorizontal"); }
         }
 
         public bool Busy { get; set; }

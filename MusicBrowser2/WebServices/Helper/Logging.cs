@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.WebServices.Helper
 {
@@ -12,7 +13,7 @@ namespace MusicBrowser.WebServices.Helper
             // DateTime UID crlf URL crlf BODY crlf crlf
             InnerLog(DateTime.Now.ToString("HH:mm:ss") + "\t" + uid + "\t" + method + "\r\n" +
                 url + "\r\n",
-                Path.Combine(Util.Helper.AppLogFolder, DateTime.Now.ToString("yyyyMMdd") + " HTTP-REQUEST.log"));
+                Path.Combine(Config.AppLogFolder, DateTime.Now.ToString("yyyyMMdd") + " HTTP-REQUEST.log"));
         }
 
         public static void LogResponse(string uid, string status, string responseText)
@@ -20,7 +21,7 @@ namespace MusicBrowser.WebServices.Helper
             // DateTime UID ResponseCode crlf Body crlf crlf
             InnerLog(DateTime.Now.ToString("HH:mm:ss") + "\t" + uid + "\t" + status + "\r\n" +
                 responseText + "\r\n",
-                Path.Combine(Util.Helper.AppLogFolder, DateTime.Now.ToString("yyyyMMdd") + " HTTP-RESPONSE.log"));
+                Path.Combine(Config.AppLogFolder, DateTime.Now.ToString("yyyyMMdd") + " HTTP-RESPONSE.log"));
         }
 
         private static void InnerLog(string message, string logFile)

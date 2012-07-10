@@ -45,7 +45,7 @@ namespace MusicBrowser.Engines.Actions
             set
             {
                 _key = value;
-                Value = Util.Config.GetInstance().GetIntSetting(_key);
+                Value = Util.Config.GetIntSetting(_key);
                 FirePropertyChanged("Value");
             }
         }
@@ -58,7 +58,7 @@ namespace MusicBrowser.Engines.Actions
                 if (value <= Upper && value >= Lower)
                 {
                     _value = value;
-                    Util.Config.GetInstance().SetSetting(_key, _value.ToString());
+                    Util.Config.SetSetting(_key, _value.ToString());
                     FirePropertyChanged("Value");
                 }
             } 
@@ -80,7 +80,7 @@ namespace MusicBrowser.Engines.Actions
 
         public override void DoAction(baseEntity entity)
         {
-            Util.Config.GetInstance().SetSetting(Key, Value.ToString());
+            Util.Config.SetSetting(Key, Value.ToString());
         }
     }
 }

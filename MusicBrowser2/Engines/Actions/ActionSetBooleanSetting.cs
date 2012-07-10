@@ -34,7 +34,7 @@ namespace MusicBrowser.Engines.Actions
             set
             {
                 _key = value;
-                Value = Util.Config.GetInstance().GetBooleanSetting(_key);
+                Value = Util.Config.GetBooleanSetting(_key);
                 FirePropertyChanged("Value");
             }
         }
@@ -56,7 +56,7 @@ namespace MusicBrowser.Engines.Actions
         {
             if (!string.IsNullOrEmpty(Key))
             {
-                Util.Config.GetInstance().SetSetting(Key, Value.ToString());
+                Util.Config.SetSetting(Key, Value.ToString());
             }
         }
     }

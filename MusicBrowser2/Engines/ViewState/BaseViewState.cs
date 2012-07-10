@@ -6,9 +6,6 @@ namespace MusicBrowser.Engines.ViewState
 {
     public abstract class BaseViewState : BaseModel, IViewState
     {
-        private static readonly Config Config = Config.GetInstance();
-
-
         private string _view = String.Empty;
         private string _sortField = String.Empty;
         private readonly string _key;

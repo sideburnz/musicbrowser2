@@ -4,6 +4,7 @@ using System.IO;
 using System.Xml;
 using MusicBrowser.Engines.Logging;
 using MusicBrowser.Entities;
+using MusicBrowser.Util;
 
 namespace MusicBrowser.Engines.Actions
 {
@@ -198,7 +199,7 @@ namespace MusicBrowser.Engines.Actions
         {
             IDictionary<String, ActionConfigEntry> actions = new Dictionary<String, ActionConfigEntry>();
 
-            string configFile = Path.Combine(Util.Helper.AppFolder, "actions.config");
+            string configFile = Path.Combine(Config.AppFolder, "actions.config");
             XmlDocument xml = new XmlDocument();
             try
             {

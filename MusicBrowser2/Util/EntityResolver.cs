@@ -18,11 +18,12 @@ namespace MusicBrowser.Util
             Episode = 202,
             Movie = 203,
             Season = 204,
-            Show = 205
+            Show = 205,
+            MovieSeries = 301
         }
 
-        private static readonly int MaxMovieParts = Config.GetInstance().GetIntSetting("PlaylistLimit");
-        private static readonly bool AllowMoviePlaylists = Config.GetInstance().GetBooleanSetting("EnableMoviePlaylists");
+        private static readonly int MaxMovieParts = Config.GetIntSetting("PlaylistLimit");
+        private static readonly bool AllowMoviePlaylists = Config.GetBooleanSetting("EnableMoviePlaylists");
         private static readonly Dictionary<FileSystemItem, EntityKind?> EntityResolverCache = new Dictionary<FileSystemItem, EntityKind?>();
 
         // We wrap the old resolver in a method that handles caching because we normally resolve a
@@ -68,6 +69,7 @@ namespace MusicBrowser.Util
                                 case "series.xml":
                                     return EntityKind.Show;
                                 case "movie.xml":
+                                case "mymovies.xml":
                                     return EntityKind.Movie;
                                 case "genre.xml":
                                     return EntityKind.Genre;
@@ -99,7 +101,8 @@ namespace MusicBrowser.Util
                                 case EntityKind.Season:
                                     return EntityKind.Show;
                                 case EntityKind.Movie:
-                                    if ((item.Attributes & FileAttributes.Directory) != FileAttributes.Directory) { movies++; }
+                                    //if ((item.Attributes & FileAttributes.Directory) != FileAttributes.Directory)
+                                    { movies++; }
                                     break;
                             }
                         }
@@ -111,6 +114,10 @@ namespace MusicBrowser.Util
                             {
                                 return EntityKind.Movie;
                             }
+                        }
+                        if (movies > 0)
+                        {
+                            return EntityKind.MovieSeries;
                         }
 
                         return EntityKind.Folder;

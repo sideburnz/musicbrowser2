@@ -9,7 +9,7 @@
         {
             if (_cacheEngine == null)
             {
-                bool enable = Util.Config.GetInstance().GetBooleanSetting("Cache.Enable");
+                bool enable = Util.Config.GetBooleanSetting("Cache.Enable");
                 lock (Obj)
                 {
                     if (enable)

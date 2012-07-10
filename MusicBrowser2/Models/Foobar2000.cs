@@ -63,7 +63,7 @@ namespace MusicBrowser.Models
             {
                 Interval = 1000,
                 AutoRepeat = true,
-                Enabled = (Config.GetInstance().GetStringSetting("Player.Engine").ToLower() == "foobar2000")
+                Enabled = (Config.GetStringSetting("Player.Engine").ToLower() == "foobar2000")
             };
             _timer.Tick += delegate { OnTick(); };
         }
@@ -462,7 +462,7 @@ namespace MusicBrowser.Models
         {
             get
             {
-                return Config.GetInstance().GetBooleanSetting("Player.DisableScreenSaver");
+                return Config.GetBooleanSetting("Player.DisableScreenSaver");
             }
         }
     }

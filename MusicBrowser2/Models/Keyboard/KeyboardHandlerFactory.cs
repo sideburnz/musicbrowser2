@@ -14,7 +14,7 @@ namespace MusicBrowser.Models.Keyboard
 
         public static IKeyboardHandler GetHandler()
         {
-            switch (Util.Config.GetInstance().GetStringSetting("KeyboardAction").ToLower())
+            switch (Util.Config.GetStringSetting("KeyboardAction").ToLower())
             {
                 case "search":
                     return new KeyboardSearch();

@@ -5,7 +5,7 @@ namespace MusicBrowser.Models.Keyboard
 {
     class KeyboardFilter : IKeyboardHandler
     {
-        private static readonly IEnumerable<string> SortIgnore = Util.Config.GetInstance().GetListSetting("SortReplaceWords");
+        private static readonly IEnumerable<string> SortIgnore = Util.Config.GetListSetting("SortReplaceWords");
 
         private static string HandleIgnoreWords(string value)
         {

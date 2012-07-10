@@ -184,6 +184,7 @@
     <Compile Include="Entities\Collection.cs" />
     <Compile Include="Entities\Container.cs" />
     <Compile Include="Entities\Album.cs" />
+    <Compile Include="Entities\MovieSeries.cs" />
     <Compile Include="Entities\EntityCollectionSorter.cs" />
     <Compile Include="Entities\Extensions.cs" />
     <Compile Include="Entities\TrackComparer.cs" />
@@ -318,6 +319,7 @@
     <Compile Include="Providers\FolderItems\VirtualFolderProvider.cs" />
     <Compile Include="Providers\FolderItems\IFolderItemsProvider.cs" />
     <Compile Include="Providers\ImageProvider.cs" />
+    <Compile Include="Providers\Metadata\Lite\MusicFilenameMetadataProvider.cs" />
     <Compile Include="Providers\Metadata\Lite\MediaInfoLib.cs" />
     <Compile Include="Providers\Metadata\Lite\MediaInfoProvider.cs" />
     <Compile Include="Providers\Metadata\Lite\VideoFilenameMetadataProvider.cs" />

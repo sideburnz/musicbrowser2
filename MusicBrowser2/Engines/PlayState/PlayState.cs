@@ -11,7 +11,7 @@ namespace MusicBrowser.Engines.PlayState
     /// </summary>
     public class PlayState : IPlayState
     {
-        private static readonly string PlayStateFile = Util.Config.GetInstance().GetStringSetting("PlayStateDatabase");
+        private static readonly string PlayStateFile = Util.Config.GetStringSetting("PlayStateDatabase");
         private static readonly bool Loaded = SQLiteHelper.EstablishDatabase(PlayStateFile, SqlCreateTable);
 
         private const string SqlCreateTable = "CREATE TABLE [t_PlayState] ([key] CHARACTER(64) PRIMARY KEY NOT NULL, [timesplayed] INTEGER NULL, [progress] INTEGER NULL, [firstplayed] DATETIME NULL, [lastplayed] DATETIME NULL)";

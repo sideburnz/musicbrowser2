@@ -6,10 +6,12 @@ using MusicBrowser.Engines.Logging;
 
 namespace MusicBrowser.Util
 {
-    public class Config
+    public static class Config
     {
-        private readonly XmlDocument _xml;
-        private readonly static object obj = new object();
+        private static readonly XmlDocument Xml = new XmlDocument();
+        private static readonly bool Ready = GetReady();
+        private static string ConfigFile;
+        private static readonly Dictionary<string, string> SettingCache = new Dictionary<string, string>();
         private static readonly string[,] Defaults = { 
 
                 { "LastRunVersion", "0.0.0.0" },
@@ -21,9 +23,9 @@ namespace MusicBrowser.Util
                 { "AutoPlaylistSize", "50" },
                 { "SortReplaceWords", "the|a|an" },
                 { "PutDiscInTrackNo", true.ToString() },
-                { "ImagesByName", Path.Combine(Helper.AppFolder, "IBN") },
-                { "PlayStateDatabase", Path.Combine(Path.Combine(Helper.AppFolder, "Cache"), "PlayState.db") },
-                { "ViewStateDatabase", Path.Combine(Path.Combine(Helper.AppFolder, "Cache"), "ViewState.db") },
+                { "ImagesByName", Path.Combine(AppFolder, "IBN") },
+                { "PlayStateDatabase", Path.Combine(Path.Combine(AppFolder, "Cache"), "PlayState.db") },
+                { "ViewStateDatabase", Path.Combine(Path.Combine(AppFolder, "Cache"), "ViewState.db") },
 
                 { "PlaylistLimit", "1" },
                 { "EnableMoviePlaylists", true.ToString() },
@@ -35,14 +37,14 @@ namespace MusicBrowser.Util
 
                 { "Log.Level", "error" },
                 { "Log.Destination", "file" },
-                { "Log.File", Path.Combine(Helper.AppLogFolder, "MusicBrowser2.log") },
+                { "Log.File", Path.Combine(AppLogFolder, "MusicBrowser2.log") },
 
                 { "Internet.UseProviders", true.ToString() } ,
                 { "Internet.LastFMUserName", String.Empty },
 
-                { "Collections.Folder",  Path.Combine(Helper.AppFolder, "Collections") },
+                { "Collections.Folder",  Path.Combine(AppFolder, "Collections") },
 
-                { "Cache.Path", Path.Combine(Helper.AppFolder, "Cache") },
+                { "Cache.Path", Path.Combine(AppFolder, "Cache") },
                 { "Cache.Enable", true.ToString() },
                                         
                 { "Telemetry.Participate", false.ToString() },
@@ -68,93 +70,205 @@ namespace MusicBrowser.Util
 
         };
 
-        #region singleton
-        static Config _instance;
+        #region application folders
 
-        Config()
+        public static string CachePath
         {
-            string configFile = Helper.AppConfigFile;
+            get
+            {
+                string e = GetStringSetting("Cache.Path");
+                if (!Directory.Exists(e))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(e);
+                        Directory.CreateDirectory(e + "\\Images");
+                        Directory.CreateDirectory(e + "\\Images\\Backgrounds");
+                        Directory.CreateDirectory(e + "\\Images\\Covers");
+                        Directory.CreateDirectory(e + "\\Images\\Thumbs");
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Cache folder for MusicBrowser is missing: " + e, ex);
+                    }
+                }
+                return e;
+            }
+        }
+
+        private static string _appLogFolder;
+
+        public static string AppLogFolder
+        {
+            get
+            {
+                if (_appLogFolder == null)
+                {
+                    var e = Path.Combine(AppFolder, "Logs");
+                    if (!Directory.Exists(e))
+                    {
+                        try
+                        {
+                            Directory.CreateDirectory(e);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Log folder for MusicBrowser is missing: " + e, ex);
+                        }
+                    }
+                    _appLogFolder = e;
+                }
+                return _appLogFolder;
+            }
+        }
+
+        private static string _plugInFolder;
+
+        public static string PlugInFolder
+        {
+            get
+            {
+                if (_plugInFolder == null)
+                {
+                    var e = Path.Combine(AppFolder, "PlugIn");
+                    if (!Directory.Exists(e))
+                    {
+                        Directory.CreateDirectory(e);
+                    }
+                    _plugInFolder = e;
+                }
+                return _plugInFolder;
+            }
+        }
+
+        private static string _componentFolder;
+
+        public static string ComponentFolder
+        {
+            get
+            {
+                if (_componentFolder == null)
+                {
+                    var e = Path.Combine(AppFolder, "Components");
+                    if (!Directory.Exists(e))
+                    {
+                        Directory.CreateDirectory(e);
+                    }
+                    _componentFolder = e;
+                }
+                return _componentFolder;
+            }
+        }
+
+        private static string _appFolder;
+        public static string AppFolder
+        {
+            get
+            {
+                if (_appFolder == null)
+                {
+                    var e = Path.Combine(Environment.GetEnvironmentVariable("ProgramData"), "MusicBrowser");
+                    if (!Directory.Exists(e))
+                    {
+                        try
+                        {
+                            Directory.CreateDirectory(e);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Application folder for MusicBrowser is missing: " + e, ex);
+                        }
+                    }
+                    _appFolder = e;
+                }
+                return _appFolder;
+            }
+        }
+        #endregion
+
+        private static bool GetReady()
+        {
             try
             {
-                _xml = new XmlDocument();
-                _xml.Load(configFile);
+                ConfigFile = Path.Combine(AppFolder, "MusicBrowser.config");
+                Xml.Load(ConfigFile);
             }
             catch (Exception e) // there's been an error, delete the file and reset the config
             {
                 try
                 {
-                    if (File.Exists(configFile))
+                    if (File.Exists(ConfigFile))
                     {
                         LoggerEngineFactory.Error(new Exception("Error reading config file, file is being reset, all settings will be lost.", e));
-                        File.Delete(configFile);
+                        File.Delete(ConfigFile);
                     }
-                    File.WriteAllText(configFile, Resources.BlankSettings);
-                    _xml = new XmlDocument();
-                    _xml.Load(configFile);
+                    File.WriteAllText(ConfigFile, Resources.BlankSettings);
+                    Xml.Load(ConfigFile);
                 }
                 catch (Exception) { }
             }
-        }
 
-        public static Config GetInstance()
-        {
-            lock (obj)
-            {
-                if (_instance == null)
-                {
-                    _instance = new Config();
-                    return _instance;
-                }
-                return _instance;
-            }
+            return true;
         }
-        #endregion
 
         private static bool Is64Bit
         {
             get { return IntPtr.Size == 8; }
         }
 
-        readonly Dictionary<string, string> _settingCache = new Dictionary<string, string>();
-
-        public string GetSetting(string key)
+        public static string GetSetting(string key)
         {
             // see if we've already cached the setting
-            if (_settingCache.ContainsKey(key))
+            if (SettingCache.ContainsKey(key))
             {
-                return _settingCache[key];
+                return SettingCache[key];
             }
 
-            string retval = string.Empty;
+            string retval = String.Empty;
             try
             {
-                string xpathString = string.Format("Settings/{0}", key.Replace('.', '/'));
-                retval = _xml.SelectSingleNode(xpathString).InnerText;
-            }
-            catch { } //BUG: this is rethrowing
-            // if we've not got a value from the XML (usually the first run) get the default value
-            if (String.IsNullOrEmpty(retval))
-            {
-                bool found = false;
-                for (int x = 0; x < Defaults.GetLength(0); x++ )
+                string xpathString = String.Format("Settings/{0}", key.Replace('.', '/'));
+                XmlNode node = Xml.SelectSingleNode(xpathString);
+                if (node != null)
                 {
-                    if (Defaults[x, 0] == key)
+                    retval = Xml.SelectSingleNode(xpathString).InnerText;
+                }
+                else
+                {
+                    retval = String.Empty;
+                }
+
+                // if we've not got a value from the XML (usually the first run) get the default value
+                if (String.IsNullOrEmpty(retval))
+                {
+                    bool found = false;
+                    for (int x = 0; x < Defaults.GetLength(0); x++)
                     {
-                        //save the value to the XML
-                        retval = Defaults[x, 1];
-                        SetSetting(key, retval);
-                        found = true;
-                        break;
+                        if (Defaults[x, 0] == key)
+                        {
+                            //save the value to the XML
+                            retval = Defaults[x, 1];
+                            SetSetting(key, retval);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        LoggerEngineFactory.Debug("Config", "No setting found for '" + key + "'");
                     }
                 }
-                if (!found) { LoggerEngineFactory.Debug("Config", "No setting found for '" + key + "'"); }
+            }
+            catch (Exception e)
+            {
+                retval = String.Empty;
             }
             // cache the setting on read
-            _settingCache[key] = retval;
+            SettingCache[key] = retval;
             return retval;
         }
 
-        public bool GetBooleanSetting(string key)
+        public static bool GetBooleanSetting(string key)
         {
             try
             {
@@ -166,31 +280,30 @@ namespace MusicBrowser.Util
             }
         }
 
-        public int GetIntSetting(string key)
+        public static int GetIntSetting(string key)
         {
             int value;
-            if (int.TryParse(GetSetting(key), out value)) { return value; }
+            if (Int32.TryParse(GetSetting(key), out value)) { return value; }
             return 0;
         }
 
-        public string GetStringSetting(string key)
+        public static string GetStringSetting(string key)
         {
             return GetSetting(key);
         }
 
-        public IEnumerable<string> GetListSetting(string key)
+        public static IEnumerable<string> GetListSetting(string key)
         {
             return GetSetting(key).ToLower().Split('|');
         }
 
-        public void SetSetting(string key, string value)
+        public static void SetSetting(string key, string value)
         {
-            string configFile = Helper.AppConfigFile;
-            string xpathString = string.Format("Settings/{0}", key.Replace('.', '/'));
+            string xpathString = String.Format("Settings/{0}", key.Replace('.', '/'));
 
             // update the cache
-            _settingCache[key] = value;
-            XmlNode node = _xml.SelectSingleNode(xpathString);
+            SettingCache[key] = value;
+            XmlNode node = Xml.SelectSingleNode(xpathString);
             if (node == null)
             {
                 if (key.Contains("."))
@@ -204,30 +317,30 @@ namespace MusicBrowser.Util
                         // we build the path as we go
                         path = path + "/" + parts[i];
                         // if the part of the path we're looking at doesn't exist, create it
-                        if (_xml.SelectSingleNode(path) == null)
+                        if (Xml.SelectSingleNode(path) == null)
                         {
-                            XmlNode newNode = _xml.CreateNode(XmlNodeType.Element, parts[i], string.Empty);
+                            XmlNode newNode = Xml.CreateNode(XmlNodeType.Element, parts[i], String.Empty);
                             // if this is the last item, save the "value"
                             if (i == (parts.Length - 1))
                             {
                                 newNode.InnerText = value;
                             }
-                            _xml.SelectSingleNode(parent).AppendChild(newNode);
+                            Xml.SelectSingleNode(parent).AppendChild(newNode);
                         }
                     }
                 }
                 else
                 {
-                    node = _xml.CreateNode(XmlNodeType.Element, key, string.Empty);
+                    node = Xml.CreateNode(XmlNodeType.Element, key, String.Empty);
                     node.InnerText = value;
-                    _xml.FirstChild.AppendChild(node);
+                    Xml.FirstChild.AppendChild(node);
                 }
             }
             else
             {
                 node.InnerText = value;
             }
-            _xml.Save(configFile);
+            Xml.Save(ConfigFile);
 
             if (OnSettingUpdate != null)
             {
