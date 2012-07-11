@@ -81,7 +81,7 @@ namespace MusicBrowser.Entities
             {
                 if (!String.IsNullOrEmpty(ShowName))
                 {
-                    return ShowName + ", Season " + SeasonNumber + "  " + base.Information + "  (" + TokenSubstitution("[ReleaseYear]") + ")";
+                    return ShowName + ", Season " + SeasonNumber + "  " + base.Information + "  " + TokenSubstitution("[ReleaseYear()]");
                 }
                 return base.Information;
             }

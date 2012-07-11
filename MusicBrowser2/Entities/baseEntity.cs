@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using MusicBrowser.Engines.PlayState;
@@ -377,6 +378,26 @@ namespace MusicBrowser.Entities
                         }
                         output = output.Replace("[" + token + "]", length);
                         break;
+                    case "Duration()":
+                    case "duration()":
+                        if (Duration <= 1)
+                        {
+                            output = output.Replace("[" + token + "]", "");
+                            break;
+                        }
+
+                        TimeSpan td = TimeSpan.FromSeconds(Duration);
+                        string lengthd;
+                        if (td.Hours == 0)
+                        {
+                            lengthd = string.Format("({0}:{1:D2})", (Int32)Math.Floor(td.TotalMinutes), td.Seconds);
+                        }
+                        else
+                        {
+                            lengthd = string.Format("({0}:{1:D2}:{2:D2})", (Int32)Math.Floor(td.TotalHours), td.Minutes, td.Seconds);
+                        }
+                        output = output.Replace("[" + token + "]", lengthd);
+                        break;
                     case "Duration:sort":
                     case "duration:sort":
                         output = output.Replace("[" + token + "]", Duration.ToString("D10")); break;
@@ -405,6 +426,15 @@ namespace MusicBrowser.Entities
                         if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
                         {
                             output = output.Replace("[" + token + "]", ReleaseDate.Year.ToString());
+                            break;
+                        }
+                        output = output.Replace("[" + token + "]", "");
+                        break;
+                    case "ReleaseYear()":
+                    case "releaseyear()":
+                        if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
+                        {
+                            output = output.Replace("[" + token + "]", "(" + ReleaseDate.Year + ")");
                             break;
                         }
                         output = output.Replace("[" + token + "]", "");
