@@ -119,7 +119,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return "(" + TokenSubstitution("[duration]") + ")";
+                return TokenSubstitution("[duration()]");
             }
         }
 

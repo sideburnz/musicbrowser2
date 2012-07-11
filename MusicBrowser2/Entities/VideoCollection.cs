@@ -33,7 +33,7 @@ namespace MusicBrowser.Entities
                 // if we're dealing with a path, get all the tracks under the path
                 playlist = FileSystemProvider.GetAllSubPaths(Path)
                     .FilterInternalFiles()
-                    .Where(item => Helper.GetKnownType(item) == Helper.KnownType.Track)
+                    .Where(item => Helper.GetKnownType(item) == Helper.KnownType.Video)
                     .Select(item => item.FullPath)
                     .ToList();
             }

@@ -14,15 +14,19 @@ namespace MusicBrowser.Engines.Transport
 
         public void PlayPause()
         {
-            MediaExperience mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience;
-            if (mce.Transport.PlayState == Microsoft.MediaCenter.PlayState.Playing)
+            try
             {
-                mce.Transport.PlayRate = 2;
+                MediaExperience mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience;
+                if (mce.Transport.PlayState == Microsoft.MediaCenter.PlayState.Playing)
+                {
+                    mce.Transport.PlayRate = 2;
+                }
+                else
+                {
+                    mce.Transport.PlayRate = 1;
+                }
             }
-            else
-            {
-                mce.Transport.PlayRate = 1;
-            }
+            catch{}
         }
 
         // unlike other transport providers, Media Center needs to be passed individual files
@@ -54,17 +58,29 @@ namespace MusicBrowser.Engines.Transport
 
         public void Stop()
         {
-            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 0;
+            try
+            {
+                Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.PlayRate = 0;
+            }
+            catch {}
         }
 
         public void Next()
         {
-            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipForward();
+            try
+            {
+                Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipForward();
+            }
+            catch { }
         }
 
         public void Previous()
         {
-            Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipBack();
+            try
+            {
+                Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment.MediaExperience.Transport.SkipBack();
+            }
+            catch { }
         }
 
         public void Close()
