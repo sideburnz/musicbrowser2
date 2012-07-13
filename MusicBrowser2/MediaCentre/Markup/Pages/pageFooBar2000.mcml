@@ -170,7 +170,7 @@
                       <AnchorLayoutInput Left="Parent, 0" />
                     </LayoutInput>
                   </ColorFill>
-                  <ColorFill Name="ProgressBar" Content="White" Alpha="0.5">
+                  <ColorFill Name="ProgressBar" Content="DimGray" Alpha="1">
                     <LayoutInput>
                       <AnchorLayoutInput Left="Parent, 0" />
                     </LayoutInput>

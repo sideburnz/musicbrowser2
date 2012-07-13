@@ -143,7 +143,7 @@
           <Equality ConditionOp="Equals" Source="[Entity.Playable]" Value="true" />
         </Conditions>
         <Actions>
-          <Set Target="[Label.Alpha]" Value="0.33"/>
+          <Set Target="[Label.Alpha]" Value="0.5"/>
           <Set Target="[EntityButtonFace.Content]" Value="transparent" />
         </Actions>
       </Rule>
