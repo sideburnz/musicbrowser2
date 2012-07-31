@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
 <!-- will be used later on in this file.                                                                 -->
-<?define Property_ProductVersion = "2.4.0.0" ?>
+<?define Property_ProductVersion = "2.4.0.1" ?>
 <!-- update the product code each release -->
 <?define Property_ProductCode = "C77E70F3-0257-4164-978C-3FA36E9AF32E" ?>
 <!-- The UpgradeCode always stays the same -->
@@ -54,7 +54,7 @@
                 <Directory Id="MBFolder" Name="MusicBrowser">
                     <Directory Id="MBLogs" Name="Logs" />
                     <Directory Id="MBPlugin" Name="PlugIn" />
-		    <Directory Id="MBComponents" Name="Components" />
+		                <Directory Id="MBComponents" Name="Components" />
                     <Directory Id="MBCollections" Name="Collections" />
                     <Directory Id="MBIBN" Name="IBN" />
                     <Directory Id="MBCache" Name="Cache">
@@ -106,23 +106,17 @@
           </Component>
         </DirectoryRef>
 
-        <DirectoryRef Id="MBComponents">
+        <DirectoryRef Id="EhomeFolder">
           <Component Id="MBComponentFolder" Guid="3FE1E410-13F6-44FC-AEE9-4E2AA4551E8F">
             <CreateFolder>
               <Permission User="Everyone" GenericRead="yes" Read="yes" GenericExecute="yes" ChangePermission="yes" CreateChild="yes" CreateFile="yes" GenericAll="yes" />
             </CreateFolder>
           </Component>
-          <Component Id="MediaInfo.dll.32" Guid="E15B2F2E-6E55-4E08-B725-05FE2F71F7BD" DiskId="1">
-            <File Id="MediaInfo.dll.32" Name="MediaInfo.dll.32" KeyPath="yes" Source="..\resource\MediaInfo.dll.32" Checksum="yes" Vital="no" />
+          <Component Id="MediaInfo.dll" Guid="E15B2F2E-6E55-4E08-B725-05FE2F71F7BD" DiskId="1">
+            <File Id="MediaInfo.dll" Name="MediaInfo.dll" KeyPath="yes" Source="..\resource\MediaInfo.32.dll" Checksum="yes" Vital="no" />
           </Component>
-          <Component Id="MediaInfo.dll.64" Guid="643B3215-7477-4583-8E1B-BF7A24A0669E" DiskId="1">
-            <File Id="MediaInfo.dll.64" Name="MediaInfo.dll.64" KeyPath="yes" Source="..\resource\MediaInfo.dll.64" Checksum="yes" Vital="no" />
-          </Component>
-          <Component Id="System.Data.SQLite.dll.32" Guid="D6E26A86-D7A5-424F-921D-CAB83698E58E" DiskId="1">
-            <File Id="System.Data.SQLite.dll.32" Name="System.Data.SQLite.dll.32" KeyPath="yes" Source="..\resource\System.Data.SQLite.dll.32" Checksum="yes" Vital="no" />
-          </Component>
-          <Component Id="System.Data.SQLite.dll.64" Guid="35C9A38F-469A-4C2A-A1AF-14E6A6FDBB4C" DiskId="1">
-            <File Id="System.Data.SQLite.dll.64" Name="System.Data.SQLite.dll.64" KeyPath="yes" Source="..\resource\System.Data.SQLite.dll.64" Checksum="yes" Vital="no" />
+          <Component Id="System.Data.SQLite.dll" Guid="D6E26A86-D7A5-424F-921D-CAB83698E58E" DiskId="1">
+            <File Id="System.Data.SQLite.dll" Name="System.Data.SQLite.dll" KeyPath="yes" Source="..\resource\System.Data.SQLite.32.dll" Checksum="yes" Vital="no" />
           </Component>
         </DirectoryRef>
 
@@ -163,10 +157,8 @@
             <ComponentRef Id="MBPlugInFolder" />
 	          <ComponentRef Id="MBComponentFolder" />
 
-            <ComponentRef Id="MediaInfo.dll.32" />
-            <ComponentRef Id="MediaInfo.dll.64" />
-            <ComponentRef Id="System.Data.SQLite.dll.32" />
-            <ComponentRef Id="System.Data.SQLite.dll.64" />
+            <ComponentRef Id="MediaInfo.dll" />
+            <ComponentRef Id="System.Data.SQLite.dll" />
 
             <ComponentRef Id="PlugIn.MediaBrowserXMLReader.dll" />
             <ComponentRef Id="PlugIn.FileSystem.dll" />
