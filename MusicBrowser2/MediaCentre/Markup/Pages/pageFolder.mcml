@@ -216,24 +216,31 @@
             </LayoutInput>
           </Text>
 
-          <!-- VIEWS -->
-          <Panel Name="ViewPanel">
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,.0" Top="Parent,.17" Bottom="Parent,0.76"  Right="Parent,1"/>
-            </LayoutInput>
-            <Children>
-              <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
-              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" Name="thumbs"/>
-              <me:viewStrip Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
-            </Children>
-          </Panel>
-
           <!-- Page Header -->
           <me:ctrlHeader Name="ctrlHeader" Visible="true" Entity="[FolderModel.ParentEntity]" FolderModel="[FolderModel]" ActionsModel="[ActionsModel]">
             <LayoutInput>
               <FormLayoutInput Left="Parent,.0" Top="Parent,.0" Bottom="Parent,.15" Right="Parent,1"/>
             </LayoutInput>
           </me:ctrlHeader>
+
+          <!-- Now Playing Pod -->
+          <me:NowPlayingElement>
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,0" Bottom="Parent,1" />
+            </LayoutInput>
+          </me:NowPlayingElement>
+
+          <!-- VIEWS -->
+          <ColorFill Name="ViewPanel" Content="Transparent">
+            <LayoutInput>
+              <FormLayoutInput Left="Parent,.0" Top="Parent,.15" Bottom="Parent,0.79"  Right="Parent,1"/>
+            </LayoutInput>
+            <Children>
+              <me:viewList Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
+              <me:viewThumb Visible="true" FolderModel="[FolderModel]" Application="[Application]" Name="thumbs"/>
+              <me:viewStrip Visible="true" FolderModel="[FolderModel]" Application="[Application]" />
+            </Children>
+          </ColorFill>
 
           <!-- POSITION INDICATOR -->
           <Panel>
@@ -274,13 +281,6 @@
               </Panel>
             </Children>
           </Panel>
-
-          <!-- Now Playing Pod -->
-          <me:NowPlayingElement>
-            <LayoutInput>
-              <FormLayoutInput Left="Parent,0" Bottom="Parent,1" />
-            </LayoutInput>
-          </me:NowPlayingElement>
 
           <!-- FOOTER -->
           <Panel Layout="Form">

@@ -30,7 +30,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                string title = Util.Config.GetStringSetting("Entity.Album.Format");
+                string title = Config.GetStringSetting("Entity.Album.Format");
                 if (string.IsNullOrEmpty(title))
                 {
                     return "([ReleaseYear]) [Title]";
@@ -64,7 +64,7 @@ namespace MusicBrowser.Entities
                 .Where(item => Helper.GetKnownType(item) == Helper.KnownType.Track);
 
             // convert them to entities so they can be sorted
-            EntityCollection entityCollection = new EntityCollection();
+            var entityCollection = new EntityCollection();
             entityCollection.AddRange(items);
 
             // shuffle or sort

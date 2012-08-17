@@ -24,7 +24,7 @@ namespace MusicBrowser.Engines.Transport
                 string xml = ExecuteCommand("RefreshPlayingInfo");
                 if (!String.IsNullOrEmpty(xml))
                 {
-                    XmlDocument xmldoc = new XmlDocument();
+                    var xmldoc = new XmlDocument();
                     xmldoc.LoadXml(xml);
                     return (Helper.ReadXmlNode(xmldoc, "/foobar2000/state/IS_PLAYING", "0") == "1");
                 }
@@ -74,7 +74,7 @@ namespace MusicBrowser.Engines.Transport
             }
             if (!queue)
             {
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(150);
                 ExecuteCommand("StartNext");
             }
         }
@@ -118,14 +118,17 @@ namespace MusicBrowser.Engines.Transport
 
         #endregion
 
+        private static readonly object _lock = new object();
+        private static int _openRequests;
+
         private string FooPath
         {
-            get { return Util.Config.GetStringSetting("Player.Paths.foobar2000"); }
+            get { return Config.GetStringSetting("Player.Paths.foobar2000"); }
         }
 
         private string FooURL
         {
-            get { return Util.Config.GetStringSetting("Player.URLs.foobar2000"); }
+            get { return Config.GetStringSetting("Player.URLs.foobar2000"); }
         }
 
         private void HideFoobar()
@@ -135,7 +138,12 @@ namespace MusicBrowser.Engines.Transport
 
         protected string ExecuteCommand(string command, params string[] parameters)
         {
-            StringBuilder sb = new StringBuilder();
+            if (_openRequests > 0) // if there's more than one outstanding request, just ignore any new ones
+            {
+                return String.Empty;
+            }
+
+            var sb = new StringBuilder();
             sb.Append(FooURL);
             sb.Append("?cmd=" + WebServices.Helper.Externals.EncodeURL(command));
 
@@ -146,12 +154,18 @@ namespace MusicBrowser.Engines.Transport
                 i++;
             }
 
-            WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider
+            var h = new WebServices.Helper.HttpProvider
                                                     {
                                                         Method = WebServices.Helper.HttpProvider.HttpMethod.Get,
                                                         Url = sb.ToString()
                                                     };
-            h.DoService();
+
+            lock (_lock)
+            {
+                _openRequests++;
+                h.DoService();
+                _openRequests = 0; // reset as soon as we get a success
+            }
 
             if (command != "RefreshPlayingInfo")
             {
@@ -168,7 +182,7 @@ namespace MusicBrowser.Engines.Transport
 
         protected void ExecuteCommandLine(string command, params string[] parameters)
         {
-            ProcessStartInfo externalProc = new ProcessStartInfo
+            var externalProc = new ProcessStartInfo
                                                 {
                                                     FileName = FooPath,
                                                     Arguments = command,

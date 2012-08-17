@@ -5,7 +5,7 @@
   StartMenuStripTitle="MusicBrowser 2"
   StartMenuStripCategory="Custom Start Menu\MusicBrowser 2">
 	<entrypoint id="49233D7D-3063-4B89-801E-C038ADEE6EF9" 
-                    addin="MusicBrowser.EntryPoint, MusicBrowser,Culture=Neutral,Version=2.4.0.1,PublicKeyToken=a0d284a68f39c610"               
+                    addin="MusicBrowser.EntryPoint, MusicBrowser,Culture=Neutral,Version=2.4.0.2,PublicKeyToken=a0d284a68f39c610"               
                     title="MusicBrowser 2" 
 	            description="browse your music"               
                     ImageUrl="Application.png">    

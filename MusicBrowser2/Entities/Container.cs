@@ -50,7 +50,7 @@ namespace MusicBrowser.Entities
 
         protected string CalculateInformation(string header, params string[] fields)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             foreach (string field in fields)
             {

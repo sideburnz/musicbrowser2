@@ -24,6 +24,7 @@
 
     <Locals>
       <addin:AddInHost Name="AddInHost"/>
+      <Timer Name="BackgroundTimer" AutoRepeat="True" Interval="10000" Enabled="True" />
 
       <ShortcutHandler Name="hNext" Shortcut="SkipForward" HandlerStage="Bubbled" Handle="true" Command="[Next]"/>
       <ShortcutHandler Name="hPrev" Shortcut="SkipBack" HandlerStage="Bubbled" Handle="true" Command="[Back]" />
@@ -120,6 +121,12 @@
           <Set Target="[PlayPause.IconPath]" Value="MusicBrowser/MusicBrowser.Resources/IconPause"/>
         </Actions>
       </Rule>
+
+      <Changed Source="[BackgroundTimer.Tick]">
+        <Actions>
+          <Set Value="[Model.Backdrop]" Target="[EntityBackground.Content]"/>
+        </Actions>
+      </Changed>
       
     </Rules>
 
@@ -209,6 +216,24 @@
               </Panel>
             </Children>
           </Panel>
+
+
+          <Graphic Name="EntityBackground" Alpha="1" MaintainAspectRatio="false" Layout="Fill" Margins="0,0,0,0" Visible="true">
+            <Animations>
+              <Animation Type="ContentChangeHide">
+                <Keyframes>
+                  <AlphaKeyframe Time="0.0" Value="1" />
+                  <AlphaKeyframe Time="3" Value="0" Interpolation="SCurve" />
+                </Keyframes>
+              </Animation>
+              <Animation Type="ContentChangeShow">
+                <Keyframes>
+                  <AlphaKeyframe Time="0.0" Value="0" />
+                  <AlphaKeyframe Time="3" Value="1" Interpolation="SCurve" />
+                </Keyframes>
+              </Animation>
+            </Animations>
+          </Graphic>
 
         </Children>
       </Panel>

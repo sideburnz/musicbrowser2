@@ -284,16 +284,23 @@ namespace MusicBrowser.Models
         {
             get
             {
-                if (_parentEntity.BackgroundPaths == null || _parentEntity.BackgroundPaths.Count == 0)
+                try
+                {
+                    if (_parentEntity.BackgroundPaths == null || _parentEntity.BackgroundPaths.Count == 0)
+                    {
+                        return Helper.GetImage(String.Empty);
+                    }
+                    if (_parentEntity.BackgroundPaths.Count == 1)
+                    {
+                        return Helper.GetImage(_parentEntity.BackgroundPaths[0]);
+                    }
+                    int i = Rnd.Next(_parentEntity.BackgroundPaths.Count);
+                    return Helper.GetImage(_parentEntity.BackgroundPaths[i]);
+                }
+                catch
                 {
                     return Helper.GetImage(String.Empty);
                 }
-                if (_parentEntity.BackgroundPaths.Count == 1)
-                {
-                    return Helper.GetImage(_parentEntity.BackgroundPaths[0]);
-                }
-                int i = Rnd.Next(_parentEntity.BackgroundPaths.Count);
-                return Helper.GetImage(_parentEntity.BackgroundPaths[i]);
             }
         }
     }
