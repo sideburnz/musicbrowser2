@@ -92,7 +92,7 @@ namespace MusicBrowser.Providers.Background
 #if DEBUG
                         LoggerEngineFactory.Verbose("Thread " + id + " " + task.Title, "thread start");
 #endif
-                        Thread.Sleep(100);
+                        Thread.Sleep(250);
                         task.Execute();
                     }
                     catch (Exception e)

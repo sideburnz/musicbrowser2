@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using MusicBrowser.Engines.Cache;
 using MusicBrowser.Engines.PlayState;
 using MusicBrowser.Engines.ViewState;
 using MusicBrowser.Models;
@@ -117,6 +117,19 @@ namespace MusicBrowser.Entities
         {
             get
             {
+                if (_backgroundPaths != null && _backgroundPaths.Count == 0)
+                {
+
+                    dl'afsidjagl'kgj
+
+                    string parentPath = System.IO.Path.GetDirectoryName(Path);
+                    baseEntity parent = InMemoryCache.GetInstance().Fetch(Helper.GetCacheKey(parentPath));
+                    if (parent != null && parent.BackgroundPaths != null)
+                    {
+                        return parent.BackgroundPaths;
+                    }
+
+                }
                 return _backgroundPaths;
             }
             set
@@ -423,7 +436,7 @@ namespace MusicBrowser.Entities
                     case "releaseyear":
                     case "ReleaseYear:sort":
                     case "releaseyear:sort":
-                        if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
+                        if (ReleaseDate.Year > 1500)
                         {
                             output = output.Replace("[" + token + "]", ReleaseDate.Year.ToString());
                             break;
@@ -432,7 +445,7 @@ namespace MusicBrowser.Entities
                         break;
                     case "ReleaseYear()":
                     case "releaseyear()":
-                        if (ReleaseDate > DateTime.Parse("01-JAN-1000"))
+                        if (ReleaseDate.Year > 1500)
                         {
                             output = output.Replace("[" + token + "]", "(" + ReleaseDate.Year + ")");
                             break;

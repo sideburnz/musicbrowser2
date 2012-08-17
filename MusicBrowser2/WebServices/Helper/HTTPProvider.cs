@@ -39,7 +39,7 @@ namespace MusicBrowser.WebServices.Helper
             {
                 request = (HttpWebRequest)WebRequest.Create(_url);
                 request.Method = _method.ToString();
-                request.Timeout = 5000;
+                request.Timeout = 1000;
                 if (_lastAccessed > DateTime.Parse("01-JAN-2000")) { request.IfModifiedSince = _lastAccessed; }
 
                 if (!String.IsNullOrEmpty(_body))
@@ -54,13 +54,13 @@ namespace MusicBrowser.WebServices.Helper
             }
             catch (Exception ex)
             {
-                Exception e = new Exception("HTTP Provider - failed to set up HTTP request: " + _url, ex);
+                var e = new Exception("HTTP Provider - failed to set up HTTP request: " + _url, ex);
                 LoggerEngineFactory.Error(e);
                 throw e;
             }
 
 #if DEBUG
-            Engines.Logging.LoggerEngineFactory.Verbose(_url, "request");
+            LoggerEngineFactory.Verbose(_url, "request");
 #endif
 
             try
@@ -83,7 +83,7 @@ namespace MusicBrowser.WebServices.Helper
                 {
                     _status = ((HttpWebResponse)e.Response).StatusCode.ToString();
                     Stream stream = e.Response.GetResponseStream();
-                    StreamReader reader = new StreamReader(stream);
+                    var reader = new StreamReader(stream);
                     _response = reader.ReadToEnd();
                 }
                 catch

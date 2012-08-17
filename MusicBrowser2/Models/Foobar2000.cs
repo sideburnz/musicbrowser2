@@ -49,6 +49,7 @@ namespace MusicBrowser.Models
     public class Foobar2000 : Foobar2000Transport
     {
         private readonly Timer _timer;
+        private static readonly Random Rnd = new Random(DateTime.Now.Millisecond);
         
         private static readonly Foobar2000 Instance = new Foobar2000();
 
@@ -319,7 +320,7 @@ namespace MusicBrowser.Models
                 int i;
                 if (Int32.TryParse(Helper.ReadXmlNode(xmldoc, "/foobar2000/state/PLAYBACK_ORDER", "0"), out i))
                 {
-                    FoobarInternalPlaybackStyles fbs = (FoobarInternalPlaybackStyles)i;
+                    var fbs = (FoobarInternalPlaybackStyles)i;
                     switch (fbs)
                     {
                         case FoobarInternalPlaybackStyles.Default:
@@ -400,9 +401,13 @@ namespace MusicBrowser.Models
         }
 
         private static string _path = String.Empty;
-        public void OnTick()
+
+        private void OnTick()
         {
+            _timer.Enabled = false;
             string xml = ExecuteCommand("RefreshPlayingInfo");
+            _timer.Enabled = true;
+
             PlayerInformation info;
 
             if (!String.IsNullOrEmpty(xml))
@@ -412,6 +417,7 @@ namespace MusicBrowser.Models
             else
             {
                 info = new PlayerInformation();
+                return;
             }
 
             PlaybackStyle = info.PlaybackStyle;
@@ -463,6 +469,31 @@ namespace MusicBrowser.Models
             get
             {
                 return Config.GetBooleanSetting("Player.DisableScreenSaver");
+            }
+        }
+
+        [MarkupVisible]
+        public Image Backdrop
+        {
+            get
+            {
+                try
+                {
+                    if (CurrentTrack != null && CurrentTrack.BackgroundPaths.Count > 0)
+                    {
+                        if (CurrentTrack.BackgroundPaths.Count == 1)
+                        {
+                            return Helper.GetImage(CurrentTrack.BackgroundPaths[0]);
+                        }
+                        int i = Rnd.Next(CurrentTrack.BackgroundPaths.Count);
+                        return Helper.GetImage(CurrentTrack.BackgroundPaths[i]);
+                    }
+                    return Helper.GetImage(String.Empty);
+                }
+                catch
+                {
+                    return Helper.GetImage(String.Empty);                   
+                }
             }
         }
     }

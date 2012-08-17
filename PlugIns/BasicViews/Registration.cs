@@ -9,6 +9,7 @@ namespace MusicBrowser.Engines.PlugIns
             Views.Views.RegisterView(new viewFavourites(), "MusicCollection");
             Views.Views.RegisterView(new viewMostPlayed(), "MusicCollection");
             Views.Views.RegisterView(new viewRecentlyAddedMusic(), "MusicCollection");
+            Views.Views.RegisterView(new ViewRandomPopular(), "MusicCollection");
 
             Views.Views.RegisterView(new viewRecentlyAddedVideo(), "VideoCollection");
 
