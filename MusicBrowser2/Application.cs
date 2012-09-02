@@ -60,20 +60,20 @@ namespace MusicBrowser
 
         public void NavigateToFoo()
         {
-            Dictionary<string, object> props = new Dictionary<string, object> {{"Model", Foobar2000.GetInstance()}};
+            var props = new Dictionary<string, object> {{"Model", Foobar2000.GetInstance()}};
             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageFooBar2000", props);
         }
 
         public void NavigateToSettings()
         {
-            Dictionary<string, object> props = new Dictionary<string, object>
+            var props = new Dictionary<string, object>
                                                    {{"VersionString", "Version: " + Version}};
             _session.GoToPage("resx://MusicBrowser/MusicBrowser.Resources/pageSettings", props);
         }
 
         public void NavigateToSearch(string searchString, baseEntity entity)
         {
-            Dictionary<string, object> props = new Dictionary<string, object>
+            var props = new Dictionary<string, object>
                                                    {
                                                        {"Model", new SearchModel(searchString)},
                                                        {"ActionsModel", ActionsModel.GetInstance},
@@ -87,8 +87,8 @@ namespace MusicBrowser
             LoggerEngineFactory.Info("Application", String.Format("Navigating to {0} [{1}]", entity.Title, entity.Kind));
             try
             {
-                Dictionary<string, object> properties = new Dictionary<string, object>();
-                EntityCollection entities = new EntityCollection();
+                var properties = new Dictionary<string, object>();
+                var entities = new EntityCollection();
 
                 switch (entity.Kind)
                 {
@@ -135,7 +135,7 @@ namespace MusicBrowser
                 }
 
                 properties["Application"] = this;
-                FolderModel folderModel = new FolderModel(entity, entities, KeyboardHandlerFactory.GetHandler())
+                var folderModel = new FolderModel(entity, entities, KeyboardHandlerFactory.GetHandler())
                                               {application = this};
                 properties["FolderModel"] = folderModel;
                 properties["ViewsModel"] = ViewsModel.GetInstance;

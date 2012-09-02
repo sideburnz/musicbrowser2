@@ -45,9 +45,6 @@ namespace MusicBrowser.Engines.Actions
                 mce.MediaExperience.Transport.Position = new TimeSpan(0, 0, 0);
             }
 
-            // register for progress recording
-            ProgressRecorder.Register(entity);
-
             // update the play count and make sure the cache is updated.
             entity.PlayState.Play();
             entity.UpdateCache();

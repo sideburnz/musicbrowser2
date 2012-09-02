@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.MediaCenter;
 using MusicBrowser.Engines.Views;
+using MusicBrowser.MediaCentre;
 using MusicBrowser.Models;
 using MusicBrowser.Util;
 using ServiceStack.Text;
@@ -27,8 +28,8 @@ namespace MusicBrowser.Entities
             IView view = Views.Fetch(Title);
             EntityCollection entities = view.Items;
 
-            List<baseEntity> tracks = new List<baseEntity>();
-            List<baseEntity> videos = new List<baseEntity>();
+            var tracks = new List<baseEntity>();
+            var videos = new List<baseEntity>();
 
             foreach (baseEntity entity in entities)
             {
@@ -43,13 +44,14 @@ namespace MusicBrowser.Entities
                     tracks = tracks.Shuffle().ToList();
                 }
                 Engines.Transport.TransportEngineFactory.GetEngine().Play(false, tracks.Select(item => item.Path));
-
+                // track play progress for restart
+                ProgressRecorder.Start();
                 return;
             }
             if (tracks.Count == 0 && videos.Count > 0)
             {
                 MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-                MediaCollection collection = new MediaCollection();
+                var collection = new MediaCollection();
                 foreach (baseEntity e in videos)
                 {
                     collection.AddItem(e.Path);
@@ -57,6 +59,8 @@ namespace MusicBrowser.Entities
                 }
                 mce.PlayMedia(MediaType.MediaCollection, collection, false);
                 mce.MediaExperience.GoToFullScreen();
+                // track play progress for restart
+                ProgressRecorder.Start();
                 return;
             }
 

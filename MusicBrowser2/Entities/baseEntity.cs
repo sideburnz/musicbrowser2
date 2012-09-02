@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Text.RegularExpressions;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.Engines.PlayState;
@@ -119,9 +120,6 @@ namespace MusicBrowser.Entities
             {
                 if (_backgroundPaths != null && _backgroundPaths.Count == 0)
                 {
-
-                    dl'afsidjagl'kgj
-
                     string parentPath = System.IO.Path.GetDirectoryName(Path);
                     baseEntity parent = InMemoryCache.GetInstance().Fetch(Helper.GetCacheKey(parentPath));
                     if (parent != null && parent.BackgroundPaths != null)
@@ -196,6 +194,68 @@ namespace MusicBrowser.Entities
             {
                 _metadata = value;
             }
+        }
+
+        [DataMember]
+        public Dictionary<string, int> Children
+        {
+            get
+            {
+                return _children;
+            }
+            set
+            {
+                if (value != _children)
+                {
+                    _children = value;
+                    DataChanged("Children");
+                }
+            }
+        }
+
+        private Dictionary<string, int> _children = new Dictionary<string, int>();
+
+        protected string CalculateInformation(string header, params string[] fields)
+        {
+            var sb = new StringBuilder();
+
+            foreach (string field in fields)
+            {
+                if (Children.ContainsKey(field))
+                {
+                    if (Children[field] == 1)
+                    {
+                        sb.Append(String.Format("{0} {1}  ", Children[field], field));
+                    }
+                    else
+                    {
+                        sb.Append(String.Format("{0} {1}s  ", Children[field], field));
+                    }
+                }
+            }
+
+            if (sb.Length == 0)
+            {
+                if (String.IsNullOrEmpty(header))
+                {
+                    return Kind;
+                }
+                return header;
+            }
+            if (Duration > 0)
+            {
+                if (String.IsNullOrEmpty(header))
+                {
+                    return sb + "(" + TokenSubstitution("[Duration]") + ")";
+                }
+                return header + "  " + sb + "(" + TokenSubstitution("[Duration]") + ")";
+            }
+            if (String.IsNullOrEmpty(header))
+            {
+                return sb.ToString();
+            }
+            return header + "  " + sb;
+
         }
         #endregion
 

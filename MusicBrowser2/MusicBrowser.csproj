@@ -165,6 +165,7 @@
     <Compile Include="Engines\Logging\ILoggingEngine.cs" />
     <Compile Include="Engines\Metadata\baseMetadataProvider.cs" />
     <Compile Include="Engines\Metadata\IProvider.cs" />
+    <Compile Include="Engines\Metadata\MediaInfoProvider.cs" />
     <Compile Include="Engines\Metadata\MetadataProviderList.cs" />
     <Compile Include="Engines\Metadata\Providers.cs" />
     <Compile Include="Engines\PlugIns\IPlugIn.cs" />
@@ -235,6 +236,7 @@
     <Content Include="MediaCentre\Images\buttonicons\IconFastForward.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconFavorite.png" />
     <None Include="MediaCentre\Images\buttonicons\IconLastFM.png" />
+    <Content Include="MediaCentre\Images\icons\imageSeries.png" />
     <Content Include="Music.ico" />
     <None Include="MediaCentre\Images\buttonicons\IconHalfStar.png" />
     <Content Include="MediaCentre\Images\buttonicons\IconHome.png" />
@@ -320,8 +322,7 @@
     <Compile Include="Providers\FolderItems\IFolderItemsProvider.cs" />
     <Compile Include="Providers\ImageProvider.cs" />
     <Compile Include="Providers\Metadata\Lite\MusicFilenameMetadataProvider.cs" />
-    <Compile Include="Providers\Metadata\Lite\MediaInfoLib.cs" />
-    <Compile Include="Providers\Metadata\Lite\MediaInfoProvider.cs" />
+    <Compile Include="Engines\Metadata\MediaInfoLib.cs" />
     <Compile Include="Providers\Metadata\Lite\VideoFilenameMetadataProvider.cs" />
     <Compile Include="Providers\Telemetry.cs" />
     <Compile Include="Engines\Transport\Foobar2000Transport.cs" />

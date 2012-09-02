@@ -118,7 +118,7 @@ namespace MusicBrowser.WebServices.Services.HTBackdrop
 
             if (String.IsNullOrEmpty(dto.ArtistMusicBrainzID))
             {
-                url.Append("keywords=" + Helper.Externals.EncodeURL(dto.ArtistName));
+                url.Append("keywords=" + Helper.Externals.EncodeUrl(dto.ArtistName));
             }
             else
             {

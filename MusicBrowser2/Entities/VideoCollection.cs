@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.MediaCenter;
 using MusicBrowser.Engines.Transport;
+using MusicBrowser.MediaCentre;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Util;
@@ -24,7 +25,7 @@ namespace MusicBrowser.Entities
         public override void Play(bool queue, bool shuffle)
         {
             MediaCenterEnvironment mce = Microsoft.MediaCenter.Hosting.AddInHost.Current.MediaCenterEnvironment;
-            MediaCollection collection = new MediaCollection();
+            var collection = new MediaCollection();
 
             List<string> playlist;
 
@@ -61,6 +62,9 @@ namespace MusicBrowser.Entities
 
             mce.PlayMedia(MediaType.MediaCollection, collection, false);
             mce.MediaExperience.GoToFullScreen();
+
+            // track play progress for restart
+            ProgressRecorder.Start();
         }
     }
 }

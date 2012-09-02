@@ -84,10 +84,10 @@ namespace MusicBrowser.Entities
                     break;
                 case EntityResolver.EntityKind.Movie:
                     entity = Factorize<Movie>(item);
-                    MediaInfoProvider.FetchLite(entity);
                     break;
                 case EntityResolver.EntityKind.MovieSeries:
-                    entity = Factorize<MovieSeries>(item); break;
+                    entity = Factorize<MovieSeries>(item); 
+                    break;
             }
 
             entity.UpdateCache();

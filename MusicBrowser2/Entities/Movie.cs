@@ -15,7 +15,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return Title + "  " + base.Information;
+                return TokenSubstitution("[releaseyear()]") + "  " + base.Information;
             }
         }
 

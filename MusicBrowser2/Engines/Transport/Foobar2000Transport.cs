@@ -145,12 +145,12 @@ namespace MusicBrowser.Engines.Transport
 
             var sb = new StringBuilder();
             sb.Append(FooURL);
-            sb.Append("?cmd=" + WebServices.Helper.Externals.EncodeURL(command));
+            sb.Append("?cmd=" + WebServices.Helper.Externals.EncodeUrl(command));
 
             int i = 1;
             foreach (string param in parameters)
             {
-                sb.Append("&param" + i + "=" + WebServices.Helper.Externals.EncodeURL(param));
+                sb.Append("&param" + i + "=" + WebServices.Helper.Externals.EncodeUrl(param));
                 i++;
             }
 

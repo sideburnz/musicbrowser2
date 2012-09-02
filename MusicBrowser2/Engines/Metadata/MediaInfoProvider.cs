@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -7,17 +7,26 @@ using System.Runtime.InteropServices;
 using MediaInfoLib;
 using MusicBrowser.Engines.Logging;
 using MusicBrowser.Entities;
+using MusicBrowser.Providers;
 using MusicBrowser.Util;
 
-namespace MusicBrowser.Providers.Metadata.Lite
+namespace MusicBrowser.Engines.Metadata
 {
-    public class MediaInfoProvider
+    public class MediaInfoProvider : baseMetadataProvider
     {
         private static int _state;
         private static readonly object Lock = new object();
 
         [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
         static extern IntPtr LoadLibrary(string lpFileName);
+
+        public MediaInfoProvider()
+        {
+            Name = "MediaInfoProvider";
+            MinDaysBetweenHits = 100;
+            MaxDaysBetweenHits = 500;
+            RefreshPercentage = 5;
+        }
 
         public static void FetchLite(baseEntity dto)
         {
@@ -81,7 +90,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
 
         private static void DoWorkMusic(Track dto)
         {
-            MediaInfo mediaInfo = new MediaInfo();
+            var mediaInfo = new MediaInfo();
             int i = mediaInfo.Open(dto.Path);
             if (i != 0)
             {
@@ -152,7 +161,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
                     if (byteArray.Length > 4)
                     {
                         Stream stream = new MemoryStream(byteArray);
-                        Bitmap thumb = new Bitmap(stream);
+                        var thumb = new Bitmap(stream);
                         thumb = ImageProvider.Resize(thumb, ImageType.Thumb);
                         dto.ThumbPath = Helper.ImageCacheFullName(dto.CacheKey, ImageType.Thumb, -1);
                         if (!ImageProvider.Save(thumb, dto.ThumbPath))
@@ -168,7 +177,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
 
         private static long FileSize(string filename)
         {
-            FileInfo f = new FileInfo(filename);
+            var f = new FileInfo(filename);
             return f.Length;
         }
 
@@ -218,7 +227,7 @@ namespace MusicBrowser.Providers.Metadata.Lite
                 path = dto.Path;
             }
 
-            MediaInfo mediaInfo = new MediaInfo();
+            var mediaInfo = new MediaInfo();
             int i = mediaInfo.Open(path);
             if (i != 0)
             {
@@ -258,16 +267,34 @@ namespace MusicBrowser.Providers.Metadata.Lite
                 dto.AudioChannels = mediaInfo.Get(StreamKind.Audio, 0, "Channel(s)");
 
                 // track rating
-                if (Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Rating"), out j))
-                {
-                    dto.Rating = j;
-                }
-                else
-                {
-                    dto.Rating = 0;
-                }
+                dto.Rating = Int32.TryParse(mediaInfo.Get(StreamKind.General, 0, "Rating"), out j) ? j : 0;
             }
             mediaInfo.Close();
+        }
+
+        protected override ProviderOutcome DoWork(baseEntity dto)
+        {
+            try
+            {
+                FetchLite(dto);
+                return ProviderOutcome.Success;
+            }
+            catch (Exception)
+            {
+                return ProviderOutcome.SystemError;
+            }
+        }
+
+        public override bool CompatibleWith(baseEntity type)
+        {
+            return type.InheritsFrom<Video>() || type.InheritsFrom<Music>();
+        }
+
+        protected override bool AskKillerQuestions(baseEntity dto)
+        {
+            if (!CompatibleWith(dto)) { return false; }
+            if (!File.Exists(dto.Path)) { return false; }
+            return true;
         }
     }
 }

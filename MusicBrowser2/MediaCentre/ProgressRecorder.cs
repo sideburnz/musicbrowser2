@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.MediaCenter;
+﻿using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.Hosting;
 using Microsoft.MediaCenter.UI;
 using MusicBrowser.Engines.Cache;
@@ -10,92 +9,90 @@ namespace MusicBrowser.MediaCentre
 {
     static class ProgressRecorder
     {
-        private static MediaCenterEnvironment _mce;
-        private static readonly List<baseEntity> WatchList = new List<baseEntity>();
+        private static MediaExperience _mediaExperience;
 
-        public static void Register(baseEntity e)
+        public static void Start()
         {
-            // killer questions
-            if (!e.InheritsFrom<Video>()) { return; }
-            if (WatchList.Contains(e)) { return; }
-
-            // add the item to the watch list
-            WatchList.Add(e);
-
-            // make sure we're listening for stop events
-            if (_mce == null)
+            if (_mediaExperience == null)
             {
-                _mce = AddInHost.Current.MediaCenterEnvironment;
-                _mce.MediaExperience.Transport.PropertyChanged += TransportPropertyChanged;
+                _mediaExperience = AddInHost.Current.MediaCenterEnvironment.MediaExperience;
+                if (_mediaExperience != null)
+                {
+                    _mediaExperience.Transport.PropertyChanged += TransportPropertyChanged;
+                }
             }
-
-            Engines.Logging.LoggerEngineFactory.Debug("ProgressRecorder", "registered " + e.Title);
         }
 
         // clumsy but works for everything I've thrown at it
-        private static bool ComparePathToURI(string path, string uri)
+        private static baseEntity GetEntityFromPath(string uri)
         {
-            string comparerpath = path.Replace('\\', '/');
-            string mediapath = WebServices.Helper.Externals.DecodeURL(uri);
-            bool res = mediapath.EndsWith(comparerpath) || mediapath.EndsWith(comparerpath);
-            Engines.Logging.LoggerEngineFactory.Debug("ProgressRecorder", "testing " + comparerpath + " with " + uri + " : " + res);
-            return res;
+            string mediapath = WebServices.Helper.Externals.DecodeUrl(uri);
+            mediapath = mediapath.Replace("/", @"\");
+            if (mediapath.StartsWith("file:"))
+            {
+                mediapath = mediapath.Substring(5);
+            }
+            if (mediapath.StartsWith("dvd:"))
+            {
+                mediapath = mediapath.Substring(7);
+            }
+            return InMemoryCache.GetInstance().Fetch(Util.Helper.GetCacheKey(mediapath));
         }
 
         private static void TransportPropertyChanged(IPropertyObject sender, string property)
         {
             if (property.ToLower() == "playstate")
             {
-                MediaTransport transport = (MediaTransport)sender;
-                string media = (string) _mce.MediaExperience.MediaMetadata["Uri"];
+                var transport = (MediaTransport) sender;
+                var media = (string)_mediaExperience.MediaMetadata["Uri"];
 
                 switch (transport.PlayState)
                 {
                     case PlayState.Stopped:
-
-                        // show the app, otherwise DVDs show a blank screen when they end
-                        if (Util.Helper.IsDVD(media))
                         {
-                            AddInHost.Current.ApplicationContext.ReturnToApplication();
-                        }
-
-                        foreach(Video e in WatchList)
-                        {
-                            if (ComparePathToURI(e.Path, media))
-                            {                     
-                                // avoid divide by 0
-                                if (e.Duration == 0) { return; }
-
-                                int pos = (int)transport.Position.TotalSeconds;
-                                int per = (pos * 20) / e.Duration;
-                            
-                                // don't set the progress if it's the first or last 5% of the video
-                                if (per > 1 && per < 19)
-                                {
-                                    e.SetProgress(pos);
-                                    return;
-                                }
-                                e.SetProgress(0);
+                            // show the app, otherwise DVDs show a blank screen when they end
+                            if (media.StartsWith("dvd:"))
+                            {
+                                AddInHost.Current.ApplicationContext.ReturnToApplication();
                             }
+
+                            baseEntity entity = GetEntityFromPath(media);
+
+                            // avoid divide by 0
+                            if (entity.Duration == 0)
+                            {
+                                entity.Duration = 1;
+                            }
+
+                            var pos = (int) transport.Position.TotalSeconds;
+                            int per = (pos*100)/entity.Duration;
+
+                            // don't set the progress if it's near the start or finish
+                            if (per > 5 && per < 95)
+                            {
+                                entity.SetProgress(pos);
+                                return;
+                            }
+                            entity.SetProgress(0);
+
+                            break;
                         }
-                        break;
                     case PlayState.Finished:
-
-                        // show the app, otherwise DVDs show a blank screen when they end
-                        if (Util.Helper.IsDVD(media))
                         {
-                            AddInHost.Current.ApplicationContext.ReturnToApplication();
-                        }
+                            // show the app, otherwise DVDs show a blank screen when they end
+                            if (media.StartsWith("dvd:"))
+                            {
+                                AddInHost.Current.ApplicationContext.ReturnToApplication();
+                            }
 
-                        foreach (Video e in WatchList)
-                        {
-                            if (ComparePathToURI(e.Path, media))
+                            baseEntity entity = GetEntityFromPath(media);
+                            if (entity != null)
                             {
                                 // remove the progress indicator
-                                e.SetProgress(0);
+                                entity.SetProgress(0);
                             }
+                            break;
                         }
-                        break;
                 }
             }
         }

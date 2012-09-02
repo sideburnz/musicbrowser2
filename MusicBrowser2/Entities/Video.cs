@@ -127,7 +127,7 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                List<Image> ret = new List<Image>();
+                var ret = new List<Image>();
 
                 try
                 {
@@ -172,7 +172,7 @@ namespace MusicBrowser.Entities
                 }
                 else
                 {
-                    MediaCollection collection = new MediaCollection();
+                    var collection = new MediaCollection();
                     string lastitem = string.Empty;
 
                     List<FileSystemItem> candidateitems = FileSystemProvider.GetAllSubPaths(Path)
@@ -212,6 +212,8 @@ namespace MusicBrowser.Entities
             }
             
             mce.MediaExperience.GoToFullScreen();
+            // track play progress for restart
+            ProgressRecorder.Start();
         }
     }
 }

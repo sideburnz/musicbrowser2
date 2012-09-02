@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace MusicBrowser.WebServices.Helper
 {
-    public class Externals
+    public static class Externals
     {
         //Private Declare Function UrlEscape Lib "Shlwapi.dll" Alias "UrlEscapeA" ( _
         //ByVal pszURL As String, ByVal pszEscaped As String, ByRef pcchEscaped As Long, _
@@ -31,10 +31,10 @@ namespace MusicBrowser.WebServices.Helper
         const UInt32 UrlSuccess = 0;
 
 
-        public static string EncodeURL(string strData)
+        public static string EncodeUrl(string strData)
         {
             UInt32 pos = UrlMax;
-            string strTemp = new string(' ', UrlMax);
+            var strTemp = new string(' ', UrlMax);
 
             if (UrlEscape(strData, strTemp, ref pos, UrlEscapePercent + URL_ESCAPE_SEGMENT_ONLY) == UrlSuccess)
             {
@@ -43,10 +43,10 @@ namespace MusicBrowser.WebServices.Helper
             return string.Empty;
         }
 
-        public static string DecodeURL(string strData)
+        public static string DecodeUrl(string strData)
         {
             UInt32 pos = UrlMax;
-            string strTemp = new string(' ', UrlMax);
+            var strTemp = new string(' ', UrlMax);
 
             if (UrlUnescape(strData, strTemp, ref pos, 0) == UrlSuccess)
             {
