@@ -4,18 +4,18 @@ namespace MusicBrowser.Engines.Metadata
 {
     public static class Providers
     {
-        private static readonly List<IProvider> _providers = new List<IProvider>();
+        private static readonly List<IProvider> _Providers = new List<IProvider>() { new MediaInfoProvider() };
 
         public static void RegisterProvider(IProvider provider)
         {
-            _providers.Add(provider);
+            _Providers.Add(provider);
         }
 
         public static IEnumerable<IProvider> ProviderList
         {
             get
             {
-                return _providers;
+                return _Providers;
             }
         }
     }

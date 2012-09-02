@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace MusicBrowser.Entities
 {
     [DataContract]
-    class Collection : Virtual
+    public class Collection : Virtual
     {
         public string SortOrder { get; set; }
 
@@ -12,7 +12,7 @@ namespace MusicBrowser.Entities
         {
             string output = input;
 
-            Regex regex = new Regex("\\[.*?\\]");
+            var regex = new Regex("\\[.*?\\]");
             foreach (Match matches in regex.Matches(input))
             {
                 string token = matches.Value.Substring(1, matches.Value.Length - 2);

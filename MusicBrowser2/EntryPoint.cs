@@ -3,6 +3,7 @@ using Microsoft.MediaCenter.Hosting;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.Engines.Transport;
 using MusicBrowser.Entities;
+using MusicBrowser.MediaCentre;
 using MusicBrowser.Providers;
 
 // taken from the SDK example, I've changed the namespace and classname
@@ -37,9 +38,10 @@ namespace MusicBrowser
                 host.ApplicationContext.SingleInstance = true;
             }
             _sSession = new HistoryOrientedPageSession();
-            Application app = new Application(_sSession, host);
+            var app = new Application(_sSession, host);
 
             Engines.PlugIns.PlugInLoader.Execute();
+            ProgressRecorder.Start();
 
             FirstRun.Initialize();
 

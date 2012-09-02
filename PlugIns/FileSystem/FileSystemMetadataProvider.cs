@@ -20,7 +20,7 @@ namespace MusicBrowser.Engines.Metadata
 
         public override bool CompatibleWith(baseEntity type)
         {
-            return type.InheritsFrom<Folder>();
+            return type.InheritsFrom<Container>() || type.InheritsFrom<Collection>();
         }
 
         protected override bool AskKillerQuestions(baseEntity dto)
@@ -33,13 +33,17 @@ namespace MusicBrowser.Engines.Metadata
         protected override ProviderOutcome DoWork(baseEntity dto)
         {
             int duration = 0;
-            Dictionary<string, int> children = new Dictionary<string, int>();
+            var children = new Dictionary<string, int>();
 
-            IEnumerable<FileSystemItem> items = FileSystemProvider.GetAllSubPaths(dto.Path).FilterInternalFiles();
+            var items = FileSystemProvider.GetAllSubPaths(dto.Path).FilterInternalFiles();
             foreach (FileSystemItem item in items)
             {
                 baseEntity e = Factory.GetItem(item);
                 if (e == null) { continue; }
+                if (e is Video && Directory.Exists(item.FullPath) && !Helper.IsDVD(item.FullPath))
+                {
+                    continue;
+                }
 
                 if (e.InheritsFrom<Video>() || e.InheritsFrom<Music>())
                 {
@@ -57,7 +61,7 @@ namespace MusicBrowser.Engines.Metadata
             }
 
             dto.Duration = duration;
-            ((Container)dto).Children = children;
+            dto.Children = children;
 
             return ProviderOutcome.Success;
         }

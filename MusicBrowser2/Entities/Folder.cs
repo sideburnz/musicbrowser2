@@ -41,13 +41,13 @@ namespace MusicBrowser.Entities
 
             if (thisType == typeof(Album) || thisType == typeof(Artist) || thisType == typeof(Genre))
             {
-                MusicCollection m = new MusicCollection {Path = Path};
+                var m = new MusicCollection {Path = Path};
                 m.Play(queue, shuffle);
             }
 
             if (thisType == typeof(Season) || thisType == typeof(Show))
             {
-                VideoCollection v = new VideoCollection {Path = Path};
+                var v = new VideoCollection {Path = Path};
                 v.Play(queue, shuffle);
             }
 

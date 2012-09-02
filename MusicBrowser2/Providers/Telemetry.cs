@@ -66,7 +66,7 @@ namespace MusicBrowser.Providers
 
                 WebServices.Helper.HttpProvider h = new WebServices.Helper.HttpProvider
                                                         {
-                                                            Body = "data=" + WebServices.Helper.Externals.EncodeURL(data),
+                                                            Body = "data=" + WebServices.Helper.Externals.EncodeUrl(data),
                                                             Method = WebServices.Helper.HttpProvider.HttpMethod.Post,
                                                             Url = "http://api.musicbrowser2.com/simple/telemetry.asp"
                                                         };

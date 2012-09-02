@@ -47,12 +47,12 @@ namespace MusicBrowser.Engines.Actions
                 }
             }
 
-            // register for progress recording
-            ProgressRecorder.Register(entity);
-
             // update the play count and make sure the cache is updated.
             entity.PlayState.Play();
             entity.UpdateCache();
+
+            // track play progress for restart
+            ProgressRecorder.Start();
         }
     }
 }

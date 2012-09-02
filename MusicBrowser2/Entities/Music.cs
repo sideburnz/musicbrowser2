@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using MusicBrowser.Engines.Cache;
 using MusicBrowser.Engines.Transport;
+using MusicBrowser.MediaCentre;
 
 namespace MusicBrowser.Entities
 {
@@ -26,6 +27,9 @@ namespace MusicBrowser.Entities
             //these aren't critical, so wait to do these
             PlayState.Play();
             this.UpdateCache();
+
+            // track play progress for restart
+            ProgressRecorder.Start();
         }
     }
 }

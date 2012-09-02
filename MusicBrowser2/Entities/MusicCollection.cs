@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using MusicBrowser.MediaCentre;
 using MusicBrowser.Providers;
 using MusicBrowser.Providers.FolderItems;
 using MusicBrowser.Util;
@@ -45,6 +46,9 @@ namespace MusicBrowser.Entities
             }
 
             Engines.Transport.TransportEngineFactory.GetEngine().Play(queue, playlist);
+
+            // track play progress for restart
+            ProgressRecorder.Start();
         }
 
     }

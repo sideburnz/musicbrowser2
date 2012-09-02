@@ -81,7 +81,7 @@ namespace MusicBrowser.WebServices.WebServiceProviders
 
             foreach(string item in _parms.Keys)
             {
-                sb.Append(Externals.EncodeURL(item) + "=" + Externals.EncodeURL(_parms[item]) + "&");
+                sb.Append(Externals.EncodeUrl(item) + "=" + Externals.EncodeUrl(_parms[item]) + "&");
             }
 
             sb.Append("api_sig=" + GetSig(_parms));

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using MusicBrowser.Engines.ViewState;
 
@@ -11,8 +12,13 @@ namespace MusicBrowser.Entities
         {
             get
             {
-                return CalculateInformation("Movie Series", "Movie");
+                return CalculateInformation("", "Movie").Trim();
             }
+        }
+
+        public override string DefaultThumbPath
+        {
+            get { return "resx://MusicBrowser/MusicBrowser.Resources/imageFolder"; }
         }
 
         public override IViewState ViewState

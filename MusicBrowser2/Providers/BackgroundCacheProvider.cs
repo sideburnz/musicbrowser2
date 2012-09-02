@@ -42,7 +42,7 @@ namespace MusicBrowser.Providers
             if (String.IsNullOrEmpty(_path)) { return; }
 
 #if DEBUG
-            LoggerEngineFactory.Verbose(this.GetType().ToString(), "start");
+            LoggerEngineFactory.Verbose(GetType().ToString(), "start");
 #endif
 
             // process the item in context

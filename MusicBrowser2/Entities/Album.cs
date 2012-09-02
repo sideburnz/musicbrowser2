@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using MusicBrowser.Engines.ViewState;
+using MusicBrowser.MediaCentre;
 using MusicBrowser.Providers;
 using MusicBrowser.Util;
 
@@ -79,6 +80,8 @@ namespace MusicBrowser.Entities
 
             // play
             Engines.Transport.TransportEngineFactory.GetEngine().Play(queue, entityCollection.Select(item => item.Path));
+            // track play progress for restart
+            ProgressRecorder.Start();
         }
 
         public override List<string> SortFields
